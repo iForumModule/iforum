@@ -1,0 +1,21 @@
+<div style="text-align: center; margin: 3px;">
+  <table width="100%" class="outer" cellspacing="1">
+    <tr>
+      <th colspan="2"><{$poll.question}></th>
+    </tr>
+    <tr>
+      <td class="head" align="right" colspan="2"><{$poll.end_text}> </td>
+    </tr>
+<{foreach item=option from=$poll.options}>
+    <tr>
+      <td class="even" width="30%" align="left"><{$option.text}> </td>
+      <td class="odd" width="70%" align="left"><{$option.image}> <{$option.percent}> </td>
+    </tr>
+<{/foreach}>
+    <tr>
+      <td class="foot" colspan="2" align="center"><{$poll.totalVotes}><br />
+<{$poll.totalVoters}></td>
+    </tr>
+  </table>
+</div>
+<br />

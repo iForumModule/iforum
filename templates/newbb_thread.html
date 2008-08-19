@@ -1,0 +1,81 @@
+<!-- start comment post -->
+<a id="forumpost<{$topic_post.post_id}>"></a>
+<table class="outer" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0px;">
+  <tr>
+       <th width="20%"> <div align="center">
+              <ul class="newbb_level1">
+                <li class="newbb_folder">
+                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$topic_post.poster_name}></strong></div>
+                  <ul class="newbb_level2">
+                    <table cellpadding="4" cellspacing="1" border="0">
+                      <tr>
+                        <th><{$personal}><{$topic_post.poster_name}></th>
+                      </tr>
+						<{$topic_post.poster_userbar}> 
+						<{if $viewer_is_admin == true and $topic_post.poster_ip}>
+                      <tr>
+                        <th><{$smarty.const._MD_TOPICOPTIONADMIN}></th>
+                      </tr>
+                      <tr>
+                        <td class="head"><strong>IP: <{$topic_post.poster_ip}></strong> </td>
+                      </tr>
+<{/if}>
+                    </table>
+                  </ul>
+                </li>
+              </ul>
+            </div></th>
+
+    <th width="80%" align="left"><div class="comTitle"><{$topic_post.post_title}></div></th><th align="right"><div class="comTitle" align="right">#<{$topic_post.post_no}></div></th>
+  </tr>
+
+  <tr>
+  	<td width="20%" class="odd" rowspan="2" valign="top">
+  	<{if $topic_post.poster_uid != 0}>
+  	<div class="comUserRankText"><{$topic_post.poster_rank_title}><br /><{$topic_post.poster_rank_image}></div>
+  	<img class="comUserImg" src="<{$xoops_upload_url}>/<{$topic_post.poster_avatar}>" alt="" />
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span> <{$topic_post.poster_regdate}></div>
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_FROM}></span> <{$topic_post.poster_from}></div>
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_POSTS}>:</span> <{$topic_post.poster_postnum}></div>
+	<{if $groupbar_enable}>
+  	<div class="comUserStat"> <span class="comUserStatCaption"><{$smarty.const._MD_GROUP}></span> <br /><{$topic_post.poster_groups}> </div>
+	<{/if}>
+  	<div class="comUserStatus"><{$topic_post.poster_status}></div>
+	<{else}>
+   	<div class="comUserRankText"><{$anonymous_prefix}><{$topic_post.poster_uname}></div>
+	<{/if}>
+	</td>
+
+    <td colspan="2" class="odd">
+    <div class="comText"><{$topic_post.post_text}></div>
+	<{if $topic_post.post_attachment}>
+	<div class="comText"><{$topic_post.post_attachment}></div>
+	<{/if}>
+	<{if $topic_post.post_edit}>
+	<p align="right"><small><{$topic_post.post_edit}></small></p>
+	<{/if}>
+	</td>
+  </tr>
+
+  <tr>
+    <td colspan="2" class="odd" valign="bottom">
+	<{if $topic_post.poster_sig}>
+    <div class="signature">
+	_________________<br />
+	<{$topic_post.poster_sig}>
+	</div>
+	<{/if}>
+	</td>
+  </tr>
+
+
+  <tr>
+    <td width="20%" class="foot"><div class="comDate"><span class="comDateCaption"><{$smarty.const._MD_POSTEDON}></span><{$topic_post.post_date}></div>
+	<{foreach item=abtn from=$topic_post.thread_action}> <a href="<{$abtn.link}>&amp;post_id=<{$topic_post.post_id}>" target="_blank" title="<{$abtn.name}>"> <{$abtn.image}></a> <{/foreach}>
+	</td>
+    <td colspan="2" class="foot"><div align="left"><a href="#threadtop" title="<{$smarty.const._MD_UP}>"><{$p_up}></a></div>
+    <div align="right" width="80%"><{foreach item=btn from=$topic_post.thread_buttons}> <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a> <{/foreach}></div> 
+    </td>
+  </tr>
+</table>
+<!-- end comment post -->

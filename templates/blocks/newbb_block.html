@@ -1,0 +1,59 @@
+<table class="outer" cellspacing="1">
+
+  <{if $block.disp_mode == 0}>
+  <tr>
+    <th class="head" nowrap><{$block.lang_forum}></th>
+    <th class="head" nowrap><{$block.lang_topic}></th>
+    <th class="head" align="center" nowrap><{$block.lang_replies}></th>
+    <th class="head" align="center" nowrap><{$block.lang_views}></th>
+    <th class="head" align="center" nowrap><{$block.lang_lastpost}></th>
+  </tr>
+
+  <{foreach item=topic from=$block.topics}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
+    <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>">
+
+<{if $topic.topic_subject eq NONE}>
+<{else}>
+<{$topic.topic_subject}>
+<{/if}>
+
+<{$topic.title}></a><{$topic.topic_page_jump}></td>
+    <td align="center"><{$topic.replies}></td>
+    <td align="center"><{$topic.views}></td>
+    <td align="right"><{$topic.time}></td>
+  </tr>
+  <{/foreach}>
+
+  <{elseif $block.disp_mode == 1}>
+
+  <tr>
+    <td class="head" nowrap><{$block.lang_topic}></td>
+    <td class="head" align="center" nowrap><{$block.lang_replies}></td>
+    <td class="head" align="center" nowrap><{$block.lang_lastpost}></td>
+  </tr>
+
+  <{foreach item=topic from=$block.topics}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></td>
+    <td align="center"><{$topic.replies}></td>
+    <td align="right"><{$topic.time}></td>
+  </tr>
+  <{/foreach}>
+
+  <{elseif $block.disp_mode == 2}>
+
+  <{foreach item=topic from=$block.topics}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></td>
+  </tr>
+  <{/foreach}>
+
+  <{/if}>
+
+</table>
+
+<div style="text-align:right; padding: 5px;">
+<a href="<{$xoops_url}>/modules/newbb/viewall.php"><{$smarty.const._MORE}></a>; <a href="<{$xoops_url}>/modules/newbb/"><{$block.lang_visitforums}></a>
+</div>

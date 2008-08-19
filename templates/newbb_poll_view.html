@@ -1,0 +1,19 @@
+<form action="votepolls.php" method="post">
+  <input type="hidden" name="topic_id" value="<{$topic_id}>" />
+  <input type="hidden" name="forum" value="<{$forum_id}>" />
+  <table width="100%" class="outer" cellspacing="1">
+    <tr>
+      <th align="center" colspan="2"><input type="hidden" name="poll_id" value="<{$poll.pollId}>" />
+<{$poll.question}></th>
+    </tr>
+<{foreach item=option from=$poll.options}>
+    <tr>
+      <td class="even" align="left" width="2%"><{$option.input}></td>
+      <td class="odd" align="left" width="98%"><{$option.text}></td>
+    </tr>
+<{/foreach}>
+    <tr>
+      <td align="center" colspan="2" class="foot"><input type="submit" value="<{$lang_vote}>" /></td>
+    </tr>
+  </table>
+</form>
