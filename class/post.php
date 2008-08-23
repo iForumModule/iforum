@@ -1,5 +1,5 @@
 <?php
-// $Id: post.php,v 1.1.4.4 2005/01/10 14:21:10 praedator Exp $
+// $Id: post.php,v 1.8 2005/06/03 01:36:11 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,6 +24,7 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
 class Post extends XoopsObject {
     var $db;
     var $attachment_array = array();
@@ -104,7 +105,7 @@ class Post extends XoopsObject {
     {
         if (count($this->attachment_array)) return $this->attachment_array;
         $attachment = $this->getVar('attachment');
-        if (empty($attachment)) $this->attachment_array = false;
+        if (empty($attachment)) $this->attachment_array = null;
         else $this->attachment_array = @unserialize(base64_decode($attachment));
         return $this->attachment_array;
     }
@@ -124,13 +125,13 @@ class Post extends XoopsObject {
         $this->setVar('attachment', $attachment_save);
         $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET attachment=" . $this->db->quoteString($attachment_save) . " WHERE post_id = " . $this->getVar('post_id');
         if (!$result = $this->db->queryF($sql)) {
-            //echo _MD_ERROR_UPATEATTACHMENT . "<br />" . $sql;
+            newbb_message("save attachment error: ". $sql);
             return false;
         }
         return true;
     }
 
-    function deleteAttachment($attach_array = '')
+    function deleteAttachment($attach_array = null)
     {
         global $xoopsModuleConfig;
 
@@ -138,7 +139,7 @@ class Post extends XoopsObject {
         if (!is_array($attach_old) || count($attach_old) < 1) return true;
         $this->attachment_array = array();
 
-        if (!isset($attach_array)) $attach_array = array_keys($attach_old); // to delete all!
+        if ($attach_array === null) $attach_array = array_keys($attach_old); // to delete all!
         if (!is_array($attach_array)) $attach_array = array($attach_array);
 
         foreach($attach_old as $key => $attach) {
@@ -156,20 +157,23 @@ class Post extends XoopsObject {
         return true;
     }
 
-    function setAttachment($name_saved = '', $name_display = '', $mimetype = '', $num_download = '')
+    function setAttachment($name_saved = '', $name_display = '', $mimetype = '', $num_download = 0)
     {
-        $this->getAttachment();
+	    static $counter=0;
+        $this->attachment_array = $this->getAttachment();
         if ($name_saved) {
-            $key = strval(time());
+            $key = strval(time()+$counter++);
             $this->attachment_array[$key] = array('name_saved' => $name_saved,
                 'name_display' => isset($name_display)?$name_display:$name_saved,
                 'mimetype' => $mimetype,
                 'num_download' => isset($num_download)?intval($num_download):0
                 );
         }
-        if (is_array($this->attachment_array))
+        if (is_array($this->attachment_array)){
             $attachment_save = base64_encode(serialize($this->attachment_array));
-        else $attachment_save = '';
+        }else{
+	        $attachment_save = null;
+        }
         $this->setVar('attachment', $attachment_save);
         return true;
     }
@@ -182,6 +186,8 @@ class Post extends XoopsObject {
         $attachments = $this->getAttachment();
         if (is_array($attachments) && count($attachments) > 0) {
         	$image_extensions = array("jpg", "jpeg", "gif", "png", "bmp"); // need improve !!!
+	        $post_attachment .= '<br /><strong>' . _MD_ATTACHMENT . '</strong>:';
+	        $post_attachment .= '<br /><hr size="1" noshade="noshade" /><br />';
             foreach($attachments as $key => $att) {
                 $file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
                 $filetype = $file_extension;
@@ -189,26 +195,19 @@ class Post extends XoopsObject {
                     $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/images/filetypes/' . $filetype . '.gif';
                 else
                     $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/images/filetypes/unknown.gif';
-                $post_attachment .= '<br /><br />';
                 $file_size = filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
                 $file_size = number_format ($file_size / 1024, 2)." KB";
                 if (in_array(strtolower($file_extension), $image_extensions) && $xoopsModuleConfig['media_allowed']) {
-	                    $post_attachment .= '<br /><strong>' . _MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST . '</strong>&nbsp;<img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>('.$file_size.')</small>';
-	                    $post_attachment .= '<br /><hr size="1" noshade="noshade" />';
+	                    $post_attachment .= '<br /><img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>('.$file_size.')</small>';
 	                    $post_attachment .= '<br />' . newbb_attachmentImage($att['name_saved'], $asSource);
                 		$isDisplayed = true;
                 }
                 else{
-                    $post_attachment .= '<br /><table width="80%" bordercolor="#000000" border="1" cellspacing="1">';
-                    $post_attachment .= '<tr><td colspan="3" class="head"><strong>' . _MD_ATTACHMENT . '</strong></td></tr>';
-                    $post_attachment .= '<tr class="even"><td width="50%"><strong>' . _MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST . '</strong></td><td><strong>' . _MD_FILESIZE . '</strong></td><td><strong>' . _MD_HITS . '</strong></td></tr>';
-                    $post_attachment .= '<tr class="odd"><td><a href="' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a></td>';
-                    $post_attachment .= '<td> ' . $file_size . '</td>';
-                    $post_attachment .= '<td> ' . $att['num_download'] . '</td>';
-                    $post_attachment .= '</tr></table>';
+                    $post_attachment .= '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
                 }
+            	$post_attachment .= '<br />';
             }
-        }
+       }
         return $post_attachment;
     }
     // attachment functions
@@ -247,7 +246,7 @@ class Post extends XoopsObject {
 
     function displayPostEdit()
     {
-        global $myts;
+        global $myts, $xoopsModuleConfig;
 
         if( empty($xoopsModuleConfig['recordedit_timelimit']) ) return false;
 
@@ -299,8 +298,7 @@ class Post extends XoopsObject {
            	$post['author'] = $this->getVar('poster_name')?$this->getVar('poster_name'):$xoopsConfig['anonymous'];
         }
 
-        if (newbb_isAdmin($this->getVar('forum_id')) && $xoopsModuleConfig['allow_moderator_html']) $post['subject'] = $myts->undoHtmlSpecialChars($this->getVar('subject'));
-        else $post['subject'] = newbb_htmlSpecialChars($this->vars['subject']['value']);
+        $post['subject'] = newbb_htmlSpecialChars($this->vars['subject']['value']);
 
         $post['date'] = $this->getVar('post_time');
 
@@ -331,8 +329,8 @@ class Post extends XoopsObject {
             static $user_ip;
 
             if (!isset($user_ip)) {
-                $user_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']))?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
-                $user_ip = ip2long($user_ip);
+                //$user_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']))?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
+                $user_ip = newbb_getIP();
             }
             $user_ok = ($user_ip == $this->getVar('poster_ip'))?true:false;
         }
@@ -348,9 +346,6 @@ class Post extends XoopsObject {
         $post_NO ++;
         if (strtolower($order) == "desc") $post_no = $total_posts - ($start + $post_NO) + 1;
         else $post_no = $start + $post_NO;
-
-        $online_png = newbb_displayImage($forumImage['online'], _MD_ONLINE);
-        $offline_png = newbb_displayImage($forumImage['offline'],_MD_OFFLINE);
 
         $uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
 
@@ -374,105 +369,13 @@ class Post extends XoopsObject {
             $post_text = $this->getVar('post_text');
             $post_attachment = $this->displayAttachment();
         }
-        $eachposter = (($this->getVar('uid') > 0) && isset($viewtopic_users[$this->getVar('uid')]))? $viewtopic_users[$this->getVar('uid')]['user']:false;
-        if (is_object($eachposter) && $eachposter->isActive()) {
-            if ($viewtopic_users[$this->getVar('uid')]['rank']['image'] != "") {
-                $poster_rank['image'] = "<img src='" . XOOPS_UPLOAD_URL . "/" . $viewtopic_users[$this->getVar('uid')]['rank']['image'] . "' alt='' />";
-            }
-          	$poster_rank['title'] = $viewtopic_users[$this->getVar('uid')]['rank']['title'];
-            if ($xoopsModuleConfig['wol_enabled']) {
-                $poster_status = isset($online[$this->getVar('uid')]) ? $online_png : $offline_png;
-            } else {
-                $poster_status = '';
-            }
-
-            $profile_image = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachposter->getVar('uid') . "'><img src=\"" . XOOPS_URL . "/images/icons/profile.gif\" alt='" . _PROFILE . "' /></a>";
-
-            $RPG = $eachposter->getVar('posts');
-            if ($xoopsModuleConfig['levels_enabled']) {
-                $level = $viewtopic_users[$this->getVar('uid')]['level'];
-                $RPG_HP = "<br />" . _MD_LEVEL . " " . $level['LEVEL'] . "<br />" . _MD_HP . " " . $level['HP'] . " / " . $level['HP_MAX'] . "<br /><table width='99px' border='0' cellspacing='0' cellpadding='0' bordercolor='#000000'><tr><td width='3' height='13'><img height='13' src='" . $forumUrl['images_set'] . "/rpg/img_left.gif' width='3' alt='' /></td><td width='100%' background='" . $forumUrl['images_set'] . "/rpg/img_backing.gif' height='13'><img src='" . $forumUrl['images_set'] . "/rpg/orange.gif' width='" . $level['HP_WIDTH'] . "%' height='12' alt='' /></td><td width='3' height='13'><img height='13' src='" . $forumUrl['images_set'] . "/rpg/img_right.gif' width='3' alt='' /></td></tr></table>";
-                $RPG_MP = _MD_MP . " " . $level['MP'] . " / " . $level['MP_MAX'] . "<br /><table width='99px' border='0' cellspacing='0' cellpadding='0' bordercolor='#000000'><tr><td width='3' height='13'><img height='13' src='" . $forumUrl['images_set'] . "/rpg/img_left.gif' width='3' alt='' /></td><td width='100%' background='" . $forumUrl['images_set'] . "/rpg/img_backing.gif' height='13'><img src='" . $forumUrl['images_set'] . "/rpg/green.gif' width='" . $level['MP_WIDTH'] . "%' height='12'></td><td width='3' height='13'><img height='13' src='" . $forumUrl['images_set'] . "/rpg/img_right.gif' width='3' alt='' /></td></tr></table>";
-                $RPG_EXP = _MD_EXP . " " . $level['EXP'] . "<br /><table width='99px' border='0' cellspacing='0' cellpadding='0' bordercolor='#000000'><tr><td width='3' height='13'><img height='13' src='" . $forumUrl['images_set'] . "/rpg/img_left.gif' width='3' alt='' /></td><td width='100%' background='" . $forumUrl['images_set'] . "/rpg/img_backing.gif' height='13'><img src='" . $forumUrl['images_set'] . "/rpg/blue.gif' width='" . $level['EXP'] . "%' height='12' alt='' /></td><td width='3' height='13'><img height='13' src='" . $forumUrl['images_set'] . "/rpg/img_right.gif' width='3' alt='' /></td></tr></table>";
-            } else {
-                $RPG_HP = "";
-                $RPG_MP = "";
-                $RPG_EXP = "";
-            }
-
-            if ($xoopsModuleConfig['userbar_enabled']) {
-	            $uname = $eachposter->getVar('uname');
-	            $name = $eachposter->getVar('name');
-	            $uname = (empty($xoopsModuleConfig['show_realname'])||empty($name))?$uname:$name;
-                $profile_png = newbb_displayImage($forumImage['personal'], _PROFILE);
-                $pm_png = newbb_displayImage($forumImage['pm'], sprintf(_SENDPMTO, $uname));
-                $icq_png = newbb_displayImage($forumImage['icq'], _MD_ICQ);
-                $email_png = newbb_displayImage($forumImage['email'], sprintf(_SENDEMAILTO, $uname));
-                $aim_png = newbb_displayImage($forumImage['aim'], _MD_AIM);
-                $home_png = newbb_displayImage($forumImage['home'], _VISITWEBSITE);
-                $yim_png = newbb_displayImage($forumImage['yahoo'], _MD_YIM);
-                $msnm_png = newbb_displayImage($forumImage['msnm'], _MD_MSNM);
-
-                $userbar = (is_object($xoopsUser))? "<tr><td class='head'><small><a class='newbb_link' href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachposter->getVar('uid') . "' />" . $profile_png . "&nbsp;" . _PROFILE . "</a></small></td></tr> ":" ";
-                $userbar .= (is_object($xoopsUser))? "<tr><td class='head'><small><a class='newbb_link' href=\"javascript:openWithSelfMain('" . XOOPS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $eachposter->getVar('uid') . "', 'pmlite', 450, 380);\">" . $pm_png . "&nbsp;" . sprintf(_SENDPMTO, $uname) . "</a></small></td></tr> ":" ";
-                $userbar .= ($isadmin || (is_object($xoopsUser) && $eachposter->getVar('user_viewemail')))? "<tr><td class='head' ><small><a class='newbb_link' href='mailto:" . $eachposter->getVar('email') . "'>" . $email_png . "&nbsp;" . sprintf(_SENDEMAILTO, $uname) . "</a></small></td></tr> ":" ";
-                $userbar .= ($eachposter->getVar('url'))? "<tr><td class='head' ><small><a class='newbb_link' href='" . $eachposter->getVar('url') . "' target='_blank'>" . $home_png . "&nbsp;" . _VISITWEBSITE . "</a></small></td></tr> ":" ";
-                $userbar .= (is_object($xoopsUser) && $eachposter->getVar('user_icq'))? "<tr><td class='head' ><small><a class='newbb_link' href='http://www.icq.com/whitepages/search_result.php?search_type=uin&to=%25U&uin=" . $eachposter->getVar('user_icq') . "' target='_blank'/>" . $icq_png . "&nbsp;" . _MD_ICQ . "</a></small></td></tr> ":" ";
-                $userbar .= (is_object($xoopsUser) && $eachposter->getVar('user_aim'))? "<tr><td class='head' ><small><a class='newbb_link' href='aim:goim?screenname=" . $eachposter->getVar('user_aim') . "&message=Hi+" . $eachposter->getVar('user_aim') . "+Are+you+there?' target='_blank'>" . $aim_png . "&nbsp;" . _MD_AIM . "</a></small></td></tr> ":" ";
-                $userbar .= (is_object($xoopsUser) && $eachposter->getVar('user_yim'))? "<tr><td class='head' ><small><a class='newbb_link' href='http://edit.yahoo.com/config/send_webmesg?.target=" . $eachposter->getVar('user_yim') . "&.src=pg' target='_blank'>" . $yim_png . "&nbsp;" . _MD_YIM . "</a></small></td></tr> ":" ";
-                $userbar .= (is_object($xoopsUser) && $eachposter->getVar('user_msnm'))? "<tr><td class='head' ><small><a class='newbb_link' href='http://members.msn.com?mem=" . $eachposter->getVar('user_msnm') . "' target='_blank'>" . $msnm_png . "&nbsp;" . _MD_MSNM . "</a></small></td></tr> ":" ";
-            }else{
-	            $userbar = '';
-            }
-
-			if($xoopsModuleConfig['groupbar_enabled'] && isset($viewtopic_users[$this->getVar('uid')]['groups'])){
-                $user_groups = implode("<br />", $viewtopic_users[$this->getVar('uid')]['groups']);
-        	}else $user_groups = '';
-
-            if ($xoopsModuleConfig['show_realname'] && $eachposter->getVar('name')) {
-                $name = $eachposter->getVar('name');
-            } else {
-                $name = $eachposter->getVar('uname');
-            }
-
-            if ($forumdata['allow_sig'] && ($this->getVar('attachsig') || $eachposter->attachsig())) {
-                $poster_sig = $myts->displayTarea($eachposter->getVar("user_sig", "N"), 0, 1, 1);
-            }else $poster_sig = '';
-
-            $posterarr = array('poster_uid' => $eachposter->getVar('uid'),
-                'poster_name' => $name,
-                'poster_uname' => '<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $eachposter->getVar('uid') . '">' . $name . '</a>',
-                'poster_avatar' => $eachposter->getVar('user_avatar'),
-                'poster_from' => $eachposter->getVar('user_from'),
-                'poster_regdate' => formatTimestamp($eachposter->getVar('user_regdate'), 's'),
-                'poster_postnum' => $RPG . $RPG_HP . $RPG_MP . $RPG_EXP,
-                'poster_sendpmtext' => sprintf(_SENDPMTO, $eachposter->getVar('uname')),
-                'poster_rank_title' => $poster_rank['title'],
-                'poster_rank_image' => $poster_rank['image'],
-                'poster_status' => $poster_status,
-                'poster_groups' => $user_groups, // To avoid extra queries
-                'poster_userbar' => $userbar,
-                'poster_sig' => $poster_sig
-          	);
-
-
-        } else {
-            $posterarr = array('poster_uid' => 0,
-                'poster_name' => $this->getVar('poster_name')?$this->getVar('poster_name'):$xoopsConfig['anonymous'],
-                'poster_uname' => $this->getVar('poster_name')?$this->getVar('poster_name'):$xoopsConfig['anonymous'],
-                'poster_avatar' => '',
-                'poster_from' => '',
-                'poster_regdate' => '',
-                'poster_postnum' => '',
-                'poster_sendpmtext' => '',
-                'poster_rank_title' => '',
-                'poster_rank_image' => '',
-                'poster_status' => '',
-                'poster_groups' => '',
-                'poster_userbar' => '',
-                'poster_sig' => ''
-          	);
-        }
+        $poster = (($this->getVar('uid') > 0) && isset($viewtopic_users[$this->getVar('uid')]))?
+        	$viewtopic_users[$this->getVar('uid')]:
+            array(
+            	'poster_uid' => 0,
+                'name' => $this->getVar('poster_name')?$this->getVar('poster_name'):$myts->HtmlSpecialChars($xoopsConfig['anonymous']),
+                'link' => $this->getVar('poster_name')?$this->getVar('poster_name'):$myts->HtmlSpecialChars($xoopsConfig['anonymous'])
+            );
 
         $posticon = $this->getVar('icon');
         if (isset($posticon) && $posticon != '')
@@ -480,11 +383,7 @@ class Post extends XoopsObject {
         else
             $post_image = '<a name="' . $this->getVar('post_id') . '"><img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /></a>';
 
-        if ($isadmin && $xoopsModuleConfig['show_ip']) $poster_ip = long2ip($this->getVar('poster_ip'));
-        else $poster_ip = '';
-
-        if (isset($viewtopic_users[$this->getVar('uid')]['is_forumadmin']) && $xoopsModuleConfig['allow_moderator_html']) $post_title = $myts->undoHtmlSpecialChars($this->getVar('subject'));
-        else $post_title = $this->getVar('subject');
+        $post_title = $this->getVar('subject');
 
         $thread_buttons = array();
         $topic_handler = &xoops_getmodulehandler('topic', 'newbb');
@@ -561,25 +460,27 @@ class Post extends XoopsObject {
         $thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forumdata['forum_id']."&amp;topic_id=" . $this->getVar('topic_id');
         $thread_action['print']['name'] = _MD_PRINT;
 
-        $xoopsTpl->append('topic_posts', array_merge($posterarr, array('post_id' => $this->getVar('post_id'),
-                    'post_parent_id' => $this->getVar('pid'),
-                    'post_date' => formatTimestamp($this->getVar('post_time'), 'm'),
-                    'post_image' => $post_image,
-                    'post_title' => $post_title,
-                    'post_text' => $post_text,
-                    'post_attachment' => $post_attachment,
-                    'post_edit' => $this->displayPostEdit(),
-                    'post_no' => $post_no,
-                    'poster_ip' => $poster_ip,
- 		    'thread_action' => $thread_action,
-                    'thread_buttons' => $thread_buttons
-                    )));
+        $xoopsTpl->append('topic_posts',
+        	array(
+	    			'post_id' => $this->getVar('post_id'),
+	                'post_parent_id' => $this->getVar('pid'),
+	                'post_date' => newbb_formatTimestamp($this->getVar('post_time')),
+	                'post_image' => $post_image,
+	                'post_title' => $post_title,
+	                'post_text' => $post_text,
+	                'post_attachment' => $post_attachment,
+	                'post_edit' => $this->displayPostEdit(),
+	                'post_no' => $post_no,
+	                'post_signature' => ($this->getVar('attachsig'))?@$poster["signature"]:"",
+	                'poster_ip' => ($isadmin && $xoopsModuleConfig['show_ip'])?long2ip($this->getVar('poster_ip')):"",
+			    	'thread_action' => $thread_action,
+	                'thread_buttons' => $thread_buttons,
+	                'poster' => $poster
+	       	)
+        );
 
         unset($thread_buttons);
-
         unset($eachposter);
-
-        $xoopsTpl->assign('poster_ip', $poster_ip);
     }
 
 }
@@ -634,25 +535,25 @@ class NewbbPostHandler extends XoopsObjectHandler
     {
         $post = &$this->get($post_id);
         if (!is_object($post)) {
-            //echo "<br />post not exist:" . $post_id;
+            newbb_message("post not exist:" . $post_id);
             return false;
         }
         $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET approved = 1 WHERE post_id = $post_id";
         if (!$result = $this->db->queryF($sql)) {
-            //echo "<br />approve post error:" . $sql;
+            newbb_message("approve post error:" . $sql);
             return false;
         }
         if ($post->isTopic()) {
             $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET approved = 1 WHERE topic_id = " . $post->getVar('topic_id');
             if (!$result = $this->db->queryF($sql)) {
-                //echo "<br />approve post error:" . $sql;
+                newbb_message("approve post error:" . $sql);
                 return false;
             }
             $sql = sprintf("UPDATE %s SET topic_last_post_id = %u, topic_time = %u WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post_id, time(), $post->getVar('topic_id'));
             if (!$result = $this->db->queryF($sql)) {
             }
         } else {
-            $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_replies=topic_replies+1, topic_last_post_id = " . $post_id . ", topic_time = " . time() . " WHERE topic_id =" . $post->getVar('topic_id') . "";
+            $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_replies=topic_replies+1, topic_last_post_id = " . $post_id . " WHERE topic_id =" . $post->getVar('topic_id') . "";
             if (!$result = $this->db->queryF($sql)) {
             }
         }
@@ -679,7 +580,7 @@ class NewbbPostHandler extends XoopsObjectHandler
     {
         $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET approved = 0 WHERE post_id = $post_id";
         if (!$result = $this->db->queryF($sql)) {
-            //echo "<br />unapprove post error:" . $sql;
+            newbb_message("unapprove post error:" . $sql);
             return false;
         }
         return true;
@@ -690,7 +591,7 @@ class NewbbPostHandler extends XoopsObjectHandler
         $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_subject = " . intval($subject) . " WHERE topic_id = $topic_id";
         $result = $this->db->queryF($sql);
         if (!$result) {
-            //echo "<br />update topic subject error:" . $sql;
+            newbb_message("update topic subject error:" . $sql);
             return false;
         }
         return true;
@@ -708,6 +609,8 @@ class NewbbPostHandler extends XoopsObjectHandler
         }
 
         if ($post->isNew()) {
+	        // Change query to queryF for welcome new user -- less security but no better solution
+	        // D.J., 14/04/2005
             $post_time = time();
             if (empty($topic_id)) {
                 $topic_id = $this->db->genId($this->db->prefix("bb_topics") . "_topic_id_seq");
@@ -716,9 +619,9 @@ class NewbbPostHandler extends XoopsObjectHandler
                         VALUES
                         	($topic_id, $subject,    $uid,        $forum_id, $post_time, $poster_name, $approved)";
 
-                if (!$result = $this->db->query($sql)) {
+                if (!$result = $this->db->queryF($sql)) {
                     $post->deleteAttachment();
-                    //echo "<br />Insert topic error:" . $sql;
+                    newbb_message("Insert topic error:" . $sql);
                     return false;
                 }
                 if ($topic_id == 0) {
@@ -734,14 +637,14 @@ class NewbbPostHandler extends XoopsObjectHandler
 					VALUES
                     	($post_id, $pid, $topic_id, $forum_id, $post_time, $uid, $poster_ip, $poster_name, $subject, $dohtml, $dosmiley, $doxcode, $doimage, $dobr, $icon, $attachsig, $attachment, $approved, $post_karma, $require_reply)";
 
-            if (!$result = $this->db->query($sql)) {
-                //echo "<br />Insert post error:" . $sql;
+            if (!$result = $this->db->queryF($sql)) {
+                newbb_message("Insert post error:" . $sql);
                 return false;
             }
             if ($post_id == 0) $post_id = $this->db->getInsertId();
 
             $sql = sprintf("INSERT INTO %s (post_id, post_text) VALUES (%u, %s)", $this->db->prefix("bb_posts_text"), $post_id, $post_text);
-            if (!$result = $this->db->query($sql)) {
+            if (!$result = $this->db->queryF($sql)) {
                 $sql = sprintf("DELETE FROM %s WHERE post_id = %u", $this->db->prefix("bb_posts"), $post_id);
                 $this->db->query($sql);
                 return false;
@@ -749,20 +652,22 @@ class NewbbPostHandler extends XoopsObjectHandler
             if ($approved) {
                 if ($pid == 0) {
                     $sql = sprintf("UPDATE %s SET topic_last_post_id = %u, topic_time = %u WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post_id, $post_time, $topic_id);
-                    if (!$result = $this->db->query($sql)) {
+                    if (!$result = $this->db->queryF($sql)) {
                     }
                 } else {
-                    $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_replies=topic_replies+1, topic_last_post_id = " . $post_id . ", topic_time = $post_time WHERE topic_id =" . $topic_id . "";
-                    if (!$result = $this->db->query($sql)) {
+                    $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_replies=topic_replies+1, topic_last_post_id = " . $post_id . " WHERE topic_id =" . $topic_id . "";
+                    if (!$result = $this->db->queryF($sql)) {
                     }
                 }
                 if (is_object($xoopsUser)) {
-                    $xoopsUser->incrementPost();
+			        $member_handler = &xoops_gethandler('member');
+			        $xoopsUser->setVar('posts',$xoopsUser->getVar('posts') + 1);
+			        $res=$member_handler->insertUser($xoopsUser, true);
                 }
 	            if ($post->isTopic()) $increment = " forum_topics = forum_topics+1, ";
 	            else $increment = '';
 	            $sql = sprintf("UPDATE %s SET forum_posts = forum_posts+1, " . $increment . " forum_last_post_id = %u WHERE forum_id = %u", $this->db->prefix("bb_forums"), $post_id, $forum_id);
-	            $result = $this->db->query($sql);
+	            $result = $this->db->queryF($sql);
 	            if (!$result) {
 	            } ;
             }
@@ -771,21 +676,21 @@ class NewbbPostHandler extends XoopsObjectHandler
             if ($post->isTopic()) {
                 $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_title = $subject, approved = $approved WHERE topic_id = " . $post->getVar('topic_id');
                 if (!$result = $this->db->query($sql)) {
-                    //echo "<br />update topic error:" . $sql;
+                    newbb_message("update topic error:" . $sql);
                     return false;
                 }
             }
             $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET subject = $subject, dohtml= $dohtml, dosmiley= $dosmiley, doxcode = $doxcode, doimage = $doimage, dobr = $dobr, icon= $icon, attachsig= $attachsig, attachment= $attachment, approved = $approved, post_karma = $post_karma, require_reply = $require_reply WHERE post_id = " . $post->getVar('post_id');
             $result = $this->db->query($sql);
             if (!$result = $this->db->query($sql)) {
-                //echo "<br />update post error:" . $sql;
+                newbb_message("update post error:" . $sql);
                 return false;
             }
             $post_id = $post->getVar('post_id');
             $sql = "UPDATE " . $this->db->prefix("bb_posts_text") . " SET post_text = $post_text, post_edit = $post_edit WHERE post_id = " . $post->getVar('post_id');
             $result = $this->db->query($sql);
             if (!$result) {
-                //echo "<br />update post text error:" . $sql;
+                newbb_message("update post text error:" . $sql);
                 return false;
             }
         }
@@ -794,7 +699,6 @@ class NewbbPostHandler extends XoopsObjectHandler
 
     function delete(&$post, $isDeleteOne = true)
     {
-        if ($post->isTopic()) $isDeleteOne = false;
         if ($isDeleteOne) {
 	        return $this->_delete($post);
         } else {
@@ -815,28 +719,54 @@ class NewbbPostHandler extends XoopsObjectHandler
 
     function _delete(&$post)
     {
+	    global $xoopsModule, $xoopsConfig;
         if(!is_object($post) || $post->getVar('post_id')==0) return false;
 
         $sql = sprintf("DELETE FROM %s WHERE post_id = %u", $this->db->prefix("bb_posts"), $post->getVar('post_id'));
         if (!$result = $this->db->queryF($sql)) {
+	        newbb_message("delte post error: ".$sql);
             return false;
         }
         $post->deleteAttachment();
 
         $sql = sprintf("DELETE FROM %s WHERE post_id = %u", $this->db->prefix("bb_posts_text"), $post->getVar('post_id'));
         if (!$result = $this->db->queryF($sql)) {
-            //echo "Could not remove posts text for Post ID:" . $post->getVar('post_id') . ".<br />";
+            newbb_message("Could not remove post text: " . $sql);
+            return false;
         }
 
         if ($post->isTopic()) {
-            $sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post->getVar('topic_id'));
+	        
+			$topic_handler =& xoops_getmodulehandler('topic', 'newbb');			
+			$poll_id =& $topic_handler->get($post->getVar('topic_id'), "poll_id");
+			if($poll_id>0){
+				if (is_dir(XOOPS_ROOT_PATH."/modules/xoopspoll/")){
+					include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
+					include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
+					include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
+					include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
+				
+					$poll = new XoopsPoll($poll_id);
+					if ( $poll->delete() != false ) {
+						XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
+						XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
+						xoops_comment_delete($xoopsModule->getVar('mid'), $poll->getVar('poll_id'));
+					}
+				}
+			}
+			
+        	$sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post->getVar('topic_id'));
             if (!$result = $this->db->queryF($sql)) {
-                //echo "Could not delete topic.";
+                newbb_message("Could not delete topic: ". $sql);
             }
+	        $sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_votedata"), $post->getVar('topic_id'));
+	        if (!$result = $this->db->queryF($sql)) {
+                newbb_message("Could not delete votedata: " .$sql);
+	        }
         }else{
             $sql = "UPDATE ".$this->db->prefix("bb_topics")." t
             				LEFT JOIN ".$this->db->prefix("bb_posts")." p ON p.topic_id = t.topic_id
-            				SET t.topic_last_post_id = p.post_id, t.topic_time = p.post_time
+            				SET t.topic_last_post_id = p.post_id
             				WHERE t.topic_last_post_id = ".$post->getVar('post_id')."
             						AND p.post_id = (SELECT MAX(post_id) FROM ".$this->db->prefix("bb_posts")." WHERE topic_id=t.topic_id)";
             if (!$result = $this->db->queryF($sql)) {
@@ -846,22 +776,124 @@ class NewbbPostHandler extends XoopsObjectHandler
         if ($post->getVar('uid')) {
             $sql = sprintf("UPDATE %s SET posts=posts-1 WHERE uid = %u", $this->db->prefix("users"), $post->getVar('uid'));
             if (!$result = $this->db->queryF($sql)) {
-                //echo "Could not update user posts.";
+                newbb_message("Could not update user posts: ".$sql);
             }
         }
 
         $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET pid = " . $post->getVar('pid') . " WHERE pid=" . $post->getVar('post_id');
         if (!$result = $this->db->queryF($sql)) {
-            //echo "<br />Could not update post " . $arr[$i]['post_id'] . "<br />" . $sql . " ; original pid:" . $arr[$i]['pid'];
+            newbb_message("Could not update post: " . $sql);
         }
         if ($post->isTopic()) $decrement = " forum_topics = forum_topics-1, ";
         else $decrement = '';
         $sql = sprintf("UPDATE %s SET forum_posts = forum_posts-1, " . $decrement . " forum_last_post_id = %u WHERE forum_id = %u", $this->db->prefix("bb_forums"), $post->getVar('post_id'), $post->getVar('forum_id'));
         $result = $this->db->queryF($sql);
         if (!$result) {
-        } ;
+        }
 
         return true;
+    }
+
+    function emptyTopic(&$post)
+    {
+	    global $xoopsModule, $xoopsConfig;
+        if(!is_object($post) || !$post->isTopic()) return false;
+
+        $sql = sprintf("UPDATE %s SET post_text='[--DELETED--]', post_edit='' WHERE post_id = %u", $this->db->prefix("bb_posts_text"), $post->getVar('post_id'));
+        if (!$result = $this->db->queryF($sql)) {
+            newbb_message("Could not remove post text: " . $sql);
+            return false;
+        }
+
+        $post->deleteAttachment();
+        $sql = sprintf("UPDATE %s SET uid=0, attachment='', attachsig=0 WHERE post_id = %u", $this->db->prefix("bb_posts"), $post->getVar('post_id'));
+        if (!$result = $this->db->queryF($sql)) {
+            newbb_message("Could not remove post : " . $sql);
+            return false;
+        }
+
+        $sql = sprintf("UPDATE %s SET topic_poster=0, topic_haspoll=0 WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post->getVar('topic_id'));
+        if (!$result = $this->db->queryF($sql)) {
+            newbb_message("Could not update topic: " . $sql);
+            return false;
+        }
+
+        if ($post->getVar('uid')) {
+            $sql = sprintf("UPDATE %s SET posts=posts-1 WHERE uid = %u", $this->db->prefix("users"), $post->getVar('uid'));
+            if (!$result = $this->db->queryF($sql)) {
+                newbb_message("Could not update user posts: ".$sql);
+            }
+        }
+
+		$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+		$poll_id =& $topic_handler->get($post->getVar('topic_id'), "poll_id");
+		if($poll_id>0){
+			if (is_dir(XOOPS_ROOT_PATH."/modules/xoopspoll/")){
+				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
+				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
+				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
+				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
+				$poll = new XoopsPoll($poll_id);
+				if ( $poll->delete() != false ) {
+					XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
+					XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
+					xoops_comment_delete($xoopsModule->getVar('mid'), $poll->getVar('poll_id'));
+				}
+			}
+		}
+        $sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_votedata"), $post->getVar('topic_id'));
+        if (!$result = $this->db->queryF($sql)) {
+            newbb_message("Could not delete votedata: ".$sql);
+        }
+
+        return true;
+    }
+
+    function getPostCount($criteria = null)
+    {
+        $sql = 'SELECT COUNT(*) AS count FROM ' . $this->db->prefix('bb_posts');
+        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+            $sql .= " ".$criteria->renderWhere();
+        }
+        $result = $this->db->query($sql);
+        if (!$result) {
+            newbb_message("NewbbTopicHandler::getAllPosts error:" . $sql);
+            return false;
+        }
+        $myrow = $this->db->fetchArray($result);
+        return $myrow["count"];
+    }
+
+    function &getPostsByLimit($limit=1, $start=0, $criteria = null, $isnew=false)
+    {
+	    if($isnew){
+	        $sql = 'SELECT p.* '.
+	        		' FROM ' . $this->db->prefix('bb_posts') . ' AS p';
+     	}else{
+	        $sql = 'SELECT p.*, t.* '.
+	        		' FROM ' . $this->db->prefix('bb_posts') . ' AS p'.
+	        		' LEFT JOIN ' . $this->db->prefix('bb_posts_text') . " AS t ON t.post_id = p.post_id";
+     	}
+
+        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+            $sql .= " ".$criteria->renderWhere();
+            if ($criteria->getSort() != "") {
+                $sql .= " ORDER BY ".$criteria->getSort()." ".$criteria->getOrder();
+            }
+        }
+        $result = $this->db->query($sql, intval($limit), intval($start));
+        if (!$result) {
+            newbb_message( "NewbbTopicHandler::getAllPosts error:" . $sql);
+            return null;
+        }
+        $ret = array();
+        while ($myrow = $this->db->fetchArray($result)) {
+            $post = &$this->create(false);
+            $post->assignVars($myrow);
+            $ret[$myrow['post_id']] = $post;
+            unset($post);
+        }
+        return $ret;
     }
 }
 

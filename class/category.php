@@ -1,5 +1,5 @@
 <?php
-// $Id: category.php,v 1.1.4.2 2005/01/07 05:29:10 phppp Exp $
+// $Id: category.php,v 1.6 2005/05/25 01:01:42 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -86,26 +86,26 @@ class NewbbCategoryHandler extends XoopsObjectHandler
         return $category;
     }
 
-    function getAllCats($id = 0, $permission = false)
+    function &getAllCats($permission = false)
     {
 	    static $_cachedCats=array();
 	    $perm_string = (empty($permission))?'all':'access';
-	    if(isset($_cachedCats[$id][$perm_string])) return $_cachedCats[$id][$perm_string];
+	    if(isset($_cachedCats[$perm_string])) return $_cachedCats[$perm_string];
         $sql = "SELECT * FROM " . $this->db->prefix("bb_categories");
-        if ($id > 0) {
-            $sql .= " WHERE id = " . intval($id);
-        }
         $sql .= " ORDER BY cat_order";
         if (!$result = $this->db->query($sql)) {
+	        newbb_message("query error: ".$sql);
             return false;
-        } while ($row = $this->db->fetchArray($result)) {
+        } 
+        $_cachedCats[$perm_string]=array();
+        while ($row = $this->db->fetchArray($result)) {
             $category = &$this->create(false);
             $category->assignVars($row);
             if ($permission && !$this->getPermission($category)) continue;
-            $_cachedCats[$id][$perm_string][] = $category;
+            $_cachedCats[$perm_string][] = $category;
             unset($category);
         }
-        return @$_cachedCats[$id][$perm_string];
+        return $_cachedCats[$perm_string];
     }
 
     function insert(&$category)
@@ -142,6 +142,11 @@ class NewbbCategoryHandler extends XoopsObjectHandler
     function delete(&$category)
     {
         global $xoopsModule;
+		$forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+        $forums =& $forum_handler->getForumsByCat($category->getVar('cat_id'));
+        if(count($forums[$category->getVar('cat_id')])>0) foreach($forums[$category->getVar('cat_id')] as $fid=>$forum){
+	        $forum_handler->delete($forum);
+        }
         $sql = "DELETE FROM " . $category->table . " WHERE cat_id=" . $category->getVar('cat_id') . "";
         if ($result = $this->db->query($sql)) {
             // Delete group permissions
@@ -151,6 +156,7 @@ class NewbbCategoryHandler extends XoopsObjectHandler
             $criteria->add(new Criteria('gperm_itemid', $category->getVar('cat_id')));
             return $gperm_handler->deleteAll($criteria);
         } else {
+	        newbb_message("delete category error: ".$sql);
             return false;
         }
     }
@@ -173,10 +179,10 @@ class NewbbCategoryHandler extends XoopsObjectHandler
         return $ret;
     }
 
-    function getForums($categoryid = 0)
+    function getForums($categoryid = 0, $permission = "")
     {
         $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-        return $forum_handler->getForums($categoryid);
+        return $forum_handler->getForums($categoryid, $permission);
     }
 
     function getPermission($category)

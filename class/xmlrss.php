@@ -1,5 +1,5 @@
 <?php
-// $Id: xmlrss.php,v 1.1.4.1 2005/01/06 22:57:41 praedator Exp $
+// $Id: xmlrss.php,v 1.5 2005/05/15 12:25:54 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -73,7 +73,7 @@ class Xmlrss {
         $this->image_height = 31;
         $this->image_width = 88;
         $this->max_items = 10;
-        $this->max_item_description = 200;
+        $this->max_item_description = 0;
         $this->items = array();
     }
 
@@ -90,22 +90,25 @@ class Xmlrss {
             }
             if (!empty($description)) {
                 $description = $this->cleanup($description, $this->max_item_description);
-                $description .= ' ' . $label;
+                //$description .= ' ' . $label;
             } else {
-                $description = $label;
+                //$description = $label;
             }
 
-            $title = $this->cleanup($title);
+            $title = $this->cleanup($title).' ' . $label;
             $pubdate = $this->cleanup($pubdate);
             $this->items[] = array('title' => $title, 'link' => $link, 'guid' => $link, 'description' => $description, 'pubdate'=>$pubdate);
         } else return false;
         return true;
     }
 
-    function cleanup($text, $trim = 200)
+    function cleanup($text, $trim = 0)
     {
-        if(strtolower($this->xml_encoding) == "utf-8")  $text = xoops_utf8_encode($text);
-        $text = xoops_substr($text, 0, $trim);
+        if(strtolower($this->xml_encoding) == "utf-8" && strncasecmp(_CHARSET,$this->xml_encoding, 5)){
+        	$text = xoops_utf8_encode($text);
+    	}
+        if(!empty($trim))
+        $text = xoops_substr($text, 0, intval($trim));
         $text = htmlspecialchars($text, ENT_QUOTES);
 
         return $text;

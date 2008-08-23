@@ -1,90 +1,58 @@
-NewBB 2.0 RC3 release
+CBB
 
-The Xoops Project is pleased to announce the Release Candidate 3 of the
+XOOPS Community bulletin Board
+The further development of NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)
 
-Newbb 2.0
+CBB XOOPS Installation:
+1 Make a full backup for your XOOPS
+2 upload the files to xoops/modules/newbb
+3 add dropdow menu color CSS to theme/style.css (Appendix)
+3 If upgrade from newbb 1.0, run newbb/update/newbb1_to_newbb2.php [NO need if upgrade from newbb 2.*]
+4 update newbb from Administration Area
+5 set module preferences and permission(!Important). Some suggestions:
+-- Disable png hack and select gif for imageset if your server is not powerful enough
+-- Make sure you have <{$xoops_module_header}> in theme.html header
 
+Changelog over NewBB 2.02:
+1 CBB uses the same DB stucture/data with NewBB 2, it is convenient to switch between current CBB and current NewBB 2.
+2 bugfixes for NewBB 2.02
+3 clean/correct NewBB 2 templates
 
-Since most features had been introduced in http://dev.xoops.org/modules/xfmod/forum/forum.php?forum_id=516 NewBB 2.0 RC1 and RC2, the RC3 is mainly focused on bugfix and performance optimization, as well as layout improvement.
-
-Brief Introduction to the Changes:
-
-- Browser-crossing Layout: Png Image Display -> Speedup with HTC Behavior ( improve the IE's performance :lol; )
-- Admin can choice to use PNG or GIF
-- Optimize the search
-- Prepere for editor selection in the forumform.inc.php for use of:
----- Texthtml-> avaiable
----- Dhtml-> available
----- Spaw -> we hope to get this editor to work with newbb 2.0 for the final otherwise in the 2.1
----- Koivi-> will be available in the 2.1
-- Nearly Complete some more Improvements:
----- Create PDF from a Post ( this is a first step with some Bugs so this feature will be perfectly to the 2.1 Version )
----- Now Print also a single Post ( layout will be finshed and cleaner until final )
-- Build blocks on-fly:
----- You can add as many as blocks besides those three embedded blocks, for guide refer to [url=http://www.xoops2.org/modules/newbb/viewtopic.php?topic_id=303&forum=26]Feature@DemoNewBB[/url]
-- Lots of minor but important bugs reported and fixed (Thank you, XOOPSERs!)
-
-
-Now, Get the:
--- [url=http://dev.xoops.org/modules/xfmod/project/showfiles.php?group_id=1001] Newbb 2.0 RC3[/url]
-
-Update Scripts Along with the Package:
--- Newbb 1 to Newbb 2.0 RC2
--- Newbb 2.0 RC1 to Newbb 2.0 RC3 ( newbb2rc1_to_newbb2.php )
--- Newbb 2.0 RC2 to Newbb 2.0 RC3 ( newbb2rc2_to_newbb2.php )
--- Newbb Pro 1.03 to Newbb 2.0 RC2
-
-[b]
-MUST-DO: replace your /modules/system/admin/modulesadmin/main.php with the
--- [url=http://sourceforge.net/tracker/index.php?func=detail&aid=1052403&group_id=41586&atid=430842] Bugfix for block update[/url]
-[/b]
-
-Language Packages available on the download site:
--- English
--- French
--- Protuguesebr
--- German
--- Persian
--- Netherlands
--- Spanish
--- S/T Chinese (available at Xoops China)
-[b]NOTE: The langauge files will be now freezed, no changes until the final, so the translator can check the files to have them ready at the final.[/b]
+Major new features ( most suggested by XOOPS CHINA users)
+1 dropdown menu selectable for end users: SELECT BOX, CLICK, HOVER
+2 multi-attachments upload
+3 RSS improvement, individual RSS Feeds for each category, each forum and the global module
+4 FPDF improvement, UTF-8 encoding is now working
+5 user friendly time display, four types: Today, Yesterday, this year and longer than one year
+6 block handler: recent posts, recent topics, most views, most replies, recent digest, recent sticky, most valuable posters
+7 time periods for blocks, you could have most views in last 24 hours, most views in this week, most views in this month
+8 new page: view all posts, view new posts since last visit
+9 "New member": an introduction thead will be posted automatically when a user logs on for the first time (if enabled)
+10 adding dobr parameter
 
 
+CBB
+SITE: HTTP://XOOPS.ORG.CN
+DEMO: HTTP://XOOPS.ORG.CN
+SUPP: http://xoops.org.cn/modules/newbb/viewforum.php?forum=17
 
+Appendix
+theme/style.css adding dropdown menu color as following:
+/* color -- dropdown menu for Forum */
+#dropdown a{
+	color:#FFFFFF;
+	}
 
-MUST-DOs to Enjoy NewBB 2.0 RC3 if you update from NewBB 1.0:
-[b]1. Remove your old newbb folder
-2. Upload the New Files and Run the Proper Update Scripts
-3. Update the NewBB Module in the Moduleadmin
-4. Set Permissions for the Categories and Forums
-5. To make the Popup Menu work, make sure that the [url=http://www.xoops.org/modules/newbb/viewtopic.php?topic_id=25275&forum=28&post_id=110408] <{$xoops_module_header}>[/url] is included in your theme.html
-6. Report bugs and let's go to NewBB 2.0 Final directly!
-7. Update the newbb templates[/b]
+#dropdown .menubar, #dropdown .menu, #dropdown .item, #dropdown .separator{
+	background-color: #99B5CC;
+	color:#FFFFFF;
+	}
 
+#dropdown .separator{
+	border: 1px inset #e0e0e0;
+	}
 
-
-MUST-DOs to Enjoy NewBB 2.0 RC3 if you update from NewBB 2.0 RC2:
-1. Upload the New Files and Run the Proper Update Scripts
-2. Update the NewBB Module in the Moduleadmin
-3. Update the newbb templates
-
-
-
-MUST-DOs to Enjoy NewBB 2.0 RC3 if you update from NewBB 2.0 RC1:
-1. Upload the New Files and Run the Proper Update Scripts
-2. Update the NewBB Module in the Moduleadmin
-3. Update the newbb templates
-
-
-
-
-
-
-For any suggestions, comments, bug report and feature request:
-http://dev.xoops.org/modules/xfmod/project/?newbb Official NewBB 2.0 Project
-http://www.xoops2.org Demo NewBB 2.0 Project
-
-The NewBB 2.0 belongs to all xoopers, the NewBB Project Team, the Xoops Developers and Supporters, the Xoops users.
-
-Greetz Predator and phppp
+#dropdown .menu a:hover{
+	color: #333;
+	}
+/* color - end */

@@ -1,5 +1,5 @@
 <?php
-// $Id: topicmanager.php,v 1.3.4.1 2005/01/06 22:54:44 praedator Exp $
+// $Id: topicmanager.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

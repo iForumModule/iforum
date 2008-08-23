@@ -1,5 +1,5 @@
 <?php
-// $Id: report.php,v 1.1.4.2 2005/01/07 05:27:34 phppp Exp $
+// $Id: report.php,v 1.5 2005/05/15 12:24:48 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -66,8 +66,8 @@ if ( isset($_POST['submit']) ) {
 	$report->setVar('post_id', $post_id);
 	$report->setVar('report_time', time());
 	$report->setVar('reporter_uid', is_object($xoopsUser)?$xoopsUser->getVar('uid'):0);
-    $report_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']))?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
-	$report->setVar('reporter_ip', ip2long($report_ip));
+    //$report_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']))?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
+	$report->setVar('reporter_ip', newbb_getIP());
 	$report->setVar('report_result', 0);
 	$report->setVar('report_memo', "");
 

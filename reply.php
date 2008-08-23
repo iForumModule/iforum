@@ -1,5 +1,5 @@
 <?php
-// $Id: reply.php,v 1.5.4.2 2005/01/07 05:27:34 phppp Exp $
+// $Id: reply.php,v 1.6 2005/05/19 12:20:33 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -82,12 +82,6 @@ if ( empty($forum) ) {
 	}
 
     $r_subject=$forumpost->getVar('subject', "E");
-    if( $isadmin && $xoopsModuleConfig['allow_moderator_html']){
-	}else{
-	    $r_subject = $myts->undoHtmlSpecialChars($r_subject);
-    	$r_subject = newbb_html2text($r_subject);
-	    $r_subject = $myts->htmlSpecialChars($r_subject);
-	}
 
     if (!preg_match("/^Re:/i",$r_subject)) {
         $subject = 'Re: '.$r_subject;
@@ -125,6 +119,7 @@ if ( empty($forum) ) {
     $dohtml = 0;
     $dosmiley = 1;
     $doxcode = 1;
+    $dobr = 1;
     $subject_pre="";
     $icon = '';
     $attachsig = (is_object($xoopsUser) && $xoopsUser->getVar('attachsig')) ? 1 : 0;
@@ -133,8 +128,7 @@ if ( empty($forum) ) {
     $require_reply = 0;
 
     if ($xoopsModuleConfig['disc_show'] == 2 or $xoopsModuleConfig['disc_show'] == 3 ){
-    echo "<table cellpadding='4' cellspacing='1' width='98%' class='outer'><tr><td class='head' align='center'>"._MD_BOARD_DISCLAIMER."</td></tr>";
-	echo "<tr><td><br />".$xoopsModuleConfig['disclaimer']."<br /></td></tr></table>";
+	    echo "<div class=\"confirmMsg\">".$xoopsModuleConfig['disclaimer']."</div><br clear=\"both\">";
     }
 
     include 'include/forumform.inc.php';
@@ -161,11 +155,14 @@ if ( empty($forum) ) {
     		$p_name = (empty($poster_name))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($poster_name);
 		}
 		$p_date = formatTimestamp($eachpost->getVar('post_time'));
+		/*
 	    if( $isadmin && $xoopsModuleConfig['allow_moderator_html']){
 	    	$p_subject = $myts->undoHtmlSpecialChars($eachpost->getVar('subject'));
 		}else{
 	    	$p_subject = $eachpost->getVar('subject');
 		}
+		*/
+	    $p_subject = $eachpost->getVar('subject');
     	$p_content = _MD_BY." <strong> ".$p_name." </strong> "._MD_ON." <strong> ".$p_date."</strong><br /><br />";
     	$p_content .= $p_message;
 

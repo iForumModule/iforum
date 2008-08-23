@@ -1,157 +1,161 @@
-<!-- start module contents -->
 
-<table cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
-  <tr>
-    <td align="left"><{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/index.php"><{$forum_index_title}></a><br />
-					&nbsp;&nbsp;<{$folder_topic}><a href="<{$current_link}>"><{$current_type}></a>
-    </td>
-  </tr>
-</table>
-<br />
-<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 3px;">
-  <tr>
-  	<td width="80%">&nbsp;</td>
-    <td align="right" width="20%"><{$forum_pagenav}></td>
-  </tr>
-</table>
-<table cellspacing="0" width="100%">
-  <tr valign="bottom">
-    <th width="100%"><strong>&nbsp;&nbsp;<{$current_type}></strong></th>
-      <th> <table cellspacing="1" cellpadding="4" width="100%" border="0">
-            <tr>
-              <th width="100%"> <div align="center">
-                  <ul class="newbb_level1">
-                    <li class="newbb_folder">
-                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$smarty.const._MD_MAINFORUMOPT}></strong></div>
-                      <ul class="newbb_level2">
-                        <table cellpadding="4" cellspacing="1" border="0">
-                          <tr>
-                        <th><{$smarty.const._MD_MAINFORUMOPT}></th>
-                          </tr>
-<{if $mark_read}>
-                          <tr>
-                        <td class="head"><small><a class="newbb_link" href="<{$mark_read}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_READ}></a></small></td>
-                          </tr>
-                          <tr>
-                        <td class="head"><small><a class="newbb_link" href="<{$mark_UNread}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_UNREAD}></a></small></td>
-                          </tr>
-<{/if}>
-                      <tr>
-                        <td class="head"><small><a class="newbb_link" href="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></a></small></td>
-                      </tr>
-                      <tr>
-                        <td class="head"><small><a class="newbb_link" href="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></a></small></td>
-                      </tr>
-                      <tr>
-                        <td class="head"><small><a class="newbb_link" href="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></a></small></td>
-                      </tr>
-                      <tr>
-                        <td class="head"><small><a class="newbb_link" href="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></a></small></td>
-                      </tr>
-<{if $forum_index_cpanel}>
-                      <tr>
-                        <td class="bg3"><{$forum_index_cpanel}> </td>
-                      </tr>
-<{/if}>
-                    </table>
-                  </ul>
-                </li>
-              </ul>
-            </div></th>
-              <th width="100%"> <div align="center">
-              <ul class="newbb_level1">
-                <li class="newbb_folder">
-                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$smarty.const._MD_FORUMSEARCH}></strong></div>
-                  <ul class="newbb_level2">
-                    <form action="search.php" method="get">
-                      <table cellpadding="4" cellspacing="1" border="0">
-                        <tr>
-                          <th><{$smarty.const._MD_FORUMSEARCH}></th>
-                        </tr>
-                        <tr>
-                          <td class="head"><input name="term" type="text" size="20" />
-                            <input type="hidden" name="forum" value="<{$forum_id}>" />
-                            <input type="hidden" name="sortby" value="p.post_time desc" />
-                            <input type="hidden" name="since" value="<{$forum_since}>" />
-                            <input type="hidden" name="action" value="yes" />
-                            <input type="hidden" name="searchin" value="both" />
-                            <input type="submit" class="formButton" value="<{$smarty.const._MD_GO}>" />
-                                <br />
-                          </td>
-                        </tr>
-                        <tr>
-                              <td class="head"><a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a></td>
-                        </tr>
-                      </table>
-                    </form>
-                  </ul>
-                </li>
-              </ul>
-            </div></th>
-          </tr>
+<div id="forum_header">
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/index.php"><{$forum_index_title}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}><a href="<{$current_link}>"><{$current_type}></a></div>
+</div>
 
-      </table></th>
-  </tr>
-</table>
+<br clear="all" />
+<div>
+<div class="dropdown">
+<{if $menumode eq 0}>
+
+	<select
+		name="topicoption" id="topicoption"
+		class="menu"
+		onchange="javascript: if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
+	>
+		<option value=""><{$smarty.const._MD_TOPICOPTION}></option>
+		<option value="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></option>
+		<option value="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></option>
+		<option value="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></option>
+		<option value="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></option>
+		<option value="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></option>
+		<option value="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></option>
+		<option value="">--------</option>
+		<{foreach item=menu from=$menumode_other}>
+		<option value="<{$menu.link}>"><{$menu.title}></option>
+		<{/foreach}>
+	</select>
+
+<{elseif $menumode eq 1}>
+	<div id="topicoption" class="menu">
+	<table><tr><td>
+		<a class="item" href="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></a>
+		<a class="item" href="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></a>
+		<a class="item" href="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></a>
+		<a class="item" href="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></a>
+		<a class="item" href="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></a>
+		<a class="item" href="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></a>
+		<div class="separator"></div>
+		<{foreach item=menu from=$menumode_other}>
+		<a class="item" href="<{$menu.link}>"><{$menu.title}></a>
+		<{/foreach}>
+	</td></tr></table>
+	</div>
+	<script type="text/javascript">document.getElementById("topicoption").onmouseout = closeMenu;</script>
+	<div class="menubar"><a href="" onclick="openMenu(event, 'topicoption');return false;"><{$smarty.const._MD_TOPICOPTION}></a></div>
+
+<{elseif $menumode eq 2}>
+	<div class="menu">
+		<ul>
+			<li>
+				<div class="item"><strong><{$smarty.const._MD_TOPICOPTION}></strong></div>
+				<ul>
+				<li><table><tr><td>
+	                <div class="item"><a href="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></a></div>
+	                <div class="item"><a href="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></a></div>
+	                <div class="item"><a href="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></a></div>
+	                <div class="item"><a href="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></a></div>
+	                <div class="item"><a href="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></a></div>
+	                <div class="item"><a href="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></a></div>
+					<div class="separator"></div>
+					<{foreach item=menu from=$menumode_other}>
+					<div class="item"><a href="<{$menu.link}>"><{$menu.title}></a></div>
+					<{/foreach}>
+				</td></tr></table></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+<{/if}>
+</div>
+<div style="padding: 5px;float: right; text-align:right;">
+<{$forum_pagenav}>
+</div>
+</div>
+<br clear="all" />
+<br clear="all" />
+
 <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
 
     <tr class="head" align="left">
-		<td colspan="3" align="center"><strong><a href="<{$h_topic_link}>"><{$smarty.const._MD_TOPICS}></a></strong></td>
-		<td width="15%" align="center" nowrap="nowrap"><strong><a href="<{$h_forum_link}>"><{$smarty.const._MD_FORUM}></a></strong></td>
-		<td width="5%" align="center" nowrap="nowrap"><strong><a href="<{$h_reply_link}>"><{$smarty.const._MD_REPLIES}></a></strong></td>
-		<td width="10%" align="center" nowrap="nowrap"><strong><a href="<{$h_poster_link}>"><{$smarty.const._MD_POSTER}></a></strong></td>
-		<td width="5%" align="center" nowrap="nowrap"><strong><a href="<{$h_views_link}>"><{$smarty.const._MD_VIEWS}></a></strong></td>
-		<td width="15%" align="center" nowrap="nowrap"><strong><a href="<{$h_date_link}>"><{$smarty.const._MD_DATE}></a></strong></td>
+		<th colspan="3" align="center"><strong><a href="<{$h_topic_link}>"><{$smarty.const._MD_TOPICS}></a></strong></th>
+		<th width="15%" align="center" nowrap="nowrap"><strong><a href="<{$h_forum_link}>"><{$smarty.const._MD_FORUM}></a></strong></th>
+		<th width="5%" align="center" nowrap="nowrap"><strong><a href="<{$h_reply_link}>"><{$smarty.const._MD_REPLIES}></a></strong></th>
+		<th width="10%" align="center" nowrap="nowrap"><strong><a href="<{$h_poster_link}>"><{$smarty.const._MD_POSTER}></a></strong></th>
+		<th width="5%" align="center" nowrap="nowrap"><strong><a href="<{$h_views_link}>"><{$smarty.const._MD_VIEWS}></a></strong></th>
+		<th width="15%" align="center" nowrap="nowrap"><strong><a href="<{$h_date_link}>"><{$smarty.const._MD_DATE}></a></strong></th>
 	</tr>
+
   <!-- start forum topic -->
 <{foreach name=loop item=topic from=$topics}>
   <tr class="<{cycle values="even,odd"}>">
     <td width="4%" align="center"><{$topic.topic_folder}></td>
     <td width="4%" align="center"><{$topic.topic_icon}></td>
     <td>&nbsp;<a href="<{$topic.topic_link}>">
-
-<{if $topic.allow_prefix}>
-<{if $topic.topic_subject eq NONE}>
-<{else}>
-<{$topic.topic_subject}>
-<{/if}>
-<{/if}>
-<{$topic.topic_title}></a><{$topic.attachment}> <{$topic.topic_page_jump}></td>
+		<{if $topic.allow_prefix AND $topic.topic_subject}>
+		<{$topic.topic_subject}>
+		<{/if}>
+		<{$topic.topic_title}></a><{$topic.attachment}> <{$topic.topic_page_jump}>
+	</td>
     <td align="left" valign="middle"><{$topic.topic_forum_link}></td>
     <td align="center" valign="middle"><{$topic.topic_replies}></td>
     <td align="center" valign="middle"><{$topic.topic_poster}></td>
     <td align="center" valign="middle"><{$topic.topic_views}></td>
     <td align="right" valign="middle"><{$topic.topic_last_posttime}><br />
-<{$smarty.const._MD_BY}> <{$topic.topic_last_poster}></td>
+		<{$smarty.const._MD_BY}> <{$topic.topic_last_poster}>
+	</td>
   </tr>
 <{/foreach}>
   <!-- end forum topic -->
+
   <tr class="foot">
-    <td colspan="8" align"center"> <{strip}>
-      <form method="get">
+    <td colspan="8" align="center"> <{strip}>
+      <form method="get" action="viewforum.php">
         <strong><{$smarty.const._MD_SORTEDBY}></strong>&nbsp;<{$forum_selection_sort}>&nbsp;<{$forum_selection_order}>&nbsp;<{$forum_selection_since}>&nbsp;
         <input type="hidden" name="forum" value="<{$forum_id}>" />
         <input type="submit" name="refresh" value="<{$smarty.const._MD_GO}>" />
       </form>
-<{/strip}> </td>
+	<{/strip}>
+	</td>
   </tr>
 </table>
 <!-- end forum main table -->
-<br />
-<table cellpadding="2" cellspacing="0" border="0">
-    <tr>
-      <td width="70%" valign="top"><{$img_newposts}> = <{$smarty.const._MD_NEWPOSTS}> (<{$img_hotnewposts}> = <{$smarty.const._MD_MORETHAN}>) <br />
-        <{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}> (<{$img_hotfolder}> = <{$smarty.const._MD_MORETHAN2}>) <br />
-        <{$img_locked}> = <{$smarty.const._MD_TOPICLOCKED}> <br />
-        <{$img_sticky}> = <{$smarty.const._MD_TOPICSTICKY}> <br />
-        <{$img_digest}> = <{$smarty.const._MD_TOPICDIGEST}> <br />
-        <{$img_poll}> = <{$smarty.const._MD_TOPICHASPOLL}> </td>
-<{if $show_jumpbox == true}>
-      <td width="30%" align="right"><{$forum_pagenav}><br />
-<{$forum_jumpbox}></td>
-<{/if}> </tr>
-</table>
-<br />
+
+<br clear="all" />
+
+<div style="padding: 5px;float: right; text-align:right;">
+<{$forum_pagenav}>
+</div>
+
+<br clear="all" />
+<br clear="all" />
+
+<div style="float: left; text-align: left;">
+	<{$img_newposts}> = <{$smarty.const._MD_NEWPOSTS}> (<{$img_hotnewposts}> = <{$smarty.const._MD_MORETHAN}>) <br />
+	<{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}> (<{$img_hotfolder}> = <{$smarty.const._MD_MORETHAN2}>) <br />
+	<{$img_locked}> = <{$smarty.const._MD_TOPICLOCKED}> <br />
+	<{$img_sticky}> = <{$smarty.const._MD_TOPICSTICKY}> <br />
+	<{$img_digest}> = <{$smarty.const._MD_TOPICDIGEST}> <br />
+	<{$img_poll}> = <{$smarty.const._MD_TOPICHASPOLL}>
+</div>
+<div style="float: right; text-align: right;">
+<form action="search.php" method="get">
+<input name="term" id="term" type="text" size="15" />
+<input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
+<input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
+<input type="hidden" name="since" id="since" value="<{$forum_since}>" />
+<input type="hidden" name="action" id="action" value="yes" />
+<input type="hidden" name="searchin" id="searchin" value="both" />
+<input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
+[<a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+</form><br />
+<{$forum_jumpbox}>
+</div>
+<br clear="all" />
+<br clear="all" />
+
 <{if $online}><{include file='db:newbb_online.html'}><{/if}>
 <{include file='db:system_notification_select.html'}>
 <!-- end module contents -->

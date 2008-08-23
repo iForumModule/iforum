@@ -1,5 +1,5 @@
 <?php
-// $Id: makepdf_class.php,v 1.1.4.2 2005/01/07 05:29:58 phppp Exp $
+// $Id: makepdf_class.php,v 1.2 2005/04/18 01:22:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,10 +24,6 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
 // based on:
 // -------------------------------------------------
 // St@neCold
@@ -177,18 +173,18 @@ class PDF extends PDF_language
 		case 'P':
 		    $this->ALIGN=$attr['ALIGN'];
 		    break;
-	        case 'IMG':
+        case 'IMG':
 		    $this->IMG=$attr['IMG'];
 		    $this->SRC=$attr['SRC'];
 		    $this->WIDTH=$attr['WIDTH'];
 		    $this->HEIGHT=$attr['HEIGHT'];
-	            $this->PutImage($attr[SRC],$scale);
-	            break;
-	        case 'TR':
-	        case 'BLOCKQUOTE':
-	        case 'BR':
-	            $this->Ln(5);
-	            break;
+            $this->PutImage($attr[SRC],$scale);
+            break;
+        case 'TR':
+        case 'BLOCKQUOTE':
+        case 'BR':
+            $this->Ln(5);
+            break;
 		case 'HR':
 		    if( $attr['WIDTH'] != '' ) $Width = $attr['WIDTH'];
 		    else $Width = $this->w - $this->lMargin-$this->rMargin;
@@ -343,9 +339,64 @@ class PDF extends PDF_language
 		$pn=$this->PageNo();
 		$out=$printpdfdate;
 		$out.=' / ';
-		$out.=sprintf(NEWBB_PDF_PAGE, $pn);
+		$out.=sprintf($pdf_config['footerpage'], $pn);
 		$this->SetFont($pdf_config['font']['footer']['family'],$pdf_config['font']['footer']['style'],$pdf_config['font']['footer']['size']);
 		$this->Cell(0,10,$out,'T',0,'R',0,$pdf_config['mail']);
+	}
+
+
+	function _parsegif($file)
+	{
+		require_once 'gif.php'; //GIF class in pure PHP from Yamasoft (http://www.yamasoft.com/php-gif.zip)
+
+		$h=0;
+		$w=0;
+		$gif=new CGIF();
+		if(!$gif){
+        	$this->Error("GIF parser: unable to open file $file");
+        	return null;
+    	}
+    	if(empty($gif->m_img->m_data)) return null;
+
+		if($gif->m_img->m_gih->m_bLocalClr) {
+			$nColors = $gif->m_img->m_gih->m_nTableSize;
+			$pal = $gif->m_img->m_gih->m_colorTable->toString();
+			if($bgColor != -1) {
+				$bgColor = $gif->m_img->m_gih->m_colorTable->colorIndex($bgColor);
+			}
+			$colspace='Indexed';
+		} elseif($gif->m_gfh->m_bGlobalClr) {
+			$nColors = $gif->m_gfh->m_nTableSize;
+			$pal = $gif->m_gfh->m_colorTable->toString();
+			if($bgColor != -1) {
+				$bgColor = $gif->m_gfh->m_colorTable->colorIndex($bgColor);
+			}
+			$colspace='Indexed';
+		} else {
+			$nColors = 0;
+			$bgColor = -1;
+			$colspace='DeviceGray';
+			$pal='';
+		}
+
+		$trns='';
+		if($gif->m_img->m_bTrans && ($nColors > 0)) {
+			$trns=array($gif->m_img->m_nTrans);
+		}
+
+		$data=$gif->m_img->m_data;
+		$w=$gif->m_gfh->m_nWidth;
+		$h=$gif->m_gfh->m_nHeight;
+
+		if($colspace=='Indexed' and empty($pal))
+			$this->Error('Missing palette in '.$file);
+
+		if ($this->compress) {
+			$data=gzcompress($data);
+			return array( 'w'=>$w, 'h'=>$h, 'cs'=>$colspace, 'bpc'=>8, 'f'=>'FlateDecode', 'pal'=>$pal, 'trns'=>$trns, 'data'=>$data);
+		} else {
+			return array( 'w'=>$w, 'h'=>$h, 'cs'=>$colspace, 'bpc'=>8, 'pal'=>$pal, 'trns'=>$trns, 'data'=>$data);
+		}
 	}
 }
 ?>

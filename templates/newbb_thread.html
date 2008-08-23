@@ -1,48 +1,87 @@
-<!-- start comment post -->
 <a id="forumpost<{$topic_post.post_id}>"></a>
 <table class="outer" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0px;">
-  <tr>
-       <th width="20%"> <div align="center">
-              <ul class="newbb_level1">
-                <li class="newbb_folder">
-                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$topic_post.poster_name}></strong></div>
-                  <ul class="newbb_level2">
-                    <table cellpadding="4" cellspacing="1" border="0">
-                      <tr>
-                        <th><{$personal}><{$topic_post.poster_name}></th>
-                      </tr>
-						<{$topic_post.poster_userbar}> 
-						<{if $viewer_is_admin == true and $topic_post.poster_ip}>
-                      <tr>
-                        <th><{$smarty.const._MD_TOPICOPTIONADMIN}></th>
-                      </tr>
-                      <tr>
-                        <td class="head"><strong>IP: <{$topic_post.poster_ip}></strong> </td>
-                      </tr>
-<{/if}>
-                    </table>
-                  </ul>
-                </li>
-              </ul>
-            </div></th>
 
-    <th width="80%" align="left"><div class="comTitle"><{$topic_post.post_title}></div></th><th align="right"><div class="comTitle" align="right">#<{$topic_post.post_no}></div></th>
+  <tr>
+       <th width="20%" align="left">
+		<div class="dropdown">
+		<{if $menumode eq 0}>
+
+			<select
+				name="poster" id="poster"
+				class="menu"
+				onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
+			>
+				<option value=""><{$topic_post.poster.name}></option>
+				<{foreach item=bar from=$topic_post.poster.userbar}>
+				<{if $bar}>
+				<option value="<{$bar.link}>"><{$bar.name}></option>
+				<{/if}>
+				<{/foreach}>
+			</select>
+
+		<{elseif $menumode eq 1}>
+			<div id="poster<{$topic_post.post_id}>" class="userbar">
+			<table><tr><td>
+				<{foreach item=bar from=$topic_post.poster.userbar}>
+				<{if $bar}>
+				<a class="item" href="<{$bar.link}>"><{$bar.name}></a>
+				<{/if}>
+				<{/foreach}>
+			</td></tr></table>
+			</div>
+			<script type="text/javascript">document.getElementById("poster<{$topic_post.post_id}>").onmouseout = closeMenu;</script>
+			<div class="menubar"><a href="" onclick="openMenu(event, 'poster<{$topic_post.post_id}>');return false;"><{$topic_post.poster.name}></a></div>
+
+		<{elseif $menumode eq 2}>
+			<div class="userbar">
+				<ul>
+					<li>
+						<div class="item"><{$topic_post.poster.name}></div>
+						<ul>
+						<li><table><tr><td>
+							<{foreach item=bar from=$topic_post.poster.userbar}>
+							<{if $bar}>
+							<div class="item"><a href="<{$bar.link}>"><{$bar.name}></a></div>
+							<{/if}>
+							<{/foreach}>
+						</td></tr></table></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		<{/if}>
+		</div>
+   	</th>
+
+    <th width="75%" align="left"><div class="comTitle"><{$topic_post.post_title}></div></th>
+    <th align="right"><div class="comTitle" style="float: right;"><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a></div></th>
   </tr>
 
   <tr>
   	<td width="20%" class="odd" rowspan="2" valign="top">
-  	<{if $topic_post.poster_uid != 0}>
-  	<div class="comUserRankText"><{$topic_post.poster_rank_title}><br /><{$topic_post.poster_rank_image}></div>
-  	<img class="comUserImg" src="<{$xoops_upload_url}>/<{$topic_post.poster_avatar}>" alt="" />
-  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span> <{$topic_post.poster_regdate}></div>
-  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_FROM}></span> <{$topic_post.poster_from}></div>
-  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_POSTS}>:</span> <{$topic_post.poster_postnum}></div>
-	<{if $groupbar_enable}>
-  	<div class="comUserStat"> <span class="comUserStatCaption"><{$smarty.const._MD_GROUP}></span> <br /><{$topic_post.poster_groups}> </div>
+  	<{if $topic_post.poster.uid != 0}>
+  	<div class="comUserRankText"><{$topic_post.poster.rank.title}><br /><{$topic_post.poster.rank.image}></div>
+  	<{if $topic_post.poster.avatar}>
+  	<img class="comUserImg" src="<{$xoops_upload_url}>/<{$topic_post.poster.avatar}>" alt="" />
+  	<{/if}>
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span><br /><{$topic_post.poster.regdate}></div>
+  	<{if $topic_post.poster.from}>
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_FROM}></span> <{$topic_post.poster.from}></div>
+  	<{/if}>
+	<{if $topic_post.poster.groups}>
+  	<div class="comUserStat"> <span class="comUserStatCaption"><{$smarty.const._MD_GROUP}></span>
+  	<{foreach item=group from=$topic_post.poster.groups}> <br /><{$group}><{/foreach}>
+  	</div>
 	<{/if}>
-  	<div class="comUserStatus"><{$topic_post.poster_status}></div>
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_POSTS}>:</span> <{$topic_post.poster.posts}></div>
+  	<{if $topic_post.poster.level}>
+  	<div class="comUserStat"><{$topic_post.poster.level}></div>
+  	<{/if}>
+  	<{if $topic_post.poster.status}>
+  	<div class="comUserStatus"><{$topic_post.poster.status}></div>
+  	<{/if}>
 	<{else}>
-   	<div class="comUserRankText"><{$anonymous_prefix}><{$topic_post.poster_uname}></div>
+   	<div class="comUserRankText"><{$anonymous_prefix}><{$topic_post.poster.name}></div>
 	<{/if}>
 	</td>
 
@@ -51,31 +90,38 @@
 	<{if $topic_post.post_attachment}>
 	<div class="comText"><{$topic_post.post_attachment}></div>
 	<{/if}>
+    <br clear="all" />
+    <div style="float: right; padding: 5px; margin-top: 10px;">
+	<{if $topic_post.poster_ip}>
+	IP: <a href="http://www.whois.sc/<{$topic_post.poster_ip}>" target="_blank"><{$topic_post.poster_ip}></a> |
+	<{/if}>
+    <{$smarty.const._MD_POSTEDON}><{$topic_post.post_date}></div>
 	<{if $topic_post.post_edit}>
-	<p align="right"><small><{$topic_post.post_edit}></small></p>
+    <br clear="all" />
+	<div style="float: right; padding: 5px; margin-top: 10px;"><small><{$topic_post.post_edit}></small></div>
 	<{/if}>
 	</td>
   </tr>
 
   <tr>
     <td colspan="2" class="odd" valign="bottom">
-	<{if $topic_post.poster_sig}>
+	<{if $topic_post.post_signature}>
     <div class="signature">
 	_________________<br />
-	<{$topic_post.poster_sig}>
+	<{$topic_post.post_signature}>
 	</div>
 	<{/if}>
 	</td>
   </tr>
 
-
   <tr>
-    <td width="20%" class="foot"><div class="comDate"><span class="comDateCaption"><{$smarty.const._MD_POSTEDON}></span><{$topic_post.post_date}></div>
+    <td width="20%" class="foot">
 	<{foreach item=abtn from=$topic_post.thread_action}> <a href="<{$abtn.link}>&amp;post_id=<{$topic_post.post_id}>" target="_blank" title="<{$abtn.name}>"> <{$abtn.image}></a> <{/foreach}>
 	</td>
-    <td colspan="2" class="foot"><div align="left"><a href="#threadtop" title="<{$smarty.const._MD_UP}>"><{$p_up}></a></div>
-    <div align="right" width="80%"><{foreach item=btn from=$topic_post.thread_buttons}> <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a> <{/foreach}></div> 
+    <td colspan="2" class="foot"><div align="right">
+    <{foreach item=btn from=$topic_post.thread_buttons}> <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a> <{/foreach}>
+    <a href="#threadtop" title="<{$smarty.const._MD_UP}>"> <{$p_up}></a>
+    </div>
     </td>
   </tr>
 </table>
-<!-- end comment post -->

@@ -1,5 +1,5 @@
 <?php
-// $Id: edit.php,v 1.5.4.2 2005/01/07 05:27:34 phppp Exp $
+// $Id: edit.php,v 1.5 2005/05/15 12:24:47 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -77,6 +77,7 @@ if ( empty($forum) ) {
     $dohtml = $forumpost->getVar('dohtml');
     $dosmiley = $forumpost->getVar('dosmiley');
     $doxcode = $forumpost->getVar('doxcode');
+    $dobr = $forumpost->getVar('dobr');
     $icon = $forumpost->getVar('icon');
     $attachsig = $forumpost->getVar('attachsig');
     $topic_id=$forumpost->getVar('topic_id');
@@ -106,11 +107,7 @@ if ( empty($forum) ) {
     		$r_name = (empty($poster_name))?$xoopsConfig['anonymous']:$poster_name;
 		}
 		$r_date = formatTimestamp($forumpost2->getVar('post_time'));
-	    if( $isadmin && $xoopsModuleConfig['allow_moderator_html']){
-	    	$r_subject = $myts->undoHtmlSpecialChars($forumpost2->getVar('subject'));
-		}else{
-	    	$r_subject = $forumpost2->getVar('subject');
-		}
+	    $r_subject = $forumpost2->getVar('subject');
 
         $r_content = _MD_BY." ".$r_name." "._MD_ON." ".$r_date."<br /><br />";
         $r_content .= $r_message;
@@ -118,7 +115,6 @@ if ( empty($forum) ) {
         echo "<table cellpadding='4' cellspacing='1' width='98%' class='outer'><tr><td class='head'>".$r_subject."</td></tr>";
         echo "<tr><td><br />".$r_content."<br /></td></tr></table>";
     }
-
 
     include XOOPS_ROOT_PATH.'/footer.php';
 }

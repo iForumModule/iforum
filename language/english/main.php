@@ -1,5 +1,5 @@
 <?php
-// $Id: main.php,v 1.3.2.2 2005/01/10 01:49:42 phppp Exp $
+// $Id: main.php,v 1.6 2005/05/19 12:21:45 phppp Exp $
 if(defined('MAIN_DEFINED')) return;
 define('MAIN_DEFINED',true);
 
@@ -10,6 +10,7 @@ define('_MD_SELFORUM','Select a Forum');
 
 define('_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST','Attached file:');
 define('_MD_ALLOWED_EXTENSIONS','Allowed extensions');
+define('_MD_MAX_FILESIZE','Maxium file size');
 define('_MD_ATTACHMENT','Attach file');
 define('_MD_FILESIZE','Size');
 define('_MD_HITS','Hits');
@@ -46,8 +47,8 @@ define('_MD_LASTVISIT','You last visited: %s');
 define('_MD_ADVSEARCH','Advanced Search');
 define('_MD_POSTEDON','Posted on: ');
 define('_MD_SUBJECT','Subject');
-define('_MD_PRIVATEFORUM_NEWPOSTS','Inactive forum with new posts');
-define('_MD_PRIVATEFORUM_NONEWPOSTS','Inactive forum without new posts');
+define('_MD_INACTIVEFORUM_NEWPOSTS','Inactive forum with new posts');
+define('_MD_INACTIVEFORUM_NONEWPOSTS','Inactive forum without new posts');
 define('_MD_SUBFORUMS','Subforums');
 define('_MD_MAINFORUMOPT', 'Main Options');
 define("_MD_PENDING_POSTS_FOR_AUTH","Posts pending approval:");
@@ -63,9 +64,6 @@ define('_MD_POSTNEW','New Topic');
 define('_MD_REGTOPOST','Register To Post');
 
 //search.php
-//define('_MD_KEYWORDS','Keywords:');
-//define('_MD_SEARCHANY','Search for ANY of the terms (Default)');
-//define('_MD_SEARCHALL','Search for ALL of the terms');
 define('_MD_SEARCHALLFORUMS','Search All Forums');
 define('_MD_FORUMC','Forum');
 define('_MD_AUTHORC','Autor:');
@@ -73,12 +71,7 @@ define('_MD_SORTBY','Sort by');
 define('_MD_DATE','Date');
 define('_MD_TOPIC','Topic');
 define('_MD_USERNAME','Username');
-//define('_MD_SEARCHIN','Search in');
 define('_MD_BODY','Body');
-//define('_MD_NOMATCH','No records match that query. Please broaden your search.');
-//define('_MD_POSTTIME','Post Time');
-//define('_MD_SEARCHNEXT','Next page');
-//define('_MD_SEARCHPREV','Previous page');
 define('_MD_SINCE','Since');
 
 //viewforum.php
@@ -96,6 +89,7 @@ define('_MD_SORTEDBY','Sorted by');
 define('_MD_TOPICTITLE','topic title');
 define('_MD_NUMBERREPLIES','number of replies');
 define('_MD_TOPICPOSTER','topic poster');
+define('_MD_TOPICTIME','Publish time');
 define('_MD_LASTPOSTTIME','last post time');
 define('_MD_ASCENDING','Ascending order');
 define('_MD_DESCENDING','Descending order');
@@ -137,6 +131,7 @@ define('_MD_VANP','View all new posts');
 define('_MD_UNREPLIED','unreplied topics');
 define('_MD_UNREAD','unread topics');
 define('_MD_ALL','all topics');
+define('_MD_ALLPOSTS','all posts');
 define('_MD_VIEW','View');
 
 //viewtopic.php
@@ -160,6 +155,7 @@ define('_MD_PRINTTOPICS','Print Topic');
 define('_MD_PRINT','Print');
 define('_MD_REPORT','Report');
 define('_MD_PM','PM');
+define('_MD_EMAIL','Email');
 define('_MD_WWW','WWW');
 define('_MD_AIM','AIM');
 define('_MD_YIM','YIM');
@@ -204,6 +200,8 @@ define('_MD_EXP','EXP :');
 
 define('_MD_BROWSING','Browsing this Thread:');
 define('_MD_POSTTONEWS','Send this post to a news Story');
+
+define('_MD_EXCEEDTHREADVIEW','Post count exceeds the threshold for thread mode<br />Changing to flat mode');
 
 
 //forumform.inc
@@ -272,12 +270,15 @@ define('_MD_OPTIONS','Options:');
 define('_MD_POSTANONLY','Post Anonymously');
 define('_MD_DOSMILEY','Enable Smiley');
 define('_MD_DOXCODE','Enable Xoops Code');
+define('_MD_DOBR','Enable line break (Suggest to turn off if HTML enabled)');
 define('_MD_DOHTML','Enable html tags');
 define('_MD_NEWPOSTNOTIFY', 'Notify me of new posts in this thread');
 define('_MD_ATTACHSIG','Attach Signature');
 define('_MD_POST','Post');
 define('_MD_SUBMIT','Submit');
 define('_MD_CANCELPOST','Cancel Post');
+define('_MD_REMOVE','Remove');
+define('_MD_UPLOAD','Upload');
 
 // forumuserpost.php
 define('_MD_ADD','Add');
@@ -391,9 +392,73 @@ define("_MD_REPORT_ERROR", "Error occured while sending the report.");
 define("_MD_REPORT_TEXT", "Report message:");
 
 define("_MD_PDF","Create PDF from Post");
-define("_MD_PDF_PAGE","Page");
+define("_MD_PDF_PAGE","Page %s");
 
 //print.php
 define("_MD_COMEFROM","This Post was from:");
 
+//viewpost.php
+define("_MD_VIEWALLPOSTS","All Posts");
+define("_MD_VIEWTOPIC","Topic");
+define("_MD_VIEWFORUM","Forum");
+
+define("_MD_COMPACT","Compact");
+
+define("_MD_MENU_SELECT","SELECT");
+define("_MD_MENU_HOVER","HOVER");
+define("_MD_MENU_CLICK","CLICK");
+
+define("_MD_WELCOME_SUBJECT","%s has joined the forum");
+define("_MD_WELCOME_MESSAGE","Hi, %s is a newbie.");
+
+// !!IMPORTANT!! insert '\' to any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
+// insert additional '\' to 't', 'r', 'n'
+define("_MD_TODAY", "\To\d\a\y G:i:s");
+define("_MD_YESTERDAY", "\Ye\s\\te\\r\d\a\y G:i:s");
+define("_MD_MONTHDAY", "n/j G:i:s");
+define("_MD_YEARMONTHDAY", "Y/n/j G:i");
+
+define("_MD_VIEWNEWPOSTS","View new posts");
+
+define("_MD_INVALID_SUBMIT","Invalid submission. You could have exceeded session time. Please re-submit or make a backup of your post and login to resubmit if necessary.");
+
+define("_MD_ACCOUNT","Account");
+define("_MD_NAME","Name");
+define("_MD_PASSWORD","Password");
+define("_MD_LOGIN","Login");
+
+// For user info
+// If you have customized userbar, define here.
+require_once(XOOPS_ROOT_PATH."/modules/newbb/class/user.php");
+class User_language extends User
+{
+    function User_language(&$user)
+    {
+	    $this->User($user);
+    }
+
+    function &getUserbar()
+    {
+	    global $xoopsModuleConfig, $xoopsUser, $isadmin;
+    	if (empty($xoopsModuleConfig['userbar_enabled'])) return null;
+    	$user =& $this->user;
+    	$userbar = array();
+        $userbar[] = array("link"=>XOOPS_URL . "/userinfo.php?uid=" . $user->getVar("uid"), "name" =>_PROFILE);
+		if (is_object($xoopsUser))
+        $userbar[]= array("link"=>"javascript:void openWithSelfMain('" . XOOPS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $user->getVar("uid") . "', 'pmlite', 450, 380);", "name"=>_MD_PM);
+        if($user->getVar('user_viewemail') || $isadmin)
+        $userbar[]= array("link"=>"javascript:void window.open('mailto:" . $user->getVar('email') . "', 'new');", "name"=>_MD_EMAIL);
+        if($user->getVar('url'))
+        $userbar[]= array("link"=>"javascript:void window.open('" . $user->getVar('url') . "', 'new');", "name"=>_MD_WWW);
+        if($user->getVar('user_icq'))
+        $userbar[]= array("link"=>"javascript:void window.open('http://wwp.icq.com/scripts/search.dll?to=" . $user->getVar('user_icq')."', 'new');", "name" => _MD_ICQ);
+        if($user->getVar('user_aim'))
+        $userbar[]= array("link"=>"javascript:void window.open('aim:goim?screenname=" . $user->getVar('user_aim') . "&amp;message=Hi+" . $user->getVar('user_aim') . "+Are+you+there?" . "', 'new');", "name"=>_MD_AIM);
+        if($user->getVar('user_yim'))
+        $userbar[]= array("link"=>"javascript:void window.open('http://edit.yahoo.com/config/send_webmesg?.target=" . $user->getVar('user_yim') . "&.src=pg" . "', 'new');", "name"=> _MD_YIM);
+        if($user->getVar('user_msnm'))
+        $userbar[]= array("link"=>"javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM);
+		return $userbar;
+    }
+}
 ?>

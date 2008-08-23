@@ -17,7 +17,7 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
-include_once "../../../mainfile.php";
+include("../../../include/cp_header.php");
 
 $myts =& MyTextSanitizer::getInstance();
 
@@ -26,7 +26,7 @@ if ( isset($_POST) ) {
         $$k = $myts->stripSlashesGPC($v);
     }
 }
-$language = 'english';
+$language = $xoopsConfig['language'];
 
 if ( file_exists("language/".$language."/updater.php") ) {
     include_once "language/".$language."/updater.php";
@@ -583,10 +583,6 @@ else {
 	echo "<tr align='center'><td width='30%' align='right'><img src='img/yes.gif'></td><td width='70%' align='left'>&nbsp;Add field to ".$xoopsDB->prefix."_bb_topics</td></tr>";
 }
 
-
-
-
-
 echo "<tr>";
 echo "<td colspan='2' align='center'><br /><br /><input type='hidden' name='action' value='update4' /><input type='submit' name='submit' value='"._NEWBB_UPDATE_L91."' /></td>
     </tr>";
@@ -594,31 +590,6 @@ echo "<td colspan='2' align='center'><br /><br /><input type='hidden' name='acti
 echo "</table>";
 install_footer();
 }
-
-/*
-if ( $action == "update3" ) {
-
-install_header();
-echo "<table width='100%' border='0'><tr><td colspan='2' align='center'><b>". _NEWBB_UPDATE_L07."</b></td></tr>";
-
-
-
-
-
-
-
-
-
-
-echo "<tr>";
-echo "<td colspan='2' align='center'><br /><br /><input type='hidden' name='action' value='update4' /><input type='submit' name='submit' value='"._NEWBB_UPDATE_L92."' /></td>
-    </tr>";
-
-
-echo "</table>";
-install_footer();
-}
-*/
 
 
 if ( $action == "update4" ) {

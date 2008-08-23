@@ -1,5 +1,5 @@
 <?php
-// $Id: vars.php,v 1.3.4.2 2005/01/07 00:17:22 praedator Exp $
+// $Id: vars.php,v 1.7 2005/05/15 12:25:54 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -158,17 +158,23 @@ if(empty($forumCookie['prefix'])){
 
 // set LastVisitTemp cookie, which only gets the time from the LastVisit cookie if it does not exist yet
 // otherwise, it gets the time from the LastVisitTemp cookie
-$last_visit = newbb_getcookie("LVT");
+//$last_visit = newbb_getcookie("LVT");
+$last_visit = newbb_getsession("LV");
 $last_visit = ($last_visit)?$last_visit:newbb_getcookie("LV");
 $last_visit = ($last_visit)?$last_visit:time();
 
+
 // update LastVisit cookie.
 newbb_setcookie("LV", time(), $forumCookie['expire']); // set cookie life time to one month
-newbb_setcookie("LVT", $last_visit);
+//newbb_setcookie("LVT", $last_visit);
+newbb_setsession("LV", $last_visit);
 
 /* NewBB cookie storage
 	Long term cookie: (configurable, generally one month)
 		LV - Last Visit
+		M - Menu mode
+		V - View mode
+		G - Toggle
 	Short term cookie: (same as session life time)
 		ST - Stored Topic IDs for mark
 		LP - Last Post

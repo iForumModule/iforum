@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_votedata.php,v 1.1.4.3 2005/01/10 14:21:10 praedator Exp $
+// $Id: admin_votedata.php,v 1.2 2005/04/18 01:22:27 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //

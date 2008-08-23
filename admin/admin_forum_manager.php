@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_forum_manager.php,v 1.6.6.2 2005/01/07 05:28:24 phppp Exp $
+// $Id: admin_forum_manager.php,v 1.5 2005/05/15 12:25:52 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -163,7 +163,7 @@ function editForum($ff = null, $parent_forum = 0)
     if ($parent_forum == 0) {
         ob_start();
         if ($new) {
-        	$mytree->makeMySelBox("cat_title", "cat_id", $_GET['cat_id']);
+        	$mytree->makeMySelBox("cat_title", "cat_id", @$_GET['cat_id']);
         } else {
         	$mytree->makeMySelBox("cat_title", "cat_id", $ff->getVar('cat_id'));
         }
@@ -337,49 +337,26 @@ switch ($op) {
 
             $bMoved = 0;
             $errString = '';
-            // Look for subforums
-            $sql = "SELECT * from " . $xoopsDB->prefix('bb_forums') . " WHERE parent_forum=$forum";
-            if ($result = $xoopsDB->query($sql)) {
-                if ($xoopsDB->getRowsNum($result) == 0) {
-                    $sql_move = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET cat_id=" . $_POST['cat_id'] . ", parent_forum=" . $_POST['parent_forum'] . " WHERE forum_id=$forum";
-                    if ($xoopsDB->query($sql_move))
-                        $bMoved = 1;
-                } else {
-                    // Are we trying to move this
-                    if ($_POST['parent_forum'] != 0) {
-                        $errString = "This forum cannot be made as a subforum.<br />Multi-level subforums are not allowed.";
-                    } else {
-                        $sql_move = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET cat_id=" . $_POST['cat_id'] . ", parent_forum=" . $_POST['parent_forum'] . " WHERE forum_id=$forum";
-                        if ($xoopsDB->query($sql_move)) {
-                            $bMoved = 1;
-                            while ($row = $xoopsDB->fetchArray($result)) {
-                                $sql_move_sub = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET cat_id=" . $_POST['cat_id'] . " WHERE forum_id=" . $row['forum_id'];
-                                $xoopsDB->query($sql_move_sub);
-                            }
-                        }
-                    }
-                }
-            }
-
-            $sql = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET cat_id=" . $_POST['cat_id'] . ", parent_forum=" . $_POST['parent_forum'] . " WHERE forum_id=$forum";
-            if ($result = $xoopsDB->query($sql)) {
+            $value = "cat_id=" . $_POST['cat_id'].", parent_forum=" . intval($_POST['parent_forum']);
+            $sql_move = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET " . $value . " WHERE forum_id=$forum";
+            if ($result = $xoopsDB->queryF($sql_move)){
                 $bMoved = 1;
+            	$sql = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=$forum";
+            	$result = $xoopsDB->queryF($sql);
             }
 
             if (!$bMoved) {
-                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_ERR_FORUM_MOVED . '<br />' . $errString);
+                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_ERR_FORUM_MOVED);
             } else {
                 redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_FORUM_MOVED);
             }
-            die();
+            exit();
         } else {
             newbb_adminmenu(2, "");
 
             if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
             if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
             $forum = &$forum_handler->get($forum);
-            //$name = $forum->getVar('forum_name');
-            //$desc = $myts->displayTarea($forum->getVar('forum_desc'), 1);
 
             $cat_list = "<select name=\"cat_id\" onchange='document.forummove.submit();'>";
             $cat_list .= '<option value="0">' . _AM_NEWBB_SELECT . '</option>';
@@ -399,8 +376,8 @@ switch ($op) {
             $sf_list .= '<option value="0">' . _NONE . '</option>';
             if (isset($_POST['cat_id'])) {
                 $sql = "SELECT * FROM " . $xoopsDB->prefix('bb_forums') . " WHERE cat_id=" . $_POST['cat_id'] . " AND forum_id!=$forum->getVar('forum_id')";
-                if ($result = $xoopsDB->query($sql))
-                    while ($row = $xoopsDB->fetchArray($result)) {
+                if ($result = $xoopsDB->query($sql))	while ($row = $xoopsDB->fetchArray($result)) {
+	                if($forum->getVar('forum_id')==$row['forum_id']) continue;
                     $sf_list .= "<option value='" . $row['forum_id'] . "'>" . $myts->htmlSpecialChars($row['forum_name']) . "</option>";
                 }
             }
@@ -416,6 +393,66 @@ switch ($op) {
             echo '</tr>';
             echo '<tr><td class="bg1">' . _AM_NEWBB_MOVE2CAT . '</td><td class="bg1">' . $cat_list . '</td></tr>';
             echo '<tr><td class="bg1">' . _AM_NEWBB_MAKE_SUBFORUM_OF . '</td><td class="bg1">' . $sf_list . '</td></tr>';
+            echo '<tr><td colspan="2" align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
+            echo '</form></table></td></tr></table>';
+        }
+        break;
+
+    case 'mergeforum':
+
+        if (isset($_POST['save']) && $_POST['save'] != "") {
+            if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
+            if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
+
+            $sql = "UPDATE " . $xoopsDB->prefix('bb_posts') . " SET forum_id=" . $_POST['dest_forum'] . " WHERE forum_id=$forum";
+            $result = $xoopsDB->queryF($sql);
+            $sql = "UPDATE " . $xoopsDB->prefix('bb_topics') . " SET forum_id=" . $_POST['dest_forum'] . " WHERE forum_id=$forum";
+            $result = $xoopsDB->queryF($sql);
+            $sql = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=$forum";
+            $result = $xoopsDB->queryF($sql);
+
+            $sql = "SELECT COUNT(*) AS count FROM " . $xoopsDB->prefix('bb_posts') . " WHERE WHERE forum_id=$forum";
+            $result = $xoopsDB->query($sql);
+            list($post_count) = $xoopsDB->fetchArray($result);
+            $sql = "SELECT COUNT(*) AS count FROM " . $xoopsDB->prefix('bb_topics') . " WHERE WHERE forum_id=$forum";
+            $result = $xoopsDB->query($sql);
+            list($topic_count) = $xoopsDB->fetchArray($result);
+
+            $forum = &$forum_handler->get($forum);
+            $forum_handler->delete($forum);
+
+            if ($post_count || $topic_count) {
+                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_ERR_FORUM_MERGED);
+            } else {
+                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_FORUM_MERGED);
+            }
+            exit();
+        } else {
+            newbb_adminmenu(2, "");
+
+            if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
+            if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
+            $forum = &$forum_handler->get($forum);
+
+            $sf_list = '<select name="dest_forum">';
+            $sf_list .= '<option value="0" selected>' . _AM_NEWBB_SELECT . '</option>';
+            $sf_list .= '<option value="0">' . _NONE . '</option>';
+            $sql = "SELECT * FROM " . $xoopsDB->prefix('bb_forums') . " WHERE forum_id!=".$forum->getVar('forum_id');
+            if ($result = $xoopsDB->query($sql))	while ($row = $xoopsDB->fetchArray($result)) {
+                //if($forum->getVar('forum_id')==$row['forum_id']) continue;
+                $sf_list .= "<option value='" . $row['forum_id'] . "'>" . $myts->htmlSpecialChars($row['forum_name']) . "</option>";
+            }
+            $sf_list .= '</select>';
+
+            echo '<form action="./admin_forum_manager.php" method="post" name="forummove" id="forummove">';
+            echo '<input type="hidden" name="op" value="mergeforum" />';
+            echo '<input type="hidden" name="forum" value=' . $forum->getVar('forum_id') . ' />';
+            echo '<table border="0" cellpadding="1" cellspacing="0" align="center" valign="top" width="95%"><tr>';
+            echo '<td class="bg2">';
+            echo '<table border="0" cellpadding="1" cellspacing="1" width="100%"><tr class="bg3">';
+            echo '<td align="center" colspan="2"><strong>' . _AM_NEWBB_MERGETHISFORUM . '</strong></td>';
+            echo '</tr>';
+            echo '<tr><td class="bg1">' . _AM_NEWBB_MERGETO_FORUM . '</td><td class="bg1">' . $sf_list . '</td></tr>';
             echo '<tr><td colspan="2" align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
             echo '</form></table></td></tr></table>';
         }
@@ -636,7 +673,7 @@ switch ($op) {
         } else {
             $ff = &$forum_handler->get($_POST['forum']);
             $forum_handler->delete($ff);
-            redirect_header("admin_forum_manager.php", 1, _AM_NEWBB_FORUMREMOVED);
+            redirect_header("admin_forum_manager.php?op=manage", 1, _AM_NEWBB_FORUMREMOVED);
             exit();
         }
         break;
@@ -677,6 +714,7 @@ switch ($op) {
         $echo .= "<td class='bg3'>" . _AM_NEWBB_DELETE . "</td>";
         $echo .= "<td class='bg3'>" . _AM_NEWBB_ADD . "</td>";
         $echo .= "<td class='bg3'>" . _AM_NEWBB_MOVE . "</td>";
+        $echo .= "<td class='bg3'>" . _AM_NEWBB_MERGE . "</td>";
         $echo .= "</tr>";
 
         if(count($categories)>0) foreach ($categories as $key => $category) {
@@ -692,6 +730,7 @@ switch ($op) {
             $echo .= "<td align='center'>" . $cat_del_link . "</td>";
             $echo .= "<td align='center'>" . $forum_add_link . "</td>";
             $echo .= "<td></td>";
+            $echo .= "<td></td>";
             $echo .= "</tr>";
 
 		    $forums = (!empty($forumsByCat[$category->getVar('cat_id')]))?$forumsByCat[$category->getVar('cat_id')]:array();
@@ -703,6 +742,7 @@ switch ($op) {
                     $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['delete'])."</a>";
                     $sf_add_link = "<a href=\"admin_forum_manager.php?op=addsubforum&amp;cat_id=" . $forum['forum_cid'] . "&parent_forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['new_subforum'])."</a>";
                     $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
+                    $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
 
                     $echo .= "<tr class='odd' align='left'><td></td>";
                     $echo .= "<td><strong>" . $f_link . "</strong></td>";
@@ -710,6 +750,7 @@ switch ($op) {
                     $echo .= "<td align='center'>" . $f_del_link . "</td>";
                     $echo .= "<td align='center'>" . $sf_add_link . "</td>";
                     $echo .= "<td align='center'>" . $f_move_link . "</td>";
+                    $echo .= "<td align='center'>" . $f_merge_link . "</td>";
                     $echo .= "</tr>";
 
                     if(isset($forum['subforum'])){
@@ -719,12 +760,14 @@ switch ($op) {
 	                        $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $subforum['forum_id'] . "\">".newbb_displayImage($forumImage['delete'])."</a>";
 	                        $sf_add_link = "";
 	                        $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $subforum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
+	                        $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $subforum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
 		                    $echo .= "<tr class='odd' align='left'><td></td>";
 		                    $echo .= "<td><strong>" . $f_link . "</strong></td>";
 		                    $echo .= "<td align='center'>" . $f_edit_link . "</td>";
 		                    $echo .= "<td align='center'>" . $f_del_link . "</td>";
 		                    $echo .= "<td align='center'>" . $sf_add_link . "</td>";
 		                    $echo .= "<td align='center'>" . $f_move_link . "</td>";
+		                    $echo .= "<td align='center'>" . $f_merge_link . "</td>";
 		                    $echo .= "</tr>";
 	                	}
                     }

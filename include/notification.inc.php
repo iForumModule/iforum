@@ -1,5 +1,5 @@
 <?php
-// $Id: notification.inc.php,v 1.3.2.1 2005/01/06 22:57:45 praedator Exp $
+// $Id: notification.inc.php,v 1.5 2005/04/18 01:36:03 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -37,6 +37,7 @@ function newbb_notify_iteminfo($category, $item_id)
 		$item['url'] = '';
 		return $item;
 	}
+	$item_id = intval($item_id);
 
 	global $xoopsDB;
 	if ($category=='forum') {

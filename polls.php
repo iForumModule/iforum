@@ -1,5 +1,5 @@
 <?php
-// $Id: polls.php,v 1.1.4.4 2005/01/10 14:21:12 praedator Exp $
+// $Id: polls.php,v 1.5 2005/05/15 12:24:47 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -41,30 +41,57 @@ include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
 include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
 include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
 
-if(!isset($module_handler)) $module_handler =& xoops_gethandler('module');
-$xoopspoll =& $module_handler->getByDirname('xoopspoll');
-if(is_object($xoopspoll)) $isOK = $xoopspoll->getVar('isactive');
-else $isOK = false;
-if(!$isOK){
-	redirect_header("javascript:history.go(-1);", 2, _MD_POLLMODULE_ERROR);
-	exit();
-}
-
 $op = "add";
 if (isset($_GET['op'])) $op = $_GET['op'];
 if (isset($_POST['op'])) $op = $_POST['op'];
-if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
-if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
 if (isset($_GET['poll_id'])) $poll_id = intval($_GET['poll_id']);
 if (isset($_POST['poll_id'])) $poll_id = intval($_POST['poll_id']);
 if (isset($_GET['topic_id'])) $topic_id = intval($_GET['topic_id']);
 if (isset($_POST['topic_id'])) $topic_id = intval($_POST['topic_id']);
 
-if (empty($forum))
-{
-	$forum = 0;
-	//redirect_header("index.php", 2, _MD_ERRORFORUM);
-	//exit();
+if(!isset($module_handler)) $module_handler =& xoops_gethandler('module');
+$xoopspoll =& $module_handler->getByDirname('xoopspoll');
+if(!is_object($xoopspoll) || !$xoopspoll->getVar('isactive')){
+	redirect_header("javascript:history.go(-1);", 2, _MD_POLLMODULE_ERROR);
+	exit();
+}
+
+include XOOPS_ROOT_PATH."/header.php";
+
+$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$forumtopic =& $topic_handler->get($topic_id);
+$forum = $forumtopic->getVar('forum_id');
+$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$viewtopic_forum =& $forum_handler->get($forum);
+if (!$forum_handler->getPermission($viewtopic_forum)){
+    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
+    exit();
+}
+if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view")){
+    redirect_header("viewforum.php?forum=".$viewtopic_forum->getVar('forum_id'),2,_MD_NORIGHTTOVIEW);
+    exit();
+}
+
+$isadmin = newbb_isAdmin($viewtopic_forum);
+$perm = false;
+if($isadmin){
+	$perm = true;
+}elseif ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "addpoll")
+	&& $viewtopic_forum->getVar('allow_polls') == 1
+){
+	if( ($op=="add" || $op=="save") && 
+		!$forumtopic->getVar("topic_haspoll") &&
+		is_object($xoopsUser) && $xoopsUser->getVar("uid")==$forumtopic->getVar("topic_poster")
+	){ 
+		$perm = true;
+	}
+	elseif(!empty($poll_id)){
+		$poll = new XoopsPoll($poll_id);
+		if(is_object($xoopsUser) && $xoopsUser->getVar("uid")==$poll->getVar("user_id")) $perm = true;
+	}
+}
+if(!$perm){
+    redirect_header("viewtopic.php?topic_id=".$topic_id,2,_MD_NORIGHTTOACCESS);
 }
 
 if ( $op == "add" ) {
@@ -115,13 +142,11 @@ if ( $op == "add" ) {
 	$poll_form->addElement($op_hidden);
 	$poll_topic_id_hidden = new XoopsFormHidden("topic_id", $topic_id);
 	$poll_form->addElement($poll_topic_id_hidden);
-	//$poll_forum_hidden = new XoopsFormHidden("forum", $forum);
-	//$poll_form->addElement($poll_forum_hidden);
-	include XOOPS_ROOT_PATH."/header.php";
+	//include XOOPS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	include XOOPS_ROOT_PATH."/footer.php";
-	exit();
+	//include XOOPS_ROOT_PATH."/footer.php";
+	//exit();
 }
 
 if ( $op == "save" ) {
@@ -142,10 +167,10 @@ if ( $op == "save" ) {
 	if($option_empty) redirect_header("javascript:history.go(-1);", 2, _MD_ERROROCCURED.': '._MD_POLL_POLLOPTIONS.' !');
 
 	$poll = new XoopsPoll();
-	$question = (empty($_POST['question']))?"":$_POST['question'];
-	$poll->setVar("question", $question);
-	$description = (empty($_POST['description']))?"":$_POST['description'];
-	$poll->setVar("description", $description);
+	//$question = (empty($_POST['question']))?"":$_POST['question'];
+	$poll->setVar("question", @$_POST['question']);
+	//$description = (empty($_POST['description']))?"":$_POST['description'];
+	$poll->setVar("description", @$_POST['description']);
 	if ( !empty($_POST['end_time']) ) {
 		$timezone = is_object($xoopsUser)? $xoopsUser->timezone() : null;
 		$poll->setVar("end_time", userTimeToServerTime(strtotime($_POST['end_time']), $timezone));
@@ -154,11 +179,11 @@ if ( $op == "save" ) {
 		$poll->setVar("end_time", time() + (86400 * 10));
 	}
 	$poll->setVar("display", 0);
-	$weight = (empty($_POST['weight']))?"":$_POST['weight'];
-	$poll->setVar("weight", intval($weight));
-	$weight = (empty($_POST['multiple']))?"":$_POST['multiple'];
-	$poll->setVar("multiple", intval($multiple));
-	if ( $notify == 1 ) {
+	//$weight = (empty($_POST['weight']))?"":$_POST['weight'];
+	$poll->setVar("weight", intval(@$_POST['weight']));
+	//$weight = (empty($_POST['multiple']))?"":$_POST['multiple'];
+	$poll->setVar("multiple", intval(@$_POST['multiple']));
+	if ( !empty($_POST["notify"]) ) {
 		// if notify, set mail status to "not mailed"
 		$poll->setVar("mail_status", POLL_NOTMAILED);
 	} else {
@@ -184,17 +209,16 @@ if ( $op == "save" ) {
 		}
 		$sql = "UPDATE ".$xoopsDB->prefix("bb_topics")." SET topic_haspoll = 1, poll_id = $new_poll_id WHERE topic_id = $topic_id";
         if ( !$result = $xoopsDB->query($sql) ) {
-        	//echo "<br />polladd topic error:".$sql;
+        	newbb_message("poll adding to topic error: ".$sql);
         }
 		include_once XOOPS_ROOT_PATH.'/class/template.php';
 		xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
 	} else {
-		echo $poll->getHtmlErrors();
-		exit();
+		newbb_message($poll->getHtmlErrors());
+		//exit();
 	}
-	//redirect_header("viewtopic.php?topic_id=$topic_id&amp;forum=$forum",1,_MD_POLL_DBUPDATED);
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
-	exit();
+	//exit();
 }
 
 if ( $op == "edit" ) {
@@ -249,17 +273,15 @@ if ( $op == "edit" ) {
 	$poll_form->addElement($op_hidden);
 	$poll_topic_id_hidden = new XoopsFormHidden("topic_id", $topic_id);
 	$poll_form->addElement($poll_topic_id_hidden);
-	//$poll_forum_hidden = new XoopsFormHidden("forum", $forum);
-	//$poll_form->addElement($poll_forum_hidden);
 	$poll_id_hidden = new XoopsFormHidden("poll_id", $poll->getVar("poll_id"));
 	$poll_form->addElement($poll_id_hidden);
 	$submit_button = new XoopsFormButton("", "poll_submit", _SUBMIT, "submit");
 	$poll_form->addElement($submit_button);
-	include XOOPS_ROOT_PATH."/header.php";
+	//include XOOPS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	include XOOPS_ROOT_PATH."/footer.php";
-	exit();
+	//include XOOPS_ROOT_PATH."/footer.php";
+	//exit();
 }
 
 if ( $op == "update" ) {
@@ -277,21 +299,21 @@ if ( $op == "update" ) {
 	if($option_empty) redirect_header("javascript:history.go(-1);", 2, _MD_ERROROCCURED.': '._MD_POLL_POLLOPTIONS.' !');
 
 	$poll = new XoopsPoll($poll_id);
-	$question = (empty($_POST['question']))?"":$_POST['question'];
-	$poll->setVar("question", $question);
-	$description = (empty($_POST['description']))?"":$_POST['description'];
-	$poll->setVar("description", $description);
+	//$question = (empty($_POST['question']))?"":$_POST['question'];
+	$poll->setVar("question", @$_POST['question']);
+	//$description = (empty($_POST['description']))?"":$_POST['description'];
+	$poll->setVar("description", @$_POST['description']);
 	$end_time = (empty($_POST['end_time']))?"":$_POST['end_time'];
 	if ( !empty($end_time) ) {
 		$timezone = is_object($xoopsUser)? $xoopsUser->timezone() : null;
 		$poll->setVar("end_time", userTimeToServerTime(strtotime($end_time), $timezone));
 	}
 	$poll->setVar("display", 0);
-	$weight = (empty($_POST['weight']))?"":$_POST['weight'];
-	$poll->setVar("weight", intval($weight));
-	$multiple = (empty($_POST['multiple']))?"":$_POST['multiple'];
-	$poll->setVar("multiple", intval($multiple));
-	if ( $notify == 1 && $end_time > time() ) {
+	//$weight = (empty($_POST['weight']))?"":$_POST['weight'];
+	$poll->setVar("weight", intval(@$_POST['weight']));
+	//$multiple = (empty($_POST['multiple']))?"":$_POST['multiple'];
+	$poll->setVar("multiple", intval(@$_POST['multiple']));
+	if ( !empty($_POST["notify"]) && $end_time > time() ) {
 		// if notify, set mail status to "not mailed"
 		$poll->setVar("mail_status", POLL_NOTMAILED);
 	} else {
@@ -299,7 +321,7 @@ if ( $op == "update" ) {
 		$poll->setVar("mail_status", POLL_MAILED);
 	}
 	if ( !$poll->store() ) {
-		echo $poll->getHtmlErrors();
+		newbb_message($poll->getHtmlErrors());
 		exit();
 	}
 	$i = 0;
@@ -322,9 +344,8 @@ if ( $op == "update" ) {
 	$poll->updateCount();
 	include_once XOOPS_ROOT_PATH.'/class/template.php';
 	xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
-	//redirect_header("viewtopic.php?topic_id=$topic_id&amp;forum=$forum",1,_MD_POLL_DBUPDATED);
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
-	exit();
+	//exit();
 }
 
 if ( $op == "addmore" ) {
@@ -356,15 +377,13 @@ if ( $op == "addmore" ) {
 	$poll_form->addElement($op_hidden);
 	$poll_topic_id_hidden = new XoopsFormHidden("topic_id", $topic_id);
 	$poll_form->addElement($poll_topic_id_hidden);
-	//$poll_forum_hidden = new XoopsFormHidden("forum", $forum);
-	//$poll_form->addElement($poll_forum_hidden);
 	$poll_id_hidden = new XoopsFormHidden("poll_id", $poll->getVar("poll_id"));
 	$poll_form->addElement($poll_id_hidden);
-	include XOOPS_ROOT_PATH."/header.php";
+	//include XOOPS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	include XOOPS_ROOT_PATH."/footer.php";
-	exit();
+	//include XOOPS_ROOT_PATH."/footer.php";
+	//exit();
 }
 
 if ( $op == "savemore" ) {
@@ -398,17 +417,16 @@ if ( $op == "savemore" ) {
 	include_once XOOPS_ROOT_PATH.'/class/template.php';
 	xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
 	redirect_header("polls.php?op=edit&amp;poll_id=".$poll->getVar("poll_id")."&amp;topic_id=".$topic_id,1,_MD_POLL_DBUPDATED);
-	exit();
+	//exit();
 }
 
 if ( $op == "delete" ) {
-	include XOOPS_ROOT_PATH."/header.php";
+	//include XOOPS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll = new XoopsPoll($_GET['poll_id']);
-	//xoops_confirm(array('op' => 'delete_ok', 'forum' => $forum, 'topic_id' => $topic_id, 'poll_id' => $poll->getVar('poll_id')), 'polls.php', sprintf(_MD_POLL_RUSUREDEL,$poll->getVar("question")));
 	xoops_confirm(array('op' => 'delete_ok', 'topic_id' => $topic_id, 'poll_id' => $poll->getVar('poll_id')), 'polls.php', sprintf(_MD_POLL_RUSUREDEL,$poll->getVar("question")));
-	include XOOPS_ROOT_PATH."/footer.php";
-	exit();
+	//include XOOPS_ROOT_PATH."/footer.php";
+	//exit();
 }
 
 if ( $op == "delete_ok" ) {
@@ -422,13 +440,11 @@ if ( $op == "delete_ok" ) {
 		xoops_comment_delete($xoopsModule->getVar('mid'), $poll->getVar('poll_id'));
 		$sql = "UPDATE ".$xoopsDB->prefix("bb_topics")." SET votes = 0, topic_haspoll = 0, poll_id = 0 WHERE topic_id = $topic_id";
         if ( !$result = $xoopsDB->query($sql) ) {
-        	//echo "<br />polldelete topic error:".$sql;
+        	newbb_message("poll removal from topic error: ".$sql);
         }
-
 	}
-	//redirect_header("viewtopic.php?topic_id=$topic_id&amp;forum=$forum",1,_MD_POLL_DBUPDATED);
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
-	exit();
+	//exit();
 }
 
 if ( $op == "restart" ) {
@@ -444,17 +460,15 @@ if ( $op == "restart" ) {
 	$poll_form->addElement($op_hidden);
 	$poll_topic_id_hidden = new XoopsFormHidden("topic_id", $topic_id);
 	$poll_form->addElement($poll_topic_id_hidden);
-	//$poll_forum_hidden = new XoopsFormHidden("forum", $forum);
-	//$poll_form->addElement($poll_forum_hidden);
 	$poll_id_hidden = new XoopsFormHidden("poll_id", $poll->getVar("poll_id"));
 	$poll_form->addElement($poll_id_hidden);
 	$submit_button = new XoopsFormButton("", "poll_submit", _MD_POLL_RESTART, "submit");
 	$poll_form->addElement($submit_button);
-	include XOOPS_ROOT_PATH."/header.php";
+	//include XOOPS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	include XOOPS_ROOT_PATH."/footer.php";
-	exit();
+	//include XOOPS_ROOT_PATH."/footer.php";
+	//exit();
 }
 
 if ( $op == "restart_ok" ) {
@@ -466,56 +480,36 @@ if ( $op == "restart_ok" ) {
 	} else {
 		$poll->setVar("end_time", time() + (86400 * 10));
 	}
-	if ( $notify == 1 && $end_time > time() ) {
+	if ( !empty($_POST["notify"]) && $end_time > time() ) {
 		// if notify, set mail status to "not mailed"
 		$poll->setVar("mail_status", POLL_NOTMAILED);
 	} else {
 		// if not notify, set mail status to already "mailed"
 		$poll->setVar("mail_status", POLL_MAILED);
 	}
-	if ( $reset == 1 ) {
+	if ( !empty($_POST["reset"]) ) {
 		// reset all logs
 		XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
 		XoopsPollOption::resetCountByPollId($poll->getVar("poll_id"));
 	}
 	if (!$poll->store()) {
-		echo $poll->getHtmlErrors();
+		newbb_message($poll->getHtmlErrors());
 		exit();
 	}
 	$poll->updateCount();
 	include_once XOOPS_ROOT_PATH.'/class/template.php';
 	xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
-	//redirect_header("viewtopic.php?topic_id=$topic_id&amp;forum=$forum",1,_MD_POLL_DBUPDATED);
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
-	exit();
+	//exit();
 }
 
 if ( $op == "log" ) {
-	include XOOPS_ROOT_PATH."/header.php";
+	//include XOOPS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	echo "<br />View Log<br /> Sorry, not yet. ;-)";
-	include XOOPS_ROOT_PATH."/footer.php";
-	exit();
+	//include XOOPS_ROOT_PATH."/footer.php";
+	//exit();
 }
 
-/*
-if ( $op == "quickupdate" ) {
-	$count = count($poll_id);
-	for ( $i = 0; $i < $count; $i++ ) {
-		$display[$i] = empty($display[$i]) ? 0 : 1;
-		$weight[$i] = empty($weight[$i]) ? 0 : $weight[$i];
-		if ( $display[$i] != $old_display[$i] || $weight[$i] != $old_weight[$i] ) {
-			$poll = new XoopsPoll($poll_id[$i]);
-			$poll->setVar("display", $display[$i]);
-			$poll->setVar("weight", intval($weight[$i]));
-			$poll->store();
-		}
-	}
-	include_once XOOPS_ROOT_PATH.'/class/template.php';
-	xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
-	//redirect_header("viewtopic.php?topic_id=$topic_id&amp;forum=$forum",1,_MD_POLL_DBUPDATED);
-	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
-	exit();
-}
-*/
+include XOOPS_ROOT_PATH."/footer.php";
 ?>

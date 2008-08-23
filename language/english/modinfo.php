@@ -1,20 +1,28 @@
 <?php
-// $Id: modinfo.php,v 1.3.4.3 2005/01/10 01:49:42 phppp Exp $
+// $Id: modinfo.php,v 1.7 2005/06/03 01:36:14 phppp Exp $
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
 
 // The name of this module
-define("_MI_NEWBB_NAME","Forum");
+define("_MI_NEWBB_NAME","CBB");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","Forums module for XOOPS");
+define("_MI_NEWBB_DESC","XOOPS Community Bulletin Board");
 
 // Names of blocks for this module (Not all module has blocks)
+define("_MI_NEWBB_BNAME0","Recent Replied Topics");
 define("_MI_NEWBB_BNAME1","Recent Topics");
 define("_MI_NEWBB_BNAME2","Most Viewed Topics");
 define("_MI_NEWBB_BNAME3","Most Active Topics");
-define("_MI_NEWBB_BNAME4","Recent Private Topics");
+define("_MI_NEWBB_BNAME4","Newest Digest");
+define("_MI_NEWBB_BNAME5","Newest Sticky Topics");
+define("_MI_NEWBB_BNAME6","Newest Posts");
+define("_MI_NEWBB_BNAME7","Authors with most topics");
+define("_MI_NEWBB_BNAME8","Authors with most posts");
+define("_MI_NEWBB_BNAME9","Authors with most digests");
+define("_MI_NEWBB_BNAME10","Authors with most sticky topics");
+define("_MI_NEWBB_BNAME11","Recent post with text");
 
 // Names of admin menu items
 define("_MI_NEWBB_ADMENU1","Index");
@@ -31,6 +39,9 @@ define("_MI_NEWBB_ADMENU10","Votes");
 
 
 //config options
+
+define("_MI_DO_DEBUG","Debug Mode");
+define("_MI_DO_DEBUG_DESC","Dislay error message");
 
 define("_MI_IMG_SET","Image Set");
 define("_MI_IMG_SET_DESC","Select the Image Set to use");
@@ -66,6 +77,7 @@ define("_MI_MAX_IMAGE_HEIGHT_DESC", "Sets the maximum height of an uploaded imag
 define("_MI_SHOW_DIS","Show Disclaimer On");
 define("_MI_DISCLAIMER","Disclaimer");
 define("_MI_DISCLAIMER_DESC","Enter your Disclaimer that will be shown to the above selected option.");
+define("_MI_DISCLAIMER_TEXT", "The forum contains a lot of posts with a lot of usefull information. <br /><br />In order to keep the number of double-posts to a minimum, we would like to ask you to use the forum search before posting your questions here.");
 define("_MI_NONE","None");
 define("_MI_POST","Post");
 define("_MI_REPLY","Reply");
@@ -76,12 +88,17 @@ define("_MI_WOL_ADMIN_COL","Administrator Highlight Color");
 define("_MI_WOL_ADMIN_COL_DESC","Highlight Color of the Administrators shown in the Who's Online Block");
 define("_MI_WOL_MOD_COL","Moderator Highlight Color");
 define("_MI_WOL_MOD_COL_DESC","Highlight Color of the Moderators shown in the Who's Online Block");
-define("_MI_LEVELS_ENABLE", "Enable HP/MP/EXP Levels Mod");
-define("_MI_LEVELS_ENABLE_DESC", "<strong>HP</strong>  is determined by your average posts per day.<br /><strong>MP</strong>  is determined by your join date related to your post count.<br /><strong>EXP</strong> goes up each time you post, and when you get to 100%, you gain a level and the EXP drops to 0 again.");
+//define("_MI_LEVELS_ENABLE", "Enable HP/MP/EXP Levels Mod");
+//define("_MI_LEVELS_ENABLE_DESC", "<strong>HP</strong>  is determined by your average posts per day.<br /><strong>MP</strong>  is determined by your join date related to your post count.<br /><strong>EXP</strong> goes up each time you post, and when you get to 100%, you gain a level and the EXP drops to 0 again.");
+define("_MI_NULL", "disable");
+define("_MI_TEXT", "text");
+define("_MI_GRAPHIC", "graphic");
+define("_MI_USERLEVEL", "HP/MP/EXP Level Mode");
+define("_MI_USERLEVEL_DESC", "<strong>HP</strong>  is determined by your average posts per day.<br /><strong>MP</strong>  is determined by your join date related to your post count.<br /><strong>EXP</strong> goes up each time you post, and when you get to 100%, you gain a level and the EXP drops to 0 again.");
 define("_MI_RSS_ENABLE","Enable RSS Feed");
 define("_MI_RSS_ENABLE_DESC","Enable RSS Feed, edit options below for maximum Items and Description length");
-define("_MI_RSS_MAX_ITEMS", "Max. Items");
-define("_MI_RSS_MAX_DESCRIPTION", "Max. Description Length");
+define("_MI_RSS_MAX_ITEMS", "RSS Max. Items");
+define("_MI_RSS_MAX_DESCRIPTION", "RSS Max. Description Length");
 define("_MI_RSS_UTF8", "RSS Encoding with UTF-8");
 define("_MI_RSS_UTF8_DESCRIPTION", "'UTF-8' will be used if enabled otherwise '"._CHARSET."' will be used.");
 define("_MI_RSS_CACHETIME", "RSS Feed cache time");
@@ -97,8 +114,14 @@ define("_MI_GROUPBAR_ENABLE_DESC","Display the Groups of the User in the Post in
 
 define("_MI_RATING_ENABLE","Enable Rating Function");
 define("_MI_RATING_ENABLE_DESC","Allow Topic Rating");
+
 define("_MI_VIEWMODE","View Mode of the Threads");
 define("_MI_VIEWMODE_DESC","To override the General Settings of viewmode within threads, set to NONE in order to switch feature off");
+define("_MI_COMPACT","Compact");
+
+define("_MI_MENUMODE","Default Menu Mode");
+define("_MI_MENUMODE_DESC","'SELECT' - select options, 'HOVER' - may slow down IE, 'CLICK' - requires JAVASCRIPT");
+
 define("_MI_REPORTMOD_ENABLE","Report a Post");
 define("_MI_REPORTMOD_ENABLE_DESC","User can report posts to Moderator(s), for any reason, which enables Moderator(s) to take action");
 define("_MI_SHOW_JUMPBOX", "Show Jumpbox");
@@ -126,7 +149,7 @@ define("_MI_SINCE_OPTIONS", "'Since' options for 'viewform' and 'search'");
 define("_MI_SINCE_OPTIONS_DESC", "Positive value for days and negative value for hours. Use ',' as delimer for multi-options.");
 
 define("_MI_SINCE_DEFAULT", "'Since' default value");
-define("_MI_SINCE_DEFAULT_DESC", "Default value if not specified by users.");
+define("_MI_SINCE_DEFAULT_DESC", "Default value if not specified by users. 0 - from beginning");
 
 define("_MI_MODERATOR_HTML", "Allow HTML tags for moderators");
 define("_MI_MODERATOR_HTML_DESC", "This option allows only moderators to use HTML in post subject");
@@ -176,6 +199,9 @@ define("_MI_QUICKREPLY_ENABLE_DESC", "This will enable the Quick reply form");
 define("_MI_POSTSPERPAGE","Posts per Page");
 define("_MI_POSTSPERPAGE_DESC","The maximum number of posts that will be displayed per page");
 
+define("_MI_POSTSFORTHREAD","Maximum posts for thread view mode");
+define("_MI_POSTSFORTHREAD_DESC","Flat mode will be used if post count exceeds the number");
+
 define("_MI_TOPICSPERPAGE","Topics per Page");
 define("_MI_TOPICSPERPAGE_DESC","The maximum number of topics that will be displayed per page");
 
@@ -201,6 +227,8 @@ define("_MI_GD1","GD1 Library");
 define("_MI_GD2","GD2 Library");
 define("_MI_AUTO","AUTO");
 
+define("_MI_WELCOMEFORUM","Forum for welcoming new user");
+define("_MI_WELCOMEFORUM_DESC","A profile post will be published when a user visits Forum module for the first time");
 
 
 // RMV-NOTIFY

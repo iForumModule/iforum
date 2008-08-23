@@ -1,5 +1,5 @@
 <?php
-// $Id: dl_attachment.php,v 1.2.4.3 2005/01/07 06:57:51 phppp Exp $
+// $Id: dl_attachment.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

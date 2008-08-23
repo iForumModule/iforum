@@ -65,7 +65,7 @@ function ToggleBlock2(block, icon)
 
 function SaveCollapsed(objid, addcollapsed)
 {
-	var collapsed = GetCookie("newbb2_toggle");
+	var collapsed = GetCookie(toggle_cookie);
 	var tmp = "";
 
 	if (collapsed != null)
@@ -89,7 +89,7 @@ function SaveCollapsed(objid, addcollapsed)
 
 	expires = new Date();
 	expires.setTime(expires.getTime() + (1000 * 86400 * 365));
-	SetCookie("newbb2_toggle", tmp, expires);
+	SetCookie(toggle_cookie, tmp, expires);
 }
 
 function SetCookie(name, value, expires)

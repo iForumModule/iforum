@@ -1,5 +1,5 @@
 <?php
-// $Id: viewall.php,v 1.1.4.3 2005/01/10 01:49:41 phppp Exp $
+// $Id: viewall.php,v 1.7 2005/06/03 01:35:02 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -77,18 +77,8 @@ $forum_selection_order .= '</select>';
 // assign to template
 $xoopsTpl->assign('forum_selection_order', $forum_selection_order);
 
-$since = !empty($_GET['since']) ? intval($_GET['since']) : $xoopsModuleConfig["since_default"];
+$since = isset($_GET['since']) ? intval($_GET['since']) : $xoopsModuleConfig["since_default"];
 $forum_selection_since = &newbb_sinceSelectBox($since);
-/*
-$sel_since_array = array(1, 2, 5, 10, 20, 30, 40, 60, 75, 100);
-$forum_selection_since = '<select name="since">';
-foreach ($sel_since_array as $sort_since_v) {
-	$forum_selection_since .= '<option value="'.$sort_since_v.'"'.(($since == $sort_since_v) ? ' selected="selected"' : '').'>'.sprintf(_MD_FROMLASTDAYS,$sort_since_v).'</option>';
-}
-$forum_selection_since .= '<option value="365"'.(($since == 365) ? ' selected="selected"' : '').'>'.sprintf(_MD_THELASTYEAR,365).'</option>';
-$forum_selection_since .= '<option value="1000"'.(($since == 1000) ? ' selected="selected"' : '').'>'.sprintf(_MD_BEGINNING,1000).'</option>';
-$forum_selection_since .= '</select>';
-*/
 
 // assign to template
 $xoopsTpl->assign('forum_selection_since', $forum_selection_since);
@@ -101,10 +91,12 @@ $xoopsTpl->assign('h_ratings_link', "viewall.php?sortname=t.topic_ratings&amp;si
 $xoopsTpl->assign('h_date_link', "viewall.php?sortname=p.post_time&amp;since=$since&amp;sortorder=". (($sortname == "p.post_time" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
 $xoopsTpl->assign('forum_since', $since); // For $since in search.php
 
-$startdate = time() - newbb_getSinceTime($since);
+$startdate = empty($since)?0:(time() - newbb_getSinceTime($since));
 $start = !empty($_GET['start']) ? intval($_GET['start']) : 0;
 
 $all_link = "viewall.php?start=$start&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since";
+$post_link = "viewpost.php?since=$since";
+$newpost_link = "viewpost.php?new=1&amp;since=$since";
 $digest_link = "viewall.php?start=$start&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=digest";
 $unreplied_link = "viewall.php?start=$start&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=unreplied";
 $unread_link = "viewall.php?start=$start&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=unread";
@@ -130,6 +122,7 @@ switch($type){
 
 list($allTopics, $sticky) = $forum_handler->getAllTopics(0,$startdate,$start,$sortname,$sortorder,$type);
 $xoopsTpl->assign('topics', $allTopics);
+unset($allTopics);
 $xoopsTpl->assign('sticky', $sticky);
 $xoopsTpl->assign('rating_enable', $xoopsModuleConfig['rating_enabled']);
 $xoopsTpl->assign('img_newposts', newbb_displayImage($forumImage['newposts_topic']));
@@ -142,23 +135,29 @@ $xoopsTpl->assign('img_sticky', newbb_displayImage($forumImage['folder_sticky'],
 $xoopsTpl->assign('img_digest', newbb_displayImage($forumImage['folder_digest'],_MD_TOPICDIGEST));
 $xoopsTpl->assign('img_poll', newbb_displayImage($forumImage['poll'],_MD_TOPICHASPOLL));
 $xoopsTpl->assign('all_link', $all_link);
+$xoopsTpl->assign('post_link', $post_link);
+$xoopsTpl->assign('newpost_link', $newpost_link);
 $xoopsTpl->assign('digest_link', $digest_link);
 $xoopsTpl->assign('unreplied_link', $unreplied_link);
 $xoopsTpl->assign('unread_link', $unread_link);
 $xoopsTpl->assign('current_type', $current_type);
 $xoopsTpl->assign('current_link', $current_link);
 
+//newbb_message($post_link);
+
 $all_topics = $forum_handler->getTopicCount(0,$startdate,$type);
 if ( $all_topics > $xoopsModuleConfig['topics_per_page']) {
 	include XOOPS_ROOT_PATH.'/class/pagenav.php';
 	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;since='.$since."&amp;type=$type");
-	$xoopsTpl->assign('forum_pagenav', $nav->renderImageNav(4));
+	$xoopsTpl->assign('forum_pagenav', $nav->renderNav(4));
 } else {
 	$xoopsTpl->assign('forum_pagenav', '');
 }
-$xoopsTpl->assign('show_jumpbox', $xoopsModuleConfig['show_jump']);
-$xoopsTpl->assign('forum_jumpbox', make_jumpbox(0));
+if(!empty($xoopsModuleConfig['show_jump']))
+$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox(0));
 $xoopsTpl->assign('down',newbb_displayImage($forumImage['doubledown']));
+$xoopsTpl->assign('menumode',$menumode);
+$xoopsTpl->assign('menumode_other',$menumode_other);
 
 $xoopsTpl->assign('xoops_pagetitle', $xoopsModule->getVar('name'). ' - ' .$current_type);
 

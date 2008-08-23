@@ -1,5 +1,5 @@
 <?php
-// $Id: delete.php,v 1.5.2.1 2005/01/06 22:54:43 praedator Exp $
+// $Id: delete.php,v 1.5 2005/05/15 12:24:47 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -63,7 +63,8 @@ $post_handler =& xoops_getmodulehandler('post', 'newbb');
 $forumpost =& $post_handler->get($post_id);
 
 $topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-$topic_status = $topic_handler->get($topic_id,'topic_status');
+$topic = $topic_handler->get($topic_id);
+$topic_status = $topic->getVar('topic_status');
 if ( $topic_handler->getPermission($forum, $topic_status, 'delete')
 	&& ( $isadmin || $forumpost->checkIdentity() )){}
 else{
@@ -87,16 +88,19 @@ if ($xoopsModuleConfig['wol_enabled']){
 
 if ( $ok ) {
     $isDeleteOne = (NEWBB_DELETEONE == $ok)? true : false;
-    $post_handler->delete($forumpost, $isDeleteOne);
-    sync($forum, "forum");
-    sync($topic_id, "topic");
+    if($forumpost->isTopic() && $topic->getVar("topic_replies")==0) $isDeleteOne=false;
+    if($isDeleteOne && $forumpost->isTopic() && $topic->getVar("topic_replies")>0){
+    	$post_handler->emptyTopic($forumpost);
+    }else{
+	    $post_handler->delete($forumpost, $isDeleteOne);
+	    sync($forum, "forum");
+	    sync($topic_id, "topic");
+    }
 
-    if ( $forumpost->isTopic() )
-        redirect_header("viewforum.php?forum=$forum", 2, _MD_POSTSDELETED);
-    else if ( $isDeleteOne )
+    if ( $isDeleteOne )
         redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=$forum", 2, _MD_POSTDELETED);
     else
-        redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=$forum", 2, _MD_POSTSDELETED);
+        redirect_header("viewforum.php?forum=$forum", 2, _MD_POSTSDELETED);
 	exit();
 
 } else {

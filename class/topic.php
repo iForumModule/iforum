@@ -1,5 +1,5 @@
 <?php
-// $Id: topic.php,v 1.1.4.3 2005/01/09 00:44:36 phppp Exp $
+// $Id: topic.php,v 1.6 2005/05/15 12:25:54 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -204,7 +204,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
         return $ret;
     }
 
-    function getPostTree(&$postArray, $pid)
+    function &getPostTree(&$postArray, $pid=0)
     {
         $NewBBTree = new NewBBTree('bb_posts');
         $NewBBTree->setPrefix('&nbsp;&nbsp;');
@@ -217,7 +217,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
     {
         global $xoopsConfig, $xoopsModuleConfig, $viewtopic_users, $myts;
 
-        $postArray['post_time'] = formatTimestamp($postArray['post_time'], "m");
+        $postArray['post_time'] = newbb_formatTimestamp($postArray['post_time']);
 
         if (is_file(XOOPS_ROOT_PATH . "/images/subject/" . $postArray['icon']))
             $postArray['icon'] = "<img src='" . XOOPS_URL . "/images/subject/" . $postArray['icon'] . "' alt='' />";
@@ -229,21 +229,12 @@ class NewbbTopicHandler extends XoopsObjectHandler
         $postArray['subject'] = '<a href="viewtopic.php?viewmode=thread&amp;topic_id=' . $topic->getVar('topic_id') . '&amp;forum=' . $postArray['forum_id'] . '&amp;post_id=' . $postArray['post_id'] . '">' . $postArray['subject'] . '</a>';
 
         $isActiveUser = false;
-        if ($postArray['uid']) {
-            $treeposter = &$viewtopic_users[$postArray['uid']]['user'];
-            if (is_object($treeposter) && $treeposter->isActive()) {
-                if ($xoopsModuleConfig['show_realname'] && $treeposter->getVar('name')) {
-                    $postArray['poster'] = '<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $postArray['uid'] . '">' . $treeposter->getVar('name') . '</a>';
-                    $isActiveUser = true;
-                } else {
-                    $postArray['poster'] = '<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $postArray['uid'] . '">' . $treeposter->getVar('uname') . '</a>';
-                    $isActiveUser = true;
-                }
-            }
-        }
-
-        if (!$isActiveUser) {
-            $postArray['poster'] = (empty($postArray['poster_name']))?$xoopsConfig['anonymous']:$postArray['poster_name'];
+        if (isset($viewtopic_users[$postArray['uid']])) {
+	        $postArray['poster'] = $viewtopic_users[$postArray['uid']]['name'];
+	        if($postArray['uid']>0)
+	        $postArray['poster'] = "<a href=\"".XOOPS_URL . "/userinfo.php?uid=" . $postArray['uid'] ."\">".$viewtopic_users[$postArray['uid']]['name']."</a>";
+        }else{
+            $postArray['poster'] = (empty($postArray['poster_name']))?$myts->HtmlSpecialChars($xoopsConfig['anonymous']):$postArray['poster_name'];
         }
 
         return $postArray;

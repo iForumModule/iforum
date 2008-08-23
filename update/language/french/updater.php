@@ -1,5 +1,5 @@
 <?php
-// $Id: updater.php,v 1.1.2.3 2004/11/17 01:14:18 praedator Exp $
+// $Id: updater.php,v 1.5 2005/04/18 01:22:47 phppp Exp $
 
 define('_NEWBB_UPDATE_CHARSET','ISO-8859-1');
 define("_NEWBB_UPDATE_L01","Bienvenue au Wizard de la mise à jour vers newbb 2.0");

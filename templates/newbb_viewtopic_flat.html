@@ -1,20 +1,20 @@
-<!-- start module contents -->
 
-<table border="0" width="100%" cellpadding="5" align="center">
-  <tr>
-    <td align="left"><{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/index.php"><{$lang_forum_index}></a><br />
-<{if $parent_forum}>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a><br />
-&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> <br />
-&nbsp;&nbsp; <{$post_content}> <strong><{$topic_title}></strong></td>
-<{else}> &nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> <br />
-&nbsp;<{$post_content}><strong>&nbsp;<{$topic_title}></strong>
-    </td>
-    <{/if}> </tr>
-</table>
+<div id="forum_header">
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/index.php"><{$lang_forum_index}></a></div>
+
+<{if $parent_forum}>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<{else}>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<{/if}>
+<div>&nbsp;&nbsp;<{$post_content}> <strong><{$topic_title}></strong></div>
+</div>
+
+<br clear="all" />
 
 <{if $online}>
-<br />
-<div align="left">
+<div style="padding: 5px;">
 <{$smarty.const._MD_BROWSING}>&nbsp;
 <{foreach item=user from=$online.users}>
 	<a href="<{$user.link}>">
@@ -25,228 +25,264 @@
 		<{/if}>
 	</a>&nbsp;
 <{/foreach}>
-<{if $online.num_anonymous}>
-&nbsp;<{$online.num_anonymous}> <{$smarty.const._MD_ANONYMOUS_USERS}>
+<{if $online.num_anonymous}>&nbsp;<{$online.num_anonymous}> <{$smarty.const._MD_ANONYMOUS_USERS}>
 <{/if}>
 </div>
+<br clear="all" />
 <{/if}>
 
-
-<{if $topic_poll}> <{if $topic_pollresult}> <{include file="db:newbb_poll_results.html" poll=$poll}> <{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}> <{/if}>
-<table cellspacing="0" width="100%">
-  <tr>
-    <td align="left"><br />
-<{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}></td>
-  </tr>
-</table>
-<br />
-<!-- start topic thread -->
-<table cellpadding="6" cellspacing="0" border="0" width="100%" align="center" >
-  <tr>
-    <td width="80%" align="left"><a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_NEXTTOPIC}></a></td>
-<{if $forum_page_nav}>
-    <td width="20%" align="right"><{$forum_page_nav}> </td>
-<{/if}> </tr>
-</table>
-<table class="outer" cellpadding="6" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0px;">
-  <tr>
-         <th width="100%"> <div align="right">
-              <ul class="newbb_level1">
-                <li class="newbb_folder">
-                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$smarty.const._MD_TOPICOPTION}></strong></div>
-                  <ul class="newbb_level2">
-                    <table cellspacing="1" cellpadding="4" width="100%" border="0">
-                      <tr>
-                        <td class="head"><small><a class="newbb_link" href="<{$topic_print_link}>" target="_blank" ><{$printer}>&nbsp;<{$smarty.const._MD_PRINTTOPICS}></a></small></td>
-                      </tr>
-<{if $viewer_is_admin == true}>
-                      <tr>
-                        <th><{$smarty.const._MD_TOPICOPTIONADMIN}></th>
-                      </tr>
-<{foreach item=act from=$admin_actions}> <{$act}> <{/foreach}>
-<{if count($adminpoll_actions)>0 }>
-                      <tr>
-                        <th><{$smarty.const._MD_POLLOPTIONADMIN}></th>
-                      </tr>
-<{foreach item=actpoll from=$adminpoll_actions}> <{$actpoll}> <{/foreach}> <{elseif $xoops_isuser == true && $xoops_userid == $topic_post.poster_uid}>
-                      <tr>
-                        <th><{$smarty.const._MD_POLLOPTIONADMIN}></th>
-                      </tr>
-<{foreach item=actpoll from=$adminpoll_actions}> <{$actpoll}> <{/foreach}>
+<{if $topic_poll}>
+<{if $topic_pollresult}> <{include file="db:newbb_poll_results.html" poll=$poll}>
+<{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}>
 <{/if}>
+
+<br clear="all" />
+
+<div style="padding: 5px;">
+<span style="float: left; text-align:left;">
+<a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEXTTOPIC}></a>
+</span>
+<span style="float: right; text-align:right;">
+<{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}>
+</span>
+</div>
+
+<br clear="all" />
+
+<div>
+<div class="dropdown">
+<{if $menumode eq 0}>
+
+	<select
+		name="topicoption" id="topicoption"
+		class="menu"
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
+	>
+		<option value=""><{$smarty.const._MD_TOPICOPTION}></option>
+		<{if $viewer_is_admin == true}>
+		<{foreach item=act from=$admin_actions}>
+		<option value="<{$act.link}>"><{$act.name}></option>
+		<{/foreach}>
+		<option value="">--------</option>
+		<{/if}>
+		<{if count($adminpoll_actions)>0 }>
+		<option value=""><{$smarty.const._MD_POLLOPTIONADMIN}></option>
+		<{foreach item=actpoll from=$adminpoll_actions}>
+		<option value="<{$actpoll.link}>"><{$actpoll.name}></option>
+		<{/foreach}>
+		<option value="">--------</option>
+		<{/if}>
+		<{foreach item=menu from=$menumode_other}>
+		<option value="<{$menu.link}>"><{$menu.title}></option>
+		<{/foreach}>
+		<option value="">--------</option>
+		<option value="<{$topic_print_link}>"><{$smarty.const._MD_PRINTTOPICS}></option>
+	</select>
+
+	<{if $rating_enable}>
+	<select
+		name="rate" id="rate"
+		class="menu"
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
+	>
+		<option value=""><{$smarty.const._MD_RATE}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_RATE5}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_RATE4}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=3"><{$smarty.const._MD_RATE3}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=2"><{$smarty.const._MD_RATE2}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=1"><{$smarty.const._MD_RATE1}></option>
+	</select>
+	<{/if}>
+
+	<select
+		name="viewmode" id="viewmode"
+		class="menu"	onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.location=this.options[this.selectedIndex].value;}"
+	>
+		<option value=""><{$smarty.const._MD_VIEWMODE}></option>
+		<{foreach item=act from=$viewmode_options}>
+		<option value="<{$act.link}>"><{$act.title}></option>
+		<{/foreach}>
+	</select>
+
+<{elseif $menumode eq 1}>
+
+	<div id="topicoption" class="menu">
+	<table><tr><td>
+		<{if $viewer_is_admin == true}>
+		<{foreach item=act from=$admin_actions}>
+		<a class="item" href="<{$act.link}>"><{$act.name}></a>
+		<{/foreach}>
+		<div class="separator"></div>
+		<{/if}>
+		<{if count($adminpoll_actions)>0 }>
+		<{foreach item=actpoll from=$adminpoll_actions}>
+		<a class="item" href="<{$actpoll.link}>"><{$actpoll.name}></a>
+		<{/foreach}>
+		<div class="separator"></div>
+		<{/if}>
+		<{foreach item=menu from=$menumode_other}>
+		<a class="item" href="<{$menu.link}>"><{$menu.title}></a>
+		<{/foreach}>
+		<div class="separator"></div>
+		<a class="item" href="<{$topic_print_link}>"><{$smarty.const._MD_PRINTTOPICS}></a>
+	</td></tr></table>
+	</div>
+	<script type="text/javascript">document.getElementById("topicoption").onmouseout = closeMenu;</script>
+	<div class="menubar"><a href="" onclick="openMenu(event, 'topicoption');return false;"><{$smarty.const._MD_TOPICOPTION}></a></div>
+
+	<{if $rating_enable}>
+	<div id="rate" class="menu">
+	<table><tr><td>
+		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_RATE5}></a>
+		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_RATE4}></a>
+		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=3"><{$smarty.const._MD_RATE3}></a>
+		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=2"><{$smarty.const._MD_RATE2}></a>
+		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=1"><{$smarty.const._MD_RATE1}></a>
+	</td></tr></table>
+	</div>
+	<script type="text/javascript">document.getElementById("rate").onmouseout = closeMenu;</script>
+	<div class="menubar"><a href="" onclick="openMenu(event, 'rate');return false;"><{$smarty.const._MD_RATE}></a></div>
+	<{/if}>
+
+	<div id="view_mode" class="menu">
+	<table><tr><td>
+		<{foreach item=act from=$viewmode_options}>
+		<a class="item" href="<{$act.link}>"><{$act.title}></a>
+		<{/foreach}>
+	</td></tr></table>
+	</div>
+	<script type="text/javascript">document.getElementById("view_mode").onmouseout = closeMenu;</script>
+	<div class="menubar"><a href="" onclick="openMenu(event, 'view_mode');return false;"><{$smarty.const._MD_VIEWMODE}></a></div>
+
+<{elseif $menumode eq 2}>
+	<div class="menu">
+		<ul>
+			<li>
+				<div class="item"><strong><{$smarty.const._MD_VIEWMODE}></strong></div>
+				<ul>
+				<li><table><tr><td>
+					<{foreach item=act from=$viewmode_options}>
+					<div class="item"><a href="<{$act.link}>"><{$act.title}></a></div>
+					<{/foreach}>
+				</td></tr></table></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<{if $rating_enable}>
+	<div class="menu">
+		<ul>
+			<li>
+				<div class="item"><strong><{$smarty.const._MD_RATE}></strong></div>
+				<ul>
+				<li><table><tr><td>
+					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_RATE5}></a></div>
+					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_RATE4}></a></div>
+					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=3"><{$smarty.const._MD_RATE3}></a></div>
+					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=2"><{$smarty.const._MD_RATE2}></a></div>
+					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=1"><{$smarty.const._MD_RATE1}></a></div>
+				</td></tr></table></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<{/if}>
+	<div class="menu">
+		<ul>
+			<li>
+				<div class="item"><strong><{$smarty.const._MD_TOPICOPTION}></strong></div>
+				<ul>
+				<li><table><tr><td>
+					<{if $viewer_is_admin == true}>
+					<{foreach item=act from=$admin_actions}>
+                    <div class="item"><a href="<{$act.link}>"><{$act.image}> <{$act.name}></a></div>
+					<{/foreach}>
+					<div class="separator"></div>
+					<{/if}>
+					<{if count($adminpoll_actions)>0 }>
+					<{foreach item=actpoll from=$adminpoll_actions}>
+					<div class="item"><a href="<{$actpoll.link}>"><{$actpoll.image}> <{$actpoll.name}></a></div>
+					<{/foreach}>
+					<div class="separator"></div>
+					<{/if}>
+					<{foreach item=menu from=$menumode_other}>
+					<div class="item"><a href="<{$menu.link}>"><{$menu.title}></a></div>
+					<{/foreach}>
+					<div class="separator"></div>
+					<div class="item"><a href="<{$topic_print_link}>" target="_blank" ><{$smarty.const._MD_PRINTTOPICS}></a></div>
+				</td></tr></table></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
 <{/if}>
-                    </table>
-                  </ul>
-                </li>
-              </ul>
-            </div></th>
-<{if $rating_enable}>
-          <th width="100%"> <div align="right">
-              <ul class="newbb_level1">
-                <li class="newbb_folder">
-                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$smarty.const._MD_RATE}></strong></div>
-                  <ul class="newbb_level2">
-                    <form action="ratethread.php" method="post">
-                      <table cellpadding="4" cellspacing="1" border="0" width="100%">
-                        <tr>
-                          <th><{$smarty.const._MD_RATEDESC}></th>
-                        </tr>
-                        <tr>
-                          <td class="head" ><div><{$rate5}>
-                              <label for="rate5"><small>
-                              <input
+</div>
+<div style="padding: 5px;float: right; text-align:right;">
+<{$forum_page_nav}>
+</div>
+</div>
+<br clear="all" />
+<br clear="all" />
 
-type="radio" name="rate" id="rate5" value="5" />
-<{$smarty.const._MD_RATE5}></small></label>
-                            </div>
-                            <div><{$rate4}>
-                              <label for="rate4"><small>
-                              <input
-
-type="radio" name="rate" id="rate4" value="4" />
-<{$smarty.const._MD_RATE4}></small></label>
-                            </div>
-                            <div><{$rate3}>
-                              <label for="rate3"><small>
-                              <input
-
-type="radio" name="rate" id="rate3" value="3" />
-<{$smarty.const._MD_RATE3}></small></label>
-                            </div>
-                            <div><{$rate2}>
-                              <label for="rate2"><small>
-                              <input
-
-type="radio" name="rate" id="rate2" value="2" />
-<{$smarty.const._MD_RATE2}></small></label>
-                            </div>
-                            <div><{$rate1}>
-                              <label for="rate1"><small>
-                              <input
-
-type="radio" name="rate" id="rate1" value="1" />
-<{$smarty.const._MD_RATE1}></small></label>
-                            </div></td>
-                        </tr>
-                        <tr>
-                          <td class="head" align="center"><input type="hidden" name="topic_id" value="<{$topic_id}>" />
-                            <input type="hidden" name="forum" value="<{$forum_id}>" />
-                            <input type="submit" class="button" value="<{$smarty.const._MD_RATING}>" />
-                          </td>
-                        </tr>
-                      </table>
-                    </form>
-                  </ul>
-                </li>
-              </ul>
-            </div></th>
-<{/if}>
-          <th width="100%"> <div align="right">
-              <ul class="newbb_level1">
-                <li class="newbb_folder">
-                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$smarty.const._MD_FORUMSEARCH}></strong></div>
-                  <ul class="newbb_level2">
-                    <form action="search.php" method="get">
-                      <table cellpadding="4" cellspacing="1" border="0" width="100%">
-                        <tr>
-                          <th><{$smarty.const._MD_FORUMSEARCH}></th>
-                        </tr>
-                        <tr>
-                          <td class="head"><input name="term" type="text" size="15" />
-                            <input type="hidden" name="forum" value="<{$forum_id}>" />
-                            <input type="hidden" name="sortby" value="p.post_time desc" />
-                            <input type="hidden" name="action" value="yes" />
-                            <input type="hidden" name="searchin" value="both" />
-                            <input type="submit" class="formButton" value="<{$smarty.const._MD_GO}>" />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="head"><a class="newbb_link" href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a></td>
-                        </tr>
-                      </table>
-                    </form>
-                  </ul>
-                </li>
-              </ul>
-            </div></th>
-          <th width="100%"> <div align="right">
-              <ul class="newbb_level1">
-                <li class="newbb_folder">
-                  <div class="newbb_submenu"><strong><{$down}>&nbsp;<{$smarty.const._MD_VIEWMODE}></strong></div>
-                  <ul class="newbb_level2">
-                    <table cellpadding="4" cellspacing="1" border="0" width="100%">
-                      <tr>
-                        <th><{$smarty.const._MD_VIEWMODE}></th>
-                      </tr>
-                      <tr>
-                        <td class="head"><small><a class="newbb_link" href="viewtopic.php?viewmode=thread&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>"> <{$threaded}>&nbsp;<{$smarty.const._THREADED}></a></small></td>
-                      </tr>
-                      <tr>
-                        <td class="head" ><small><a class="newbb_link"
-
-href="viewtopic.php?viewmode=flat&amp;order=<{$order_other}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>"><{$flat}>&nbsp;<{$lang_order_other}></a></small></td>
-                      </tr>
-                    </table>
-                  </ul>
-                </li>
-              </ul>
-            </div></th>
-     </tr>
-</table>
-
-<table class="outer" cellpadding="6" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0px;">
-  <tr align="left">
-    <th width='20%'><strong><{$smarty.const._MD_POSTER}></strong></th>
-<{if $rating_enable}> <{if $votes}>
-    <th width='40%'><strong><{$smarty.const._MD_THREAD}></strong></th>
-    <th width='40%' align='right'><strong><{$smarty.const._MD_RATED}></strong><{$rating_img}><strong> &nbsp;<{$votes}>&nbsp;<{$smarty.const._MD_VOTES}></strong> </th>
+<{foreach item=topic_post from=$topic_posts}>
+<{if $viewmode_compact}>
+<{include file="db:newbb_item.html" topic_post=$topic_post}>
 <{else}>
-    <th width='80%'><strong><{$smarty.const._MD_THREAD}></strong></th>
-<{/if}> <{else}>
-    <th width='80%'><strong><{$smarty.const._MD_THREAD}></strong></th>
+<{include file="db:newbb_thread.html" topic_post=$topic_post}>
 <{/if}>
-	</tr>
-</table>
+<br clear="all" />
+<br clear="all" />
+<{/foreach}>
 
-<{foreach item=topic_post from=$topic_posts}> <{include file="db:newbb_thread.html" topic_post=$topic_post}> <{/foreach}>
-
-<table cellpadding="6" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0px;">
-  <tr>
-    <td width="80%" align="left"><a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_NEXTTOPIC}></a></td>
-<{if $forum_page_nav}>
-    <td width="20%" align="right"><{$forum_page_nav}> </td>
-<{/if}> </tr>
-</table>
-<table cellpadding="4" width="100%">
-  <tr>
-    <td align="left"><br />
-<{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}></td>
-    <td align="right"><br />
-<{$rss_enable}></td>
-  </tr>
-</table>
-<!-- end topic thread -->
-<br />
-<{if $quickreply.show}> <{if $display_stat}>
-<table cellspacing="0" width="100%">
-  <tr>
-    <td align="left"><a href="#threadbottom" onclick="ToggleBlock('quick_reply', this)"> <{$display_icon}></a> </td>
-  </tr>
-</table>
-<div id="quick_reply" style="display: <{$display}>">
-  <table>
-    <tr>
-      <td><{$quickreply.form}> </td>
-    </tr>
-  </table>
-  <br />
+<br clear="all" />
+<div style="float: left; text-align:left;">
+	<a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEXTTOPIC}></a>
 </div>
-<{/if}> <{/if}>
-<table cellspacing="0" width="100%">
-  <tr>
-    <td align="left"><{$permission_table}></td>
-    <td align="right"><{$forum_jumpbox}></td>
-  </tr>
-</table>
+<div style="float: right; text-align:right;">
+<{$forum_page_nav}>
+</div>
+
+<br clear="all" />
+
+<div style="padding: 5px; float: left; text-align:left;">
+<{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}>
+</div>
+
+<br clear="all" />
+<br clear="all" />
+
+<{if $quickreply.show}>
+<div>
+<a href="#threadbottom" onclick="ToggleBlock('qr', this)"> <{$quickreply.icon}></a>
+</div>
+<br clear="all" />
+<div id="qr" style="display: <{$quickreply.display}>">
+<div><{$quickreply.form}></div>
+</div>
+<br clear="all" />
+<br clear="all" />
+<{/if}>
+
+<div style="float: left; text-align: left;">
+<{foreach item=perm from=$permission_table}>
+<div><{$perm}></div>
+<{/foreach}>
+</div>
+<div style="float: right; text-align: right;">
+<form action="search.php" method="get">
+<input name="term" id="term" type="text" size="15" />
+<input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
+<input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
+<input type="hidden" name="since" id="since" value="<{$forum_since}>" />
+<input type="hidden" name="action" id="action" value="yes" />
+<input type="hidden" name="searchin" id="searchin" value="both" />
+<input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
+[<a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+</form><br />
+<{$forum_jumpbox}>
+</div>
+
+<br clear="all" />
+
 <{include file='db:system_notification_select.html'}>
-<!-- end module contents -->

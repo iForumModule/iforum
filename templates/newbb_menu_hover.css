@@ -1,0 +1,34 @@
+div.dropdown ul {
+	display:block;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	list-style:none;
+}
+
+div.dropdown li {
+	display:block;
+	margin:0px;
+	border:0px;
+	position:relative;
+	padding: 1px 0px;
+	z-index:9;
+	list-style:none;
+	cursor: pointer;
+}
+
+div.dropdown li:hover { 
+	z-index:10;
+}
+div.dropdown li ul {
+	position: absolute;
+	display: none;
+	left: -30px;
+	top: 16px;
+}
+div.dropdown li>ul { left: -1px;}
+
+div.dropdown ul {z-index:1}
+div.dropdown li:hover ul{
+	display:block;
+}

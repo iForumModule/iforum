@@ -1,5 +1,5 @@
 <?php
-// $Id: post.php,v 1.7.4.2 2005/01/07 05:27:34 phppp Exp $
+// $Id: post.php,v 1.7 2005/06/03 01:35:02 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -52,6 +52,8 @@ if ( empty($forum) ) {
     exit();
 }
 
+//newbb_message($_POST);
+
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 $forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($forum)){
@@ -67,66 +69,69 @@ $topic_handler =& xoops_getmodulehandler('topic', 'newbb');
 $topic =& $topic_handler->get($topic_id);
 $post_handler =& xoops_getmodulehandler('post', 'newbb');
 
-$isadmin = newbb_isAdmin($forum);
-
-if ( !empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) ) {
-
-    include XOOPS_ROOT_PATH."/header.php";
-    echo"<table width='100%' border='0' cellspacing='1' class='outer'><tr><td>";
-    $myts =& MyTextSanitizer::getInstance();
-    if( $isadmin && $xoopsModuleConfig['allow_moderator_html']){
-    	$p_subject = $myts->stripSlashesGPC($_POST['subject']);
-	}else{
-    	$p_subject = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['subject']));
-	}
-    $dosmiley = isset($_POST['dosmiley']) ? 1 : 0;
-    $dohtml = isset($_POST['dohtml']) ? 1 : 0;
-    $doxcode = isset($_POST['doxcode']) ? 1 : 0;
-    $p_message = $myts->previewTarea($_POST['message'],$dohtml,$dosmiley,$doxcode);
-
-    echo "<table cellpadding='4' cellspacing='1' width='98%' class='outer'>";
-    echo "<tr><td class='head'>".$p_subject."</td></tr>";
-    if(isset($_POST['poster_name'])){
-		$p_poster_name = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['poster_name']));
-		echo "<tr><td>".$p_poster_name."</td></tr>";
-	}
-    echo "<tr><td><br />".$p_message."<br /></td></tr></table>";
-
-    echo "<br />";
-
-    $subject_pre = (isset($_POST['subject_pre']))?$_POST['subject_pre']:'';
-    $subject = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['subject']));
-	$message = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['message']));
-    $poster_name = isset($_POST['poster_name'])?$myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['poster_name'])):'';
-    $hidden = isset($_POST['hidden'])?$myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['hidden'])):'';
-    $notify = !empty($_POST['notify']) ? 1 : 0;
-    $attachsig = !empty($_POST['attachsig']) ? 1 : 0;
-    $isreply = !empty($_POST['isreply']) ? 1 : 0;
-    $isedit = !empty($_POST['isedit']) ? 1 : 0;
-    $icon = isset($_POST['icon']) ? $_POST['icon'] : '';
-    $view_require = isset($_POST['view_require']) ? $_POST['view_require'] : '';
-    $post_karma = (($view_require == 'require_karma')&&isset($_POST['post_karma']))?intval($_POST['post_karma']):0;
-    $require_reply = ($view_require == 'require_reply')?1:0;
-
-    $contents_preview = 1;
-    include 'include/forumform.inc.php';
-    echo"</td></tr></table>";
+if ( !empty($isedit) && $post_id>0 ) {
+    $forumpost =& $post_handler->get($post_id);
+}else{
+	$forumpost =& $post_handler->create();
 }
-else {
 
-	if(empty($_SESSION['submit_token']) || $_POST['post_valid']!=$_SESSION['submit_token']) {
-		if($topic_id){
-	    	$redirect = "viewtopic.php?topic_id=".$topic_id."&amp;start=".$start;
-	    	if($post_id) $redirect .="#forumpost".$post_id."";
-		}else{
-		    $redirect = "viewforum.php?forum=".$forum;
-	    }
-	    redirect_header($redirect,2,_MD_THANKSSUBMIT.' already submitted');
-	    exit();
-	}else{
-		$_SESSION['submit_token'] = false;
+include XOOPS_ROOT_PATH."/header.php";
+
+if ( !empty($_POST['contents_submit']) ) {
+	$token_valid = false;
+	if(class_exists("XoopsSecurity")){
+		$token_valid = $GLOBALS['xoopsSecurity']->check();
+	}else{ // backward compatible
+		if( !empty($_SESSION['submit_token']) && !empty($_POST['post_valid']) && $_POST['post_valid']==$_SESSION['submit_token'] ) $token_valid = true;
+		$_SESSION['submit_token'] = null;
 	}
 
+	if(!is_object($xoopsUser)){
+		$uname = !isset($_POST['uname']) ? '' : trim($_POST['uname']);
+		$pass = !isset($_POST['pass']) ? '' : trim($_POST['pass']);
+		$member_handler =& xoops_gethandler('member');
+		$user =& $member_handler->loginUser(addslashes($myts->stripSlashesGPC($uname)), addslashes($myts->stripSlashesGPC($pass)));
+		if(is_object($user) && $user->isActive()){
+			if(!empty($_POST["login"])){
+				$user->setVar('last_login', time());
+				if (!$member_handler->insertUser($user)) {
+				}
+				$_SESSION = array();
+				$_SESSION['xoopsUserId'] = $user->getVar('uid');
+				$_SESSION['xoopsUserGroups'] = $user->getGroups();
+				if ($xoopsConfig['use_mysession'] && $xoopsConfig['session_name'] != '') {
+					setcookie($xoopsConfig['session_name'], session_id(), time()+(60 * $xoopsConfig['session_expire']), '/',  '', 0);
+				}
+				$user_theme = $user->getVar('theme');
+				if (in_array($user_theme, $xoopsConfig['theme_set_allowed'])) {
+					$_SESSION['xoopsUserTheme'] = $user_theme;
+				}
+			}
+			$xoopsUser =& $user;
+		}
+	}
+
+	$isadmin = newbb_isAdmin($forum);
+
+	$time_valid = true;
+	if( !$isadmin && !empty($xoopsModuleConfig['post_timelimit']) ){
+    	$last_post = newbb_getsession('LP'); // using session might be more secure ...
+		if(time()-$last_post < $xoopsModuleConfig['post_timelimit']){
+			$time_valid = false;
+		}
+	}
+
+	if(!$token_valid || !$time_valid){
+		$_POST['contents_preview'] = 1;
+		$_POST['contents_submit'] = null;
+		$_POST['contents_upload'] = null;
+		if(!$token_valid) echo "<div class=\"errorMsg\">"._MD_INVALID_SUBMIT."</div>";
+		if(!$time_valid) echo "<div class=\"errorMsg\">".sprintf(_MD_POSTING_LIMITED,$xoopsModuleConfig['post_timelimit'])."</div>";
+		echo "<br clear=\"both\" />";
+	}
+}
+
+if ( !empty($_POST['contents_submit']) ) {
     $message =  $_POST['message'];
 	if(empty($message)){
 	    redirect_header("javascript:history.go(-1);", 1);
@@ -135,9 +140,6 @@ else {
     if ( !empty($isedit) && $post_id>0) {
 
 		$uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
-
-	    $post_handler =& xoops_getmodulehandler('post', 'newbb');
-	    $forumpost =& $post_handler->get($post_id);
 
 		$topic_status = $topic_handler->get($topic_id,'topic_status');
 		if ( $topic_handler->getPermission($forum, $topic_status, 'edit')
@@ -148,8 +150,8 @@ else {
 		    exit();
 		}
 
-	    $delete_attach = isset($_POST['delete_attach']) ? $_POST['delete_attach'] : '';
-	    if (count($delete_attach)) $forumpost->deleteAttachment($delete_attach);
+	    $delete_attach = isset($_POST['delete_attach']) ? $_POST['delete_attach'] : array();
+	    if (is_array($delete_attach) && count($delete_attach)>0) $forumpost->deleteAttachment($delete_attach);
     }
     else {
 		if($topic_id){
@@ -167,18 +169,6 @@ else {
 			}
 		}
 
-
-		if(!$isadmin && !empty($xoopsModuleConfig['post_timelimit']) && $xoopsModuleConfig['post_timelimit']>0){
-	    	//$last_post = newbb_getcookie('LP');
-	    	$last_post = newbb_getsession('LP'); // using session might be more secure ...
-			if(time()-$last_post < $xoopsModuleConfig['post_timelimit']){
-			    redirect_header("javascript:history.go(-1);", 2, sprintf(_MD_POSTING_LIMITED,$xoopsModuleConfig['post_timelimit']));
-			    exit();
-			}
-			//newbb_setcookie("LP", time());
-			newbb_setsession("LP", time());
-		}
-
         $isreply = 0;
         $isnew = 1;
         if ( is_object($xoopsUser) && empty($_POST['noname']) ) {
@@ -187,7 +177,6 @@ else {
         else {
             $uid = 0;
         }
-        $forumpost =& $post_handler->create();
         if (isset($pid) && $pid != "") {
             $forumpost->setVar('pid', $pid);
         }
@@ -195,8 +184,8 @@ else {
             $forumpost->setVar('topic_id', $topic_id);
             $isreply = 1;
         }
-        $post_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']))?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
-        $forumpost->setVar('poster_ip', ip2long($post_ip));
+        //$post_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']))?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
+        $forumpost->setVar('poster_ip', newbb_getIP());
         $forumpost->setVar('uid', $uid);
     }
 
@@ -208,13 +197,14 @@ else {
 
     $subject = xoops_trim($_POST['subject']);
     $subject = ($subject == '') ? _NOTITLE : $subject;
-    $poster_name = isset($_POST['poster_name'])?xoops_trim($_POST['poster_name']):'';
-    $dohtml = isset($_POST['dohtml']) ? intval($_POST['dohtml']) : 0;
-    $dosmiley = isset($_POST['dosmiley']) ? intval($_POST['dosmiley']) : 0;
-    $doxcode = isset($_POST['doxcode']) ? intval($_POST['doxcode']) : 0;
-    $icon = isset($_POST['icon']) ? $_POST['icon'] : '';
-    $attachsig = isset($_POST['attachsig']) ? 1 : 0;
-    $view_require = isset($_POST['view_require']) ? $_POST['view_require'] : '';
+    $poster_name = !empty($_POST['poster_name'])?xoops_trim($_POST['poster_name']):'';
+    $dohtml = !empty($_POST['dohtml']) ? 1 : 0;
+    $dosmiley = !empty($_POST['dosmiley']) ? 1 : 0;
+    $doxcode = !empty($_POST['doxcode']) ? 1 : 0;
+    $dobr = !empty($_POST['dobr']) ? 1 : 0;
+    $icon = !empty($_POST['icon']) ? $_POST['icon'] : '';
+    $attachsig = !empty($_POST['attachsig']) ? 1 : 0;
+    $view_require = !empty($_POST['view_require']) ? $_POST['view_require'] : '';
     $post_karma = (($view_require == 'require_karma')&&isset($_POST['post_karma']))?intval($_POST['post_karma']):0;
     $require_reply = ($view_require == 'require_reply')?1:0;
     $forumpost->setVar('subject', $subject);
@@ -227,10 +217,30 @@ else {
     $forumpost->setVar('dohtml', $dohtml);
     $forumpost->setVar('dosmiley', $dosmiley);
     $forumpost->setVar('doxcode', $doxcode);
+    $forumpost->setVar('dobr', $dobr);
     $forumpost->setVar('icon', $icon);
     $forumpost->setVar('attachsig', $attachsig);
 	$forumpost->setAttachment();
 	if ( !empty($post_id) ) $forumpost->setPostEdit($poster_name); // is reply
+
+	$attachments_tmp = array();
+	if (!empty($_POST["attachments_tmp"])){
+		$attachments_tmp=unserialize(base64_decode($_POST["attachments_tmp"]));
+		if (isset($_POST["delete_tmp"]) && count($_POST["delete_tmp"])){
+			foreach($_POST["delete_tmp"] as $key){
+				unlink(XOOPS_CACHE_PATH . "/" . $attachments_tmp[$key][0]);
+				unset($attachments_tmp[$key]);
+			}
+		}
+    }
+	if (count($attachments_tmp)){
+		foreach($attachments_tmp as $key=>$attach){
+			rename(XOOPS_CACHE_PATH . "/" . $attachments_tmp[$key][0],
+				XOOPS_ROOT_PATH . "/".$xoopsModuleConfig['dir_attachments']."/".$attachments_tmp[$key][0]
+			);
+            $forumpost->setAttachment($attach[0], $attach[1], $attach[2]);
+        }
+    }
 
     $error_upload = '';
 
@@ -240,7 +250,6 @@ else {
     {
         $maxfilesize = $forum->getVar('attach_maxkb')*1024;
         $uploaddir = XOOPS_ROOT_PATH . "/".$xoopsModuleConfig['dir_attachments'];
-        $url = XOOPS_URL . "/".$xoopsModuleConfig['dir_attachments']."/" . $_FILES['userfile']['name'];
 
         $uploader = new newbb_uploader(
         	$uploaddir,
@@ -275,6 +284,7 @@ else {
         include_once(XOOPS_ROOT_PATH.'/footer.php');
         exit();
     }
+	newbb_setsession("LP", time()); // Recording last post time
 
 
     if(newbb_checkSubjectPrefixPermission($forum) && !empty($_POST['subject_pre'])){
@@ -321,6 +331,9 @@ else {
     }
 
     if($approved){
+		if(!empty($xoopsModuleConfig['cache_enabled'])){
+			newbb_setsession("t".$forumpost->getVar("topic_id"), null);
+		}
     	$redirect = "viewtopic.php?topic_id=".$forumpost->getVar('topic_id')."&amp;start=".$start."#forumpost".$postid."";
 	    $message = _MD_THANKSSUBMIT."<br />".$error_upload;
     }else{
@@ -335,6 +348,109 @@ else {
         exit();
     }
 }
+
+
+if ( !empty($_POST['contents_upload']) ) {
+	$attachments_tmp=array();
+	if (!empty($_POST["attachments_tmp"])){
+		$attachments_tmp=unserialize(base64_decode($_POST["attachments_tmp"]));
+		if (isset($_POST["delete_tmp"]) && count($_POST["delete_tmp"])){
+			foreach($_POST["delete_tmp"] as $key){
+				unlink(XOOPS_CACHE_PATH . $attachments_tmp[$key][0]);
+				unset($attachments_tmp[$key]);
+			}
+		}
+
+    }
+
+    $error_upload = '';
+    if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name']!=''
+    )
+    {
+        $maxfilesize = $forum->getVar('attach_maxkb')*1024;
+        $uploaddir = XOOPS_CACHE_PATH;
+
+        $uploader = new newbb_uploader(
+        	$uploaddir,
+        	$forum->getVar('attach_ext'),
+        	$maxfilesize
+        );
+
+        $uploader->setCheckMediaTypeByExt();
+
+        if ( $uploader->fetchMedia( $_POST['xoops_upload_file'][0]) )
+        {
+	        $prefix = is_object($xoopsUser)?strval($xoopsUser->uid()).'_':'newbb_';
+	        $uploader->setPrefix($prefix);
+            if ( !$uploader->upload() )
+                $error_upload = $uploader->getErrors();
+            else{
+                if ( is_file( $uploader->getSavedDestination() )){
+					$attachments_tmp[strval(time())]=array(
+                    	$uploader->getSavedFileName(),
+                    	$uploader->getMediaName(),
+                    	$uploader->getMediaType()
+                    	);
+                }
+            }
+        }
+        else
+        {
+            $error_upload = $uploader->getErrors();
+        }
+    }
+}
+
+if ( !empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) ) {
+	if (!empty($_POST["attachments_tmp"])){
+		$attachments_tmp=unserialize(base64_decode($_POST["attachments_tmp"]));
+	}
+
+    $myts =& MyTextSanitizer::getInstance();
+    $p_subject = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['subject']));
+    $dosmiley = empty($_POST['dosmiley']) ? 0 : 1;
+    $dohtml = empty($_POST['dohtml']) ? 0 : 1;
+    $doxcode = empty($_POST['doxcode']) ? 0 : 1;
+    $dobr = empty($_POST['dobr']) ? 0 : 1;
+    $p_message = $myts->previewTarea($_POST['message'],$dohtml,$dosmiley,$doxcode,1,$dobr);
+
+    echo "<table cellpadding='4' cellspacing='1' width='98%' class='outer'>";
+    echo "<tr><td class='head'>".$p_subject."</td></tr>";
+    if(isset($_POST['poster_name'])){
+		$p_poster_name = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['poster_name']));
+		echo "<tr><td>".$p_poster_name."</td></tr>";
+	}
+    echo "<tr><td><br />".$p_message."<br /></td></tr></table>";
+}
+
+if ( !empty($_POST['contents_upload']) || !empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) ) {
+
+    echo "<br />";
+
+    $dosmiley = empty($_POST['dosmiley']) ? 0 : 1;
+    $dohtml = empty($_POST['dohtml']) ? 0 : 1;
+    $doxcode = empty($_POST['doxcode']) ? 0 : 1;
+    $dobr = empty($_POST['dobr']) ? 0 : 1;
+    $subject_pre = (isset($_POST['subject_pre']))?$_POST['subject_pre']:'';
+    $subject = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['subject']));
+	$message = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['message']));
+    $poster_name = isset($_POST['poster_name'])?$myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['poster_name'])):'';
+    $hidden = isset($_POST['hidden'])?$myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['hidden'])):'';
+    $notify = !empty($_POST['notify']) ? 1 : 0;
+    $attachsig = !empty($_POST['attachsig']) ? 1 : 0;
+    $isreply = !empty($_POST['isreply']) ? 1 : 0;
+    $isedit = !empty($_POST['isedit']) ? 1 : 0;
+    $icon = isset($_POST['icon']) ? $_POST['icon'] : '';
+    $view_require = isset($_POST['view_require']) ? $_POST['view_require'] : '';
+    $post_karma = (($view_require == 'require_karma')&&isset($_POST['post_karma']))?intval($_POST['post_karma']):0;
+    $require_reply = ($view_require == 'require_reply')?1:0;
+
+    if(empty($_POST['contents_upload'])) $contents_preview = 1;
+    $attachments=$forumpost->getAttachment();
+    //newbb_message($attachments);
+    include 'include/forumform.inc.php';
+}
+
 include XOOPS_ROOT_PATH.'/footer.php';
 
 ?>

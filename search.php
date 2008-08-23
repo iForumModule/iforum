@@ -1,5 +1,5 @@
 <?php
-// $Id: search.php,v 1.3.4.6 2005/01/20 21:14:59 praedator Exp $
+// $Id: search.php,v 1.7 2005/06/03 01:35:02 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -55,6 +55,8 @@ $searchin = "both";
 $sort = "";
 $since = isset($_POST['since']) ? $_POST['since'] : (isset($_GET['since']) ? $_GET['since'] : null);
 $next_search['since'] = $since;
+$term = isset($_POST['term']) ? $_POST['term'] : (isset($_GET['term']) ? $_GET['term'] : null);
+$uname = isset($_POST['uname']) ? $_POST['uname'] : (isset($_GET['uname']) ? $_GET['uname'] : null);
 
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
@@ -64,12 +66,12 @@ if ($xoopsModuleConfig['wol_enabled']){
 $xoopsTpl->assign("forumindex", sprintf(_MD_FORUMINDEX, htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
 $xoopsTpl->assign("img_folder", newbb_displayImage($forumImage['folder_topic']));
 
-if ( !( empty($_POST['submit']) && empty($_GET['term'])) ) {
+if ( !empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !empty($term)) {
     $start = isset($_GET['start']) ? $_GET['start'] : 0;
     $forum = isset($_POST['forum']) ? $_POST['forum'] : (isset($_GET['forum']) ? $_GET['forum'] : null);
     if (empty($forum) or $forum == 'all' or (is_array($forum) and in_array('all', $forum))) {
        $forum = array();
-    } else{
+    } elseif(!is_array($forum)){
        $forum = array_map("intval",explode(",", $forum));
     }
     $next_search['forum'] = implode(",", $forum);
@@ -83,36 +85,8 @@ if ( !( empty($_POST['submit']) && empty($_GET['term'])) ) {
 	    $andor = strtoupper($addterms);
 	}
 
-    $term = isset($_POST['term']) ? $_POST['term'] : (isset($_GET['term']) ? $_GET['term'] : "");
-    $next_search['term'] = $term;
-    $query = trim($term);
-
-    if ( $andor != "EXACT" ) {
-        $ignored_queries = array(); // holds kewords that are shorter than allowed minmum length
-        $temp_queries = preg_split('/[\s,]+/', $query);
-        foreach ($temp_queries as $q) {
-            $q = trim($q);
-            if (strlen($q) >= $xoopsConfigSearch['keyword_min']) {
-                $queries[] = $myts->addSlashes($q);
-            } else {
-                $ignored_queries[] = $myts->addSlashes($q);
-            }
-        }
-        if (count($queries) == 0) {
-            redirect_header('search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
-            exit();
-        }
-    } else {
-        //$query = trim($query);
-        if (strlen($query) < $xoopsConfigSearch['keyword_min']) {
-            redirect_header('search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
-            exit();
-        }
-        $queries = array($myts->addSlashes($query));
-    }
-
     $uname_required = false;
-    $search_username = isset($_POST['uname']) ? $_POST['uname'] : (isset($_GET['uname']) ? $_GET['uname'] : null);
+    $search_username = $uname;
     $search_username = trim($search_username);
     $next_search['uname'] = $search_username;
     if ( !empty($search_username) ) {
@@ -130,6 +104,34 @@ if ( !( empty($_POST['submit']) && empty($_GET['term'])) ) {
     else {
         $uid = 0;
     }
+
+    $next_search['term'] = $term;
+    $query = trim($term);
+
+    if ( $andor != "EXACT" ) {
+        $ignored_queries = array(); // holds kewords that are shorter than allowed minmum length
+        $temp_queries = preg_split('/[\s,]+/', $query);
+        foreach ($temp_queries as $q) {
+            $q = trim($q);
+            if (strlen($q) >= $xoopsConfigSearch['keyword_min']) {
+                $queries[] = $myts->addSlashes($q);
+            } else {
+                $ignored_queries[] = $myts->addSlashes($q);
+            }
+        }
+        if (!$uname_required && count($queries) == 0) {
+            redirect_header('search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
+            exit();
+        }
+    } else {
+        //$query = trim($query);
+        if (!$uname_required && (strlen($query) < $xoopsConfigSearch['keyword_min'])) {
+            redirect_header('search.php', 2, sprintf(_SR_KEYTOOSHORT, $xoopsConfigSearch['keyword_min']));
+            exit();
+        }
+        $queries = array($myts->addSlashes($query));
+    }
+
     // entries must be lowercase
     $allowed = array('p.post_time desc', 't.topic_title', 't.topic_views', 't.topic_replies', 'f.forum_name', 'u.uname');
 
@@ -137,7 +139,6 @@ if ( !( empty($_POST['submit']) && empty($_GET['term'])) ) {
     $next_search['sortby'] = $sortby;
     $sortby = (in_array(strtolower($sortby), $allowed)) ? $sortby :  'p.post_time DESC';
     $searchin = isset($_POST['searchin']) ? $_POST['searchin'] : (isset($_GET['searchin']) ? $_GET['searchin'] : 'both');
-    //if (isset($_POST['searchboth'])||isset($_GET['searchboth']))  $searchin='both'; // The "searchboth" is used in some templates
     $next_search['searchin'] = $searchin;
 	if (!empty($since)) {
 		$subquery = ' AND p.post_time >= ' . (time() - newbb_getSinceTime($since));
@@ -153,6 +154,7 @@ if ( !( empty($_POST['submit']) && empty($_GET['term'])) ) {
         foreach ($results as $row) {
             $xoopsTpl->append('results', array('forum_name' => $myts->htmlSpecialChars($row['forum_name']), 'forum_link' => $row['forum_link'], 'link' => $row['link'], 'title' => $row['title'], 'poster' => $row['poster'], 'post_time' => formatTimestamp($row['time'], "m")));
         }
+        unset($results);
 
         if(count($next_search)>0){
 	        $items = array();
@@ -174,13 +176,13 @@ if ( !( empty($_POST['submit']) && empty($_GET['term'])) ) {
         if (false != $has_next) {
             $next = $start + $limit;
             $queries = implode(',',$queries);
-            $search_url_next = $search_url."&amp;start=$next";
+            $search_url_next = $search_url."&start=$next";
             $search_next = '<a href="'.htmlspecialchars($search_url_next).'">'._SR_NEXT.'</a>';
 			$xoopsTpl->assign("search_next", $search_next);
         }
         if ( $start > 0 ) {
             $prev = $start - $limit;
-            $search_url_prev = $search_url."&amp;start=$prev";
+            $search_url_prev = $search_url."&start=$prev";
             $search_prev = '<a href="'.htmlspecialchars($search_url_prev).'">'._SR_PREVIOUS.'</a>';
 			$xoopsTpl->assign("search_prev", $search_prev);
         }
@@ -209,7 +211,7 @@ foreach ($forum_array as $key => $forum) {
 }
 $select_forum .= '</select>';
 $xoopsTpl->assign("forum_selection_box", $select_forum);
-$select_since = &newbb_sinceSelectBox(@$xoopsModuleConfig['since_default']);
+$select_since = &newbb_sinceSelectBox($xoopsModuleConfig['since_default']);
 $xoopsTpl->assign("since_selection_box", $select_since);
 
 if ($xoopsConfigSearch['keyword_min'] > 0) {

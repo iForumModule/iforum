@@ -1,5 +1,5 @@
 <?php
-// $Id: search.inc.php,v 1.3.2.3 2005/01/10 01:49:41 phppp Exp $
+// $Id: search.inc.php,v 1.5 2005/04/18 01:36:03 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -83,13 +83,17 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
         $sql .= ' AND f.forum_id IN ('.$forum.')';
     }
 
+    $isUser=false;
+	if ( is_numeric($userid) && $userid != 0 ) {
+		$sql .= " AND p.uid=".$userid." ";
+    	$isUser=true;
+	}else
+    // TODO
     if (is_array($userid) && count($userid) > 0) {
 		$userid = array_map('intval', $userid);
         $sql .= " AND p.uid IN (".implode(',', $userid).") ";
+    	$isUser=true;
     }
-	elseif ( is_numeric($userid) && $userid != 0 ) {
-		$sql .= " AND p.uid=".$userid." ";
-	}
 
 	$count = count($queryarray);
 	if ( is_array($queryarray) && $count > 0) {
@@ -112,7 +116,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 	           $sql .= ") ";
 	           break;
 	        case 'both' :
-	        default:
+	        default;
 	           $sql .= " AND ((p.subject LIKE '%$queryarray[0]%' OR pt.post_text LIKE '%$queryarray[0]%')";
 	           for($i=1;$i<$count;$i++){
 	               $sql .= " $andor ";
@@ -167,9 +171,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 				$poster = ($newbbConfig['show_realname']&&$users[$ret[$i]['uid']]->getVar('name'))?$users[$ret[$i]['uid']]->getVar('name'):$users[$ret[$i]['uid']]->getVar('uname');
 				$poster = $myts->htmlSpecialChars($poster);
 				$ret[$i]['poster'] = '<a href="'.XOOPS_URL.'/userinfo.php?uid='.$ret[$i]['uid'].'">'.$poster.'</a>';
-		        if(newbb_isAdmin($myrow['forum_id'],$ret[$i]['uid']) && $newbbConfig['allow_moderator_html']){
-		        	$ret[$i]['title'] = newbb_html2text($myts->undoHtmlSpecialChars($ret[$i]['title']));
-		    	}else $title = $myts->htmlSpecialChars($ret[$i]['title']);
+		    	$title = $myts->htmlSpecialChars($ret[$i]['title']);
 			}else{
 				$ret[$i]['poster'] = $xoopsConfig['anonymous'];
 				$ret[$i]['uid'] = 0; // Have to force this to fit xoops search.php

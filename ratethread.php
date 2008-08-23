@@ -1,5 +1,5 @@
-<?php 
-// $Id: ratethread.php,v 1.1.4.1 2005/01/06 22:54:44 praedator Exp $
+<?php
+// $Id: ratethread.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -28,32 +28,28 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
- 
+
 include 'header.php';
 
 global $myts;
 
-    if (empty($xoopsUser))
-    {
-        $ratinguser = 0;
-    } 
-    else
-    {
-        $ratinguser = $xoopsUser -> getVar('uid');
-    } 
-    // Make sure only 1 anonymous from an IP in a single day.
-    $anonwaitdays = 1;
-    $ip = getenv("REMOTE_ADDR");
-    $topic_id = isset($_POST['topic_id']) ? intval($_POST['topic_id']) : 0;
-    $rate = isset($_POST['rate']) ? intval($_POST['rate']) : 0;  
-    $forum = isset($_POST['forum']) ? intval($_POST['forum']) : 0;
-    if ($rate > 0 )
-    {   
-    
+if (!is_object($xoopsUser)) {
+    $ratinguser = 0;
+}else{
+    $ratinguser = $xoopsUser -> getVar('uid');
+}
+// Make sure only 1 anonymous from an IP in a single day.
+$anonwaitdays = 1;
+$ip = getenv("REMOTE_ADDR");
+$vars = array("topic_id", "rate", "forum");
+foreach($vars as $var){
+	${$var} = isset($_POST[$var]) ? intval($_POST[$var]) : (isset($_GET[$var])?intval($_GET[$var]):0);
+}
+if ($rate > 0 ){
+
     $rating = $rate * 2;
     // Check if Topic POSTER is voting (UNLESS Anonymous users allowed to post)
-    if ($ratinguser != 0)
-    {
+    if ($ratinguser != 0) {
         $result = $xoopsDB -> query("SELECT topic_poster FROM " . $xoopsDB -> prefix('bb_topics') . " WHERE topic_id=$topic_id");
         while (list($ratinguserDB) = $xoopsDB -> fetchRow($result))
         {
@@ -61,8 +57,8 @@ global $myts;
             {
                 redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_CANTVOTEOWN);
                 exit();
-            } 
-        } 
+            }
+        }
         // Check if REG user is trying to vote twice.
         $result = $xoopsDB -> query("SELECT ratinguser FROM " . $xoopsDB -> prefix('bb_votedata') . " WHERE topic_id=$topic_id");
         while (list($ratinguserDB) = $xoopsDB -> fetchRow($result))
@@ -71,11 +67,11 @@ global $myts;
             {
                 redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_VOTEONCE);
                 exit();
-            } 
-        } 
-    } 
+            }
+        }
+    }
     else
-    { 
+    {
         // Check if ANONYMOUS user is trying to vote more than once per day.
         $yesterday = (time() - (86400 * $anonwaitdays));
         $result = $xoopsDB -> query("SELECT COUNT(*) FROM " . $xoopsDB -> prefix('bb_votedata') . " WHERE topic_id=$topic_id AND ratinguser=0 AND ratinghostname = '$ip'  AND ratingtimestamp > $yesterday");
@@ -84,24 +80,27 @@ global $myts;
         {
             redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_VOTEONCE);
             exit();
-        } 
+        }
     }
-    }
-    else 
-    {
-    		redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_NOVOTERATE);
-            exit();
-    } 
-    // All is well.  Add to Line Item Rate to DB.
-    $newid = $xoopsDB -> genId($xoopsDB -> prefix('bb_votedata') . "_ratingid_seq");
-    $datetime = time();
-    $sql = sprintf("INSERT INTO %s (ratingid, topic_id, ratinguser, rating, ratinghostname, ratingtimestamp) VALUES (%u, %u, %u, %u, '%s', %u)", $xoopsDB -> prefix('bb_votedata'), $newid, $topic_id, $ratinguser, $rating, $ip, $datetime);
-    $xoopsDB -> query($sql); 
-    // All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
-    newbb_updaterating($topic_id);
-    $ratemessage = _MD_VOTEAPPRE . "<br />" . sprintf(_MD_THANKYOU, $xoopsConfig['sitename']);
-    redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, $ratemessage);
-    exit();
+}
+else
+{
+		redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_NOVOTERATE);
+        exit();
+}
+// All is well.  Add to Line Item Rate to DB.
+$newid = $xoopsDB -> genId($xoopsDB -> prefix('bb_votedata') . "_ratingid_seq");
+$datetime = time();
+$sql = sprintf("INSERT INTO %s (ratingid, topic_id, ratinguser, rating, ratinghostname, ratingtimestamp) VALUES (%u, %u, %u, %u, '%s', %u)", $xoopsDB -> prefix('bb_votedata'), $newid, $topic_id, $ratinguser, $rating, $ip, $datetime);
+if(!$result = $xoopsDB -> queryF($sql)){
+	newbb_message($sql);
+}
+
+// All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
+newbb_updaterating($topic_id);
+$ratemessage = _MD_VOTEAPPRE . "<br />" . sprintf(_MD_THANKYOU, $xoopsConfig['sitename']);
+redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, $ratemessage);
+exit();
 
 
 include 'footer.php';

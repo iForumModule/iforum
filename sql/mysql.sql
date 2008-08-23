@@ -169,7 +169,7 @@ CREATE TABLE `bb_posts` (
   `topic_id` int(8) NOT NULL default '0',
   `forum_id` int(4) NOT NULL default '0',
   `post_time` int(10) NOT NULL default '0',
-  `uid` int(5) unsigned NOT NULL default '0',
+  `uid` int(10) unsigned NOT NULL default '0',
   `poster_name` varchar(255) NOT NULL default '',
   `poster_ip` int(11) NOT NULL default '0',
   `subject` varchar(255) NOT NULL default '',

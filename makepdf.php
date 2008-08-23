@@ -1,5 +1,5 @@
 <?php
-// $Id: makepdf.php,v 1.1.4.2 2005/01/07 05:27:34 phppp Exp $
+// $Id: makepdf.php,v 1.2 2005/04/18 01:22:26 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -58,11 +58,7 @@ if (!$forum_handler->getPermission($viewtopic_forum))    die(_MD_NORIGHTTOACCESS
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOVIEW);
 if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_MD_FORUMNOEXIST);
 
-if(newbb_isAdmin($viewtopic_forum, $forumdata['topic_poster']) && $xoopsModuleConfig['allow_moderator_html']){
-	$forumdata['topic_title'] = newbb_html2text($myts->undoHtmlSpecialChars($forumdata['topic_title']));
-}else{
-	$forumdata['topic_title'] = $myts->htmlSpecialChars($forumdata['topic_title']);
-}
+$forumdata['topic_title'] = $myts->htmlSpecialChars($forumdata['topic_title']);
 
 $pdf_data['title'] = NEWBB_PDF_FORUM.': '.$myts->htmlSpecialChars($forumdata['forum_name']);
 $pdf_data['subtitle'] = NEWBB_PDF_TOPIC.': '.$forumdata['topic_title'];
@@ -74,10 +70,13 @@ $pdf_data['author'] = $post_data['author'];
 
 //Other stuff
 $puff='<br />';
-$puffer='<br /><br /><br />';
+$puffer='<br />';
 
 //create the A4-PDF...
 $pdf=new PDF();
+if(method_exists($pdf, "encoding")){
+	$pdf->encoding($pdf_data, _CHARSET);
+}
 $pdf->SetCreator($pdf_config['creator']);
 $pdf->SetTitle($pdf_data['title']);
 $pdf->SetAuthor($pdf_config['url']);
@@ -128,5 +127,5 @@ $pdf->WriteHTML($puffer,$pdf_config['scale']);
 $pdf->SetFont($pdf_config['font']['content']['family'],$pdf_config['font']['content']['style'],$pdf_config['font']['content']['size']);
 $pdf->WriteHTML($pdf_data['content'],$pdf_config['scale']);
 
-$pdf->Output($pdf_data['filename'],'');
+$pdf->Output();
 ?>

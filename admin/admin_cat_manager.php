@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_cat_manager.php,v 1.6.6.1 2005/01/06 22:55:33 praedator Exp $
+// $Id: admin_cat_manager.php,v 1.6 2005/05/25 00:59:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -29,6 +29,7 @@
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 include('admin_header.php');
+xoops_cp_header();
 
 $op = '';
 
@@ -38,6 +39,9 @@ if (isset($_POST['default'])) $op = 'default';
 if (isset($_GET['cat_id'])) $cat_id = $_GET['cat_id'];
 if (isset($_POST['cat_id'])) $cat_id = $_POST['cat_id'];
 $category_handler = &xoops_getmodulehandler('category', 'newbb');
+
+//newbb_message($op);
+
 /**
  * newCategory()
  *
@@ -76,7 +80,7 @@ function editCategory($cat_id = 0)
         $fc->setVar('cat_order', 0);
         $fc->setVar('cat_state', 0);
         $fc->setVar('cat_showdescript', 1);
-        $fc->setVar('cat_url', 'http://www.xoops.org');
+        $fc->setVar('cat_url', 'http://www.xoops.org XOOPS');
     }
     // READ PERMISSIONS
     $member_handler = &xoops_gethandler('member');
@@ -103,14 +107,15 @@ function editCategory($cat_id = 0)
     $sform->addElement($status_select);
 
     $imgdir = "/modules/" . $xoopsModule->dirname() . "/images/category";
-    if (!isset($fc->cat_image)) $fc->cat_image = 'blank.gif';
-    $graph_array = &XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $imgdir);
+    if (!$fc->getVar("cat_image")) $fc->setVar('cat_image', 'blank.gif');
+    $graph_array = &XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $imgdir."/");
+	array_unshift($graph_array, _NONE);
     $indeximage_select = new XoopsFormSelect('', 'indeximage', $fc->getVar('cat_image'));
     $indeximage_select->addOptionArray($graph_array);
-    $indeximage_select->setExtra("onchange='showImgSelected(\"image\",\"indeximage\", \"" . $imgdir . "\", \"\", \"" . XOOPS_URL . "\")'");
-    $indeximage_tray = new XoopsFormElementTray(_AM_NEWBB_SPONSORIMAGE, '&nbsp;');
+	$indeximage_select->setExtra("onchange=\"showImgSelected('img', 'indeximage', '/".$imgdir."/', '', '" . XOOPS_URL . "')\"");
+    $indeximage_tray = new XoopsFormElementTray(_AM_NEWBB_IMAGE, '&nbsp;');
     $indeximage_tray->addElement($indeximage_select);
-    $indeximage_tray->addElement(new XoopsFormLabel('', "<br /><img src='" . XOOPS_URL . $imgdir . "/" . $fc->getVar('cat_image') . " 'name='image' id='image' alt='' />"));
+    $indeximage_tray->addElement(new XoopsFormLabel('', "<br /><img src='" . XOOPS_URL . $imgdir . "/" . $fc->getVar('cat_image') . " 'name='img' id='img' alt='' />"));
     $sform->addElement($indeximage_tray);
 
     $sform->addElement(new XoopsFormText(_AM_NEWBB_SPONSORLINK, 'sponurl', 50, 80, $fc->getVar('cat_url', 'E')), false);
@@ -130,18 +135,15 @@ function editCategory($cat_id = 0)
     $sform->addElement($button_tray);
     $sform->display();
 }
-xoops_cp_header();
+
 switch ($op) {
     case "manage":
-
-        $categorys = $category_handler->getAllCats();
-        if (empty($categorys)) {
+        $categories =& $category_handler->getAllCats();
+        if (count($categories)==0) {
             newbb_adminmenu(1, _AM_NEWBB_CREATENEWCATEGORY);
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
             echo "<br />";
-
             newCategory();
-
             echo "</fieldset>";
 
             break;
@@ -160,7 +162,7 @@ switch ($op) {
         echo "<td class='bg3'>" . _AM_NEWBB_DELETE . "</td>";
         echo "</tr>";
 
-        foreach($categorys as $onecat) {
+        foreach($categories as $key => $onecat) {
             if (!$onecat->getVar('cat_state')) {
                 $status = _AM_NEWBB_ACTIVE;
             } else {
@@ -192,7 +194,7 @@ switch ($op) {
         break;
 
     case "del":
-        if (isset($_POST['confirm']) != 1) {
+        if (empty($_POST['confirm'])) {
             xoops_confirm(array('op' => 'del', 'cat_id' => intval($_GET['cat_id']), 'confirm' => 1), 'admin_cat_manager.php', _AM_NEWBB_WAYSYWTDTTAL);
             break;
         } else {
@@ -201,9 +203,8 @@ switch ($op) {
             $category_handler->delete($fc);
 
             redirect_header("admin_cat_manager.php", 2, _AM_NEWBB_CATEGORYDELETED);
-            exit();
         }
-        exit();
+        break;
 
     case "save":
 
@@ -235,11 +236,9 @@ switch ($op) {
         newbb_adminmenu(1, _AM_NEWBB_CREATENEWCATEGORY);
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
         echo "<br />";
-
         newCategory();
-
         echo "</fieldset>";
 }
-xoops_cp_footer();
 
+xoops_cp_footer();
 ?>

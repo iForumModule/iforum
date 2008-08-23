@@ -1,5 +1,5 @@
 <?php
-// $Id: newtopic.php,v 1.3.4.2 2005/01/07 05:27:34 phppp Exp $
+// $Id: newtopic.php,v 1.6 2005/05/19 12:20:33 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -67,6 +67,7 @@ if ( empty($forum) ) {
     $dohtml = 0;
     $dosmiley = 1;
     $doxcode = 1;
+    $dobr = 1;
     $icon = '';
     $post_karma = 0;
     $require_reply = 0;
@@ -77,8 +78,7 @@ if ( empty($forum) ) {
 
     include XOOPS_ROOT_PATH.'/header.php';
     if ($xoopsModuleConfig['disc_show'] == 1 or $xoopsModuleConfig['disc_show'] == 3 ){
-	    echo "<table cellpadding='4' cellspacing='1' width='100%' class='outer'><tr><td class='head' align='center'>"._MD_BOARD_DISCLAIMER."</td></tr>";
-		echo "<tr><td><br />".$xoopsModuleConfig['disclaimer']."<br /></td></tr></table>";
+	    echo "<div class=\"confirmMsg\">".$xoopsModuleConfig['disclaimer']."</div><br clear=\"both\">";
     }
 
     include 'include/forumform.inc.php';

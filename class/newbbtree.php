@@ -1,5 +1,5 @@
 <?php 
-// $Id: newbbtree.php,v 1.1.1.9.2.1 2005/01/06 22:57:19 praedator Exp $
+// $Id: newbbtree.php,v 1.4 2005/04/18 01:22:28 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //

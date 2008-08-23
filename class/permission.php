@@ -1,5 +1,5 @@
-<?php 
-// $Id: permission.php,v 1.1.4.1 2005/01/06 22:57:19 praedator Exp $
+<?php
+// $Id: permission.php,v 1.5 2005/05/15 12:25:53 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -33,9 +33,9 @@ if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'post,view,reply,ed
 class NewbbPermissionHandler extends XoopsObjectHandler {
     /**
      * Saves permissions for the selected category
-     * 
+     *
      *   saveCategory_Permissions()
-     * 
+     *
      * @param array $groups : group with granted permission
      * @param integer $categoryID : categoryID on which we are setting permissions for Categories and Forums
      * @param string $perm_name : name of the permission
@@ -49,21 +49,21 @@ class NewbbPermissionHandler extends XoopsObjectHandler {
         if (!is_object($xoopsModule)) {
             $module_handler = &xoops_gethandler('module');
             $xoopsModule = &$module_handler->getByDirname('newbb');
-        } 
+        }
 
         $result = true;
         $module_id = $xoopsModule->getVar('mid') ;
-        $gperm_handler = &xoops_gethandler('groupperm'); 
+        $gperm_handler = &xoops_gethandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gperm_handler->deleteByModule($module_id, $perm_name, $categoryID); 
+        $gperm_handler->deleteByModule($module_id, $perm_name, $categoryID);
         // Save the new permissions
         if (count($groups) > 0) {
             foreach ($groups as $group_id) {
                 $gperm_handler->addRight($perm_name, $categoryID, $group_id, $module_id);
-            } 
-        } 
+            }
+        }
         return $result;
-    } 
+    }
 
     /*
 	* Returns permissions for a certain type
@@ -83,12 +83,12 @@ class NewbbPermissionHandler extends XoopsObjectHandler {
 
         if (!isset($permissions[$type]) || ($id != null && !isset($permissions[$type][$id]))) {
             // Get group permissions handler
-            $gperm_handler = &xoops_gethandler('groupperm'); 
+            $gperm_handler = &xoops_gethandler('groupperm');
             // Get user's groups
-            $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(XOOPS_GROUP_ANONYMOUS); 
+            $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
             // Create string of groupid's separated by commas, inserted in a set of brackets
             if (count($groups) < 1) return false;
-            $groupstring = "(" . implode(',', $groups) . ")"; 
+            $groupstring = "(" . implode(',', $groups) . ")";
             // Create criteria for getting only the permissions regarding this module and this user's groups
             $criteria = new CriteriaCompo(new Criteria('gperm_modid', $xoopsNewBB->getVar('mid')));
             $criteria->add(new Criteria('gperm_groupid', $groupstring, 'IN'));
@@ -99,8 +99,8 @@ class NewbbPermissionHandler extends XoopsObjectHandler {
                     $criteria->add(new Criteria('gperm_itemid', $idstring, 'IN'));
                 } else {
                     $criteria->add(new Criteria('gperm_itemid', intval($id)));
-                } 
-            } 
+                }
+            }
 
             switch ($type) {
                 case "topic":
@@ -108,7 +108,7 @@ class NewbbPermissionHandler extends XoopsObjectHandler {
                     $full_items = array();
                     foreach($items as $item) {
                         $full_items[] = "'forum_can_" . $item . "'";
-                    } 
+                    }
                     $gperm_names = implode(',', $full_items);
                     break;
 
@@ -119,21 +119,21 @@ class NewbbPermissionHandler extends XoopsObjectHandler {
                 case "global":
                     $gperm_names = "'forum_cat_access'";
                     break;
-            } 
+            }
             // Add criteria for gpermnames
-            $criteria->add(new Criteria('gperm_name', "(" . $gperm_names . ")", 'IN')); 
+            $criteria->add(new Criteria('gperm_name', "(" . $gperm_names . ")", 'IN'));
             // Get all permission objects in this module and for this user's groups
-            $userpermissions = &$gperm_handler->getObjects($criteria, true); 
+            $userpermissions = &$gperm_handler->getObjects($criteria, true);
             // Set the granted permissions to 1
             foreach ($userpermissions as $gperm_id => $gperm) {
                 $permissions[$type][$gperm->getVar('gperm_itemid')][$gperm->getVar('gperm_name')] = 1;
-            } 
-        } 
+            }
+        }
         // Return the permission array
         return isset($permissions[$type]) ? $permissions[$type] : array();
-    } 
+    }
 
-    function permission_table($permission_set, $forum = 0, $topic_locked = false, $isadmin = false)
+    function &permission_table($permission_set, $forum = 0, $topic_locked = false, $isadmin = false)
     {
         global $xoopsUser;
 
@@ -141,20 +141,19 @@ class NewbbPermissionHandler extends XoopsObjectHandler {
         else $forumid = $forum;
 
         $perm_items = explode(',', FORUM_PERM_ITEMS);
-        $perm = "<table><tr><td align='left'><small>";
+        $perm = array();
         foreach($perm_items as $item) {
             if ($isadmin ||
-                (isset($permission_set[$forumid]['forum_can_' . $item]) && !$topic_locked)
+                (isset($permission_set[$forumid]['forum_can_' . $item]) && (!$topic_locked || $item=="view"))
                     ) {
-                $perm .= "<img src='images/enable.gif' alt=''>&nbsp;".constant('_MD_CAN_' . strtoupper($item));
+                $perm[] = constant('_MD_CAN_' . strtoupper($item));
             } else {
-                $perm .= "<img src='images/disable.gif' alt=''>&nbsp;".constant('_MD_CANNOT_' . strtoupper($item));
-            } 
-        } 
-        $perm .= "</small></td></tr></table>";
+                $perm[] = constant('_MD_CANNOT_' . strtoupper($item));
+            }
+        }
 
         return $perm;
-    } 
-} 
+    }
+}
 
 ?>

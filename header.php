@@ -1,5 +1,5 @@
 <?php
-// $Id: header.php,v 1.3.2.1 2005/01/06 22:54:44 praedator Exp $
+// $Id: header.php,v 1.7 2005/05/19 12:20:33 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -29,16 +29,55 @@ include '../../mainfile.php';
 include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
 include XOOPS_ROOT_PATH.'/modules/newbb/include/vars.php';
 $myts =& MyTextSanitizer::getInstance();
-$newbb_module_header = '';
-if(!empty($xoopsModuleConfig['rss_enable'])){
-	$newbb_module_header .= '<link rel="alternate" type="application/xml" title="RSS" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />';
+
+// MENU handler
+$valid_menumodes = array(
+	0 => _MD_MENU_SELECT,
+	1 => _MD_MENU_CLICK,
+	2 => _MD_MENU_HOVER
+	);
+// menumode cookie
+if(isset($_REQUEST['menumode'])){
+	$menumode = intval($_REQUEST['menumode']);
+	newbb_setcookie("M", $menumode, $forumCookie['expire']);
+}else{
+	$cookie_M = intval(newbb_getcookie("M"));
+	$menumode = ($cookie_M === null || !isset($valid_menumodes[$cookie_M]))?$xoopsModuleConfig['menu_mode']:$cookie_M;
 }
+
+$menumode_other = array();
+$menu_url = htmlSpecialChars($_SERVER[ 'REQUEST_URI' ]);
+$menu_url .= (false === strpos($menu_url, "?"))?"?menumode=":"&amp;menumode=";
+foreach($valid_menumodes as $key=>$val){
+	if($key != $menumode) $menumode_other[]=array("title"=>$val, "link"=>$menu_url.$key);
+}
+
+$newbb_module_header = '';
+$newbb_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />';
 if(!empty($xoopsModuleConfig['pngforie_enabled'])){
 	$newbb_module_header .= '<style type="text/css">img {behavior:url("include/pngbehavior.htc");}</style>';
 }
 $newbb_module_header .= '
-	<link rel="stylesheet" type="text/css" href="newbb.css" />
+	<link rel="stylesheet" type="text/css" href="templates/newbb.css" />
+	<script type="text/javascript">var toggle_cookie="'.$forumCookie['prefix'].'G'.'";</script>
 	<script src="include/js/newbb_toggle.js" type="text/javascript"></script>
 	';
+if($menumode==2){
+	$newbb_module_header .= '
+	<link rel="stylesheet" type="text/css" href="templates/newbb_menu_hover.css" />
+	<style type="text/css">body {behavior:url("include/newbb.htc");}</style>
+	';
+}
+if($menumode==1){
+	$newbb_module_header .= '
+	<link rel="stylesheet" type="text/css" href="templates/newbb_menu_click.css" />
+	<script src="include/js/newbb_menu_click.js" type="text/javascript"></script>
+	';
+}
 $xoops_module_header = $newbb_module_header; // for cache hack
+$xoopsOption['xoops_module_header'] = $xoops_module_header;
+$xoopsOption['xoops_showrblock'] = 0;
+$xoopsOption['xoops_showlblock'] = 0;
+
+newbb_welcome();
 ?>

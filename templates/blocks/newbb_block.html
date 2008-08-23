@@ -2,24 +2,21 @@
 
   <{if $block.disp_mode == 0}>
   <tr>
-    <th class="head" nowrap><{$block.lang_forum}></th>
-    <th class="head" nowrap><{$block.lang_topic}></th>
-    <th class="head" align="center" nowrap><{$block.lang_replies}></th>
-    <th class="head" align="center" nowrap><{$block.lang_views}></th>
-    <th class="head" align="center" nowrap><{$block.lang_lastpost}></th>
+    <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_FORUM}></th>
+    <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_TOPIC}></th>
+    <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_RPLS}></th>
+    <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_VIEWS}></th>
+    <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_LPOST}></th>
   </tr>
 
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
     <td><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
     <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>">
-
-<{if $topic.topic_subject eq NONE}>
-<{else}>
-<{$topic.topic_subject}>
-<{/if}>
-
-<{$topic.title}></a><{$topic.topic_page_jump}></td>
+		<{if $topic.topic_subject}>
+		<{$topic.topic_subject}>
+		<{/if}>
+		<{$topic.title}></a><{$topic.topic_page_jump}></td>
     <td align="center"><{$topic.replies}></td>
     <td align="center"><{$topic.views}></td>
     <td align="right"><{$topic.time}><br /><{$topic.topic_poster}>&nbsp;<{$topic.jump_post}></td>
@@ -29,9 +26,9 @@
   <{elseif $block.disp_mode == 1}>
 
   <tr>
-    <td class="head" nowrap><{$block.lang_topic}></td>
-    <td class="head" align="center" nowrap><{$block.lang_replies}></td>
-    <td class="head" align="center" nowrap><{$block.lang_lastpost}></td>
+    <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_TOPIC}></th>
+    <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_RPLS}></th>
+    <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_LPOST}></th>
   </tr>
 
   <{foreach item=topic from=$block.topics}>
@@ -54,6 +51,10 @@
 
 </table>
 
+<{if $block.indexNav}>
 <div style="text-align:right; padding: 5px;">
-<a href="<{$xoops_url}>/modules/newbb/viewall.php"><{$smarty.const._MORE}></a>|<a href="<{$xoops_url}>/modules/newbb/"><{$block.lang_visitforums}></a>
+<a href="<{$xoops_url}>/modules/newbb/viewpost.php"><{$smarty.const._MB_NEWBB_ALLPOSTS}></a> |
+<a href="<{$xoops_url}>/modules/newbb/viewall.php"><{$smarty.const._MB_NEWBB_ALLTOPICS}></a> |
+<a href="<{$xoops_url}>/modules/newbb/"><{$smarty.const._MB_NEWBB_VSTFRMS}></a>
 </div>
+<{/if}>

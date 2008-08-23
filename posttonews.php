@@ -1,5 +1,5 @@
 <?php
-// $Id: posttonews.php,v 1.1.4.1 2005/01/06 22:54:44 praedator Exp $
+// $Id: posttonews.php,v 1.3 2005/05/21 13:26:07 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -62,7 +62,7 @@ switch ($op)
 	$story->setTitle($post->getVar('subject','e'));/**/
 	$story->setHometext($post->getVar('post_text','e'));/**/
 	$story->setUid($post->getVar('uid'));/**/
-	$story->setTopicId(0);/**/
+	$story->setTopicId(1);/**/
 	$story->setHostname(xoops_getenv('REMOTE_ADDR'));/**/
 	$dohtml = $post->getVar('dohtml');
 	$nohtml = empty($dohtml)?1:0;
@@ -89,7 +89,7 @@ switch ($op)
 		$tags['WAITINGSTORIES_URL'] = XOOPS_URL . '/modules/news/admin/index.php?op=newarticle';
 		$notification_handler->triggerEvent('global', 0, 'story_submit', $tags);
 		$tags = array();
-		$tags['STORY_NAME'] = $title;
+		$tags['STORY_NAME'] = $post->getVar('subject','e');
 		$tags['STORY_URL'] = XOOPS_URL . '/modules/news/ticle.php?storyid=' . $story->storyid();
 		$tags['WAITINGSTORIES_URL'] = XOOPS_URL . '/modules/news/admin/index.php?op=newarticle';
 		$notification_handler->triggerEvent('global', 0, 'story_submit', $tags);

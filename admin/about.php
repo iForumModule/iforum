@@ -1,5 +1,5 @@
 <?php
-// $Id: about.php,v 1.1.6.1 2005/01/06 22:55:33 praedator Exp $
+// $Id: about.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -167,6 +167,7 @@ If ( $versioninfo->getInfo('author_word') != '' )
 	echo "<td class='bg3' align='left'><strong>" . _AM_NEWBB_AUTHOR_WORD . "</strong></td>";
 	echo "</tr>";
 	
+	$extra = (defined('_AM_NEWBB_AUTHOR_WORD_EXTRA'))?_AM_NEWBB_AUTHOR_WORD_EXTRA:'';
 	echo "<tr>";
 	echo "<td class='even' align='left'>" . $versioninfo->getInfo('author_word') . "</td>";
 	echo "</tr>";

@@ -1,5 +1,5 @@
 <?php
-// $Id: index.php,v 1.5.2.1 2005/01/06 22:55:34 praedator Exp $
+// $Id: index.php,v 1.5 2005/05/15 12:25:53 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -143,7 +143,7 @@ switch ($op) {
         break;
 
     case "setperm":
-        $res = newbb_admin_chmod($path);
+        $res = newbb_admin_chmod($path, 0777);
         $msg = ($res)?_AM_NEWBB_PERMSET:_AM_NEWBB_PERMNOTSET;
         redirect_header('index.php', 2, $msg . ': ' . $path);
         exit();

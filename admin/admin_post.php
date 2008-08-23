@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_post.php,v 1.1.4.1 2005/01/06 22:55:34 praedator Exp $
+// $Id: admin_post.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -32,7 +32,7 @@
 
 
 include('admin_header.php');
-include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/mimetype.php';
+//include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/mimetype.php';
 include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/uploader.php';
 foreach (array('forum', 'topic_id', 'post_id', 'pid') as $getint) {
     ${$getint} = isset($_POST[$getint]) ? intval($_POST[$getint]) : 0;

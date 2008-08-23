@@ -1,5 +1,5 @@
 <?php
-// $Id: forum.php,v 1.1.4.4 2005/01/14 18:06:53 phppp Exp $
+// $Id: forum.php,v 1.6 2005/05/25 01:01:42 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -164,7 +164,7 @@ class Forum extends XoopsObject {
         $forum_lastview = newbb_getcookie('LF', true);
         $forum_lastview = (isset($forum_lastview[$forum_data['forum_id']]))?$forum_lastview[$forum_data['forum_id']]:0;
 
-        $disp_array['forum_lastpost_time'] = formatTimestamp($forum_data['post_time']);
+        $disp_array['forum_lastpost_time'] = newbb_formatTimestamp($forum_data['post_time']);
 
         $last_post_icon = '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/viewtopic.php?post_id=' . $forum_data['forum_last_post_id'] . '&amp;topic_id=' . $forum_data['topic_id'] . '#forumpost' . $forum_data['forum_last_post_id'] . '">';
         if ($forum_data['icon']) {
@@ -177,9 +177,9 @@ class Forum extends XoopsObject {
 
         if ($forum_data['uid'] != 0 && $forum_data['uname']) {
             if ($xoopsModuleConfig['show_realname'] && $forum_data['name']) {
-                $forum_lastpost_user = '' . _MD_BY . '&nbsp;<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $forum_data['uid'] . '">' . $myts->htmlSpecialChars(@$forum_data['name']) . '</a>';
+                $forum_lastpost_user = '<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $forum_data['uid'] . '">' . $myts->htmlSpecialChars(@$forum_data['name']) . '</a>';
             } else {
-                $forum_lastpost_user = '' . _MD_BY . '&nbsp;<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $forum_data['uid'] . '">' . $myts->htmlSpecialChars($forum_data['uname']) . '</a>';
+                $forum_lastpost_user = '<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $forum_data['uid'] . '">' . $myts->htmlSpecialChars($forum_data['uname']) . '</a>';
             }
         } else {
             $forum_lastpost_user = !empty($forum_data['poster_name'])?$myts->htmlSpecialChars($forum_data['poster_name']):$xoopsConfig['anonymous'];
@@ -301,7 +301,7 @@ class NewbbForumHandler extends XoopsObjectHandler
              WHERE forum_id=" . $forum_id . " ";
         }
         if (!$this->db->query($sql)) {
-            //echo "<br />NewbbForumHandler::insert error::" . $sql;
+            newbb_message("NewbbForumHandler::insert error::" . $sql);
             return false;
         }
 
@@ -326,7 +326,7 @@ class NewbbForumHandler extends XoopsObjectHandler
         global $xoopsModule;
         $sql = "SELECT post_id FROM " . $this->db->prefix("bb_posts") . " WHERE forum_id = " . $forum->getVar('forum_id');
         if (!$r = $this->db->query($sql)) {
-            //echo "<br />NewbbForumHandler::delete error::" . $sql;
+            newbb_message("NewbbForumHandler::delete error::" . $sql);
             return false;
         }
         if ($this->db->getRowsNum($r) > 0) {
@@ -340,44 +340,50 @@ class NewbbForumHandler extends XoopsObjectHandler
                 $looped = true;
             }
             if (!$r = $this->db->query($sql)) {
-	            //echo "<br />NewbbForumHandler::delete error::" . $sql;
+	            newbb_message("NewbbForumHandler::delete error::" . $sql);
 	            return false;
 	        }
-            $sql = sprintf("DELETE FROM %s WHERE forum_id = %u", $this->db->prefix("bb_posts"), $_POST['forum_id']);
+            $sql = sprintf("DELETE FROM %s WHERE forum_id = %u", $this->db->prefix("bb_posts"), $forum->getVar('forum_id'));
             if (!$r = $this->db->query($sql)) {
-	            //echo "<br />NewbbForumHandler::delete error::" . $sql;
+	            newbb_message("NewbbForumHandler::delete error::" . $sql);
 	            return false;
 	        }
         }
         // RMV-NOTIFY
-        xoops_notification_deletebyitem ($xoopsModule->getVar('mid'), 'forum', $_POST['forum_id']);
+        xoops_notification_deletebyitem ($xoopsModule->getVar('mid'), 'forum', $forum->getVar('forum_id'));
         // Get list of all topics in forum, to delete them too
-        $sql = sprintf("SELECT topic_id FROM %s WHERE forum_id = %u", $this->db->prefix("bb_topics"), $_POST['forum_id']);
+        $sql = sprintf("SELECT topic_id FROM %s WHERE forum_id = %u", $this->db->prefix("bb_topics"), $forum->getVar('forum_id'));
         if ($r = $this->db->query($sql)) {
             while ($row = $this->db->fetchArray($r)) {
                 xoops_notification_deletebyitem ($xoopsModule->getVar('mid'), 'thread', $row['topic_id']);
             }
         }
-        $sql = sprintf("DELETE FROM %s WHERE forum_id = %u", $this->db->prefix("bb_topics"), $_POST['forum_id']);
+        $sql = sprintf("DELETE FROM %s WHERE forum_id = %u", $this->db->prefix("bb_topics"), $forum->getVar('forum_id'));
         if (!$r = $this->db->query($sql)) {
             return false;
         }
         $sql = "DELETE FROM " . $forum->table . " WHERE forum_id=" . $forum->getVar('forum_id') . "";
         if (!$this->db->query($sql)) {
-            //echo "<br />NewbbForumHandler::delete error::" . $sql;
+            newbb_message("NewbbForumHandler::delete error::" . $sql);
             return false;
         }
+        $sql = "UPDATE " . $this->db->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=".$forum->getVar('forum_id');
+        if (!$this->db->query($sql)) {
+            newbb_message("NewbbForumHandler::delete error::" . $sql);
+            return false;
+        }
+
         // Delete group permissions
         $gperm_handler = &xoops_gethandler('groupperm');
         $gperm_names = "('forum_can_post', 'forum_can_view', 'forum_can_reply', 'forum_can_edit', 'forum_can_delete', 'forum_can_addpoll', 'forum_can_vote', 'forum_can_attach', 'global_forum_access')";
 
         $criteria = new CriteriaCompo(new Criteria('gperm_modid', intval($xoopsModule->getVar('mid'))));
         $criteria->add(new Criteria('gperm_name', $gperm_names, 'IN'));
-        $criteria->add(new Criteria('gperm_itemid', intval($_POST['forum_id'])));
+        $criteria->add(new Criteria('gperm_itemid', $forum->getVar('forum_id')));
         return $gperm_handler->deleteAll($criteria);
     }
 
-    function getForums($cat = 0, $permission = false)
+    function getForums($cat = 0, $permission = "")
     {
 	    static $_cachedForums=array();
 	    $perm_string = (empty($permission))?'all':$permission;
@@ -388,11 +394,11 @@ class NewbbForumHandler extends XoopsObjectHandler
         }
         $sql .= " ORDER BY forum_order";
         if (!$result = $this->db->query($sql)){
-            //echo "<br />NewbbForumHandler::getForums error::" . $sql;
+            newbb_message("NewbbForumHandler::getForums error::" . $sql);
             return false;
         }
-        //$ret = array();
         $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+        $_cachedForums[$cat][$perm_string]=array();
         while ($row = $this->db->fetchArray($result)) {
             $thisforum = $this->create(false);
             $thisforum->assignVars($row);
@@ -401,7 +407,7 @@ class NewbbForumHandler extends XoopsObjectHandler
             unset($thisforum);
         }
         // TODO: Retrieve subforums
-        return @$_cachedForums[$cat][$perm_string];
+        return $_cachedForums[$cat][$perm_string];
     }
 
     function getForumsByCat($cat = 0)
@@ -412,7 +418,7 @@ class NewbbForumHandler extends XoopsObjectHandler
         }
         $sql .= " ORDER BY forum_order, forum_id=parent_forum";
         if (!$result = $this->db->query($sql)) {
-            //echo "<br />NewbbForumHandler::getForumsByCat error::" . $sql;
+            newbb_message("NewbbForumHandler::getForumsByCat error::" . $sql);
             return false;
         }
         $ret = array();
@@ -422,7 +428,6 @@ class NewbbForumHandler extends XoopsObjectHandler
             $ret[$row['cat_id']][$row['forum_id']] = $thisforum;
             unset($thisforum);
         }
-        // TODO: Retrieve subforums
         return $ret;
     }
 
@@ -473,7 +478,7 @@ class NewbbForumHandler extends XoopsObjectHandler
                 $extra_criteria = ' AND topic_replies < 1';
                 break;
             case 'unread':
-                $post_time = ' p.post_time > ' . $GLOBALS['last_visit'];
+                $post_time = ' p.post_time > ' . max($GLOBALS['last_visit'], $startdate);
                 $extra_criteria = '';
                 break;
             case 'all': // For viewall.php; do not display sticky topics at first
@@ -497,9 +502,9 @@ class NewbbForumHandler extends XoopsObjectHandler
         if(!empty($sort)) $sort = ' ORDER BY '. $sort;
         $approve_criteria = ' AND t.approved = 1 AND p.approved = 1';
         if($excerpt==0){
-        	$sql = 'SELECT t.*, u.name, u.uname,u2.name as last_post_name, u2.uname as last_poster, p.post_time as last_post_time, p.poster_name as last_poster_name, p.icon, p.post_id FROM ' . $this->db->prefix("bb_topics") . ' t LEFT JOIN ' . $this->db->prefix("users") . ' u ON u.uid = t.topic_poster LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = t.topic_last_post_id LEFT JOIN ' . $this->db->prefix("users") . ' u2 ON  u2.uid = p.uid WHERE ';
+        	$sql = 'SELECT t.*, u.name, u.uname, u2.uid, u2.name as last_post_name, u2.uname as last_poster, p.post_time as last_post_time, p.poster_name as last_poster_name, p.icon, p.post_id FROM ' . $this->db->prefix("bb_topics") . ' t LEFT JOIN ' . $this->db->prefix("users") . ' u ON u.uid = t.topic_poster LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = t.topic_last_post_id LEFT JOIN ' . $this->db->prefix("users") . ' u2 ON  u2.uid = p.uid WHERE ';
     	}else{
-        	$sql = 'SELECT t.*, u.name, u.uname,u2.name as last_post_name, u2.uname as last_poster, p.post_time as last_post_time, p.poster_name as last_poster_name, p.icon, p.post_id, p.post_karma, p.require_reply, pt.post_text FROM ' . $this->db->prefix("bb_topics") . ' t LEFT JOIN ' . $this->db->prefix("users") . ' u ON u.uid = t.topic_poster LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = t.topic_last_post_id LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' pt ON pt.post_id = t.topic_last_post_id LEFT JOIN ' . $this->db->prefix("users") . ' u2 ON  u2.uid = p.uid WHERE ';
+        	$sql = 'SELECT t.*, u.name, u.uname, u2.uid, u2.name as last_post_name, u2.uname as last_poster, p.post_time as last_post_time, p.poster_name as last_poster_name, p.icon, p.post_id, p.post_karma, p.require_reply, pt.post_text FROM ' . $this->db->prefix("bb_topics") . ' t LEFT JOIN ' . $this->db->prefix("users") . ' u ON u.uid = t.topic_poster LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = t.topic_last_post_id LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' pt ON pt.post_id = t.topic_last_post_id LEFT JOIN ' . $this->db->prefix("users") . ' u2 ON  u2.uid = p.uid WHERE ';
     	}
         $sql .= $post_time . $forum_criteria . $extra_criteria . $approve_criteria . $sort;
 
@@ -550,7 +555,7 @@ class NewbbForumHandler extends XoopsObjectHandler
             if ($myrow['topic_haspoll'] && $myrow['topic_sticky']) {
                 $topic_icon = newbb_displayImage($forumImage['folder_sticky'], _MD_TOPICSTICKY) . '<br />' . newbb_displayImage($forumImage['poll'], _MD_TOPICHASPOLL);
                 $stick = 0;
-                $sticky++;
+                //$sticky++;
             }
             // ------------------------------------------------------
             // topic_folder: priority: newhot -> hot/new -> regular
@@ -630,16 +635,16 @@ class NewbbForumHandler extends XoopsObjectHandler
         	}else{
                 $topic_last_poster = $xoopsConfig['anonymous'];
             }
+            if($myrow['uid']>0){
+	            $topic_last_poster = '<a href="' . XOOPS_URL . '/userinfo.php?uid=' . $myrow['uid'] . '">' . $topic_last_poster . '</a>';
+            }
             // ------------------------------------------------------
             // => topic array
             if (is_object($viewall_forums[$myrow['forum_id']]))
                 $forum_link = '<a href="' . XOOPS_URL . '/modules/newbb/viewforum.php?forum=' . $myrow['forum_id'] . '">' . $myts->htmlSpecialChars($viewall_forums[$myrow['forum_id']]->getVar('forum_name')) . '</a>';
             else $forum_link = '';
 
-            if (newbb_isAdmin($forum,$myrow['topic_poster']) && $xoopsModuleConfig['allow_moderator_html'])
-                $topic_title = $myrow['topic_title'];
-            else
-                $topic_title = $myts->htmlSpecialChars($myrow['topic_title']);
+           	$topic_title = $myts->htmlSpecialChars($myrow['topic_title']);
             if ($myrow['topic_digest']) $topic_title = "<span class='digest'>" . $topic_title . "</span>";
 
             $subjectpres = explode(',', $xoopsModuleConfig['subject_prefix']);
@@ -648,6 +653,7 @@ class NewbbForumHandler extends XoopsObjectHandler
                     $subject_array[] = $subjectpre;
                 }
             }
+            $subject_array[0] = null;
 
             if( $excerpt == 0 ){
 	            $topic_excerpt = "";
@@ -655,13 +661,16 @@ class NewbbForumHandler extends XoopsObjectHandler
 	            $topic_excerpt = "";
             }else{
 	            $topic_excerpt = xoops_substr(newbb_html2text($myrow['post_text']), 0, $excerpt);
+	            $topic_excerpt = $myts->htmlSpecialChars($topic_excerpt);
             }
 
-            $topics[$myrow['topic_id']] = array('topic_icon' => $topic_icon,
+            $topic_subject = ($allow_subject_prefix)?$subject_array[$myrow['topic_subject']]:"";
+            $topics[$myrow['topic_id']] = array(
+            	'topic_icon' => $topic_icon,
                 'topic_folder' => newbb_displayImage($topic_folder),
-                'topic_title' => $topic_title,
-                'allow_prefix' => $allow_subject_prefix,
-                'topic_subject' => $subject_array[$myrow['topic_subject']],
+                'topic_title' => $topic_subject.$topic_title,
+                //'allow_prefix' => $allow_subject_prefix,
+                //'topic_subject' => $subject_array[$myrow['topic_subject']],
                 'topic_link' => 'viewtopic.php?topic_id=' . $myrow['topic_id'] . '&amp;forum=' . $myrow['forum_id'],
                 'rating_img' => $rating_img,
                 'topic_page_jump' => $topic_page_jump,
@@ -669,7 +678,8 @@ class NewbbForumHandler extends XoopsObjectHandler
                 'topic_replies' => $myrow['topic_replies'],
                 'topic_poster' => $topic_poster,
                 'topic_views' => $myrow['topic_views'],
-                'topic_last_posttime' => formatTimestamp($myrow['last_post_time']),
+                'topic_time' => newbb_formatTimestamp($myrow['topic_time']),
+                'topic_last_posttime' => newbb_formatTimestamp($myrow['last_post_time']),
                 'topic_last_poster' => $topic_last_poster,
                 'topic_forum_link' => $forum_link,
                 'topic_excerpt' => $topic_excerpt,
@@ -702,6 +712,18 @@ class NewbbForumHandler extends XoopsObjectHandler
                     $post_time = ' p.post_time > ' . $startdate;
                     $extra_criteria = ' AND topic_replies < 1';
                     break;
+	            case 'unread':
+					$time_criterion = max($GLOBALS['last_visit'], $startdate);
+	                $post_time = ' p.post_time > ' . $time_criterion;
+	                $extra_criteria = '';
+	        		$topics = array();
+        			$topic_lastread = newbb_getcookie('LT', true);
+	        		if(count($topic_lastread)>0) foreach($topic_lastread as $id=>$time){
+		        		if($time > $time_criterion) $topics[] = $id;
+			        }
+			        if(count($topics)>0)
+	                $extra_criteria = ' AND t.topic_id NOT IN ('.implode(",", $topics).')';
+	                break;
 	            case 'all':
 	                $post_time = ' p.post_time > ' . $startdate;
 	                $extra_criteria = '';
@@ -728,7 +750,9 @@ class NewbbForumHandler extends XoopsObjectHandler
                 exit();
             }
             $myrow = $this->db->fetchArray($result);
-            return $myrow['count'];
+            $count = $myrow['count'];
+
+            return $count;
         }
 
 	    // get permission
@@ -752,7 +776,8 @@ class NewbbForumHandler extends XoopsObjectHandler
             if ("moderate" == $type) {
                 $permission = (newbb_isModerator($forum))?1:0;
             } else {
-                 if(in_array($type, array('post', 'addpoll'))) {
+				$topic_perm = array('post', 'view',  'reply', 'edit', 'delete', 'addpoll', 'vote', 'attach', 'noapprove');
+         		if(in_array($type, $topic_perm)) {
 	               	$perm_type = 'topic';
 	                $perm_item = 'forum_can_' . $type;
                 }
@@ -760,11 +785,11 @@ class NewbbForumHandler extends XoopsObjectHandler
 	               	$perm_type = 'forum';
 	                $perm_item = 'global_forum_access';
                 }
-	    			if (!isset($_cachedPerms[$perm_type])) {
-						$getpermission = &xoops_getmodulehandler('permission', 'newbb');
-						$_cachedPerms[$perm_type] = $getpermission->getPermissions($perm_type);
-	    			}
-                	$permission = (isset($_cachedPerms[$perm_type][$forum->getVar('forum_id')][$perm_item])) ? 1 : 0;
+    			if (!isset($_cachedPerms[$perm_type])) {
+					$getpermission = &xoops_getmodulehandler('permission', 'newbb');
+					$_cachedPerms[$perm_type] = $getpermission->getPermissions($perm_type);
+    			}
+            	$permission = (isset($_cachedPerms[$perm_type][$forum->getVar('forum_id')][$perm_item])) ? 1 : 0;
             }
             return $permission;
         }

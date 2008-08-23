@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.php,v 1.3.2.1 2005/01/06 23:00:14 praedator Exp $
+// $Id: admin.php,v 1.5 2005/05/15 12:25:54 phppp Exp $
 //%%%%%%	File Name  index.php   	%%%%%
 define("_AM_NEWBB_FORUMCONF","Forum Configuration");
 define("_AM_NEWBB_ADDAFORUM","Add a Forum");
@@ -120,7 +120,8 @@ define("_AM_NEWBB_INACTIVE","Inactive");
 define("_AM_NEWBB_STATE","Status:");
 define("_AM_NEWBB_CATEGORYDESC","Category Description:");
 define("_AM_NEWBB_SHOWDESC","Show Description?");
-define("_AM_NEWBB_SPONSORIMAGE","Sponsor Image:");
+define("_AM_NEWBB_IMAGE","Image:");
+//define("_AM_NEWBB_SPONSORIMAGE","Sponsor Image:");
 define("_AM_NEWBB_SPONSORLINK","Sponsor Link:");
 define("_AM_NEWBB_DELCAT","Delete Category");
 define("_AM_NEWBB_WAYSYWTDTTAL","Note: This will NOT remove the forums under the category, you must do that via the Edit Forum section.<br /><br />WARNING: Are you sure you want to delete this Category?");
@@ -153,6 +154,11 @@ define("_AM_NEWBB_MSG_FORUM_MOVED","Forum moved!");
 define("_AM_NEWBB_MSG_ERR_FORUM_MOVED","Failed to move forum.");
 define("_AM_NEWBB_SELECT","< Select >");
 define("_AM_NEWBB_MOVETHISFORUM","Move this Forum");
+define("_AM_NEWBB_MERGE","Merge");
+define("_AM_NEWBB_MERGETHISFORUM","Merge this Forum");
+define("_AM_NEWBB_MERGETO_FORUM","Merge this forum to:");
+define("_AM_NEWBB_MSG_FORUM_MERGED","Forum merged!");
+define("_AM_NEWBB_MSG_ERR_FORUM_MERGED","Failed to merge forum.");
 
 //%%%%%%        File Name  admin_forum_reorder.php           %%%%%
 define("_AM_NEWBB_REORDERID","ID");

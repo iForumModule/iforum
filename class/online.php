@@ -1,5 +1,5 @@
 <?php
-// $Id: online.php,v 1.1.4.4 2005/01/19 22:10:59 phppp Exp $
+// $Id: online.php,v 1.4 2005/04/18 01:22:28 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -165,10 +165,11 @@ class NewbbOnlineHandler
             return false;
         }
 
+		//$sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE NOT EXISTS ( SELECT * FROM ".$this->db->prefix('online')." AS aa WHERE online_uid = aa.online_uid AND aa.online_module =".$xoopsModule->getVar('mid').")";
+
         //$sql = "DELETE FROM ".$this->db->prefix('bb_online')." AS bb LEFT JOIN ".$this->db->prefix('online')." AS aa ON bb.online_uid = aa.online_uid	WHERE aa.online_uid IS NULL";
         //$sql = "DELETE FROM ".$this->db->prefix('bb_online')." AS bb WHERE NOT EXISTS ( SELECT * FROM ".$this->db->prefix('online')." AS aa WHERE bb.online_uid = aa.online_uid AND aa.online_module =".$xoopsModule->getVar('mid').")";
         //$sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE online_uid NOT IN ( SELECT DISTINCT online_uid FROM ".$this->db->prefix('online')." WHERE online_module =".$xoopsModule->getVar('mid').")";
-
         /* */
         $uids = array();
         $ips = array();

@@ -1,46 +1,134 @@
+CBB
 
-Changes for 2.0.2:
+XOOPS Community bulletin Board
+The further development of NewBB 2 which was developed by predator(Marko) and phppp(D.J.)
 
-- Bugfix: silly delete Bug
-- Bugfix: Poll Button was visible even if selected disallow in the Forum settings
-- Bugfix: " was missing in templates viewtopic_flat.html and viewtopic_thread.html
-- Bugfix: read / unread
-- Bugfix: search typo error 
-- Added: TinyMCE Editor support
-- Added: Permission setting for the Subject Prefix
-
-
-- Changes in the Language Files:
-
-added
-
--- main.php
----- define("_MD_FORM_TINYMCE","TinyMCE Editor");
--- modinfo.php
----- define("_MI_SUBJECT_PREFIX_LEVEL", "Level for groups that can use Prefix");
----- define("_MI_SUBJECT_PREFIX_LEVEL_DESC", "Choose the groups allowed to use prefix.");
----- define("_MI_SPL_DISABLE", 'Disable');
----- define("_MI_SPL_ANYONE", 'Anyone');
----- define("_MI_SPL_MEMBER", 'Members');
----- define("_MI_SPL_MODERATOR", 'Moderators');
----- define("_MI_SPL_ADMIN", 'Administrators');
----- define("_MI_FORM_TINYMCE","TinyMCE Editor");
+Changelog 1.14
+==============
+1 bugfix for inactive user posting (Reported by Aries @ xoops.org.cn)
+2 bugfix for deleting topic with poll (Reported by gropius @ xoops.org.cn)
+3 change default value for displaying forum topic time duration (Reported by Zjerre @ xoops.org)
+4 change formselectuser.php for XOOPS 2.2
 
 
+Changelog 1.13
+==============
+1 bugfix for IP recording (Reported by alitan @ xoops.org)
+2 changing time display for "Today/yesterday ..." (Reported by alitan @ xoops.org)
+3 adding post link (Preliminary solution by ackbarr && Suggested by Peekay @ xoops.org)
+4 further cleaning "Compact mode" (Suggested by Rou4 @ XOOPS CHINA)
+5 adding new block "recent post text"
+6 bugfix for function newbb_admin_mkdir
+7 bugfix for permission table of locked topic
+8 adding indication for locked topic in view topic (Requested by SuperVoley @ xoops.org)
+9 bugfix for category management (Reported by chia @ xoops.tnc.edu.tw)
+10 bugfix for subject sanitizing problem (Reported by CeBepuH @ xoops.org)
+11 rolling back signature to pure xcode format (comprehensive improvement is expected after XOOPS 2.2)
+12 bugfix for empty message check in quick reply
+13 template validation on XHTML 1.0 (not complete yet)
+14 compatible with news 1.30+ for posttonews (reported by cosmodrum @ xoops.org)
 
-Changes for 2.0.1:
 
-- Security fixes ( Thanks for the suggestions from Dave_L, and inspiration from GIJOE and Onokazu. ) 
-- Bugfix for search
-- Bugfix for require_reply
-- Bugfix for Languagefiles in the PDF folder for japanese and korean
-- Bugfix online: update NewBB's online info according to XOOPS' online info
-- Bugfix post class: delete()
-- Add expand-, collapsed- and hiddenview for subforums
-- Add see Posttext by moving the mouse over the Threadtitle in Forumview 
-
-Helpfiles included ( thanks to the french Xoops Support and philou )
-
+Changelog 1.12
+==============
+1 login on-fly in "quick reply" (requested by Rou4 @ XOOPS CHINA)
+2 sort order in viewpost.php (reported by kmac @ XOOPS CHINA)
+3 bugfix for time display (reported by kmac @ XOOPS CHINA)
+4 clean display of regist date (requested by kmac @ XOOPS CHINA)
+5 bugfix for forum selection in "advanced search" (reported by kmac @ XOOPS CHINA)
+6 rolling back missed disclaimer (reported by kmac @ XOOPS CHINA)
+7 bugfix for duplicated security check and post_time_limit check (reported by kmac @ XOOPS CHINA)
+8 permission check for poll management (reported by karuna @ XOOPS CHINA)
 
 
+Changelog 1.11
+==============
+1 re-write user info renderer
+2 bugfix for poster display in thread mode (reported by iamtj @ XOOPS CHINA)
+3 correction of deleting post message (reported by iamtj @ XOOPS CHINA)
+4 post backup if submission exceeds session limit or time limit
+5 correction of encoding problem in XOOPS function formatTimestamp($time, 'rss') (reported by chia @ XOOPS CHINA)
 
+
+Changelog 1.10
+==============
+1 bugfix and layout improvement (suggested by iamtj @ XOOPS CHINA, fast reply in thread mode, anonymous button, register to post ...)
+2 rolling back "RSS enable" (requested by Aries @ XOOPS CHINA, CeBepuH @ XOOPS)
+3 bugfix for template dir in rss.php (reported by jodn007 @ XOOPS CHINA)
+4 bugfix for caching in rss.php
+5 bugfix for rss encoding conversion (reported by chia @ XOOPS CHINA)
+6 read new posts since last visit (Tuning suggested by Peekay @ XOOPS)
+7 enable 'delete top post' (requested by iamtj @ XOOPS CHINA)
+8 bugfix for Last Visit recording
+9 bugfix/improvement for "move forum"
+10 adding "merge forum"
+11 post date / poster ip display changed
+12 options for user level bar
+13 backward/forward compatible with XOOPS 2.0*
+
+
+Changelog 1.00
+==============
+
+Changelog over NewBB 2.02:
+1 CBB uses the same DB stucture/data with NewBB 2, it is convenient to switch between current CBB and current NewBB 2.
+2 bugfixes for NewBB 2.02
+3 clean/correct NewBB 2 templates
+
+Major new features ( most suggested by XOOPS CHINA users)
+1 dropdown menu selectable for end users: SELECT BOX, CLICK, HOVER
+2 multi-attachments upload
+3 RSS improvement, individual RSS Feeds for each category, each forum and the global module
+4 FPDF improvement, UTF-8 encoding is now working
+5 user friendly time display, four types: Today, Yesterday, this year and longer than one year
+6 block handler: recent posts, recent topics, most views, most replies, recent digest, recent sticky, most valuable posters
+7 time periods for blocks, you could have most views in last 24 hours, most views in this week, most views in this month
+8 new page: view all posts, view new posts since last visit
+9 "New member": an introduction thead will be posted automatically when a user logs on for the first time (if enabled)
+10 adding dobr parameter
+
+
+CBB
+SITE: HTTP://XOOPS.ORG.CN
+DEMO: HTTP://XOOPS.ORG.CN
+SUPP: http://xoops.org.cn/modules/newbb/viewforum.php?forum=17
+
+Appendix
+1 Dropdown menu color configuration: adding dropdown menu color to theme/style.css as following:
+/* color -- dropdown menu for Forum */
+div.dropdown a, div.dropdown .menubar a{
+	color:#FFF;
+}
+
+div.dropdown .menu, div.dropdown .menubar, div.dropdown .item, div.dropdown .separator{
+	background-color: #2F5376; /* color set in your theme/style.ss .th{} is recommended */
+	color:#FFF;
+}
+
+div.dropdown .separator{
+	border: 1px inset #e0e0e0;
+}
+
+div.dropdown .menu a:hover, div.dropdown .userbar a:hover{
+	color: #333;
+}
+/* color - end */
+
+2 Fix for "right-to-left" themes (Arabic, Persian and more): adding to theme/style.css as following:
+
+/* direction -- for rtl */
+div.dropdown ul, div.dropdown .userbar{
+	direction: ltr;
+}
+
+div.dropdown li ul {
+	left: -150px !important; /* for IE, tune the value if necessary */
+}
+div.dropdown li>ul { 
+	left: -1px !important; /* for non-IE, tune the value if necessary */
+}
+
+div.dropdown .userbar{
+	float: right !important;  /* need a more formal solution, any help would be appreciated */
+}
+/* direction fix end */

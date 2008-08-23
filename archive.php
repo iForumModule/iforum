@@ -1,5 +1,5 @@
 <?php
-// $Id: archive.php,v 1.3.4.2 2005/01/07 05:26:41 phppp Exp $
+// $Id: archive.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

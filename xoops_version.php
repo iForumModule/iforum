@@ -1,5 +1,5 @@
 <?php
-// $Id: xoops_version.php,v 1.6.2.6 2005/01/10 01:49:41 phppp Exp $
+// $Id: xoops_version.php,v 1.8 2005/06/03 01:35:02 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -25,65 +25,34 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-$modversion['name'] = "NewBB 2.0";
-$modversion['version'] = 2.02;
+$modversion['name'] = _MI_NEWBB_NAME;
+$modversion['version'] = 1.14;
 $modversion['description'] = _MI_NEWBB_DESC;
-$modversion['credits'] = "The XOOPS Project, samuels, phppp, Dave_L, herve, Mithrandir,  The Xoops China, The French Xoops Support";
-$modversion['author'] = "The XOOPS Project Module Dev Team - NewBB Teamleader Predator";
+$modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp) up to Feb 2005";
+$modversion['author'] = "D.J. (phppp), XOOPS CHINA Dev Group (http://xoops.org.cn)";
 $modversion['help'] = "";
 $modversion['license'] = "GNU General Public License (GPL) see LICENSE";
-$modversion['official'] = 1;
+$modversion['official'] = 0;
 $modversion['image'] = "images/xoopsbb_slogo.png";
 $modversion['dirname'] = "newbb";
 
-// Added by marcan for the About page in admin section
-$modversion['author_realname'] = "Marko Schmuck";
-$modversion['author_website_url'] = "http://dev.xoops.org";
-$modversion['author_website_name'] = "dev.xoops.org";
-$modversion['author_email'] = "predator@xoops.org";
-$modversion['status_version'] = "2.02";
-$modversion['status'] = "Final";
+$modversion['author_realname'] = "XOOPS CHINA Dev Group";
+$modversion['author_website_url'] = "http://xoops.org.cn";
+$modversion['author_website_name'] = "XOOPS CHINA";
+$modversion['author_email'] = "infomax@gmail.com";
+$modversion['status_version'] = "1.14";
+$modversion['status'] = "20050515";
 
-$modversion['warning'] = "This module comes as it is, without any guarantees what so ever.
-Although this module is not beta, it is still under active development. This release can be used
-in a live website or a production environment, but its <strong>use</strong> is under your own responsibility,
-which means the author is not responsible.";
+$modversion['warning'] = "The further development of NewBB 2";
 
-$modversion['demo_site_url'] = "http://www.xoops2.org";
-$modversion['demo_site_name'] = "NewBB Demo";
-$modversion['support_site_url'] = "http://dev.xoops.org/modules/xfmod/project/?newbb";
-$modversion['support_site_name'] = "Newbb on the Developers Forge";
-$modversion['submit_bug'] = "http://dev.xoops.org/modules/xfmod/tracker/?func=add&group_id=1001&atid=104";
-$modversion['submit_feature'] = "http://dev.xoops.org/modules/xfmod/tracker/?func=add&group_id=1001&atid=107";
+$modversion['demo_site_url'] = "http://xoops.org.cn";
+$modversion['demo_site_name'] = "XOOPS CHINA";
+$modversion['support_site_url'] = "http://xoops.org.cn/modules/newbb/viewforum.php?forum=17";
+$modversion['support_site_name'] = "XOOPS CHINA Dev Forum";
+$modversion['submit_bug'] = "http://xoops.org.cn/modules/newbb/viewforum.php?forum=17";
+$modversion['submit_feature'] = "http://xoops.org.cn/modules/newbb/viewforum.php?forum=17";
 
-$modversion['author_word'] = "
-<strong>NewBB</strong> is the result of multiple ideas from multiple people.
-<br /><br />
-For some external code very big thanks to:
-<br /><br />
-About page ( this here ) by marcan http://www.smartfactory.ca<br />
-Blockadmin by GIJOE<br />
-Adminmenu by Horacio http://www.mesadepruebas.com
-<br /><br />
-Special thanks also to Mithrandir (Jan Pedersen) for all the help by the grouppermission , a very big thanks to phppp  from Xoops China for his excellent teamwork and The Xoops China Community which put a lot of work into the newbb.
-<br /><br />
-For the Buttons thanks to simeon and alitanara.
-<br /><br />
-For the dutch translation: jan304 http://xoops.jan304.org <br />
-For the french translation: outch and the French Xoops Support http://www.frxoops.org<br />
-For the persian translation: irmtfan http://www.jadoogaran.com<br />
-For the german translation: the http://www.xoops-city.de team.<br />
-For the portuguese brazil translation: Valcilon, victorcpd from http://www.xoopstotal.com.br .<br />
-For the spanish translation: Marco Sánchez (Dr. Clone) http://www.drclone.net .<br />
-For the italian translation: Blueangel http://www.xoopsit.net .<br />
-For the russian translation: Alexxus http://www.xoops.ru .<br />
-For the swedish translation: perhol http://fino.net .<br />
-For the schinese and tchinese translation: phppp, chia and the Xoops China http://www.xoops.org.cn .<br />
-<br /><br />
-Finally, thanks to all the people who made that module possible, samuels, phppp, David_L, herve, bbchen and so many others !
-<br /><br />
-So, enjoy newBB !
-";
+$modversion['author_word'] = "The thank goes to Team Predator (Marko Schmuck)";
 
 
 // Sql file (must contain sql generated by phpMyAdmin or phpPgAdmin)
@@ -102,7 +71,6 @@ $modversion['tables'][7] = "bb_online";
 $modversion['tables'][8] = "bb_digest";
 $modversion['tables'][9] = "bb_report";
 $modversion['tables'][10] = "bb_attachments"; // reserved table for next version
-
 
 // Admin things
 $modversion['hasAdmin'] = 1;
@@ -137,34 +105,153 @@ $modversion['templates'][10]['file'] = 'newbb_poll_view.html';
 $modversion['templates'][10]['description'] = '';
 $modversion['templates'][11]['file'] = 'newbb_online.html';
 $modversion['templates'][11]['description'] = '';
+$modversion['templates'][12]['file'] = 'newbb_viewpost.html';
+$modversion['templates'][12]['description'] = '';
+$modversion['templates'][13]['file'] = 'newbb_item.html';
+$modversion['templates'][13]['description'] = '';
+$modversion['templates'][14]['file'] = 'newbb_viewpost_list.html';
+$modversion['templates'][14]['description'] = '';
 
 
 // Blocks
-//$modversion['blocks'][$i]['options'] = "NumberToDisplay|DisplayMode(0-fullview;1-compactview;2-liteview)|OrderBy|SelectedForumIDs";
 
-$modversion['blocks'][1]['file'] = "newbb_block.php";
-$modversion['blocks'][1]['name'] = _MI_NEWBB_BNAME1;
-$modversion['blocks'][1]['description'] = "Shows recent topics in the forums";
-$modversion['blocks'][1]['show_func'] = "b_newbb_show";
-$modversion['blocks'][1]['options'] = "10|0|time|0";
-$modversion['blocks'][1]['edit_func'] = "b_newbb_edit";
-$modversion['blocks'][1]['template'] = 'newbb_block.html';
+// options[0] - Citeria valid: time(by default)
+// options[1] - NumberToDisplay: any positive integer
+// options[2] - reserved
+// options[3] - DisplayMode: 0-full view;1-compact view;2-lite view
+// options[4] - Display Navigator: 1 (by default), 0 (No)
+// options[5] - SelectedForumIDs: null for all
 
-$modversion['blocks'][2]['file'] = "newbb_block.php";
-$modversion['blocks'][2]['name'] = _MI_NEWBB_BNAME2;
-$modversion['blocks'][2]['description'] = "Shows most viewed topics in the forums";
-$modversion['blocks'][2]['show_func'] = "b_newbb_show";
-$modversion['blocks'][2]['options'] = "10|0|views|0";
-$modversion['blocks'][2]['edit_func'] = "b_newbb_edit";
-$modversion['blocks'][2]['template'] = 'newbb_block.html';
+$modversion['blocks'][1] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME0,
+	'description' => "Shows recent replied topics",
+	'show_func' => "b_newbb_show",
+	'options' => "time|5|0|0|1|0",
+	'edit_func' => "b_newbb_edit",
+	'template' => 'newbb_block.html');
 
-$modversion['blocks'][3]['file'] = "newbb_block.php";
-$modversion['blocks'][3]['name'] = _MI_NEWBB_BNAME3;
-$modversion['blocks'][3]['description'] = "Shows most active topics in the forums";
-$modversion['blocks'][3]['show_func'] = "b_newbb_show";
-$modversion['blocks'][3]['options'] = "10|0|replies|0";
-$modversion['blocks'][3]['edit_func'] = "b_newbb_edit";
-$modversion['blocks'][3]['template'] = 'newbb_block.html';
+// options[0] - Citeria valid: time(by default), views, replies, digest, sticky
+// options[1] - NumberToDisplay: any positive integer
+// options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
+// options[3] - DisplayMode: 0-full view;1-compact view;2-lite view
+// options[4] - Display Navigator: 1 (by default), 0 (No)
+// options[5] - Title Length : 0 - no limit
+// options[6] - SelectedForumIDs: null for all
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME1,
+	'description' => "Shows recent topics in the forums",
+	'show_func' => "b_newbb_topic_show",
+	'options' => "time|5|0|0|1|0|0",
+	'edit_func' => "b_newbb_topic_edit",
+	'template' => 'newbb_block_topic.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME2,
+	'description' => "Shows most viewed topics in the forums",
+	'show_func' => "b_newbb_topic_show",
+	'options' => "views|5|0|0|1|0|0",
+	'edit_func' => "b_newbb_topic_edit",
+	'template' => 'newbb_block_topic.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME3,
+	'description' => "Shows most active topics in the forums",
+	'show_func' => "b_newbb_topic_show",
+	'options' => "replies|5|0|0|1|0|0",
+	'edit_func' => "b_newbb_topic_edit",
+	'template' => 'newbb_block_topic.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME4,
+	'description' => "Shows recent digest topics in the forums",
+	'show_func' => "b_newbb_topic_show",
+	'options' => "digest|5|0|2|0|30|0",
+	'edit_func' => "b_newbb_topic_edit",
+	'template' => 'newbb_block_topic.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME5,
+	'description' => "Shows recent sticky topics in the forums",
+	'show_func' => "b_newbb_topic_show",
+	'options' => "sticky|5|0|0|1|0|0",
+	'edit_func' => "b_newbb_topic_edit",
+	'template' => 'newbb_block_topic.html');
+
+// options[0] - Citeria valid: time(by default), text
+// options[1] - NumberToDisplay: any positive integer
+// options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
+// options[3] - DisplayMode: 0-full view;1-compact view;2-lite view; Only valid for "time"
+// options[4] - Display Navigator: 1 (by default), 0 (No)
+// options[5] - Title/Text Length : 0 - no limit
+// options[6] - SelectedForumIDs: null for all
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME6,
+	'description' => "Shows recent posts in the forums",
+	'show_func' => "b_newbb_post_show",
+	'options' => "time|10|0|0|1|0|0",
+	'edit_func' => "b_newbb_post_edit",
+	'template' => 'newbb_block_post.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME11,
+	'description' => "Shows recent post text in the forums",
+	'show_func' => "b_newbb_post_show",
+	'options' => "text|5|0|0|1|100|0",
+	'edit_func' => "b_newbb_post_edit",
+	'template' => 'newbb_block_text.html');
+
+// options[0] - Citeria valid: post(by default), topic, digest, sticky
+// options[1] - NumberToDisplay: any positive integer
+// options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
+// options[3] - DisplayMode: 0-full view;1-compact view;
+// options[4] - Display Navigator: 1 (by default), 0 (No)
+// options[5] - SelectedForumIDs: null for all
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME7,
+	'description' => "Shows authors having most topics in the forums",
+	'show_func' => "b_newbb_author_show",
+	'options' => "topic|5|0|0|1|0",
+	'edit_func' => "b_newbb_author_edit",
+	'template' => 'newbb_block_author.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME8,
+	'description' => "Shows authors having most posts in the forums",
+	'show_func' => "b_newbb_author_show",
+	'options' => "post|5|0|0|1|0",
+	'edit_func' => "b_newbb_author_edit",
+	'template' => 'newbb_block_author.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME9,
+	'description' => "Shows authors having most digests in the forums",
+	'show_func' => "b_newbb_author_show",
+	'options' => "digest|5|0|0|1|0",
+	'edit_func' => "b_newbb_author_edit",
+	'template' => 'newbb_block_author.html');
+
+$modversion['blocks'][] = array(
+	'file' => "newbb_block.php",
+	'name' => _MI_NEWBB_BNAME10,
+	'description' => "Shows authors having most sticky topics in the forums",
+	'show_func' => "b_newbb_author_show",
+	'options' => "sticky|5|0|0|1|0",
+	'edit_func' => "b_newbb_author_edit",
+	'template' => 'newbb_block_author.html');
 
 
 // Search
@@ -176,6 +263,14 @@ $modversion['search']['func'] = "newbb_search";
 $modversion['use_smarty'] = 1;
 
 include_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
+
+$modversion['config'][] = array(
+	'name' 			=> 'do_debug',
+	'title' 		=> '_MI_DO_DEBUG',
+	'description' 	=> '_MI_DO_DEBUG_DESC',
+	'formtype' 		=> 'yesno',
+	'valuetype' 	=> 'int',
+	'default' 		=> 0);
 
 $handle = opendir(XOOPS_ROOT_PATH.'/modules/newbb/images/imagesets/');
 while (false !== ($file = readdir($handle))) {
@@ -201,7 +296,7 @@ $modversion['config'][] = array(
 	'formtype' 		=> 'select',
 	'valuetype' 	=> 'text',
 	'options' 		=> array('png'=>'png', 'gif'=>'gif', 'auto'=>'auto'),
-	'default' 		=> "png");
+	'default' 		=> "auto");
 
 $modversion['config'][] = array(
 	'name' 			=> 'pngforie_enabled',
@@ -209,7 +304,7 @@ $modversion['config'][] = array(
 	'description' 	=> '_MI_PNGFORIE_ENABLE_DESC',
 	'formtype' 		=> 'yesno',
 	'valuetype' 	=> 'int',
-	'default' 		=> 1);
+	'default' 		=> 0);
 
 $modversion['config'][] = array(
 	'name' => 'form_options',
@@ -262,6 +357,14 @@ $modversion['config'][] = array(
 	'formtype' => 'textbox',
 	'valuetype' => 'int',
 	'default' => 10);
+
+$modversion['config'][] = array(
+	'name' => 'posts_for_thread',
+	'title' => '_MI_POSTSFORTHREAD',
+	'description' => '_MI_POSTSFORTHREAD_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 200);
 
 
 $modversion['config'][] = array(
@@ -362,12 +465,13 @@ $modversion['config'][] = array(
 	'default' => '#006600');
 
 $modversion['config'][] = array(
-	'name' => 'levels_enabled',
-	'title' => '_MI_LEVELS_ENABLE',
-	'description' => '_MI_LEVELS_ENABLE_DESC',
-	'formtype' => 'yesno',
+	'name' => 'user_level',
+	'title' => '_MI_USERLEVEL',
+	'description' => '_MI_USERLEVEL_DESC',
+	'formtype' => 'select',
 	'valuetype' => 'int',
-	'default' => 1);
+	'default' => 1,
+	'options' => array( _MI_NULL => 0,_MI_TEXT => 1, _MI_GRAPHIC => 2));
 
 $modversion['config'][] = array(
 	'name' => 'userbar_enabled',
@@ -399,7 +503,7 @@ $modversion['config'][] = array(
 	'description' => '_MI_RATING_ENABLE_DESC',
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
-	'default' => 1);
+	'default' => 0);
 
 $modversion['config'][] = array(
 	'name' => 'reportmod_enabled',
@@ -439,7 +543,7 @@ $modversion['config'][] = array(
 	'description' => '',
 	'formtype' => 'textbox',
 	'valuetype' => 'int',
-	'default' => 200);
+	'default' => 0);
 
 $modversion['config'][] = array(
 	'name' => 'rss_cachetime',
@@ -455,7 +559,7 @@ $modversion['config'][] = array(
 	'description' => '_MI_RSS_UTF8_DESCRIPTION',
 	'formtype' => 'yesno',
 	'valuetype' => 'int',
-	'default' => 1);
+	'default' => 0);
 
 $modversion['config'][] = array(
 	'name' => 'view_mode',
@@ -464,7 +568,16 @@ $modversion['config'][] = array(
 	'formtype' => 'select',
 	'valuetype' => 'int',
 	'default' => 1,
-	'options' => array( _NONE => 0, _FLAT => 1, _THREADED => 2));
+	'options' => array( _NONE => 0, _FLAT => 1, _THREADED => 2, _MI_COMPACT => 3));
+
+$modversion['config'][] = array(
+	'name' => 'menu_mode',
+	'title' => '_MI_MENUMODE',
+	'description' => '_MI_MENUMODE_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'int',
+	'default' => 0,
+	'options' => array( "SELECT" => 0, "CLICK"=>1, "HOVER" => 2));
 
 $modversion['config'][] = array(
 	'name' => 'show_jump',
@@ -530,14 +643,6 @@ $modversion['config'][] = array(
 	'formtype' => 'textbox',
 	'valuetype' => 'int',
 	'default' => 100);
-
-$modversion['config'][] = array(
-	'name' => 'allow_moderator_html',
-	'title' => '_MI_MODERATOR_HTML',
-	'description' => '_MI_MODERATOR_HTML_DESC',
-	'formtype' => 'yesno',
-	'valuetype' => 'int',
-	'default' => 1);
 
 $modversion['config'][] = array(
 	'name' => 'allow_user_anonymous',
@@ -627,7 +732,31 @@ $modversion['config'][] = array(
 	'description' => '_MI_DISCLAIMER_DESC',
 	'formtype' => 'textarea',
 	'valuetype' => 'text',
-	'default' => '<center>The forum contains a lot of posts with a lot of usefull information. <br /><br />In order to keep the number of double-posts to a minimum, we would like to ask you to use the forum search before posting your questions here.</center>');
+	'default' => _MI_DISCLAIMER_TEXT);
+
+// welcome forum -- inspired by wforum@zixia: http://wforum.zixia.net
+$forum_options = array(_NONE => 0);
+$forums = array();
+if($forum_handler = &xoops_getmodulehandler('forum', 'newbb', true)){
+	$forums = $forum_handler->getForums();
+}
+if(is_array($forums)&&count($forums)>0){
+	ksort($forums);
+	foreach (array_keys($forums) as $fid) {
+		$forum_options[$forums[$fid]->getVar('forum_name')] = $fid;
+	}
+	unset($forums);
+}
+
+$modversion['config'][] = array(
+	'name' => 'welcome_forum',
+	'title' => '_MI_WELCOMEFORUM',
+	'description' => '_MI_WELCOMEFORUM_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'int',
+	'default' => 0,
+	'options' => $forum_options);
+
 
 // Notification
 

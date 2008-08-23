@@ -1,5 +1,5 @@
 <?php
-// $Id: formselectuser.php,v 1.1.4.1 2005/01/06 22:57:17 praedator Exp $
+// $Id: formselectuser.php,v 1.5 2005/06/03 01:36:11 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -25,9 +25,9 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-include_once XOOPS_ROOT_PATH . "/class/xoopsform/formselectuser.php";
+require_once XOOPS_ROOT_PATH . "/class/xoopsform/formselect.php";
 
-class NewbbFormSelectUser extends XoopsFormSelectUser
+class NewbbFormSelectUser extends XoopsFormSelect
 {
     function NewbbFormSelectUser($caption, $name, $start = 0, $limit = 200, $value = null, $include_anon = false, $size = 10, $multiple = true)
     {
@@ -43,10 +43,22 @@ class NewbbFormSelectUser extends XoopsFormSelectUser
         if ($include_anon) {
             global $xoopsConfig;
             $this->addOption(0, $xoopsConfig['anonymous']);
-        } 
+        }
         $this->addOptionArray($member_handler->getUserList($criteria));
-    } 
+    }
 
-} 
+    /*
+	function XoopsFormSelectUser($caption, $name, $include_anon=false, $value=null, $size=1, $multiple=false)
+	{
+	    $this->XoopsFormSelect($caption, $name, $value, $size, $multiple);
+		$member_handler =& xoops_gethandler('member');
+		if ($include_anon) {
+			global $xoopsConfig;
+			$this->addOption(0, $xoopsConfig['anonymous']);
+		}
+		$this->addOptionArray($member_handler->getUserList());
+	}
+	*/
+}
 
 ?>
