@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_cat_manager.php,v 1.1.1.17 2004/11/13 23:49:08 phppp Exp $
+// $Id: admin_cat_manager.php,v 1.6.6.1 2005/01/06 22:55:33 praedator Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //

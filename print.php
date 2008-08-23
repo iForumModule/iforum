@@ -1,5 +1,5 @@
 <?php
-// $Id: print.php,v 1.1.1.14 2004/11/16 04:35:25 phppp Exp $
+// $Id: print.php,v 1.2.6.2 2005/01/20 21:14:58 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -82,7 +82,7 @@ function PrintPage($topic_id, $forum_id, $start=0, $order = '')
 		if(!$post->getVar('approved'))    continue;
 		$post_data = $post_handler->getPostForPrint($post);
 		echo "<h2 style='margin: 0;'>".$post_data['subject']."</h2>
- 	          <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".$post_data['date']."</div>
+ 	          <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".formatTimestamp($post_data['date'])."</div>
 		      <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
 		      <div style='text-align: left'>".$post_data['text']."</div>
 		      <div style='padding-top: 12px; border-top: 2px solid #ccc;'></div><br />";
@@ -114,7 +114,7 @@ function PrintPost($post_id, $topic_id, $forum_id)
  		  <div style='text-align: center; display: block; margin: 0 0 6px 0;'>
 	      <img src='" . XOOPS_URL . "/modules/newbb/images/xoopsbb_slogo.png' border='0' alt='' />
 	      <h2 style='margin: 0;'>".$post_data['subject']."</h2></div>
- 	      <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".$post_data['date']."</div>
+ 	      <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".formatTimestamp($post_data['date'])."</div>
 		  <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
 		   	<div style='text-align: left'>".$post_data['text']."</div>
 			<div style='padding-top: 12px; border-top: 2px solid #ccc;'></div>

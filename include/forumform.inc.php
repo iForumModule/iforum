@@ -1,5 +1,5 @@
 <?php
-// $Id: forumform.inc.php,v 1.1.1.51 2004/11/15 18:19:20 phppp Exp $
+// $Id: forumform.inc.php,v 1.4.4.3 2005/01/10 01:49:41 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -75,7 +75,7 @@ if(count($xoopsModuleConfig['form_options'])>1 && !$contents_preview){
 	$select_form = new XoopsThemeForm('', 'newbb_formtype', xoops_getenv('PHP_SELF'), 'get');
 
 	$options = array();
-	$newbb_forms = array( 'textarea' => _MD_FORM_COMPACT, 'dhtml' => _MD_FORM_DHTML, 'spaw' => _MD_FORM_SPAW, 'htmlarea' => _MD_FORM_HTMLAREA, 'koivi' =>  _MD_FORM_KOIVI, 'fck' => _MD_FORM_FCK );
+	$newbb_forms = array( 'textarea' => _MD_FORM_COMPACT, 'dhtml' => _MD_FORM_DHTML, 'spaw' => _MD_FORM_SPAW, 'htmlarea' => _MD_FORM_HTMLAREA, 'koivi' =>  _MD_FORM_KOIVI, 'fck' => _MD_FORM_FCK, 'tinymce' => _MD_FORM_TINYMCE );
 	foreach($xoopsModuleConfig['form_options'] as $option){
 		$options[$option]=$newbb_forms[$option];
 	}
@@ -110,10 +110,12 @@ $forum_form_action = (empty($admin_form_action))?"post.php":$admin_form_action; 
 $forum_form = new XoopsThemeForm('', 'forumform', $forum_form_action);
 $forum_form->setExtra('enctype="multipart/form-data"');
 
-if (newbb_isAdmin($forum)) {
+//if (newbb_isAdmin($forum)) {
+if (newbb_checkSubjectPrefixPermission($forum)) {
 	if ($forum->getVar('allow_subject_prefix')) {
 		$subject_add = new XoopsFormElementTray(_MD_TOPIC_SUBJECTC,'');
 		$subjectpres = explode(',',$xoopsModuleConfig['subject_prefix']);
+		$subjectpres = array_map('trim',$subjectpres);
 		if(count($subjectpres)>1) {
 			foreach($subjectpres as $subjectpre){
 				$subject_array[]=trim($subjectpre);
@@ -245,6 +247,7 @@ if($xoopsModuleConfig['enable_karma'] || $xoopsModuleConfig['allow_require_reply
 	}
 	if($xoopsModuleConfig['enable_karma']){
 		$karmas = explode(',',$xoopsModuleConfig['karma_options']);
+		$karmas = array_map("trim", $karmas);
 		if(count($karmas)>1) {
 			foreach($karmas as $karma){
 				$karma_array[strval($karma)] = intval($karma);

@@ -1,5 +1,5 @@
 <?php
-// $Id: fpdf.inc.php,v 1.1.2.4 2004/11/16 19:06:02 phppp Exp $
+// $Id: fpdf.inc.php,v 1.1.4.2 2005/01/07 05:29:58 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

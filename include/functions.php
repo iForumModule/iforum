@@ -1,5 +1,5 @@
 <?php
-// $Id: functions.php,v 1.1.1.94 2004/11/16 21:45:09 phppp Exp $
+// $Id: functions.php,v 1.1.8.5 2005/01/10 14:21:12 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -28,7 +28,27 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
-function newbb_attachmentImage($source, $asSource = false)
+
+function newbb_getUnameFromId( $userid, $usereal = 0 )
+{
+	$userid = intval($userid);
+	$usereal = intval($usereal);
+	if ($userid > 0) {
+        $member_handler =& xoops_gethandler('member');
+        $user =& $member_handler->getUser($userid);
+        if (is_object($user)) {
+            $ts =& MyTextSanitizer::getInstance();
+            if ( $usereal && $user->getVar('name') ) {
+				return $ts->htmlSpecialChars($user->getVar('name'));
+        	} else {
+				return $ts->htmlSpecialChars($user->getVar('uname'));
+			}
+        }
+    }
+    return $GLOBALS['xoopsConfig']['anonymous'];
+}
+
+function newbb_attachmentImage($source)
 {
 	global $xoopsModuleConfig;
 
@@ -37,23 +57,43 @@ function newbb_attachmentImage($source, $asSource = false)
 	$thumb_path = $img_path.'/thumbs';
 	$thumb_url = $img_url.'/thumbs';
 
-	if(!file_exists($thumb_path.'/'.$source)&&$xoopsModuleConfig['max_img_width']>0)
-		newbb_createThumbnail($source, $xoopsModuleConfig['max_img_width']);
-
 	$thumb = $thumb_path.'/'.$source;
 	$image = $img_path.'/'.$source;
 	$thumb_url = $thumb_url.'/'.$source;
 	$image_url = $img_url.'/'.$source;
 
+	$imginfo = @getimagesize($image);
+	$img_info = ( count($imginfo)>0 )?$imginfo[0]."X".$imginfo[1].' px':"";
+
+	if($xoopsModuleConfig['max_img_width']>0){
+		if($imginfo[0]>$xoopsModuleConfig['max_image_width'] || $imginfo[1]>$xoopsModuleConfig['max_image_height']){
+			if($imginfo[0]>$xoopsModuleConfig['max_img_width']){
+				$pseudo_width = $xoopsModuleConfig['max_img_width'];
+				$pseudo_height = $xoopsModuleConfig['max_img_width']*($imginfo[1]/$imginfo[0]);
+				$pseudo_size = "width='".$pseudo_width."px' height='".$pseudo_height."px'";
+			}
+			if($pseudo_height>$xoopsModuleConfig['max_image_height']){
+				$pseudo_height = $xoopsModuleConfig['max_image_height'];
+				$pseudo_width = $xoopsModuleConfig['max_image_height']*($imginfo[0]/$imginfo[1]);
+				$pseudo_size = "width='".$pseudo_width."px' height='".$pseudo_height."px'";
+			}
+		}else
+		if(!file_exists($thumb_path.'/'.$source) && $imginfo[0]>$xoopsModuleConfig['max_img_width']){
+			newbb_createThumbnail($source, $xoopsModuleConfig['max_img_width']);
+		}
+	}
+
 
 	if(file_exists($thumb)){
-		if($asSource) $thumb_url = $thumb;
-		$attachmentImage  = '<a href="'.$image_url.'" target="newbb_image">';
-		$attachmentImage .= '<img src="'.$thumb_url.'" alt="'.$source.'" />';
+		$attachmentImage  = '<a href="'.$image_url.'" title="'.$source.' '.$img_info.'" target="newbb_image">';
+		$attachmentImage .= '<img src="'.$thumb_url.'" alt="'.$source.' '.$img_info.'" />';
+		$attachmentImage .= '</a>';
+	}elseif(!empty($pseudo_size)){
+		$attachmentImage  = '<a href="'.$image_url.'" title="'.$source.' '.$img_info.'" target="newbb_image">';
+		$attachmentImage .= '<img src="'.$image_url.'" '.$pseudo_size.' alt="'.$source.' '.$img_info.'" />';
 		$attachmentImage .= '</a>';
 	}elseif(file_exists($image)){
-		if($asSource) $image_url = $image;
-		$attachmentImage = '<img src="'.$image_url.'" alt="'.$source.'" />';
+		$attachmentImage = '<img src="'.$image_url.'" alt="'.$source.' '.$img_info.'" />';
 	}else $attachmentImage = '';
 
 	return $attachmentImage;
@@ -147,6 +187,7 @@ function newbb_createThumbnail($source, $thumb_width)
 				$new_im = imagecreate($newWidth, $newHeight);
 				imagecopyresized($new_im, $im, 0, 0, 0, 0, $newWidth, $newHeight, $imginfo[0], $imginfo[1]);
 				imagegif($new_im, $new_file);
+				imagedestroy($im);
 				imagedestroy($new_im);
 				break;
 			case 2 :
@@ -154,6 +195,7 @@ function newbb_createThumbnail($source, $thumb_width)
 				$new_im = $imageCreateFunction($newWidth, $newHeight);
 				imagecopyresized($new_im, $im, 0, 0, 0, 0, $newWidth, $newHeight, $imginfo[0], $imginfo[1]);
 				imagejpeg($new_im, $new_file, 90);
+				imagedestroy($im);
 				imagedestroy($new_im);
 				break;
 			case 3 :
@@ -161,6 +203,7 @@ function newbb_createThumbnail($source, $thumb_width)
 				$new_im = $imageCreateFunction($newWidth, $newHeight);
 				imagecopyresized($new_im, $im, 0, 0, 0, 0, $newWidth, $newHeight, $imginfo[0], $imginfo[1]);
 				imagepng($new_im, $new_file);
+				imagedestroy($im);
 				imagedestroy($new_im);
 				break;
 		}
@@ -219,6 +262,29 @@ function &newbb_displayTarea(&$text, $html = 0, $smiley = 1, $xcode = 1, $image 
 	return $text;
 }
 
+// The function is intended to filter out possible malicious text, on a very beginning stage tho
+// kses project at SF could be a good solution to adapt in our next step
+function &newbb_textFilter($text)
+{
+	global $xoopsConfig;
+	$tags=empty($xoopsConfig['filter_tags'])?array():explode(",",$xoopsConfig['filter_tags']);
+	$tags = array_map("trim", $tags);
+	if(count($tags)==0)
+	//return $text;
+	$tags[] = "script";
+	$tags[] = "vbscript";
+	$tags[] = "javascript";
+	//$tags[] = "iframe";
+	foreach($tags as $tag){
+		$search[] = "'<".$tag."[^>]*?>.*?</".$tag.">'si";
+		$replace[] = " !FILTERED! ";
+	}
+	//$search[]= "'<iframe[^>]*?/>'si";
+	//$replace[]=" !FILTERED! ";
+	$text = preg_replace($search, $replace, $text);
+	return $text;
+}
+
 function newbb_html2text($document)
 {
 	// PHP Manual:: function preg_replace
@@ -259,31 +325,68 @@ function newbb_html2text($document)
 	return $text;
 }
 
-function newbb_setsession($name, $value = '')
+/*
+ * Currently the newbb session/cookie handlers are limited to:
+ * -- one dimension
+ * -- "," and "|" are preserved
+ *
+ */
+
+function newbb_setsession($name, $string = '')
 {
-	$value = (is_array($value))?serialize($value):$value;
-	$_SESSION['newbb_'.$name] = $value;
+	if(is_array($string)) {
+		$value = array();
+		foreach ($string as $key => $val){
+			$value[]=$key."|".$val;
+		}
+		$string = implode(",", $value);
+	}
+	$_SESSION['newbb_'.$name] = $string;
 }
 
 function newbb_getsession($name, $isArray = false)
 {
 	$value = !empty($_SESSION['newbb_'.$name]) ? $_SESSION['newbb_'.$name] : false;
-	if($isArray) $value = ($value)?unserialize($value):array();
+	if($isArray) {
+		$_value = ($value)?explode(",", $value):array();
+		$value = array();
+		if(count($_value)>0) foreach($_value as $string){
+			$key = substr($string, 0, strpos($string,"|"));
+			$val = substr($string, (strpos($string,"|")+1));
+			$value[$key] = $val;
+		}
+		unset($_value);
+	}
 	return $value;
 }
 
-function newbb_setcookie($name, $value = '', $expire = 0)
+function newbb_setcookie($name, $string = '', $expire = 0)
 {
 	global $forumCookie;
-	$value = (is_array($value))?serialize($value):$value;
-	setcookie($forumCookie['prefix'].$name, $value, intval($expire), $forumCookie['path'], $forumCookie['domain'], $forumCookie['secure']);
+	if(is_array($string)) {
+		$value = array();
+		foreach ($string as $key => $val){
+			$value[]=$key."|".$val;
+		}
+		$string = implode(",", $value);
+	}
+	setcookie($forumCookie['prefix'].$name, $string, intval($expire), $forumCookie['path'], $forumCookie['domain'], $forumCookie['secure']);
 }
 
 function newbb_getcookie($name, $isArray = false)
 {
 	global $forumCookie;
 	$value = !empty($_COOKIE[$forumCookie['prefix'].$name]) ? $_COOKIE[$forumCookie['prefix'].$name] : false;
-	if($isArray && !empty($value)) $value = ($value)?unserialize($value):array();
+	if($isArray) {
+		$_value = ($value)?explode(",", $value):array();
+		$value = array();
+		if(count($_value)>0) foreach($_value as $string){
+			$key = substr($string, 0, strpos($string,"|"));
+			$val = substr($string, (strpos($string,"|")+1));
+			$value[$key] = $val;
+		}
+		unset($_value);
+	}
 	return $value;
 }
 
@@ -366,7 +469,6 @@ function newbb_isAdmin($forum = 0, $user=-1)
 	return in_array($uid,$_cachedModerators[$cache_id]);
 }
 
-
 function newbb_isModerator($forum = 0, $user=-1)
 {
 	global $xoopsUser;
@@ -385,6 +487,31 @@ function newbb_isModerator($forum = 0, $user=-1)
 	return in_array($uid,$_cachedModerators[$cache_id]);
 }
 
+function newbb_checkSubjectPrefixPermission($forum = 0, $user=-1)
+{
+	global $xoopsUser, $xoopsModuleConfig;
+
+	if($xoopsModuleConfig['subject_prefix_level']<1){
+		return false;
+	}
+	if($xoopsModuleConfig['subject_prefix_level']==1){
+		return true;
+	}
+	if($user == -1) $user = &$xoopsUser;
+	if(!is_object($user) && intval($user)<1) return false;
+	$uid = (is_object($user))?$user->getVar('uid'):intval($user);
+	if($xoopsModuleConfig['subject_prefix_level']==2){
+		return true;
+	}
+	if($xoopsModuleConfig['subject_prefix_level']==3){
+		if(newbb_isAdmin($forum, $user)) return true;
+		else return false;
+	}
+	if($xoopsModuleConfig['subject_prefix_level']==4){
+		if(newbb_isAdministrator($user)) return true;
+	}
+	return false;
+}
 /*
 * Gets the total number of topics in a form
 */
@@ -456,45 +583,8 @@ function get_total_views()
     return $total;
 }
 
-
-/*
-* Checks if a topic is locked
-*/
-function is_locked($topic)
+function make_jumpbox()
 {
-    global $xoopsDB;
-    $ret = false;
-    $sql = "SELECT topic_status FROM ".$xoopsDB->prefix("bb_topics")." WHERE topic_id = $topic";
-    if ( $r = $xoopsDB->query($sql) ) {
-        if ( $m = $xoopsDB->fetchArray($r) ) {
-            if ( $m['topic_status'] == 1 ) {
-                $ret = true;
-            }
-        }
-    }
-    return $ret;
-}
-
-/**
- * Checks the groupname.
- * If found gives the groupname back.
- */
-function GetGroupsNames ($uid)
-{
-    $g='';
-    $member_handler =& xoops_gethandler('member');
-    $User= new XoopsUser($uid);
-    $user_groups=$User->getGroups();
-    $count = count($user_groups);
-    for ($i=0;$i<$count;$i++)
-      {
-          $thisgroup =& $member_handler->getGroup($user_groups[$i]);
-          $g.=$thisgroup->getVar('name')." <br />";
-       }
-   return ($g);
-}
-
-function make_jumpbox() {
 	$box = '<form name="forum_jumpbox" method="get" action="viewforum.php" onsubmit="if(document.forum_jumpbox.forum.value <1){return false;}">';
 	$box .= '<select class="select" name="forum" onchange="if(this.options[this.selectedIndex].value >0 ){ forms[\'forum_jumpbox\'].submit();}">';
 
@@ -1020,6 +1110,12 @@ function &newbb_getWysiwygForm($newbb_form, $caption, $name, $value = "", $width
 			$editor = new XoopsFormWysiwygTextArea($caption, $name, $value, $width, $height, '');
 		}
 		break;
+	case "tinymce":
+		if ( is_readable(XOOPS_ROOT_PATH . "/class/tinymce/formtinymce.php"))	{
+			include_once(XOOPS_ROOT_PATH . "/class/tinymce/formtinymce.php");
+			$editor = new XoopsFormTinymce($caption, $name, $value, $width, $height);
+		}
+		break;
 	}
 
 	return $editor;
@@ -1045,44 +1141,75 @@ function newbb_getImageLibs()
 /*
  * exec	could be disabled
  */
-		global $xoopsModuleConfig;
+	global $xoopsModuleConfig;
 
-		$imageLibs= array();
+	$imageLibs= array();
+	unset($output, $status);
+	if ( $xoopsModuleConfig['image_lib'] == 1 or $xoopsModuleConfig['image_lib'] == 0 ){
+		$path = empty($xoopsModuleConfig['path_magick'])?"":$xoopsModuleConfig['path_magick']."/";
+		@exec($path.'convert -version', $output, $status);
+		if(empty($status)&&!empty($output)){
+			if(preg_match("/imagemagick[ \t]+([0-9\.]+)/i",$output[0],$matches))
+			   $imageLibs['imagemagick'] = $matches[0];
+		}
 		unset($output, $status);
-		if ( $xoopsModuleConfig['image_lib'] == 1 or $xoopsModuleConfig['image_lib'] == 0 ){
-			$path = empty($xoopsModuleConfig['path_magick'])?"":$xoopsModuleConfig['path_magick']."/";
-			@exec($path.'convert -version', $output, $status);
-			if(empty($status)&&!empty($output)){
-				if(preg_match("/imagemagick[ \t]+([0-9\.]+)/i",$output[0],$matches))
-				   $imageLibs['imagemagick'] = $matches[0];
-			}
-			unset($output, $status);
-		}
-		 if ( $xoopsModuleConfig['image_lib'] == 2 or $xoopsModuleConfig['image_lib'] == 0 ){
-			$path = empty($xoopsModuleConfig['path_netpbm'])?"":$xoopsModuleConfig['path_netpbm']."/";
-			@exec($path.'jpegtopnm -version 2>&1',  $output, $status);
-			if(empty($status)&&!empty($output)){
-				if(preg_match("/netpbm[ \t]+([0-9\.]+)/i",$output[0],$matches))
-				   $imageLibs['netpbm'] = $matches[0];
-			}
-			unset($output, $status);
-		}
-
-		$GDfuncList = get_extension_funcs('gd');
-		ob_start();
-		@phpinfo(INFO_MODULES);
-		$output=ob_get_contents();
-		ob_end_clean();
-		$matches[1]='';
-		if(preg_match("/GD Version[ \t]*(<[^>]+>[ \t]*)+([^<>]+)/s",$output,$matches)){
-			$gdversion = $matches[2];
-		}
-		if( $GDfuncList ){
-		 if( in_array('imagegd2',$GDfuncList) )
-			$imageLibs['gd2'] = $gdversion;
-		 else
-			$imageLibs['gd1'] = $gdversion;
-		}
-		return $imageLibs;
 	}
+	 if ( $xoopsModuleConfig['image_lib'] == 2 or $xoopsModuleConfig['image_lib'] == 0 ){
+		$path = empty($xoopsModuleConfig['path_netpbm'])?"":$xoopsModuleConfig['path_netpbm']."/";
+		@exec($path.'jpegtopnm -version 2>&1',  $output, $status);
+		if(empty($status)&&!empty($output)){
+			if(preg_match("/netpbm[ \t]+([0-9\.]+)/i",$output[0],$matches))
+			   $imageLibs['netpbm'] = $matches[0];
+		}
+		unset($output, $status);
+	}
+
+	$GDfuncList = get_extension_funcs('gd');
+	ob_start();
+	@phpinfo(INFO_MODULES);
+	$output=ob_get_contents();
+	ob_end_clean();
+	$matches[1]='';
+	if(preg_match("/GD Version[ \t]*(<[^>]+>[ \t]*)+([^<>]+)/s",$output,$matches)){
+		$gdversion = $matches[2];
+	}
+	if( $GDfuncList ){
+	 if( in_array('imagegd2',$GDfuncList) )
+		$imageLibs['gd2'] = $gdversion;
+	 else
+		$imageLibs['gd1'] = $gdversion;
+	}
+	return $imageLibs;
+}
+
+function newbb_sinceSelectBox($selected = 100)
+{
+	global $xoopsModuleConfig;
+
+	$select_array = explode(',',$xoopsModuleConfig['since_options']);
+	$select_array = array_map('trim',$select_array);
+
+	$forum_selection_since = '<select name="since">';
+	foreach ($select_array as $since) {
+		$forum_selection_since .= '<option value="'.$since.'"'.(($selected == $since) ? ' selected="selected"' : '').'>';
+		if($since>0){
+			$forum_selection_since .= sprintf(_MD_FROMLASTDAYS, $since);
+		}else{
+			$forum_selection_since .= sprintf(_MD_FROMLASTHOURS, abs($since));
+		}
+		$forum_selection_since .= '</option>';
+	}
+	$forum_selection_since .= '<option value="365"'.(($selected == 365) ? ' selected="selected"' : '').'>'._MD_THELASTYEAR.'</option>';
+	$forum_selection_since .= '<option value="1000"'.(($selected == 1000) ? ' selected="selected"' : '').'>'._MD_BEGINNING.'</option>';
+	$forum_selection_since .= '</select>';
+
+	//echo htmlspecialchars($forum_selection_since);
+	return $forum_selection_since;
+}
+
+function newbb_getSinceTime($since = 100)
+{
+	if($since>0) return intval($since) * 24 * 3600;
+	else return intval(abs($since)) * 3600;
+}
 ?>

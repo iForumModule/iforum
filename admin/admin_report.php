@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_report.php,v 1.1.2.4 2004/09/29 12:40:39 phppp Exp $
+// $Id: admin_report.php,v 1.1.4.2 2005/01/07 05:28:24 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -95,12 +95,12 @@ switch($op){
 
 		$reports =& $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
 		foreach($reports as $report){
-			$post_link = "<a href=\"".XOOPS_URL."/modules/".$xoopsModule->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".$report['subject']."</a>";
+			$post_link = "<a href=\"".XOOPS_URL."/modules/".$xoopsModule->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".$myts->htmlSpecialChars($report['subject'])."</a>";
 			$checkbox = '<input type="checkbox" name="report_id['.$report['report_id'].']" value="1" checked="checked" />';
 			if($item == 'process'){
 				$memo = '<input type="text" name="report_memo['.$report['report_id'].']" maxlength="255" size="80" />';
 			}else{
-				$memo = $report['report_memo'];
+				$memo = $myts->htmlSpecialChars($report['report_memo']);
 			}
 
 			echo "<tr class='odd' align='left'>";
@@ -108,8 +108,12 @@ switch($op){
 			echo "<td align='center'>" . $report['report_id'] . "</td>";
 			echo "</tr>";
 			echo "<tr class='odd' align='left'>";
-			echo "<td>"._AM_NEWBB_REPORTTEXT.': '. $report['report_text'] . "</td>";
-			echo "<td align='center'>" . long2ip($report['reporter_ip']) . "</td>";
+			echo "<td>"._AM_NEWBB_REPORTTEXT.': '. $myts->htmlSpecialChars($report['report_text']) . "</td>";
+			$uid = intval($report['reporter_uid']);
+			$reporter_name = newbb_getUnameFromId( $uid, $xoopsModuleConfig['show_realname']);
+			$reporter = (!empty($uid))? "<a href='" . XOOPS_URL . "/userinfo.php?uid=".$uid."'>".$reporter_name."</a><br />":"";
+
+			echo "<td align='center'>" . $reporter.long2ip($report['reporter_ip']) . "</td>";
 			echo "</tr>";
 			echo "<tr class='odd' align='left'>";
 			echo "<td>"._AM_NEWBB_REPORTMEMO.': '. $memo . "</td>";

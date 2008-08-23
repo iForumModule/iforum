@@ -1,5 +1,5 @@
 <?php
-// $Id: topic.php,v 1.1.1.55 2004/11/20 15:18:19 phppp Exp $
+// $Id: topic.php,v 1.1.4.3 2005/01/09 00:44:36 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -72,7 +72,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
         $sql = 'SELECT ' . $sel . ' FROM ' . $this->db->prefix('bb_topics') . ' WHERE topic_id=' . $id;
         $result = $this->db->query($sql);
         if (!$result) {
-            echo "<br />NewbbTopicHandler::get error:" . $sql;
+            //echo "<br />NewbbTopicHandler::get error:" . $sql;
             return false;
         }
         $array = $this->db->fetchArray($result);
@@ -95,7 +95,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
     {
         $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET approved = 1 WHERE topic_id = $topic_id";
         if (!$result = $this->db->queryF($sql)) {
-            echo "<br />NewbbTopicHandler::approve error:" . $sql;
+            //echo "<br />NewbbTopicHandler::approve error:" . $sql;
             return false;
         }
         return true;
@@ -107,7 +107,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
                 WHERE t.topic_id = p.topic_id AND p.post_id = " . intval($post_id);
         $result = $this->db->query($sql);
         if (!$result) {
-            echo "<br />NewbbTopicHandler::getByPost error:" . $sql;
+            //echo "<br />NewbbTopicHandler::getByPost error:" . $sql;
             return false;
         }
         $row = $this->db->fetchArray($result);
@@ -122,7 +122,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
         $sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_posts') . " WHERE topic_id=" . intval($topic->getVar('topic_id')) . $approve_criteria;
         $result = $this->db->query($sql);
         if (!$result) {
-            echo "<br />NewbbTopicHandler::getPostCount error:" . $sql;
+            //echo "<br />NewbbTopicHandler::getPostCount error:" . $sql;
             return false;
         }
         list($count) = $this->db->fetchRow($result);
@@ -139,7 +139,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
 
         $result = $this->db->query($sql);
         if (!$result) {
-            echo "<br />NewbbTopicHandler::getTopPost error:" . $sql;
+            //echo "<br />NewbbTopicHandler::getTopPost error:" . $sql;
             return false;
         }
         $post_handler = &xoops_getmodulehandler('post', 'newbb');
@@ -154,7 +154,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
         $sql = "SELECT post_id FROM " . $this->db->prefix('bb_posts') . " WHERE topic_id = " . $topic_id . " AND pid = 0";
         $result = $this->db->query($sql);
         if (!$result) {
-            echo "<br />NewbbTopicHandler::getTopPostId error:" . $sql;
+            //echo "<br />NewbbTopicHandler::getTopPostId error:" . $sql;
             return false;
         }
         list($post_id) = $this->db->fetchRow($result);
@@ -180,7 +180,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
             $sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_posts') . " WHERE topic_id=" . intval($topic->getVar('topic_id')) . $approve_criteria . " AND post_id $operator_for_position $post_id";
             $result = $this->db->query($sql);
 	        if (!$result) {
-	            echo "<br />NewbbTopicHandler::getAllPosts:post-count error:" . $sql;
+	            //echo "<br />NewbbTopicHandler::getAllPosts:post-count error:" . $sql;
 	            return false;
 	        }
             list($position) = $this->db->fetchRow($result);
@@ -190,7 +190,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
         $sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p, ' . $this->db->prefix('bb_posts_text') . " t WHERE p.topic_id=" . intval($topic->getVar('topic_id')) . " AND p.post_id = t.post_id" . $approve_criteria . " ORDER BY p.post_id $order";
         $result = $this->db->query($sql, $perpage, $start);
         if (!$result) {
-            echo "<br />NewbbTopicHandler::getAllPosts error:" . $sql;
+            //echo "<br />NewbbTopicHandler::getAllPosts error:" . $sql;
             return false;
         }
         $ret = array();
@@ -298,7 +298,7 @@ class NewbbTopicHandler extends XoopsObjectHandler
 
         $result = $this->db->query($sql);
         if (!$result) {
-            echo "<br />NewbbTopicHandler::getViewData error:" . $sql;
+            //echo "<br />NewbbTopicHandler::getViewData error:" . $sql;
             return false;
         }
 
@@ -307,6 +307,22 @@ class NewbbTopicHandler extends XoopsObjectHandler
         }
 
         return $forumdata;
+    }
+
+    function &getAllPosters(&$topic, $isApproved = true)
+    {
+        $sql = 'SELECT DISTINCT uid FROM ' . $this->db->prefix('bb_posts') . "  WHERE topic_id=" . $topic->getVar('topic_id')." AND uid>0";
+        if($isApproved) $sql .= ' AND approved = 1';
+        $result = $this->db->query($sql);
+        if (!$result) {
+            //echo "<br />NewbbTopicHandler::getAllPosters error:" . $sql;
+            return array();
+        }
+        $ret = array();
+        while ($myrow = $this->db->fetchArray($result)) {
+            $ret[] = $myrow['uid'];
+        }
+        return $ret;
     }
 
     // get permission

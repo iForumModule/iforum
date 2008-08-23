@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Document sans titre</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<link href="gemdoc.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<script language="javascript" type="text/javascript" src="header.js"></script>
+<div id="articles">
+<h1>Editeur wisiwig Koivi</h1>
+<p>Xoops Koivi est un &eacute;diteur wysiwyg. Wysiwyg est tir&eacute; de l&rsquo;anglais
+What You See Is What You Get, facile non ? En fran&ccedil;ais pour les anglophobes,
+ce que vous voyez (&agrave; l'&eacute;cran), est ce que vous obtenez (sur la
+page), simple non ?<br />
+<br />
+En plus clair, cet &eacute;diteur permet de faire du html sans rien ma&icirc;triser
+de ce langage de programmation.</p>
+<h3>Comment &ccedil;&agrave; marche </h3>
+<p> Dans pratiquement n&rsquo;importe quel traitement de texte si vous voulez
+  mettre un texte en gras, ou le souligner, il vous suffit de cliquer sur l&rsquo;ic&ocirc;ne
+  correspondante et le tour est jou&eacute;. Sous xoops (sans koivi) nous avons
+  le m&ecirc;me principe &agrave; la diff&eacute;rence pr&egrave;s que dans l&rsquo;&eacute;diteur
+  de xoops les fonctionnalit&eacute;s de ce type sont plus que r&eacute;duites.<br />
+<i><span style="color: rgb(204, 51, 0);">Voici une copie d&rsquo;&eacute;cran
+de l&rsquo;&eacute;diteur de base de xoops</span></i> </p>
+<p><img src="images/koivi01.jpg" width="375" height="97" /> </p>
+<p> <i><span style="color: rgb(204, 51, 0);">Et voici une copie d&rsquo;&eacute;cran
+  de l&rsquo;&eacute;diteur koivi install&eacute; avec xoops</span></i> </p>
+<p><img src="images/koivi02.jpg" width="641" height="81" /></p>
+<p> Tout de suite, on peut s&rsquo;apercevoir que koivi offre beaucoup de possibilit&eacute;s
+  en plus que l&rsquo;&eacute;diteur par d&eacute;faut de xoops ;).
+  Pour nous assurer que ce soit bien clair pour tout le monde, voyons un exemple
+  concret :<br />
+  Voici une ligne de texte que j&rsquo;ai r&eacute;alis&eacute; avec koivi, en
+  cliquant sur les ic&ocirc;nes comme vous l&rsquo;auriez fait avec n&rsquo;importe
+  quel traitement de texte : </p>
+<p><img src="images/koivi03.jpg" width="639" height="205" /></p>
+<p> Et voici le r&eacute;sultat obtenu lorsque l&rsquo;on demande a koivi de
+  passer en mode HTML : </p>
+<p><img src="images/koivi04.jpg" width="704" height="152" /></p>
+<p> Pour r&eacute;sumer, Koivi offre donc des possibilit&eacute;s d&rsquo;&eacute;dition
+  plus &eacute;volu&eacute;es que l&rsquo;&eacute;diteur par d&eacute;faut de
+  xoops et permet notamment de basculer entre le mode wysiwyg et html ce qui
+  fait de cet &eacute;diteur un syst&egrave;me complet et performant. De plus,
+  cet &eacute;diteur, contrairement &agrave; beaucoup d&rsquo;autres (presque
+  tous d&rsquo;ailleurs), est compatible avec la plupart des navigateurs Internet
+  comme Internet Explorer, Mozilla Firefox, Netscape etc... </p>
+<h3>Installation de Koivi dans Xoops</h3>
+<p>Bon, puisque l&rsquo;on sait maintenant &agrave; quoi sert le wysiwyg et que
+  je suis sur que vous mourrez tous d&rsquo;envie de l&rsquo;installer, voyons
+  comment incorporer cet &eacute;diteur dans notre xoops favori.</p>
+<p>Tout d&rsquo;abord parlons de Newbb2, la nouvelle mouture du forum de xoops.
+  Newbb2 est pr&eacute;vu pour fonctionner avec koivi (et m&ecirc;me d&rsquo;autres &eacute;diteurs
+  d&rsquo;ailleurs) cependant, koivi n&rsquo;est pas install&eacute; par d&eacute;faut
+  lorsque vous installez votre module newbb2. Il est donc n&eacute;cessaire de
+  commencer par <a href="http://dev.xoops.org/modules/xfmod/project/?group_id=1038">t&eacute;l&eacute;charger</a> Koivi
+  sur le site des d&eacute;veloppeurs puis de d&eacute;compressez le fichier
+  obtenu.<br />
+  Ensuite il vous suffit d&rsquo;uploader le r&eacute;pertoire wysiwyg dans le
+  r&eacute;pertoire class de xoops et le fichier system_imagemanager.html dans
+  modules/system/templates/<br />
+  Pour avoir une interface en fran&ccedil;ais il vous faut r&eacute;cup&eacute;rer
+  les fichiers de traduction en <a href="http://www.assniok.com/downloads/koivi/koivi_lang_fr.zip">fran&ccedil;ais</a> puis
+  de copier ces fichiers dans le r&eacute;pertoire class/wysiwyg/language/french/<br />
+  Voila, pour l&rsquo;installation, simple non ?</p>
+<h3>Koivi et Newbb2</h3>
+<p> Maintenant, Koivi fonctionne pour newbb2 car comme je le disais quelques
+  lignes plus haut, Newbb2 est pr&eacute;vu pour fonctionner avec koivi, donc
+  si vous avez fait correctement les &eacute;tapes pr&eacute;c&eacute;dentes,
+  vous devriez pouvoir vous servir de koivi lors d&rsquo;une r&eacute;ponse dans
+  le forum newbb2 &agrave; condition d'aller dans les pr&eacute;f&eacute;rences
+  du module newbb2 et de s&eacute;lectionner Koivi dans les options de formulaire. </p>
+<h3>Comment mettre koivi sur un autre module ?</h3>
+<p> Seulement, pour le moment, newbb2 est le seul module ayant &eacute;t&eacute; pr&eacute;vu
+  pour fonctionner avec koivi, pour les autres modules comme &laquo; les news &raquo; ou
+  m&ecirc;me les commentaires, il vous faudra mettre les mains dans le code...
+  mais rassurez vous, c&rsquo;est tr&egrave;s simple ;).Nous allons voir ici
+  comment impl&eacute;menter koivi dans un autre module. Prenons
+par exemple la derni&egrave;re version du module news (1.2.1).</p>
+<p>R&eacute;cup&eacute;rez le fichier storyform.inc.php qui se trouve dans le r&eacute;pertoire
+/modules/news/include/. (Pour information, &agrave; chaque fois que vous voulez
+adapter un module de la sorte, il faudra passer par le r&eacute;pertoire include
+du module pour r&eacute;cup&eacute;rer ce type de fichier)<br />
+Donc, dans notre fichier storyform.inc.php, recherchez la ligne :
+<blockquote>
+  <em>include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";</em>
+</blockquote>
+<p> et ajouter la ligne suivante juste en dessous : </p>
+<blockquote>
+  <em>include_once XOOPS_ROOT_PATH."/class/wysiwyg/formwysiwygtextarea.php";</em>
+</blockquote>
+<p>ensuite, recherchez la ligne suivante et supprimez la ou mettez la en commentaire :</p>
+<blockquote>
+  <em>//$sform-&gt;addElement(new XoopsFormDhtmlTextArea(_NW_THESCOOP, 'hometext', $hometext, 15, 60, 'hometext_hidden'), true);</em>
+</blockquote>
+<p> et remplacez ou ajoutez la ligne suivante juste en dessous : </p>
+<blockquote>
+  <em>$sform-&gt;addElement(new XoopsFormWysiwygTextArea( _NW_THESCOOP, 'hometext', $hometext, '100%', '400px',''), true);</em>
+</blockquote>
+<p> ensuite, recherchez la ligne suivante et supprimez la ou mettez la en commentaire :</p>
+<blockquote>
+  <em>//$sform-&gt;addElement(new XoopsFormDhtmlTextArea(_AM_EXTEXT, 'bodytext', $bodytext, 15, 60, 'bodytext_hidden'), false);</em>
+</blockquote>
+<p> et remplacez ou ajoutez la ligne suivante juste en dessous : </p>
+<blockquote>
+  <em>$sform-&gt;addElement(new XoopsFormWysiwygTextArea( _AM_EXTEXT, 'bodytext', $bodytext, '100%', '400px',''), true);</em>
+</blockquote>
+<p>Voil&agrave;, le module news est pr&ecirc;t &agrave; utiliser koivi, ce n&rsquo;&eacute;tait
+  pas bien compliqu&eacute; ; 
+  pour ceux qui voudraient passer cette &eacute;tape, voici le module <a href="http://www.assniok.com/downloads/modules_koivi/news%201-21.rar">news
+  1.2.1</a> avec l&rsquo;adaptation koivi deja r&eacute;alis&eacute;e.</p>
+<h3>Conclusion</h3>
+<p>Pour allez un peu plus loin et pour r&eacute;sumer, on constate que les points
+  vraiment importants pour adapter un module avec koivi sont les suivants :</p>
+<ul>
+  <li>rechercher le fichier &agrave; modifier (toujours dans le r&eacute;pertoire
+    include du module et de la forme ***.inc.php)</li>
+  <li>ajouter la ligne include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
+    pour pouvoir utiliser la variable</li>
+  <li>chercher la $sform contenant XoopsFormDhtmlTextArea et adapter la ligne
+    en fonction de qui a &eacute;t&eacute; dit plus haut. (Pour chaque zone d&rsquo;&eacute;dition
+    de texte)</li>
+</ul>
+<p>Voila, je pense qu&rsquo;avec tout &ccedil;a vous &ecirc;tes par&eacute;s pour
+  utiliser koivi sans mod&eacute;ration.</p>
+<p>Assniok</p>
+</div>
+</body>
+</html>

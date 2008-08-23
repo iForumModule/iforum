@@ -1,5 +1,5 @@
 <?php
-// $Id: modinfo.php,v 1.1.1.50 2004/11/15 03:04:04 phppp Exp $
+// $Id: modinfo.php,v 1.3.4.3 2005/01/10 01:49:42 phppp Exp $
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
@@ -39,6 +39,15 @@ define("_MI_DIR_ATTACHMENT_DESC","Physical path only needs to be set from your x
 define("_MI_PATH_MAGICK","Path for ImageMagick");
 define("_MI_PATH_MAGICK_DESC","Usually it is '/usr/bin/X11'. Leave it BLANK if you do not have ImageMagicK installed or for autodetecting.");
 
+define("_MI_SUBFORUM_DISPLAY","Display Mode of subforums on index page");
+define("_MI_SUBFORUM_DISPLAY_DESC","");
+define("_MI_SUBFORUM_EXPAND","Expand");
+define("_MI_SUBFORUM_COLLAPSE","Collpase");
+define("_MI_SUBFORUM_HIDDEN","Hidden");
+
+define("_MI_POST_EXCERPT","Post excerpt on forum page");
+define("_MI_POST_EXCERPT_DESC","Length of post excerpt by mouse over. 0 for no excerpt.");
+
 define("_MI_PATH_NETPBM","Path for Netpbm");
 define("_MI_PATH_NETPBM_DESC","Usually it is '/usr/bin'. Leave it BLANK if you do not have Netpbm installed or  for autodetecting.");
 
@@ -46,7 +55,14 @@ define("_MI_IMAGELIB","Select the Image library to use");
 define("_MI_IMAGELIB_DESC","Select which Image library to use for creating Thumbnails. Leave AUTO for automatically choice.");
 
 define("_MI_MAX_IMG_WIDTH","Maximum Image Width");
-define("_MI_MAX_IMG_WIDTH_DESC", "Sets the maximum allowed <strong>Width</strong> size of an image otherwise thumbnail will be used. <br >Input 0 if you do not want to create thumbnails.");
+define("_MI_MAX_IMG_WIDTH_DESC", "Sets the maximum allowed <strong>Width</strong> size of an uploaded image otherwise thumbnail will be used. <br >Input 0 if you do not want to create thumbnails.");
+
+define("_MI_MAX_IMAGE_WIDTH","Maximum Image Width for creating thumbnail");
+define("_MI_MAX_IMAGE_WIDTH_DESC", "Sets the maximum width of an uploaded image to create thumbnail. <br >Image with width larger than the value will not use thumbnail.");
+
+define("_MI_MAX_IMAGE_HEIGHT","Maximum Image Height for creating thumbnail");
+define("_MI_MAX_IMAGE_HEIGHT_DESC", "Sets the maximum height of an uploaded image to create thumbnail. <br >Image with height larger than the value will not use thumbnail.");
+
 define("_MI_SHOW_DIS","Show Disclaimer On");
 define("_MI_DISCLAIMER","Disclaimer");
 define("_MI_DISCLAIMER_DESC","Enter your Disclaimer that will be shown to the above selected option.");
@@ -106,6 +122,12 @@ define("_MI_ENABLE_KARMA_DESC", "This allows user to set a karma requirement for
 define("_MI_KARMA_OPTIONS", "Karma options for post");
 define("_MI_KARMA_OPTIONS_DESC", "Use ',' as delimer for multi-options.");
 
+define("_MI_SINCE_OPTIONS", "'Since' options for 'viewform' and 'search'");
+define("_MI_SINCE_OPTIONS_DESC", "Positive value for days and negative value for hours. Use ',' as delimer for multi-options.");
+
+define("_MI_SINCE_DEFAULT", "'Since' default value");
+define("_MI_SINCE_DEFAULT_DESC", "Default value if not specified by users.");
+
 define("_MI_MODERATOR_HTML", "Allow HTML tags for moderators");
 define("_MI_MODERATOR_HTML_DESC", "This option allows only moderators to use HTML in post subject");
 
@@ -128,10 +150,19 @@ define("_MI_POST_TIMELIMIT", "Time limit for consecutively posting");
 define("_MI_POST_TIMELIMIT_DESC", "Set a Time limit for consecutively posting. In seconds, 0 for no limit");
 
 define("_MI_RECORDEDIT_TIMELIMIT", "Timelimit for recording edit info");
-define("_MI_RECORDEDIT_TIMELIMIT_DESC", "Set a Timelimit for waiving recording edit info. In Seconds");
+define("_MI_RECORDEDIT_TIMELIMIT_DESC", "Set a Timelimit for waiving recording edit info. In minutes, 0 for no limit");
 
 define("_MI_SUBJECT_PREFIX", "Add a Prefix to the Topic Subject");
 define("_MI_SUBJECT_PREFIX_DESC", "Set a Prefix i.e. [solved] at the beginning of the Subject. Use ',' as delimer for multi-options, just leave NONE for no Prefix.");
+define("_MI_SUBJECT_PREFIX_DEFAULT", '<font color="#00CC00">[solved]</font>,<font color="#00CC00">[fixed]</font>,<font color="#FF0000">[request]</font>,<font color="#FF0000">[bug report]</font>,<font color="#FF0000">[unsolved]</font>');
+
+define("_MI_SUBJECT_PREFIX_LEVEL", "Level for groups that can use Prefix");
+define("_MI_SUBJECT_PREFIX_LEVEL_DESC", "Choose the groups allowed to use prefix.");
+define("_MI_SPL_DISABLE", 'Disable');
+define("_MI_SPL_ANYONE", 'Anyone');
+define("_MI_SPL_MEMBER", 'Members');
+define("_MI_SPL_MODERATOR", 'Moderators');
+define("_MI_SPL_ADMIN", 'Administrators');
 
 define("_MI_SHOW_REALNAME", "Show Realname");
 define("_MI_SHOW_REALNAME_DESC", "Replace username with user's real name.");
@@ -162,6 +193,7 @@ define("_MI_FORM_SPAW","Spaw Editor");
 define("_MI_FORM_HTMLAREA","HtmlArea Editor");
 define("_MI_FORM_FCK","FCK Editor");
 define("_MI_FORM_KOIVI","Koivi Editor");
+define("_MI_FORM_TINYMCE","TinyMCE Editor");
 
 define("_MI_MAGICK","ImageMagick");
 define("_MI_NETPBM","Netpbm");

@@ -1,5 +1,5 @@
 <?php
-// $Id: edit.php,v 1.1.1.32 2004/10/16 04:26:48 phppp Exp $
+// $Id: edit.php,v 1.5.4.2 2005/01/07 05:27:34 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -99,11 +99,11 @@ if ( empty($forum) ) {
 
     	$isadmin = 0;
     	if($forumpost2->getVar('uid')) {
-	    	$r_name =XoopsUser::getUnameFromId( $forumpost2->getVar('uid') );
+	    	$r_name = newbb_getUnameFromId( $forumpost2->getVar('uid'), $xoopsModuleConfig['show_realname']);
 			if (newbb_isAdmin($forum, $forumpost2->getVar('uid'))) $isadmin = 1;
     	}else{
 	    	$poster_name = $forumpost2->getVar('poster_name');
-    		$r_name = (empty($poster_name))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($poster_name);
+    		$r_name = (empty($poster_name))?$xoopsConfig['anonymous']:$poster_name;
 		}
 		$r_date = formatTimestamp($forumpost2->getVar('post_time'));
 	    if( $isadmin && $xoopsModuleConfig['allow_moderator_html']){

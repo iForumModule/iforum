@@ -1,5 +1,5 @@
 <?php
-// $Id: reply.php,v 1.1.1.35 2004/10/14 20:06:07 phppp Exp $
+// $Id: reply.php,v 1.5.4.2 2005/01/07 05:27:34 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -75,7 +75,7 @@ if ( empty($forum) ) {
     $forumpostshow =& $post_handler->getByLimit($topic_id,5);
 
     if($forumpost->getVar('uid')) {
-	    $r_name =XoopsUser::getUnameFromId( $forumpost->getVar('uid') );
+	    $r_name =newbb_getUnameFromId( $forumpost->getVar('uid'), $xoopsModuleConfig['show_realname'] );
     }else{
 	    $poster_name = $forumpost->getVar('poster_name');
     	$r_name = (empty($poster_name))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($poster_name);
@@ -127,7 +127,7 @@ if ( empty($forum) ) {
     $doxcode = 1;
     $subject_pre="";
     $icon = '';
-    $attachsig = (is_object($xoopsUser) && $xoopsUser->getVar('user_sig')) ? 1 : 0;
+    $attachsig = (is_object($xoopsUser) && $xoopsUser->getVar('attachsig')) ? 1 : 0;
     $topic_id=$forumpost->getVar('topic_id');
     $post_karma = 0;
     $require_reply = 0;
@@ -154,7 +154,7 @@ if ( empty($forum) ) {
 
     	$isadmin = 0;
     	if($eachpost->getVar('uid')) {
-	    	$p_name =XoopsUser::getUnameFromId( $eachpost->getVar('uid') );
+	    	$p_name =newbb_getUnameFromId( $eachpost->getVar('uid'), $xoopsModuleConfig['show_realname'] );
 			if (newbb_isAdmin($forum, $eachpost->getVar('uid'))) $isadmin = 1;
     	}else{
 	    	$poster_name = $eachpost->getVar('poster_name');

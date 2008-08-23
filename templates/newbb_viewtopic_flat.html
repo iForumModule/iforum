@@ -32,7 +32,7 @@
 <{/if}>
 
 
-<{if $topic_poll}> <{if $topic_pollresult}> <{include file="db:newbb_poll_results.html poll=$poll}> <{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}> <{/if}>
+<{if $topic_poll}> <{if $topic_pollresult}> <{include file="db:newbb_poll_results.html" poll=$poll}> <{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}> <{/if}>
 <table cellspacing="0" width="100%">
   <tr>
     <td align="left"><br />
@@ -156,7 +156,7 @@ type="radio" name="rate" id="rate1" value="1" />
                             <input type="hidden" name="forum" value="<{$forum_id}>" />
                             <input type="hidden" name="sortby" value="p.post_time desc" />
                             <input type="hidden" name="action" value="yes" />
-                            <input type="hidden" name="searchboth" value="both" />
+                            <input type="hidden" name="searchin" value="both" />
                             <input type="submit" class="formButton" value="<{$smarty.const._MD_GO}>" />
                           </td>
                         </tr>

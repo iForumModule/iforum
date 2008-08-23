@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Document sans titre</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<link href="gemdoc.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<script language="javascript" type="text/javascript" src="header.js"></script>
+<div id="articles">
+<h1>Koivi wisiwyg editor</h1>
+<p>Xoops Koivi is a wysiwyg text editor. Wysiwyg is the acronym of "What You See Is What You Get", easy ? <br />
+<br />
+The goal of this tool is to produce HTML code without any coding skill.</p>
+<h3>How does it work ?</h3>
+<p>In any good text processor if you want to have a bold font or underline a text you'll just have to click on a button. Under XOOPS (without koivi) we have the same features but with less options.<br />
+<i><span style="color: rgb(204, 51, 0);">You can see on this screenshot the standard XOOPS editor</span></i> </p>
+<p><img src="images/koivi01.jpg" width="375" height="97" /> </p>
+<p> <i><span style="color: rgb(204, 51, 0);">And now you can see the differencies with the screenshot when koivi is installed in XOOPS</span></i> </p>
+<p><img src="images/koivi02.jpg" width="641" height="81" /></p>
+<p> Immediately, we can realize that koivi offers many possibilities compared with the standard XOOPS editor ;-).
+  To ensure that it's quite clear for everyone, let us see a concrete example :<br />
+  Here is a line of text that I wrote with koivi, while clicking on the icons as you would have done with any text processing software : </p>
+<p><img src="images/koivi03.jpg" width="639" height="205" /></p>
+<p> and now the result where you ask to koivi to show HTML code : </p>
+<p><img src="images/koivi04.jpg" width="704" height="152" /></p>
+<p>To sum up, Koivi offers more possibilities than the standard XOOPS editor and in particular makes it possible to rock between the wysiwyg mode and HTML what makes this editor a complete and powerful system.<br />
+In an other hand, this editor, contrary to the others (almost all), is compatible with the majority of Internet navigators like Internet explorer, Mozilla Firefox, Netscape etc...</p>
+<h3>Setting of Koivi in Xoops</h3>
+<p>I think it's ok for all now. All knows what's WYSIWYG and why it's a good tool.
+I think you want to install it in your XOOPS. We talk now how include the koivi editor.</p>
+<p>First of all have a look at Newbb2, the new version of the xoops's forum.
+  Newbb2 is designed to run with koivi (and other editors too), koivi is not installed when you install your module newbb2. 
+  It is necessary to start by <a href="http://dev.xoops.org/modules/xfmod/project/?group_id=1038">downloading Koivi</a> on the site of the developers then decompress the obtained file.<br />
+  Then you'll have just to upload the folder wysiwyg into the class folder of xoops and putting the file system_imagemanager.html in modules/system/templates/
+  <br />
+To obtain a french interface you have to get the translated files in <a href="http://www.assniok.com/downloads/koivi/koivi_lang_fr.zip">french</a> and copy these files in the folder class/wysiwyg/language/french/<br />
+  That's all for the install process, really easy no ?</p>
+<h3>Koivi and Newbb2</h3>
+<p> Now, Koivi is available in Koivi. You'll have to go in the admin of newbb2 and you could see the form options. </p>
+<h3>How put koivi in an other module ?</h3>
+<p> As only newbb2 is ready to use koivi... You'll have to put your hand in the code if you want to use koivi in the news or comments... 
+  don't worry it's really hard ;). We will see here how to implement koivi in another module. Let us take for example the last version of the news module (1.2.1).</p>
+<p>Take the file storyform.inc.php which is in the folder /modules/news/include/. (Each time you want to adapt a module with koivi you have to go in the include folder of the module to take this file). <br />
+In the file storyform.inc.php, looking for the line :
+<blockquote>
+  <em>include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";</em>
+</blockquote>
+<p> and add the following line just below : </p>
+<blockquote>
+  <em>include_once XOOPS_ROOT_PATH."/class/wysiwyg/formwysiwygtextarea.php";</em>
+</blockquote>
+<p>then, seek the following line and comment it :</p>
+<blockquote>
+  <em>//$sform-&gt;addElement(new XoopsFormDhtmlTextArea(_NW_THESCOOP, 'hometext', $hometext, 15, 60, 'hometext_hidden'), true);</em>
+</blockquote>
+<p> and replace or add the following line just below  : </p>
+<blockquote>
+  <em>$sform-&gt;addElement(new XoopsFormWysiwygTextArea( _NW_THESCOOP, 'hometext', $hometext, '100%', '400px',''), true);</em>
+</blockquote>
+<p> then, seek the following line and comment it :</p>
+<blockquote>
+  <em>//$sform-&gt;addElement(new XoopsFormDhtmlTextArea(_AM_EXTEXT, 'bodytext', $bodytext, 15, 60, 'bodytext_hidden'), false);</em>
+</blockquote>
+<p> and replace or add the following line just below  : </p>
+<blockquote>
+  <em>$sform-&gt;addElement(new XoopsFormWysiwygTextArea( _AM_EXTEXT, 'bodytext', $bodytext, '100%', '400px',''), true);</em>
+</blockquote>
+<p>Here is, the module news is ready to use koivi, it was not quite complicated; for those which would like to pass this stage, here the module <a href="http://www.assniok.com/downloads/modules_koivi/news%201-21.rar">news 1.2.1</a> with the adaptation koivi already realized.</p>
+<h3>Conclusion</h3>
+<p>For go a little further and to summarize, you can note the really important points to adapt a module with koivi :</p>
+<ul>
+  <li>finding the file to modify (always in the folder include of the module and with a name as ***.inc.php)</li>
+  <li>add the line include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
+    to can use the variable</li>
+  <li>looking for the $sform witch contain XoopsFormDhtmlTextArea and change the line according to which was known as higher. 
+  (for each text area)</li>
+</ul>
+<p>I hope now that you do what you want with this good tool : koivi.<br>
+have fun.</p>
+<p>Assniok</p>
+</div>
+</body>
+</html>

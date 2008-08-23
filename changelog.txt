@@ -1,0 +1,46 @@
+
+Changes for 2.0.2:
+
+- Bugfix: silly delete Bug
+- Bugfix: Poll Button was visible even if selected disallow in the Forum settings
+- Bugfix: " was missing in templates viewtopic_flat.html and viewtopic_thread.html
+- Bugfix: read / unread
+- Bugfix: search typo error 
+- Added: TinyMCE Editor support
+- Added: Permission setting for the Subject Prefix
+
+
+- Changes in the Language Files:
+
+added
+
+-- main.php
+---- define("_MD_FORM_TINYMCE","TinyMCE Editor");
+-- modinfo.php
+---- define("_MI_SUBJECT_PREFIX_LEVEL", "Level for groups that can use Prefix");
+---- define("_MI_SUBJECT_PREFIX_LEVEL_DESC", "Choose the groups allowed to use prefix.");
+---- define("_MI_SPL_DISABLE", 'Disable');
+---- define("_MI_SPL_ANYONE", 'Anyone');
+---- define("_MI_SPL_MEMBER", 'Members');
+---- define("_MI_SPL_MODERATOR", 'Moderators');
+---- define("_MI_SPL_ADMIN", 'Administrators');
+---- define("_MI_FORM_TINYMCE","TinyMCE Editor");
+
+
+
+Changes for 2.0.1:
+
+- Security fixes ( Thanks for the suggestions from Dave_L, and inspiration from GIJOE and Onokazu. ) 
+- Bugfix for search
+- Bugfix for require_reply
+- Bugfix for Languagefiles in the PDF folder for japanese and korean
+- Bugfix online: update NewBB's online info according to XOOPS' online info
+- Bugfix post class: delete()
+- Add expand-, collapsed- and hiddenview for subforums
+- Add see Posttext by moving the mouse over the Threadtitle in Forumview 
+
+Helpfiles included ( thanks to the french Xoops Support and philou )
+
+
+
+

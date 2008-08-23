@@ -1,5 +1,5 @@
 <?php
-// $Id: rss.php,v 1.1.2.11 2004/11/10 03:27:19 phppp Exp $
+// $Id: rss.php,v 1.1.4.1 2005/01/06 22:54:44 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_forum_prune.php,v 1.1.1.13 2004/10/10 00:34:35 phppp Exp $
+// $Id: admin_forum_prune.php,v 1.4.4.1 2005/01/06 22:55:34 praedator Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //

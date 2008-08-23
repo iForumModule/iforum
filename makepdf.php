@@ -1,5 +1,5 @@
 <?php
-// $Id: makepdf.php,v 1.1.2.6 2004/11/16 21:43:13 phppp Exp $
+// $Id: makepdf.php,v 1.1.4.2 2005/01/07 05:27:34 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -52,7 +52,7 @@ $topic_id = $forumtopic->getVar('topic_id');
 if(!$approved = $forumtopic->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
 
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-$forum = ($forum)?$forum:$forumtopic->getVar('forum_id'); 
+$forum = ($forum)?$forum:$forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum))    die(_MD_NORIGHTTOACCESS);
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOVIEW);
@@ -60,13 +60,15 @@ if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_MD_FORU
 
 if(newbb_isAdmin($viewtopic_forum, $forumdata['topic_poster']) && $xoopsModuleConfig['allow_moderator_html']){
 	$forumdata['topic_title'] = newbb_html2text($myts->undoHtmlSpecialChars($forumdata['topic_title']));
+}else{
+	$forumdata['topic_title'] = $myts->htmlSpecialChars($forumdata['topic_title']);
 }
-	 
-$pdf_data['title'] = NEWBB_PDF_FORUM.': '.$forumdata['forum_name'];
+
+$pdf_data['title'] = NEWBB_PDF_FORUM.': '.$myts->htmlSpecialChars($forumdata['forum_name']);
 $pdf_data['subtitle'] = NEWBB_PDF_TOPIC.': '.$forumdata['topic_title'];
 $pdf_data['subsubtitle'] = NEWBB_PDF_SUBJECT.': '.$post_data['subject'];
 $pdf_data['date'] = date($pdf_config['dateformat'], $post_data['date']);
-$pdf_data['filename'] = preg_replace("/[^0-9a-z\-_\.]/i",'', $forumdata['forum_name'].' - '.$forumdata['topic_title']);
+$pdf_data['filename'] = preg_replace("/[^0-9a-z\-_\.]/i",'', $myts->htmlSpecialChars($forumdata['forum_name']).' - '.$forumdata['topic_title']);
 $pdf_data['content'] = $post_data['text'];
 $pdf_data['author'] = $post_data['author'];
 

@@ -62,34 +62,39 @@
     <td class="head" width="95%" colspan="5"><a href="<{$xoops_url}>/modules/newbb/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a> <br /><{$category.cat_description}> </td>
   </tr>
 </table>
+
 <div id="cat_<{$category.cat_id}>" style="display: <{$category.cat_display}>">
 <table cellspacing="1" width="100%">
     <tr class="head" align="center">
       <td width="5%">&nbsp;</td>
+<{if $subforum_display == "expand"}>
       <td colspan="2" width="57%" nowrap="nowrap" align="left"><{$smarty.const._MD_FORUM}></td>
+<{else}>
+      <td width="57%" nowrap="nowrap" align="left"><{$smarty.const._MD_FORUM}></td>
+<{/if}>
       <td width="9%" nowrap="nowrap"><{$smarty.const._MD_TOPICS}></td>
       <td width="9%" nowrap="nowrap"><{$smarty.const._MD_POSTS}></td>
       <td width="20%" nowrap="nowrap"><{$smarty.const._MD_LASTPOST}></td>
     </tr>
 
   <!-- start forums -->
-<{foreach item=forum from=$category.forums}> <{if $forum.forum_permission}>
+<{if $subforum_display == "expand"}>
 
+<{foreach item=forum from=$category.forums}>
+<{if $forum.forum_permission}>
     <tr>
       <td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
-
-      <td colspan="2" class="odd" onclick="window.location='<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>'"><a
-
-href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><b><{$forum.forum_name}></b></a> <br />
-<{$forum.forum_desc}> <{if $forum.forum_moderators}> <br />
-        <span style="font-size:smaller;"> <b><{$smarty.const._MD_MODERATOR}></b> <{$forum.forum_moderators}> </span> <{/if}> </td>
-
-
+      <td colspan="2" class="odd">
+		<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><strong><{$forum.forum_name}></strong></a>
+		<br /> <{$forum.forum_desc}>
+		<{if $forum.forum_moderators}><br /><small><strong><{$smarty.const._MD_MODERATOR}></strong> <{$forum.forum_moderators}> </small> <{/if}>
+      </td>
       <td class="even" align="center" valign="middle"><{$forum.forum_topics}> </td>
       <td class="odd" align="center" valign="middle"><{$forum.forum_posts}> </td>
       <td class="even" align="right" valign="middle"><{$forum.forum_lastpost_time}> <br />
-<{$forum.forum_lastpost_icon}> <br />
-<{$forum.forum_lastpost_user}>  </td>
+		<{$forum.forum_lastpost_icon}> <br />
+		<{$forum.forum_lastpost_user}>
+	  </td>
     </tr>
 <{if $forum.subforum}>
     <tr class="head" >
@@ -102,17 +107,72 @@ href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><b><
       <td class="odd" width="5%">&nbsp;</td>
       <td class="even" align="center" valign="middle" width="5%"><{$subforum.forum_folder}></td>
       <td width="52%" class="odd"><strong><a href="viewforum.php?forum=<{$subforum.forum_id}>"><{$subforum.forum_name}></a></strong><br />
-<{$subforum.forum_desc}> <{if $subforum.forum_moderators}> <br />
-        <span style="font-size:smaller;"> <strong><{$smarty.const._MD_MODERATOR}></strong> <{$subforum.forum_moderators}> </span> <{/if}> </td>
+		<{$subforum.forum_desc}>
+		<{if $subforum.forum_moderators}><br /><small> <strong><{$smarty.const._MD_MODERATOR}></strong> <{$subforum.forum_moderators}> </small> <{/if}>
+	  </td>
       <td class="even" width="9%" align="center" valign="middle"><{$subforum.forum_topics}> </td>
       <td class="odd" width="9%" align="center" valign="middle"><{$subforum.forum_posts}> </td>
       <td class="even" width="20%" align="right" valign="middle"><{$subforum.forum_lastpost_time}> <br />
-<{$subforum.forum_lastpost_icon}> <br />
-<{$subforum.forum_lastpost_user}>  </td>
+		<{$subforum.forum_lastpost_icon}> <br />
+		<{$subforum.forum_lastpost_user}>
+	  </td>
    </tr>
 <{/foreach}>
-
 <{/if}> <{/if}> <{/foreach}>
+
+<{elseif $subforum_display == "collapse"}>
+
+<{foreach item=forum from=$category.forums}>
+<{if $forum.forum_permission}>
+	<tr>
+		<{if $forum.subforum}>
+      	<td class="even" rowspan="2" align="center" valign="middle"><{$forum.forum_folder}></td>
+		<{else}>
+      	<td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
+		<{/if}>
+      	<td class="odd" onclick="window.location='<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>'"><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><strong><{$forum.forum_name}></strong></a>
+      		<br /><{$forum.forum_desc}> <{if $forum.forum_moderators}> <br />
+        	<small><strong><{$smarty.const._MD_MODERATOR}></strong> <{$forum.forum_moderators}> </small><{/if}>
+        </td>
+      	<td class="even" align="center" valign="middle"><{$forum.forum_topics}> </td>
+      	<td class="odd" align="center" valign="middle"><{$forum.forum_posts}> </td>
+      	<td class="even" align="right" valign="middle"><{$forum.forum_lastpost_time}> <br />
+			<{$forum.forum_lastpost_icon}> <br />
+			<{$forum.forum_lastpost_user}>  </td>
+    </tr>
+	<{if $forum.subforum}>
+    <tr>
+     	<td colspan="4" align="left"><{$smarty.const._MD_SUBFORUMS}>&nbsp;<{$img_subforum}>&nbsp;
+			<{foreach item=subforum from=$forum.subforum}>
+			&nbsp;[<a href="viewforum.php?forum=<{$subforum.forum_id}>"><{$subforum.forum_name}></a>]
+			<{/foreach}>
+		</td>
+	</tr>
+	<{/if}>
+<{/if}>
+<{/foreach}>
+
+<{else}>
+
+<{foreach item=forum from=$category.forums}>
+<{if $forum.forum_permission}>
+	<tr>
+      	<td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
+      	<td class="odd"><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><strong><{$forum.forum_name}></strong></a>
+      		<br /><{$forum.forum_desc}> <{if $forum.forum_moderators}> <br />
+        	<small> <strong><{$smarty.const._MD_MODERATOR}></strong> <{$forum.forum_moderators}></small><{/if}>
+        </td>
+      	<td class="even" align="center" valign="middle"><{$forum.forum_topics}> </td>
+      	<td class="odd" align="center" valign="middle"><{$forum.forum_posts}> </td>
+      	<td class="even" align="right" valign="middle"><{$forum.forum_lastpost_time}> <br />
+			<{$forum.forum_lastpost_icon}> <br />
+			<{$forum.forum_lastpost_user}>
+		</td>
+    </tr>
+<{/if}>
+<{/foreach}>
+
+<{/if}>
   <!-- end forums -->
 </table></div>
 <{/if}> <{/if}> <{/foreach}>
@@ -127,8 +187,8 @@ href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><b><
       <td align="right" valign="bottom"><strong><{$smarty.const._MD_SEARCH}></strong>&nbsp;
         <input name="term" type="text" size="20" />
         <input type="hidden" name="forum" value="all" />
-        <input type="hidden" name="sortby" value="p.post_timedesc" />
-        <input type="hidden" name="searchboth" value="both" />
+        <input type="hidden" name="sortby" value="p.post_time desc" />
+        <input type="hidden" name="searchin" value="both" />
         <input type="submit" name="submit" value="<{$smarty.const._MD_SEARCH}>" />
         <br />
         [ <a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a> ]</td>

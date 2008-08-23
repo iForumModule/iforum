@@ -1,5 +1,5 @@
 <?php
-// $Id: viewforum.php,v 1.1.1.48 2004/11/14 14:57:31 praedator Exp $
+// $Id: viewforum.php,v 1.7.4.6 2005/01/24 19:57:17 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -37,30 +37,31 @@ if ( !isset($_GET['forum']) ) {
 }
 
 $forum = isset($_GET['forum'])?intval($_GET['forum']):0; // ?
-$topics = isset($_GET['topics'])?strval($_GET['topics']):'';
 $type = isset($_GET['type'])?strtolower($_GET['type']):'';
 
 if (isset($_GET['mark_read'])){
 	$topic_lastread = newbb_getcookie('LT',true);
 	$topics = newbb_getcookie("ST",true);
-    if(1 == intval($_GET['mark_read'])){ 						// mark topics on this page as read
-	    foreach($topics as $topic){
-			$topic_lastread[$topic] = time();
-		}
-		newbb_setcookie("LT", $topic_lastread);
-	    $marktarget = _MD_ALL_FORUM_MARKED;
-	    $markresult = _MD_MARK_READ;
-    }else{ 					// mark topics as unread
-	    foreach($topics as $topic){
-			$topic_lastread[$topic] = false;
-		}
-		newbb_setcookie("LT", $topic_lastread);
-	    $marktarget = _MD_ALL_TOPIC_MARKED;
-	    $markresult = _MD_MARK_UNREAD;
-    }
+	if(count($topics)>0){
+	    if(1 == intval($_GET['mark_read'])){ 						// mark topics on this page as read
+		    foreach($topics as $topic){
+				$topic_lastread[$topic] = time();
+			}
+			newbb_setcookie("LT", $topic_lastread);
+		    $marktarget = _MD_ALL_FORUM_MARKED;
+		    $markresult = _MD_MARK_READ;
+	    }else{ 					// mark topics as unread
+		    foreach($topics as $topic){
+				$topic_lastread[$topic] = false;
+			}
+			newbb_setcookie("LT", $topic_lastread);
+		    $marktarget = _MD_ALL_TOPIC_MARKED;
+		    $markresult = _MD_MARK_UNREAD;
+	    }
 
-	$url = "viewforum.php?start=".$_GET['start']."&amp;forum=$forum&amp;sortname=".$_GET['sortname']."&amp;sortorder=".$_GET['sortorder']."&amp;sortsince=".$_GET['sortsince']."&amp;type=$type";
-    redirect_header($url,2, $marktarget.' '.$markresult);
+		$url = "viewforum.php?start=".$_GET['start']."&amp;forum=$forum&amp;sortname=".$_GET['sortname']."&amp;sortorder=".$_GET['sortorder']."&amp;since=".$_GET['since']."&amp;type=$type";
+	    redirect_header($url,2, $marktarget.' '.$markresult);
+	}
 }
 
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
@@ -76,8 +77,7 @@ $forum_lastview = newbb_getcookie('LF',true);
 $forum_lastview[$forum->getVar('forum_id')] = time();
 newbb_setcookie("LF", $forum_lastview);
 
-$forum_name = newbb_html2text($myts->undoHtmlSpecialChars($forum->getVar('forum_name')));
-$xoops_pagetitle = $xoopsModule->getVar('name'). ' - ' .$forum_name;
+$xoops_pagetitle = $xoopsModule->getVar('name'). ' - ' .$forum->getVar('forum_name');
 
 $xoopsOption['template_main'] = 'newbb_viewforum.html';
 include XOOPS_ROOT_PATH."/header.php";
@@ -103,7 +103,7 @@ $t_new = newbb_displayImage($forumImage['t_new'],_MD_POSTNEW);
 if ($forum_handler->getPermission($forum, "post")){
 	$xoopsTpl->assign('viewer_can_post', true);
 	$xoopsTpl->assign('forum_post_or_register', "<a href=\"newtopic.php?forum=".$forum->getVar('forum_id')."\">".$t_new."</a>");
-	if ($forum_handler->getPermission($forum, "addpoll")){
+	if ($forum_handler->getPermission($forum, "addpoll") && $forum->getVar('allow_polls') == 1){
 		$t_poll = newbb_displayImage($forumImage['t_poll'],_MD_ADDPOLL);
 		$xoopsTpl->assign('forum_addpoll', "<a href=\"newtopic.php?op=add&amp;forum=".$forum->getVar('forum_id')."\">".$t_poll."</a>&nbsp;");
  	}
@@ -123,9 +123,9 @@ if($forum->isSubforum())
 {
 	$q = "select forum_name from ".$xoopsDB->prefix('bb_forums')." WHERE forum_id=".$forum->getVar('parent_forum');
 	$row = $xoopsDB->fetchArray($xoopsDB->query($q));
-	$xoopsTpl->assign(array('parent_forum' => $forum->getVar('parent_forum'), 'parent_name' => $row['forum_name']));
+	$xoopsTpl->assign(array('parent_forum' => $forum->getVar('parent_forum'), 'parent_name' => $myts->htmlSpecialChars($row['forum_name'])));
 }
-$xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,$xoopsConfig['sitename']));
+$xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
 $xoopsTpl->assign('folder_topic', newbb_displayImage($forumImage['folder_topic']));
 $xoopsTpl->assign('forum_name', $forum->getVar('forum_name'));
 $xoopsTpl->assign('forum_moderators', $forum->disp_forumModerators());
@@ -155,30 +155,23 @@ $forum_selection_order .= '</select>';
 // assign to template
 $xoopsTpl->assign('forum_selection_order', $forum_selection_order);
 
-$sortsince = !empty($_GET['sortsince']) ? intval($_GET['sortsince']) : 100;
-$sel_since_array = array(1, 2, 5, 10, 20, 30, 40, 60, 75, 100);
-$forum_selection_since = '<select name="sortsince">';
-foreach ($sel_since_array as $sort_since_v) {
-	$forum_selection_since .= '<option value="'.$sort_since_v.'"'.(($sortsince == $sort_since_v) ? ' selected="selected"' : '').'>'.sprintf(_MD_FROMLASTDAYS,$sort_since_v).'</option>';
-}
-$forum_selection_since .= '<option value="365"'.(($sortsince == 365) ? ' selected="selected"' : '').'>'.sprintf(_MD_THELASTYEAR,365).'</option>';
-$forum_selection_since .= '<option value="1000"'.(($sortsince == 1000) ? ' selected="selected"' : '').'>'.sprintf(_MD_BEGINNING,1000).'</option>';
-$forum_selection_since .= '</select>';
+$since = !empty($_GET['since']) ? intval($_GET['since']) : $xoopsModuleConfig["since_default"];
+$forum_selection_since = &newbb_sinceSelectBox($since);
 
 // assign to template
 $xoopsTpl->assign('forum_selection_since', $forum_selection_since);
-$xoopsTpl->assign('h_topic_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_title&amp;sortsince=$sortsince&amp;sortorder=". (($sortname == "t.topic_title" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
-$xoopsTpl->assign('h_reply_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_replies&amp;sortsince=$sortsince&amp;sortorder=". (($sortname == "t.topic_replies" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
-$xoopsTpl->assign('h_poster_link', "viewforum.php?forum=$forumid&amp;sortname=u.uname&amp;sortsince=$sortsince&amp;sortorder=". (($sortname == "u.uname" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
-$xoopsTpl->assign('h_views_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_views&amp;sortsince=$sortsince&amp;sortorder=". (($sortname == "t.topic_views" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
-$xoopsTpl->assign('h_ratings_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_ratings&amp;sortsince=$sortsince&amp;sortorder=". (($sortname == "t.topic_ratings" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
-$xoopsTpl->assign('h_date_link', "viewforum.php?forum=$forumid&amp;sortname=p.post_time&amp;sortsince=$sortsince&amp;sortorder=". (($sortname == "p.post_time" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
-$xoopsTpl->assign('forum_since', $sortsince); // For $since in search.php
+$xoopsTpl->assign('h_topic_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_title&amp;since=$since&amp;sortorder=". (($sortname == "t.topic_title" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
+$xoopsTpl->assign('h_reply_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_replies&amp;since=$since&amp;sortorder=". (($sortname == "t.topic_replies" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
+$xoopsTpl->assign('h_poster_link', "viewforum.php?forum=$forumid&amp;sortname=u.uname&amp;since=$since&amp;sortorder=". (($sortname == "u.uname" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
+$xoopsTpl->assign('h_views_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_views&amp;since=$since&amp;sortorder=". (($sortname == "t.topic_views" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
+$xoopsTpl->assign('h_ratings_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_ratings&amp;since=$since&amp;sortorder=". (($sortname == "t.topic_ratings" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
+$xoopsTpl->assign('h_date_link', "viewforum.php?forum=$forumid&amp;sortname=p.post_time&amp;since=$since&amp;sortorder=". (($sortname == "p.post_time" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
+$xoopsTpl->assign('forum_since', $since); // For $since in search.php
 
-$startdate = time() - (86400* $sortsince);
+$startdate = time() - newbb_getSinceTime($since);
 $start = !empty($_GET['start']) ? intval($_GET['start']) : 0;
 
-list($allTopics, $sticky) = $forum_handler->getAllTopics($forum,$startdate,$start,$sortname,$sortorder,$type);
+list($allTopics, $sticky) = $forum_handler->getAllTopics($forum,$startdate,$start,$sortname,$sortorder,$type,$xoopsModuleConfig['post_excerpt']);
 
 $xoopsTpl->assign('topics', $allTopics);
 $xoopsTpl->assign("subforum", $forum->getSubforums());
@@ -194,14 +187,14 @@ $xoopsTpl->assign('img_sticky', newbb_displayImage($forumImage['folder_sticky'],
 $xoopsTpl->assign('img_digest', newbb_displayImage($forumImage['folder_digest'],_MD_TOPICDIGEST));
 $xoopsTpl->assign('img_poll', newbb_displayImage($forumImage['poll'],_MD_TOPICHASPOLL));
 
-$mark_read_link = "viewforum.php?mark_read=1&amp;start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;sortsince=$sortsince&amp;type=$type";
-$mark_unread_link = "viewforum.php?mark_read=2&amp;start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;sortsince=$sortsince&amp;type=$type";
+$mark_read_link = "viewforum.php?mark_read=1&amp;start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=$type";
+$mark_unread_link = "viewforum.php?mark_read=2&amp;start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=$type";
 $xoopsTpl->assign('mark_read', $mark_read_link);
 $xoopsTpl->assign('mark_unread', $mark_unread_link);
 
-$xoopsTpl->assign('digest_link', "viewforum.php?start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;sortsince=$sortsince&amp;type=digest");
-$xoopsTpl->assign('unreplied_link', "viewforum.php?start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;sortsince=$sortsince&amp;type=unreplied");
-$xoopsTpl->assign('unread_link', "viewforum.php?start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;sortsince=$sortsince&amp;type=unread");
+$xoopsTpl->assign('digest_link', "viewforum.php?start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=digest");
+$xoopsTpl->assign('unreplied_link', "viewforum.php?start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=unreplied");
+$xoopsTpl->assign('unread_link', "viewforum.php?start=$start&amp;forum=".$forum->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=unread");
 switch($type){
 	case 'digest':
 		$current_type = '['._MD_DIGEST.']';
@@ -221,7 +214,7 @@ $xoopsTpl->assign('forum_topictype', $current_type);
 $all_topics = $forum_handler->getTopicCount($forum,$startdate,$type);
 if ( $all_topics > $xoopsModuleConfig['topics_per_page']) {
 	include XOOPS_ROOT_PATH.'/class/pagenav.php';
-	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'forum='.$forum->getVar('forum_id').'&amp;sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;sortsince='.$sortsince."&amp;type=$type");
+	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'forum='.$forum->getVar('forum_id').'&amp;sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;since='.$since."&amp;type=$type");
 	$xoopsTpl->assign('forum_pagenav', $nav->renderImageNav(4));
 } else {
 	$xoopsTpl->assign('forum_pagenav', '');

@@ -1,5 +1,5 @@
 <?php
-// $Id: updater.php,v 1.1.2.2 2004/10/11 16:33:19 phppp Exp $
+// $Id: updater.php,v 1.1.4.1 2005/01/06 22:59:09 praedator Exp $
 // ¼òÌåÖÐÎÄ·­Òë: laelia @ xoops.org.cn
 
 define('_NEWBB_UPDATE_CHARSET','GB2312');

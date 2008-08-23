@@ -1,5 +1,5 @@
 <?php
-// $Id: newbb_block.php,v 1.1.2.8 2004/11/20 18:24:21 phppp Exp $
+// $Id: newbb_block.php,v 1.1.4.3 2005/01/07 05:28:42 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -155,16 +155,15 @@ function b_newbb_show($options)
         $time = formatTimestamp($arr['topic_time'], 'm');
         if ($arr['uid'] != 0) {
             if ($newbbConfig['show_realname'] && $arr['name']) {
-                $topic_poster = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $arr['uid'] . "'>" . $arr['name'] . "</a>";
+                $topic_poster = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $arr['uid'] . "'>" . $myts->htmlSpecialChars($arr['name']) . "</a>";
             } else {
-                $topic_poster = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $arr['uid'] . "'>" . $arr['uname'] . "</a>";
+                $topic_poster = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $arr['uid'] . "'>" . $myts->htmlSpecialChars($arr['uname']) . "</a>";
             }
         } else {
-            $topic_poster = $arr['poster_name']?$arr['poster_name']:$xoopsConfig['anonymous'];
+            $topic_poster = (empty($arr['poster_name']))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($arr['poster_name']);
         }
-        $topic['time'] = $time . '<br />' . $topic['jump_post'];
-
-        $topic['time'] .= "<br />" . $topic_poster;
+        $topic['time'] = $time;
+        $topic['topic_poster'] = $topic_poster;
         $topic['topic_page_jump'] = $topic_page_jump;
         $block['topics'][] = &$topic;
         unset($topic);
@@ -188,7 +187,6 @@ function b_newbb_edit($options)
         $form .= " checked='checked'";
     }
     $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_LITE;
-
     $form .= '<input type="hidden" name="options[2]" value="' . $options[2] . '" />';
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
@@ -212,7 +210,7 @@ function b_newbb_edit($options)
     foreach ($forums as $fid => $forum) {
 	    if(in_array($fid, $fids)) $selected = " selected";
 	    else $selected ='';
-        $form .= "<option value='".$fid."' $selected>".$myts->htmlSpecialChars($forum->getVar('forum_name'))."</option>";
+        $form .= "<option value='".$fid."' $selected>".$forum->getVar('forum_name')."</option>";
     }
     $form .= "</select><br />";
 

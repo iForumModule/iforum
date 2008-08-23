@@ -1,4 +1,4 @@
-<?
+<?php
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // GIF Util - (C) 2003 Yamasoft (S/C)
 // http://www.yamasoft.com
@@ -776,7 +776,7 @@ class CGIF
 //for local Gif's
 //		$this->m_lpData = @fRead($fh, @fileSize($lpszFileName));
 //for remote Gif's
-		while(!feof($fh)) { 
+		while(!feof($fh)) {
 			$this->m_lpData = $this->m_lpData . fread($fh, 1024);
                         //$this->m_lpData = @fRead($fh, @fileSize($lpszFileName));
 		}

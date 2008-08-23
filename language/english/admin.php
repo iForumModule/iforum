@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.php,v 1.1.1.37 2004/11/15 00:53:05 praedator Exp $
+// $Id: admin.php,v 1.3.2.1 2005/01/06 23:00:14 praedator Exp $
 //%%%%%%	File Name  index.php   	%%%%%
 define("_AM_NEWBB_FORUMCONF","Forum Configuration");
 define("_AM_NEWBB_ADDAFORUM","Add a Forum");

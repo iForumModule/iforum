@@ -1,5 +1,5 @@
 <?php
-// $Id: dl_attachment.php,v 1.1.1.15 2004/11/09 19:47:13 praedator Exp $
+// $Id: dl_attachment.php,v 1.2.4.3 2005/01/07 06:57:51 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -40,6 +40,16 @@ if(!$post_id||!$attach_id) die(_MD_NO_SUCH_FILE.': post_id:'.$post_id.'; attachi
 
 $post_handler =& xoops_getmodulehandler('post', 'newbb');
 $forumpost =& $post_handler->get($post_id);
+if(!$approved = $forumpost->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
+$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$forumtopic =& $topic_handler->getByPost($post_id);
+$topic_id = $forumtopic->getVar('topic_id');
+if(!$approved = $forumtopic->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
+$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$viewtopic_forum =& $forum_handler->get($forumtopic->getVar('forum_id'));
+if (!$forum_handler->getPermission($viewtopic_forum))    die(_MD_NORIGHTTOACCESS);
+if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOVIEW);
+
 $attachments = $forumpost->getAttachment();
 $attach = $attachments[$attach_id];
 if (!$attach) die(_MD_NO_SUCH_FILE);

@@ -1,5 +1,5 @@
 <?php
-// $Id: report.php,v 1.1.2.8 2004/11/20 15:18:19 phppp Exp $
+// $Id: report.php,v 1.1.4.2 2005/01/09 00:44:36 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -99,7 +99,7 @@ class NewbbReportHandler extends XoopsObjectHandler {
     {
         $sql = "UPDATE " . $this->db->prefix("bb_report") . " SET report_result = 1, report_memo = " . $this->db->quoteString($report_memo) . " WHERE report_id = $report_id";
         if (!$result = $this->db->queryF($sql)) {
-            echo "<br />process report error:" . $sql;
+            //echo "<br />process report error:" . $sql;
             return false;
         }
         return true;
@@ -202,7 +202,7 @@ class NewbbReportHandler extends XoopsObjectHandler {
             			( $report_id, $post_id, $reporter_uid, $reporter_ip, $report_time, $report_text, $report_result, $report_memo )";
 
             if (!$result = $this->db->queryF($sql)) {
-                echo "<br />Insert report error:" . $sql;
+                //echo "<br />Insert report error:" . $sql;
                 return false;
             }
             if ($report_id == 0) $report_id = $this->db->getInsertId();
@@ -212,7 +212,7 @@ class NewbbReportHandler extends XoopsObjectHandler {
             $sql = "UPDATE " . $this->db->prefix("bb_report") . " SET report_result = $report_result, report_memo = $report_memo WHERE report_id = " . $report->getVar('report_id');
             $result = $this->db->queryF($sql);
             if (!$result) {
-                echo "<br />Process report error:" . $sql;
+                //echo "<br />Process report error:" . $sql;
                 return false;
             }
         }
@@ -225,7 +225,7 @@ class NewbbReportHandler extends XoopsObjectHandler {
         else $report_id = $report;
         $sql = "DELETE FROM " . $this->db->prefix("bb_report") . " WHERE report_id=" . $report_id . "";
         if (! $result = $this->db->queryF($sql)) {
-            echo "<br />Delete report error:" . $sql;
+            //echo "<br />Delete report error:" . $sql;
             return false;
         }
         return true;

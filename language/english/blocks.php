@@ -1,5 +1,5 @@
 <?php
-// $Id: blocks.php,v 1.1.1.13 2004/11/04 17:52:01 phppp Exp $
+// $Id: blocks.php,v 1.2.2.1 2005/01/06 23:00:14 praedator Exp $
 // Blocks
 if(defined('_MB_NEWBB_DEFINED')) return;
 else define('_MB_NEWBB_DEFINED',true);

@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_votedata.php,v 1.1.2.2 2004/11/13 23:49:08 phppp Exp $
+// $Id: admin_votedata.php,v 1.1.4.3 2005/01/10 14:21:10 praedator Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -31,22 +31,6 @@
 include 'admin_header.php';
 
 $op = "";
-if (isset($_POST))
-{
-    foreach ($_POST as $k => $v)
-    {
-        ${$k} = $v;
-    }
-}
-
-if (isset($_GET))
-{
-    foreach ($_GET as $k => $v)
-    {
-        ${$k} = $v;
-    }
-}
-
 if (isset($_GET['op'])) $op = $_GET['op'];
 if (isset($_POST['op'])) $op = $_POST['op'];
 
@@ -125,13 +109,13 @@ switch ($op)
             $down_array = $xoopsDB->fetchArray($xoopsDB->query($sql));
 
             $formatted_date = formatTimestamp($ratingtimestamp, _DATESTRING);
-            $ratinguname = XoopsUser::getUnameFromId($ratinguser);
+            $ratinguname = newbb_getUnameFromId($ratinguser, $xoopsModuleConfig['show_realname']);
 	echo "
 		<tr>\n
 		<td class='head' align='center'>$ratingid</td>\n
 		<td class='even' align='center'>$ratinguname</td>\n
 		<td class='even' align='center' >$ratinghostname</td>\n
-		<td class='even' align='center'>".$down_array['topic_title']."</td>\n
+		<td class='even' align='center'>".$myts->htmlSpecialChars($down_array['topic_title'])."</td>\n
 		<td class='even' align='center'>$rating</td>\n
 		<td class='even' align='center'>$formatted_date</td>\n
 		<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;topic_id=$topic_id&amp;rid=$ratingid'>".newbb_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n
@@ -146,5 +130,4 @@ switch ($op)
         break;
 }
 xoops_cp_footer();
-
 ?>

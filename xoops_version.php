@@ -1,5 +1,5 @@
 <?php
-// $Id: xoops_version.php,v 1.1.1.66 2004/11/15 22:09:16 praedator Exp $
+// $Id: xoops_version.php,v 1.6.2.6 2005/01/10 01:49:41 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -26,7 +26,7 @@
 //  ------------------------------------------------------------------------ //
 
 $modversion['name'] = "NewBB 2.0";
-$modversion['version'] = 2.00;
+$modversion['version'] = 2.01;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "The XOOPS Project, samuels, phppp, Dave_L, herve, Mithrandir,  The Xoops China, The French Xoops Support";
 $modversion['author'] = "The XOOPS Project Module Dev Team - NewBB Teamleader Predator";
@@ -41,7 +41,7 @@ $modversion['author_realname'] = "Marko Schmuck";
 $modversion['author_website_url'] = "http://dev.xoops.org";
 $modversion['author_website_name'] = "dev.xoops.org";
 $modversion['author_email'] = "predator@xoops.org";
-$modversion['status_version'] = "2.0";
+$modversion['status_version'] = "2.01";
 $modversion['status'] = "Final";
 
 $modversion['warning'] = "This module comes as it is, without any guarantees what so ever.
@@ -63,7 +63,7 @@ For some external code very big thanks to:
 <br /><br />
 About page ( this here ) by marcan http://www.smartfactory.ca<br />
 Blockadmin by GIJOE<br />
-Adminmenu by Horacio http://www.mesadepruebas.com 
+Adminmenu by Horacio http://www.mesadepruebas.com
 <br /><br />
 Special thanks also to Mithrandir (Jan Pedersen) for all the help by the grouppermission , a very big thanks to phppp  from Xoops China for his excellent teamwork and The Xoops China Community which put a lot of work into the newbb.
 <br /><br />
@@ -185,342 +185,449 @@ while (false !== ($file = readdir($handle))) {
 }
 closedir($handle);
 
-$modversion['config'][1]['name'] = 'image_set';
-$modversion['config'][1]['title'] = '_MI_IMG_SET';
-$modversion['config'][1]['description'] = '_MI_IMG_SET_DESC';
-$modversion['config'][1]['formtype'] = 'select';
-$modversion['config'][1]['valuetype'] = 'text';
-$modversion['config'][1]['options'] = $dirlist;
-$modversion['config'][1]['default'] = "default";
+$modversion['config'][] = array(
+	'name' 			=> 'image_set',
+	'title' 		=> '_MI_IMG_SET',
+	'description' 	=> '_MI_IMG_SET_DESC',
+	'formtype' 		=> 'select',
+	'valuetype' 	=> 'text',
+	'options' 		=> $dirlist,
+	'default' 		=> "default");
 
-$modversion['config'][55]['name'] = 'image_type';
-$modversion['config'][55]['title'] = '_MI_IMG_TYPE';
-$modversion['config'][55]['description'] = '_MI_IMG_TYPE_DESC';
-$modversion['config'][55]['formtype'] = 'select';
-$modversion['config'][55]['valuetype'] = 'text';
-$modversion['config'][55]['options'] = array('png'=>'png', 'gif'=>'gif', 'auto'=>'auto');
-$modversion['config'][55]['default'] = "png";
+$modversion['config'][] = array(
+	'name' 			=> 'image_type',
+	'title' 		=> '_MI_IMG_TYPE',
+	'description' 	=> '_MI_IMG_TYPE_DESC',
+	'formtype' 		=> 'select',
+	'valuetype' 	=> 'text',
+	'options' 		=> array('png'=>'png', 'gif'=>'gif', 'auto'=>'auto'),
+	'default' 		=> "png");
 
-$modversion['config'][56]['name'] = 'pngforie_enabled';
-$modversion['config'][56]['title'] = '_MI_PNGFORIE_ENABLE';
-$modversion['config'][56]['description'] = '_MI_PNGFORIE_ENABLE_DESC';
-$modversion['config'][56]['formtype'] = 'yesno';
-$modversion['config'][56]['valuetype'] = 'int';
-$modversion['config'][56]['default'] = 1;
+$modversion['config'][] = array(
+	'name' 			=> 'pngforie_enabled',
+	'title' 		=> '_MI_PNGFORIE_ENABLE',
+	'description' 	=> '_MI_PNGFORIE_ENABLE_DESC',
+	'formtype' 		=> 'yesno',
+	'valuetype' 	=> 'int',
+	'default' 		=> 1);
 
-$modversion['config'][57]['name'] = 'form_options';
-$modversion['config'][57]['title'] = '_MI_FORM_OPTIONS';
-$modversion['config'][57]['description'] = '_MI_FORM_OPTIONS_DESC';
-$modversion['config'][57]['formtype'] = 'select_multi';
-$modversion['config'][57]['valuetype'] = 'array';
-$modversion['config'][57]['options'] = array(
-											_MI_FORM_DHTML=>'dhtml',
-											_MI_FORM_COMPACT=>'textarea',
-											_MI_FORM_SPAW=>'spaw',
-											_MI_FORM_HTMLAREA=>'htmlarea',
-											_MI_FORM_KOIVI=>'koivi',
-											_MI_FORM_FCK=>'fck'
-											);
-$modversion['config'][57]['default'] = array('dhtml', 'textarea');
+$modversion['config'][] = array(
+	'name' => 'form_options',
+	'title' => '_MI_FORM_OPTIONS',
+	'description' => '_MI_FORM_OPTIONS_DESC',
+	'formtype' => 'select_multi',
+	'valuetype' => 'array',
+	'options' => array(
+					_MI_FORM_DHTML=>'dhtml',
+					_MI_FORM_COMPACT=>'textarea',
+					_MI_FORM_SPAW=>'spaw',
+					_MI_FORM_HTMLAREA=>'htmlarea',
+					_MI_FORM_KOIVI=>'koivi',
+					_MI_FORM_TINYMCE=>'tinymce',
+					_MI_FORM_FCK=>'fck'),
+	'default' => array('dhtml', 'textarea'));
 
-$modversion['config'][50]['name'] = 'topics_per_page';
-$modversion['config'][50]['title'] = '_MI_TOPICSPERPAGE';
-$modversion['config'][50]['description'] = '_MI_TOPICSPERPAGE_DESC';
-$modversion['config'][50]['formtype'] = 'textbox';
-$modversion['config'][50]['valuetype'] = 'int';
-$modversion['config'][50]['default'] = 20;
+$modversion['config'][] = array(
+	'name' => 'subforum_display',
+	'title' => '_MI_SUBFORUM_DISPLAY',
+	'description' => '_MI_SUBFORUM_DISPLAY_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'text',
+	'options' => array(
+					_MI_SUBFORUM_EXPAND=>'expand',
+					_MI_SUBFORUM_COLLAPSE=>'collapse',
+					_MI_SUBFORUM_HIDDEN=>'hidden'),
+	'default' => "collapse");
 
-$modversion['config'][51]['name'] = 'posts_per_page';
-$modversion['config'][51]['title'] = '_MI_POSTSPERPAGE';
-$modversion['config'][51]['description'] = '_MI_POSTSPERPAGE_DESC';
-$modversion['config'][51]['formtype'] = 'textbox';
-$modversion['config'][51]['valuetype'] = 'int';
-$modversion['config'][51]['default'] = 10;
+$modversion['config'][] = array(
+	'name' => 'post_excerpt',
+	'title' => '_MI_POST_EXCERPT',
+	'description' => '_MI_POST_EXCERPT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 100);
+
+$modversion['config'][] = array(
+	'name' => 'topics_per_page',
+	'title' => '_MI_TOPICSPERPAGE',
+	'description' => '_MI_TOPICSPERPAGE_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 20);
+
+$modversion['config'][] = array(
+	'name' => 'posts_per_page',
+	'title' => '_MI_POSTSPERPAGE',
+	'description' => '_MI_POSTSPERPAGE_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 10);
 
 
-$modversion['config'][40]['name'] = 'cache_enabled';
-$modversion['config'][40]['title'] = '_MI_CACHE_ENABLE';
-$modversion['config'][40]['description'] = '_MI_CACHE_ENABLE_DESC';
-$modversion['config'][40]['formtype'] = 'yesno';
-$modversion['config'][40]['valuetype'] = 'int';
-$modversion['config'][40]['default'] = 0;
+$modversion['config'][] = array(
+	'name' => 'cache_enabled',
+	'title' => '_MI_CACHE_ENABLE',
+	'description' => '_MI_CACHE_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 0);
 
-$modversion['config'][2]['name'] = 'dir_attachments';
-$modversion['config'][2]['title'] = '_MI_DIR_ATTACHMENT';
-$modversion['config'][2]['description'] = '_MI_DIR_ATTACHMENT_DESC';
-$modversion['config'][2]['formtype'] = 'textbox';
-$modversion['config'][2]['valuetype'] = 'text';
-$modversion['config'][2]['default'] = 'uploads/newbb';
+$modversion['config'][] = array(
+	'name' => 'dir_attachments',
+	'title' => '_MI_DIR_ATTACHMENT',
+	'description' => '_MI_DIR_ATTACHMENT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => 'uploads/newbb');
 
-$modversion['config'][16]['name'] = 'media_allowed';
-$modversion['config'][16]['title'] = '_MI_MEDIA_ENABLE';
-$modversion['config'][16]['description'] = '_MI_MEDIA_ENABLE_DESC';
-$modversion['config'][16]['formtype'] = 'yesno';
-$modversion['config'][16]['valuetype'] = 'int';
-$modversion['config'][16]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'media_allowed',
+	'title' => '_MI_MEDIA_ENABLE',
+	'description' => '_MI_MEDIA_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][3]['name'] = 'path_magick';
-$modversion['config'][3]['title'] = '_MI_PATH_MAGICK';
-$modversion['config'][3]['description'] = '_MI_PATH_MAGICK_DESC';
-$modversion['config'][3]['formtype'] = 'textbox';
-$modversion['config'][3]['valuetype'] = 'text';
-$modversion['config'][3]['default'] = (newbb_is_dir('/usr/bin/X11'))?'/usr/bin/X11':'';
+$modversion['config'][] = array(
+	'name' => 'path_magick',
+	'title' => '_MI_PATH_MAGICK',
+	'description' => '_MI_PATH_MAGICK_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => (newbb_is_dir('/usr/bin/X11'))?'/usr/bin/X11':'');
 
-$modversion['config'][58]['name'] = 'path_netpbm';
-$modversion['config'][58]['title'] = '_MI_PATH_NETPBM';
-$modversion['config'][58]['description'] = '_MI_PATH_NETPBM_DESC';
-$modversion['config'][58]['formtype'] = 'textbox';
-$modversion['config'][58]['valuetype'] = 'text';
-$modversion['config'][58]['default'] = (newbb_is_dir('/usr/bin'))?'/usr/bin':'';
+$modversion['config'][] = array(
+	'name' => 'path_netpbm',
+	'title' => '_MI_PATH_NETPBM',
+	'description' => '_MI_PATH_NETPBM_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => (newbb_is_dir('/usr/bin'))?'/usr/bin':'');
 
-$modversion['config'][59]['name'] = 'image_lib';
-$modversion['config'][59]['title'] = '_MI_IMAGELIB';
-$modversion['config'][59]['description'] = '_MI_IMAGELIB_DESC';
-$modversion['config'][59]['formtype'] = 'select';
-$modversion['config'][59]['valuetype'] = 'int';
-$modversion['config'][59]['default'] = 4;
-$modversion['config'][59]['options'] = array( _MI_AUTO => 0,_MI_MAGICK => 1, _MI_NETPBM => 2, _MI_GD1 => 3, _MI_GD2 => 4 );
+$modversion['config'][] = array(
+	'name' => 'image_lib',
+	'title' => '_MI_IMAGELIB',
+	'description' => '_MI_IMAGELIB_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'int',
+	'default' => 4,
+	'options' => array( _MI_AUTO => 0,_MI_MAGICK => 1, _MI_NETPBM => 2, _MI_GD1 => 3, _MI_GD2 => 4 ));
 
-$modversion['config'][4]['name'] = 'max_img_width';
-$modversion['config'][4]['title'] = '_MI_MAX_IMG_WIDTH';
-$modversion['config'][4]['description'] = '_MI_MAX_IMG_WIDTH_DESC';
-$modversion['config'][4]['formtype'] = 'textbox';
-$modversion['config'][4]['valuetype'] = 'int';
-$modversion['config'][4]['default'] = 500;
+$modversion['config'][] = array(
+	'name' => 'max_img_width',
+	'title' => '_MI_MAX_IMG_WIDTH',
+	'description' => '_MI_MAX_IMG_WIDTH_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 500);
 
-$modversion['config'][5]['name'] = 'wol_enabled';
-$modversion['config'][5]['title'] = '_MI_WOL_ENABLE';
-$modversion['config'][5]['description'] = '_MI_WOL_ENABLE_DESC';
-$modversion['config'][5]['formtype'] = 'yesno';
-$modversion['config'][5]['valuetype'] = 'int';
-$modversion['config'][5]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'max_image_width',
+	'title' => '_MI_MAX_IMAGE_WIDTH',
+	'description' => '_MI_MAX_IMAGE_WIDTH_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 800);
 
-$modversion['config'][6]['name'] = 'wol_admin_col';
-$modversion['config'][6]['title'] = '_MI_WOL_ADMIN_COL';
-$modversion['config'][6]['description'] = '_MI_WOL_ADMIN_COL_DESC';
-$modversion['config'][6]['formtype'] = 'textbox';
-$modversion['config'][6]['valuetype'] = 'text';
-$modversion['config'][6]['default'] = '#FFA34F';
+$modversion['config'][] = array(
+	'name' => 'max_image_height',
+	'title' => '_MI_MAX_IMAGE_HEIGHT',
+	'description' => '_MI_MAX_IMAGE_HEIGHT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 640);
 
-$modversion['config'][7]['name'] = 'wol_mod_col';
-$modversion['config'][7]['title'] = '_MI_WOL_MOD_COL';
-$modversion['config'][7]['description'] = '_MI_WOL_MOD_COL_DESC';
-$modversion['config'][7]['formtype'] = 'textbox';
-$modversion['config'][7]['valuetype'] = 'text';
-$modversion['config'][7]['default'] = '#006600';
+$modversion['config'][] = array(
+	'name' => 'wol_enabled',
+	'title' => '_MI_WOL_ENABLE',
+	'description' => '_MI_WOL_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][8]['name'] = 'levels_enabled';
-$modversion['config'][8]['title'] = '_MI_LEVELS_ENABLE';
-$modversion['config'][8]['description'] = '_MI_LEVELS_ENABLE_DESC';
-$modversion['config'][8]['formtype'] = 'yesno';
-$modversion['config'][8]['valuetype'] = 'int';
-$modversion['config'][8]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'wol_admin_col',
+	'title' => '_MI_WOL_ADMIN_COL',
+	'description' => '_MI_WOL_ADMIN_COL_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => '#FFA34F');
 
-$modversion['config'][9]['name'] = 'userbar_enabled';
-$modversion['config'][9]['title'] = '_MI_USERBAR_ENABLE';
-$modversion['config'][9]['description'] = '_MI_USERBAR_ENABLE_DESC';
-$modversion['config'][9]['formtype'] = 'yesno';
-$modversion['config'][9]['valuetype'] = 'int';
-$modversion['config'][9]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'wol_mod_col',
+	'title' => '_MI_WOL_MOD_COL',
+	'description' => '_MI_WOL_MOD_COL_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => '#006600');
 
-$modversion['config'][34]['name'] = 'show_realname';
-$modversion['config'][34]['title'] = '_MI_SHOW_REALNAME';
-$modversion['config'][34]['description'] = '_MI_SHOW_REALNAME_DESC';
-$modversion['config'][34]['formtype'] = 'yesno';
-$modversion['config'][34]['valuetype'] = 'int';
-$modversion['config'][34]['default'] = 0;
+$modversion['config'][] = array(
+	'name' => 'levels_enabled',
+	'title' => '_MI_LEVELS_ENABLE',
+	'description' => '_MI_LEVELS_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][32]['name'] = 'groupbar_enabled';
-$modversion['config'][32]['title'] = '_MI_GROUPBAR_ENABLE';
-$modversion['config'][32]['description'] = '_MI_GROUPBAR_ENABLE_DESC';
-$modversion['config'][32]['formtype'] = 'yesno';
-$modversion['config'][32]['valuetype'] = 'int';
-$modversion['config'][32]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'userbar_enabled',
+	'title' => '_MI_USERBAR_ENABLE',
+	'description' => '_MI_USERBAR_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][10]['name'] = 'rating_enabled';
-$modversion['config'][10]['title'] = '_MI_RATING_ENABLE';
-$modversion['config'][10]['description'] = '_MI_RATING_ENABLE_DESC';
-$modversion['config'][10]['formtype'] = 'yesno';
-$modversion['config'][10]['valuetype'] = 'int';
-$modversion['config'][10]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'show_realname',
+	'title' => '_MI_SHOW_REALNAME',
+	'description' => '_MI_SHOW_REALNAME_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 0);
 
-$modversion['config'][11]['name'] = 'reportmod_enabled';
-$modversion['config'][11]['title'] = '_MI_REPORTMOD_ENABLE';
-$modversion['config'][11]['description'] = '_MI_REPORTMOD_ENABLE_DESC';
-$modversion['config'][11]['formtype'] = 'yesno';
-$modversion['config'][11]['valuetype'] = 'int';
-$modversion['config'][11]['default'] = 0;
+$modversion['config'][] = array(
+	'name' => 'groupbar_enabled',
+	'title' => '_MI_GROUPBAR_ENABLE',
+	'description' => '_MI_GROUPBAR_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][52]['name'] = 'quickreply_enabled';
-$modversion['config'][52]['title'] = '_MI_QUICKREPLY_ENABLE';
-$modversion['config'][52]['description'] = '_MI_QUICKREPLY_ENABLE_DESC';
-$modversion['config'][52]['formtype'] = 'yesno';
-$modversion['config'][52]['valuetype'] = 'int';
-$modversion['config'][52]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'rating_enabled',
+	'title' => '_MI_RATING_ENABLE',
+	'description' => '_MI_RATING_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][12]['name'] = 'rss_enable';
-$modversion['config'][12]['title'] = '_MI_RSS_ENABLE';
-$modversion['config'][12]['description'] = '_MI_RSS_ENABLE_DESC';
-$modversion['config'][12]['formtype'] = 'yesno';
-$modversion['config'][12]['valuetype'] = 'int';
-$modversion['config'][12]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'reportmod_enabled',
+	'title' => '_MI_REPORTMOD_ENABLE',
+	'description' => '_MI_REPORTMOD_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 0);
 
-$modversion['config'][13]['name'] = 'rss_maxitems';
-$modversion['config'][13]['title'] = '_MI_RSS_MAX_ITEMS';
-$modversion['config'][13]['description'] = '';
-$modversion['config'][13]['formtype'] = 'textbox';
-$modversion['config'][13]['valuetype'] = 'int';
-$modversion['config'][13]['default'] = 10;
+$modversion['config'][] = array(
+	'name' => 'quickreply_enabled',
+	'title' => '_MI_QUICKREPLY_ENABLE',
+	'description' => '_MI_QUICKREPLY_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][14]['name'] = 'rss_maxdescription';
-$modversion['config'][14]['title'] = '_MI_RSS_MAX_DESCRIPTION';
-$modversion['config'][14]['description'] = '';
-$modversion['config'][14]['formtype'] = 'textbox';
-$modversion['config'][14]['valuetype'] = 'int';
-$modversion['config'][14]['default'] = 200;
+$modversion['config'][] = array(
+	'name' => 'rss_enable',
+	'title' => '_MI_RSS_ENABLE',
+	'description' => '_MI_RSS_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][15]['name'] = 'rss_cachetime';
-$modversion['config'][15]['title'] = '_MI_RSS_CACHETIME';
-$modversion['config'][15]['description'] = '_MI_RSS_CACHETIME_DESCRIPTION';
-$modversion['config'][15]['formtype'] = 'textbox';
-$modversion['config'][15]['valuetype'] = 'int';
-$modversion['config'][15]['default'] = 30;
+$modversion['config'][] = array(
+	'name' => 'rss_maxitems',
+	'title' => '_MI_RSS_MAX_ITEMS',
+	'description' => '',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 10);
 
-$modversion['config'][18]['name'] = 'rss_utf8';
-$modversion['config'][18]['title'] = '_MI_RSS_UTF8';
-$modversion['config'][18]['description'] = '_MI_RSS_UTF8_DESCRIPTION';
-$modversion['config'][18]['formtype'] = 'yesno';
-$modversion['config'][18]['valuetype'] = 'int';
-$modversion['config'][18]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'rss_maxdescription',
+	'title' => '_MI_RSS_MAX_DESCRIPTION',
+	'description' => '',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 200);
 
-$modversion['config'][17]['name'] = 'view_mode';
-$modversion['config'][17]['title'] = '_MI_VIEWMODE';
-$modversion['config'][17]['description'] = '_MI_VIEWMODE_DESC';
-$modversion['config'][17]['formtype'] = 'select';
-$modversion['config'][17]['valuetype'] = 'int';
-$modversion['config'][17]['default'] = 1;
-$modversion['config'][17]['options'] = array( _NONE => 0, _FLAT => 1, _THREADED => 2);
+$modversion['config'][] = array(
+	'name' => 'rss_cachetime',
+	'title' => '_MI_RSS_CACHETIME',
+	'description' => '_MI_RSS_CACHETIME_DESCRIPTION',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 30);
 
-$modversion['config'][19]['name'] = 'show_jump';
-$modversion['config'][19]['title'] = '_MI_SHOW_JUMPBOX';
-$modversion['config'][19]['description'] = '_MI_JUMPBOXDESC';
-$modversion['config'][19]['formtype'] = 'yesno';
-$modversion['config'][19]['valuetype'] = 'int';
-$modversion['config'][19]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'rss_utf8',
+	'title' => '_MI_RSS_UTF8',
+	'description' => '_MI_RSS_UTF8_DESCRIPTION',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][42]['name'] = 'show_permissiontable';
-$modversion['config'][42]['title'] = '_MI_SHOW_PERMISSIONTABLE';
-$modversion['config'][42]['description'] = '_MI_SHOW_PERMISSIONTABLE_DESC';
-$modversion['config'][42]['formtype'] = 'yesno';
-$modversion['config'][42]['valuetype'] = 'int';
-$modversion['config'][42]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'view_mode',
+	'title' => '_MI_VIEWMODE',
+	'description' => '_MI_VIEWMODE_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'int',
+	'default' => 1,
+	'options' => array( _NONE => 0, _FLAT => 1, _THREADED => 2));
 
-$modversion['config'][20]['name'] = 'email_digest';
-$modversion['config'][20]['title'] = '_MI_EMAIL_DIGEST';
-$modversion['config'][20]['description'] = '_MI_EMAIL_DIGEST_DESC';
-$modversion['config'][20]['formtype'] = 'select';
-$modversion['config'][20]['valuetype'] = 'int';
-$modversion['config'][20]['default'] = 0;
-$modversion['config'][20]['options'] = array( _MI_NEWBB_EMAIL_NONE => 0, _MI_NEWBB_EMAIL_DAILY => 1, _MI_NEWBB_EMAIL_WEEKLY => 2);
+$modversion['config'][] = array(
+	'name' => 'show_jump',
+	'title' => '_MI_SHOW_JUMPBOX',
+	'description' => '_MI_JUMPBOXDESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][21]['name'] = 'show_ip';
-$modversion['config'][21]['title'] = '_MI_SHOW_IP';
-$modversion['config'][21]['description'] = '_MI_SHOW_IP_DESC';
-$modversion['config'][21]['formtype'] = 'yesno';
-$modversion['config'][21]['valuetype'] = 'int';
-$modversion['config'][21]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'show_permissiontable',
+	'title' => '_MI_SHOW_PERMISSIONTABLE',
+	'description' => '_MI_SHOW_PERMISSIONTABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][22]['name'] = 'enable_karma';
-$modversion['config'][22]['title'] = '_MI_ENABLE_KARMA';
-$modversion['config'][22]['description'] = '_MI_ENABLE_KARMA_DESC';
-$modversion['config'][22]['formtype'] = 'yesno';
-$modversion['config'][22]['valuetype'] = 'int';
-$modversion['config'][22]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'email_digest',
+	'title' => '_MI_EMAIL_DIGEST',
+	'description' => '_MI_EMAIL_DIGEST_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'int',
+	'default' => 0,
+	'options' => array( _MI_NEWBB_EMAIL_NONE => 0, _MI_NEWBB_EMAIL_DAILY => 1, _MI_NEWBB_EMAIL_WEEKLY => 2));
 
-$modversion['config'][23]['name'] = 'karma_options';
-$modversion['config'][23]['title'] = '_MI_KARMA_OPTIONS';
-$modversion['config'][23]['description'] = '_MI_KARMA_OPTIONS_DESC';
-$modversion['config'][23]['formtype'] = 'textbox';
-$modversion['config'][23]['valuetype'] = 'text';
-$modversion['config'][23]['default'] = '0,10,50,100,500,1000,5000,10000';
+$modversion['config'][] = array(
+	'name' => 'show_ip',
+	'title' => '_MI_SHOW_IP',
+	'description' => '_MI_SHOW_IP_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][24]['name'] = 'allow_moderator_html';
-$modversion['config'][24]['title'] = '_MI_MODERATOR_HTML';
-$modversion['config'][24]['description'] = '_MI_MODERATOR_HTML_DESC';
-$modversion['config'][24]['formtype'] = 'yesno';
-$modversion['config'][24]['valuetype'] = 'int';
-$modversion['config'][24]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'enable_karma',
+	'title' => '_MI_ENABLE_KARMA',
+	'description' => '_MI_ENABLE_KARMA_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][25]['name'] = 'allow_user_anonymous';
-$modversion['config'][25]['title'] = '_MI_USER_ANONYMOUS';
-$modversion['config'][25]['description'] = '_MI_USER_ANONYMOUS_DESC';
-$modversion['config'][25]['formtype'] = 'yesno';
-$modversion['config'][25]['valuetype'] = 'int';
-$modversion['config'][25]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'karma_options',
+	'title' => '_MI_KARMA_OPTIONS',
+	'description' => '_MI_KARMA_OPTIONS_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => '0, 10, 50, 100, 500, 1000, 5000, 10000');
 
-$modversion['config'][31]['name'] = 'anonymous_prefix';
-$modversion['config'][31]['title'] = '_MI_ANONYMOUS_PRE';
-$modversion['config'][31]['description'] = '_MI_ANONYMOUS_PRE_DESC';
-$modversion['config'][31]['formtype'] = 'textbox';
-$modversion['config'][31]['valuetype'] = 'text';
-$modversion['config'][31]['default'] = 'Guest_';
+$modversion['config'][] = array(
+	'name' => 'since_options',
+	'title' => '_MI_SINCE_OPTIONS',
+	'description' => '_MI_SINCE_OPTIONS_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => "-1, -2, -6, -12, 1, 2, 5, 10, 20, 30, 60, 100");
 
-$modversion['config'][26]['name'] = 'allow_require_reply';
-$modversion['config'][26]['title'] = '_MI_REQUIRE_REPLY';
-$modversion['config'][26]['description'] = '_MI_REQUIRE_REPLY_DESC';
-$modversion['config'][26]['formtype'] = 'yesno';
-$modversion['config'][26]['valuetype'] = 'int';
-$modversion['config'][26]['default'] = 1;
+$modversion['config'][] = array(
+	'name' => 'since_default',
+	'title' => '_MI_SINCE_DEFAULT',
+	'description' => '_MI_SINCE_DEFAULT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 100);
 
-$modversion['config'][27]['name'] = 'edit_timelimit';
-$modversion['config'][27]['title'] = '_MI_EDIT_TIMELIMIT';
-$modversion['config'][27]['description'] = '_MI_EDIT_TIMELIMIT_DESC';
-$modversion['config'][27]['formtype'] = 'textbox';
-$modversion['config'][27]['valuetype'] = 'int';
-$modversion['config'][27]['default'] = 60;
+$modversion['config'][] = array(
+	'name' => 'allow_moderator_html',
+	'title' => '_MI_MODERATOR_HTML',
+	'description' => '_MI_MODERATOR_HTML_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][41]['name'] = 'recordedit_timelimit';
-$modversion['config'][41]['title'] = '_MI_RECORDEDIT_TIMELIMIT';
-$modversion['config'][41]['description'] = '_MI_RECORDEDIT_TIMELIMIT_DESC';
-$modversion['config'][41]['formtype'] = 'textbox';
-$modversion['config'][41]['valuetype'] = 'int';
-$modversion['config'][41]['default'] = 15;
+$modversion['config'][] = array(
+	'name' => 'allow_user_anonymous',
+	'title' => '_MI_USER_ANONYMOUS',
+	'description' => '_MI_USER_ANONYMOUS_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][30]['name'] = 'delete_timelimit';
-$modversion['config'][30]['title'] = '_MI_DELETE_TIMELIMIT';
-$modversion['config'][30]['description'] = '_MI_DELETE_TIMELIMIT_DESC';
-$modversion['config'][30]['formtype'] = 'textbox';
-$modversion['config'][30]['valuetype'] = 'int';
-$modversion['config'][30]['default'] = 60;
+$modversion['config'][] = array(
+	'name' => 'anonymous_prefix',
+	'title' => '_MI_ANONYMOUS_PRE',
+	'description' => '_MI_ANONYMOUS_PRE_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'text',
+	'default' => 'Guest_');
 
-$modversion['config'][35]['name'] = 'post_timelimit';
-$modversion['config'][35]['title'] = '_MI_POST_TIMELIMIT';
-$modversion['config'][35]['description'] = '_MI_POST_TIMELIMIT_DESC';
-$modversion['config'][35]['formtype'] = 'textbox';
-$modversion['config'][35]['valuetype'] = 'int';
-$modversion['config'][35]['default'] = 30;
+$modversion['config'][] = array(
+	'name' => 'allow_require_reply',
+	'title' => '_MI_REQUIRE_REPLY',
+	'description' => '_MI_REQUIRE_REPLY_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
 
-$modversion['config'][33]['name'] = 'subject_prefix';
-$modversion['config'][33]['title'] = '_MI_SUBJECT_PREFIX';
-$modversion['config'][33]['description'] = '_MI_SUBJECT_PREFIX_DESC';
-$modversion['config'][33]['formtype'] = 'textarea';
-$modversion['config'][33]['valuetype'] = 'text';
-$modversion['config'][33]['default'] = 'NONE,<font color="#00CC00">[solved]</font>,<font color="#00CC00">[fixed]</font>,<font color="#FF0000">[request]</font>,<font color="#FF0000">[bug report]</font>,<font color="#FF0000">[unsolved]</font>';
+$modversion['config'][] = array(
+	'name' => 'edit_timelimit',
+	'title' => '_MI_EDIT_TIMELIMIT',
+	'description' => '_MI_EDIT_TIMELIMIT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 60);
 
-$modversion['config'][28]['name'] = 'disc_show';
-$modversion['config'][28]['title'] = '_MI_SHOW_DIS';
-$modversion['config'][28]['description'] = '_MI_SHOW_DIS_DESC';
-$modversion['config'][28]['formtype'] = 'select';
-$modversion['config'][28]['valuetype'] = 'int';
-$modversion['config'][28]['default'] = 0;
-$modversion['config'][28]['options'] = array( _NONE => 0, _MI_POST => 1, _MI_REPLY => 2, _MI_OP_BOTH=> 3);
+$modversion['config'][] = array(
+	'name' => 'recordedit_timelimit',
+	'title' => '_MI_RECORDEDIT_TIMELIMIT',
+	'description' => '_MI_RECORDEDIT_TIMELIMIT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 15);
 
-$modversion['config'][29]['name'] = 'disclaimer';
-$modversion['config'][29]['title'] = '_MI_DISCLAIMER';
-$modversion['config'][29]['description'] = '_MI_DISCLAIMER_DESC';
-$modversion['config'][29]['formtype'] = 'textarea';
-$modversion['config'][29]['valuetype'] = 'text';
-$modversion['config'][29]['default'] = '<center>The forum contains a lot of posts with a lot of usefull information. <br /><br />In order to keep the number of double-posts to a minimum, we would like to ask you to use the forum search before posting your questions here.</center>';
+$modversion['config'][] = array(
+	'name' => 'delete_timelimit',
+	'title' => '_MI_DELETE_TIMELIMIT',
+	'description' => '_MI_DELETE_TIMELIMIT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 60);
+
+$modversion['config'][] = array(
+	'name' => 'post_timelimit',
+	'title' => '_MI_POST_TIMELIMIT',
+	'description' => '_MI_POST_TIMELIMIT_DESC',
+	'formtype' => 'textbox',
+	'valuetype' => 'int',
+	'default' => 30);
+
+$modversion['config'][] = array(
+	'name' => 'subject_prefix_level',
+	'title' => '_MI_SUBJECT_PREFIX_LEVEL',
+	'description' => '_MI_SUBJECT_PREFIX_LEVEL_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'int',
+	'default' => 3,
+	'options' => array( _MI_SPL_DISABLE =>0, _MI_SPL_ANYONE =>1, _MI_SPL_MEMBER =>2, _MI_SPL_MODERATOR =>3, _MI_SPL_ADMIN=>4));
+
+$modversion['config'][] = array(
+	'name' => 'subject_prefix',
+	'title' => '_MI_SUBJECT_PREFIX',
+	'description' => '_MI_SUBJECT_PREFIX_DESC',
+	'formtype' => 'textarea',
+	'valuetype' => 'text',
+	'default' => 'NONE,'._MI_SUBJECT_PREFIX_DEFAULT);
+
+$modversion['config'][] = array(
+	'name' => 'disc_show',
+	'title' => '_MI_SHOW_DIS',
+	'description' => '_MI_SHOW_DIS_DESC',
+	'formtype' => 'select',
+	'valuetype' => 'int',
+	'default' => 0,
+	'options' => array( _NONE => 0, _MI_POST => 1, _MI_REPLY => 2, _MI_OP_BOTH=> 3));
+
+$modversion['config'][] = array(
+	'name' => 'disclaimer',
+	'title' => '_MI_DISCLAIMER',
+	'description' => '_MI_DISCLAIMER_DESC',
+	'formtype' => 'textarea',
+	'valuetype' => 'text',
+	'default' => '<center>The forum contains a lot of posts with a lot of usefull information. <br /><br />In order to keep the number of double-posts to a minimum, we would like to ask you to use the forum search before posting your questions here.</center>');
 
 // Notification
 

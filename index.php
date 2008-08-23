@@ -1,5 +1,5 @@
 <?php
-// $Id: index.php,v 1.1.1.54 2004/11/02 15:47:36 phppp Exp $
+// $Id: index.php,v 1.6.4.3 2005/01/10 01:49:41 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -63,7 +63,7 @@ if ($xoopsModuleConfig['wol_enabled']){
     $xoopsTpl->assign('color_mod', $xoopsModuleConfig['wol_mod_col']);
 }
 
-$xoopsTpl->assign(array("lang_welcomemsg" => sprintf(_MD_WELCOME,$xoopsConfig['sitename']), "total_topics" => get_total_topics(), "total_posts" => get_total_posts(0, 'all'), "lang_lastvisit" => sprintf(_MD_LASTVISIT,formatTimestamp($last_visit)), "lang_currenttime" => sprintf(_MD_TIMENOW,formatTimestamp(time(),"m"))));
+$xoopsTpl->assign(array("lang_welcomemsg" => sprintf(_MD_WELCOME, htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)), "total_topics" => get_total_topics(), "total_posts" => get_total_posts(0, 'all'), "lang_lastvisit" => sprintf(_MD_LASTVISIT,formatTimestamp($last_visit)), "lang_currenttime" => sprintf(_MD_TIMENOW,formatTimestamp(time(),"m"))));
 
 $viewcat = (!empty($_GET['cat'])) ? intval($_GET['cat']) : 0;
 $category_handler =& xoops_getmodulehandler('category', 'newbb');
@@ -74,7 +74,7 @@ if (!$viewcat) {
 }
 else {
     $categories = array($category_handler->get($viewcat));
-    $xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,$xoopsConfig['sitename']));
+    $xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
 }
 
 /* TODO for ADMIN_CP
@@ -89,13 +89,14 @@ $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 $forums_array = array();
 foreach ($forums as $forumid => $forum) {
     $forum_data = $last_posts[$forumid];
+	$forum_desc = $myts->undoHtmlSpecialChars($forum->getVar('forum_desc'));
     $forums_array[$forum->getVar('parent_forum')][] = array_merge(
 	    array(
 	    	'forum_order' => $forum->getVar('forum_order'),
 		    'forum_id' => $forumid,
 		    'forum_cid' => $forum->getVar('cat_id'),
 		    'forum_name' => $forum->getVar('forum_name'),
-		    'forum_desc' => $myts->undoHtmlSpecialChars($forum->getVar('forum_desc')),
+		    'forum_desc' => $myts->displayTarea($forum_desc, 1),
 		    'forum_posts' => $forum->getVar("forum_posts"),
 		    'forum_topics' => $forum->getVar("forum_topics"),
 		    'forum_type' => $forum->getVar('forum_type')
@@ -134,20 +135,18 @@ foreach($categories as $onecat){
 	$display = ($catshow) ? 'block;' : 'none;';
 	$display_icon  = ($catshow) ? 'images/minus.png' : 'images/plus.png';
 
-
     if (isset($forumsByCat[$onecat->getVar('cat_id')])) {
         $forums = $forumsByCat[$onecat->getVar('cat_id')];
     }
 
 	$cat_description = ($onecat->getVar('cat_showdescript'))?$myts->undoHtmlSpecialChars($onecat->getVar('cat_description')):'';
-
     $category_array[] = array(
     	'cat_order' => $onecat->getVar('cat_order'),
     	'cat_id' => $onecat->getVar('cat_id'),
 	    'cat_title' => $onecat->getVar('cat_title'),
 	    'cat_image' => $onecat->getVar('cat_image'),
 	    'cat_url' => $onecat->getVar('cat_url'),
-	    'cat_description' => $cat_description,
+	    'cat_description' => $myts->displayTarea($cat_description, 1),
 	    'permission' => $category_handler->getPermission($onecat),
         'cat_display' => $display,
 	    'cat_display_icon' => $display_icon,
@@ -160,6 +159,8 @@ array_multisort($category_array, $cat_order);
 
 $xoopsTpl->assign("categories", $category_array);
 $xoopsTpl->assign("cat_display", $display);
+
+$xoopsTpl->assign("subforum_display", $xoopsModuleConfig['subforum_display']);
 
 $xoopsTpl->assign('mark_read', "index.php?mark_read=1");
 $xoopsTpl->assign('mark_unread', "index.php?mark_read=2");

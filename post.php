@@ -1,5 +1,5 @@
 <?php
-// $Id: post.php,v 1.1.1.57 2004/11/16 19:27:46 phppp Exp $
+// $Id: post.php,v 1.7.4.2 2005/01/07 05:27:34 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -30,7 +30,7 @@
 // ------------------------------------------------------------------------- //
 
 include 'header.php';
-include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/mimetype.php';
+//include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/mimetype.php';
 include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/uploader.php';
 
 foreach (array(
@@ -218,6 +218,8 @@ else {
     $post_karma = (($view_require == 'require_karma')&&isset($_POST['post_karma']))?intval($_POST['post_karma']):0;
     $require_reply = ($view_require == 'require_reply')?1:0;
     $forumpost->setVar('subject', $subject);
+
+	if($dohtml) $message=newbb_textFilter($message);
     $forumpost->setVar('post_text', $message);
     $forumpost->setVar('post_karma', $post_karma);
     $forumpost->setVar('require_reply', $require_reply);
@@ -274,7 +276,8 @@ else {
         exit();
     }
 
-    if(!empty($_POST['subject_pre'])){
+
+    if(newbb_checkSubjectPrefixPermission($forum) && !empty($_POST['subject_pre'])){
 		$subject_pre = intval($_POST['subject_pre']);
 		$sbj_res = $post_handler->insertnewsubject($forumpost->getVar('topic_id'), $subject_pre);
     }

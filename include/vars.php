@@ -1,5 +1,5 @@
 <?php
-// $Id: vars.php,v 1.1.1.43 2004/11/16 01:15:10 phppp Exp $
+// $Id: vars.php,v 1.3.4.2 2005/01/07 00:17:22 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -80,7 +80,7 @@ $forumImage['folder_user_topic'] = $forumUrl['images_set']."/folder_user-a";
 
 $forumImage['rss'] = $forumUrl['images_root']."/rss-a";
 $forumImage['subforum'] = $forumUrl['images_root']."/arrow-a";
-$forumImage['blank'] = $forumUrl['images_root']."/blank-a";
+$forumImage['blank'] = $forumUrl['images_root']."/blank";
 $forumImage['move_topic'] = $forumUrl['images_root']."/move_topic-a";
 $forumImage['del_topic'] = $forumUrl['images_root']."/del_topic-a";
 $forumImage['lock_topic'] = $forumUrl['images_root']."/lock_topic-a";

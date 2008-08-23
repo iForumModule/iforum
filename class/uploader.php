@@ -1,5 +1,5 @@
 <?php
-// $Id: uploader.php,v 1.1.1.10 2004/11/20 15:18:19 phppp Exp $
+// $Id: uploader.php,v 1.2.4.1 2005/01/06 22:57:41 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

@@ -1,5 +1,5 @@
 <?php
-// $Id: search.inc.php,v 1.1.1.25 2004/10/13 20:27:22 phppp Exp $
+// $Id: search.inc.php,v 1.3.2.3 2005/01/10 01:49:41 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -84,13 +84,13 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
     }
 
     if (is_array($userid) && count($userid) > 0) {
+		$userid = array_map('intval', $userid);
         $sql .= " AND p.uid IN (".implode(',', $userid).") ";
     }
 	elseif ( is_numeric($userid) && $userid != 0 ) {
 		$sql .= " AND p.uid=".$userid." ";
 	}
-	// because count() returns 1 even if a supplied variable
-	// is not an array, we must check if $querryarray is really an array
+
 	$count = count($queryarray);
 	if ( is_array($queryarray) && $count > 0) {
 	    switch ($searchin) {
@@ -136,7 +136,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 		$ret[$i]['title'] = $myrow['subject'];
 		$ret[$i]['time'] = $myrow['post_time'];
 		$ret[$i]['uid'] = $myrow['uid'];
-		$ret[$i]['forum_name'] = newbb_html2text($myts->undoHtmlSpecialChars($myrow['forum_name']));
+		$ret[$i]['forum_name'] = $myts->htmlSpecialChars($myrow['forum_name']);
 		$ret[$i]['forum_link'] = "viewforum.php?forum=".$myrow['forum_id'];
 		$users[$myrow['uid']] = 1;
 		$ret[$i]['poster_name'] = $myrow['poster_name'];
@@ -165,6 +165,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 		if($ret[$i]['uid'] >0){
 			if ( isset($users[$ret[$i]['uid']]) && (is_object($users[$ret[$i]['uid']])) && ($users[$ret[$i]['uid']]->isActive()) ){
 				$poster = ($newbbConfig['show_realname']&&$users[$ret[$i]['uid']]->getVar('name'))?$users[$ret[$i]['uid']]->getVar('name'):$users[$ret[$i]['uid']]->getVar('uname');
+				$poster = $myts->htmlSpecialChars($poster);
 				$ret[$i]['poster'] = '<a href="'.XOOPS_URL.'/userinfo.php?uid='.$ret[$i]['uid'].'">'.$poster.'</a>';
 		        if(newbb_isAdmin($myrow['forum_id'],$ret[$i]['uid']) && $newbbConfig['allow_moderator_html']){
 		        	$ret[$i]['title'] = newbb_html2text($myts->undoHtmlSpecialChars($ret[$i]['title']));
@@ -174,7 +175,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 				$ret[$i]['uid'] = 0; // Have to force this to fit xoops search.php
 			}
 		}else{
-            $ret[$i]['poster'] = $ret[$i]['poster_name']?$ret[$i]['poster_name']:$xoopsConfig['anonymous'];
+            $ret[$i]['poster'] = (empty($ret[$i]['poster_name']))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($ret[$i]['poster_name']);
 			$ret[$i]['uid'] = 0;
 		}
 	}

@@ -31,7 +31,7 @@
 </div>
 <{/if}>
 
-<{if $topic_poll}> <{if $topic_pollresult}> <{include file="db:newbb_poll_results.html poll=$poll}> <{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}> <{/if}>
+<{if $topic_poll}> <{if $topic_pollresult}> <{include file="db:newbb_poll_results.html" poll=$poll}> <{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}> <{/if}>
 <table cellspacing="0" width="100%">
   <tr>
     <td align="left"><br />
@@ -149,14 +149,12 @@ style="border-bottom-width: 0px;">
                             <input type="hidden" name="forum" value="<{$forum_id}>" />
                             <input type="hidden" name="sortby" value="p.post_time desc" />
                             <input type="hidden" name="action" value="yes" />
-                            <input type="hidden" name="searchboth" value="both" />
+                            <input type="hidden" name="searchin" value="both" />
                             <input type="submit" class="formButton" value="<{$smarty.const._MD_GO}>" />
                           </td>
                         </tr>
                         <tr>
-                          <td class="head"><a class="newbb_link"
-
-href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a></td>
+                          <td class="head"><a class="newbb_link" href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a></td>
                         </tr>
                       </table>
                     </form>

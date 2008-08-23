@@ -1,5 +1,5 @@
 <?php 
-// $Id: mygrouppermform.php,v 1.1.1.8 2004/10/09 23:34:02 praedator Exp $
+// $Id: mygrouppermform.php,v 1.3.6.1 2005/01/06 22:55:34 praedator Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000-2003 XOOPS.org                           //

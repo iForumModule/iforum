@@ -1,5 +1,5 @@
 <?php
-// $Id: category.php,v 1.1.1.21 2004/11/20 15:18:18 phppp Exp $
+// $Id: category.php,v 1.1.4.2 2005/01/07 05:29:10 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -105,7 +105,7 @@ class NewbbCategoryHandler extends XoopsObjectHandler
             $_cachedCats[$id][$perm_string][] = $category;
             unset($category);
         }
-        return $_cachedCats[$id][$perm_string];
+        return @$_cachedCats[$id][$perm_string];
     }
 
     function insert(&$category)

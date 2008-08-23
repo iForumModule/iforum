@@ -1,5 +1,5 @@
 <?php
-// $Id: archive.php,v 1.1.1.13 2004/11/09 19:47:13 praedator Exp $
+// $Id: archive.php,v 1.3.4.2 2005/01/07 05:26:41 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -28,6 +28,11 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
+
+/*
+ * The file is not ready yet
+ * phppp
+ */
 
 include_once("header.php");
 include XOOPS_ROOT_PATH."/header.php";
@@ -70,7 +75,7 @@ function display_archive()
 	global $db, $forumTable, $forumImage;
 
 	include_once(XOOPS_ROOT_PATH."/header.php");
-	
+
 	echo "<table border='0' width='100%' cellpadding='5'>";
 	echo "<tr><td align='left'>".newbb_displayImage($forumImage['f_open'])."&nbsp;&nbsp;<a href='".$forumPath['url']."archive.php'>";
 	echo _MD_FORUM_ARCHIVE."</a>";
@@ -86,7 +91,7 @@ function display_archive()
 		display_archive_forums($row->cat_id);
 	}
 	echo "</td></tr></table>";
-	
+
 	include_once(XOOPS_ROOT_PATH."/footer.php");
 }
 
@@ -120,7 +125,7 @@ function display_forum_topics($forum)
 	global $db, $myts, $xoopsUser, $xoopsModule, $forumTable, $forumImage;
 
 	include_once(XOOPS_ROOT_PATH."/header.php");
-	
+
 	$q = "select * from ".$forumTable['forums']." WHERE forum_id=".$forum;
 	$result = $db->query($q);
 	if(!$result)
@@ -169,7 +174,6 @@ function display_topic($forum, $topic_id, $content_only = 1)
 	if($content_only==0)
 	{
 		include_once(XOOPS_ROOT_PATH."/header.php");
-		
 	}
 
 	$q = "select * from ".$forumTable['forums']." WHERE forum_id=".$forum;

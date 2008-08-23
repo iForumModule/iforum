@@ -1,5 +1,5 @@
 <?php
-// $Id: japanese.php,v 1.1.2.3 2004/11/16 01:15:10 phppp Exp $
+// $Id: japanese.php,v 1.1.4.2 2005/01/20 21:14:57 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -112,7 +112,7 @@ define('NEWBB_PDF_DATE', _MD_POSTEDON);
 define('NEWBB_PDF_PAGE', 'Page %s');
 
 // For more details, refer to: http://fpdf.org
-class PDF_language extends FPDF
+class PDF_language extends PDF_Japanese
 {
 	function PDF_language($orientation='P',$unit='mm',$format='A4')
 	{

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Document sans titre</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<link href="gemdoc.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<script language="javascript" type="text/javascript" src="header.js"></script>
+<div id="articles">
+<h1>Les blocs</h1>
+<p>En standard ce module est livr&eacute; avec les blocs suivants : </p>
+<ul>
+  <li>sujets r&eacute;cents</li>
+  <li>sujets les plus vus</li>
+  <li>  sujets les plus actifs</li>
+  </ul>
+<p>A partir de cette page il vous est possible de les &eacute;diter pour modifier les
+  attributs de ceux-ci :</p>
+<ul>
+  <li>emplacement du bloc : choix dans la liste d&eacute;roulante </li>
+  <li>visible : oui - non </li>
+  <li>affichage sur quelle(s) page(s)</li>
+  <li>modification &eacute;ventuelle du titre</li>
+  <li>param&eacute;trage de diff&eacute;rentes options : 
+    <ul>
+      <li>nombre de titres de messages &agrave; afficher dans le bloc</li>
+      <li>mode de visualisation (complet, compact, l&eacute;ger)</li>
+      <li>possibilit&eacute; de choisir des messages dans tous les forums ou seulement
+        sur certains <img src="images/newred.gif" width="45" height="14" /></li>
+      <li>temps de cache </li>
+    </ul>
+    </li>
+  </ul>
+<h4>Autorisations</h4>
+<p>La seconde partie de cette page est consacr&eacute;e aux autorisations sur ces blocs.
+  En une seule fois, vous aurez la capacit&eacute; d'autoriser aux diff&eacute;rents groupes
+  :</p>
+<ul>
+  <li> les droits d'administration du module</li>
+  <li>les droits d'acc&egrave;s au modules </li>
+  <li>l'acc&egrave;s aux diff&eacute;rents blocs</li>
+</ul>
+<h4>Cr&eacute;ation de blocs &agrave; la vol&eacute;e</h4>
+<p>Il est possible de cr&eacute;er des blocs personnalis&eacute;s sur le forum : 
+<ul>
+  <li> Menu Administration'=&gt;"Administration des blocs"=&gt;"Ajouter un bloc</li>
+  <li>type de bloc : format php </li>
+  <li>poids : entrer une valeur de votre choix</li>
+  <li>visible : choisissez ce
+      que vous d&eacute;sirez</li>
+  <li>visible dans : d&eacute;finissez les endroits o&ugrave;
+      sera visible ce bloc</li>
+  <li>titre : donnez un titre &agrave; votre bloc</li>
+  <li>Contenu :
+    <ul>
+      <li><em>include_once(XOOPS_ROOT_PATH . '/modules/newbb/blocks/newbb_block.php');</em></li>
+	  <li>$options = &quot;10|0|time|0&quot;;</li>
+      <li>b_newbb_custom($options);</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <?php
-// $Id: newtopic.php,v 1.1.1.24 2004/11/14 14:57:31 praedator Exp $
+// $Id: newtopic.php,v 1.3.4.2 2005/01/07 05:27:34 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -70,7 +70,7 @@ if ( empty($forum) ) {
     $icon = '';
     $post_karma = 0;
     $require_reply = 0;
-    $attachsig = (is_object($xoopsUser) && $xoopsUser->getVar('user_sig')) ? 1 : 0;
+    $attachsig = (is_object($xoopsUser) && $xoopsUser->getVar('attachsig')) ? 1 : 0;
     unset($post_id);
     unset($topic_id);
 

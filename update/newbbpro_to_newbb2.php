@@ -21,8 +21,8 @@ include_once "../../../mainfile.php";
 
 $myts =& MyTextSanitizer::getInstance();
 
-if ( isset($HTTP_POST_VARS) ) {
-    foreach ($HTTP_POST_VARS as $k=>$v) {
+if ( isset($_POST) ) {
+    foreach ($_POST as $k=>$v) {
         $$k = $myts->stripSlashesGPC($v);
     }
 }
@@ -88,7 +88,7 @@ function install_footer(){
   </tr>
   <tr>
     <td colspan="3" align="center"><strong>Newbb 2.0 Updater by <a href='http://dev.xoops.org'>dev.xoops.org</a><br /><br /><a href='http://www.xoops.org/' target='_blank'><img src='../../../images/s_poweredby.gif' alt='XOOPS' border='0' /></a>&nbsp;
- <a href='http://www.spreadfirefox.com/?q=affiliates&amp;id=0&amp;t=70'><img border='0' alt='Get Firefox!' title='Get Firefox!' src='img/get.gif'/></a>   
+ <a href='http://www.spreadfirefox.com/?q=affiliates&amp;id=0&amp;t=70'><img border='0' alt='Get Firefox!' title='Get Firefox!' src='img/get.gif'/></a>
     </strong></div><br />
 	</td>
   </tr>
@@ -434,7 +434,7 @@ if (!$result) {
 else {
 	echo "<tr align='center'><td width='30%' align='right'><img src='img/yes.gif'></td><td width='70%' align='left'>&nbsp;Change field in ".$xoopsDB->prefix."_bb_posts</td></tr>";
 }
-$result = $xoopsDB->queryF("ALTER TABLE ".$xoopsDB->prefix("bb_posts")." ADD `doxcode` TINYINT(1) NOT NULL DEFAULT '0' AFTER `dosmiley`");
+$result = $xoopsDB->queryF("ALTER TABLE ".$xoopsDB->prefix("bb_posts")." ADD `doxcode` TINYINT(1) NOT NULL DEFAULT '1' AFTER `dosmiley`");
 if (!$result) {
 	echo "<tr align='center'><td width='30%' align='right'><img src='img/no.gif'></td><td width='70%' align='left'><span style='color:#ff0000;font-weight:bold'>Could not add field in ".$xoopsDB->prefix("bb_posts")."</span></td></tr>";
 }

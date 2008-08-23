@@ -1,5 +1,5 @@
 <?php
-// $Id: delete.php,v 1.1.1.23 2004/10/13 20:27:21 phppp Exp $
+// $Id: delete.php,v 1.5.2.1 2005/01/06 22:54:43 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

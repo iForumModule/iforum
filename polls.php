@@ -1,5 +1,5 @@
 <?php
-// $Id: polls.php,v 1.1.2.10 2004/11/09 19:47:13 praedator Exp $
+// $Id: polls.php,v 1.1.4.4 2005/01/10 14:21:12 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -51,13 +51,6 @@ if(!$isOK){
 }
 
 $op = "add";
-
-if ( isset($_POST) ) {
-	foreach ( $_POST as $k => $v ) {
-		$$k = $v;
-	}
-}
-
 if (isset($_GET['op'])) $op = $_GET['op'];
 if (isset($_POST['op'])) $op = $_POST['op'];
 if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
@@ -76,20 +69,27 @@ if (empty($forum))
 
 if ( $op == "add" ) {
 	$poll_form = new XoopsThemeForm(_MD_POLL_CREATNEWPOLL, "poll_form", "polls.php");
+
 	$question_text = new XoopsFormText(_MD_POLL_POLLQUESTION, "question", 50, 255);
 	$poll_form->addElement($question_text, true);
+
 	$desc_tarea = new XoopsFormTextarea(_MD_POLL_POLLDESC, "description");
 	$poll_form->addElement($desc_tarea);
+
 	$currenttime = formatTimestamp(time(), "Y-m-d H:i:s");
 	$endtime = formatTimestamp(time()+604800, "Y-m-d H:i:s");
 	$expire_text = new XoopsFormText(_MD_POLL_EXPIRATION."<br /><small>"._MD_POLL_FORMAT."<br />".sprintf(_MD_POLL_CURRENTTIME, $currenttime)."</small>", "end_time", 30, 19, $endtime);
 	$poll_form->addElement($expire_text);
+
 	$weight_text = new XoopsFormText(_MD_POLL_DISPLAYORDER, "weight", 6, 5, 0);
 	$poll_form->addElement($weight_text);
+
 	$multi_yn = new XoopsFormRadioYN(_MD_POLL_ALLOWMULTI, "multiple", 0);
 	$poll_form->addElement($multi_yn);
+
 	$notify_yn = new XoopsFormRadioYN(_MD_POLL_NOTIFY, "notify", 1);
 	$poll_form->addElement($notify_yn);
+
 	$option_tray = new XoopsFormElementTray(_MD_POLL_POLLOPTIONS, "");
 	$barcolor_array = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH."/modules/xoopspoll/images/colorbars/");
 	for($i = 0; $i < 10; $i++){
@@ -108,6 +108,7 @@ if ( $op == "add" ) {
 		unset($color_select, $color_label);
 	}
 	$poll_form->addElement($option_tray);
+
 	$submit_button = new XoopsFormButton("", "poll_submit", _SUBMIT, "submit");
 	$poll_form->addElement($submit_button);
 	$op_hidden = new XoopsFormHidden("op", "save");
@@ -128,6 +129,10 @@ if ( $op == "save" ) {
 	 * The option check should be done before submitting
 	 */
 	$option_empty = true;
+	if(empty($_POST['option_text'])){
+		redirect_header("javascript:history.go(-1);", 2, _MD_ERROROCCURED.': '._MD_POLL_POLLOPTIONS.' !');
+	}
+	$option_text = $_POST['option_text'];
 	foreach ( $option_text as $optxt ) {
 		if ( trim($optxt) != "" ) {
 			$option_empty = false;
@@ -137,18 +142,22 @@ if ( $op == "save" ) {
 	if($option_empty) redirect_header("javascript:history.go(-1);", 2, _MD_ERROROCCURED.': '._MD_POLL_POLLOPTIONS.' !');
 
 	$poll = new XoopsPoll();
+	$question = (empty($_POST['question']))?"":$_POST['question'];
 	$poll->setVar("question", $question);
+	$description = (empty($_POST['description']))?"":$_POST['description'];
 	$poll->setVar("description", $description);
-	if ( !empty($end_time) ) {
+	if ( !empty($_POST['end_time']) ) {
 		$timezone = is_object($xoopsUser)? $xoopsUser->timezone() : null;
-		$poll->setVar("end_time", userTimeToServerTime(strtotime($end_time), $timezone));
+		$poll->setVar("end_time", userTimeToServerTime(strtotime($_POST['end_time']), $timezone));
 	} else {
 		// if expiration date is not set, set it to 10 days from now
 		$poll->setVar("end_time", time() + (86400 * 10));
 	}
 	$poll->setVar("display", 0);
-	$poll->setVar("weight", $weight);
-	$poll->setVar("multiple", $multiple);
+	$weight = (empty($_POST['weight']))?"":$_POST['weight'];
+	$poll->setVar("weight", intval($weight));
+	$weight = (empty($_POST['multiple']))?"":$_POST['multiple'];
+	$poll->setVar("multiple", intval($multiple));
 	if ( $notify == 1 ) {
 		// if notify, set mail status to "not mailed"
 		$poll->setVar("mail_status", POLL_NOTMAILED);
@@ -159,6 +168,7 @@ if ( $op == "save" ) {
 	$uid = is_object($xoopsUser)?$xoopsUser->getVar("uid"):0;
 	$poll->setVar("user_id", $uid);
 	$new_poll_id = $poll->store();
+	$option_color = (empty($_POST['option_color']))?NULL:$_POST['option_color'];
 	if ( !empty($new_poll_id) ) {
 		$i = 0;
 		foreach ( $option_text as $optxt ) {
@@ -174,7 +184,7 @@ if ( $op == "save" ) {
 		}
 		$sql = "UPDATE ".$xoopsDB->prefix("bb_topics")." SET topic_haspoll = 1, poll_id = $new_poll_id WHERE topic_id = $topic_id";
         if ( !$result = $xoopsDB->query($sql) ) {
-        	echo "<br />polladd topic error:".$sql;
+        	//echo "<br />polladd topic error:".$sql;
         }
 		include_once XOOPS_ROOT_PATH.'/class/template.php';
 		xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
@@ -190,7 +200,7 @@ if ( $op == "save" ) {
 if ( $op == "edit" ) {
 	$poll = new XoopsPoll($_GET['poll_id']);
 	$poll_form = new XoopsThemeForm(_MD_POLL_EDITPOLL, "poll_form", "polls.php");
-	$author_label = new XoopsFormLabel(_MD_POLL_AUTHOR, "<a href='".XOOPS_URL."/userinfo.php?uid=".$poll->getVar("user_id")."'>".XoopsUser::getUnameFromId($poll->getVar("user_id"))."</a>");
+	$author_label = new XoopsFormLabel(_MD_POLL_AUTHOR, "<a href='".XOOPS_URL."/userinfo.php?uid=".$poll->getVar("user_id")."'>".newbb_getUnameFromId($poll->getVar("user_id"), $xoopsModuleConfig['show_realname'])."</a>");
 	$poll_form->addElement($author_label);
 	$question_text = new XoopsFormText(_MD_POLL_POLLQUESTION, "question", 50, 255, $poll->getVar("question", "E"));
 	$poll_form->addElement($question_text);
@@ -254,6 +264,10 @@ if ( $op == "edit" ) {
 
 if ( $op == "update" ) {
 	$option_empty = true;
+	if(empty($_POST['option_text'])){
+		redirect_header("javascript:history.go(-1);", 2, _MD_ERROROCCURED.': '._MD_POLL_POLLOPTIONS.' !');
+	}
+	$option_text = $_POST['option_text'];
 	foreach ( $option_text as $optxt ) {
 		if ( trim($optxt) != "" ) {
 			$option_empty = false;
@@ -263,15 +277,20 @@ if ( $op == "update" ) {
 	if($option_empty) redirect_header("javascript:history.go(-1);", 2, _MD_ERROROCCURED.': '._MD_POLL_POLLOPTIONS.' !');
 
 	$poll = new XoopsPoll($poll_id);
+	$question = (empty($_POST['question']))?"":$_POST['question'];
 	$poll->setVar("question", $question);
+	$description = (empty($_POST['description']))?"":$_POST['description'];
 	$poll->setVar("description", $description);
+	$end_time = (empty($_POST['end_time']))?"":$_POST['end_time'];
 	if ( !empty($end_time) ) {
 		$timezone = is_object($xoopsUser)? $xoopsUser->timezone() : null;
 		$poll->setVar("end_time", userTimeToServerTime(strtotime($end_time), $timezone));
 	}
 	$poll->setVar("display", 0);
-	$poll->setVar("weight", $weight);
-	$poll->setVar("multiple", $multiple);
+	$weight = (empty($_POST['weight']))?"":$_POST['weight'];
+	$poll->setVar("weight", intval($weight));
+	$multiple = (empty($_POST['multiple']))?"":$_POST['multiple'];
+	$poll->setVar("multiple", intval($multiple));
 	if ( $notify == 1 && $end_time > time() ) {
 		// if notify, set mail status to "not mailed"
 		$poll->setVar("mail_status", POLL_NOTMAILED);
@@ -284,6 +303,8 @@ if ( $op == "update" ) {
 		exit();
 	}
 	$i = 0;
+	$option_id = (empty($_POST['option_id']))?NULL:$_POST['option_id'];
+	$option_color = (empty($_POST['option_color']))?NULL:$_POST['option_color'];
 	foreach ( $option_id as $opid ) {
 		$option = new XoopsPollOption($opid);
 		$option_text[$i] = trim ($option_text[$i]);
@@ -348,6 +369,10 @@ if ( $op == "addmore" ) {
 
 if ( $op == "savemore" ) {
 	$option_empty = true;
+	if(empty($_POST['option_text'])){
+		redirect_header("javascript:history.go(-1);", 2, _MD_ERROROCCURED.': '._MD_POLL_POLLOPTIONS.' !');
+	}
+	$option_text = $_POST['option_text'];
 	foreach ( $option_text as $optxt ) {
 		if ( trim($optxt) != "" ) {
 			$option_empty = false;
@@ -358,6 +383,7 @@ if ( $op == "savemore" ) {
 
 	$poll = new XoopsPoll($poll_id);
 	$i = 0;
+	$option_color = (empty($_POST['option_color']))?NULL:$_POST['option_color'];
 	foreach ( $option_text as $optxt ) {
 		$optxt = trim($optxt);
 		if ( $optxt != "" ) {
@@ -396,7 +422,7 @@ if ( $op == "delete_ok" ) {
 		xoops_comment_delete($xoopsModule->getVar('mid'), $poll->getVar('poll_id'));
 		$sql = "UPDATE ".$xoopsDB->prefix("bb_topics")." SET votes = 0, topic_haspoll = 0, poll_id = 0 WHERE topic_id = $topic_id";
         if ( !$result = $xoopsDB->query($sql) ) {
-        	echo "<br />polldelete topic error:".$sql;
+        	//echo "<br />polldelete topic error:".$sql;
         }
 
 	}
@@ -433,6 +459,7 @@ if ( $op == "restart" ) {
 
 if ( $op == "restart_ok" ) {
 	$poll = new XoopsPoll($poll_id);
+	$end_time = (empty($_POST['end_time']))?"":$_POST['end_time'];
 	if ( !empty($end_time) ) {
 		$timezone = is_object($xoopsUser)? $xoopsUser->timezone() : null;
 		$poll->setVar("end_time", userTimeToServerTime(strtotime($end_time), $timezone));
@@ -471,6 +498,7 @@ if ( $op == "log" ) {
 	exit();
 }
 
+/*
 if ( $op == "quickupdate" ) {
 	$count = count($poll_id);
 	for ( $i = 0; $i < $count; $i++ ) {
@@ -489,4 +517,5 @@ if ( $op == "quickupdate" ) {
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
 	exit();
 }
+*/
 ?>

@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_forum_manager.php,v 1.1.1.34 2004/11/13 23:49:08 phppp Exp $
+// $Id: admin_forum_manager.php,v 1.6.6.2 2005/01/07 05:28:24 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -378,8 +378,8 @@ switch ($op) {
             if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
             if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
             $forum = &$forum_handler->get($forum);
-            $name = $myts->htmlSpecialChars($forum->getVar('forum_name'));
-            $desc = $myts->htmlSpecialChars($forum->getVar('forum_desc'));
+            //$name = $forum->getVar('forum_name');
+            //$desc = $myts->displayTarea($forum->getVar('forum_desc'), 1);
 
             $cat_list = "<select name=\"cat_id\" onchange='document.forummove.submit();'>";
             $cat_list .= '<option value="0">' . _AM_NEWBB_SELECT . '</option>';
@@ -401,7 +401,7 @@ switch ($op) {
                 $sql = "SELECT * FROM " . $xoopsDB->prefix('bb_forums') . " WHERE cat_id=" . $_POST['cat_id'] . " AND forum_id!=$forum->getVar('forum_id')";
                 if ($result = $xoopsDB->query($sql))
                     while ($row = $xoopsDB->fetchArray($result)) {
-                    $sf_list .= "<option value='" . $row['forum_id'] . "'>" . $row['forum_name'] . "</option>";
+                    $sf_list .= "<option value='" . $row['forum_id'] . "'>" . $myts->htmlSpecialChars($row['forum_name']) . "</option>";
                 }
             }
             $sf_list .= '</select>';
@@ -649,7 +649,7 @@ switch ($op) {
 		$forums = $category_handler->getForums();
 
 		$forums_array = array();
-		foreach ($forums as $forumid => $forum) {
+		if(count($forums)>0) foreach ($forums as $forumid => $forum) {
 		    $forums_array[$forum->getVar('parent_forum')][] = array(
 			    'forum_id' => $forumid,
 			    'forum_cid' => $forum->getVar('cat_id'),
@@ -679,7 +679,7 @@ switch ($op) {
         $echo .= "<td class='bg3'>" . _AM_NEWBB_MOVE . "</td>";
         $echo .= "</tr>";
 
-        foreach ($categories as $key => $category) {
+        if(count($categories)>0) foreach ($categories as $key => $category) {
             // Display the Category
             $cat_link = "<a href=\"" . $forumUrl['root'] . "/index.php?viewcat=" . $category->getVar('cat_id') . "\">" . $category->getVar('cat_title') . "</a>";
             $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&amp;cat_id=" . $category->getVar('cat_id') . "\">".newbb_displayImage($forumImage['edit'], _EDIT)."</a>";

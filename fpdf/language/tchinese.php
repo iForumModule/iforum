@@ -1,5 +1,5 @@
 <?php
-// $Id: tchinese.php,v 1.1.2.3 2004/11/16 01:15:10 phppp Exp $
+// $Id: tchinese.php,v 1.1.4.1 2005/01/06 23:02:08 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

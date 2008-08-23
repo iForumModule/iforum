@@ -1,5 +1,5 @@
 <?php
-// $Id: header.php,v 1.1.1.17 2004/11/15 11:41:38 praedator Exp $
+// $Id: header.php,v 1.3.2.1 2005/01/06 22:54:44 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

@@ -1,5 +1,5 @@
 <?php
-// $Id: main.php,v 1.1.1.61 2004/11/15 22:09:15 praedator Exp $
+// $Id: main.php,v 1.3.2.2 2005/01/10 01:49:42 phppp Exp $
 if(defined('MAIN_DEFINED')) return;
 define('MAIN_DEFINED',true);
 
@@ -57,15 +57,15 @@ define("_MD_PENDING_POSTS_FOR_AUTH","Posts pending approval:");
 //page_header.php
 define('_MD_MODERATEDBY','Moderated by');
 define('_MD_SEARCH','Search');
-define('_MD_SEARCHRESULTS','Search Results');
+//define('_MD_SEARCHRESULTS','Search Results');
 define('_MD_FORUMINDEX','%s Forum Index');
 define('_MD_POSTNEW','New Topic');
 define('_MD_REGTOPOST','Register To Post');
 
 //search.php
-define('_MD_KEYWORDS','Keywords:');
-define('_MD_SEARCHANY','Search for ANY of the terms (Default)');
-define('_MD_SEARCHALL','Search for ALL of the terms');
+//define('_MD_KEYWORDS','Keywords:');
+//define('_MD_SEARCHANY','Search for ANY of the terms (Default)');
+//define('_MD_SEARCHALL','Search for ALL of the terms');
 define('_MD_SEARCHALLFORUMS','Search All Forums');
 define('_MD_FORUMC','Forum');
 define('_MD_AUTHORC','Autor:');
@@ -73,12 +73,13 @@ define('_MD_SORTBY','Sort by');
 define('_MD_DATE','Date');
 define('_MD_TOPIC','Topic');
 define('_MD_USERNAME','Username');
-define('_MD_SEARCHIN','Search in');
+//define('_MD_SEARCHIN','Search in');
 define('_MD_BODY','Body');
-define('_MD_NOMATCH','No records match that query. Please broaden your search.');
-define('_MD_POSTTIME','Post Time');
-define('_MD_SEARCHNEXT','Next page');
-define('_MD_SEARCHPREV','Previous page');
+//define('_MD_NOMATCH','No records match that query. Please broaden your search.');
+//define('_MD_POSTTIME','Post Time');
+//define('_MD_SEARCHNEXT','Next page');
+//define('_MD_SEARCHPREV','Previous page');
+define('_MD_SINCE','Since');
 
 //viewforum.php
 define('_MD_REPLIES','Replies');
@@ -98,6 +99,7 @@ define('_MD_TOPICPOSTER','topic poster');
 define('_MD_LASTPOSTTIME','last post time');
 define('_MD_ASCENDING','Ascending order');
 define('_MD_DESCENDING','Descending order');
+define('_MD_FROMLASTHOURS','From last %s hours');
 define('_MD_FROMLASTDAYS','From last %s days');
 define('_MD_THELASTYEAR','From the last year');
 define('_MD_BEGINNING','From the beginning');
@@ -220,6 +222,7 @@ define("_MD_FORM_SPAW","Spaw Editor");
 define("_MD_FORM_HTMLAREA","HTMLArea");
 define("_MD_FORM_FCK","FCK Editor");
 define("_MD_FORM_KOIVI","Koivi Editor");
+define("_MD_FORM_TINYMCE","TinyMCE Editor");
 
 // ERROR messages
 define('_MD_ERRORFORUM','ERROR: Forum not selected!');

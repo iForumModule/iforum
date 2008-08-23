@@ -22,7 +22,7 @@
 <{$topic.title}></a><{$topic.topic_page_jump}></td>
     <td align="center"><{$topic.replies}></td>
     <td align="center"><{$topic.views}></td>
-    <td align="right"><{$topic.time}></td>
+    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}>&nbsp;<{$topic.jump_post}></td>
   </tr>
   <{/foreach}>
 
@@ -38,7 +38,7 @@
   <tr class="<{cycle values="even,odd"}>">
     <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></td>
     <td align="center"><{$topic.replies}></td>
-    <td align="right"><{$topic.time}></td>
+    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}>&nbsp;<{$topic.jump_post}></td>
   </tr>
   <{/foreach}>
 

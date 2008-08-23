@@ -1,5 +1,5 @@
 <?php
-// $Id: posttonews.php,v 1.1.2.3 2004/11/20 15:18:18 phppp Exp $
+// $Id: posttonews.php,v 1.1.4.1 2005/01/06 22:54:44 praedator Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
