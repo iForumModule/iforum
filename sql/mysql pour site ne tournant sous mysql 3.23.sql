@@ -20,7 +20,7 @@ CREATE TABLE `bb_archive` (
   `topic_id` mediumint(8) NOT NULL default '0',
   `post_id` mediumint(8) NOT NULL default '0',
   `post_text` text NOT NULL
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -39,7 +39,7 @@ CREATE TABLE `bb_attachments` (
   `download` int(10) NOT NULL default '0',
   PRIMARY KEY  (`attach_id`),
   KEY `post_id` (`post_id`)
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `bb_categories` (
   `cat_url` varchar(50) NOT NULL default '',
   `cat_showdescript` smallint(3) NOT NULL default '0',
   PRIMARY KEY  (`cat_id`)
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -71,7 +71,7 @@ CREATE TABLE `bb_digest` (
   `digest_content` text,
   PRIMARY KEY  (`digest_id`),
   KEY `digest_time` (`digest_time`)
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE `bb_forums` (
   `allow_polls` int(1) NOT NULL default '0',
   `subforum_count` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`forum_id`)
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -120,7 +120,7 @@ CREATE TABLE `bb_votedata` (
   KEY ratinguser (ratinguser),
   KEY ratinghostname (ratinghostname),
   KEY topic_id (topic_id)
-) TYPE=MyISAM;
+);
 
 
 # --------------------------------------------------------
@@ -136,7 +136,7 @@ CREATE TABLE `bb_online` (
   `online_uname` varchar(255) NOT NULL default '',
   `online_ip` varchar(32) NOT NULL default '',
   `online_updated` int(10) NOT NULL default '0'
-) TYPE=MyISAM COMMENT='whoisonline';
+) ;
 
 # --------------------------------------------------------
 
@@ -155,7 +155,7 @@ CREATE TABLE `bb_report` (
   `report_memo` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`report_id`),
   KEY `post_id` (`post_id`)
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -192,7 +192,7 @@ CREATE TABLE `bb_posts` (
   KEY `topicid_uid` (`topic_id`,`uid`),
   KEY `topicid_postid_pid` (`topic_id`,`post_id`,`pid`),
   FULLTEXT KEY `search` (`subject`)
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -206,7 +206,7 @@ CREATE TABLE `bb_posts_text` (
   `post_edit` text,
   PRIMARY KEY  (`post_id`),
   FULLTEXT KEY `search` (`post_text`)
-) TYPE=MyISAM;
+) ;
 
 # --------------------------------------------------------
 
@@ -242,7 +242,7 @@ CREATE TABLE `bb_topics` (
   KEY `topic_forum` (`topic_id`,`forum_id`),
   KEY `topic_sticky` (`topic_sticky`),
   KEY `topic_digest` (`topic_digest`)
-) TYPE=MyISAM;
+);
 
 # --------------------------------------------------------
 
@@ -260,4 +260,4 @@ CREATE TABLE `bb_moderates` (
   `forum_id` int(4) NOT NULL default '0',
   PRIMARY KEY  (`mod_id`),
   KEY `uid` (`uid`)
-) TYPE=MyISAM;
+);

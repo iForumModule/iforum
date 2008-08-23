@@ -1,12 +1,15 @@
 CBB
 
-XOOPS Community bulletin Board
-The further development of NewBB 2 which was developed by predator(Marko) and phppp(D.J.)
-For Xoops 2.0* only
+XOOPS Community Bulletin Board
+
+Changelog 1.16
+==============
+DB query optimization and speed enhancement (partially) 
+
 
 Changelog 1.15
 ==============
-1. Security fix 
+Security bugfix 
 
 
 Changelog 1.14

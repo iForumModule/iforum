@@ -1,5 +1,5 @@
 <?php
-// $Id: dl_attachment.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
+// $Id: dl_attachment.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -28,6 +28,10 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
+
+// redirect to its URI of an attachment when requested
+// Set to true if your attachment would be corrupted after download with normal way
+$GLOBALS["xoopsModuleConfig"]["download_direct"] = false;
 
 ob_start();
 include "header.php";
@@ -62,26 +66,40 @@ unset($forumpost);
 $msg = ob_get_contents();
 ob_end_clean();
 
+if(!empty($GLOBALS["xoopsModuleConfig"]["download_direct"])):
+
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false); 
+header("Pragma: no-cache"); 
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("location: ".XOOPS_URL.'/'.$xoopsModuleConfig['dir_attachments'].'/'.$attach['name_saved']);
+
+else:
 $file_display = $attach['name_display'];
 $mimetype = $attach['mimetype'];
 if (function_exists('mb_http_output')) {
 	mb_http_output('pass');
 }
+header('Expires: 0');
 header('Content-Type: '.$mimetype);
 if (preg_match("/MSIE ([0-9]\.[0-9]{1,2})/", $HTTP_USER_AGENT)) {
 	header('Content-Disposition: inline; filename="'.$file_display.'"');
-	header('Expires: 0');
 	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 	header('Pragma: public');
 } else {
 	header('Content-Disposition: attachment; filename="'.$file_display.'"');
-	header('Expires: 0');
 	header('Pragma: no-cache');
 }
-$handle = fopen($file_saved, "r");
+header("Content-Type: application/force-download");
+header("Content-Transfer-Encoding: binary");
+
+$handle = fopen($file_saved, "rb");
 while (!feof($handle)) {
-   $buffer = fgets($handle, 4096);
+   $buffer = fread($handle, 4096);
    echo $buffer;
 }
 fclose($handle);
+
+endif;
 ?>

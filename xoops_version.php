@@ -26,7 +26,7 @@
 //  ------------------------------------------------------------------------ //
 
 $modversion['name'] = _MI_NEWBB_NAME;
-$modversion['version'] = 1.15;
+$modversion['version'] = 1.16;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
 $modversion['author'] = "D.J. (phppp)";
@@ -40,8 +40,8 @@ $modversion['author_realname'] = "XOOPS CHINA Dev Group";
 $modversion['author_website_url'] = "http://xoops.org.cn";
 $modversion['author_website_name'] = "XOOPS CHINA";
 $modversion['author_email'] = "infomax@gmail.com";
-$modversion['status_version'] = "1.15";
-$modversion['status'] = "20051026";
+$modversion['status_version'] = "1.16a";
+$modversion['status'] = "20060105";
 
 $modversion['warning'] = "The further development of NewBB 2";
 

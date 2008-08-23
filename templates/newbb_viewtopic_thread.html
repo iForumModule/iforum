@@ -229,9 +229,9 @@
 
 <{foreach item=topic_post from=$topic_posts}>
 <{if $viewmode_compact}>
-<{include file="db:newbb_item.html" topic_post=$topic_post}>
+<{include file="../modules/newbb/templates/newbb_item.html" topic_post=$topic_post}>
 <{else}>
-<{include file="db:newbb_thread.html" topic_post=$topic_post}>
+<{include file="../modules/newbb/templates/newbb_thread.html" topic_post=$topic_post}>
 <{/if}>
 <br clear="all" />
 <{/foreach}>

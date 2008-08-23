@@ -45,7 +45,6 @@ $category_handler = &xoops_getmodulehandler('category', 'newbb');
 /**
  * newCategory()
  *
- * @param integer $catid
  * @return
  */
 function newCategory()
@@ -102,9 +101,11 @@ function editCategory($cat_id = 0)
     $displaydescription_radio = new XoopsFormRadioYN(_AM_NEWBB_SHOWDESC, 'show', $fc->getVar('cat_showdescript'), '' . _YES . '', ' ' . _NO . '');
     $sform->addElement($displaydescription_radio);
 
+    /*
     $status_select = new XoopsFormSelect(_AM_NEWBB_STATE, "state", $fc->getVar('cat_state'));
     $status_select->addOptionArray(array('0' => _AM_NEWBB_ACTIVE, '1' => _AM_NEWBB_INACTIVE));
     $sform->addElement($status_select);
+    */
 
     $imgdir = "/modules/" . $xoopsModule->dirname() . "/images/category";
     if (!$fc->getVar("cat_image")) $fc->setVar('cat_image', 'blank.gif');
