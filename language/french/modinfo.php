@@ -48,7 +48,7 @@ define("_MI_IMG_SET_DESC","S&eacute;lectionner le set d'images &agrave; utiliser
 define("_MI_DIR_ATTACHMENT","Chemin physique des fichiers attach&eacute;s");
 define("_MI_DIR_ATTACHMENT_DESC","Le chemin physique doit être param&egrave;tr&eacute; &agrave; la racine de xoops et pas avant, par exemple vous pouvez avoir des attachements t&eacute;l&eacute;charg&eacute;s sur www.votresite.com/uploads/newbb le chemin ent&eacute;rin&eacute; devra &ecirc;tre alors '/upload/newbb' sans jamais inclure le '/' final. Le chemin des thumbmails deviendra '/uploads/newbb/thumbs'.");
 define("_MI_PATH_MAGICK","Chemin pour ImageMagick");
-define("_MI_PATH_MAGICK_DESC","Usuellement il s'agit de '/usr/bin/X11'. Laissez le vide si ImageMAgick n'est pas installé");
+define("_MI_PATH_MAGICK_DESC","Usuellement il s'agit de '/usr/bin/X11'. Laissez le vide si ImageMAgick n'est pas install&eacute;");
 
 define("_MI_SUBFORUM_DISPLAY","Mode de visualisation des sous-forums sur la page index");
 define("_MI_SUBFORUM_DISPLAY_DESC","");
@@ -69,10 +69,10 @@ define("_MI_MAX_IMG_WIDTH","Largeur maximale de l'image");
 define("_MI_MAX_IMG_WIDTH_DESC", "Param&egrave;tre les valeur maximum pour la <strong>largeur</strong> d'une image devant &ecirc;tre utilis&eacute; dans les thumbnail. <br >Entrez 0 si vous ne d&eacute;sirez pas cr&eacute;er de thumbnails.");
 
 define("_MI_MAX_IMAGE_WIDTH","Largeur maximale de l'image pour la cr&eacute;er une miniature");
-define("_MI_MAX_IMAGE_WIDTH_DESC", "Définit la largeur maximale de l'image envoyée pour créer une miniature. <br >Une image de largeur plus élevée que la valeur définie n'aura pas de miniature.");
+define("_MI_MAX_IMAGE_WIDTH_DESC", "D&eacute;finit la largeur maximale de l'image envoy&eacute;e pour cr&eacute;er une miniature. <br >Une image de largeur plus &eacute;lev&eacute;e que la valeur d&eacute;finie n'aura pas de miniature.");
 
-define("_MI_MAX_IMAGE_HEIGHT","Hauteur maximum de l'image pour créer une miniature");
-define("_MI_MAX_IMAGE_HEIGHT_DESC", "Définit la hauteur maximale de l'image envoyée pour créer une miniature. <br >Une image de hauteur plus élevée que la valeur définie n'aura  pas de miniature.");
+define("_MI_MAX_IMAGE_HEIGHT","Hauteur maximum de l'image pour cr&eacute;er une miniature");
+define("_MI_MAX_IMAGE_HEIGHT_DESC", "D&eacute;finit la hauteur maximale de l'image envoy&eacute;e pour cr&eacute;er une miniature. <br >Une image de hauteur plus &eacute;lev&eacute;e que la valeur d&eacute;finie n'aura  pas de miniature.");
 
 define("_MI_SHOW_DIS","Afficher la mise en garde");
 define("_MI_DISCLAIMER","Mise en garde");
@@ -90,17 +90,17 @@ define("_MI_WOL_MOD_COL","Surlignage couleur de surlignage des mod&eacute;rateur
 define("_MI_WOL_MOD_COL_DESC","Couleur des mod&eacute;rateurs affich&eacute;e dans le bloc Qui est en ligne");
 define("_MI_LEVELS_ENABLE", "Activer les modes de niveaux HP/MP/EXP");
 define("_MI_LEVELS_ENABLE_DESC", "<strong>HP</strong>  est d&eacute;termin&eacute; par la moyenne des contributions par jour.<br /><strong>MP</strong>  est d&eacute;termin&eacute; par la date jointe en rapport avec le compte du post.<br /><strong>EXP</strong> Montre le temps du post, Et quand vous arrivez &agrave; 100%, vous gagnez un niveau EXP retombe &agrave; 0.");
-define("_MI_NULL", "désactivé");
+define("_MI_NULL", "d&eacute;sactiv&eacute;");
 define("_MI_TEXT", "texte");
 define("_MI_GRAPHIC", "graphique");
 define("_MI_USERLEVEL", "Mode niveaux HP/MP/EXP");
-define("_MI_USERLEVEL_DESC", "<strong>HP</strong>  est d&eacute;termin&eacute; par votre moyenne de contribution par jour.<br /><strong>MP</strong>  est d&eacute;termin&eacute; par votre date de venu relatif &agrave; votre nombre de contribution.<br /><strong>EXP</strong> grimpa &agrave; chauqe fois que vous contribuez, &agrave; chauqe fois que vous parvenez &agrave; 100%, vous gagnez un niveau et EXP redescent à 0 de nouveau.");
+define("_MI_USERLEVEL_DESC", "<strong>HP</strong>  est d&eacute;termin&eacute; par votre moyenne de contribution par jour.<br /><strong>MP</strong>  est d&eacute;termin&eacute; par votre date de venu relatif &agrave; votre nombre de contribution.<br /><strong>EXP</strong> grimpa &agrave; chauqe fois que vous contribuez, &agrave; chaque fois que vous parvenez &agrave; 100%, vous gagnez un niveau et EXP redescent &agrave; 0 de nouveau.");
 define("_MI_RSS_ENABLE","Activer l'alimentation RSS");
 define("_MI_RSS_ENABLE_DESC","Activer l'alimentation RSS, avec en dessous le maximum d'articles et la longueur de la description");
 define("_MI_RSS_MAX_ITEMS", "Articles Max.");
 define("_MI_RSS_MAX_DESCRIPTION", "Longueur maximum de la description");
 define("_MI_RSS_UTF8", "Encodage RSS avec UTF-8");
-define("_MI_RSS_UTF8_DESCRIPTION", "'UTF-8' sera utilisé si activé autrement'"._CHARSET."' sera utilisé.");
+define("_MI_RSS_UTF8_DESCRIPTION", "'UTF-8' sera utilis&eacute; si activ&eacute; autrement'"._CHARSET."' sera utilis&eacute;.");
 define("_MI_RSS_CACHETIME", "Temps de cache du filet RSS");
 define("_MI_RSS_CACHETIME_DESCRIPTION", "Temps de cache pour la re-g&eacute;n&eacute;ration du filet RSS, en minutes.");
 
@@ -110,13 +110,13 @@ define("_MI_USERBAR_ENABLE","Activer la barre utilisateur");
 define("_MI_USERBAR_ENABLE_DESC","Afficher la barre Utilisateur &eacute;tendu : Profil, PM, ICQ, MSN, etc...");
 
 define("_MI_GROUPBAR_ENABLE","Activer la barre de Groupe");
-define("_MI_GROUPBAR_ENABLE_DESC","Autorise à voir les groupes auquels appartient l'utilisateur dans le champs information des contributions.");
+define("_MI_GROUPBAR_ENABLE_DESC","Autorise &agrave; voir les groupes auquels appartient l'utilisateur dans le champs information des contributions.");
 
 define("_MI_RATING_ENABLE","Activer la fonction de comptabilisation");
 define("_MI_RATING_ENABLE_DESC","Activer la comptabilisation par sujet");
 
 define("_MI_VIEWMODE","Mode de visualisation des discussions");
-define("_MI_VIEWMODE_DESC","Outrepasser les param&egrave;tres g&eacute;n&eacute;raux des modes de visualisation choisissez parmi les choix : A Plat, par Discussion ou Aucun pour ne pas outrepasser");
+define("_MI_VIEWMODE_DESC","Pour outrepasser les param&egrave;tres g&eacute;n&eacute;raux des modes de visualisation choisissez parmi les choix : A Plat, par Discussion ou Aucun pour ne pas outrepasser");
 define("_MI_COMPACT","Compacte");
 
 define("_MI_MENUMODE","Mode de menu par d&eacute;faut");
@@ -145,10 +145,10 @@ define("_MI_ENABLE_KARMA_DESC", "Ceci permet aux utilisateurs de param&egrave;tr
 define("_MI_KARMA_OPTIONS", "Options de Karma pour la contribution");
 define("_MI_KARMA_OPTIONS_DESC", "Utilisez ',' pour d&eacute;limiter les options multiples. Laisser blanc pour ne pas activer cette option");
 
-define("_MI_SINCE_OPTIONS", "Durées associées à 'depuis' option pour le Sélecteur d'affichage 'visualisation des formulaire' et la fonction 'Recherche'");
-define("_MI_SINCE_OPTIONS_DESC", "Valeur positive pour les jours et n&eacute;gative pour les heures. Utilisez ',' comme délimitateur d'options multiples.");
+define("_MI_SINCE_OPTIONS", "Dur&eacute;es associ&eacute;es à 'depuis' option pour le S&eacute;lecteur d'affichage 'visualisation des formulaire' et la fonction 'Recherche'");
+define("_MI_SINCE_OPTIONS_DESC", "Valeur positive pour les jours et n&eacute;gative pour les heures. Utilisez ',' comme d&eacute;limitateur d'options multiples.");
 
-define("_MI_SINCE_DEFAULT", "Valeur par défaut du 'Depuis...' utilisé pour le Sélecteur d'affichage et la fonction Recherche ");
+define("_MI_SINCE_DEFAULT", "Valeur par d&eacute;faut du 'Depuis...' utilis&eacute; pour le S&eacute;lecteur d'affichage et la fonction Recherche ");
 define("_MI_SINCE_DEFAULT_DESC", "Valeur par d&eacute;faut si non sp&eacute;cifi&eacute;e par les utilisateurs.");
 
 define("_MI_MODERATOR_HTML", "Autoriser les tags HTML pour les mod&eacute;rateurs");
@@ -175,13 +175,13 @@ define("_MI_POST_TIMELIMIT_DESC", "Param&egrave;trer une limite de temps pour po
 define("_MI_RECORDEDIT_TIMELIMIT", "Limite de temps pour enregistrer une info &eacute;dit&eacute;e");
 define("_MI_RECORDEDIT_TIMELIMIT_DESC", "Param&agrave;tre un temps limit&eacute; pour enregistrer une info &eacute;dit&eacute;e. En Secondes");
 
-define("_MI_SUBJECT_PREFIX", "Ajouter un pr&eacute;fixe pour l'article du sujet. Attention se paramètre aussi dans les options de chaque forum");
-define("_MI_SUBJECT_PREFIX_DESC", "Param&egrave;tre un pr&eacute;fixe i.e. [résolu] au début du sujet. Utilisez ',' comme délimiteur pour des options multiples, laissez à NONE pour ne pas utiliser de préfixe.");
+define("_MI_SUBJECT_PREFIX", "Ajouter un pr&eacute;fixe pour l'article du sujet. Attention se param&egrave;tre aussi dans les options de chaque forum");
+define("_MI_SUBJECT_PREFIX_DESC", "Param&egrave;tre un pr&eacute;fixe i.e. [résolu] au d&agrave;but du sujet. Utilisez ',' comme d&agrave;limiteur pour des options multiples, laissez à NONE pour ne pas utiliser de préfixe.");
 define("_MI_SUBJECT_PREFIX_DEFAULT", '<font color="#00CC00">[r&eacute;solu]</font>,<font color="#00CC00">[fix&eacute;]</font>,<font color="#FF0000">[requ&ecirc;te]</font>,<font color="#FF0000">[rapport bug]</font>,<font color="#FF0000">[non r&eacute;solu]</font>');
 
 define("_MI_SUBJECT_PREFIX_LEVEL", "Niveau pour les groupes qui peuvent utiliser les pr&eacute;fixes");
 define("_MI_SUBJECT_PREFIX_LEVEL_DESC", "Choisissez les groupes autoris&eacute;s &agrave; utiliser les pr&eacute;fixes.");
-define("_MI_SPL_DISABLE", "Désactivé");
+define("_MI_SPL_DISABLE", "D&agrave;sactiv&agrave;");
 define("_MI_SPL_ANYONE", 'Tous');
 define("_MI_SPL_MEMBER", 'Membres');
 define("_MI_SPL_MODERATOR", 'Mod&eacute;rateurs');
@@ -191,7 +191,7 @@ define("_MI_SHOW_REALNAME", "Afficher le nom r&eacute;el");
 define("_MI_SHOW_REALNAME_DESC", "Remplace les noms d'utilisateurs par leur nom r&eacute;el.");
 
 define("_MI_CACHE_ENABLE", "Activer le cache");
-define("_MI_CACHE_ENABLE_DESC", "Stocke quelques résultats interm&eacute;diaires de la session pour assister les requ&ecirc;tes");
+define("_MI_CACHE_ENABLE_DESC", "Stocke quelques r&eacute;sultats interm&eacute;diaires de la session pour assister les requ&ecirc;tes");
 
 define("_MI_QUICKREPLY_ENABLE", "Activer la r&eacute;ponse rapide");
 define("_MI_QUICKREPLY_ENABLE_DESC", "Ceci activera le formulaire de r&eacute;ponse rapide");
@@ -238,7 +238,7 @@ define ("_MI_NEWBB_THREAD_NOTIFY", "Discussion");
 define ("_MI_NEWBB_THREAD_NOTIFYDSC", "Options de notification s'appliquant &agrave; la discussion actuelle.");
 
 define ("_MI_NEWBB_FORUM_NOTIFY", "Forum");
-define ("_MI_NEWBB_FORUM_NOTIFYDSC", "options de la notification qui s'appliquent au forum courant.");
+define ("_MI_NEWBB_FORUM_NOTIFYDSC", "Options de la notification qui s'appliquent au forum courant.");
 
 define ("_MI_NEWBB_GLOBAL_NOTIFY", "Globale");
 define ("_MI_NEWBB_GLOBAL_NOTIFYDSC", "Options de notification globale des forums.");

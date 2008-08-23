@@ -2,6 +2,12 @@ CBB
 
 XOOPS Community bulletin Board
 The further development of NewBB 2 which was developed by predator(Marko) and phppp(D.J.)
+For Xoops 2.0* only
+
+Changelog 1.15
+==============
+1. Security fix 
+
 
 Changelog 1.14
 ==============

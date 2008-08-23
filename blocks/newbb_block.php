@@ -129,7 +129,7 @@ function b_newbb_show($options)
                 }
             }
         }
-        if ($arr['icon']) {
+        if ($arr['icon'] && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
             $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . $arr['icon'] . '" alt="" />';
         } else {
             $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/icon1.gif" alt="" />';
@@ -414,7 +414,7 @@ function b_newbb_post_show($options)
 	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname']);
 
     foreach ($rows as $arr) {
-        if ($arr['icon']) {
+		if ($arr['icon'] && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
             $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . $arr['icon'] . '" alt="" />';
         } else {
             $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/icon1.gif" alt="" />';

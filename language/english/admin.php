@@ -223,6 +223,8 @@ define('_AM_NEWBB_MODULE_FEATURE', "Suggest a new feature for this module");
 define('_AM_NEWBB_MODULE_DISCLAIMER', "Disclaimer");
 define('_AM_NEWBB_AUTHOR_WORD', "The Author's Word");
 define('_AM_NEWBB_BY','By');
+define('_AM_NEWBB_AUTHOR_WORD_EXTRA', "
+");
 
 // admin_report.php
 define("_AM_NEWBB_REPORTADMIN","Reported posts manager");

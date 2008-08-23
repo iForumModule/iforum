@@ -103,11 +103,11 @@ define ("_AM_NEWBB_ALLOWSIGNATURES", "Autoriser les signatures:");
 define ("_AM_NEWBB_HOTTOPICTHRESHOLD", "Seuil des sujets dit Chauds:");
 //define ("_AM_NEWBB_POSTPERPAGE", "Nombre de contributions par page: <span style='font-size: xx-small; font-weight: normal; display: block;'>(D&eacute;fini le nombre de contributions<br /> par sujet qui seront<br /> affich&eacute;es par page)</span>");
 //define ("_AM_NEWBB_TOPICPERFORUM", "Nombre de sujets par forum: <span style='font-size: xx-small; font-weight: normal; display: block;'>(D&eacute;fini le nombre de sujets<br /> par forum qui seront<br /> affich&eacute;s sur la page d'un forum)</span>");
-//define ("_AM_NEWBB_SHOWNAME", "Remplacer les noms d'utilisateurs par leurs noms réels:");
+//define ("_AM_NEWBB_SHOWNAME", "Remplacer les noms d'utilisateurs par leurs noms r&eacute;els:");
 //define ("_AM_NEWBB_SHOWICONSPANEL", "Afficher le panneau des ic&ocirc;nes :");
-//define ("_AM_NEWBB_SHOWSMILIESPANEL", "Afficher le panneau des emoticones:");
+//define ("_AM_NEWBB_SHOWSMILIESPANEL", "Afficher le panneau des &eacute;moticones:");
 define("_AM_NEWBB_MODERATOR_REMOVE","Enlever le mod&eacute;rateur courant");
-define("_AM_NEWBB_MODERATOR_ADD","Ajouter des modérateurs");
+define("_AM_NEWBB_MODERATOR_ADD","Ajouter des mod&eacute;rateurs");
 define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX", "Allouer un pr&eacute;fixe de sujet pour les articles");
 define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX_DESC", "Ceci alloue un pr&eacute;fixe, qui sera ajout&eacute; au sujet de l'article");
 
@@ -157,7 +157,7 @@ define("_AM_NEWBB_MOVETHISFORUM","D&eacute;placer ce forum");
 define("_AM_NEWBB_MERGE","Fusionner");
 define("_AM_NEWBB_MERGETHISFORUM","Fusionner ce forum");
 define("_AM_NEWBB_MERGETO_FORUM","Fusionner ce forum avec :");
-define("_AM_NEWBB_MSG_FORUM_MERGED","Forums fusionnés !");
+define("_AM_NEWBB_MSG_FORUM_MERGED","Forums fusionn&eacute;s !");
 define("_AM_NEWBB_MSG_ERR_FORUM_MERGED","Echec de la fusion des forums.");
 
 //%%%%%%        Nom du dossier admin_forum_reorder.php           %%%%%
@@ -223,6 +223,8 @@ define('_AM_NEWBB_MODULE_FEATURE', "Sugg&eacute;rer une nouvelle fonction pour c
 define('_AM_NEWBB_MODULE_DISCLAIMER', "Avertissement");
 define('_AM_NEWBB_AUTHOR_WORD', "Le monde de l'auteur");
 define('_AM_NEWBB_BY','Par');
+define('_AM_NEWBB_AUTHOR_WORD_EXTRA', "
+");
 
 // admin_report.php
 define("_AM_NEWBB_REPORTADMIN","Posts rapport&eacute;s aux gestionnaires");
@@ -232,7 +234,7 @@ define("_AM_NEWBB_REPORTTITLE","Titre des rapports");
 define("_AM_NEWBB_REPORTEXTRA","Extra");
 define("_AM_NEWBB_REPORTPOST","Post rapport&eacute;");
 define("_AM_NEWBB_REPORTTEXT","Texte du rapport");
-define("_AM_NEWBB_REPORTMEMO","Memo g&eacute;n&eacute;r&eacute;");
+define("_AM_NEWBB_REPORTMEMO","M&eacute;mo g&eacute;n&eacute;r&eacute;");
 
 // admin_report.php
 define("_AM_NEWBB_DIGESTADMIN","Gestion des sommaires");
@@ -255,7 +257,7 @@ define("_AM_NEWBB_VOTEDELETED", "Donn&eacute;es de vote effac&eacute;es.");
 define("_AM_NEWBB_VOTE_ID", "N°");
 define("_AM_NEWBB_VOTE_FILETITLE", "Titre du sujet");
 define("_AM_NEWBB_VOTE_DISPLAYVOTES", "Informations de donn&eacute;es de vote");
-define("_AM_NEWBB_VOTE_NOVOTES", "Aucun vote d'utilisateur à visualiser");
-define("_AM_NEWBB_VOTE_DELETE", "Aucun vote d'utilisateur à visualiser");
-define("_AM_NEWBB_VOTE_DELETEDSC", "<strong>Effacer</strong> les informations de vote sélectionnées de la base de donn&eacute;es.");
+define("_AM_NEWBB_VOTE_NOVOTES", "Aucun vote d'utilisateur &agrave; visualiser");
+define("_AM_NEWBB_VOTE_DELETE", "Aucun vote d'utilisateur &agrave; visualiser");
+define("_AM_NEWBB_VOTE_DELETEDSC", "<strong>Effacer</strong> les informations de vote s&eacute;lectionn&eacute;es de la base de donn&eacute;es.");
 ?>

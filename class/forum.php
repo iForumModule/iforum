@@ -167,7 +167,8 @@ class Forum extends XoopsObject {
         $disp_array['forum_lastpost_time'] = newbb_formatTimestamp($forum_data['post_time']);
 
         $last_post_icon = '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/viewtopic.php?post_id=' . $forum_data['forum_last_post_id'] . '&amp;topic_id=' . $forum_data['topic_id'] . '#forumpost' . $forum_data['forum_last_post_id'] . '">';
-        if ($forum_data['icon']) {
+        //if ($forum_data['icon']) {
+        if (!empty($forum_data['icon']) && is_file(XOOPS_ROOT_PATH . '/images/subject/' . $forum_data['icon'])) {
             $last_post_icon .= '<img src="' . XOOPS_URL . '/images/subject/' . $forum_data['icon'] . '" alt="" />';
         } else {
             $last_post_icon .= '<img src="' . XOOPS_URL . '/images/subject/icon1.gif" alt="" />';
@@ -537,7 +538,7 @@ class NewbbForumHandler extends XoopsObjectHandler
 
             // ------------------------------------------------------
             // topic_icon: priority: sticky -> digest -> regular
-            if ($myrow['icon'] && is_file(XOOPS_ROOT_PATH . '/images/subject/' . $myrow['icon'])) {
+            if (!empty($myrow['icon']) && is_file(XOOPS_ROOT_PATH . '/images/subject/' . $myrow['icon'])) {
                 $topic_icon = '<img src="' . XOOPS_URL . '/images/subject/' . $myrow['icon'] . '" alt="" />';
                 $stick = 1;
             } else {
@@ -587,7 +588,8 @@ class NewbbForumHandler extends XoopsObjectHandler
             }
             // ------------------------------------------------------
             // topic_page_jump
-            if ($myrow['icon']) {
+            //if ($myrow['icon']) {
+            if (!empty($myrow['picon']) && is_file(XOOPS_ROOT_PATH . '/images/subject/' . $myrow['picon'])) {
             	$last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . $myrow['icon'] . '" alt="" />';
         	} else {
             	$last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/icon1.gif" alt="" />';

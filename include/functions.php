@@ -96,7 +96,7 @@ function &newbb_getUnameFromIds( $userid, $usereal = 0 )
 				}
 	        }
 		}
-		$users[0] = $GLOBALS["xoopsConfig"]["anonymous"];
+		$users[0] = $myts->htmlSpecialChars($GLOBALS["xoopsConfig"]["anonymous"]);
 		unset($users_obj);
 	}else{
 		$users = array();

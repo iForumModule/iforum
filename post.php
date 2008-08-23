@@ -202,7 +202,7 @@ if ( !empty($_POST['contents_submit']) ) {
     $dosmiley = !empty($_POST['dosmiley']) ? 1 : 0;
     $doxcode = !empty($_POST['doxcode']) ? 1 : 0;
     $dobr = !empty($_POST['dobr']) ? 1 : 0;
-    $icon = !empty($_POST['icon']) ? $_POST['icon'] : '';
+    $icon = (!empty($_POST['icon']) && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $_POST['icon']) ) ? $_POST['icon'] : '';
     $attachsig = !empty($_POST['attachsig']) ? 1 : 0;
     $view_require = !empty($_POST['view_require']) ? $_POST['view_require'] : '';
     $post_karma = (($view_require == 'require_karma')&&isset($_POST['post_karma']))?intval($_POST['post_karma']):0;
@@ -440,7 +440,7 @@ if ( !empty($_POST['contents_upload']) || !empty($_POST['contents_preview']) || 
     $attachsig = !empty($_POST['attachsig']) ? 1 : 0;
     $isreply = !empty($_POST['isreply']) ? 1 : 0;
     $isedit = !empty($_POST['isedit']) ? 1 : 0;
-    $icon = isset($_POST['icon']) ? $_POST['icon'] : '';
+    $icon = (!empty($_POST['icon']) && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $_POST['icon']) ) ? $_POST['icon'] : '';
     $view_require = isset($_POST['view_require']) ? $_POST['view_require'] : '';
     $post_karma = (($view_require == 'require_karma')&&isset($_POST['post_karma']))?intval($_POST['post_karma']):0;
     $require_reply = ($view_require == 'require_reply')?1:0;

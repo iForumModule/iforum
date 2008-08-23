@@ -78,5 +78,10 @@ if (preg_match("/MSIE ([0-9]\.[0-9]{1,2})/", $HTTP_USER_AGENT)) {
 	header('Expires: 0');
 	header('Pragma: no-cache');
 }
-readfile($file_saved);
+$handle = fopen($file_saved, "r");
+while (!feof($handle)) {
+   $buffer = fgets($handle, 4096);
+   echo $buffer;
+}
+fclose($handle);
 ?>

@@ -378,7 +378,7 @@ class Post extends XoopsObject {
             );
 
         $posticon = $this->getVar('icon');
-        if (isset($posticon) && $posticon != '')
+        if (!empty($posticon) && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $posticon))
             $post_image = '<a name="' . $this->getVar('post_id') . '"><img src="' . XOOPS_URL . '/images/subject/' . $this->getVar('icon') . '" alt="" /></a>';
         else
             $post_image = '<a name="' . $this->getVar('post_id') . '"><img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /></a>';

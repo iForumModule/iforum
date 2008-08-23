@@ -220,7 +220,6 @@ define("_MD_FORM_SPAW","Editeur Spaw");
 define("_MD_FORM_HTMLAREA","HTMLArea");
 define("_MD_FORM_KOIVI","Editeur Koivi");
 define("_MD_FORM_FCK","Editeur FCK");
-
 define("_MD_FORM_TINYMCE","Editeur TinyMCE");
 
 // Messages d'ERREURS
@@ -242,6 +241,7 @@ define ("_MD_COULDNOTREMOVE", "Erreur - ne peut supprimer les contributions de l
 define ("_MD_COULDNOTREMOVETXT", "Erreur - ne peut supprimer les textes des contributions!");
 define('_MD_TIMEISUP',"Vous avez d&eacute;pass&eacute; la limite du temps imparti &agrave; l'&eacute;dition de ce post.");
 define('_MD_TIMEISUPDEL',"Vous avez d&eacute;pass&eacute; la limite du temps imparti &agrave; l'effacement de votre contribution.");
+
 
 //reply.php
 define ("_MD_ON", "sur"); //D&eacute;pos&eacute; sur

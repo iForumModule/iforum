@@ -31,7 +31,7 @@
 
 include "header.php";
 
-if ( !isset($_GET['forum']) ) {
+if ( empty($_GET['forum']) ) {
 	redirect_header("index.php", 2, _MD_ERRORFORUM);
 	exit();
 }
