@@ -1,5 +1,5 @@
 <?php
-// $Id: report.php,v 1.4 2005/04/18 01:22:28 phppp Exp $
+// $Id: report.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -78,11 +78,13 @@ class Report extends XoopsObject {
 class NewbbReportHandler extends XoopsObjectHandler {
     function &get($id)
     {
-        if (!$id) return false;
+	    $report = null;
+        $id = intval($id);
         $sql = 'SELECT * FROM ' . $this->db->prefix('bb_report') . ' WHERE report_id=' . $id;
-        $array = $this->db->fetchArray($this->db->query($sql));
-        $report = &$this->create(false);
-        $report->assignVars($array);
+        if($array = $this->db->fetchArray($this->db->query($sql))){
+	        $report =& $this->create(false);
+	        $report->assignVars($array);
+        }
         return $report;
     }
 
@@ -107,7 +109,10 @@ class NewbbReportHandler extends XoopsObjectHandler {
 
     function &getByPost($posts)
     {
-        if (!$posts) return false;
+	    $ret = array();
+        if (!$posts) {
+	        return $ret;
+        }
         if (!is_array($posts)) $posts = array($posts);
         $post_criteria = ' post_id IN (' . implode(',', $posts) . ')';
 

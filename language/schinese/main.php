@@ -1,5 +1,5 @@
 <?php
-// $Id: main.php,v 1.5 2005/05/19 12:21:45 phppp Exp $
+// $Id: main.php,v 1.1.1.2 2005/10/19 16:23:52 phppp Exp $
 if(defined('MAIN_DEFINED')) return;
 define('MAIN_DEFINED',true);
 
@@ -33,7 +33,7 @@ define('_MD_WELCOME','%s ÂÛÌ³');
 define("_MD_TOPICS","Ö÷Ìâ");
 define("_MD_POSTS","Ìû×Ó");
 define('_MD_LASTPOST','×îĞÂ·¢±í');
-define('_MD_MODERATOR','°æÖ÷');
+define('_MD_MODERATOR','°åÖ÷');
 define("_MD_NEWPOSTS","ĞÂÌû");
 define('_MD_NONEWPOSTS','ÎŞĞÂÌû');
 define('_MD_PRIVATEFORUM','ÄÚ²¿ÂÛÌ³');
@@ -56,7 +56,7 @@ define("_MD_PENDING_POSTS_FOR_AUTH","µÈºòÉóºËµÄÌû×Ó:");
 
 
 //page_header.php
-define('_MD_MODERATEDBY','°æÖ÷');
+define('_MD_MODERATEDBY','°åÖ÷');
 define('_MD_SEARCH','ËÑË÷');
 //define('_MD_SEARCHRESULTS','ËÑË÷½á¹û');
 define('_MD_FORUMINDEX','%s ÌÖÂÛÇø');
@@ -70,6 +70,7 @@ define('_MD_AUTHORC','×÷Õß:');
 define('_MD_SORTBY','ÅÅĞò');
 define('_MD_DATE','×îºó·¢±í');
 define('_MD_TOPIC','Ö÷Ìâ');
+define('_MD_POST2','Ìû×Ó');
 define('_MD_USERNAME','ÓÃ»§Ãû');
 define('_MD_BODY','ÄÚÈİ');
 define('_MD_SINCE','Ê±¼ä·¶Î§');
@@ -97,29 +98,31 @@ define('_MD_FROMLASTHOURS','%sĞ¡Ê±ÒÔÀ´');
 define('_MD_FROMLASTDAYS','%sÌìÒÔÀ´');
 define('_MD_THELASTYEAR','Ò»ÄêÒÔÀ´');
 define('_MD_BEGINNING','È«²¿');
-define('_MD_SEARCHTHISFORUM', 'ËÑË÷±¾°æ');
+define('_MD_SEARCHTHISFORUM', 'ËÑË÷±¾°å');
 define('_MD_TOPIC_SUBJECTC','Ö÷ÌâÀà±ğ:');
 
 
 define('_MD_RATINGS','ÆÀ·Ö');
-define("_MD_CAN_POST", "Äú<b><font color='green'>¿ÉÒÔ</font></b>·¢Ìû.<br />");
-define("_MD_CANNOT_POST", "Äú<b><font color='red'>²»¿É</font></b>·¢Ìû.<br />");
-define("_MD_CAN_VIEW", "Äú<b><font color='green'>¿ÉÒÔ</font></b>²é¿´Ìû×Ó.<br />");
-define("_MD_CANNOT_VIEW", "Äú<b><font color='red'>²»¿É</font></b>²é¿´Ìû×Ó.<br />");
-define("_MD_CAN_REPLY", "Äú<b><font color='green'>¿ÉÒÔ</font></b>»Ø¸´.<br />");
-define("_MD_CANNOT_REPLY", "Äú<b><font color='red'>²»¿É</font></b>»Ø¸´.<br />");
-define("_MD_CAN_EDIT", "Äú<b><font color='green'>¿ÉÒÔ</font></b>±à¼­×Ô¼ºµÄÌû×Ó.<br />");
-define("_MD_CANNOT_EDIT", "Äú<b><font color='red'>²»¿É</font></b>±à¼­×Ô¼ºµÄÌû×Ó.<br />");
-define("_MD_CAN_DELETE", "Äú<b><font color='green'>¿ÉÒÔ</font></b>É¾³ı×Ô¼ºµÄÌû×Ó.<br />");
-define("_MD_CANNOT_DELETE", "Äú<b><font color='red'>²»¿É</font></b>É¾³ı×Ô¼ºµÄÌû×Ó.<br />");
-define("_MD_CAN_ADDPOLL", "Äú<b><font color='green'>¿ÉÒÔ</font></b>·¢ÆğÍ¶Æ±µ÷²é.<br />");
-define("_MD_CANNOT_ADDPOLL", "Äú<b><font color='red'>²»¿É</font></b>·¢ÆğÍ¶Æ±µ÷²é.<br />");
-define("_MD_CAN_VOTE", "Äú<b><font color='green'>¿ÉÒÔ</font></b>ÔÚÍ¶Æ±µ÷²éÖĞÍ¶Æ±.<br />");
-define("_MD_CANNOT_VOTE", "Äú<b><font color='red'>²»¿É</font></b>ÔÚÍ¶Æ±µ÷²éÖĞÍ¶Æ±.<br />");
-define("_MD_CAN_ATTACH", "Äú<b><font color='green'>¿ÉÒÔ</font></b>ÉÏ´«¸½¼ş.<br />");
-define("_MD_CANNOT_ATTACH", "Äú<b><font color='red'>²»¿É</font></b>ÉÏ´«¸½¼ş.<br />");
-define("_MD_CAN_NOAPPROVE", "Äú<b><font color='green'>¿ÉÒÔ</font></b>²»¾­ÉóºËÖ±½Ó·¢Ìû.<br />");
-define("_MD_CANNOT_NOAPPROVE", "Äú<b><font color='red'>²»¿É</font></b>²»¾­ÉóºËÖ±½Ó·¢Ìû.<br />");
+define("_MD_CAN_ACCESS", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>·ÃÎÊ¸Ã°å.<br />");
+define("_MD_CANNOT_ACCESS", "Äú<strong>²»¿É</strong>·ÃÎÊ¸Ã°å.<br />");
+define("_MD_CAN_POST", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>·¢Ìû.<br />");
+define("_MD_CANNOT_POST", "Äú<strong><font color='red'>²»¿É</font></strong>·¢Ìû.<br />");
+define("_MD_CAN_VIEW", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>²é¿´Ìû×Ó.<br />");
+define("_MD_CANNOT_VIEW", "Äú<strong><font color='red'>²»¿É</font></strong>²é¿´Ìû×Ó.<br />");
+define("_MD_CAN_REPLY", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>»Ø¸´.<br />");
+define("_MD_CANNOT_REPLY", "Äú<strong><font color='red'>²»¿É</font></strong>»Ø¸´.<br />");
+define("_MD_CAN_EDIT", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>±à¼­×Ô¼ºµÄÌû×Ó.<br />");
+define("_MD_CANNOT_EDIT", "Äú<strong><font color='red'>²»¿É</font></strong>±à¼­×Ô¼ºµÄÌû×Ó.<br />");
+define("_MD_CAN_DELETE", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>É¾³ı×Ô¼ºµÄÌû×Ó.<br />");
+define("_MD_CANNOT_DELETE", "Äú<strong><font color='red'>²»¿É</font></strong>É¾³ı×Ô¼ºµÄÌû×Ó.<br />");
+define("_MD_CAN_ADDPOLL", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>·¢ÆğÍ¶Æ±µ÷²é.<br />");
+define("_MD_CANNOT_ADDPOLL", "Äú<strong><font color='red'>²»¿É</font></strong>·¢ÆğÍ¶Æ±µ÷²é.<br />");
+define("_MD_CAN_VOTE", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>ÔÚÍ¶Æ±µ÷²éÖĞÍ¶Æ±.<br />");
+define("_MD_CANNOT_VOTE", "Äú<strong><font color='red'>²»¿É</font></strong>ÔÚÍ¶Æ±µ÷²éÖĞÍ¶Æ±.<br />");
+define("_MD_CAN_ATTACH", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>ÉÏ´«¸½¼ş.<br />");
+define("_MD_CANNOT_ATTACH", "Äú<strong><font color='red'>²»¿É</font></strong>ÉÏ´«¸½¼ş.<br />");
+define("_MD_CAN_NOAPPROVE", "Äú<strong><font color='green'>¿ÉÒÔ</font></strong>²»¾­ÉóºËÖ±½Ó·¢Ìû.<br />");
+define("_MD_CANNOT_NOAPPROVE", "Äú<strong><font color='red'>²»¿É</font></strong>²»¾­ÉóºËÖ±½Ó·¢Ìû.<br />");
 define("_MD_IMTOPICS","ÖØÒªÖ÷Ìâ");
 define("_MD_NOTIMTOPICS","ÆÕÍ¨Ö÷Ìâ");
 define('_MD_FORUMOPTION', 'ÂÛÌ³Ñ¡Ïî');
@@ -142,6 +145,7 @@ define('_MD_UNSTICKYTOPIC','½â³ıÖÃ¶¥');
 define('_MD_STICKYTOPIC','Ö÷ÌâÖÃ¶¥');
 define('_MD_DIGESTTOPIC','ÉèÎª¾«»ª');
 define('_MD_UNDIGESTTOPIC','È¡Ïû¾«»ª');
+define('_MD_MERGETOPIC','ºÏ²¢Ö÷Ìâ');
 define('_MD_MOVETOPIC','ÒÆ¶¯Ö÷Ìâ');
 define('_MD_DELETETOPIC','É¾³ıÖ÷Ìâ');
 define('_MD_TOP','»Ø¶¥²¿');
@@ -205,7 +209,7 @@ define('_MD_EXCEEDTHREADVIEW','»ØÌûÊıÄ¿³¬¹ıÊ÷×´ÏÔÊ¾ËùÔÊĞíµÄÉÏÏŞ<br />×ªÎªÕ¹¿ªÄ£Ê
 
 
 //forumform.inc
-define('_MD_PRIVATE','ÕâÊÇÒ»¸ö<b>ÄÚ²¿</b>ÌÖÂÛÇø.<br />Ö»ÓĞÊÚÈ¨ÓÃ»§²ÅÄÜ·¢±í');
+define('_MD_PRIVATE','ÕâÊÇÒ»¸ö<strong>ÄÚ²¿</strong>ÌÖÂÛÇø.<br />Ö»ÓĞÊÚÈ¨ÓÃ»§²ÅÄÜ·¢±í');
 define('_MD_QUOTE','ÒıÓÃ');
 define('_MD_VIEW_REQUIRE','²é¿´ÒªÇó');
 define('_MD_REQUIRE_KARMA','Karma»ı·Ö');
@@ -245,6 +249,7 @@ define('_MD_TIMEISUPDEL','ÒÑ¾­³¬¹ıÁËÉ¾ÌûµÄÊ±¼äÏŞÖÆ.');
 //reply.php
 define('_MD_ON','ÓÚ'); //Posted on
 define('_MD_USERWROTE','%s Ğ´µÀ:'); // %s is username
+define('_MD_RE','»Ø¸´');
 
 //post.php
 define('_MD_EDITNOTALLOWED','Ã»ÓĞÈ¨ÏŞĞŞ¸ÄÌû×Ó!');
@@ -286,12 +291,13 @@ define('_MD_REPLY','»Ø¸´');
 
 // topicmanager.php
 define('_MD_VIEWTHETOPIC','²é¿´¸ÃÖ÷Ìâ');
-define('_MD_RETURNTOTHEFORUM','"»Øµ½ÌÖÂÛÇøÁĞ±í');
+define('_MD_RETURNTOTHEFORUM','»Øµ½ÌÖÂÛÇøÁĞ±í');
 define('_MD_RETURNFORUMINDEX','»ØÌÖÂÛÇøÖ÷Ò³');
 define('_MD_ERROR_BACK','´íÎó!ÇëÔÙÊÔÒ»±é.');
 define('_MD_GOTONEWFORUM','²é¿´ĞŞ¸Ä½á¹û');
 
 define('_MD_TOPICDELETE','¸ÃÖ÷ÌâÒÑ±»É¾³ı.');
+define('_MD_TOPICMERGE','¸ÃÖ÷ÌâÒÑ±»ºÏ²¢.');
 define('_MD_TOPICMOVE','¸ÃÖ÷ÌâÒÑ¾­±»×ªÒÆµ½ÆäËûÌÖÂÛÇø.');
 define('_MD_TOPICLOCK','¸ÃÖ÷ÌâÒÑ±»Ëø¶¨.');
 define('_MD_TOPICUNLOCK','¸ÃÖ÷ÌâÒÑ½â³ıËø¶¨.');
@@ -302,6 +308,7 @@ define('_MD_TOPICUNDIGEST','¸ÃÖ÷ÌâÒÑ±»È¡Ïû¾«»ª.');
 
 define('_MD_DELETE','É¾³ı');
 define('_MD_MOVE','ÒÆ¶¯');
+define('_MD_MERGE','ºÏ²¢');
 define('_MD_LOCK','Ëø¶¨');
 define('_MD_UNLOCK','½â³ıËø¶¨');
 define('_MD_STICKY','ÖÃ¶¥');
@@ -309,8 +316,9 @@ define('_MD_UNSTICKY','È¡ÏûÖÃ¶¥');
 define('_MD_DIGEST','¾«»ª');
 define('_MD_UNDIGEST','È¡Ïû¾«»ª');
 
-define('_MD_DESC_DELETE','°´É¾³ı°´Å¥½«<b>ÓÀ¾Ã</b>É¾³ı¸ÃÖ÷Ìâ');
-define('_MD_DESC_MOVE','°´ÒÆ¶¯°´Å¥½«×ªÒÆ¸ÃÖ÷Ìâµ½ÄãËùÑ¡µÄ°æÃæ');
+define('_MD_DESC_DELETE','°´É¾³ı°´Å¥½«<strong>ÓÀ¾Ã</strong>É¾³ı¸ÃÖ÷Ìâ');
+define('_MD_DESC_MOVE','°´ÒÆ¶¯°´Å¥½«×ªÒÆ¸ÃÖ÷Ìâµ½ÄãËùÑ¡µÄ°åÃæ');
+define('_MD_DESC_MERGE','°´ºÏ²¢°´Å¥½«ºÏ²¢¸ÃÖ÷Ìâµ½ËùÑ¡µÄÖ÷Ìâ<br /><strong>ÒªºÏ²¢µ½µÄÖ÷ÌâID±ØĞëĞ¡ÓÚµ±Ç°Ö÷ÌâID.</strong>');
 define('_MD_DESC_LOCK','°´Ëø¶¨°´Å¥½«Ëø¶¨¸ÃÖ÷ÌâµÄËùÓĞÆÕÍ¨ÓÃ»§²Ù×÷¡£³ı·Ç½â³ıËø¶¨²ÅÄÜ»Ö¸´');
 define('_MD_DESC_UNLOCK','°´½â³ıËø¶¨°´Å¥½«ÖØĞÂ¿ª·Å¸ÃÖ÷Ìâ');
 define('_MD_DESC_STICKY','°´ÖÃ¶¥°´Å¥½«¸ÃÖ÷Ìâ¹Ì¶¨ÔÚ¶¥¶Ë');
@@ -318,6 +326,7 @@ define('_MD_DESC_UNSTICKY','°´È¡ÏûÖÃ¶¥°´Å¥½«½â³ıÖÃ¶¥');
 define('_MD_DESC_DIGEST','°´ÉèÖÃ¾«»ª°´Å¥½«¸ÃÖ÷ÌâÉèÎª¾«»ª');
 define('_MD_DESC_UNDIGEST','°´È¡Ïû¾«»ª°´Å¥½«Ö÷ÌâÈ¡Ïû¾«»ª');
 
+define('_MD_MERGETOPICTO','ºÏ²¢Ö÷Ìâµ½:');
 define('_MD_MOVETOPICTO','ÒÆ¶¯Ö÷Ìâµ½:');
 define('_MD_NOFORUMINDB','ÎŞÌÖÂÛÇø');
 
@@ -411,14 +420,6 @@ define("_MD_MENU_CLICK","µã»÷Õ¹¿ª");
 define("_MD_WELCOME_SUBJECT","ĞÂ»áÔ± %s ±¨µ½");
 define("_MD_WELCOME_MESSAGE","´ó¼ÒºÃ£¬<strong>%s</strong> ³õ´Î¹âÁÙ£¬Çë¶à¶àÖ¸½Ì¡£");
 
-
-// !!IMPORTANT!! insert '\' to any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
-// insert additional '\' to 't', 'r', 'n'
-define("_MD_TODAY", "½ñÌì G:i:s");
-define("_MD_YESTERDAY", "×òÌì G:i:s");
-define("_MD_MONTHDAY", "nÔÂjÈÕ G:i:s");
-define("_MD_YEARMONTHDAY", "Y/n/j G:i");
-
 define("_MD_VIEWNEWPOSTS","²é¿´ĞÂÌû×Ó");
 
 define("_MD_INVALID_SUBMIT","ÎŞĞ§Ìá½»¡£¿ÉÄÜÏµÍ³sessionÊ§Ğ§»òÊÇ³¬¹ıÏµÍ³¹æ¶¨µÄÊ±¼ä¶øÍË³ö, ÇëÖØĞÂÌá½»»ò±£´æÌû×ÓµÄÄÚÈİ²¢ÖØĞÂµÇÂ½Ìá½»¡£");
@@ -427,6 +428,44 @@ define("_MD_ACCOUNT","ÕËºÅ");
 define("_MD_NAME","ÓÃ»§Ãû");
 define("_MD_PASSWORD","ÃÜÂë");
 define("_MD_LOGIN","µÇÂ¼");
+
+define("_MD_TRANSFER","¹¤¾ßÏä");
+define("_MD_TRANSFER_DESC","Ó¦ÓÃÀ©Õ¹");
+define("_MD_TRANSFER_DONE","²Ù×÷ÒÑ³É¹¦Ö´ĞĞ: %s");
+
+define("_MD_APPROVE","ÉóºË");
+define("_MD_RESTORE","»Ö¸´");
+define("_MD_SPLIT_ONE","·Ö¸î±¾Ìû");
+define("_MD_SPLIT_TREE","·Ö¸îËùÓĞ×ÓÌû");
+define("_MD_SPLIT_ALL","·Ö¸îËùÓĞºóĞøÌû×Ó");
+
+define("_MD_TYPE_ADMIN","¹ÜÀí");
+define("_MD_TYPE_VIEW","ä¯ÀÀ");
+define("_MD_TYPE_PENDING","´ıÉóºË");
+define("_MD_TYPE_DELETED","À¬»øÕ¾");
+define("_MD_TYPE_SUSPEND","·â½ûÕËºÅ");
+
+define("_MD_DBUPDATED","Êı¾İÒÑ³É¹¦¸üĞÂ!");
+
+define("_MD_SUSPEND_SUBJECT", "ÓÃ»§ %s ±»½ûÖ¹·¢ÑÔ %d Ìì");
+define("_MD_SUSPEND_TEXT", "ÓÃ»§ %s ±»½ûÖ¹·¢ÑÔ %d Ìì£¬Ô­Òò:<br />[quote]%s[/quote]<br /><br />·â½ûÆÚ³ÖĞøÖÁ %s");
+define("_MD_SUSPEND_UID", "ÓÃ»§ ID");
+define("_MD_SUSPEND_IP", "IPÇø¶Î");
+define("_MD_SUSPEND_DURATION", "·â½ûÊ±¼ä");
+define("_MD_SUSPEND_DESC", "Ô­Òò");
+define("_MD_SUSPEND_LIST", "·â½ûÁĞ±í");
+define("_MD_SUSPEND_START", "ÆğÊ¼");
+define("_MD_SUSPEND_EXPIRE", "½ØÖ¹");
+define("_MD_SUSPEND_SCOPE", "·¶Î§");
+define("_MD_SUSPEND_MANAGEMENT", "ÓÃ»§¼àÊÓ¹ÜÀí");
+define("_MD_SUSPEND_NOACCESS", "ÄãµÄÕËºÅ»òIPÒÑ±»½ûÖ¹·¢ÑÔ");
+
+// !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
+// insert double '\' before 't', 'r', 'n'
+define("_MD_TODAY", "½ñÌì G:i:s");
+define("_MD_YESTERDAY", "×òÌì G:i:s");
+define("_MD_MONTHDAY", "n/j G:i:s");
+define("_MD_YEARMONTHDAY", "Y/n/j G:i");
 
 // For user info
 require_once(XOOPS_ROOT_PATH."/modules/newbb/class/user.php");

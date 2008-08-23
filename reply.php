@@ -1,5 +1,5 @@
 <?php
-// $Id: reply.php,v 1.6 2005/05/19 12:20:33 phppp Exp $
+// $Id: reply.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -39,39 +39,46 @@ if ( empty($forum) ) {
 } elseif ( empty($topic_id) ) {
     redirect_header("viewforum.php?forum=$forum", 2, _MD_ERRORTOPIC);
     exit();
-} elseif ( empty($post_id) ) {
-    redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid", 2, _MD_ERRORPOST);
+} 
+
+$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$post_handler =& xoops_getmodulehandler('post', 'newbb');
+
+if ( !$topic_id && !$post_id ) {
+	$redirect = empty($forum)?"index.php":'viewforum.php?forum='.$forum;
+    redirect_header($redirect, 2, _MD_ERRORTOPIC);
+}
+
+if ( empty($post_id) ) {
+	$post_id = $topic_handler->getTopPostId($topic_id);
+}
+$forumpost =& $post_handler->get($post_id);
+$topic_id = $forumpost->getVar("topic_id");
+$forum = $forumpost->getVar("forum_id");
+
+$forum = $forum_handler->get($forum);
+if (!$forum_handler->getPermission($forum)){
+    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
     exit();
-} else {
+}
 
-    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-    $forum = $forum_handler->get($forum);
-	if (!$forum_handler->getPermission($forum)){
-	    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
-	    exit();
-	}
+$topic_status = $topic_handler->get($topic_id,'topic_status');
+if ( !$topic_handler->getPermission($forum, $topic_status, 'reply')){
+	redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=".$forum->getVar('forum_id'), 2, _MD_NORIGHTTOREPLY);
+    exit();
+}
 
-	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-	$topic_status = $topic_handler->get($topic_id,'topic_status');
-	if ( !$topic_handler->getPermission($forum, $topic_status, 'reply'))
-	{
-		redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=".$forum->getVar('forum_id'), 2, _MD_NORIGHTTOREPLY);
-	    exit();
-	}
+if ($xoopsModuleConfig['wol_enabled']){
+	$online_handler =& xoops_getmodulehandler('online', 'newbb');
+	$online_handler->init($forum);
+}
 
-	if ($xoopsModuleConfig['wol_enabled']){
-		$online_handler =& xoops_getmodulehandler('online', 'newbb');
-		$online_handler->init($forum);
-	}
-
-    $myts =& MyTextSanitizer::getInstance();
-
+ 
     include XOOPS_ROOT_PATH.'/header.php';
 
+	$myts =& MyTextSanitizer::getInstance();
 	$isadmin = newbb_isAdmin($forum);
-
-    $post_handler =& xoops_getmodulehandler('post', 'newbb');
-    $forumpost =& $post_handler->get($post_id);
     $forumpostshow =& $post_handler->getByLimit($topic_id,5);
 
     if($forumpost->getVar('uid')) {
@@ -83,8 +90,8 @@ if ( empty($forum) ) {
 
     $r_subject=$forumpost->getVar('subject', "E");
 
-    if (!preg_match("/^Re:/i",$r_subject)) {
-        $subject = 'Re: '.$r_subject;
+    if (!preg_match("/^(Re|"._MD_RE."):/i",$r_subject)) {
+        $subject = _MD_RE.': '.$r_subject;
     } else {
         $subject = $r_subject;
     }
@@ -171,5 +178,4 @@ if ( empty($forum) ) {
 	}
 
     include XOOPS_ROOT_PATH.'/footer.php';
-}
 ?>

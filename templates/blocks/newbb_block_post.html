@@ -11,7 +11,7 @@
   <tr class="<{cycle values="even,odd"}>">
     <td><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
     <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></td>
-    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}>&nbsp;<{$topic.jump_post}></td>
+    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}></td>
   </tr>
   <{/foreach}>
 
@@ -25,7 +25,7 @@
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
     <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></td>
-    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}>&nbsp;<{$topic.jump_post}></td>
+    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}></td>
   </tr>
   <{/foreach}>
 
@@ -37,6 +37,17 @@
   </tr>
   <{/foreach}>
 
+  <{else}>
+  <tr><td>
+	<{foreach item=topic from=$block.topics}>
+	<div><strong><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></strong></div>
+	<div>
+	<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a> | 
+	<{$topic.topic_poster}> | <{$topic.time}>
+	</div>
+	<div style="padding: 5px 0px 10px 0px;"><{$topic.post_text}></div>
+	<{/foreach}>
+  </td></tr>
   <{/if}>
 
 </table>

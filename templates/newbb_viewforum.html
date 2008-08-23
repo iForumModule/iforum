@@ -5,11 +5,11 @@
 <div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
 <div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <{else}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> <{$forum_topictype}></div>
 <{/if}>
 </div>
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <{if $subforum}>
 <table cellspacing="1" class="outer" width="100%">
@@ -34,7 +34,7 @@
    	</td>
     <td class="even" align="center" valign="middle"><{$sforum.forum_topics}></td>
     <td class="odd" align="center" valign="middle"><{$sforum.forum_posts}></td>
-    <td class="even" valign="middle"><{$sforum.forum_lastpost_time}><br />
+    <td class="even" align="right" valign="middle"><{$sforum.forum_lastpost_time}><br />
 		<{$sforum.forum_lastpost_user}>	<{$sforum.forum_lastpost_icon}>
 	</td>
   </tr>
@@ -43,21 +43,49 @@
   <!-- end subforums -->
 
 </table>
-<br clear="all" />
+<br style="clear:both;" />
 <{/if}>
 
-<{if $forum_moderators}>
-<div>
-<{$smarty.const._MD_MODERATEDBY}>: <{$forum_moderators}>
+<{if $mode gt 1}>
+<form name="form_topics_admin" action="action.topic.php" method="POST" onsubmit="javascript: if(window.document.form_topics_admin.op.value &lt; 1){return false;}">
+<{/if}>
+
+<{if $mode gt 0}>
+<div style="padding: 5px;float: left; text-align:left;" id="admin">
+<{$forum_addpoll}><{$forum_post_or_register}>
 </div>
-<br clear="all" />
+<div style="padding: 5px;float: right; text-align:right;">
+<{if $mode gt 1}>
+<{$smarty.const._ALL}>: <input type="checkbox" name="topic_check1" id="topic_check1" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');" /> 
+<select name="op">
+	<option value="0"><{$smarty.const._SELECT}></option>
+	<option value="delete"><{$smarty.const._DELETE}></option>
+	<{if $type eq "pending"}>
+		<option value="approve"><{$smarty.const._MD_APPROVE}></option>
+		<option value="move"><{$smarty.const._MD_MOVE}></option>
+	<{elseif $type eq "deleted"}>
+		<option value="restore"><{$smarty.const._MD_RESTORE}></option>
+	<{else}>
+		<option value="move"><{$smarty.const._MD_MOVE}></option>
+	<{/if}>
+</select>  
+<input type="hidden" name="forum_id" value="<{$forum_id}>" />
+<input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
+<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> 
+<{elseif $mode eq 1}>
+<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$xoops_url}>/modules/newbb/moderate.php?forum=<{$forum_id}>" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
 <{/if}>
-
+</div>
+<{else}>
 <div style="padding: 5px;float: right; text-align:right;">
 <{$forum_addpoll}><{$forum_post_or_register}>
 </div>
+<{/if}>
 
-<br clear="all" />
+<br style="clear:both;" />
 <div>
 <div class="dropdown">
 <{if $menumode eq 0}>
@@ -133,12 +161,18 @@
 <{$forum_pagenav}>
 </div>
 </div>
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 
 <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
 	<tr class="head" align="left">
-      <td  width="5%" colspan="2">&nbsp;</td>
+      <td  width="5%" colspan="2">
+      <{if $mode gt 1}>
+		<{$smarty.const._ALL}>: <input type="checkbox" name="topic_check" id="topic_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check');" /> 
+      <{else}>
+      &nbsp;
+      <{/if}>
+      </td>
       <td>&nbsp;<strong><a href="<{$h_topic_link}>"><{$smarty.const._MD_TOPICS}></a></strong></td>
       <td width="10%" align="center" nowrap="nowrap"><strong><a href="<{$h_poster_link}>"><{$smarty.const._MD_POSTER}></a></strong></td>
       <td width="10%" align="center" nowrap="nowrap"><strong><a href="<{$h_publish_link}>"><{$smarty.const._MD_TOPICTIME}></a></strong></td>
@@ -177,7 +211,13 @@
 	<{/if}>
 
 	<tr class="<{cycle values="even,odd"}>">
-		<td width="4%" align="center"><{$topic.topic_folder}></td>
+		<td width="4%" align="center">
+	      <{if $mode gt 1}>
+			<input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>" />
+	      <{else}>
+			<{$topic.topic_folder}>
+	      <{/if}>
+		</td>
 		<td width="4%" align="center"><{$topic.topic_icon}></td>
 		<td>&nbsp;<a href="<{$topic.topic_link}>" title="<{$topic.topic_excerpt}>">
 			<{$topic.topic_title}></a><{$topic.attachment}> <{$topic.topic_page_jump}>
@@ -197,6 +237,10 @@
 	<{/foreach}>
 
 	<!-- end forum topic -->
+	
+	<{if $mode gt 1}>
+	</form>
+	<{/if}>
 
 	<tr class="foot">
 		<{if $rating_enable}>
@@ -205,6 +249,7 @@
 		<form method="get" action="viewforum.php">
 		<strong><{$smarty.const._MD_SORTEDBY}></strong>&nbsp;<{$forum_selection_sort}>&nbsp;<{$forum_selection_order}>&nbsp;<{$forum_selection_since}>&nbsp;
 		<input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
+        <input type="hidden" name="type" value="<{$type}>" />
 		<input type="submit" name="refresh" value="<{$smarty.const._MD_GO}>" />
 		</form>
 		<{/strip}>
@@ -213,7 +258,7 @@
 </table>
 <!-- end forum main table -->
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <div style="float: left; text-align:left;">
 <{$forum_addpoll}><{$forum_post_or_register}>
@@ -222,8 +267,8 @@
 <{$forum_pagenav}>
 </div>
 
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 
 <div style="float: left; text-align: left;">
 	<{$img_newposts}> = <{$smarty.const._MD_NEWPOSTS}> (<{$img_hotnewposts}> = <{$smarty.const._MD_MORETHAN}>) <br />
@@ -246,20 +291,31 @@
 </form><br />
 <{$forum_jumpbox}>
 </div>
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 
 <div style="float: left;">
 <{foreach item=perm from=$permission_table}>
 <div><{$perm}></div>
 <{/foreach}>
 </div>
-<div style="float: right;">
-<{$rss_button}>
+<{if $rss_button OR viewer_level gt 1}>
+<div style="float: right; text-align: right;">
+	<{if $viewer_level gt 1}>
+		<{if $mode gt 0}>
+		<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
+		<{else}>
+		<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;mode=1" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+		<{/if}> 
+	<{/if}>
+	<{if $rss_button}>
+	<a href="<{$xoops_url}>/modules/newbb/rss.php?f=<{$forum_id}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
+	<{/if}>
 </div>
+<{/if}>
 
-<br clear="all" />
-<br clear="all" />
-<{if $online}><{include file='db:newbb_online.html'}><{/if}>
+<br style="clear:both;" />
+<br style="clear:both;" />
+<{if $online}><{include file="db:newbb_online.html"}><{/if}>
 <{include file='db:system_notification_select.html'}>
 <!-- end module contents -->

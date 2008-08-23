@@ -1,5 +1,5 @@
 <?php
-// $Id: karma.php,v 1.4 2005/04/18 01:22:28 phppp Exp $
+// $Id: karma.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

@@ -1,5 +1,5 @@
 <?php
-// $Id: main.php,v 1.6 2005/05/19 12:21:45 phppp Exp $
+// $Id: main.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 if(defined('MAIN_DEFINED')) return;
 define('MAIN_DEFINED',true);
 
@@ -70,6 +70,7 @@ define('_MD_AUTHORC','Autor:');
 define('_MD_SORTBY','Sort by');
 define('_MD_DATE','Date');
 define('_MD_TOPIC','Topic');
+define('_MD_POST2','Post');
 define('_MD_USERNAME','Username');
 define('_MD_BODY','Body');
 define('_MD_SINCE','Since');
@@ -102,6 +103,8 @@ define('_MD_TOPIC_SUBJECTC','Topic Prefix:');
 
 
 define('_MD_RATINGS','Ratings');
+define("_MD_CAN_ACCESS", "You <strong>can</strong> access the forum.<br />");
+define("_MD_CANNOT_ACCESS", "You <strong>cannot</strong> access the forum.<br />");
 define("_MD_CAN_POST", "You <strong>can</strong> start a new topic.<br />");
 define("_MD_CANNOT_POST", "You <strong>cannot</strong> start a new topic.<br />");
 define("_MD_CAN_VIEW", "You <strong>can</strong> view topic.<br />");
@@ -142,6 +145,7 @@ define('_MD_UNSTICKYTOPIC','Make this topic UnSticky');
 define('_MD_STICKYTOPIC','Make this topic Sticky');
 define('_MD_DIGESTTOPIC','Make this topic as Digest');
 define('_MD_UNDIGESTTOPIC','Make this topic as UnDigest');
+define('_MD_MERGETOPIC','Merge this topic');
 define('_MD_MOVETOPIC','Move this topic');
 define('_MD_DELETETOPIC','Delete this topic');
 define('_MD_TOP','Top');
@@ -245,6 +249,7 @@ define('_MD_TIMEISUPDEL','Your have reach the timelimit for deleting your post.'
 //reply.php
 define('_MD_ON','on'); //Posted on
 define('_MD_USERWROTE','%s wrote:'); // %s is username
+define('_MD_RE','Re');
 
 //post.php
 define('_MD_EDITNOTALLOWED','You\'re not allowed to edit this post!');
@@ -292,6 +297,7 @@ define('_MD_ERROR_BACK','Error - Please go back and try again.');
 define('_MD_GOTONEWFORUM','View the updated topic');
 
 define('_MD_TOPICDELETE','The topic has been deleted.');
+define('_MD_TOPICMERGE','The topic has been merged.');
 define('_MD_TOPICMOVE','The topic has been moved.');
 define('_MD_TOPICLOCK','The topic has been locked.');
 define('_MD_TOPICUNLOCK','The topic has been unlocked.');
@@ -302,6 +308,7 @@ define('_MD_TOPICUNDIGEST','The topic has been unDigested.');
 
 define('_MD_DELETE','Delete');
 define('_MD_MOVE','Move');
+define('_MD_MERGE','Merge');
 define('_MD_LOCK','Lock');
 define('_MD_UNLOCK','unLock');
 define('_MD_STICKY','Sticky');
@@ -311,6 +318,7 @@ define('_MD_UNDIGEST','unDigest');
 
 define('_MD_DESC_DELETE','Once you press the delete button at the bottom of this form the topic you have selected, and all its related posts, will be <strong>permanently</strong> removed.');
 define('_MD_DESC_MOVE','Once you press the move button at the bottom of this form the topic you have selected, and its related posts, will be moved to the forum you have selected.');
+define('_MD_DESC_MERGE','Once you press the merge button at the bottom of this form the topic you have selected, and its related posts, will be merged to the topic you have selected.<br /><strong>The destination topic ID must be smaller than current one</strong>.');
 define('_MD_DESC_LOCK','Once you press the lock button at the bottom of this form the topic you have selected will be locked. You may unlock it at a later time if you like.');
 define('_MD_DESC_UNLOCK','Once you press the unlock button at the bottom of this form the topic you have selected will be unlocked. You may lock it again at a later time if you like.');
 define('_MD_DESC_STICKY','Once you press the Sticky button at the bottom of this form the topic you have selected will be Stickyed. You may unSticky it again at a later time if you like.');
@@ -318,6 +326,7 @@ define('_MD_DESC_UNSTICKY','Once you press the unSticky button at the bottom of 
 define('_MD_DESC_DIGEST','Once you press the Digest button at the bottom of this form the topic you have selected will be Digested. You may unDigest it again at a later time if you like.');
 define('_MD_DESC_UNDIGEST','Once you press the unDigest button at the bottom of this form the topic you have selected will be unDigested. You may Digest it again at a later time if you like.');
 
+define('_MD_MERGETOPICTO','Merge Topic To:');
 define('_MD_MOVETOPICTO','Move Topic To:');
 define('_MD_NOFORUMINDB','No Forums in DB');
 
@@ -404,19 +413,12 @@ define("_MD_VIEWFORUM","Forum");
 
 define("_MD_COMPACT","Compact");
 
-define("_MD_MENU_SELECT","SELECT");
-define("_MD_MENU_HOVER","HOVER");
-define("_MD_MENU_CLICK","CLICK");
+define("_MD_MENU_SELECT","Selection");
+define("_MD_MENU_HOVER","Hover");
+define("_MD_MENU_CLICK","Click");
 
 define("_MD_WELCOME_SUBJECT","%s has joined the forum");
-define("_MD_WELCOME_MESSAGE","Hi, %s is a newbie.");
-
-// !!IMPORTANT!! insert '\' to any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
-// insert additional '\' to 't', 'r', 'n'
-define("_MD_TODAY", "\To\d\a\y G:i:s");
-define("_MD_YESTERDAY", "\Ye\s\\te\\r\d\a\y G:i:s");
-define("_MD_MONTHDAY", "n/j G:i:s");
-define("_MD_YEARMONTHDAY", "Y/n/j G:i");
+define("_MD_WELCOME_MESSAGE","Hi, %s has joined you. Let's start ...");
 
 define("_MD_VIEWNEWPOSTS","View new posts");
 
@@ -426,6 +428,44 @@ define("_MD_ACCOUNT","Account");
 define("_MD_NAME","Name");
 define("_MD_PASSWORD","Password");
 define("_MD_LOGIN","Login");
+
+define("_MD_TRANSFER","Transfer");
+define("_MD_TRANSFER_DESC","Transfer the post to other applications");
+define("_MD_TRANSFER_DONE","The action is done successully: %s");
+
+define("_MD_APPROVE","Approve");
+define("_MD_RESTORE","Restore");
+define("_MD_SPLIT_ONE","Split");
+define("_MD_SPLIT_TREE","Split all children");
+define("_MD_SPLIT_ALL","Split all");
+
+define("_MD_TYPE_ADMIN","Admin");
+define("_MD_TYPE_VIEW","View");
+define("_MD_TYPE_PENDING","Pending");
+define("_MD_TYPE_DELETED","Deleted");
+define("_MD_TYPE_SUSPEND","Suspension");
+
+define("_MD_DBUPDATED", "Database Updated Successfully!");
+
+define("_MD_SUSPEND_SUBJECT", "User %s is suspended for %d days");
+define("_MD_SUSPEND_TEXT", "User %s is suspended for %d days due to:<br />[quote]%s[/quote]<br /><br />The suspension is valid till %s");
+define("_MD_SUSPEND_UID", "User ID");
+define("_MD_SUSPEND_IP", "IP segments (full or segments)");
+define("_MD_SUSPEND_DURATION", "Suspension duration (Days)");
+define("_MD_SUSPEND_DESC", "Suspension reason");
+define("_MD_SUSPEND_LIST", "Suspension list");
+define("_MD_SUSPEND_START", "Start");
+define("_MD_SUSPEND_EXPIRE", "End");
+define("_MD_SUSPEND_SCOPE", "Scope");
+define("_MD_SUSPEND_MANAGEMENT", "Moderation management");
+define("_MD_SUSPEND_NOACCESS", "Your ID or IP has been suspended");
+
+// !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
+// insert double '\' before 't', 'r', 'n'
+define("_MD_TODAY", "\T\o\d\a\y G:i:s");
+define("_MD_YESTERDAY", "\Y\e\s\\t\e\\r\d\a\y G:i:s");
+define("_MD_MONTHDAY", "n/j G:i:s");
+define("_MD_YEARMONTHDAY", "Y/n/j G:i");
 
 // For user info
 // If you have customized userbar, define here.

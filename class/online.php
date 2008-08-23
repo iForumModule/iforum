@@ -1,5 +1,5 @@
 <?php
-// $Id: online.php,v 1.4 2005/04/18 01:22:28 phppp Exp $
+// $Id: online.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -34,22 +34,23 @@ class NewbbOnlineHandler
     var $forum;
     var $forum_object;
     var $forumtopic;
-
-    function init($forum = 0, $forumtopic = 0)
+	var $user_ids = array();
+	
+    function init($forum = null, $forumtopic = null)
     {
         $this->db = &Database::getInstance();
         if (is_object($forum)) {
             $this->forum = $forum->getVar('forum_id');
             $this->forum_object = &$forum;
         } else {
-            $this->forum = $forum;
+            $this->forum = intval($forum);
             $this->forum_object = $forum;
         }
         if (is_object($forumtopic)) {
             $this->forumtopic = $forumtopic->getVar('topic_id');
             if(empty($this->forum))  $this->forum = $forumtopic->getVar('forum_id');
         } else {
-            $this->forumtopic = $forumtopic;
+            $this->forumtopic = intval($forumtopic);
         }
 
         $this->update();
@@ -75,9 +76,9 @@ class NewbbOnlineHandler
         }
 
         $xoops_online_handler =& xoops_gethandler('online');
-		$xoopsupdate=$xoops_online_handler->write($uid, $uname, time(), $xoopsModule->getVar('mid'), $_SERVER['REMOTE_ADDR']);
+		$xoopsupdate = $xoops_online_handler->write($uid, $uname, time(), $xoopsModule->getVar('mid'), $_SERVER['REMOTE_ADDR']);
 		if(!$xoopsupdate){
-			//echo "<br />xoops upate error";
+			newbb_message("newbb online upate error");
 		}
 
 		$uname = (empty($xoopsModuleConfig['show_realname'])||empty($name))?$uname:$name;
@@ -88,44 +89,56 @@ class NewbbOnlineHandler
     {
         global $xoopsModuleConfig, $forumImage;
 
-        if ($this->forumtopic)
-            $num_total = $this->getCount(new Criteria('online_topic', $this->forumtopic));
-        elseif ($this->forum)
-            $num_total = $this->getCount(new Criteria('online_forum', $this->forum));
-        else
-            $num_total = $this->getCount();
-
         if ($this->forumtopic) {
-            $criteria = new CriteriaCompo(new Criteria('online_topic', $this->forumtopic));
-            $criteria->add(new Criteria('online_uid', '0', '<>'));
+            //$criteria = new CriteriaCompo(new Criteria('online_topic', $this->forumtopic));
+            //$criteria->add(new Criteria('online_uid', '0', '<>'));
+	        $criteria = new Criteria('online_topic', $this->forumtopic);
         } elseif ($this->forum) {
-            $criteria = new CriteriaCompo(new Criteria('online_forum', $this->forum));
-            $criteria->add(new Criteria('online_uid', '0', '<>'));
+            //$criteria = new CriteriaCompo(new Criteria('online_forum', $this->forum));
+            //$criteria->add(new Criteria('online_uid', '0', '<>'));
+	        $criteria = new Criteria('online_forum', $this->forum);
         } else {
-            $criteria = new Criteria('online_uid', '0', '<>');
+            //$criteria = new Criteria('online_uid', '0', '<>');
+	        $criteria = null;
         }
-        $users = &$this->getAll($criteria);
-        $num_user = count($users);
-        $num_anonymous = $num_total - $num_user;
+        //$num_total = $this->getCount($criteria_count);
+        $users =& $this->getAll($criteria);
+        $num_total = count($users);
+        //$num_anonymous = $num_total - $num_user;
 
+		$num_user = 0;
+		$users_id = array();
+		$users_online = array();
+        for ($i = 0; $i < $num_total; $i++) {
+	        if(empty($users[$i]['online_uid'])) continue;
+	        $users_id[] = $users[$i]['online_uid'];
+	        $users_online[$users[$i]['online_uid']] = array(
+	        	"link" => XOOPS_URL . "/userinfo.php?uid=" . $users[$i]['online_uid'],
+	        	"uname" => $users[$i]['online_uname'],
+	        );
+	        $num_user ++;
+        }
+        $num_anonymous = $num_total - $num_user;
         $online = array();
         $online['image'] = newbb_displayImage($forumImage['whosonline']);
 		$online['num_total'] = $num_total;
 		$online['num_user'] = $num_user;
 		$online['num_anonymous'] = $num_anonymous;
-
-        for ($i = 0; $i < $num_user; $i++) {
-            $online['users'][$i]['link']= XOOPS_URL . "/userinfo.php?uid=" . $users[$i]['online_uid'];
-            $online['users'][$i]['uname']= $users[$i]['online_uname'];
-            if(newbb_isAdministrator($users[$i]['online_uid'])){
-                $online['users'][$i]['color']= $xoopsModuleConfig['wol_admin_col'];
+        $administrator_list = newbb_isModuleAdministrators($users_id, $GLOBALS["xoopsModule"]->getVar("mid"));
+        foreach ($users_online as $uid=>$user) {
+            //$online['users'][$i]['link']= XOOPS_URL . "/userinfo.php?uid=" . $users[$i]['online_uid'];
+            //$online['users'][$i]['uname']= $users[$i]['online_uname'];
+            //if(newbb_isAdministrator($users[$i]['online_uid'])){
+            if(!empty($administrator_list[$uid])){
+                $user['level']= 2;
             }
-            elseif(newbb_isModerator($this->forum_object, $users[$i]['online_uid'])){
-                $online['users'][$i]['color']= $xoopsModuleConfig['wol_mod_col'];
+            elseif(newbb_isModerator($this->forum_object, $uid)){
+                $user['level']= 1;
             }
             else{
-                $online['users'][$i]['color']= "";
+                $user['level']= 0;
             }
+            $online["users"][] = $user;
         }
 
         return $online;
@@ -151,7 +164,7 @@ class NewbbOnlineHandler
         } else {
             $sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_online') . " WHERE online_uid=" . $uid . " AND online_ip='" . $ip . "'";
         }
-        list($count) = $this->db->fetchRow($this->db->queryF($sql));
+		list($count) = $this->db->fetchRow($this->db->queryF($sql));
         if ($count > 0) {
             $sql = "UPDATE " . $this->db->prefix('bb_online') . " SET online_updated= '" . $time . "', online_forum = '" . $forum . "', online_topic = '" . $forumtopic . "' WHERE online_uid = " . $uid;
             if ($uid == 0) {
@@ -161,23 +174,46 @@ class NewbbOnlineHandler
             $sql = sprintf("INSERT INTO %s (online_uid, online_uname, online_updated, online_ip, online_forum, online_topic) VALUES (%u, %s, %u, %s, %u, %u)", $this->db->prefix('bb_online'), $uid, $this->db->quoteString($uname), $time, $this->db->quoteString($ip), $forum, $forumtopic);
         }
         if (!$this->db->queryF($sql)) {
-	        //echo "<br />can not update:".$sql;
+	        newbb_message("can not update online info: ".$sql);
             return false;
         }
+        
+    	$mysql_version = substr(trim(mysql_get_server_info()), 0, 3);
+    	/* for MySQL 4.1+ */
+    	if($mysql_version >= "4.1"):
 
-		//$sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE NOT EXISTS ( SELECT * FROM ".$this->db->prefix('online')." AS aa WHERE online_uid = aa.online_uid AND aa.online_module =".$xoopsModule->getVar('mid').")";
+		$sql = 	"DELETE FROM ".$this->db->prefix('bb_online').
+				" WHERE".
+				" ( online_uid > 0 AND online_uid NOT IN ( SELECT online_uid FROM ".$this->db->prefix('online')." WHERE online_module =".$xoopsModule->getVar('mid')." ) )".
+				" OR ( online_uid = 0 AND online_ip NOT IN ( SELECT online_ip FROM ".$this->db->prefix('online')." WHERE online_module =".$xoopsModule->getVar('mid')." AND online_uid = 0 ) )";
+        
+		if($result = $this->db->queryF($sql)){
+	        return true;
+        }else{
+	        newbb_message("clean xoops online error: ".$sql);
+	        return false;
+        }
 
-        //$sql = "DELETE FROM ".$this->db->prefix('bb_online')." AS bb LEFT JOIN ".$this->db->prefix('online')." AS aa ON bb.online_uid = aa.online_uid	WHERE aa.online_uid IS NULL";
-        //$sql = "DELETE FROM ".$this->db->prefix('bb_online')." AS bb WHERE NOT EXISTS ( SELECT * FROM ".$this->db->prefix('online')." AS aa WHERE bb.online_uid = aa.online_uid AND aa.online_module =".$xoopsModule->getVar('mid').")";
-        //$sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE online_uid NOT IN ( SELECT DISTINCT online_uid FROM ".$this->db->prefix('online')." WHERE online_module =".$xoopsModule->getVar('mid').")";
-        /* */
+        
+        else: 
+        $sql = 	"DELETE ".$this->db->prefix('bb_online')." FROM ".$this->db->prefix('bb_online')." AS bb".
+        		" LEFT JOIN ".$this->db->prefix('online')." AS aa ".
+        		" ON bb.online_uid = aa.online_uid WHERE bb.online_uid > 1 AND aa.online_uid IS NULL";
+        $result = $this->db->queryF($sql);
+        $sql = 	"DELETE ".$this->db->prefix('bb_online')." FROM ".$this->db->prefix('bb_online')." AS bb".
+        		" LEFT JOIN ".$this->db->prefix('online')." AS aa ".
+        		" ON bb.online_ip = aa.online_ip WHERE bb.online_uid = 0 AND aa.online_ip IS NULL";
+        $result = $this->db->queryF($sql);
+        return true;
+        /*
         $uids = array();
         $ips = array();
         $sql = 'SELECT online_uid, online_ip FROM '.$this->db->prefix('online')." WHERE online_module = ".$xoopsModule->getVar('mid');
-        $result = &$this->db->query($sql);
+        $result = $this->db->query($sql);
         if (!$result) {
-	        //echo "<br />uid not exists in xoops online:".$sql;
-        	$sql = "DELETE FROM ".$this->db->prefix('bb_online');
+	        //newbb_message("uid not exists in xoops online: ".$sql);
+        	$sql = "TRUNCATE ".$this->db->prefix('bb_online');
+        	$this->db->queryF($sql);
         	return true;
         }
         while ($myrow = $this->db->fetchArray($result)) {
@@ -192,13 +228,13 @@ class NewbbOnlineHandler
         else{
         	$sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE ( online_uid NOT IN (".$uid_string.") )";
         }
-		/* */
 
         if (!$this->db->queryF($sql)) {
             return false;
         }
-
         return true;
+        */
+        endif;
     }
 
     /**
@@ -211,7 +247,7 @@ class NewbbOnlineHandler
     function gc($expire)
     {
 	    global $xoopsModule;
-        $sql = sprintf("DELETE FROM ".$this->db->prefix('bb_online')." WHERE online_updated < ".time() - intval($expire));
+        $sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE online_updated < ".(time() - intval($expire));
         $this->db->queryF($sql);
 
         $xoops_online_handler =& xoops_gethandler('online');
@@ -234,17 +270,50 @@ class NewbbOnlineHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        $result = &$this->db->query($sql, $limit, $start);
+        $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
             return false;
         }
         while ($myrow = $this->db->fetchArray($result)) {
             $ret[] = &$myrow;
+            if($myrow["online_uid"]>0){
+            	$this->user_ids[] = $myrow["online_uid"];
+        	}
             unset($myrow);
         }
+        $this->user_ids = array_unique($this->user_ids);
         return $ret;
     }
 
+    function checkStatus($uids)
+    {
+	    $online_users = array();
+        $ret = array();
+        if(!empty($this->user_ids)) {
+	        $online_users =& $this->user_ids;
+        }
+        else{
+        	$sql = 'SELECT online_uid FROM ' . $this->db->prefix('bb_online');
+        	if(!empty($uids)) {
+        		$sql .= ' WHERE online_uid IN ('.implode(", ",array_map("intval", $uids)).')';
+    		}
+        			
+	        $result = $this->db->query($sql);
+	        if (!$result) {
+	            return false;
+	        }
+	        while (list($uid) = $this->db->fetchRow($result)) {
+		        $online_users[] = $uid;
+	        }
+        }
+        foreach($uids as $uid){
+	        if(in_array($uid, $online_users)){
+		        $ret[$uid] = 1;
+	        }
+        }
+        return $ret;
+    }
+    
     /**
      * Count the number of online users
      *
@@ -256,7 +325,7 @@ class NewbbOnlineHandler
         if (is_object($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
-        if (!$result = &$this->db->query($sql)) {
+        if (!$result = $this->db->query($sql)) {
             return false;
         }
         list($ret) = $this->db->fetchRow($result);

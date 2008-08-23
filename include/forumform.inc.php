@@ -1,5 +1,5 @@
 <?php
-// $Id: forumform.inc.php,v 1.6 2005/05/15 12:25:54 phppp Exp $
+// $Id: forumform.inc.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -32,10 +32,7 @@
 if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
-include XOOPS_ROOT_PATH."/class/xoopsformloader.php";
-
-//$xoopsModuleConfig["require_name"] To be added in next release for anonymous post
-$xoopsModuleConfig["require_name"] = false;
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 if(!is_object($forum)){
     $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
@@ -69,46 +66,6 @@ foreach (array(
 $topic_handler =& xoops_getmodulehandler('topic', 'newbb');
 $topic_status = $topic_handler->get(@$topic_id,'topic_status');
 
-if(!empty($newbb_form)){
-	newbb_setcookie('newbb_form',$newbb_form);
-}else{
-	$newbb_form = newbb_getcookie('newbb_form');
-}
-if(count($xoopsModuleConfig['form_options'])>1 && !$contents_preview){
-	$select_form = new XoopsThemeForm('', 'newbb_formtype', xoops_getenv('PHP_SELF'), 'get');
-
-	$options = array();
-	$newbb_forms = array( 'textarea' => _MD_FORM_COMPACT, 'dhtml' => _MD_FORM_DHTML, 'spaw' => _MD_FORM_SPAW, 'htmlarea' => _MD_FORM_HTMLAREA, 'koivi' =>  _MD_FORM_KOIVI, 'fck' => _MD_FORM_FCK, 'tinymce' => _MD_FORM_TINYMCE );
-	foreach($xoopsModuleConfig['form_options'] as $option){
-		if(!empty($newbb_forms[$option])) $options[$option]=$newbb_forms[$option];
-	}
-	$option_select = new XoopsFormSelect('', 'newbb_form', $newbb_form);
-	$option_select->setExtra('onchange="if(this.options[this.selectedIndex].value.length > 0 ){ document.forms.newbb_formtype.submit() }"');
-	$option_select->addOptionArray($options);
-
-	$button_tray = new XoopsFormElementTray(_MD_SELECT_FORMTYPE);
-	$button_tray->addElement(new XoopsFormLabel($option_select->render()));
-	$submit_button = new XoopsFormButton('', '', _SUBMIT, "submit");
-	$button_tray->addElement($submit_button);
-
-	$select_form->addElement($button_tray);
-
-	$select_form->addElement(new XoopsFormHidden('pid', $pid));
-	$select_form->addElement(new XoopsFormHidden('post_id', $post_id));
-	$select_form->addElement(new XoopsFormHidden('topic_id', $topic_id));
-	$select_form->addElement(new XoopsFormHidden('forum', $forum->getVar('forum_id')));
-	$select_form->addElement(new XoopsFormHidden('viewmode', $viewmode));
-	$select_form->addElement(new XoopsFormHidden('order', $order));
-	$select_form->addElement(new XoopsFormHidden('start', $start));
-    $select_form->addElement(new XoopsFormHidden('hidden', $hidden));
-    $select_form->addElement(new XoopsFormHidden('isreply', $isreply));
-	$select_form->addElement(new XoopsFormHidden('isedit', $isedit));
-	$select_form->addElement(new XoopsFormHidden('icon', $icon));
-	$select_form->addElement(new XoopsFormHidden('contents_preview', $contents_preview));
-
-	$select_form->display();
-}
-
 $forum_form_action = (empty($admin_form_action))?"post.php":$admin_form_action; // admin/index.php also uses this form
 $forum_form = new XoopsThemeForm('', 'forumform', $forum_form_action, 'post', true);
 $forum_form->setExtra('enctype="multipart/form-data"');
@@ -134,7 +91,7 @@ $subject_form->setExtra("tabindex='1'");
 $forum_form->addElement($subject_form,true);
 
 if (!is_object($xoopsUser) && empty($admin_form_action)) {
-	$required = empty($xoopsModuleConfig["require_name"])?false:true;
+	$required = !empty($xoopsModuleConfig["require_name"]);
 	$forum_form->addElement(new XoopsFormText(_MD_NAMEMAIL, 'poster_name', 60, 255, ( !empty($isedit) && !empty($poster_name))?$poster_name:''), $required);
 }
 
@@ -145,33 +102,25 @@ foreach ($subject_icons as $iconfile) {
 }
 $forum_form->addElement($icons_radio);
 
-$caption = _MD_MESSAGEC;
-$name ='message';
-$value = $message;
-$rows = 25;
-$cols = 60;
-$width = '100%';
-$height = '400px';
-$isWysiwyg = false;
+$nohtml = ($forum->getVar('allow_html'))?false:true;
 
-if($forum->getVar('allow_html') && ($editor = &newbb_getWysiwygForm($newbb_form, $caption, $name, $value, $width, $height)) ){
-	if(method_exists($editor, 'setFilePath')){
-		$editor->setFilePath('/'.$xoopsModuleConfig['dir_attachments']);
-	}
-	if ($forum->getVar('allow_attachments')
-		&& $topic_handler->getPermission($forum, $topic_status, 'attach')
-		&& method_exists($editor, 'enableUpload')
-		) {
-		$editor->enableUpload(explode('|', $forum->getVar('attach_ext')));
-	}
-	$isWysiwyg = true;
-	$dohtml = 1;
+if(!empty($editor)){
+	newbb_setcookie("editor",$editor);
 }else{
-	$editor = &newbb_getTextareaForm($newbb_form, $caption, $name, $value, $rows, $cols);
+	$editor = newbb_getcookie("editor");
+	if(empty($editor) && is_object($xoopsUser)){
+		$editor =@ $xoopsUser->getVar("editor"); // Need set through user profile
+	}
 }
+$forum_form->addElement(new XoopsFormSelectEditor($forum_form,"editor",$editor,$nohtml));
 
-$editor->setExtra("tabindex='2'");
-$forum_form->addElement($editor, true);
+$editor_configs["name"] ="message";
+$editor_configs["value"] = $message;
+$editor_configs["rows"] = 35;
+$editor_configs["cols"] = 60;
+$editor_configs["width"] = "100%";
+$editor_configs["height"] = "400px";
+$forum_form->addElement(new XoopsFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure=null), true);
 
 $options_tray = new XoopsFormElementTray(_MD_OPTIONS, '<br />');
 if (is_object($xoopsUser) && $xoopsModuleConfig['allow_user_anonymous'] == 1) {
@@ -222,7 +171,6 @@ if ( empty($admin_form_action) && is_object($xoopsUser) && $xoopsModuleConfig['n
 		    $notify = 0;
 		}
 	}
-    //$forum_form->addElement(new XoopsFormHidden('istopic', $istopic));
 
     $notify_checkbox = new XoopsFormCheckBox('', 'notify', $notify);
     $notify_checkbox->addOption(1, _MD_NEWPOSTNOTIFY);
@@ -308,8 +256,6 @@ $forum_form->addElement(new XoopsFormHidden('isreply', $isreply));
 $forum_form->addElement(new XoopsFormHidden('isedit', $isedit));
 $forum_form->addElement(new XoopsFormHidden('op', $op));
 
-$forum_form->addElement(new XoopsFormHidden('isWysiwyg', $isWysiwyg));
-
 $button_tray = new XoopsFormElementTray('');
 
 $submit_button = new XoopsFormButton('', 'contents_submit', _SUBMIT, "submit");
@@ -323,19 +269,22 @@ else
 $cancel_button->setExtra("onclick='location=\"".$extra."\"'");
 $cancel_button->setExtra("tabindex='6'");
 
-if(empty($isWysiwyg)){
-	if ( !empty($isreply) && !empty($hidden) ) {
-	    $forum_form->addElement(new XoopsFormHidden('hidden', $hidden));
+if ( !empty($isreply) && !empty($hidden) ) {
+    $forum_form->addElement(new XoopsFormHidden('hidden', $hidden));
 
-	    $quote_button = new XoopsFormButton('', 'quote', _MD_QUOTE, 'button');
-	    $quote_button->setExtra("onclick='xoopsGetElementById(\"message\").value=xoopsGetElementById(\"message\").value+ xoopsGetElementById(\"hidden\").value;xoopsGetElementById(\"hidden\").value=\"\";'");
-	    $quote_button->setExtra("tabindex='4'");
-		$button_tray->addElement($quote_button);
-	}
-	$preview_button = new XoopsFormButton('', 'contents_preview', _PREVIEW, "submit");
-	$preview_button->setExtra("tabindex='5'");
-	$button_tray->addElement($preview_button);
+    $quote_button = new XoopsFormButton('', 'quote', _MD_QUOTE, 'button');
+    $quote_button->setExtra("onclick='xoopsGetElementById(\"message\").value=xoopsGetElementById(\"message\").value+ xoopsGetElementById(\"hidden\").value;xoopsGetElementById(\"hidden\").value=\"\";'");
+    $quote_button->setExtra("tabindex='4'");
+	$button_tray->addElement($quote_button);
 }
+
+$preview_button = new XoopsFormButton('', 'btn_preview', _PREVIEW, "button");
+$preview_button->setExtra("tabindex='5'");
+$preview_button->setExtra('onclick="window.document.forms.forumform.contents_preview.value=1;
+		window.document.forms.forumform.submit();"');
+$forum_form->addElement(new XoopsFormHidden('contents_preview', 0));
+
+$button_tray->addElement($preview_button);
 $button_tray->addElement($submit_button);
 $button_tray->addElement($cancel_button);
 $forum_form->addElement($button_tray);

@@ -1,5 +1,5 @@
 <?php
-// $Id: viewall.php,v 1.7 2005/06/03 01:35:02 phppp Exp $
+// $Id: viewall.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -31,28 +31,40 @@
 
 include "header.php";
 
-$type = isset($_GET['type'])?strtolower($_GET['type']):'all';
+$type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "digest", "unreplied", "unread")))? $_GET['type'] : "";
+$mode = !empty($_GET['mode']) ? intval($_GET['mode']) : 0;
+$mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?2:$mode;
 
+$isadmin = newbb_isAdmin();
+/* Only admin has access to admin mode */
+if(!$isadmin){
+	$type = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?"":$type;
+	$mode = 0;
+}
+
+if(!empty($xoopsModuleConfig['rss_enable'])){
+	$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />';
+}
+$xoopsOption['xoops_module_header']= $xoops_module_header;
 $xoopsOption['template_main'] = 'newbb_viewall.html';
 include XOOPS_ROOT_PATH."/header.php";
+$xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-
-$xoopsTpl->assign('xoops_module_header', $newbb_module_header);
-
 $viewall_forums = $forum_handler->getForums(0,'access'); // get all accessible forums
 
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
 	$online_handler->init();
     $xoopsTpl->assign('online', $online_handler->show_online());
-    $xoopsTpl->assign('color_admin', $xoopsModuleConfig['wol_admin_col']);
-    $xoopsTpl->assign('color_mod', $xoopsModuleConfig['wol_mod_col']);
+    //$xoopsTpl->assign('color_admin', $xoopsModuleConfig['wol_admin_col']);
+    //$xoopsTpl->assign('color_mod', $xoopsModuleConfig['wol_mod_col']);
 }
 $xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
 $xoopsTpl->assign('folder_topic', newbb_displayImage($forumImage['folder_topic']));
 
-$sel_sort_array = array("t.topic_title"=>_MD_TOPICTITLE, "t.topic_replies"=>_MD_NUMBERREPLIES, "u.uname"=>_MD_TOPICPOSTER, "t.topic_views"=>_MD_VIEWS, "p.post_time"=>_MD_LASTPOSTTIME);
+$sel_sort_array = array("t.topic_title"=>_MD_TOPICTITLE, "u.uname"=>_MD_TOPICPOSTER, "t.topic_time"=>_MD_TOPICTIME, "t.topic_replies"=>_MD_NUMBERREPLIES, "t.topic_views"=>_MD_VIEWS, "p.post_time"=>_MD_LASTPOSTTIME);
+//$sel_sort_array = array("t.topic_title"=>_MD_TOPICTITLE, "t.topic_replies"=>_MD_NUMBERREPLIES, "u.uname"=>_MD_TOPICPOSTER, "t.topic_views"=>_MD_VIEWS, "p.post_time"=>_MD_LASTPOSTTIME);
 if ( !isset($_GET['sortname']) || !in_array($_GET['sortname'], array_keys($sel_sort_array)) ) {
 	$sortname = "p.post_time";
 } else {
@@ -64,8 +76,6 @@ foreach ( $sel_sort_array as $sort_k => $sort_v ) {
 	$forum_selection_sort .= '<option value="'.$sort_k.'"'.(($sortname == $sort_k) ? ' selected="selected"' : '').'>'.$sort_v.'</option>';
 }
 $forum_selection_sort .= '</select>';
-
-// assign to template
 $xoopsTpl->assign('forum_selection_sort', $forum_selection_sort);
 
 $sortorder = (!isset($_GET['sortorder']) || $_GET['sortorder'] != "ASC") ? "DESC" : "ASC";
@@ -78,7 +88,7 @@ $forum_selection_order .= '</select>';
 $xoopsTpl->assign('forum_selection_order', $forum_selection_order);
 
 $since = isset($_GET['since']) ? intval($_GET['since']) : $xoopsModuleConfig["since_default"];
-$forum_selection_since = &newbb_sinceSelectBox($since);
+$forum_selection_since = newbb_sinceSelectBox($since);
 
 // assign to template
 $xoopsTpl->assign('forum_selection_since', $forum_selection_since);
@@ -113,6 +123,18 @@ switch($type){
 		$current_type = _MD_UNREAD;
 		$current_link = $unread_link;
 		break;
+	case 'active':
+		$current_type = _MD_ALL. ' ['._MD_TYPE_ADMIN.']';
+		$current_link = $all_link.'&amp;type='.$type;
+		break;
+	case 'pending':
+		$current_type = _MD_ALL. ' ['._MD_TYPE_PENDING.']';
+		$current_link = $all_link.'&amp;type='.$type;
+		break;
+	case 'deleted':
+		$current_type = _MD_ALL. ' ['._MD_TYPE_DELETED.']';
+		$current_link = $all_link.'&amp;type='.$type;
+		break;
 	default:
 		$type = 'all';
 		$current_type = _MD_ALL;
@@ -120,7 +142,7 @@ switch($type){
 		break;
 	}
 
-list($allTopics, $sticky) = $forum_handler->getAllTopics(0,$startdate,$start,$sortname,$sortorder,$type);
+list($allTopics, $sticky) = $forum_handler->getAllTopics($viewall_forums, $startdate, $start, $sortname, $sortorder, $type);
 $xoopsTpl->assign('topics', $allTopics);
 unset($allTopics);
 $xoopsTpl->assign('sticky', $sticky);
@@ -143,21 +165,24 @@ $xoopsTpl->assign('unread_link', $unread_link);
 $xoopsTpl->assign('current_type', $current_type);
 $xoopsTpl->assign('current_link', $current_link);
 
-//newbb_message($post_link);
-
-$all_topics = $forum_handler->getTopicCount(0,$startdate,$type);
+$all_topics = $forum_handler->getTopicCount($viewall_forums, $startdate, $type);
 if ( $all_topics > $xoopsModuleConfig['topics_per_page']) {
 	include XOOPS_ROOT_PATH.'/class/pagenav.php';
-	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;since='.$since."&amp;type=$type");
+	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;since='.$since."&amp;type=$type&amp;mode=".$mode);
 	$xoopsTpl->assign('forum_pagenav', $nav->renderNav(4));
 } else {
 	$xoopsTpl->assign('forum_pagenav', '');
 }
-if(!empty($xoopsModuleConfig['show_jump']))
-$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox(0));
+if(!empty($xoopsModuleConfig['show_jump'])){
+	$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox(0));
+}
 $xoopsTpl->assign('down',newbb_displayImage($forumImage['doubledown']));
 $xoopsTpl->assign('menumode',$menumode);
 $xoopsTpl->assign('menumode_other',$menumode_other);
+
+$xoopsTpl->assign('mode', $mode);
+$xoopsTpl->assign('type', $type);
+$xoopsTpl->assign('viewer_level', ($isadmin)?2:(is_object($xoopsUser)?1:0) );
 
 $xoopsTpl->assign('xoops_pagetitle', $xoopsModule->getVar('name'). ' - ' .$current_type);
 

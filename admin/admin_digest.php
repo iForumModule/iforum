@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_digest.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
+// $Id: admin_digest.php,v 1.1.1.1 2005/10/19 15:58:11 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -60,7 +60,7 @@ switch($op){
 	default:
 
 		$limit = 5;
-		newbb_adminmenu(8,_AM_NEWBB_DIGESTADMIN);
+		loadModuleAdminMenu(9,_AM_NEWBB_DIGESTADMIN);
 		echo "<fieldset><legend style='font-weight: bold; color: #900;'>" .  _AM_NEWBB_DIGESTADMIN . "</legend>";
 		echo"<br />";
 		echo '<form action="'.xoops_getenv('PHP_SELF').'" method="post">';

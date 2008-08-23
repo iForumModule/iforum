@@ -1,5 +1,5 @@
 <?php
-// $Id: newtopic.php,v 1.6 2005/05/19 12:20:33 phppp Exp $
+// $Id: newtopic.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

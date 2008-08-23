@@ -1,5 +1,5 @@
 <?php
-// $Id: index.php,v 1.5 2005/05/15 12:25:53 phppp Exp $
+// $Id: index.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -72,14 +72,14 @@ switch ($op) {
 
     case "approve":
 
-        if (isset($post_id) && $post_id > 0) {
+        if (!empty($post_id)) {
             $post_handler = &xoops_getmodulehandler('post', 'newbb');
             if ($post_handler->approve($post_id)) {
                 redirect_header("index.php", 1, _AM_NEWBB_POSTAPPROVED);
             } else {
                 redirect_header("index.php", 1, _AM_NEWBB_POSTNOTAPPROVED);
             }
-        } elseif (isset($topic_id) && $topic_id > 0) {
+        } elseif (!empty($topic_id)) {
             $topic_handler = &xoops_getmodulehandler('topic', 'newbb');
             if ($topic_handler->approve($topic_id)) {
                 redirect_header("index.php", 1, _AM_NEWBB_TOPICAPPROVED);
@@ -99,7 +99,7 @@ switch ($op) {
             exit();
         } else {
             xoops_cp_header();
-            newbb_adminmenu(0, "");
+        	loadModuleAdminMenu(0, "Index");
             echo "<br />";
 
             $post_handler = &xoops_getmodulehandler('post', 'newbb');
@@ -162,7 +162,7 @@ switch ($op) {
 
         xoops_cp_header();
 
-        newbb_adminmenu(0, "Index");
+        loadModuleAdminMenu(0, "Index");
 		$imageLibs = newbb_getImageLibs();
 
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_PREFERENCES . "</legend>";
@@ -245,78 +245,16 @@ switch ($op) {
             echo "</fieldset><br />";
         }
 
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_PENDING_POSTS_FOR_AUTH . "</legend><br />";
-        $sql = "SELECT p.*, t.post_text FROM " . $xoopsDB->prefix("bb_posts") . " p LEFT JOIN " . $xoopsDB->prefix("bb_posts_text") . " t ON p.post_id=t.post_id LEFT JOIN " . $xoopsDB->prefix("bb_topics") . " tp ON tp.topic_id=p.topic_id WHERE p.approved='0'";
-        $result = $xoopsDB->query($sql);
-        $numrows = $xoopsDB->getRowsNum($result);
-        echo "
-		<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>\n
-        <tr>\n
-        <td width='10%' class='bg3' align='center'><strong>" . _AM_NEWBB_POSTID . "</strong></td>\n
-        <td width='20%' class='bg3' align='center'><strong>" . _AM_NEWBB_POSTER . "</strong></td>\n
-        <td width='40%'class='bg3' align='center'><strong>" . _AM_NEWBB_SUBJECT . "</strong></td>\n
-        <td width='15%' class='bg3' align='center'><strong>" . _AM_NEWBB_POSTDATE . "</strong></td>\n
-        <td width='15%' class='bg3' align='center'><strong>" . _AM_NEWBB_ACTION . "</strong></td>\n
-        </tr>";
-        if ($numrows > 0) { // That is, if there ARE columns in the system
-                while ($post = $xoopsDB->fetchArray($result)) {
-                $user = getLinkUsernameFromUid($post['uid'], 0);
-                $modify = "<a href='index.php?op=mod&amp;post_id=" . $post['post_id'] . "'>".newbb_displayImage($forumImage['edit'], _EDIT)."</a>";
-                $delete = "<a href='index.php?op=del&amp;post_id=" . $post['post_id'] . "'>".newbb_displayImage($forumImage['delete'], _DELETE)."</a>";
-                $approve = "<a href='index.php?op=approve&amp;post_id=" . $post['post_id'] . "&amp;approved=1'>".newbb_displayImage($forumImage['approve'], _AM_NEWBB_APPROVE)."</a>";
-                $text = $myts->displayTarea($post['post_text'], $post['dohtml'], $post['dosmiley'], $post['doxcode']);
-
-                echo "<tr>\n
-                <td class='head' align='center'>" . $post['post_id'] . "</td>\n
-                <td class='even' align='center'>" . $user . "</td>\n
-                <td class='even'>" . $post['subject'] . "</td>\n
-                <td class='even'>" . formatTimestamp($post['post_time']) . "</td>\n
-                <td class='even' align='center'> $modify $approve $delete </td>\n
-                </tr>\n
-                <tr>\n
-                <td align='center' class='odd'>" . $post['post_id'] . "</td>\n
-                <td colspan='4' align='center' class='odd'>" . _AM_NEWBB_APPROVETEXT . "</td>\n
-                </tr><tr>\n
-                <td align='center' class='odd'>" . $post['post_id'] . "</td>\n
-                <td colspan='4' class='odd'>" . $text . "</td>\n
-                </tr>";
-            }
-        } else { // that is, $numrows = 0, there's no columns yet
-            echo "<tr>\n
-            <td class='head' align='center' colspan='5'>" . _AM_NEWBB_NOAPPROVEPOST . "</td>\n
-            </tr>";
-        }
-
-        echo "</table>\n
-        </fieldset>";
-
-        $sql = "SELECT t.* FROM " . $xoopsDB->prefix("bb_topics") . " t LEFT JOIN " . $xoopsDB->prefix("bb_posts") . " p ON p.topic_id=t.topic_id WHERE p.pid = 0 AND p.approved = 1 AND t.approved = 0";
-        $result = $xoopsDB->query($sql);
-        $numrows = $xoopsDB->getRowsNum($result);
-        if ($numrows > 0) {
-            echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_ORPHAN_TOPICS_FOR_AUTH . "</legend><br />\n
-            <table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>\n
-            <tr>\n
-            <td width='10%' class='bg3' align='center'><strong>" . _AM_NEWBB_TOPICID . "</strong></td>\n
-            <td class='bg3' align='center'><strong>" . _AM_NEWBB_SUBJECT . "</strong></td>\n
-            <td width='15%' class='bg3' align='center'><strong>" . _AM_NEWBB_POSTDATE . "</strong></td>\n
-            <td width='15%' class='bg3' align='center'><strong>" . _AM_NEWBB_ACTION . "</strong></td>\n
-            </tr>";
-            while ($topic = $xoopsDB->fetchArray($result)) {
-                $approve = "<a href='index.php?op=approve&amp;topic_id=" . $topic['topic_id'] . "&approved=1'>".newbb_displayImage($forumImage['approve'], _AM_NEWBB_APPROVE)."</a>";
-                echo "<tr>\n
-                <td class='head' align='center'>" . $topic['topic_id'] . "</td>\n
-                <td class='even' align='center'>" . $topic['topic_title'] . "</td>\n
-                <td class='even' align='center'>" . formatTimestamp($topic['topic_time']) . "</td>\n
-                <td class='even' align='center'> $approve </td>\n
-                </tr>";
-            }
-            echo "</table>\n
-            </fieldset>";
-        }
-
         echo "<br /><br />";
 
+        /* A trick to clear garbage for suspension management
+         * Not good but works
+         */
+		if (!empty($xoopsModuleConfig['enable_usermoderate'])){
+			$moderate_handler =& xoops_getmodulehandler('moderate', 'newbb');
+			$moderate_handler->clearGarbage();
+		}
+         
         xoops_cp_footer();
         break;
 }

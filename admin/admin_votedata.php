@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_votedata.php,v 1.2 2005/04/18 01:22:27 phppp Exp $
+// $Id: admin_votedata.php,v 1.1.1.1 2005/10/19 15:58:12 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -75,7 +75,7 @@ switch ($op)
         }
 
         xoops_cp_header();
-        newbb_adminmenu(9, _AM_NEWBB_VOTE_RATINGINFOMATION);
+        loadModuleAdminMenu(10, _AM_NEWBB_VOTE_RATINGINFOMATION);
 
 
 	echo "

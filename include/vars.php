@@ -1,5 +1,5 @@
 <?php
-// $Id: vars.php,v 1.7 2005/05/15 12:25:54 phppp Exp $
+// $Id: vars.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -25,6 +25,9 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+$ori_error_level = ini_get('error_reporting');
+error_reporting(E_ALL ^ E_NOTICE);
+
 /**#@+
  * NewBB constant
  *
@@ -36,13 +39,30 @@ define('NEWBB_UNREPLIED', 3);
 define('NEWBB_DIGEST', 4);
 define('NEWBB_DELETEONE', 1);
 define('NEWBB_DELETEALL', 2);
+if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
+
+/* some static xoopsModuleConfig */
+$GLOBALS["xoopsModuleConfig"]["require_name"] = true; // "name" field is required for anonymous users in edit form
+
+// MENU handler
+/* You could remove anyone by commenting out in order to disable it */
+$valid_menumodes = array(
+	0 => _MD_MENU_SELECT,	// for selectbox
+	1 => _MD_MENU_CLICK,	// for "click to expand"
+	2 => _MD_MENU_HOVER		// for "mouse hover to expand"
+	);
+
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
 
 // You shouldn't have to change any of these
 $forumUrl['root'] = XOOPS_URL."/modules/" . $xoopsModule->dirname();
 $forumUrl['images_root'] = $forumUrl['root']."/images";
 
-$handle = opendir(XOOPS_ROOT_PATH.'/modules/' . $xoopsModule->dirname() . '/images/imagesets/');
+//$handle = opendir(XOOPS_ROOT_PATH.'/modules/' . $xoopsModule->dirname() . '/images/imagesets/');
 $setdir = $xoopsModuleConfig['image_set'];
+if (empty($setdir) || !is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/')) {
+	$setdir = "default";
+}
 
 $forumUrl['images_set']= $forumUrl['images_root']."/imagesets/".$setdir;
 if (is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/'.$xoopsConfig['language'])) {
@@ -135,6 +155,8 @@ $forumImage['down'] = $forumUrl['images_set']."/down-a";
 $forumImage['up'] = $forumUrl['images_set']."/up-a";
 $forumImage['printer'] = $forumUrl['images_set']."/printer-a";
 
+$forumImage['pm'] = XOOPS_URL."/images/icons/pm_small.gif";
+
 $forumImage['rate1'] = $forumUrl['images_set'].'/rate1-a';
 $forumImage['rate2'] = $forumUrl['images_set'].'/rate2-a';
 $forumImage['rate3'] = $forumUrl['images_set'].'/rate3-a';
@@ -182,4 +204,11 @@ newbb_setsession("LV", $last_visit);
 		LT - Topic Last read
 		LVT - Last Visit Temp
 */
+
+// include customized variables
+@include(XOOPS_ROOT_PATH.'/modules/newbb/include/plugin.php');
+
+newbb_load_object();
+
+error_reporting($ori_error_level);
 ?>

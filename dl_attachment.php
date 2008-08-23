@@ -29,10 +29,6 @@
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 
-// redirect to its URI of an attachment when requested
-// Set to true if your attachment would be corrupted after download with normal way
-$GLOBALS["xoopsModuleConfig"]["download_direct"] = false;
-
 ob_start();
 include "header.php";
 include XOOPS_ROOT_PATH.'/header.php';

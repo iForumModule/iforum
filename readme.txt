@@ -1,41 +1,48 @@
-CBB
+CBB 3.0
 
-XOOPS Community Bulletin Board
-The further development of NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)
+XOOPS Community bulletin Board 3.0, for XOOPS 2.0*, 2.2* and 2.3*
 
-CBB XOOPS Installation:
-1 Make a full backup for your XOOPS
-2 upload the files to xoops/modules/newbb
-3 add dropdow menu color CSS to theme/style.css (Appendix)
-3 If upgrade from newbb 1.0, run newbb/update/newbb1_to_newbb2.php [NO need if upgrade from newbb 2.*]
-4 update newbb from Administration Area
-5 set module preferences and permission(!Important). Some suggestions:
--- Disable png hack and select gif for imageset if your server is not powerful enough
--- Make sure you have <{$xoops_module_header}> in theme.html header
+D.J.
+http://xoops.org.cn
+http://xoopsforge.com
 
-
-CBB
-SITE: HTTP://XOOPS.ORG.CN
-DEMO: HTTP://XOOPS.ORG.CN
-SUPP: http://xoops.org.cn/modules/newbb/viewforum.php?forum=17
 
 Appendix
-theme/style.css adding dropdown menu color as following:
+1 Dropdown menu color configuration: adding dropdown menu color to theme/style.css as following:
 /* color -- dropdown menu for Forum */
-#dropdown a{
-	color:#FFFFFF;
-	}
+div.dropdown a, div.dropdown .menubar a{
+	color:#FFF;
+}
 
-#dropdown .menubar, #dropdown .menu, #dropdown .item, #dropdown .separator{
-	background-color: #99B5CC;
-	color:#FFFFFF;
-	}
+div.dropdown .menu, div.dropdown .menubar, div.dropdown .item, div.dropdown .separator{
+	background-color: #2F5376; /* color set in your theme/style.ss .th{} is recommended */
+	color:#FFF;
+}
 
-#dropdown .separator{
+div.dropdown .separator{
 	border: 1px inset #e0e0e0;
-	}
+}
 
-#dropdown .menu a:hover{
+div.dropdown .menu a:hover, div.dropdown .userbar a:hover{
 	color: #333;
-	}
+}
 /* color - end */
+
+2 Fix for "right-to-left" themes (Arabic, Persian and more): adding to theme/style.css as following:
+
+/* direction -- for rtl */
+div.dropdown ul, div.dropdown .userbar{
+	direction: ltr;
+}
+
+div.dropdown li ul {
+	left: -150px !important; /* for IE, tune the value if necessary */
+}
+div.dropdown li>ul { 
+	left: -1px !important; /* for non-IE, tune the value if necessary */
+}
+
+div.dropdown .userbar{
+	float: right !important;  /* need a more formal solution, any help would be appreciated */
+}
+/* direction fix end */

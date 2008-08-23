@@ -1,5 +1,5 @@
 <?php 
-// $Id: menu.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
+// $Id: menu.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -28,25 +28,28 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
-$adminmenu[0]['title'] = _MI_NEWBB_ADMENU1;
-$adminmenu[0]['link'] = "admin/index.php";
-$adminmenu[1]['title'] = _MI_NEWBB_ADMENU2;
-$adminmenu[1]['link'] = "admin/admin_cat_manager.php?op=manage";
-$adminmenu[2]['title'] = _MI_NEWBB_ADMENU3;
-$adminmenu[2]['link'] = "admin/admin_forum_manager.php?op=manage";
-$adminmenu[3]['title'] = _MI_NEWBB_ADMENU4;
-$adminmenu[3]['link'] = "admin/admin_forum_manager.php?op=sync";
-$adminmenu[4]['title'] = _MI_NEWBB_ADMENU5;
-$adminmenu[4]['link'] = "admin/admin_forum_reorder.php";
-$adminmenu[5]['title'] = _MI_NEWBB_ADMENU6;
-$adminmenu[5]['link'] = "admin/admin_forum_prune.php";
-$adminmenu[6]['title'] = _MI_NEWBB_ADMENU7;
-$adminmenu[6]['link'] = "admin/admin_report.php";
-$adminmenu[7]['title'] = _MI_NEWBB_ADMENU8;
-$adminmenu[7]['link'] = "admin/myblocksadmin.php";
-$adminmenu[8]['title'] = _MI_NEWBB_ADMENU9;
-$adminmenu[8]['link'] = "admin/admin_digest.php";
-$adminmenu[9]['title'] = _MI_NEWBB_ADMENU10;
-$adminmenu[9]['link'] = "admin/admin_votedata.php";
+$i=0;
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_INDEX;
+$adminmenu[$i++]['link'] = "admin/index.php";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_CATEGORY;
+$adminmenu[$i++]['link'] = "admin/admin_cat_manager.php?op=manage";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_FORUM;
+$adminmenu[$i++]['link'] = "admin/admin_forum_manager.php?op=manage";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_PERMISSION;
+$adminmenu[$i++]['link'] = "admin/admin_permissions.php";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_BLOCK;
+$adminmenu[$i++]['link'] = "admin/admin_blocks.php";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_SYNC;
+$adminmenu[$i++]['link'] = "admin/admin_forum_manager.php?op=sync";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_ORDER;
+$adminmenu[$i++]['link'] = "admin/admin_forum_reorder.php";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_PRUNE;
+$adminmenu[$i++]['link'] = "admin/admin_forum_prune.php";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_REPORT;
+$adminmenu[$i++]['link'] = "admin/admin_report.php";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_DIGEST;
+$adminmenu[$i++]['link'] = "admin/admin_digest.php";
+$adminmenu[$i]['title'] = _MI_NEWBB_ADMENU_VOTE;
+$adminmenu[$i++]['link'] = "admin/admin_votedata.php";
 
 ?>

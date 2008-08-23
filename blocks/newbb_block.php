@@ -1,5 +1,5 @@
 <?php
-// $Id: newbb_block.php,v 1.3 2005/05/15 12:25:53 phppp Exp $
+// $Id: newbb_block.php,v 1.1.1.2 2005/10/19 16:23:31 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,7 +24,7 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-include_once XOOPS_ROOT_PATH . '/modules/newbb/include/functions.php';
+require_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
 if(defined('NEWBB_BLOCK_DEFINED')) return;
 define('NEWBB_BLOCK_DEFINED',true);
 
@@ -39,7 +39,7 @@ define('NEWBB_BLOCK_DEFINED',true);
 function b_newbb_show($options)
 {
     global $xoopsConfig;
-    global $newbbConfig, $access_forums;
+    global $access_forums;
 
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
@@ -48,12 +48,6 @@ function b_newbb_show($options)
     $order = "";
     $extra_criteria = "";
     $time_criteria = null;
-    /*
-	if(!empty($options[2])) {
-		$time_criteria = time() - newbb_getSinceTime($options[2]);
-		$extra_criteria = " AND t.topic_time>".$time_criteria;
-	}
-	*/
     switch ($options[0]) {
         case 'time':
         default:
@@ -62,13 +56,21 @@ function b_newbb_show($options)
             break;
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-	$module_handler = &xoops_gethandler('module');
-	$newbb = $module_handler->getByDirname('newbb');
-
-    if(!isset($newbbConfig)){
-	    $config_handler = &xoops_gethandler('config');
-	    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
+    
+    $newbbConfig = getConfigForBlock();
+    /*
+    if($GLOBALS["xoopsModule"]->getVar("dirname") == "newbb"){
+	    $newbbConfig =& $GLOBALS["xoopsModuleConfig"];
+    }else{
+		$module_handler = &xoops_gethandler('module');
+		$newbb = $module_handler->getByDirname('newbb');
+	
+	    if(!isset($newbbConfig)){
+		    $config_handler = &xoops_gethandler('config');
+		    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
+	    }
     }
+    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
@@ -110,13 +112,15 @@ function b_newbb_show($options)
         $author[$row["uid"]] = 1;
     }
     if (count($rows) < 1) return false;
-	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname']);
+	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
 
     foreach ($rows as $arr) {
         $topic_page_jump = '';
+	    /*
         $totalpages = ceil(($arr['topic_replies'] + 1) / $newbbConfig['posts_per_page']);
         if ($totalpages > 1) {
-            $topic_page_jump .= '&nbsp;&nbsp;&nbsp;<img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /> ';
+            //$topic_page_jump .= '&nbsp;&nbsp;&nbsp;<img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /> ';
+            $topic_page_jump .= '&nbsp;&nbsp;';
             $append = false;
             for ($i = 1; $i <= $totalpages; $i++) {
                 if ($i > 3 && $i < $totalpages) {
@@ -129,12 +133,13 @@ function b_newbb_show($options)
                 }
             }
         }
-        if ($arr['icon'] && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
-            $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . $arr['icon'] . '" alt="" />';
+        if (!empty($arr['icon'])) {
+            $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . htmlspecialchars($arr['icon']) . '" alt="" />';
         } else {
             $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/icon1.gif" alt="" />';
         }
         $topic['jump_post'] = "<a href='" . XOOPS_URL . "/modules/newbb/viewtopic.php?topic_id=" . $arr['topic_id'] . "&amp;post_id=" . $arr['post_id'] . "#forumpost" . $arr['post_id'] . "'>" . $last_post_icon . "</a>";
+        */
         if ($arr['allow_subject_prefix']) {
             $subjectpres = explode(',', $newbbConfig['subject_prefix']);
             if (count($subjectpres) > 1) {
@@ -153,16 +158,17 @@ function b_newbb_show($options)
         $topic['id'] = $arr['topic_id'];
 
         $title = $myts->htmlSpecialChars($arr['topic_title']);
-        if(!empty($options[5]))
-        $title = xoops_substr($title, 0, $options[5]);
+        if(!empty($options[5])){
+        	$title = xoops_substr($title, 0, $options[5]);
+    	}
         $topic['title'] = $title;
         $topic['replies'] = $arr['topic_replies'];
         $topic['views'] = $arr['topic_views'];
         $topic['time'] = newbb_formatTimestamp($arr['post_time']);
-        if ($arr['uid'] >0) {
-        	$topic_poster = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $arr['uid'] . "'>" . $myts->htmlSpecialChars($author_name[$arr['uid']]) . "</a>";
+        if (!empty($author_name[$arr['uid']])) {
+        	$topic_poster = $author_name[$arr['uid']];
         } else {
-            $topic_poster = ($arr['poster_name'])?$myts->htmlSpecialChars($arr['poster_name']):$myts->htmlSpecialChars($author_name[$arr['uid']]);
+            $topic_poster = $myts->htmlSpecialChars( ($arr['poster_name'])?$arr['poster_name']:$GLOBALS["xoopsConfig"]["anonymous"] );
         }
         $topic['topic_poster'] = $topic_poster;
         $topic['topic_page_jump'] = $topic_page_jump;
@@ -171,7 +177,6 @@ function b_newbb_show($options)
     }
     $block['indexNav'] = intval($options[4]);
 
-    //newbb_message($block);
     return $block;
 }
 
@@ -186,7 +191,7 @@ function b_newbb_show($options)
 function b_newbb_topic_show($options)
 {
     global $xoopsConfig;
-    global $newbbConfig, $access_forums;
+    global $access_forums;
 
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
@@ -222,6 +227,10 @@ function b_newbb_topic_show($options)
             break;
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+    
+	$newbbConfig = getConfigForBlock();
+
+	/*
 	$module_handler = &xoops_gethandler('module');
 	$newbb = $module_handler->getByDirname('newbb');
 
@@ -229,6 +238,7 @@ function b_newbb_topic_show($options)
 	    $config_handler = &xoops_gethandler('config');
 	    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
     }
+    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
@@ -245,7 +255,7 @@ function b_newbb_topic_show($options)
     $approve_criteria = ' AND t.approved = 1';
 
     $query = 'SELECT'.
-    		'	t.topic_id, t.topic_replies, t.forum_id, t.topic_title, t.topic_views, t.topic_subject, t.topic_time, t.topic_poster,'.
+    		'	t.topic_id, t.topic_replies, t.forum_id, t.topic_title, t.topic_views, t.topic_subject, t.topic_time, t.topic_poster, t.poster_name,'.
     		'	f.forum_name, f.allow_subject_prefix'.
     		'	FROM ' . $db->prefix('bb_topics') . ' AS t '.
     		'	LEFT JOIN ' . $db->prefix('bb_forums') . ' AS f ON f.forum_id=t.forum_id'.
@@ -268,13 +278,15 @@ function b_newbb_topic_show($options)
         $author[$row["topic_poster"]] = 1;
     }
     if (count($rows) < 1) return false;
-	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname']);
+	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
 
     foreach ($rows as $arr) {
         $topic_page_jump = '';
+        /*
         $totalpages = ceil(($arr['topic_replies'] + 1) / $newbbConfig['posts_per_page']);
         if ($totalpages > 1) {
-            $topic_page_jump .= '&nbsp;&nbsp;&nbsp;<img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /> ';
+            //$topic_page_jump .= '&nbsp;&nbsp;&nbsp;<img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /> ';
+            $topic_page_jump .= '&nbsp;&nbsp;';
             $append = false;
             for ($i = 1; $i <= $totalpages; $i++) {
                 if ($i > 3 && $i < $totalpages) {
@@ -287,6 +299,7 @@ function b_newbb_topic_show($options)
                 }
             }
         }
+        */
         if ($arr['allow_subject_prefix']) {
             $subjectpres = explode(',', $newbbConfig['subject_prefix']);
             if (count($subjectpres) > 1) {
@@ -310,10 +323,10 @@ function b_newbb_topic_show($options)
         $topic['replies'] = $arr['topic_replies'];
         $topic['views'] = $arr['topic_views'];
         $topic['time'] = newbb_formatTimestamp($arr['topic_time']);
-        if ($arr['topic_poster'] >0) {
-        	$topic_poster = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $arr['topic_poster'] . "'>" . $myts->htmlSpecialChars($author_name[$arr['topic_poster']]) . "</a>";
+        if (!empty($author_name[$arr['topic_poster']])) {
+        	$topic_poster = $author_name[$arr['topic_poster']];
         } else {
-            $topic_poster = $myts->htmlSpecialChars($author_name[$arr['topic_poster']]);
+            $topic_poster = $myts->htmlSpecialChars( ($arr['poster_name'])?$arr['poster_name']:$GLOBALS["xoopsConfig"]["anonymous"] );
         }
         $topic['topic_poster'] = $topic_poster;
         $topic['topic_page_jump'] = $topic_page_jump;
@@ -325,7 +338,7 @@ function b_newbb_topic_show($options)
     return $block;
 }
 
-// options[0] - Citeria valid: time(by default), text
+// options[0] - Citeria valid: title(by default), text
 // options[1] - NumberToDisplay: any positive integer
 // options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
 // options[3] - DisplayMode: 0-full view;1-compact view;2-lite view; Only valid for "time"
@@ -336,7 +349,7 @@ function b_newbb_topic_show($options)
 function b_newbb_post_show($options)
 {
     global $xoopsConfig;
-    global $newbbConfig, $access_forums;
+    global $access_forums;
 
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
@@ -361,6 +374,8 @@ function b_newbb_post_show($options)
             break;
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+    $newbbConfig = getConfigForBlock();
+    /*
 	$module_handler = &xoops_gethandler('module');
 	$newbb = $module_handler->getByDirname('newbb');
 
@@ -368,6 +383,7 @@ function b_newbb_post_show($options)
 	    $config_handler = &xoops_gethandler('config');
 	    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
     }
+    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
@@ -385,13 +401,15 @@ function b_newbb_post_show($options)
 
     $query = 'SELECT';
     $query .= '	p.post_id, p.subject, p.post_time, p.icon, p.uid, p.poster_name,';
-    if($options[0]=="text")
-    $query .= '	p.dohtml, p.dosmiley, p.doxcode, p.dobr, pt.post_text,';    
+    if($options[0]=="text"){
+    	$query .= '	p.dohtml, p.dosmiley, p.doxcode, p.dobr, pt.post_text,';    
+	}
     $query .= '	f.forum_id, f.forum_name, f.allow_subject_prefix'.
     		'	FROM ' . $db->prefix('bb_posts') . ' AS p '.
     		'	LEFT JOIN ' . $db->prefix('bb_forums') . ' AS f ON f.forum_id=p.forum_id';
-    if($options[0]=="text")
-    $query .= '	LEFT JOIN ' . $db->prefix('bb_posts_text') . ' AS pt ON pt.post_id=p.post_id';
+    if($options[0]=="text"){
+    	$query .= '	LEFT JOIN ' . $db->prefix('bb_posts_text') . ' AS pt ON pt.post_id=p.post_id';
+	}
     $query .= '	WHERE 1=1 ' .
     			$forum_criteria .
     			$approve_criteria .
@@ -403,7 +421,7 @@ function b_newbb_post_show($options)
 	    newbb_message("newbb block query error: ".$query);
         return false;
     }
-    $block['disp_mode'] = $options[3]; // 0 - full view; 1 - compact view; 2 - lite view;
+    $block['disp_mode'] = ($options[0]=="text")?3:$options[3]; // 0 - full view; 1 - compact view; 2 - lite view;
     $rows = array();
     $author = array();
     while ($row = $db->fetchArray($result)) {
@@ -411,15 +429,16 @@ function b_newbb_post_show($options)
         $author[$row["uid"]] = 1;
     }
     if (count($rows) < 1) return false;
-	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname']);
+	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
 
     foreach ($rows as $arr) {
-		if ($arr['icon'] && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
-            $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . $arr['icon'] . '" alt="" />';
+		//if ($arr['icon'] && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
+		if (!empty($arr['icon'])) {
+            $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . htmlspecialchars($arr['icon']) . '" alt="" />';
         } else {
             $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/icon1.gif" alt="" />';
         }
-        $topic['jump_post'] = "<a href='" . XOOPS_URL . "/modules/newbb/viewtopic.php?post_id=" . $arr['post_id'] ."#forumpost" . $arr['post_id'] . "'>" . $last_post_icon . "</a>";
+        //$topic['jump_post'] = "<a href='" . XOOPS_URL . "/modules/newbb/viewtopic.php?post_id=" . $arr['post_id'] ."#forumpost" . $arr['post_id'] . "'>" . $last_post_icon . "</a>";
         $topic['forum_id'] = $arr['forum_id'];
         $topic['forum_name'] = $myts->htmlSpecialChars($arr['forum_name']);
         //$topic['id'] = $arr['topic_id'];
@@ -430,19 +449,19 @@ function b_newbb_post_show($options)
         $topic['title'] = $title;
         $topic['post_id'] = $arr['post_id'];
         $topic['time'] = newbb_formatTimestamp($arr['post_time']);
-        if ($arr['uid'] >0) {
-        	$topic_poster = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $arr['uid'] . "'>" . $myts->htmlSpecialChars($author_name[$arr['uid']]) . "</a>";
+        if (!empty($author_name[$arr['uid']])) {
+        	$topic_poster = $author_name[$arr['uid']];
         } else {
-            $topic_poster = ($arr['poster_name'])?$myts->htmlSpecialChars($arr['poster_name']):$myts->htmlSpecialChars($author_name[$arr['uid']]);
+            $topic_poster = $myts->htmlSpecialChars( ($arr['poster_name'])?$arr['poster_name']:$GLOBALS["xoopsConfig"]["anonymous"] );
         }
         $topic['topic_poster'] = $topic_poster;
     	
         if($options[0]=="text"){
 	        $post_text = $myts->displayTarea($arr['post_text'],$arr['dohtml'],$arr['dosmiley'],$arr['doxcode'],1,$arr['dobr']);
-        	if(!empty($options[5]))
+        	if(!empty($options[5])){
 	    		$post_text = xoops_substr(newbb_html2text($post_text), 0, $options[5]);
+    		}
         	$topic['post_text'] = $post_text;
-        newbb_message($post_text);
         }        
         
         $block['topics'][] = &$topic;
@@ -463,7 +482,7 @@ function b_newbb_post_show($options)
 function b_newbb_author_show($options)
 {
     global $xoopsConfig;
-    global $newbbConfig, $access_forums;
+    global $access_forums;
 
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
@@ -496,6 +515,8 @@ function b_newbb_author_show($options)
             break;
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+    $newbbConfig = getConfigForBlock();
+    /*
 	$module_handler = &xoops_gethandler('module');
 	$newbb = $module_handler->getByDirname('newbb');
 
@@ -503,6 +524,7 @@ function b_newbb_author_show($options)
 	    $config_handler = &xoops_gethandler('config');
 	    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
     }
+    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
@@ -561,11 +583,11 @@ function b_newbb_edit($options)
 {
     $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='time'";
-	    if($options[0]=="time") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_TIME."</option>";
+    if($options[0]=="time") $form .= " selected='selected' ";
+    $form .= ">"._MB_NEWBB_CRITERIA_TIME."</option>";
     $form .= "</select>";
     $form .= "<br />" . _MB_NEWBB_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
-    $form .= "<br />" . _MB_NEWBB_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' 'disabled' />";
+    $form .= "<br />" . _MB_NEWBB_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
     $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_NEWBB_TIME_DESC. "</small>";
     $form .= "<br />" . _MB_NEWBB_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
     if ($options[3] == 0) {
@@ -591,24 +613,26 @@ function b_newbb_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-    $forums = $forum_handler->getForums();
-    ksort($forums);
-    $isAll = empty($options[6])?true:false;
+    $options_forum = array_slice($options, 6); // get allowed forums
+    $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-    $count_forum = count($forums);
-    foreach ($forums as $fid => $forum) {
-        $sel = "";
-        for ( $i = 6; $i < $count_forum+5; $i++ ) {
-            if ($options[$i] == $fid || $isAll) {
-                $sel = " selected=\"selected\"";
-            }
-        }
-        $form .= "<option value=\"$fid\" $sel>".$forum->getVar('forum_name')."</option>";
-    }
+	$category_handler = &xoops_getmodulehandler('category', 'newbb');
+	$forums = $category_handler->getForums(0, '', false);
+	foreach (array_keys($forums) as $c) {
+		foreach(array_keys($forums[$c]) as $f){
+        	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
+        	$form .= "<option value=\"$f\" $sel>".$forums[$c][$f]["title"]."</option>";
+	        if(!isset($forums[$c][$f]["sub"])) continue;
+			foreach(array_keys($forums[$c][$f]["sub"]) as $s){
+        		$sel = ($isAll || in_array($s, $options_forum))?" selected=\"selected\"":"";
+        		$form .= "<option value=\"$s\" $sel>-- ".$forums[$c][$f]["sub"][$s]["title"]."</option>";
+			}
+		}
+	}
+    unset($forums);
     $form .= "</select><br />";
 
     return $form;
@@ -660,24 +684,26 @@ function b_newbb_topic_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-    $forums = $forum_handler->getForums();
-    ksort($forums);
-    $isAll = empty($options[6])?true:false;
+    $options_forum = array_slice($options, 6); // get allowed forums
+    $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-    $count_forum = count($forums);
-    foreach ($forums as $fid => $forum) {
-        $sel = "";
-        for ( $i = 6; $i < $count_forum+5; $i++ ) {
-            if ($options[$i] == $fid || $isAll) {
-                $sel = " selected=\"selected\"";
-            }
-        }
-        $form .= "<option value=\"$fid\" $sel>".$forum->getVar('forum_name')."</option>";
-    }
+	$category_handler = &xoops_getmodulehandler('category', 'newbb');
+	$forums = $category_handler->getForums(0, '', false);
+	foreach (array_keys($forums) as $c) {
+		foreach(array_keys($forums[$c]) as $f){
+        	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
+        	$form .= "<option value=\"$f\" $sel>".$forums[$c][$f]["title"]."</option>";
+	        if(!isset($forums[$c][$f]["sub"])) continue;
+			foreach(array_keys($forums[$c][$f]["sub"]) as $s){
+        		$sel = ($isAll || in_array($s, $options_forum))?" selected=\"selected\"":"";
+        		$form .= "<option value=\"$s\" $sel>-- ".$forums[$c][$f]["sub"][$s]["title"]."</option>";
+			}
+		}
+	}
+    unset($forums);
     $form .= "</select><br />";
 
     return $form;
@@ -686,9 +712,9 @@ function b_newbb_topic_edit($options)
 function b_newbb_post_edit($options)
 {
     $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
-    $form .= "<option value='time'";
-	    if($options[0]=="time") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_TIME."</option>";
+    $form .= "<option value='title'";
+	    if($options[0]=="title") $form .= " selected='selected' ";
+	    $form .= ">"._MB_NEWBB_CRITERIA_TITLE."</option>";
     $form .= "<option value='text'";
 	    if($options[0]=="text") $form .= " selected='selected' ";
 	    $form .= ">"._MB_NEWBB_CRITERIA_TEXT."</option>";
@@ -720,24 +746,26 @@ function b_newbb_post_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-    $forums = $forum_handler->getForums();
-    ksort($forums);
-    $isAll = empty($options[6])?true:false;
+    $options_forum = array_slice($options, 6); // get allowed forums
+    $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-    $count_forum = count($forums);
-    foreach ($forums as $fid => $forum) {
-        $sel = "";
-        for ( $i = 6; $i < $count_forum+5; $i++ ) {
-            if ($options[$i] == $fid || $isAll) {
-                $sel = " selected=\"selected\"";
-            }
-        }
-        $form .= "<option value=\"$fid\" $sel>".$forum->getVar('forum_name')."</option>";
-    }
+	$category_handler = &xoops_getmodulehandler('category', 'newbb');
+	$forums = $category_handler->getForums(0, '', false);
+	foreach (array_keys($forums) as $c) {
+		foreach(array_keys($forums[$c]) as $f){
+        	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
+        	$form .= "<option value=\"$f\" $sel>".$forums[$c][$f]["title"]."</option>";
+	        if(!isset($forums[$c][$f]["sub"])) continue;
+			foreach(array_keys($forums[$c][$f]["sub"]) as $s){
+        		$sel = ($isAll || in_array($s, $options_forum))?" selected=\"selected\"":"";
+        		$form .= "<option value=\"$s\" $sel>-- ".$forums[$c][$f]["sub"][$s]["title"]."</option>";
+			}
+		}
+	}
+    unset($forums);
     $form .= "</select><br />";
 
     return $form;
@@ -754,10 +782,10 @@ function b_newbb_author_edit($options)
 	    $form .= ">"._MB_NEWBB_CRITERIA_TOPIC."</option>";
     $form .= "<option value='digest'";
 	    if($options[0]=="digest") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_DIGEST."</option>";
+	    $form .= ">"._MB_NEWBB_CRITERIA_DIGESTS."</option>";
     $form .= "<option value='sticky'";
 	    if($options[0]=="sticky") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_STICKY."</option>";
+	    $form .= ">"._MB_NEWBB_CRITERIA_STICKYS."</option>";
     $form .= "</select>";
     $form .= "<br />" . _MB_NEWBB_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
     $form .= "<br />" . _MB_NEWBB_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
@@ -780,98 +808,28 @@ function b_newbb_author_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-    $forums = $forum_handler->getForums();
-    ksort($forums);
-    $isAll = empty($options[5])?true:false;
+    $options_forum = array_slice($options, 5); // get allowed forums
+    $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-    $count_forum = count($forums);
-    foreach ($forums as $fid => $forum) {
-        $sel = "";
-        for ( $i = 5; $i < $count_forum+5; $i++ ) {
-            if ($options[$i] == $fid || $isAll) {
-                $sel = " selected=\"selected\"";
-            }
-        }
-        $form .= "<option value=\"$fid\" $sel>".$forum->getVar('forum_name')."</option>";
-    }
+	$category_handler = &xoops_getmodulehandler('category', 'newbb');
+	$forums = $category_handler->getForums(0, '', false);
+	foreach (array_keys($forums) as $c) {
+		foreach(array_keys($forums[$c]) as $f){
+        	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
+        	$form .= "<option value=\"$f\" $sel>".$forums[$c][$f]["title"]."</option>";
+	        if(!isset($forums[$c][$f]["sub"])) continue;
+			foreach(array_keys($forums[$c][$f]["sub"]) as $s){
+        		$sel = ($isAll || in_array($s, $options_forum))?" selected=\"selected\"":"";
+        		$form .= "<option value=\"$s\" $sel>-- ".$forums[$c][$f]["sub"][$s]["title"]."</option>";
+			}
+		}
+	}
+    unset($forums);
     $form .= "</select><br />";
 
     return $form;
-}
-
-function b_newbb_custom($options)
-{
-	global $xoopsConfig;
-	// If no newbb module block set, we have to include the language file
-	if(is_readable(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php'))
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php');
-	else
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/english/blocks.php');
-
-	$options = explode('|',$options);
-	$block = &b_newbb_show($options);
-	if(count($block["topics"])<1) return false;
-
-	$tpl = new XoopsTpl();
-	$tpl->assign('block', $block);
-	$tpl->display('db:newbb_block.html');
-}
-
-function b_newbb_custom_topic($options)
-{
-	global $xoopsConfig;
-	// If no newbb module block set, we have to include the language file
-	if(is_readable(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php'))
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php');
-	else
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/english/blocks.php');
-
-	$options = explode('|',$options);
-	$block = &b_newbb_topic_show($options);
-	if(count($block["topics"])<1) return false;
-
-	$tpl = new XoopsTpl();
-	$tpl->assign('block', $block);
-	$tpl->display('db:newbb_block_topic.html');
-}
-
-function b_newbb_custom_post($options)
-{
-	global $xoopsConfig;
-	// If no newbb module block set, we have to include the language file
-	if(is_readable(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php'))
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php');
-	else
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/english/blocks.php');
-
-	$options = explode('|',$options);
-	$block = &b_newbb_post_show($options);
-	if(count($block["topics"])<1) return false;
-
-	$tpl = new XoopsTpl();
-	$tpl->assign('block', $block);
-	$tpl->display('db:newbb_block_post.html');
-}
-
-function b_newbb_custom_author($options)
-{
-	global $xoopsConfig;
-	// If no newbb module block set, we have to include the language file
-	if(is_readable(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php'))
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/'.$xoopsConfig['language'].'/blocks.php');
-	else
-		include_once(XOOPS_ROOT_PATH.'/modules/newbb/language/english/blocks.php');
-
-	$options = explode('|',$options);
-	$block = &b_newbb_author_show($options);
-	if(count($block["authors"])<1) return false;
-
-	$tpl = new XoopsTpl();
-	$tpl->assign('block', $block);
-	$tpl->display('db:newbb_block_author.html');
 }
 ?>

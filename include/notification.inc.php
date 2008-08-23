@@ -1,5 +1,5 @@
 <?php
-// $Id: notification.inc.php,v 1.5 2005/04/18 01:36:03 phppp Exp $
+// $Id: notification.inc.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,6 +24,7 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+require_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
 if ( !defined('NEWBB_NOTIFY_ITEMINFO') ) {
 define('NEWBB_NOTIFY_ITEMINFO', 1);
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: search.php,v 1.7 2005/06/03 01:35:02 phppp Exp $
+// $Id: search.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -28,8 +28,8 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
-$xoopsOption['pagetype'] = "search";
 include 'header.php';
+newbb_load_lang_file("search");
 $config_handler =& xoops_gethandler('config');
 $xoopsConfigSearch =& $config_handler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if ($xoopsConfigSearch['enable_search'] != 1) {

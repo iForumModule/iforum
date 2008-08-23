@@ -1,5 +1,5 @@
 <?php
-// $Id: korean.php,v 1.2 2005/04/18 01:22:29 phppp Exp $
+// $Id: korean.php,v 1.1.1.1 2005/10/19 15:58:20 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -148,17 +148,7 @@ class PDF_language extends PDF_Korean
 
 	function _encoding(&$text, $in_charset, $out_charset)
 	{
-		$xconv_handler = @xoops_getmodulehandler('xconv', 'xconv', true);
-		if($xconv_handler &&
-			$converted_text = @$xconv_handler->convert_encoding($text, $out_charset, $in_charset)
-		){
-			$text = $converted_text;
-			return;
-		}
-		if(XOOPS_USE_MULTIBYTES && function_exists('mb_convert_encoding')) $converted_text = @mb_convert_encoding($text, $out_charset, $in_charset);
-		else
-		if(function_exists('iconv')) $converted_text = @iconv($in_charset, $out_charset . "//TRANSLIT", $text);
-		$text = empty($converted_text)?$text:$converted_text;
+		$text =& XoopsLocal::convert_encoding($text, $out_charset, $in_charset);
 	}
 }
 ?>

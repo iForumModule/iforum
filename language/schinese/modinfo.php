@@ -1,5 +1,5 @@
 <?php
-// $Id: modinfo.php,v 1.5 2005/06/03 01:36:15 phppp Exp $
+// $Id: modinfo.php,v 1.1.1.2 2005/10/19 16:23:52 phppp Exp $
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
@@ -11,6 +11,11 @@ define("_MI_NEWBB_NAME","CBB 论坛");
 define("_MI_NEWBB_DESC","XOOPS 中文论坛");
 
 // Names of blocks for this module(Not all module has blocks)
+define("_MI_NEWBB_BLOCK_TOPIC_POST","最新回复主题");
+define("_MI_NEWBB_BLOCK_TOPIC","最新主题");
+define("_MI_NEWBB_BLOCK_POST","最新帖子");
+define("_MI_NEWBB_BLOCK_AUTHOR","作者");
+/*
 define("_MI_NEWBB_BNAME0","最新回复话题");
 define("_MI_NEWBB_BNAME1","最新话题");
 define("_MI_NEWBB_BNAME2","浏览最多的话题");
@@ -23,18 +28,20 @@ define("_MI_NEWBB_BNAME8","最多回帖作者");
 define("_MI_NEWBB_BNAME9","最多精华作者");
 define("_MI_NEWBB_BNAME10","最多置顶作者");
 define("_MI_NEWBB_BNAME11","最新帖子内容");
+*/
 
 // Names of admin menu items
-define("_MI_NEWBB_ADMENU1","管理首页");
-define("_MI_NEWBB_ADMENU2","类别管理");
-define("_MI_NEWBB_ADMENU3","讨论区管理");
-define("_MI_NEWBB_ADMENU4","数据同步");
-define("_MI_NEWBB_ADMENU5","排序设置");
-define("_MI_NEWBB_ADMENU6","过期数据");
-define("_MI_NEWBB_ADMENU7","举报处理");
-define("_MI_NEWBB_ADMENU8","区块设置");
-define("_MI_NEWBB_ADMENU9","精华文摘");
-define("_MI_NEWBB_ADMENU10","评分管理");
+define("_MI_NEWBB_ADMENU_INDEX","管理首页");
+define("_MI_NEWBB_ADMENU_CATEGORY","类别管理");
+define("_MI_NEWBB_ADMENU_FORUM","讨论区管理");
+define("_MI_NEWBB_ADMENU_PERMISSION","权限设置");
+define("_MI_NEWBB_ADMENU_BLOCK","区块设置");
+define("_MI_NEWBB_ADMENU_ORDER","排序设置");
+define("_MI_NEWBB_ADMENU_SYNC","数据同步");
+define("_MI_NEWBB_ADMENU_PRUNE","过期数据");
+define("_MI_NEWBB_ADMENU_REPORT","举报处理");
+define("_MI_NEWBB_ADMENU_DIGEST","精华文摘");
+define("_MI_NEWBB_ADMENU_VOTE","评分管理");
 
 
 
@@ -45,6 +52,10 @@ define("_MI_DO_DEBUG_DESC","显示错误信息");
 
 define("_MI_IMG_SET","按钮图标");
 define("_MI_IMG_SET_DESC","选择图片风格");
+
+define("_MI_THEMESET", "界面风格");
+define("_MI_THEMESET_DESC", "选择 '"._NONE."' 则使用Xoops缺省风格");
+
 define("_MI_DIR_ATTACHMENT","附件保存目录");
 define("_MI_DIR_ATTACHMENT_DESC","最终的附件目录将为：'XOOPS根目录/你输入的目录', 最后不要加'/', 例如：'uploads/newbb'。<br /> 缩略图目录将为：'NewBB附件目录/thumbs'");
 define("_MI_PATH_MAGICK","ImageMagick的路径");
@@ -86,8 +97,8 @@ define("_MI_WOL_ENABLE","显示在线信息");
 define("_MI_WOL_ENABLE_DESC","在首页和论坛页面下方显示在线信息");
 define("_MI_WOL_ADMIN_COL","'管理员'颜色");
 define("_MI_WOL_ADMIN_COL_DESC","在线信息区块中'管理员'名字显示的颜色。");
-define("_MI_WOL_MOD_COL","'版主'颜色");
-define("_MI_WOL_MOD_COL_DESC","在线信息区块中'版主'名字显示的颜色。");
+define("_MI_WOL_MOD_COL","'板主'颜色");
+define("_MI_WOL_MOD_COL_DESC","在线信息区块中'板主'名字显示的颜色。");
 //define("_MI_LEVELS_ENABLE", "启用虚拟 HP/MP/EXP 等级模式");
 //define("_MI_LEVELS_ENABLE_DESC", "<b>HP</b> 决定于你平均每天发表的主题数量。<br /><b>MP</b> 是由你注册日期和发表主题的数量决定的.<br /><b>EXP</b> 的上升决定于你的发表主题数量, 发表一个主题, EXP就上升1%，当你上升到100%时，将会升一级，EXP会重新恢复到0。");
 define("_MI_NULL", "关闭");
@@ -123,7 +134,7 @@ define("_MI_MENUMODE","确省菜单模式");
 define("_MI_MENUMODE_DESC","'SELECT'为下拉选择框, 'HOVER'模式会影响显示速度, 'CLICK'需要启用JAVASCRIPT");
 
 define("_MI_REPORTMOD_ENABLE","启用用户举报");
-define("_MI_REPORTMOD_ENABLE_DESC","用户可以向版主和管理员举报某些有问题的帖子");
+define("_MI_REPORTMOD_ENABLE_DESC","用户可以向板主和管理员举报某些有问题的帖子");
 define("_MI_SHOW_JUMPBOX", "显示跳转菜单");
 define("_MI_JUMPBOXDESC", "用户就可以从一个论坛或者一个主题直接跳转到另一个论坛。");
 
@@ -137,7 +148,7 @@ define("_MI_NEWBB_EMAIL_DAILY", "每天");
 define("_MI_NEWBB_EMAIL_WEEKLY", "每周");
 
 define("_MI_SHOW_IP", "显示用户IP地址");
-define("_MI_SHOW_IP_DESC", "如果允许，则版主可以查看用户的IP地址");
+define("_MI_SHOW_IP_DESC", "如果允许，则板主可以查看用户的IP地址");
 
 define("_MI_ENABLE_KARMA", "启用Karma");
 define("_MI_ENABLE_KARMA_DESC", "用户可以设定某个帖子的karma标准。只有达到该标准的成员才能查看此帖");
@@ -151,8 +162,8 @@ define("_MI_SINCE_OPTIONS_DESC", "正数单位为天负数单位为小时。使用 ',' 分隔");
 define("_MI_SINCE_DEFAULT", "时间范围选项的缺省值");
 define("_MI_SINCE_DEFAULT_DESC", "0 - 所有");
 
-define("_MI_MODERATOR_HTML", "允许版主使用HTML");
-define("_MI_MODERATOR_HTML_DESC", "如果允许，版主就可以在标题中使用HTML");
+define("_MI_MODERATOR_HTML", "允许板主使用HTML");
+define("_MI_MODERATOR_HTML_DESC", "如果允许，板主就可以在标题中使用HTML");
 
 define("_MI_USER_ANONYMOUS", "允许登陆用户匿名发帖");
 define("_MI_USER_ANONYMOUS_DESC", "登录的用户就可以选择匿名发帖");
@@ -184,7 +195,7 @@ define("_MI_SUBJECT_PREFIX_LEVEL_DESC", "");
 define("_MI_SPL_DISABLE", '关闭');
 define("_MI_SPL_ANYONE", '任何人');
 define("_MI_SPL_MEMBER", '注册用户');
-define("_MI_SPL_MODERATOR", '版主');
+define("_MI_SPL_MODERATOR", '板主');
 define("_MI_SPL_ADMIN", '管理员');
 
 define("_MI_SHOW_REALNAME", "使用真实姓名");
@@ -229,6 +240,12 @@ define("_MI_AUTO","自动检测");
 
 define("_MI_WELCOMEFORUM","欢迎新用户论坛");
 define("_MI_WELCOMEFORUM_DESC","当有新用户第一次登陆论坛时将会自动在该论坛发布一个自我介绍的帖子");
+
+define("_MI_PERMCHECK_ONDISPLAY","权限检查");
+define("_MI_PERMCHECK_ONDISPLAY_DESC","在浏览模式下检查用户权限(对速度有影响)");
+
+define("_MI_USERMODERATE","启用用户监视");
+define("_MI_USERMODERATE_DESC","");
 
 
 // RMV-NOTIFY
@@ -278,4 +295,16 @@ define('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', '订阅论坛精华文摘。');
 define('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', '接受论坛精华文摘通知');
 define('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} 自动通知 : 论坛精华文摘');
 
+
+// FOR installation
+define("_MI_NEWBB_INSTALL_CAT_TITLE", "测试类别");
+define("_MI_NEWBB_INSTALL_CAT_DESC", "测试创建分类.");
+define("_MI_NEWBB_INSTALL_FORUM_NAME", "测试论坛");
+define("_MI_NEWBB_INSTALL_FORUM_DESC", "测试创建论坛.");
+define("_MI_NEWBB_INSTALL_POST_SUBJECT", "恭喜! 论坛已开始正常运行.");
+define("_MI_NEWBB_INSTALL_POST_TEXT", "
+	欢迎光临".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))."论坛.<br />
+	请注册登录并开始新话题.<br /><br />
+	如果您在使用中遇到任何问题, 请访问<a href=\"http://xoops.org.cn\" target=\"_blank\" title=\"Xoops China\">Xoops中文支持</a>或<a href=\"http://xoopsforge.com/modules/newbb/\" target=\"_blank\" title=\"CBB @ XoopsForge\">CBB开发者网站</a>.
+	");
 ?>

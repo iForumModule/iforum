@@ -1,5 +1,5 @@
 <?php
-// $Id: edit.php,v 1.5 2005/05/15 12:24:47 phppp Exp $
+// $Id: edit.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -42,7 +42,12 @@ if ( empty($forum) ) {
     exit();
 } else {
     $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-    $forum = $forum_handler->get($forum);
+	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+    $post_handler =& xoops_getmodulehandler('post', 'newbb');
+    
+
+    $forumpost =& $post_handler->get($post_id);
+    $forum = $forum_handler->get($forumpost->getVar("forum_id"));
 	if (!$forum_handler->getPermission($forum)){
 	    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
 	    exit();
@@ -53,22 +58,16 @@ if ( empty($forum) ) {
 		$online_handler->init($forum);
 	}
 	$isadmin = newbb_isAdmin($forum);
-
 	$uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
 
-    $post_handler =& xoops_getmodulehandler('post', 'newbb');
-    $forumpost =& $post_handler->get($post_id);
-	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
 	$topic_status = $topic_handler->get($topic_id,'topic_status');
-
 	if ( $topic_handler->getPermission($forum, $topic_status, 'edit')
 		&& ( $isadmin || $forumpost->checkIdentity()) ) {}
 	else{
 	    redirect_header("viewtopic.php?forum=".$forum->getVar('forum_id')."&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOEDIT);
 	    exit();
 	}
-    if (!$isadmin && !$forumpost->checkTimelimit('edit_timelimit'))
-	{
+    if(!$isadmin && !$forumpost->checkTimelimit('edit_timelimit')){
 		redirect_header("viewtopic.php?forum=".$forum->getVar('forum_id')."&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_TIMEISUP);
     	exit();
 	}

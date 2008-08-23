@@ -1,5 +1,5 @@
 <?php
-// $Id: category.php,v 1.6 2005/05/25 01:01:42 phppp Exp $
+// $Id: category.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,10 +24,13 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-class Category extends XoopsObject {
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+
+newbb_load_object();
+
+class Category extends ArtObject {
     var $db;
     var $table;
-    var $groups_cat_access;
 
     function Category()
     {
@@ -39,7 +42,7 @@ class Category extends XoopsObject {
         $this->initVar('cat_image', XOBJ_DTYPE_TXTBOX);
         $this->initVar('cat_description', XOBJ_DTYPE_TXTAREA);
         $this->initVar('cat_order', XOBJ_DTYPE_INT);
-        $this->initVar('cat_state', XOBJ_DTYPE_INT);
+        //$this->initVar('cat_state', XOBJ_DTYPE_INT);
         $this->initVar('cat_url', XOBJ_DTYPE_URL);
         $this->initVar('cat_showdescript', XOBJ_DTYPE_INT);
     }
@@ -61,8 +64,12 @@ class Category extends XoopsObject {
     }
 }
 
-class NewbbCategoryHandler extends XoopsObjectHandler
+class NewbbCategoryHandler extends ArtObjectHandler
 {
+    function NewbbCategoryHandler(&$db) {
+        $this->ArtObjectHandler($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
+    }
+    
 	function &create($isNew = true)
     {
         $category = new Category();
@@ -74,35 +81,41 @@ class NewbbCategoryHandler extends XoopsObjectHandler
 
     function &get($id = 0)
     {
-        $category = &$this->create(false);
+        $category = null;
         if ($id > 0) {
             $sql = "SELECT * FROM " . $this->db->prefix("bb_categories") . " WHERE cat_id = " . intval($id);
             if (!$result = $this->db->query($sql)) {
-                return false;
-            } while ($row = $this->db->fetchArray($result)) {
+                return $category;
+            }
+            while ($row = $this->db->fetchArray($result)) {
+        		$category =& $this->create(false);
                 $category->assignVars($row);
             }
         }
         return $category;
     }
 
-    function &getAllCats($permission = false)
+    function &getAllCats($permission = false, $idAsKey = false)
     {
-	    static $_cachedCats=array();
+	    //static $_cachedCats=array();
 	    $perm_string = (empty($permission))?'all':'access';
-	    if(isset($_cachedCats[$perm_string])) return $_cachedCats[$perm_string];
+	    //if(isset($_cachedCats[$perm_string])) return $_cachedCats[$perm_string];
+        $_cachedCats[$perm_string]=array();
         $sql = "SELECT * FROM " . $this->db->prefix("bb_categories");
         $sql .= " ORDER BY cat_order";
         if (!$result = $this->db->query($sql)) {
 	        newbb_message("query error: ".$sql);
-            return false;
+            return $_cachedCats[$perm_string];
         } 
-        $_cachedCats[$perm_string]=array();
         while ($row = $this->db->fetchArray($result)) {
-            $category = &$this->create(false);
+            $category =& $this->create(false);
             $category->assignVars($row);
             if ($permission && !$this->getPermission($category)) continue;
-            $_cachedCats[$perm_string][] = $category;
+            if($idAsKey){
+            	$_cachedCats[$perm_string][$row["cat_id"]] = $category;
+            }else{
+            	$_cachedCats[$perm_string][] = $category;
+        	}
             unset($category);
         }
         return $_cachedCats[$perm_string];
@@ -137,11 +150,19 @@ class NewbbCategoryHandler extends XoopsObjectHandler
             return false;
         }
 
-        if (!($category->getVar('cat_id'))) $category->setVar('cat_id', $this->db->getInsertId());
+        if (!($category->getVar('cat_id'))){
+	        $category->setVar('cat_id', $this->db->getInsertId());
+        }
+        
+        if ($category->isNew()) {
+	        $this->applyPermissionTemplate($category);
+        }
+        /*
         $perm = &xoops_getmodulehandler('permission', 'newbb');
         $perm->saveCategory_Permissions($category->groups_cat_access, $category->getVar('cat_id'), 'forum_cat_access');
+        */
 
-        return true;
+        return $category->getVar('cat_id');
     }
 
     function delete(&$category)
@@ -155,20 +176,23 @@ class NewbbCategoryHandler extends XoopsObjectHandler
         $sql = "DELETE FROM " . $category->table . " WHERE cat_id=" . $category->getVar('cat_id') . "";
         if ($result = $this->db->query($sql)) {
             // Delete group permissions
+            return $this->deletePermission($category);
+            /*
             $gperm_handler = &xoops_gethandler('groupperm');
             $criteria = new CriteriaCompo(new Criteria('gperm_modid', intval($xoopsModule->getVar('mid'))));
             $criteria->add(new Criteria('gperm_name', 'forum_cat_access'));
             $criteria->add(new Criteria('gperm_itemid', $category->getVar('cat_id')));
             return $gperm_handler->deleteAll($criteria);
+            */
         } else {
 	        newbb_message("delete category error: ".$sql);
             return false;
         }
     }
 
-    function getLatestPosts($viewcat = 0)
+    function &getLatestPosts($viewcat = 0)
     {
-        $sql = 'SELECT f.*, u.uname, u.name, u.uid, p.topic_id, p.post_time, p.subject, p.poster_name, p.icon FROM ' . $this->db->prefix('bb_forums') . ' f LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = f.forum_last_post_id LEFT JOIN ' . $this->db->prefix('users') . ' u ON u.uid = p.uid';
+        $sql = 'SELECT f.*, u.uid, p.topic_id, p.post_time, p.subject, p.poster_name, p.icon FROM ' . $this->db->prefix('bb_forums') . ' f LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = f.forum_last_post_id LEFT JOIN ' . $this->db->prefix('users') . ' u ON u.uid = p.uid';
         if ($viewcat != 0) {
             $sql .= ' WHERE f.cat_id = ' . intval($viewcat);
         } else {
@@ -184,10 +208,11 @@ class NewbbCategoryHandler extends XoopsObjectHandler
         return $ret;
     }
 
-    function getForums($categoryid = 0, $permission = "")
+    function &getForums($categoryid = null, $permission = "", $asObject = true)
     {
-        $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-        return $forum_handler->getForums($categoryid, $permission);
+        $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+        $ret = $forum_handler->getForumsByCategory($categoryid, $permission, $asObject);
+        return $ret;
     }
 
     function getPermission($category)
@@ -199,11 +224,11 @@ class NewbbCategoryHandler extends XoopsObjectHandler
 
         if(!isset($_cachedCategoryPerms)){
 	        $getpermission = &xoops_getmodulehandler('permission', 'newbb');
-	        $_cachedCategoryPerms = $getpermission->getPermissions("global");
+	        $_cachedCategoryPerms = $getpermission->getPermissions("category");
         }
 
         $cat_id = is_object($category)? $category->getVar('cat_id'):intval($category);
-        $permission = (isset($_cachedCategoryPerms[$cat_id]['forum_cat_access'])) ? 1 : 0;
+        $permission = (isset($_cachedCategoryPerms[$cat_id]['category_access'])) ? 1 : 0;
         /*
         if(!empty($permission)){
 	        if(!is_object($category)) $category =& $this->get($cat_id);
@@ -213,6 +238,18 @@ class NewbbCategoryHandler extends XoopsObjectHandler
 
         return $permission;
     }
+        
+    function deletePermission(&$category)
+    {
+		$perm_handler =& xoops_getmodulehandler('permission', 'newbb');
+		return $perm_handler->deleteByCategory($category->getVar("cat_id"));
+	}
+    
+    function applyPermissionTemplate(&$category)
+    {
+		$perm_handler =& xoops_getmodulehandler('permission', 'newbb');
+		return $perm_handler->setCategoryPermission($category->getVar("cat_id"));
+	}
 }
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-// $Id: ratethread.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
+// $Id: ratethread.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -40,31 +40,37 @@ if (!is_object($xoopsUser)) {
 }
 // Make sure only 1 anonymous from an IP in a single day.
 $anonwaitdays = 1;
-$ip = getenv("REMOTE_ADDR");
+$ip = newbb_getIP(true);
 $vars = array("topic_id", "rate", "forum");
 foreach($vars as $var){
 	${$var} = isset($_POST[$var]) ? intval($_POST[$var]) : (isset($_GET[$var])?intval($_GET[$var]):0);
 }
+
+$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$topic_obj =& $topic_handler->get($topic_id);
+if (!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "post")
+	&&
+	!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "reply")
+){
+	redirect_header("javascript:history.go(-1);", 2, _NOPERM);
+}
+
 if ($rate > 0 ){
 
     $rating = $rate * 2;
     // Check if Topic POSTER is voting (UNLESS Anonymous users allowed to post)
     if ($ratinguser != 0) {
         $result = $xoopsDB -> query("SELECT topic_poster FROM " . $xoopsDB -> prefix('bb_topics') . " WHERE topic_id=$topic_id");
-        while (list($ratinguserDB) = $xoopsDB -> fetchRow($result))
-        {
-            if ($ratinguserDB == $ratinguser)
-            {
+        while (list($ratinguserDB) = $xoopsDB -> fetchRow($result)){
+            if ($ratinguserDB == $ratinguser){
                 redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_CANTVOTEOWN);
                 exit();
             }
         }
         // Check if REG user is trying to vote twice.
         $result = $xoopsDB -> query("SELECT ratinguser FROM " . $xoopsDB -> prefix('bb_votedata') . " WHERE topic_id=$topic_id");
-        while (list($ratinguserDB) = $xoopsDB -> fetchRow($result))
-        {
-            if ($ratinguserDB == $ratinguser)
-            {
+        while (list($ratinguserDB) = $xoopsDB -> fetchRow($result)){
+            if ($ratinguserDB == $ratinguser){
                 redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_VOTEONCE);
                 exit();
             }
@@ -76,8 +82,7 @@ if ($rate > 0 ){
         $yesterday = (time() - (86400 * $anonwaitdays));
         $result = $xoopsDB -> query("SELECT COUNT(*) FROM " . $xoopsDB -> prefix('bb_votedata') . " WHERE topic_id=$topic_id AND ratinguser=0 AND ratinghostname = '$ip'  AND ratingtimestamp > $yesterday");
         list($anonvotecount) = $xoopsDB -> fetchRow($result);
-        if ($anonvotecount >= 1)
-        {
+        if ($anonvotecount >= 1){
             redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_VOTEONCE);
             exit();
         }

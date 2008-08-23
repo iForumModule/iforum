@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_forum_manager.php,v 1.5 2005/05/15 12:25:52 phppp Exp $
+// $Id: admin_forum_manager.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -31,7 +31,6 @@
 include 'admin_header.php';
 include XOOPS_ROOT_PATH . "/class/xoopstree.php";
 include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
-include_once XOOPS_ROOT_PATH . "/modules/newbb/class/formselectuser.php";
 
 $op = '';
 $confirm = '';
@@ -41,8 +40,6 @@ if (isset($_POST['op'])) $op = $_POST['op'];
 if (isset($_POST['default'])) $op = 'default';
 if (isset($_GET['forum'])) $forum = $_GET['forum'];
 if (isset($_POST['forum'])) $forum = $_POST['forum'];
-
-$start = (isset($_GET['start']))?$_GET['start']:0;
 
 $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
 /**
@@ -64,7 +61,7 @@ function newForum($parent_forum = null)
  */
 function editForum($ff = null, $parent_forum = 0)
 {
-    global $start, $myts;
+    global $myts, $xoopsDB, $xoopsModule;;
 
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
     if ($ff == null) {
@@ -79,50 +76,9 @@ function editForum($ff = null, $parent_forum = 0)
         $pf = &$forum_handler->get($parent_forum);
     }
 
-    $groups_forum_access = null;
-    $groups_forum_can_post = null;
-    $groups_forum_can_view = null;
-    $groups_forum_can_reply = null;
-    $groups_forum_can_edit = null;
-    $groups_forum_can_delete = null;
-    $groups_forum_can_addpoll = null;
-    $groups_forum_can_attach = null;
-    $groups_forum_can_noapprove = null;
-
-    Global $xoopsDB, $xoopsModule;
-
     $mytree = new XoopsTree($xoopsDB->prefix("bb_categories"), "cat_id", "0");
 
     if ($forum) {
-        $moderators = $ff->getModerators(true);
-
-        $limit = 200;
-        $moderatorform = new XoopsThemeForm(_AM_NEWBB_MODERATOR . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
-
-        $rem_moderator_checkbox = new XoopsFormCheckBox(_AM_NEWBB_MODERATOR_REMOVE, 'rem_moderator[]');
-        if (count($moderators) > 0) {
-            foreach($moderators as $moderator => $name) {
-                $rem_moderator_checkbox->addOption($moderator, $name);
-            }
-            $moderatorform->addElement($rem_moderator_checkbox);
-        }
-
-        $user_select = new NewbbFormSelectUser('', 'forum_moderator', $start, $limit, array_keys($moderators));
-        $user_select_tray = new XoopsFormElementTray(_AM_NEWBB_MODERATOR_ADD, "<br />");
-        $user_select_tray->addElement($user_select);
-        $member_handler = &xoops_gethandler('member');
-        $usercount = $member_handler->getUserCount();
-        $nav = new XoopsPageNav($usercount, $limit, $start, "start", "op=mod&amp;forum=$forum");
-        $user_select_nav = new XoopsFormLabel('', $nav->renderNav(4));
-        $user_select_tray->addElement($user_select_nav);
-        $submit_button = new XoopsFormButton('', '', _AM_NEWBB_EDIT, 'submit');
-
-        $moderatorform->addElement($user_select_tray);
-        $moderatorform->addElement(new XoopsFormHidden('forum', $forum));
-        $moderatorform->addElement(new XoopsFormHidden('op', 'moderators'));
-        $moderatorform->addElement($submit_button);
-        $moderatorform->display();
-        echo "<br />\n";
         $sform = new XoopsThemeForm(_AM_NEWBB_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
     } else {
         $sform = new XoopsThemeForm(_AM_NEWBB_CREATENEWFORUM, "op", xoops_getenv('PHP_SELF'));
@@ -130,32 +86,19 @@ function editForum($ff = null, $parent_forum = 0)
         $ff->setVar('forum_order', 0);
         $ff->setVar('forum_name', '');
         $ff->setVar('forum_desc', '');
-        $ff->setVar('forum_moderator', 1);
+        $ff->setVar('forum_moderator', array(1));
 
         $ff->setVar('forum_type', 0);
         $ff->setVar('allow_html', 1);
         $ff->setVar('allow_sig', 1);
         $ff->setVar('allow_polls', 1);
-        $ff->setVar('allow_subject_prefix', 0);
+        $ff->setVar('allow_subject_prefix', 1);
         $ff->setVar('hot_threshold', 10);
         $ff->setVar('allow_attachments', 1);
         $ff->setVar('attach_maxkb', 1000);
         $ff->setVar('attach_ext', 'zip|gif|jpg');
     }
-    // READ PERMISSIONS
-    $member_handler = &xoops_gethandler('member');
-    $group_list = &$member_handler->getGroupList();
-    //$group_ids = array();
-    $gperm_handler = &xoops_gethandler('groupperm');
-    $groups_forum_access =($forum)?$gperm_handler->getGroupIds('global_forum_access', $forum, $xoopsModule->getVar('mid')):array_keys($group_list);
 
-    $groups_access_checkbox = new XoopsFormCheckBox(_AM_NEWBB_ACCESSLEVEL, 'groups_forum_access[]', $groups_forum_access);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_access_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_access_checkbox);
-
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_SET_FORUMORDER, 'forum_order', 5, 10, $ff->getVar('forum_order')), false);
     $sform->addElement(new XoopsFormText(_AM_NEWBB_FORUMNAME, 'forum_name', 50, 80, $ff->getVar('forum_name', 'E')), true);
     $sform->addElement(new XoopsFormDhtmlTextArea(_AM_NEWBB_FORUMDESCRIPTION, 'forum_desc', $ff->getVar('forum_desc', 'E'), 10, 60), false);
 
@@ -173,6 +116,7 @@ function editForum($ff = null, $parent_forum = 0)
         $sform->addElement(new XoopsFormHidden('cat_id', $pf->getVar('cat_id')));
     }
 
+    $sform->addElement(new XoopsFormText(_AM_NEWBB_SET_FORUMORDER, 'forum_order', 5, 10, $ff->getVar('forum_order')), false);
     $status_select = new XoopsFormSelect(_AM_NEWBB_STATE, "forum_type", $ff->getVar('forum_type'));
     $status_select->addOptionArray(array('0' => _AM_NEWBB_ACTIVE, '1' => _AM_NEWBB_INACTIVE));
     $sform->addElement($status_select);
@@ -195,134 +139,26 @@ function editForum($ff = null, $parent_forum = 0)
     $sform->addElement($allowattach_radio);
     $sform->addElement(new XoopsFormText(_AM_NEWBB_ATTACHMENT_SIZE, 'attach_maxkb', 5, 10, $ff->getVar('attach_maxkb')), true);
     $sform->addElement(new XoopsFormText(_AM_NEWBB_ALLOWED_EXTENSIONS, 'attach_ext', 50, 512, $ff->getVar('attach_ext')), true);
+   	$sform->addElement(new XoopsFormSelectUser(_AM_NEWBB_MODERATOR, 'forum_moderator', false, $ff->getVar("forum_moderator"), 5, true));
 
-    $sform->addElement(new XoopsFormLabel('', '<strong>' . _AM_NEWBB_PERMISSIONS_TO_THIS_FORUM . '</strong>'));
-    $member_handler = &xoops_gethandler('member');
-    $group_list = &$member_handler->getGroupList();
-
-    $gperm_handler = &xoops_gethandler('groupperm');
-    if ($forum > 0) {
-        $groups_forum_can_view = $gperm_handler->getGroupIds('forum_can_view', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_post = $gperm_handler->getGroupIds('forum_can_post', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_reply = $gperm_handler->getGroupIds('forum_can_reply', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_edit = $gperm_handler->getGroupIds('forum_can_edit', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_delete = $gperm_handler->getGroupIds('forum_can_delete', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_addpoll = $gperm_handler->getGroupIds('forum_can_addpoll', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_vote = $gperm_handler->getGroupIds('forum_can_vote', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_attach = $gperm_handler->getGroupIds('forum_can_attach', $forum, $xoopsModule->getVar('mid'));
-        $groups_forum_can_noapprove = $gperm_handler->getGroupIds('forum_can_noapprove', $forum, $xoopsModule->getVar('mid'));
-    } else {
-	    $full_list = array_keys($group_list);
-	    $member_list = array();
-	    foreach($full_list as $id){
-			if($id != 3) $member_list[]=$id; // Make sure the anonymous group id is equal to 3 !!
-	    }
-	    $admin_list = $gperm_handler->getGroupIds('module_admin', $xoopsModule->getVar('mid'));
-
-        $groups_forum_can_view = &$full_list;
-        $groups_forum_can_post = &$member_list;
-        $groups_forum_can_reply = &$member_list;
-        $groups_forum_can_edit = &$member_list;
-        $groups_forum_can_delete = &$admin_list;
-        $groups_forum_can_addpoll = &$member_list;
-        $groups_forum_can_vote = &$member_list;
-        $groups_forum_can_attach = &$member_list;
-        $groups_forum_can_noapprove = &$member_list;
-    }
-    $groups_forum_can_view_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_VIEW, 'groups_forum_can_view[]', $groups_forum_can_view);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_view_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_view_checkbox);
-
-    $groups_forum_can_post_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_POST, 'groups_forum_can_post[]', $groups_forum_can_post);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_post_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_post_checkbox);
-
-    $groups_forum_can_reply_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_REPLY, 'groups_forum_can_reply[]', $groups_forum_can_reply);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_reply_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_reply_checkbox);
-
-    $groups_forum_can_edit_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_EDIT, 'groups_forum_can_edit[]', $groups_forum_can_edit);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_edit_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_edit_checkbox);
-
-    $groups_forum_can_delete_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_DELETE, 'groups_forum_can_delete[]', $groups_forum_can_delete);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_delete_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_delete_checkbox);
-
-    $groups_forum_can_addpoll_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_ADDPOLL, 'groups_forum_can_addpoll[]', $groups_forum_can_addpoll);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_addpoll_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_addpoll_checkbox);
-
-    $groups_forum_can_vote_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_VOTE, 'groups_forum_can_vote[]', $groups_forum_can_vote);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_vote_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_vote_checkbox);
-
-    $groups_forum_can_attach_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_ATTACH, 'groups_forum_can_attach[]', $groups_forum_can_attach);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_attach_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_attach_checkbox);
-
-    $groups_forum_can_noapprove_checkbox = new XoopsFormCheckBox(_AM_NEWBB_CAN_NOAPPROVE, 'groups_forum_can_noapprove[]', $groups_forum_can_noapprove);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_forum_can_noapprove_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_forum_can_noapprove_checkbox);
+    $perm_tray = new XoopsFormElementTray(_AM_NEWBB_PERMISSIONS_TO_THIS_FORUM, '');
+	$perm_checkbox = new XoopsFormCheckBox('', 'perm_template', $ff->isNew());
+	$perm_checkbox->addOption(1, _AM_NEWBB_PERM_TEMPLATEAPP);
+	$perm_tray->addElement($perm_checkbox);
+	$perm_tray->addElement(new XoopsFormLabel('', '<a href="admin_permissions.php?action=template" target="_blank">'._AM_NEWBB_PERM_TEMPLATE.'</a>'));
+    $sform->addElement($perm_tray);
+   	
     $sform->addElement(new XoopsFormHidden('forum', $forum));
-
-    $jstray = new XoopsFormElementTray('', '');
-    foreach ($group_list as $group_id => $group_name) {
-        $jstray->addElement(new XoopsFormHidden('group_ids[]', strval($group_id)));
-    }
-
-    $jsuncheckbutton = new XoopsFormButton('', '', _NONE, 'submit');
-    $jsuncheckbutton->setExtra('onclick="this.form.elements.op.value=\'savenone\'"') ;
-
-    $jscheckbutton = new XoopsFormButton('', '', _ALL, 'submit');
-    $jscheckbutton->setExtra('onclick="this.form.elements.op.value=\'saveall\'"') ;
-
-    $jstray->addElement($jsuncheckbutton) ;
-    $jstray->addElement($jscheckbutton) ;
-
-    $sform->addElement($jstray);
+    $sform->addElement(new XoopsFormHidden('op', "save"));
 
     $button_tray = new XoopsFormElementTray('', '');
-    $button_tray->addElement(new XoopsFormHidden('op', 'save'));
-    // No ID for forum -- then it's new forum, button says 'Create'
-    if (!$forum) {
-        $butt_create = new XoopsFormButton('', '', _AM_NEWBB_CREATEFORUM, 'submit');
-        $butt_create->setExtra('onclick="this.form.elements.op.value=\'save\'"');
-        $button_tray->addElement($butt_create);
+    $button_tray->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
 
-        $butt_clear = new XoopsFormButton('', '', _AM_NEWBB_CLEAR, 'reset');
-        $button_tray->addElement($butt_clear);
+    $button_tray->addElement(new XoopsFormButton('', '', _AM_NEWBB_CLEAR, 'reset'));
 
-        $butt_cancel = new XoopsFormButton('', '', _CANCEL, 'button');
-        $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($butt_cancel);
-    } else { // button says 'Update'
-            $butt_create = new XoopsFormButton('', '', _AM_NEWBB_EDIT, 'submit');
-        $butt_create->setExtra('onclick="this.form.elements.op.value=\'save\'"');
-        $button_tray->addElement($butt_create);
-
-        $butt_cancel = new XoopsFormButton('', '', _CANCEL, 'button');
-        $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($butt_cancel);
-    }
+    $butt_cancel = new XoopsFormButton('', '', _CANCEL, 'button');
+    $butt_cancel->setExtra('onclick="history.go(-1)"');
+    $button_tray->addElement($butt_cancel);
 
     $sform->addElement($button_tray);
     $sform->display();
@@ -330,18 +166,29 @@ function editForum($ff = null, $parent_forum = 0)
 xoops_cp_header();
 switch ($op) {
     case 'moveforum':
+        loadModuleAdminMenu(2, "");
 
-        if (isset($_POST['save']) && $_POST['save'] != "") {
-            if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
-            if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
+        if(!empty($_POST['dest'])) {
+            if (!empty($_GET['forum'])) $forum_id = intval($_GET['forum']);
+            if (!empty($_POST['forum'])) $forum_id = intval($_POST['forum']);
 
+            $dest = $_POST['dest'];
+            if($dest{0}=="f"){
+	            $pid = substr($dest, 1);
+            	$forum = &$forum_handler->get(intval($pid));
+            	$cid = $forum->getVar("cat_id");
+            	unset($forum);
+            }else{
+	            $cid = intval($dest);
+	            $pid = 0;
+            }
             $bMoved = 0;
             $errString = '';
-            $value = "cat_id=" . $_POST['cat_id'].", parent_forum=" . intval($_POST['parent_forum']);
-            $sql_move = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET " . $value . " WHERE forum_id=$forum";
+            $value = "cat_id=" . $cid.", parent_forum=" . $pid;
+            $sql_move = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET " . $value . " WHERE forum_id=$forum_id";
             if ($result = $xoopsDB->queryF($sql_move)){
                 $bMoved = 1;
-            	$sql = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=$forum";
+            	$sql = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=$forum_id";
             	$result = $xoopsDB->queryF($sql);
             }
 
@@ -352,73 +199,64 @@ switch ($op) {
             }
             exit();
         } else {
-            newbb_adminmenu(2, "");
+            //loadModuleAdminMenu(2, "");
 
-            if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
-            if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
-            $forum = &$forum_handler->get($forum);
-
-            $cat_list = "<select name=\"cat_id\" onchange='document.forummove.submit();'>";
-            $cat_list .= '<option value="0">' . _AM_NEWBB_SELECT . '</option>';
-
-            $category_handler = &xoops_getmodulehandler('category', 'newbb');
-            $categories = $category_handler->getAllCats();
-
-            foreach ($categories as $key => $category) {
-                $selected = '';
-                if (isset($_POST['cat_id']) && $_POST['cat_id'] == $category->getVar('cat_id')) $selected = 'selected';
-                $cat_list .= "<option value='" . $category->getVar('cat_id') . "' $selected>" . $category->getVar('cat_title') . "</option>";
-            }
-            $cat_list .= '</select>';
-
-            $sf_list = '<select name="parent_forum">';
-            $sf_list .= '<option value="0" selected>' . _AM_NEWBB_SELECT . '</option>';
-            $sf_list .= '<option value="0">' . _NONE . '</option>';
-            if (isset($_POST['cat_id'])) {
-                $sql = "SELECT * FROM " . $xoopsDB->prefix('bb_forums') . " WHERE cat_id=" . $_POST['cat_id'] . " AND forum_id!=$forum->getVar('forum_id')";
-                if ($result = $xoopsDB->query($sql))	while ($row = $xoopsDB->fetchArray($result)) {
-	                if($forum->getVar('forum_id')==$row['forum_id']) continue;
-                    $sf_list .= "<option value='" . $row['forum_id'] . "'>" . $myts->htmlSpecialChars($row['forum_name']) . "</option>";
-                }
-            }
-            $sf_list .= '</select>';
+            if (!empty($_POST['forum'])) $forum_id = intval($_POST['forum']);
+            if (!empty($_GET['forum'])) $forum_id = intval($_GET['forum']);
+            //$forum = &$forum_handler->get($forum_id);
+           
+	        $box = '<select name="dest">';
+            $box .= '<option value=0 selected>' . _AM_NEWBB_SELECT . '</option>';
+	
+			$category_handler =& xoops_getmodulehandler('category', 'newbb');
+		    $categories = $category_handler->getAllCats('', true);
+		    $forums = $category_handler->getForums(0, '', false);
+		
+			if(count($categories)>0 && count($forums)>0){
+				foreach(array_keys($forums) as $key){
+		            $box .= "<option value=".$key."'>".$categories[$key]->getVar('cat_title')."</option>";
+		            foreach ($forums[$key] as $forumid=>$_forum) {
+		                $box .= "<option value='f".$forumid."'>-- ".$_forum['title']."</option>";
+		            }
+				}
+		    }
+	    	unset($forums, $categories);
+            $box .= '</select>';
 
             echo '<form action="./admin_forum_manager.php" method="post" name="forummove" id="forummove">';
             echo '<input type="hidden" name="op" value="moveforum" />';
-            echo '<input type="hidden" name="forum" value=' . $forum->getVar('forum_id') . ' />';
+            echo '<input type="hidden" name="forum" value=' . $forum_id . ' />';
             echo '<table border="0" cellpadding="1" cellspacing="0" align="center" valign="top" width="95%"><tr>';
-            echo '<td class="bg2">';
-            echo '<table border="0" cellpadding="1" cellspacing="1" width="100%"><tr class="bg3">';
-            echo '<td align="center" colspan="2"><strong>' . _AM_NEWBB_MOVETHISFORUM . '</strong></td>';
+            echo '<td class="bg2" align="center"><strong>' . _AM_NEWBB_MOVETHISFORUM . '</strong></td>';
             echo '</tr>';
-            echo '<tr><td class="bg1">' . _AM_NEWBB_MOVE2CAT . '</td><td class="bg1">' . $cat_list . '</td></tr>';
-            echo '<tr><td class="bg1">' . _AM_NEWBB_MAKE_SUBFORUM_OF . '</td><td class="bg1">' . $sf_list . '</td></tr>';
-            echo '<tr><td colspan="2" align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
-            echo '</form></table></td></tr></table>';
+            echo '<tr><td class="bg1" align="center">' . $box . '</td></tr>';
+            echo '<tr><td align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
+            echo '</table></form>';
         }
         break;
 
     case 'mergeforum':
+        loadModuleAdminMenu(2, "");
 
-        if (isset($_POST['save']) && $_POST['save'] != "") {
-            if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
-            if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
+        if (!empty($_POST['dest_forum'])) {
+            if (isset($_GET['forum'])) $forum_id = intval($_GET['forum']);
+            if (isset($_POST['forum'])) $forum_id = intval($_POST['forum']);
 
             $sql = "UPDATE " . $xoopsDB->prefix('bb_posts') . " SET forum_id=" . $_POST['dest_forum'] . " WHERE forum_id=$forum";
             $result = $xoopsDB->queryF($sql);
             $sql = "UPDATE " . $xoopsDB->prefix('bb_topics') . " SET forum_id=" . $_POST['dest_forum'] . " WHERE forum_id=$forum";
             $result = $xoopsDB->queryF($sql);
-            $sql = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=$forum";
+            $sql = "UPDATE " . $xoopsDB->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=$forum_id";
             $result = $xoopsDB->queryF($sql);
 
-            $sql = "SELECT COUNT(*) AS count FROM " . $xoopsDB->prefix('bb_posts') . " WHERE WHERE forum_id=$forum";
+            $sql = "SELECT COUNT(*) AS count FROM " . $xoopsDB->prefix('bb_posts') . " WHERE WHERE forum_id=$forum_id";
             $result = $xoopsDB->query($sql);
             list($post_count) = $xoopsDB->fetchArray($result);
-            $sql = "SELECT COUNT(*) AS count FROM " . $xoopsDB->prefix('bb_topics') . " WHERE WHERE forum_id=$forum";
+            $sql = "SELECT COUNT(*) AS count FROM " . $xoopsDB->prefix('bb_topics') . " WHERE WHERE forum_id=$forum_id";
             $result = $xoopsDB->query($sql);
             list($topic_count) = $xoopsDB->fetchArray($result);
 
-            $forum = &$forum_handler->get($forum);
+            $forum = &$forum_handler->get($forum_id);
             $forum_handler->delete($forum);
 
             if ($post_count || $topic_count) {
@@ -428,37 +266,46 @@ switch ($op) {
             }
             exit();
         } else {
-            newbb_adminmenu(2, "");
+            //loadModuleAdminMenu(2, "");
 
-            if (isset($_GET['forum'])) $forum = intval($_GET['forum']);
-            if (isset($_POST['forum'])) $forum = intval($_POST['forum']);
-            $forum = &$forum_handler->get($forum);
-
-            $sf_list = '<select name="dest_forum">';
-            $sf_list .= '<option value="0" selected>' . _AM_NEWBB_SELECT . '</option>';
-            $sf_list .= '<option value="0">' . _NONE . '</option>';
-            $sql = "SELECT * FROM " . $xoopsDB->prefix('bb_forums') . " WHERE forum_id!=".$forum->getVar('forum_id');
-            if ($result = $xoopsDB->query($sql))	while ($row = $xoopsDB->fetchArray($result)) {
-                //if($forum->getVar('forum_id')==$row['forum_id']) continue;
-                $sf_list .= "<option value='" . $row['forum_id'] . "'>" . $myts->htmlSpecialChars($row['forum_name']) . "</option>";
-            }
-            $sf_list .= '</select>';
+            if (isset($_GET['forum'])) $forum_id = intval($_GET['forum']);
+            if (isset($_POST['forum'])) $forum_id = intval($_POST['forum']);
+            //$forum = &$forum_handler->get($forum_id);
+			
+	        $box = '<select name="dest_forum">';
+            $box .= '<option value=0 selected>' . _AM_NEWBB_SELECT . '</option>';
+	
+			$category_handler =& xoops_getmodulehandler('category', 'newbb');
+		    $forums = $category_handler->getForums(0, '', false);
+		
+			if(count($forums)>0){
+				foreach(array_keys($forums) as $key){
+		            foreach ($forums[$key] as $f=>$_forum) {
+		                $box .= "<option value='".$f."'>-- ".$_forum['title']."</option>";
+						if( !isset($_forum["sub"]) || count($_forum["sub"])==0) continue; 
+			            foreach (array_keys($_forum["sub"]) as $s) {
+			                $box .= "<option value='".$s."'>---- ".$_forum["sub"][$s]['title']."</option>";
+		                }
+		            }
+				}
+		    }
+	    	unset($forums);
 
             echo '<form action="./admin_forum_manager.php" method="post" name="forummove" id="forummove">';
             echo '<input type="hidden" name="op" value="mergeforum" />';
-            echo '<input type="hidden" name="forum" value=' . $forum->getVar('forum_id') . ' />';
+            echo '<input type="hidden" name="forum" value=' . $forum_id . ' />';
             echo '<table border="0" cellpadding="1" cellspacing="0" align="center" valign="top" width="95%"><tr>';
-            echo '<td class="bg2">';
-            echo '<table border="0" cellpadding="1" cellspacing="1" width="100%"><tr class="bg3">';
-            echo '<td align="center" colspan="2"><strong>' . _AM_NEWBB_MERGETHISFORUM . '</strong></td>';
+            echo '<td class="bg2" align="center"><strong>' . _AM_NEWBB_MERGETHISFORUM . '</strong></td>';
             echo '</tr>';
-            echo '<tr><td class="bg1">' . _AM_NEWBB_MERGETO_FORUM . '</td><td class="bg1">' . $sf_list . '</td></tr>';
-            echo '<tr><td colspan="2" align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
-            echo '</form></table></td></tr></table>';
+            echo '<tr><td class="bg1" align="center">' . _AM_NEWBB_MERGETO_FORUM . '</td></tr>';
+            echo '<tr><td class="bg1" align="center">' . $box . '</td></tr>';
+            echo '<tr><td align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
+            echo '</form></table>';
         }
         break;
 
     case 'sync':
+        loadModuleAdminMenu(5, _AM_NEWBB_SYNCFORUM);
         if (isset($_POST['submit'])) {
             flush();
             sync(null, "all forums");
@@ -467,7 +314,7 @@ switch ($op) {
             redirect_header("./index.php", 1, _AM_NEWBB_SYNCHING);
             exit();
         } else {
-            newbb_adminmenu(3, _AM_NEWBB_SYNCFORUM);
+            //loadModuleAdminMenu(3, _AM_NEWBB_SYNCFORUM);
             echo '<fieldset><legend style="font-weight: bold; color: #900;">' . _AM_NEWBB_SYNCFORUM . '</legend>';
             echo '<br /><br /><table width="100%" border="0" cellspacing="1" class="outer"><tr><td class="odd">';
             echo '<table border="0" cellpadding="1" cellspacing="1" width="100%">';
@@ -485,131 +332,6 @@ switch ($op) {
         echo "</fieldset>";
         break;
 
-    case "moderators":
-        if ($forum) {
-            $ff = &$forum_handler->get($forum);
-        } else {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=$forum", 2, _AM_NEWBB_FORUM_ERROR);
-            exit();
-        }
-        $cur_moderators = explode(' ', $ff->getVar('forum_moderator'));
-        $new_moderators = array();
-        $upd_moderators = array();
-        foreach($cur_moderators as $moderator) {
-            $new_moderators[$moderator] = 1;
-        }
-        if (isset($_POST['forum_moderator'])) {
-            $add_moderators = $_POST['forum_moderator'];
-            foreach($add_moderators as $moderator) {
-                $new_moderators[$moderator] = 1;
-            }
-        }
-        if (isset($_POST['rem_moderator'])) {
-            $rem_moderators = $_POST['rem_moderator'];
-            foreach($rem_moderators as $moderator) {
-                $new_moderators[$moderator] = 0;
-            }
-        }
-        foreach($new_moderators as $moderator => $val) {
-            if ($val > 0) $upd_moderators[$moderator] = 1;
-        }
-        $forum_moderators = implode(' ', array_keys($upd_moderators));
-        if ($ff->updateModerators($forum_moderators)) {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=$forum", 2, _AM_NEWBB_FORUMUPDATE);
-            exit();
-        } else {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=$forum", 2, _AM_NEWBB_FORUM_ERROR);
-            exit();
-        }
-
-        break;
-
-    case "saveall":
-
-        if ($forum) {
-            $ff = &$forum_handler->get($forum);
-            $message = _AM_NEWBB_FORUMUPDATE;
-        } else {
-            $ff = &$forum_handler->create();
-            $message = _AM_NEWBB_FORUMCREATED;
-        }
-
-        $ff->setVar('forum_name', $_POST['forum_name']);
-        $ff->setVar('forum_desc', $_POST['forum_desc']);
-        $ff->setVar('forum_order', $_POST['forum_order']);
-        $ff->groups_forum_access = $_POST['groups_forum_access'];
-        $ff->groups_forum_can_post = $_POST['group_ids'];
-        $ff->groups_forum_can_view = $_POST['group_ids'];
-        $ff->groups_forum_can_reply = $_POST['group_ids'];
-        $ff->groups_forum_can_edit = $_POST['group_ids'];
-        $ff->groups_forum_can_delete = $_POST['group_ids'];
-        $ff->groups_forum_can_addpoll = $_POST['group_ids'];
-        $ff->groups_forum_can_vote = $_POST['group_ids'];
-        $ff->groups_forum_can_attach = $_POST['group_ids'];
-        $ff->groups_forum_can_noapprove = $_POST['group_ids'];
-        $ff->setVar('forum_moderator', $ff->getVar('forum_moderator'));
-        $ff->setVar('parent_forum', $_POST['parent_forum']);
-        $ff->setVar('cat_id', $_POST['cat_id']);
-        $ff->setVar('forum_type', $_POST['forum_type']);
-        $ff->setVar('allow_html', $_POST['allow_html']);
-        $ff->setVar('allow_sig', $_POST['allow_sig']);
-        $ff->setVar('allow_polls', $_POST['allow_polls']);
-        $ff->setVar('allow_subject_prefix', $_POST['allow_subject_prefix']);
-        $ff->setVar('allow_attachments', $_POST['allow_attachments']);
-        $ff->setVar('attach_maxkb', $_POST['attach_maxkb']);
-        $ff->setVar('attach_ext', $_POST['attach_ext']);
-        $ff->setVar('hot_threshold', $_POST['hot_threshold']);
-        if ($forum_handler->insert($ff)) {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, $message);
-            exit();
-        } else {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, _AM_NEWBB_FORUM_ERROR);
-            exit();
-        }
-
-    case "savenone":
-
-        if ($forum) {
-            $ff = &$forum_handler->get($forum);
-            $message = _AM_NEWBB_FORUMUPDATE;
-        } else {
-            $ff = &$forum_handler->create();
-            $message = _AM_NEWBB_FORUMCREATED;
-        }
-
-        $ff->setVar('forum_name', $_POST['forum_name']);
-        $ff->setVar('forum_desc', $_POST['forum_desc']);
-        $ff->setVar('forum_order', $_POST['forum_order']);
-        $ff->groups_forum_access = $_POST['groups_forum_access'];
-        $ff->groups_forum_can_post = null;
-        $ff->groups_forum_can_view = null;
-        $ff->groups_forum_can_reply = null;
-        $ff->groups_forum_can_edit = null;
-        $ff->groups_forum_can_delete = null;
-        $ff->groups_forum_can_addpoll = null;
-        $ff->groups_forum_can_vote = null;
-        $ff->groups_forum_can_attach = null;
-        $ff->groups_forum_can_noapprove = null;
-        $ff->setVar('forum_moderator', $ff->getVar('forum_moderator'));
-        $ff->setVar('parent_forum', $_POST['parent_forum']);
-        $ff->setVar('cat_id', $_POST['cat_id']);
-        $ff->setVar('forum_type', $_POST['forum_type']);
-        $ff->setVar('allow_html', $_POST['allow_html']);
-        $ff->setVar('allow_sig', $_POST['allow_sig']);
-        $ff->setVar('allow_polls', $_POST['allow_polls']);
-        $ff->setVar('allow_subject_prefix', $_POST['allow_subject_prefix']);
-        $ff->setVar('allow_attachments', $_POST['allow_attachments']);
-        $ff->setVar('attach_maxkb', $_POST['attach_maxkb']);
-        $ff->setVar('attach_ext', $_POST['attach_ext']);
-        $ff->setVar('hot_threshold', $_POST['hot_threshold']);
-        if ($forum_handler->insert($ff)) {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, $message);
-            exit();
-        } else {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, _AM_NEWBB_FORUM_ERROR);
-            exit();
-        }
-
     case "save":
 
         if ($forum) {
@@ -623,18 +345,8 @@ switch ($op) {
         $ff->setVar('forum_name', $_POST['forum_name']);
         $ff->setVar('forum_desc', $_POST['forum_desc']);
         $ff->setVar('forum_order', $_POST['forum_order']);
-        $ff->groups_forum_access = @$_POST['groups_forum_access'];
-        $ff->groups_forum_can_post = @$_POST['groups_forum_can_post'];
-        $ff->groups_forum_can_view = @$_POST['groups_forum_can_view'];
-        $ff->groups_forum_can_reply = @$_POST['groups_forum_can_reply'];
-        $ff->groups_forum_can_edit = @$_POST['groups_forum_can_edit'];
-        $ff->groups_forum_can_delete = @$_POST['groups_forum_can_delete'];
-        $ff->groups_forum_can_addpoll = @$_POST['groups_forum_can_addpoll'];
-        $ff->groups_forum_can_vote = @$_POST['groups_forum_can_vote'];
-        $ff->groups_forum_can_attach = @$_POST['groups_forum_can_attach'];
-        $ff->groups_forum_can_noapprove = @$_POST['groups_forum_can_noapprove'];
-        $ff->setVar('forum_moderator', $ff->getVar('forum_moderator'));
-        $ff->setVar('parent_forum', $_POST['parent_forum']);
+        $ff->setVar('forum_moderator', isset($_POST['forum_moderator'])?$_POST['forum_moderator']:array());
+        $ff->setVar('parent_forum', @$_POST['parent_forum']);
         $ff->setVar('cat_id', $_POST['cat_id']);
         $ff->setVar('forum_type', @$_POST['forum_type']);
         $ff->setVar('allow_html', @$_POST['allow_html']);
@@ -646,6 +358,27 @@ switch ($op) {
         $ff->setVar('attach_ext', $_POST['attach_ext']);
         $ff->setVar('hot_threshold', $_POST['hot_threshold']);
         if ($forum_handler->insert($ff)) {
+	        if(!empty($_POST["perm_template"])){
+			    $newbbperm_handler = &xoops_getmodulehandler('permission', 'newbb');
+			    $perm_template = $newbbperm_handler->getTemplate();
+				$groupperm_handler =& xoops_gethandler('groupperm');
+			    $member_handler =& xoops_gethandler('member');
+			    $glist =& $member_handler->getGroupList();
+				$perms = array_map("trim",explode(',', FORUM_PERM_ITEMS));
+				foreach(array_keys($glist) as $group){
+				    foreach($perms as $perm){
+					    $perm = "forum_".$perm;
+						$ids = $groupperm_handler->getItemIds($perm, $group, $xoopsModule->getVar("mid"));
+						if(!in_array($ff->getVar("forum_id"), $ids)){
+							if(empty($perm_template[$group][$perm])){
+								$groupperm_handler->deleteRight($perm, $ff->getVar("forum_id"), $group, $xoopsModule->getVar("mid"));
+							}else{
+								$groupperm_handler->addRight($perm, $ff->getVar("forum_id"), $group, $xoopsModule->getVar("mid"));
+							}
+						}
+				    }
+				}
+	        }
             redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, $message);
             exit();
         } else {
@@ -655,7 +388,7 @@ switch ($op) {
 
     case "mod":
         $ff = &$forum_handler->get($forum);
-        newbb_adminmenu(2, _AM_NEWBB_EDITTHISFORUM . $ff->getVar('forum_name'));
+        loadModuleAdminMenu(2, _AM_NEWBB_EDITTHISFORUM . $ff->getVar('forum_name'));
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITTHISFORUM . "</legend>";
         echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'><tr><td class='odd'>";
 
@@ -679,31 +412,8 @@ switch ($op) {
         break;
 
     case 'manage':
-        newbb_adminmenu(2, _AM_NEWBB_FORUM_MANAGER);
+        loadModuleAdminMenu(2, _AM_NEWBB_FORUM_MANAGER);
 
-        $category_handler = &xoops_getmodulehandler('category', 'newbb');
-        $categories = $category_handler->getAllCats();
-		$forums = $category_handler->getForums();
-
-		$forums_array = array();
-		if(count($forums)>0) foreach ($forums as $forumid => $forum) {
-		    $forums_array[$forum->getVar('parent_forum')][] = array(
-			    'forum_id' => $forumid,
-			    'forum_cid' => $forum->getVar('cat_id'),
-			    'forum_name' => $forum->getVar('forum_name')
-			);
-		}
-		unset($forums);
-		if(count($forums_array)>0){
-	        foreach ($forums_array[0] as $key => $forum) {
-	            if (isset($forums_array[$forum['forum_id']])) {
-	                $forum['subforum'] = $forums_array[$forum['forum_id']];
-	            }
-	            $forumsByCat[$forum['forum_cid']][] = $forum;
-	        }
-		}
-
-        // Output
         $echo = "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_FORUM_MANAGER . "</legend>";
         $echo .= "<br />";
 
@@ -717,8 +427,11 @@ switch ($op) {
         $echo .= "<td class='bg3'>" . _AM_NEWBB_MERGE . "</td>";
         $echo .= "</tr>";
 
-        if(count($categories)>0) foreach ($categories as $key => $category) {
-            // Display the Category
+		$category_handler = &xoops_getmodulehandler('category', 'newbb');
+    	$categories = $category_handler->getAllCats('', true);
+		$forums = $category_handler->getForums(0, '', false);
+		foreach (array_keys($categories) as $c) {
+            $category =& $categories[$c];
             $cat_link = "<a href=\"" . $forumUrl['root'] . "/index.php?viewcat=" . $category->getVar('cat_id') . "\">" . $category->getVar('cat_title') . "</a>";
             $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&amp;cat_id=" . $category->getVar('cat_id') . "\">".newbb_displayImage($forumImage['edit'], _EDIT)."</a>";
             $cat_del_link = "<a href=\"admin_cat_manager.php?op=del&amp;cat_id=" . $category->getVar('cat_id') . "\">".newbb_displayImage($forumImage['delete'], _DELETE)."</a>";
@@ -732,18 +445,31 @@ switch ($op) {
             $echo .= "<td></td>";
             $echo .= "<td></td>";
             $echo .= "</tr>";
+            if(!isset($forums[$c])) continue;
+			foreach(array_keys($forums[$c]) as $f){
+                $f_link = "&nbsp;<a href=\"" . $forumUrl['root'] . "/viewforum.php?forum=" . $f . "\">" . $forums[$c][$f]["title"] . "</a>";
+                $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['edit'])."</a>";
+                $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['delete'])."</a>";
+                $sf_add_link = "<a href=\"admin_forum_manager.php?op=addsubforum&amp;cat_id=" . $c . "&parent_forum=" . $f . "\">".newbb_displayImage($forumImage['new_subforum'])."</a>";
+                $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
+                $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
 
-		    $forums = (!empty($forumsByCat[$category->getVar('cat_id')]))?$forumsByCat[$category->getVar('cat_id')]:array();
-            if (count($forums)>0) {
-		    	ksort($forums);
-                foreach ($forums as $key => $forum) {
-                    $f_link = "&nbsp;<a href=\"" . $forumUrl['root'] . "/viewforum.php?forum=" . $forum['forum_id'] . "\">" . $forum['forum_name'] . "</a>";
-                    $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['edit'])."</a>";
-                    $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['delete'])."</a>";
-                    $sf_add_link = "<a href=\"admin_forum_manager.php?op=addsubforum&amp;cat_id=" . $forum['forum_cid'] . "&parent_forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['new_subforum'])."</a>";
-                    $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
-                    $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $forum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
-
+                $echo .= "<tr class='odd' align='left'><td></td>";
+                $echo .= "<td><strong>" . $f_link . "</strong></td>";
+                $echo .= "<td align='center'>" . $f_edit_link . "</td>";
+                $echo .= "<td align='center'>" . $f_del_link . "</td>";
+                $echo .= "<td align='center'>" . $sf_add_link . "</td>";
+                $echo .= "<td align='center'>" . $f_move_link . "</td>";
+                $echo .= "<td align='center'>" . $f_merge_link . "</td>";
+                $echo .= "</tr>";
+		        if(!isset($forums[$c][$f]["sub"])) continue;
+				foreach(array_keys($forums[$c][$f]["sub"]) as $s){
+                    $f_link = "&nbsp;<a href=\"" . $forumUrl['root'] . "/viewforum.php?forum=" . $s . "\">-->" . $forums[$c][$f]["sub"][$s]["title"] . "</a>";
+                    $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['edit'])."</a>";
+                    $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['delete'])."</a>";
+                    $sf_add_link = "";
+                    $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
+                    $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
                     $echo .= "<tr class='odd' align='left'><td></td>";
                     $echo .= "<td><strong>" . $f_link . "</strong></td>";
                     $echo .= "<td align='center'>" . $f_edit_link . "</td>";
@@ -752,28 +478,11 @@ switch ($op) {
                     $echo .= "<td align='center'>" . $f_move_link . "</td>";
                     $echo .= "<td align='center'>" . $f_merge_link . "</td>";
                     $echo .= "</tr>";
+				}
+			}
+		}
+    	unset($forums, $categories);
 
-                    if(isset($forum['subforum'])){
-                		foreach ($forum['subforum'] as $key => $subforum) {
-	                        $f_link = "&nbsp;<a href=\"" . $forumUrl['root'] . "/viewforum.php?forum=" . $subforum['forum_id'] . "\">-->" . $subforum['forum_name'] . "</a>";
-	                        $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $subforum['forum_id'] . "\">".newbb_displayImage($forumImage['edit'])."</a>";
-	                        $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $subforum['forum_id'] . "\">".newbb_displayImage($forumImage['delete'])."</a>";
-	                        $sf_add_link = "";
-	                        $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $subforum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
-	                        $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $subforum['forum_id'] . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
-		                    $echo .= "<tr class='odd' align='left'><td></td>";
-		                    $echo .= "<td><strong>" . $f_link . "</strong></td>";
-		                    $echo .= "<td align='center'>" . $f_edit_link . "</td>";
-		                    $echo .= "<td align='center'>" . $f_del_link . "</td>";
-		                    $echo .= "<td align='center'>" . $sf_add_link . "</td>";
-		                    $echo .= "<td align='center'>" . $f_move_link . "</td>";
-		                    $echo .= "<td align='center'>" . $f_merge_link . "</td>";
-		                    $echo .= "</tr>";
-	                	}
-                    }
-                }
-            }
-        }
         echo $echo;
         echo "</table>";
         echo "</fieldset>";
@@ -781,7 +490,7 @@ switch ($op) {
 
     case "default":
     default:
-        newbb_adminmenu(2, _AM_NEWBB_CREATENEWFORUM);
+        loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
         echo "<br />";
 
@@ -791,7 +500,7 @@ switch ($op) {
         break;
 
     case "addsubforum":
-        newbb_adminmenu(2, _AM_NEWBB_CREATENEWFORUM);
+        loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
         echo "<br />";
         $parent_forum = isset($_GET['parent_forum']) ? intval($_GET['parent_forum']) : null;

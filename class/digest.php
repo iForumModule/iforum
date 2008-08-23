@@ -1,5 +1,5 @@
 <?php
-// $Id: digest.php,v 1.4 2005/04/18 01:22:28 phppp Exp $
+// $Id: digest.php,v 1.1.1.1 2005/10/19 15:58:14 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -116,13 +116,17 @@ class NewbbDigestHandler extends XoopsObjectHandler {
 
     function &get($id)
     {
-        if (!$id) return false;
-        $digest = new Digest();
+	    $digest = null;
+	    $id = intval($id);
+        if (!$id) {
+	        return $digest;
+        }
         $sql = 'SELECT * FROM ' . $this->db->prefix('bb_digest') . ' WHERE digest_id=' . $id;
-        $array = $this->db->fetchArray($this->db->query($sql));
-        if ($var) return $array[$var];
-        $digest = &$this->create(false);
-        $digest->assignVars($array);
+        if($array = $this->db->fetchArray($this->db->query($sql))){
+	        if ($var) return $array[$var];
+	        $digest =& $this->create(false);
+	        $digest->assignVars($array);
+        }
         return $digest;
     }
 

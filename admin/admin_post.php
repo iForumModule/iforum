@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_post.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
+// $Id: admin_post.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -59,7 +59,8 @@ if ( !empty($_POST['contents_preview']) ) {
     $dosmiley = isset($_POST['dosmiley']) ? 1 : 0;
     $dohtml = isset($_POST['dohtml']) ? 1 : 0;
     $doxcode = isset($_POST['doxcode']) ? 1 : 0;
-    $p_message = $myts->previewTarea($_POST['message'],$dohtml,$dosmiley,$doxcode);
+    $p_message = $_POST['message'];
+    $p_message = $myts->previewTarea($p_message,$dohtml,$dosmiley,$doxcode);
 
     echo "<table cellpadding='4' cellspacing='1' width='98%' class='outer'>";
     echo "<tr><td class='head'>".$p_subject."</td></tr>";

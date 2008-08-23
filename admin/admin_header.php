@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_header.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
+// $Id: admin_header.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -29,18 +29,16 @@
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 include("../../../include/cp_header.php");
-include_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
-include("../include/functions.php");
-include("../include/vars.php");
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/vars.php";
+include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
 
 
 // include the default language file for the admin interface
-if ( file_exists( "../language/" . $xoopsConfig['language'] . "/main.php" ) ) {
-    include "../language/" . $xoopsConfig['language'] . "/main.php";
+if ( !@include_once(XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/language/" . $xoopsConfig['language'] . "/main.php")){
+    include_once(XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/language/english/main.php");
 }
-elseif ( file_exists( "../language/english/main.php" ) ) {
-    include "../language/english/main.php";
-}
+
 
 $myts = &MyTextSanitizer::getInstance();
 

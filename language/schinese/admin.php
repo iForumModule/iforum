@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.php,v 1.4 2005/05/15 12:25:54 phppp Exp $
+// $Id: admin.php,v 1.1.1.1 2005/10/19 15:58:31 phppp Exp $
 //%%%%%%	File Name  index.php   	%%%%%
 define("_AM_NEWBB_FORUMCONF","讨论区设置");
 define("_AM_NEWBB_ADDAFORUM","新建讨论区");
@@ -14,11 +14,11 @@ define("_AM_NEWBB_HELP","帮助");
 define("_AM_NEWBB_ABOUT","关于");
 define("_AM_NEWBB_BOARDSUMMARY","讨论区信息统计");
 define("_AM_NEWBB_PENDING_POSTS_FOR_AUTH","等待审核的帖子");
-define("_AM_NEWBB_POSTID","编号");
+define("_AM_NEWBB_POSTID","ID");
 define("_AM_NEWBB_POSTDATE","发贴日期");
 define("_AM_NEWBB_POSTER","发贴者");
 define("_AM_NEWBB_TOPICS","主题");
-define("_AM_NEWBB_SHORTSUMMARY","版块总结");
+define("_AM_NEWBB_SHORTSUMMARY","论坛统计");
 define("_AM_NEWBB_TOTALPOSTS","帖子总数");
 define("_AM_NEWBB_TOTALTOPICS","主题总数");
 define("_AM_NEWBB_TOTALVIEWS","人气总数");
@@ -87,7 +87,7 @@ define("_AM_NEWBB_DELETE","删除");
 define("_AM_NEWBB_ADD","添加");
 define("_AM_NEWBB_MOVE","移动");
 define("_AM_NEWBB_ORDER","排序");
-define("_AM_NEWBB_TWDAFAP","注意：这将会删除该讨论区和及其全部的内容。<br /><br />警告：你真的要删除此讨论区吗？");
+define("_AM_NEWBB_TWDAFAP","注意：这将会删除该讨论区和及其全部的内容。<br /><br />警告：确认要删除此讨论区？");
 define("_AM_NEWBB_FORUMREMOVED","讨论区删除完毕。");
 define("_AM_NEWBB_CREATENEWFORUM","添加新讨论区：");
 define("_AM_NEWBB_EDITTHISFORUM","讨论区设置:");
@@ -106,8 +106,8 @@ define("_AM_NEWBB_TOPICPERFORUM","讨论区每页显示的主题数:<span style='font-size:
 define("_AM_NEWBB_SHOWNAME","用真实姓名代替用户名：");
 define("_AM_NEWBB_SHOWICONSPANEL","显示图标：");
 define("_AM_NEWBB_SHOWSMILIESPANEL","显示表情符：");
-define("_AM_NEWBB_MODERATOR_REMOVE","删除现有版主");
-define("_AM_NEWBB_MODERATOR_ADD","添加版主");
+define("_AM_NEWBB_MODERATOR_REMOVE","删除现有板主");
+define("_AM_NEWBB_MODERATOR_ADD","添加板主");
 define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX", "允许使用主题前缀");
 define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX_DESC", "将会在标题前添加特定的说明前缀");
 
@@ -124,14 +124,14 @@ define("_AM_NEWBB_IMAGE","图标:");
 //define("_AM_NEWBB_SPONSORIMAGE","赞助者logo:");
 define("_AM_NEWBB_SPONSORLINK","赞助者网址:");
 define("_AM_NEWBB_DELCAT","删除类别");
-define("_AM_NEWBB_WAYSYWTDTTAL","注意：将会删除此类别的全部讨论区。必须在编辑讨论区内操作。<br /><br />警告：你真的要删除此类别吗？");
+define("_AM_NEWBB_WAYSYWTDTTAL","注意：将会删除此类别的全部讨论区。必须在编辑讨论区内操作。<br /><br />警告：确认删除此类别？");
 
 
 
 //%%%%%%        File Name  admin_forums.php           %%%%%
 define("_AM_NEWBB_FORUMNAME","讨论区名称：");
 define("_AM_NEWBB_FORUMDESCRIPTION","讨论区描述：");
-define("_AM_NEWBB_MODERATOR","版主设置：");
+define("_AM_NEWBB_MODERATOR","板主设置：");
 define("_AM_NEWBB_REMOVE","删除");
 define("_AM_NEWBB_CATEGORY","类别名称：");
 define("_AM_NEWBB_DATABASEERROR","数据库出错");
@@ -145,7 +145,7 @@ define("_AM_NEWBB_ACCESSLEVEL","访问权限:");
 define("_AM_NEWBB_CATEGORY1","类别名称");
 define("_AM_NEWBB_FORUMUPDATE","论坛设置被更新");
 define("_AM_NEWBB_FORUM_ERROR","错误：论坛设置错误。");
-define("_AM_NEWBB_CLICKBELOWSYNC","如果排序有问题请点击按钮，将刷新数据库.");
+define("_AM_NEWBB_CLICKBELOWSYNC","如果排序有问题请点击按钮，将更新数据库.");
 define("_AM_NEWBB_SYNCHING","正在同步重整讨论区主题及类别…… (可能时间会比较长，您可以稍微休息一下)");
 define("_AM_NEWBB_CATEGORYDELETED","类别删除完毕");
 define("_AM_NEWBB_MOVE2CAT","目标类别：");
@@ -168,7 +168,9 @@ define("_AM_NEWBB_SETFORUMORDER","设置论坛顺序");
 define("_AM_NEWBB_BOARDREORDER","论坛顺序已经更新。");
 
 // forum_access.php
-define("_AM_NEWBB_PERMISSIONS_TO_THIS_FORUM","论坛主题权限：");
+define("_AM_NEWBB_PERMISSIONS_TO_THIS_FORUM","论坛权限");
+define("_AM_NEWBB_CAT_ACCESS","类别权限");
+define("_AM_NEWBB_CAN_ACCESS","可以访问");
 define("_AM_NEWBB_CAN_VIEW","可以浏览");
 define("_AM_NEWBB_CAN_POST","可以发贴");
 define("_AM_NEWBB_CAN_REPLY","可以回复");
@@ -179,6 +181,16 @@ define("_AM_NEWBB_CAN_VOTE","可以投票");
 define("_AM_NEWBB_CAN_ATTACH","可以上传附件");
 define("_AM_NEWBB_CAN_NOAPPROVE","可以不经审核直接发贴");
 define("_AM_NEWBB_ACTION","操作");
+
+define("_AM_NEWBB_PERM_TEMPLATE","设置缺省权限模板");
+define("_AM_NEWBB_PERM_TEMPLATE_DESC","编辑下列权限模板从而可以方便的应用到某个/些论坛");
+define("_AM_NEWBB_PERM_FORUMS","选择论坛");
+define("_AM_NEWBB_PERM_TEMPLATE_CREATED","权限模板已生成");
+define("_AM_NEWBB_PERM_TEMPLATE_ERROR","建立权限模板时发生错误");
+define("_AM_NEWBB_PERM_TEMPLATEAPP","应用缺省权限模板");
+define("_AM_NEWBB_PERM_TEMPLATE_APPLIED","所选择的论坛已经采用缺省权限");
+define("_AM_NEWBB_PERM_ACTION","权限管理工具");
+define("_AM_NEWBB_PERM_SETBYGROUP","直接按群组设置权限");
 
 // admin_forum_prune.php
 
@@ -239,9 +251,7 @@ define('_AM_NEWBB_AUTHOR_WORD_EXTRA', "
 繁体中文版由<a href='http://cyai.net' target='_blank'>CHIA</a>制作:<br />
 ----chia (http://cyai.net) [繁体]<br /><br />
 如果您有什么建议, 功能要求或是bug报告，请访问<br />
-----Xoops China Sup:: <a href='http://xoops.org.cn' target='_blank'>http://xoops.org.cn</a><br />
-----Xoops China Dev:: <a href='http://dev.xoops.org.cn' target='_blank'>http://dev.xoops.org.cn</a><br />
-<br />
+----Xoops China Supp:: <a href='http://xoops.org.cn' target='_blank'>http://xoops.org.cn</a><br />
 ");
 
 // admin_report.php
@@ -278,6 +288,4 @@ define("_AM_NEWBB_VOTE_DISPLAYVOTES", "评分信息");
 define("_AM_NEWBB_VOTE_NOVOTES", "无用户评分可显示");
 define("_AM_NEWBB_VOTE_DELETE", "删除评分");
 define("_AM_NEWBB_VOTE_DELETEDSC", "<b>删除</b>选中的评分信息.");
-
-
 ?>

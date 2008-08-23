@@ -1,5 +1,5 @@
 <?php
-// $Id: header.php,v 1.7 2005/05/19 12:20:33 phppp Exp $
+// $Id: header.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -25,17 +25,14 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-include '../../mainfile.php';
-include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
-include XOOPS_ROOT_PATH.'/modules/newbb/include/vars.php';
+
+include_once '../../mainfile.php';
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/vars.php";
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/functions.php";
+@include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
+
 $myts =& MyTextSanitizer::getInstance();
 
-// MENU handler
-$valid_menumodes = array(
-	0 => _MD_MENU_SELECT,
-	1 => _MD_MENU_CLICK,
-	2 => _MD_MENU_HOVER
-	);
 // menumode cookie
 if(isset($_REQUEST['menumode'])){
 	$menumode = intval($_REQUEST['menumode']);
@@ -75,9 +72,23 @@ if($menumode==1){
 	';
 }
 $xoops_module_header = $newbb_module_header; // for cache hack
-$xoopsOption['xoops_module_header'] = $xoops_module_header;
-$xoopsOption['xoops_showrblock'] = 0;
-$xoopsOption['xoops_showlblock'] = 0;
+//$xoopsOption['xoops_module_header'] = $xoops_module_header;
+/*
+if(!empty($xoopsModuleConfig['pngforie_enabled'])){
+	$xTheme->addCSS(null,null,'img {behavior:url("include/pngbehavior.htc");}');
+}
+$xTheme->addJS(XOOPS_URL."/modules/".$xoopsModule->getVar("dirname")."/include/js/newbb_toggle.js");
+$xTheme->addJS(null, null, 'var toggle_cookie="'.$forumCookie['prefix'].'G'.'";');
+if($menumode==2){
+	$xTheme->addCSS(XOOPS_URL."/modules/".$xoopsModule->getVar("dirname")."/templates/newbb_menu_hover.css");
+	$xTheme->addCSS(null,null,'body {behavior:url("include/newbb.htc");}');
+}
+if($menumode==1){
+	$xTheme->addCSS(XOOPS_URL."/modules/".$xoopsModule->getVar("dirname")."/templates/newbb_menu_click.css");
+	$xTheme->addJS(XOOPS_URL."/modules/".$xoopsModule->getVar("dirname")."/include/js/newbb_menu_click.js");
+}
+$xoops_module_header = '<link rel="stylesheet" type="text/css" media="screen" href="'.XOOPS_URL."/modules/".$xoopsModule->getVar("dirname").'/templates/newbb.css" />';
+*/
 
 newbb_welcome();
 ?>

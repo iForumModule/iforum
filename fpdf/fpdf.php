@@ -1,4 +1,12 @@
 <?php
+// ------------------------------------------------------------------------ //
+// Author: phppp (D.J., infomax@gmail.com)                                  //
+// Desc: The fpdf package for Xoops was integrated by phppp originally for  //
+//       the Project NewBB 2 and used by other modules afterwards.          //
+//       If you have any improvement or bugfix, plz let me know to          //
+//       synchronize it                                                     //
+// ------------------------------------------------------------------------ //
+
 /*******************************************************************************
 * Software: FPDF                                                               *
 * Version:  1.53                                                               *

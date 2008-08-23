@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_forum_reorder.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
+// $Id: admin_forum_reorder.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -57,7 +57,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != "") {
     $cat = array();
 
     xoops_cp_header();
-    newbb_adminmenu(4, _AM_NEWBB_SETFORUMORDER);
+    loadModuleAdminMenu(6, _AM_NEWBB_SETFORUMORDER);
     echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_SETFORUMORDER . "</legend>";
     echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'>"
      . "<tr><td class='odd'>";

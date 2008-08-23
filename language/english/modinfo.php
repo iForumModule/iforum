@@ -1,5 +1,5 @@
 <?php
-// $Id: modinfo.php,v 1.7 2005/06/03 01:36:14 phppp Exp $
+// $Id: modinfo.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
@@ -11,8 +11,11 @@ define("_MI_NEWBB_NAME","CBB");
 define("_MI_NEWBB_DESC","XOOPS Community Bulletin Board");
 
 // Names of blocks for this module (Not all module has blocks)
-define("_MI_NEWBB_BNAME0","Recent Replied Topics");
-define("_MI_NEWBB_BNAME1","Recent Topics");
+define("_MI_NEWBB_BLOCK_TOPIC_POST","Recent Replied Topics");
+define("_MI_NEWBB_BLOCK_TOPIC","Recent Topics");
+define("_MI_NEWBB_BLOCK_POST","Recent Posts");
+define("_MI_NEWBB_BLOCK_AUTHOR","Authors");
+/*
 define("_MI_NEWBB_BNAME2","Most Viewed Topics");
 define("_MI_NEWBB_BNAME3","Most Active Topics");
 define("_MI_NEWBB_BNAME4","Newest Digest");
@@ -23,18 +26,20 @@ define("_MI_NEWBB_BNAME8","Authors with most posts");
 define("_MI_NEWBB_BNAME9","Authors with most digests");
 define("_MI_NEWBB_BNAME10","Authors with most sticky topics");
 define("_MI_NEWBB_BNAME11","Recent post with text");
+*/
 
 // Names of admin menu items
-define("_MI_NEWBB_ADMENU1","Index");
-define("_MI_NEWBB_ADMENU2","Categories");
-define("_MI_NEWBB_ADMENU3","Forums");
-define("_MI_NEWBB_ADMENU4","Sync forums");
-define("_MI_NEWBB_ADMENU5","Reorder");
-define("_MI_NEWBB_ADMENU6","Prune");
-define("_MI_NEWBB_ADMENU7","Reports");
-define("_MI_NEWBB_ADMENU8","Blocks");
-define("_MI_NEWBB_ADMENU9","Digest");
-define("_MI_NEWBB_ADMENU10","Votes");
+define("_MI_NEWBB_ADMENU_INDEX","Index");
+define("_MI_NEWBB_ADMENU_CATEGORY","Categories");
+define("_MI_NEWBB_ADMENU_FORUM","Forums");
+define("_MI_NEWBB_ADMENU_PERMISSION","Permissions");
+define("_MI_NEWBB_ADMENU_BLOCK","Blocks");
+define("_MI_NEWBB_ADMENU_ORDER","Order");
+define("_MI_NEWBB_ADMENU_SYNC","Sync forums");
+define("_MI_NEWBB_ADMENU_PRUNE","Prune");
+define("_MI_NEWBB_ADMENU_REPORT","Reports");
+define("_MI_NEWBB_ADMENU_DIGEST","Digest");
+define("_MI_NEWBB_ADMENU_VOTE","Votes");
 
 
 
@@ -45,6 +50,10 @@ define("_MI_DO_DEBUG_DESC","Dislay error message");
 
 define("_MI_IMG_SET","Image Set");
 define("_MI_IMG_SET_DESC","Select the Image Set to use");
+
+define("_MI_THEMESET", "Theme set");
+define("_MI_THEMESET_DESC", "Module-wide, select '"._NONE."' will use site-wide theme");
+
 define("_MI_DIR_ATTACHMENT","Attachments physical path.");
 define("_MI_DIR_ATTACHMENT_DESC","Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'");
 define("_MI_PATH_MAGICK","Path for ImageMagick");
@@ -84,10 +93,10 @@ define("_MI_REPLY","Reply");
 define("_MI_OP_BOTH","Both");
 define("_MI_WOL_ENABLE","Enable Who's Online");
 define("_MI_WOL_ENABLE_DESC","Enable Who's Online Block shown below the Index page and the Forum pages");
-define("_MI_WOL_ADMIN_COL","Administrator Highlight Color");
-define("_MI_WOL_ADMIN_COL_DESC","Highlight Color of the Administrators shown in the Who's Online Block");
-define("_MI_WOL_MOD_COL","Moderator Highlight Color");
-define("_MI_WOL_MOD_COL_DESC","Highlight Color of the Moderators shown in the Who's Online Block");
+//define("_MI_WOL_ADMIN_COL","Administrator Highlight Color");
+//define("_MI_WOL_ADMIN_COL_DESC","Highlight Color of the Administrators shown in the Who's Online Block");
+//define("_MI_WOL_MOD_COL","Moderator Highlight Color");
+//define("_MI_WOL_MOD_COL_DESC","Highlight Color of the Moderators shown in the Who's Online Block");
 //define("_MI_LEVELS_ENABLE", "Enable HP/MP/EXP Levels Mod");
 //define("_MI_LEVELS_ENABLE_DESC", "<strong>HP</strong>  is determined by your average posts per day.<br /><strong>MP</strong>  is determined by your join date related to your post count.<br /><strong>EXP</strong> goes up each time you post, and when you get to 100%, you gain a level and the EXP drops to 0 again.");
 define("_MI_NULL", "disable");
@@ -230,6 +239,12 @@ define("_MI_AUTO","AUTO");
 define("_MI_WELCOMEFORUM","Forum for welcoming new user");
 define("_MI_WELCOMEFORUM_DESC","A profile post will be published when a user visits Forum module for the first time");
 
+define("_MI_PERMCHECK_ONDISPLAY","Check permission");
+define("_MI_PERMCHECK_ONDISPLAY_DESC","Check permission for edit on display page");
+
+define("_MI_USERMODERATE","Enable user moderation");
+define("_MI_USERMODERATE_DESC","");
+
 
 // RMV-NOTIFY
 // Notification event descriptions and mail templates
@@ -278,4 +293,15 @@ define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Notify me of post digest.');
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Receive digest notification.');
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : post digest');
 
+// FOR installation
+define("_MI_NEWBB_INSTALL_CAT_TITLE", "Category Test");
+define("_MI_NEWBB_INSTALL_CAT_DESC", "Category for test.");
+define("_MI_NEWBB_INSTALL_FORUM_NAME", "Forum Test");
+define("_MI_NEWBB_INSTALL_FORUM_DESC", "Forum for test.");
+define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
+define("_MI_NEWBB_INSTALL_POST_TEXT", "
+	Welcome to ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." forum.<br />
+	Feel free to register and login to start your topics.<br /><br />
+	If you have any question concerning CBB usage, plz visit your local support site or <a href=\"http://xoopsforge.com/modules/newbb/\" target=\"_blank\" title=\"CBB @ XoopsForge\">CBB Module Site</a>.
+	");
 ?>

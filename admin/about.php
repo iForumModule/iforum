@@ -1,5 +1,5 @@
 <?php
-// $Id: about.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
+// $Id: about.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -37,7 +37,7 @@ xoops_cp_header();
 $module_handler =& xoops_gethandler('module');
 $versioninfo =& $module_handler->get($xoopsModule->getVar('mid'));
 
-newbb_adminmenu(-1, _AM_NEWBB_ABOUT . " " . $versioninfo->getInfo('name'));
+loadModuleAdminMenu(-1, _AM_NEWBB_ABOUT . " " . $versioninfo->getInfo('name'));
 
 // Left headings...
 echo "<img src='" . XOOPS_URL . "/modules/".$xoopsModule->dirname()."/" . $versioninfo->getInfo('image') . "' alt='' hspace='0' vspace='0' align='left' style='margin-right: 10px;' /></a>";

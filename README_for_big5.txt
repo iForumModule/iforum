@@ -1,1 +1,0 @@
-REFER TO readme-schinese.txt

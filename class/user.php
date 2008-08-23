@@ -1,5 +1,5 @@
 <?php
-// $Id: user.php,v 1.2 2005/05/19 12:21:45 phppp Exp $
+// $Id: user.php,v 1.1.1.2 2005/10/19 16:23:34 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -61,7 +61,7 @@ class User extends XoopsObject
     {
 	    global $xoopsModuleConfig, $forumUrl;
 	    $user =& $this->user;
-		$level =& get_user_level($user);
+		$level = get_user_level($user);
 		if($xoopsModuleConfig['user_level']==2){
 			$table = "<table class='userlevel'><tr><td class='end'><img src='" . $forumUrl['images_set'] . "/rpg/img_left.gif' alt='' /></td><td class='center' background='" . $forumUrl['images_set'] . "/rpg/img_backing.gif'><img src='" . $forumUrl['images_set'] . "/rpg/%s.gif' width='%d' alt='' /></td><td><img src='" . $forumUrl['images_set'] . "/rpg/img_right.gif' alt='' /></td></tr></table>";
 
@@ -84,13 +84,14 @@ class User extends XoopsObject
 	    global $xoopsModuleConfig, $myts;
 	    $userinfo=array();
 	    $user =& $this->user;
-		if ( !(is_object($user)) || !($user->isActive()) )	 return null;
+		if ( !(is_object($user)) || !($user->isActive()) )	 return array("name"=>$myts->HtmlSpecialChars($GLOBALS["xoopsConfig"]['anonymous']), "link"=>$myts->HtmlSpecialChars($GLOBALS["xoopsConfig"]['anonymous']));
 		$userinfo["uid"] = $user->getVar("uid");
 	    $name = $user->getVar('name');
 	    $name = (empty($xoopsModuleConfig['show_realname'])||empty($name))?$user->getVar('uname'):$name;
 		$userinfo["name"] = $name;
 		$userinfo["link"] = "<a href=\"".XOOPS_URL . "/userinfo.php?uid=" . $user->getVar("uid") ."\">".$name."</a>";
-		$userinfo["avatar"] = (is_file(XOOPS_UPLOAD_PATH."/".$user->getVar('user_avatar')))?$user->getVar('user_avatar'):"";
+		//$userinfo["avatar"] = (is_file(XOOPS_UPLOAD_PATH."/".$user->getVar('user_avatar')))?$user->getVar('user_avatar'):"";
+		$userinfo["avatar"] = $user->getVar('user_avatar');
 		$userinfo["from"] = $user->getVar('user_from');
 		$userinfo["regdate"] = newbb_formatTimestamp($user->getVar('user_regdate'), 'reg');
 		$userinfo["posts"] = $user->getVar('posts');
@@ -98,14 +99,16 @@ class User extends XoopsObject
 		if(!empty($xoopsModuleConfig['user_level'])){
 			$userinfo["level"] = $this->getLevel();
 		}
+		/*
 		if(!empty($xoopsModuleConfig['userbar_enabled'])){
 			$userinfo["userbar"] =& $this->getUserbar();
 		}
+		*/
 
-		$rank =& $user->rank();
+		$rank = newbb_getrank($user->getVar("rank"), $user->getVar("posts"));
 		$userinfo['rank']["title"] = $rank['title'];
-	    if (is_file(XOOPS_UPLOAD_PATH."/".$rank['image'])) {
-	        $userinfo['rank']['image'] = "<img src='" . XOOPS_UPLOAD_URL . "/" . $rank['image'] . "' alt='' />";
+	    if (!empty($rank['image'])) {
+	        $userinfo['rank']['image'] = "<img src='" . XOOPS_UPLOAD_URL . "/" . htmlspecialchars($rank['image'], ENT_QUOTES) . "' alt='' />";
 	    }
 	    if ($user->attachsig()) {
 	        //$userinfo["signature"] = $myts->displayTarea($user->getVar("user_sig", "N"), 0, 1, 1);
@@ -130,8 +133,8 @@ class NewbbUserHandler extends XoopsObjectHandler
     	}else{
         	$user = new User($this->users[$uid]);
     	}
-        $userinfo =& $user->getInfo();
-		if($xoopsModuleConfig['groupbar_enabled']){
+        $userinfo = $user->getInfo();
+		if($xoopsModuleConfig['groupbar_enabled'] && !empty($userinfo["groups_id"])){
 			foreach($userinfo["groups_id"] as $id){
 				if(isset($this->groups[$id])) $userinfo['groups'][] = $this->groups[$id];
 			}
@@ -146,6 +149,10 @@ class NewbbUserHandler extends XoopsObjectHandler
 
     function setUsers(&$users)
     {
+	    $groups = newbb_getGroupsByUser(array_keys($users));
+	    foreach(array_keys($users) as $uid){
+		    $users[$uid]->setGroups(@$groups[$uid]);
+	    }
 	    $this->users = &$users;
     }
 

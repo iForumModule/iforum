@@ -1,5 +1,5 @@
 <?php
-// $Id: index.php,v 1.7 2005/05/20 16:40:22 phppp Exp $
+// $Id: index.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -31,6 +31,7 @@
 
 include "header.php";
 
+/* deal with marks */
 if (isset($_GET['mark_read'])){
     $result = $xoopsDB->query("SELECT forum_id FROM ".$xoopsDB->prefix("bb_forums"));
     $forum_lastview = newbb_getcookie('LF',true);
@@ -52,29 +53,45 @@ if (isset($_GET['mark_read'])){
     redirect_header($url,2, _MD_ALL_FORUM_MARKED.' '.$markresult);
 }
 
+/* rss feed */
+if(!empty($xoopsModuleConfig['rss_enable'])){
+	$xoops_module_header .= '
+	<link rel="alternate" type="application/rss+xml" title="'.$xoopsModule->getVar('name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />
+	';
+}
+
 $xoopsOption['template_main']= 'newbb_index.html';
+$xoopsOption['xoops_module_header']= $xoops_module_header;
 include XOOPS_ROOT_PATH."/header.php";
-$xoopsTpl->assign('xoops_module_header', $newbb_module_header);
+
+$xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
 	$online_handler->init();
     $xoopsTpl->assign('online', $online_handler->show_online());
-    $xoopsTpl->assign('color_admin', $xoopsModuleConfig['wol_admin_col']);
-    $xoopsTpl->assign('color_mod', $xoopsModuleConfig['wol_mod_col']);
 }
 
-$xoopsTpl->assign(array("lang_welcomemsg" => sprintf(_MD_WELCOME, htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)), "total_topics" => get_total_topics(), "total_posts" => get_total_posts(0, 'all'), "lang_lastvisit" => sprintf(_MD_LASTVISIT,formatTimestamp($last_visit)), "lang_currenttime" => sprintf(_MD_TIMENOW,formatTimestamp(time(),"m"))));
+/* display forum stats */
+$xoopsTpl->assign(array(
+	"lang_welcomemsg" => sprintf(_MD_WELCOME, htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)), 
+	"total_topics" => get_total_topics(), 
+	"total_posts" => get_total_posts(0, 'all'), 
+	"lang_lastvisit" => sprintf(_MD_LASTVISIT,formatTimestamp($last_visit)), 
+	"lang_currenttime" => sprintf(_MD_TIMENOW,formatTimestamp(time(),"m"))));
 
 $viewcat = (!empty($_GET['cat'])) ? intval($_GET['cat']) : 0;
 $category_handler =& xoops_getmodulehandler('category', 'newbb');
 
 if (!$viewcat) {
-    $categories =& $category_handler->getAllCats("access");
+	$categories = $category_handler->getAllCats('access', true);
+    //$categories =& $category_handler->getAllCats("access");
     $xoopsTpl->assign('forum_index_title', '');
 }
 else {
     $cat =& $category_handler->get($viewcat);
-	if($category_handler->getPermission($cat)) $categories = array($cat);
+	if($category_handler->getPermission($cat)) {
+		$categories[$viewcat] =& $cat;
+	}
 	else $categories = array();
     $xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
 }
@@ -83,37 +100,58 @@ if(count($categories) == 0){
     exit();
 }
 
-/* TODO for ADMIN_CP
-$report_handler =& xoops_getmodulehandler('report', 'newbb');
-$xoopsTpl->assign('report_pending', $report_handler->getReportCount(0));
-*/
-
 $last_posts = $category_handler->getLatestPosts($viewcat);
-$forums = $category_handler->getForums($viewcat, "access");
+$forums = $category_handler->getForums(array_keys($categories), "access");
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 
 $forums_array = array();
-foreach ($forums as $forumid => $forum) {
-    $forum_data = $last_posts[$forumid];
-	$forum_desc = $myts->undoHtmlSpecialChars($forum->getVar('forum_desc'));
+$users = array();
+foreach (array_keys($last_posts) as $id) {
+	$users[] = $last_posts[$id]["uid"];
+}
+foreach (array_keys($forums) as $id) {
+	$users = array_merge($users, $forums[$id]->getModerators());
+}
+$users_linked = newbb_getUnameFromIds(array_unique($users), !empty($xoopsModuleConfig['show_realname']), true);
+
+foreach (array_keys($forums) as $id) {
+	$forum =& $forums[$id];
+	$last_posts[$id]["lastpost_user"] = @$users_linked[$last_posts[$id]["uid"]];
+	if(empty($last_posts[$id]["lastpost_user"]) && !empty($last_posts[$id]["poster_name"])){
+		$last_posts[$id]["lastpost_user"] = $myts->htmlSpecialChars($last_posts[$id]["poster_name"]);
+	}
+	if(empty($last_posts[$id]["lastpost_user"])){
+		$last_posts[$id]["lastpost_user"] = $myts->htmlSpecialChars($GLOBALS["xoopsConfig"]["anonymous"]);
+	}
+
+    $forum_data = $last_posts[$id];
+	$forum_desc = $forum->getVar('forum_desc');
+	$forum_desc = $myts->undoHtmlSpecialChars($forum_desc);
+	$forum_moderators = array();
+	$moderators = $forum->getModerators();
+	foreach($moderators as $moderator){
+		$forum_moderators[] = @$users_linked[$moderator];
+	}
     $forums_array[$forum->getVar('parent_forum')][] = array_merge(
 	    array(
 	    	'forum_order' => $forum->getVar('forum_order'),
-		    'forum_id' => $forumid,
+		    'forum_id' => $id,
 		    'forum_cid' => $forum->getVar('cat_id'),
 		    'forum_name' => $forum->getVar('forum_name'),
-		    'forum_desc' => $myts->displayTarea($forum_desc, 1),
+		    'forum_desc' => $forum->getVar('forum_desc'),
 		    'forum_posts' => $forum->getVar("forum_posts"),
 		    'forum_topics' => $forum->getVar("forum_topics"),
 		    'forum_type' => $forum->getVar('forum_type')
 		),
 		$forum->disp_forumIndex($forum_data),
 		array(
-		    'forum_moderators' => $forum->disp_forumModerators()
+		    //'forum_moderators' => $forum->disp_forumModerators()
+		    'forum_moderators' => implode(", ", $forum_moderators)
 		)
 	);
 }
 unset($forums);
+
 if(count($forums_array)>0){
     foreach ($forums_array[0] as $parent => $forum) {
         if (isset($forums_array[$forum['forum_id']])) {
@@ -126,9 +164,11 @@ if(count($forums_array)>0){
 $category_array = array();
 $cat_order = array();
 $toggles = newbb_getcookie('G', true);
-foreach($categories as $onecat){
+foreach(array_keys($categories) as $id){
     $forums = array();
 
+    $onecat =& $categories[$id];
+    
     $catid="cat_".$onecat->getVar('cat_id');
 	$catshow = (count($toggles)>0)?((in_array($catid, $toggles)) ? false : true):true;
 
@@ -139,7 +179,11 @@ foreach($categories as $onecat){
         $forums = $forumsByCat[$onecat->getVar('cat_id')];
     }
 
-	$cat_description = ($onecat->getVar('cat_showdescript'))?$myts->undoHtmlSpecialChars($onecat->getVar('cat_description')):'';
+    $cat_description = "";
+	if($onecat->getVar('cat_showdescript')){
+		$cat_description = $onecat->getVar('cat_description');
+		$cat_description = $myts->undoHtmlSpecialChars($cat_description);
+	}
 	$cat_sponsor = array();
     @list($url, $title) = array_map("trim",preg_split("/ /", $onecat->getVar('cat_url'), 2));
     if(empty($title)) $title = $url;
@@ -186,13 +230,23 @@ $xoopsTpl->assign('down',newbb_displayImage($forumImage['doubledown']));
 $xoopsTpl->assign('menumode',$menumode);
 $xoopsTpl->assign('menumode_other',$menumode_other);
 
-if ( is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid()) ) {
+$isadmin = newbb_isAdmin();
+$xoopsTpl->assign('viewer_level', ($isadmin)?2:(is_object($xoopsUser)?1:0) );
+$mode = (!empty($_GET['mode'])) ? intval($_GET['mode']) : 0;
+$xoopsTpl->assign('mode', $mode );
+
+$xoopsTpl->assign('viewcat', $viewcat);
+$xoopsTpl->assign('version', $xoopsModule->getVar("version"));
+
+/* To be removed */
+if ( $isadmin ) {
     $xoopsTpl->assign('forum_index_cpanel',array("link"=>"admin/index.php", "name"=>_MD_ADMINCP));
 }
 
 if ($xoopsModuleConfig['rss_enable'] == 1) {
     $xoopsTpl->assign("rss_enable",1);
-    $xoopsTpl->assign("rss_button","<div align='right'><a href='".XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/rss.php?c=".$viewcat."' title='RSS feed' target='_blank'>".newbb_displayImage($forumImage['rss'])."</a></div>");
+    //$xoopsTpl->assign("rss_button","<a href='".XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/rss.php?c=".$viewcat."' title='RSS feed' target='_blank'>".newbb_displayImage($forumImage['rss'])."</a>");
+    $xoopsTpl->assign("rss_button", newbb_displayImage($forumImage['rss'], 'RSS feed'));
 }
 $xoopsTpl->assign(array(
 	"img_hotfolder" => newbb_displayImage($forumImage['newposts_forum']),
@@ -201,5 +255,4 @@ $xoopsTpl->assign(array(
 	"img_locked_newposts" => newbb_displayImage($forumImage['locked_forum_newposts']),
 	'img_subforum' => newbb_displayImage($forumImage['subforum'])));
 include_once XOOPS_ROOT_PATH.'/footer.php';
-
 ?>

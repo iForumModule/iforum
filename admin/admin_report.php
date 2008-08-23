@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_report.php,v 1.4 2005/04/18 01:22:27 phppp Exp $
+// $Id: admin_report.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -81,7 +81,7 @@ switch($op){
 		}
 
 		$limit = 10;
-		newbb_adminmenu(6,_AM_NEWBB_REPORTADMIN);
+		loadModuleAdminMenu(8,_AM_NEWBB_REPORTADMIN);
 		echo "<fieldset><legend style='font-weight: bold; color: #900;'>" .  _AM_NEWBB_REPORTADMIN . "</legend>";
 		echo"<br />";
 		echo "<a style='border: 1px solid #5E5D63; color: #000000; font-family: verdana, tahoma, arial, helvetica, sans-serif; font-size: 1em; padding: 4px 8px; text-align:center;' href=\"admin_report.php?item=$item_other\">".$title_other."</a><br /><br />";

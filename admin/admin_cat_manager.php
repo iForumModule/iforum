@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_cat_manager.php,v 1.6 2005/05/25 00:59:32 phppp Exp $
+// $Id: admin_cat_manager.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 // ------------------------------------------------------------------------ //
 // XOOPS - PHP Content Management System                      //
 // Copyright (c) 2000 XOOPS.org                           //
@@ -77,22 +77,10 @@ function editCategory($cat_id = 0)
         $fc->setVar('cat_image', 'blank.gif');
         $fc->setVar('cat_description', '');
         $fc->setVar('cat_order', 0);
-        $fc->setVar('cat_state', 0);
+        //$fc->setVar('cat_state', 0);
         $fc->setVar('cat_showdescript', 1);
         $fc->setVar('cat_url', 'http://www.xoops.org XOOPS');
     }
-    // READ PERMISSIONS
-    $member_handler = &xoops_gethandler('member');
-    $group_list = &$member_handler->getGroupList();
-
-    $gperm_handler = &xoops_gethandler('groupperm');
-    $groups_cat_access = ($cat_id)?$gperm_handler->getGroupIds('forum_cat_access', $cat_id, $xoopsModule->getVar('mid')):array_keys($group_list);
-
-    $groups_cat_access_checkbox = new XoopsFormCheckBox(_AM_NEWBB_ACCESSLEVEL, 'groups_cat_access[]', $groups_cat_access);
-    foreach ($group_list as $group_id => $group_name) {
-        $groups_cat_access_checkbox->addOption($group_id, $group_name);
-    }
-    $sform->addElement($groups_cat_access_checkbox);
 
     $sform->addElement(new XoopsFormText(_AM_NEWBB_SETCATEGORYORDER, 'cat_order', 5, 10, $fc->getVar('cat_order')), false);
     $sform->addElement(new XoopsFormText(_AM_NEWBB_CATEGORY, 'title', 50, 80, $fc->getVar('cat_title', 'E')), true);
@@ -141,7 +129,7 @@ switch ($op) {
     case "manage":
         $categories =& $category_handler->getAllCats();
         if (count($categories)==0) {
-            newbb_adminmenu(1, _AM_NEWBB_CREATENEWCATEGORY);
+            loadModuleAdminMenu(1, _AM_NEWBB_CREATENEWCATEGORY);
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
             echo "<br />";
             newCategory();
@@ -150,7 +138,7 @@ switch ($op) {
             break;
         }
 
-        newbb_adminmenu(1, _AM_NEWBB_CATADMIN);
+        loadModuleAdminMenu(1, _AM_NEWBB_CATADMIN);
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CATADMIN . "</legend>";
         echo"<br />";
         echo "<a style='border: 1px solid #5E5D63; color: #000000; font-family: verdana, tahoma, arial, helvetica, sans-serif; font-size: 1em; padding: 4px 8px; text-align:center;' href='admin_cat_manager.php'>" . _AM_NEWBB_CREATENEWCATEGORY . "</a><br /><br />";
@@ -158,25 +146,28 @@ switch ($op) {
         echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
         echo "<tr align='center'>";
         echo "<td class='bg3'>" . _AM_NEWBB_CATEGORY1 . "</td>";
-        echo "<td class='bg3'>" . _AM_NEWBB_STATE . "</td>";
-        echo "<td class='bg3'>" . _AM_NEWBB_EDIT . "</td>";
-        echo "<td class='bg3'>" . _AM_NEWBB_DELETE . "</td>";
+        //echo "<td class='bg3' width='10%'>" . _AM_NEWBB_STATE . "</td>";
+        echo "<td class='bg3' width='10%'>" . _AM_NEWBB_EDIT . "</td>";
+        echo "<td class='bg3' width='10%'>" . _AM_NEWBB_DELETE . "</td>";
         echo "</tr>";
 
         foreach($categories as $key => $onecat) {
+	        /*
             if (!$onecat->getVar('cat_state')) {
                 $status = _AM_NEWBB_ACTIVE;
             } else {
                 $status = _AM_NEWBB_INACTIVE;
             }
+            */
+            //$status = _AM_NEWBB_ACTIVE;
             $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&cat_id=" . $onecat->getVar('cat_id') . "\">".newbb_displayImage($forumImage['edit'], _EDIT)."</a>";
             $cat_del_link = "<a href=\"admin_cat_manager.php?op=del&cat_id=" . $onecat->getVar('cat_id') . "\">".newbb_displayImage($forumImage['delete'], _DELETE)."</a>";
 
             echo "<tr class='odd' align='left'>";
-            echo "<td width='60%'>" . $onecat->textLink() . "</td>";
-            echo "<td width='10%' align='center'>" . $status . "</td>";
-            echo "<td width='10%' align='center'>" . $cat_edit_link . "</td>";
-            echo "<td width='10%' align='center'>" . $cat_del_link . "</td>";
+            echo "<td>" . $onecat->textLink() . "</td>";
+            //echo "<td align='center'>" . $status . "</td>";
+            echo "<td align='center'>" . $cat_edit_link . "</td>";
+            echo "<td align='center'>" . $cat_del_link . "</td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -185,7 +176,7 @@ switch ($op) {
 
     case "mod":
         $fc = &$category_handler->get($cat_id);
-        newbb_adminmenu(1, _AM_NEWBB_EDITCATEGORY . $fc->getVar('cat_title'));
+        loadModuleAdminMenu(1, _AM_NEWBB_EDITCATEGORY . $fc->getVar('cat_title'));
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITCATEGORY . "</legend>";
         echo"<br />";
 
@@ -221,20 +212,26 @@ switch ($op) {
         $fc->setVar('cat_image', $_POST['indeximage']);
         $fc->setVar('cat_order', $_POST['cat_order']);
         $fc->setVar('cat_description', @$_POST['catdescript']);
-        $fc->setVar('cat_state', $_POST['state']);
+        //$fc->setVar('cat_state', $_POST['state']);
         $fc->setVar('cat_url', @$_POST['sponurl']);
         $fc->setVar('cat_showdescript', @$_POST['show']);
-        $fc->groups_cat_access = @$_POST['groups_cat_access'];
 
         if (!$category_handler->insert($fc)) {
             $message = _AM_NEWBB_DATABASEERROR;
+        }
+        if($cat_id=$fc->getVar("cat_id") && $fc->isNew()){
+		    $gperm_handler =& xoops_gethandler("groupperm");
+		    $group_list = array(XOOPS_GROUP_ADMIN, XOOPS_GROUP_USERS, XOOPS_GROUP_ANONYMOUS);
+		    foreach ($group_list as $group_id) {
+		        $gperm_handler->addRight("category_access", $cat_id, $group_id, $xoopsModule->getVar("mid"));
+	        }
         }
         redirect_header("admin_cat_manager.php", 2, $message);
         exit();
 
     case "default":
     default:
-        newbb_adminmenu(1, _AM_NEWBB_CREATENEWCATEGORY);
+        loadModuleAdminMenu(1, _AM_NEWBB_CREATENEWCATEGORY);
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
         echo "<br />";
         newCategory();

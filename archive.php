@@ -1,5 +1,5 @@
 <?php
-// $Id: archive.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
+// $Id: archive.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -64,7 +64,8 @@ if ($forum > 0 && $topic_id > 0)
 	{
 		redirect_header('archive.php',2,_MD_NORIGHTTOACCESS);
 		die();
-	}*/
+	}
+	*/
 	display_topic($forum, $topic_id, $content_only);
 }
 

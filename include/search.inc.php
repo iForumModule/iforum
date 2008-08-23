@@ -1,5 +1,5 @@
 <?php
-// $Id: search.inc.php,v 1.5 2005/04/18 01:36:03 phppp Exp $
+// $Id: search.inc.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -28,7 +28,7 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+require_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
 
 function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 0, $sortby = 0, $searchin = "both", $subquery = "")
 {
@@ -161,7 +161,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 
 	if(!isset($newbbConfig)){
 		$config_handler =& xoops_gethandler('config');
-		$newbbConfig =& $config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
+		$newbbConfig = $config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
 	}
 
 	$count = count($ret);

@@ -1,5 +1,5 @@
 <?php
-// $Id: print.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
+// $Id: print.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -25,39 +25,49 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+error_reporting(0);
 include 'header.php';
-$form = isset($_GET['form']) ? intval($_GET['form']) : 0;
+error_reporting(0);
+
+if(empty($_POST["post_data"])){
+	
 $forum = isset($_GET['forum']) ? intval($_GET['forum']) : 0;
 $topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) : 0;
 $post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) : 0;
-$start = !empty($_GET['start']) ? intval($_GET['start']) : 0;
-if (isset($_GET['order']) && ($_GET['order'] == 'ASC' || $_GET['order'] == 'DESC')) {
-    $order = $_GET['order'];
-}
 
-if ( !$topic_id && !$post_id ) die(_MD_ERRORTOPIC);
+if ( empty($post_id) && empty($topic_id) )  die(_MD_ERRORTOPIC);
+
+if(!empty($post_id)){
+	$post_handler =& xoops_getmodulehandler('post', 'newbb');
+	$post = & $post_handler->get($post_id);
+	if(!$approved = $post->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
+	$topic_id = $post->getVar("topic_id");
+	$post_data = $post_handler->getPostForPrint($post);
+	$isPost = 1;
+	$post_data["url"] = XOOPS_URL."/newbb/viewtopic.php?topic_id=".$post->getVar("topic_id")."&amp;post_id=".$post_id;
+}
 
 $topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-if ( isset($post_id) && $post_id != "" ) {
-    $forumtopic =& $topic_handler->getByPost($post_id);
-} else {
-    $forumtopic =& $topic_handler->get($topic_id);
-}
-if(!$forumtopic->getVar('approved'))   die(_MD_NORIGHTTOVIEW);
-
-$forum = ($forum)?$forum:$forumtopic->getVar('forum_id');
+$forumtopic =& $topic_handler->getByPost($post_id);
+$topic_id = $forumtopic->getVar('topic_id');
+$forum = $forumtopic->getVar('forum_id');
+if(!$approved = $forumtopic->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
 
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$forum = $forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
-if (!$forum_handler->getPermission($viewtopic_forum)) die(_MD_NORIGHTTOACCESS);
-if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))  die(_MD_NORIGHTTOVIEW);
-if ( empty($forum) ) die(_MD_ERRORFORUM);
-if ( empty($topic_id) ) die(_MD_ERRORTOPIC);
-if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOACCESS);
+if (!$forum_handler->getPermission($viewtopic_forum))    die(_MD_NORIGHTTOACCESS);
+if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOVIEW);
+if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_MD_FORUMNOEXIST);
 
-function PrintPage($topic_id, $forum_id, $start=0, $order = '')
-{
-	global $xoopsConfig, $xoopsModuleConfig, $forumtopic;
+}else{
+	$post_data = unserialize(base64_decode($_POST["post_data"]));
+	$isPost = 1;
+}
+
+header('Content-Type: text/html; charset='._CHARSET); 
+
+if(empty($isPost)){
 
 	echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n";
     echo "<html>\n<head>\n";
@@ -75,14 +85,12 @@ function PrintPage($topic_id, $forum_id, $start=0, $order = '')
 		  <br />
 		  ";
 
-	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-    $postsArray = $topic_handler->getAllPosts($forumtopic, $order, $xoopsModuleConfig['posts_per_page'], $start);
-	$post_handler =& xoops_getmodulehandler('post', 'newbb');
+    $postsArray = $topic_handler->getAllPosts($forumtopic);
     foreach ($postsArray as $post) {
 		if(!$post->getVar('approved'))    continue;
 		$post_data = $post_handler->getPostForPrint($post);
 		echo "<h2 style='margin: 0;'>".$post_data['subject']."</h2>
- 	          <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".formatTimestamp($post_data['date'])."</div>
+ 	          <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".$post_data['date']."</div>
 		      <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
 		      <div style='text-align: left'>".$post_data['text']."</div>
 		      <div style='padding-top: 12px; border-top: 2px solid #ccc;'></div><br />";
@@ -90,16 +98,8 @@ function PrintPage($topic_id, $forum_id, $start=0, $order = '')
 	echo "<p>"._MD_COMEFROM . "&nbsp;".XOOPS_URL."/newbb/viewtopic.php?forum=".$forum_id."&amp;topic_id=".$topic_id."</p>";
 	echo "</div></div>";
 	echo "</body></html>";
-}
-
-function PrintPost($post_id, $topic_id, $forum_id)
-{
-	global $xoopsConfig;
-
-	$post_handler =& xoops_getmodulehandler('post', 'newbb');
-	$post = & $post_handler->get($post_id);
-	if(!$approved = $post->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
-	$post_data = $post_handler->getPostForPrint($post);
+	
+}else{
 
 	echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n";
     echo "<html>\n<head>\n";
@@ -108,26 +108,20 @@ function PrintPost($post_id, $topic_id, $forum_id)
     echo "<meta name='AUTHOR' content='" . $xoopsConfig['sitename'] . "' />\n";
     echo "<meta name='COPYRIGHT' content='Copyright (c) ".date('Y')." by " . $xoopsConfig['sitename'] . "' />\n";
     echo "<meta name='DESCRIPTION' content='" . $xoopsConfig['slogan'] . "' />\n";
-    echo "<meta name='GENERATOR' content='" . XOOPS_VERSION . "' />\n\n\n";
+    echo "<meta name='GENERATOR' content='" . XOOPS_VERSION . "' />\n";
+    echo "</head>\n\n\n";
     echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
  		  <div style='width: 750px; border: 1px solid #000; padding: 20px;'>
  		  <div style='text-align: center; display: block; margin: 0 0 6px 0;'>
 	      <img src='" . XOOPS_URL . "/modules/newbb/images/xoopsbb_slogo.png' border='0' alt='' />
 	      <h2 style='margin: 0;'>".$post_data['subject']."</h2></div>
- 	      <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".formatTimestamp($post_data['date'])."</div>
+ 	      <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".$post_data['date']."</div>
 		  <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
 		   	<div style='text-align: left'>".$post_data['text']."</div>
 			<div style='padding-top: 12px; border-top: 2px solid #ccc;'></div>
-			<p>"._MD_COMEFROM . "&nbsp;".XOOPS_URL."/newbb/viewtopic.php?forum=".$forum_id."&amp;topic_id=".$topic_id."&amp;post_id=".$post_id."</p>
+			<p>"._MD_COMEFROM . "&nbsp;".$post_data["url"]."</p>
 		    </div>
             <br />";
 	echo "<br /></body></html>";
-}
-
-if ($form == 1){
-	PrintPage($topic_id, $forum, $start, $order);
-}
-if ($form == 2){
-	PrintPost($post_id, $topic_id, $forum);
 }
 ?>

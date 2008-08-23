@@ -2,14 +2,60 @@ CBB
 
 XOOPS Community Bulletin Board
 
-Changelog 1.16
-==============
-DB query optimization and speed enhancement (partially) 
+Changelog 3.0
+Feb 14th, 2006 
+=============
+Fixed bugs in class forum, category
+
+Changelog 3.0 RC2
+Feb 10th, 2006 
+=============
+Fixed bugs in user select
+Fixed bugs in permission management
+
+Changelog 3.0 RC1
+Jan 29th, 2006 
+=============
+Compatible with XOOPS 2.0, 2.2, 2.3
+
+
+Changelog 2.32
+=============
+1 DB query optimization
+
+
+Changelog 2.31
+=============
+1 bugfixes
+2 speed improvement
+
+
+Changelog 2.3
+=============
+1 moderator accessible distributed batch threads/posts management (approval, edit, move, delete, merge, split)
+2 moderator accessible distributed user/IP suspension management
+3 trashcan implemented
+4 user-based post search and management
+5 plugable module bridging handler implemented
+
+
+Changelog 2.2
+=============
+1 block/profile/css/adminmenu/encoding related content upgraded to XOOPS 2.2
+2 XOOPS editor framework implemented
+3 permission management separated from forum/category and default permission set and management added
+4 category/forum creation on module installation
+5 send PM with quoted post content
+6 embedded upgrade: any version of newbb/cbb could be updated to up-to-date CBB by updating module
+7 forum queries in xoops_version.php moved to save db query
+8 change relative path to full path for some images
+9 change forum list in jumpbox and topicmanager to a more clear style
+10 moderator management merged into forum admin form with xoopsuserselect form
 
 
 Changelog 1.15
 ==============
-Security bugfix 
+1 fix for aged security problem (XSS)
 
 
 Changelog 1.14
@@ -95,49 +141,3 @@ Major new features ( most suggested by XOOPS CHINA users)
 8 new page: view all posts, view new posts since last visit
 9 "New member": an introduction thead will be posted automatically when a user logs on for the first time (if enabled)
 10 adding dobr parameter
-
-
-CBB
-SITE: HTTP://XOOPS.ORG.CN
-DEMO: HTTP://XOOPS.ORG.CN
-SUPP: http://xoops.org.cn/modules/newbb/viewforum.php?forum=17
-
-Appendix
-1 Dropdown menu color configuration: adding dropdown menu color to theme/style.css as following:
-/* color -- dropdown menu for Forum */
-div.dropdown a, div.dropdown .menubar a{
-	color:#FFF;
-}
-
-div.dropdown .menu, div.dropdown .menubar, div.dropdown .item, div.dropdown .separator{
-	background-color: #2F5376; /* color set in your theme/style.ss .th{} is recommended */
-	color:#FFF;
-}
-
-div.dropdown .separator{
-	border: 1px inset #e0e0e0;
-}
-
-div.dropdown .menu a:hover, div.dropdown .userbar a:hover{
-	color: #333;
-}
-/* color - end */
-
-2 Fix for "right-to-left" themes (Arabic, Persian and more): adding to theme/style.css as following:
-
-/* direction -- for rtl */
-div.dropdown ul, div.dropdown .userbar{
-	direction: ltr;
-}
-
-div.dropdown li ul {
-	left: -150px !important; /* for IE, tune the value if necessary */
-}
-div.dropdown li>ul { 
-	left: -1px !important; /* for non-IE, tune the value if necessary */
-}
-
-div.dropdown .userbar{
-	float: right !important;  /* need a more formal solution, any help would be appreciated */
-}
-/* direction fix end */

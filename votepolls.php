@@ -1,5 +1,5 @@
 <?php
-// $Id: votepolls.php,v 1.4 2005/04/18 01:22:26 phppp Exp $
+// $Id: votepolls.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -47,6 +47,12 @@ if ( !empty($_POST['forum']) ) {
 	$forum = intval($_POST['forum']);
 } elseif (!empty($_GET['forum'])) {
 	$forum = intval($_GET['forum']);
+}
+
+$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$topic_obj =& $topic_handler->get($topic_id);
+if (!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "vote")){
+    	redirect_header("javascript:history.go(-1);", 2, _NOPERM);
 }
 
 if ( !empty($_POST['option_id']) ) {

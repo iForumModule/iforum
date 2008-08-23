@@ -1,5 +1,5 @@
 <?php
-// $Id: english.php,v 1.2 2005/04/18 01:22:29 phppp Exp $
+// $Id: english.php,v 1.1.1.1 2005/10/19 15:58:20 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -148,6 +148,7 @@ class PDF_language extends FPDF
 	{
 		// some conversion goes here
 		// refer to schinese.php for example
+		$text =& XoopsLocal::convert_encoding($text, $out_charset, $in_charset);
 	}
 }
 ?>

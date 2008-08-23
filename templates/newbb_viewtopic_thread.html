@@ -12,7 +12,7 @@
 <{/if}>
 </div>
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <{if $online}>
 <div style="padding: 5px;">
@@ -29,7 +29,7 @@
 <{if $online.num_anonymous}>&nbsp;<{$online.num_anonymous}> <{$smarty.const._MD_ANONYMOUS_USERS}>
 <{/if}>
 </div>
-<br clear="all" />
+<br style="clear:both;" />
 <{/if}>
 
 <{if $topic_poll}>
@@ -37,7 +37,7 @@
 <{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}>
 <{/if}>
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <div style="float: left; text-align:left;">
 <a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEXTTOPIC}></a>
@@ -46,7 +46,7 @@
 <{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}>
 </div>
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <div>
 <div class="dropdown">
@@ -58,7 +58,7 @@
 		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
 	>
 		<option value=""><{$smarty.const._MD_TOPICOPTION}></option>
-		<{if $viewer_is_admin == true}>
+		<{if $viewer_level gt 1}>
 		<{foreach item=act from=$admin_actions}>
 		<option value="<{$act.link}>"><{$act.name}></option>
 		<{/foreach}>
@@ -109,7 +109,7 @@
 
 	<div id="topicoption" class="menu">
 	<table><tr><td>
-		<{if $viewer_is_admin == true}>
+		<{if $viewer_level gt 1}>
 		<{foreach item=act from=$admin_actions}>
 		<a class="item" href="<{$act.link}>"><{$act.name}></a>
 		<{/foreach}>
@@ -196,7 +196,7 @@
 				<ul>
 				<li><table><tr><td>
 					<div class="item"><a href="<{$topic_print_link}>" target="_blank" ><{$smarty.const._MD_PRINTTOPICS}></a></div>
-					<{if $viewer_is_admin == true}>
+					<{if $viewer_level gt 1}>
 					<{foreach item=act from=$admin_actions}>
                     <div class="item"><a href="<{$act.link}>"><{$act.image}> <{$act.name}></a></div>
 					<{/foreach}>
@@ -224,16 +224,16 @@
 <{$forum_page_nav}>
 </div>
 </div>
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 
 <{foreach item=topic_post from=$topic_posts}>
 <{if $viewmode_compact}>
-<{include file="../modules/newbb/templates/newbb_item.html" topic_post=$topic_post}>
+<{include file="../modules/$xoops_dirname/templates/newbb_item.html" topic_post=$topic_post}>
 <{else}>
-<{include file="../modules/newbb/templates/newbb_thread.html" topic_post=$topic_post}>
+<{include file="../modules/$xoops_dirname/templates/newbb_thread.html" topic_post=$topic_post}>
 <{/if}>
-<br clear="all" />
+<br style="clear:both;" />
 <{/foreach}>
 
 <!-- start topic tree -->
@@ -253,29 +253,29 @@
 </table>
 <!-- end topic tree -->
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <div><a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=threaded&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=threaded&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_NEXTTOPIC}></a></div>
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <div style="padding: 5px; float: left; text-align:left;">
 <{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}>
 </div>
 
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 
 <{if $quickreply.show}>
 <div>
 <a href="#threadbottom" onclick="ToggleBlock('qr', this)"> <{$quickreply.icon}></a>
 </div>
-<br clear="all" />
+<br style="clear:both;" />
 <div id="qr" style="display: <{$quickreply.display}>">
 <div><{$quickreply.form}></div>
 </div>
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 <{/if}>
 
 <div style="float: left; text-align: left;">
@@ -297,6 +297,6 @@
 <{$forum_jumpbox}>
 </div>
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <{include file='db:system_notification_select.html'}>

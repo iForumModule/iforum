@@ -1,5 +1,5 @@
 <?php
-// $Id: viewforum.php,v 1.7 2005/06/03 01:35:02 phppp Exp $
+// $Id: viewforum.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -37,7 +37,10 @@ if ( empty($_GET['forum']) ) {
 }
 
 $forum = isset($_GET['forum'])?intval($_GET['forum']):0; // ?
-$type = isset($_GET['type'])?strtolower($_GET['type']):'';
+
+$type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "digest", "unreplied", "unread")))? $_GET['type'] : "";
+$mode = !empty($_GET['mode']) ? intval($_GET['mode']) : 0;
+$mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?2:$mode;
 
 if (isset($_GET['mark_read'])){
 	$topic_lastread = newbb_getcookie('LT',true);
@@ -64,10 +67,6 @@ if (isset($_GET['mark_read'])){
 	}
 }
 
-// Show message to prompt anonymous users registering or login?
-// Should be set through module preferences
-$show_reg = 1;
-
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 $forumid = $forum;
 $forum =& $forum_handler->get($forum);
@@ -82,24 +81,37 @@ $forum_lastview[$forum->getVar('forum_id')] = time();
 newbb_setcookie("LF", $forum_lastview);
 
 $xoops_pagetitle = $xoopsModule->getVar('name'). ' - ' .$forum->getVar('forum_name');
+if(!empty($xoopsModuleConfig['rss_enable'])){
+	$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'-'.$forum->getVar('forum_name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php?f='.$forumid.'" />';
+}
 
 $xoopsOption['template_main'] = 'newbb_viewforum.html';
+$xoopsOption['xoops_pagetitle']= $xoops_pagetitle;
+$xoopsOption['xoops_module_header']= $xoops_module_header;
 include XOOPS_ROOT_PATH."/header.php";
+$xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 
-$xoopsTpl->assign('xoops_module_header', $newbb_module_header);
 $xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
 $xoopsTpl->assign("forum_id", $forum->getVar('forum_id'));
+
+$isadmin = newbb_isAdmin($forum);
+$xoopsTpl->assign('viewer_level', ($isadmin)?2:(is_object($xoopsUser)?1:0) );
+/* Only admin has access to admin mode */
+if(!$isadmin){
+	$type = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?"":$type;
+	$mode = 0;
+}
+$xoopsTpl->assign('mode', $mode);
+$xoopsTpl->assign('type', $type);
 
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
 	$online_handler->init($forum);
     $xoopsTpl->assign('online', $online_handler->show_online());
-    $xoopsTpl->assign('color_admin', $xoopsModuleConfig['wol_admin_col']);
-    $xoopsTpl->assign('color_mod', $xoopsModuleConfig['wol_mod_col']);
 }
 
 $getpermission =& xoops_getmodulehandler('permission', 'newbb');
-$permission_set = $getpermission->getPermissions("topic", $forum->getVar('forum_id'));
+$permission_set = $getpermission->getPermissions("forum", $forum->getVar('forum_id'));
 
 $t_new = newbb_displayImage($forumImage['t_new'],_MD_POSTNEW);
 
@@ -110,7 +122,7 @@ if ($forum_handler->getPermission($forum, "post")){
 		$xoopsTpl->assign('forum_addpoll', "<a href=\"newtopic.php?op=add&amp;forum=".$forum->getVar('forum_id')."\">".$t_poll."</a>&nbsp;");
  	}
 } else {
-    if ( $show_reg == 1 && !is_object($xoopsUser)) {
+    if ( !empty($GLOBALS["xoopsModuleConfig"]["show_reg"]) && !is_object($xoopsUser)) {
 	    $redirect = preg_replace("|(.*)\/modules\/newbb\/(.*)|", "\\1/modules/newbb/newtopic.php?forum=".$forum->getVar('forum_id'), htmlspecialchars($xoopsRequestUri));
 		$xoopsTpl->assign('forum_post_or_register', '<a href="'.XOOPS_URL.'/user.php?xoops_redirect='.$redirect.'">'._MD_REGTOPOST.'</a>');
 		$xoopsTpl->assign('forum_addpoll', "");
@@ -156,7 +168,7 @@ $forum_selection_order .= '</select>';
 $xoopsTpl->assign('forum_selection_order', $forum_selection_order);
 
 $since = isset($_GET['since']) ? intval($_GET['since']) : $xoopsModuleConfig["since_default"];
-$forum_selection_since = &newbb_sinceSelectBox($since);
+$forum_selection_since = newbb_sinceSelectBox($since);
 
 $xoopsTpl->assign('forum_selection_since', $forum_selection_since);
 $xoopsTpl->assign('h_topic_link', "viewforum.php?forum=$forumid&amp;sortname=t.topic_title&amp;since=$since&amp;sortorder=". (($sortname == "t.topic_title" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
@@ -211,6 +223,15 @@ switch($type){
 	case 'unread':
 		$current_type = '['._MD_UNREAD.']';
 		break;
+	case 'active':
+		$current_type = '['._MD_TYPE_ADMIN.']';
+		break;
+	case 'pending':
+		$current_type = '['._MD_TYPE_PENDING.']';
+		break;
+	case 'deleted':
+		$current_type = '['._MD_TYPE_DELETED.']';
+		break;
 	default:
 		$current_type = '';
 		break;
@@ -220,19 +241,19 @@ $xoopsTpl->assign('forum_topictype', $current_type);
 $all_topics = $forum_handler->getTopicCount($forum,$startdate,$type);
 if ( $all_topics > $xoopsModuleConfig['topics_per_page']) {
 	include XOOPS_ROOT_PATH.'/class/pagenav.php';
-	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'forum='.$forum->getVar('forum_id').'&amp;sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;since='.$since."&amp;type=$type");
+	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'forum='.$forum->getVar('forum_id').'&amp;sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;since='.$since."&amp;type=$type&amp;mode=".$mode);
 	$xoopsTpl->assign('forum_pagenav', $nav->renderNav(4));
 } else {
 	$xoopsTpl->assign('forum_pagenav', '');
 }
 
-if(!empty($xoopsModuleConfig['show_jump']))
-$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox($forum));
+if(!empty($xoopsModuleConfig['show_jump'])){
+	$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox($forum));
+}
 $xoopsTpl->assign('down',newbb_displayImage($forumImage['doubledown']));
 $xoopsTpl->assign('menumode',$menumode);
 $xoopsTpl->assign('menumode_other',$menumode_other);
 
-$isadmin = newbb_isAdmin($forum);
 if($xoopsModuleConfig['show_permissiontable']){
 	$permission_table = & $getpermission->permission_table($permission_set,$forum->getVar('forum_id'), false, $isadmin);
 	$xoopsTpl->assign('permission_table', $permission_table);

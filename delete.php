@@ -1,5 +1,5 @@
 <?php
-// $Id: delete.php,v 1.5 2005/05/15 12:24:47 phppp Exp $
+// $Id: delete.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -38,17 +38,27 @@ foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'act') as $getint
 }
 foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'act') as $getint) {
     ${$getint} = (${$getint})?${$getint}:(isset($_GET[$getint]) ? intval($_GET[$getint]) : 0);
-
 }
 $viewmode = (isset($_GET['viewmode']) && $_GET['viewmode'] != 'flat') ? 'thread' : 'flat';
 $viewmode = ($viewmode)?$viewmode: (isset($_POST['viewmode'])?$_POST['viewmode'] : 'flat');
 
-if ( empty($forum) ) {
-    redirect_header("index.php", 2, _MD_ERRORFORUM);
+$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$post_handler =& xoops_getmodulehandler('post', 'newbb');
+
+if ( !empty($post_id) ) {
+    $topic =& $topic_handler->getByPost($post_id);
+} else {
+    $topic =& $topic_handler->get($topic_id);
+}
+$topic_id = $topic->getVar('topic_id');
+if ( !$topic_id ) {
+	$redirect = empty($forum)?"index.php":'viewforum.php?forum='.$forum;
+    redirect_header($redirect, 2, _MD_ERRORTOPIC);
     exit();
 }
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$forum = $topic->getVar('forum_id');
 $_forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($_forum)){
     redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
@@ -56,27 +66,18 @@ if (!$forum_handler->getPermission($_forum)){
 }
 
 $isadmin = newbb_isAdmin($_forum);
-
 $uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
 
-$post_handler =& xoops_getmodulehandler('post', 'newbb');
 $forumpost =& $post_handler->get($post_id);
-
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-$topic = $topic_handler->get($topic_id);
 $topic_status = $topic->getVar('topic_status');
-if ( $topic_handler->getPermission($forum, $topic_status, 'delete')
+if ( $topic_handler->getPermission($topic->getVar("forum_id"), $topic_status, 'delete')
 	&& ( $isadmin || $forumpost->checkIdentity() )){}
 else{
 	redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=$forum", 2, _MD_DELNOTALLOWED);
     exit();
 }
 
-$post_handler =& xoops_getmodulehandler('post', 'newbb');
-$forumpost =& $post_handler->get($post_id);
-
-if (!$isadmin && !$forumpost->checkTimelimit('delete_timelimit'))
-{
+if (!$isadmin && !$forumpost->checkTimelimit('delete_timelimit')){
 	redirect_header("viewtopic.php?forum=$forum&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_TIMEISUPDEL);
 	exit();
 }
@@ -88,33 +89,30 @@ if ($xoopsModuleConfig['wol_enabled']){
 
 if ( $ok ) {
     $isDeleteOne = (NEWBB_DELETEONE == $ok)? true : false;
+    /*
     if($forumpost->isTopic() && $topic->getVar("topic_replies")==0) $isDeleteOne=false;
     if($isDeleteOne && $forumpost->isTopic() && $topic->getVar("topic_replies")>0){
     	$post_handler->emptyTopic($forumpost);
     }else{
+	*/    
 	    $post_handler->delete($forumpost, $isDeleteOne);
 	    sync($forum, "forum");
 	    sync($topic_id, "topic");
-    }
+    //}
 
-    if ( $isDeleteOne )
+    if ( $isDeleteOne ){
         redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=$forum", 2, _MD_POSTDELETED);
-    else
+    }else{
         redirect_header("viewforum.php?forum=$forum", 2, _MD_POSTSDELETED);
+    }
 	exit();
 
 } else {
     include XOOPS_ROOT_PATH."/header.php";
-    if ( $act == 1 )
-    {
-    	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => NEWBB_DELETEONE), 'delete.php', _MD_DEL_ONE);
-	}
-   	if ( $act == 99 )
-   	{
-    	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => NEWBB_DELETEONE), 'delete.php', _MD_DEL_ONE);
+	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => NEWBB_DELETEONE), 'delete.php', _MD_DEL_ONE);
+	if($isadmin){
     	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => NEWBB_DELETEALL), 'delete.php', _MD_DEL_RELATED);
-    }
+	}
+	include XOOPS_ROOT_PATH.'/footer.php';
 }
-
-include XOOPS_ROOT_PATH.'/footer.php';
 ?>

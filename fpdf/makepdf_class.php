@@ -1,5 +1,5 @@
 <?php
-// $Id: makepdf_class.php,v 1.2 2005/04/18 01:22:28 phppp Exp $
+// $Id: makepdf_class.php,v 1.1.1.2 2005/10/19 16:23:38 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //

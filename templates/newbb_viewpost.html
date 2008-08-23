@@ -11,13 +11,13 @@
 <div>&nbsp;&nbsp; <{$post_content}> <strong><{$lang_title}></strong></div>
 </div>
 
-<br clear="all" />
+<br style="clear:both;" />
 
 <div style="padding: 5px;">
     <a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_NEXTTOPIC}></a>
 </div>
 
-<br clear="all" />
+<br style="clear:both;" />
 <div>
 <div class="dropdown">
 <{if $menumode eq 0}>
@@ -41,7 +41,7 @@
 
 	<select
 		name="viewmode" id="viewmode"
-		class="newbb_dropdown"
+		class="menu"
 		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
 	>
 		<option value=""><{$smarty.const._MD_VIEWMODE}></option>
@@ -119,14 +119,18 @@
 <{$pagenav}>
 </div>
 </div>
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
+
+<{if $mode gt 1}>
+<form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="javascript: if(window.document.forum_posts_admin.op.value &lt; 1){return false;}">
+<{/if}>
 
 <{foreach item=post from=$posts}>
 <{if $viewmode_compact}>
-<{include file="db:newbb_item.html" topic_post=$post}>
+<{include file="../modules/$xoops_dirname/templates/newbb_item.html" topic_post=$post}>
 <{else}>
-<{include file="db:newbb_thread.html" topic_post=$post}>
+<{include file="../modules/$xoops_dirname/templates/newbb_thread.html" topic_post=$post mode=$mode}>
 <{/if}>
 <div style="float:right;text-align:right; padding: 5px;">
 <a href="viewtopic.php?topic_id=<{$post.topic_id}>"><strong><{$smarty.const._MD_VIEWTOPIC}></strong></a>
@@ -134,11 +138,39 @@
  | <a href="viewforum.php?forum=<{$post.forum_id}>"><strong><{$smarty.const._MD_VIEWFORUM}></strong></a>
 <{/if}>
 </div>
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 <{/foreach}>
 
-<br clear="all" />
+<{if $viewer_level gt 1}>
+<div style="float: right; text-align:right;" id="admin">
+<{if $mode gt 1}>
+<{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');" /> 
+<select name="op">
+	<option value="0"><{$smarty.const._SELECT}></option>
+	<option value="delete"><{$smarty.const._DELETE}></option>
+	<{if $type eq "pending"}>
+		<option value="approve"><{$smarty.const._MD_APPROVE}></option>
+	<{elseif $type eq "deleted"}>
+		<option value="restore"><{$smarty.const._MD_RESTORE}></option>
+	<{/if}>
+</select>
+<input type="hidden" name="uid" value="<{$uid}>" /> | 
+<input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
+<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+</form>
+<{elseif $mode eq 1}>
+<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a>
+<{else}>
+<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<{/if}>
+</div>
+<{/if}>
+
+<br style="clear:both;" />
 
 <div style="float: left; text-align:left;">
 	<a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>
@@ -147,8 +179,8 @@
 <{$pagenav}>
 </div>
 
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 
 <div style="float: left; text-align: left;">
 <form action="search.php" method="get">
@@ -163,8 +195,8 @@
 <div style="float: right; text-align: right;">
 <{$forum_jumpbox}>
 </div>
-<br clear="all" />
-<br clear="all" />
+<br style="clear:both;" />
+<br style="clear:both;" />
 
-<{if $online}><{include file='db:newbb_online.html'}><{/if}>
+<{if $online}><{include file="db:newbb_online.html"}><{/if}>
 <!-- end module contents -->

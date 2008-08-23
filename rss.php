@@ -1,5 +1,5 @@
 <?php
-// $Id: rss.php,v 1.6 2005/05/15 12:24:48 phppp Exp $
+// $Id: rss.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -152,10 +152,10 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 		foreach($rows as $topic){
 	        if( $xoopsModuleConfig['enable_karma'] && $topic['post_karma'] > 0 ) continue;
 			if( $xoopsModuleConfig['allow_require_reply'] && $topic['require_reply']) continue;
-			if($topic['uid'] >0){
-				$topic['uname'] = $myts->htmlSpecialChars($users[$topic['uid']]);
+			if(!empty($users[$topic['uid']])){
+				$topic['uname'] = $users[$topic['uid']];
 			}else{
-            	$topic['uname'] = ($topic['poster_name'])?$myts->htmlSpecialChars($topic['poster_name']):$myts->htmlSpecialChars($users[$topic['uid']]);
+            	$topic['uname'] = ($topic['poster_name'])?$myts->htmlSpecialChars($topic['poster_name']):$myts->htmlSpecialChars($GLOBALS["xoopsConfig"]["anonymous"]);
 			}
 			$description  = $topic["forum_name"]."::";
 	        if ($topic['allow_subject_prefix']) {

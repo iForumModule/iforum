@@ -8,13 +8,13 @@ define("_MD_NOPOSTS","Aucune contribution");
 define("_MD_GO","Ok");
 define("_MD_SELFORUM","S&eacute;lectionner un forum");
 
-define("_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST","Fichier attach&eacute;:");
+define("_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST","Fichier attach&eacute; :");
 define("_MD_ALLOWED_EXTENSIONS","Extensions autoris&eacute;es");
 define('_MD_MAX_FILESIZE','Taille Maximum de fichier');
 define("_MD_ATTACHMENT","Attacher un fichier");
 define("_MD_FILESIZE","Taille");
 define("_MD_HITS","Hits");
-define("_MD_GROUPS","Groupes:");
+define("_MD_GROUPS","Groupes :");
 define("_MD_DEL_ONE","Effacer seulement ce message");
 define("_MD_DEL_RELATED","Effacer tous les messages de ce sujet");
 define('_MD_MARK_ALL_FORUMS','Marquer tous les forums');
@@ -38,20 +38,20 @@ define ("_MD_NEWPOSTS", "Nouvelle(s) contribution(s)");
 define ("_MD_NONEWPOSTS", "Aucune nouvelle contribution");
 define ("_MD_PRIVATEFORUM", "Forum inactif;");
 define ("_MD_BY", "par"); //  Post&eacute; par
-define ("_MD_TOSTART", "Pour voir les messages, vous devez s&eacute;lectionner un forum parmi ceux ci dessous.");
+define ("_MD_TOSTART", "Pour voir les messages, vous devez s&eacute;lectionner un forum parmi ceux ci-dessous.");
 define ("_MD_TOTALTOPICSC", "Total sujets : ");
 define ("_MD_TOTALPOSTSC", "Total contributions : ");
 define ("_MD_TOTALUSER", "Total utilisateurs : ");
 define ("_MD_TIMENOW", "Nous sommes le  : %s");
 define ("_MD_LASTVISIT", "Votre derni&egrave;re visite : %s");
 define ("_MD_ADVSEARCH", "Recherche avanc&eacute;e");
-define ("_MD_POSTEDON", "Contribution le : ");
+define ("_MD_POSTEDON", "Contribution du : ");
 define ("_MD_SUBJECT", "Sujet");
 define ("_MD_INACTIVEFORUM_NEWPOSTS", "Forum inactif contenant de nouvelle(s) contribution(s)");
 define ("_MD_INACTIVEFORUM_NONEWPOSTS", "Forum inactif sans nouvelle contribution");
 define ("_MD_SUBFORUMS", "Sous-forums");
-define('_MD_MAINFORUMOPT', 'Options de menu');
-define("_MD_PENDING_POSTS_FOR_AUTH","Contributions en attente d'approbation:");
+define ('_MD_MAINFORUMOPT', 'Options de menu');
+define ("_MD_PENDING_POSTS_FOR_AUTH","Contributions en attente d'approbation :");
 
 
 
@@ -66,10 +66,11 @@ define ("_MD_REGTOPOST", "S'enregistrer pour contribuer");
 //search.php
 define ("_MD_SEARCHALLFORUMS", "Recherche dans tous les forums");
 define ("_MD_FORUMC", "Forum");
-define ("_MD_AUTHORC", "Auteur:");
+define ("_MD_AUTHORC", "Auteur :");
 define ("_MD_SORTBY", "Tri par");
 define ("_MD_DATE", "Date");
-define ("_MD_TOPIC", "Sujet");
+define ("_MD_TOPIC", "Sujet ");
+define('_MD_POST2','Contribution');
 define ("_MD_USERNAME", "Nom d'utilisateur");
 define ("_MD_BODY", "Corps de texte");
 define('_MD_SINCE','Depuis');
@@ -80,32 +81,34 @@ define ("_MD_POSTER", "Auteur");
 define ("_MD_VIEWS", "Vues");
 define ("_MD_MORETHAN", "Nouveaux [Populaire(s)]");
 define ("_MD_MORETHAN2", "Aucun nouveau [Populaire]");
-define('_MD_TOPICSHASATT','Le sujet a une pi&egrave;ce jointe');
-define('_MD_TOPICHASPOLL','Le sujet a un sondage');
-define('_MD_TOPICLOCKED','Le sujet est verrouill&eacute;');
+define ('_MD_TOPICSHASATT','Le sujet a une pi&egrave;ce jointe');
+define ('_MD_TOPICHASPOLL','Le sujet a un sondage');
+define ('_MD_TOPICLOCKED','Le sujet est verrouill&eacute;');
 define ("_MD_LEGEND", "L&eacute;gende");
 define ("_MD_NEXTPAGE", "prochaine page");
 define ("_MD_SORTEDBY", "Trier par");
 define ("_MD_TOPICTITLE", "Titre de sujet");
 define ("_MD_NUMBERREPLIES", "Nombre de r&eacute;ponses");
 define ("_MD_TOPICPOSTER", "Participation(s) au sujet");
-define('_MD_TOPICTIME','Heure de Publication');
+define ('_MD_TOPICTIME','Heure de publication');
 define ("_MD_LASTPOSTTIME", "Heure de la derni&egrave;re contribution");
 define ("_MD_ASCENDING", "Ordre ascendant");
 define ("_MD_DESCENDING", "Ordre descendant");
-define('_MD_FROMLASTHOURS','Des % derni&egrave;res heures');
+define ('_MD_FROMLASTHOURS','Des % derni&egrave;res heures');
 define ("_MD_FROMLASTDAYS", "Des %d derniers jours");
 define ("_MD_THELASTYEAR", "Des derni&egrave;res ann&eacute;es");
 define ("_MD_BEGINNING", "Du D&eacute;but");
-define('_MD_SEARCHTHISFORUM', 'Rechercher ce forum');
-define('_MD_TOPIC_SUBJECTC',"Pr&eacute;fixe d'article:");
+define ('_MD_SEARCHTHISFORUM', 'Rechercher ce forum');
+define ('_MD_TOPIC_SUBJECTC',"Pr&eacute;fixe d'article :");
 
 
 define ('_MD_RATINGS', "Cotations");
+define("_MD_CAN_ACCESS", "Vous <strong>pouvez</strong> acc&eacute;der &agrave; ce forum.<br />");
+define("_MD_CANNOT_ACCESS", "Vous <strong>ne pouvez pas</strong> acc&eacute;der &agrave; ce forum.<br />");
 define ("_MD_CAN_POST", "Vous <strong>pouvez</strong> d&eacute;buter de nouveaux sujets.<br />");
 define ("_MD_CANNOT_POST", "Vous <strong>ne pouvez pas</strong> d&eacute;buter de nouveaux sujets.<br />");
-define("_MD_CAN_VIEW", "Vous <strong>pouvez</strong> voir les sujets.<br />");
-define("_MD_CANNOT_VIEW", "Vous <strong>ne pouvez pas</strong> voir les sujets.<br />");
+define ("_MD_CAN_VIEW", "Vous <strong>pouvez</strong> voir les sujets.<br />");
+define ("_MD_CANNOT_VIEW", "Vous <strong>ne pouvez pas</strong> voir les sujets.<br />");
 define ("_MD_CAN_REPLY", "Vous <strong>pouvez</strong> r&eacute;pondre aux contributions.<br />");
 define ("_MD_CANNOT_REPLY", "Vous <strong>ne pouvez pas</strong> r&eacute;pondre aux contributions.<br />");
 define ("_MD_CAN_EDIT", "Vous <strong>pouvez</strong> &eacute;diter vos contributions.<br />");
@@ -118,19 +121,19 @@ define ("_MD_CAN_VOTE", "Vous <strong>pouvez</strong> voter en sondage.<br />");
 define ("_MD_CANNOT_VOTE", "Vous <strong>ne pouvez pas</strong> voter en sondage.<br />");
 define ("_MD_CAN_ATTACH", "Vous <strong>pouvez</strong> attacher des fichiers &agrave; vos contributions.<br />");
 define ("_MD_CANNOT_ATTACH", "Vous <strong>ne pouvez pas</strong> attacher des fichiers &agrave; vos contributions.<br />");
-define("_MD_CAN_NOAPPROVE", "Vous <strong>pouvez</strong> poster sans approbation.<br />");
-define("_MD_CANNOT_NOAPPROVE", "Vous <strong>ne pouvez pas</strong> poster sans approbation.<br />");
+define ("_MD_CAN_NOAPPROVE", "Vous <strong>pouvez</strong> poster sans approbation.<br />");
+define ("_MD_CANNOT_NOAPPROVE", "Vous <strong>ne pouvez pas</strong> poster sans approbation.<br />");
 define ("_MD_IMTOPICS", "Sujets importants");
 define ("_MD_NOTIMTOPICS", "Sujets des forums");
-define('_MD_FORUMOPTION', 'Options des forums');
+define ('_MD_FORUMOPTION', 'Options des forums');
 
 define('_MD_VAUP','Voir toutes les contributions sans r&eacute;ponse');
 define('_MD_VANP','Voir les nouvelles contributions');
   
 
-define('_MD_UNREPLIED','Sujets sans r&eacute;ponse');
-define('_MD_UNREAD','Sujets non lus');
-define('_MD_ALL','Tous les sujets');
+define('_MD_UNREPLIED','sujets sans r&eacute;ponse');
+define('_MD_UNREAD','sujets non lus');
+define('_MD_ALL','tous les sujets');
 define('_MD_ALLPOSTS','toutes les contributions');
 define('_MD_VIEW','Voir');
 
@@ -142,13 +145,14 @@ define ("_MD_UNSTICKYTOPIC", "D&eacute;sagrafer ce sujet");
 define ("_MD_STICKYTOPIC", "Agrafer ce sujet");
 define('_MD_DIGESTTOPIC','Sommairiser ce sujet');
 define('_MD_UNDIGESTTOPIC','D&eacute;sommairiser ce sujet');
+define('_MD_MERGETOPIC','Fusionner ce sujet');
 define ("_MD_MOVETOPIC", "D&eacute;placer ce sujet");
 define ("_MD_DELETETOPIC", "Effacer ce sujet");
 define ("_MD_TOP", "Haut");
 define('_MD_BOTTOM','Bas');
 define ("_MD_PREVTOPIC", "Pr&eacute;c&eacute;dent");
 define ("_MD_NEXTTOPIC", "Suivant");
-define ("_MD_GROUP", "Groupe:");
+define ("_MD_GROUP", "Groupe :");
 define ("_MD_QUICKREPLY", "R&eacute;ponse rapide");
 define ("_MD_POSTREPLY", "Enregistrer votre r&eacute;ponse");
 define ("_MD_PRINTTOPICS", "Imprimer le sujet");
@@ -198,7 +202,7 @@ define('_MD_HP','HP :');
 define('_MD_MP','MP :');
 define('_MD_EXP','EXP :');
 
-define('_MD_BROWSING','Parcourir ce sujet:');
+define('_MD_BROWSING','Parcourir ce sujet :');
 define('_MD_POSTTONEWS','Envoyer cette contribution comme un article d\'actualit&eacute;');
 
 define('_MD_EXCEEDTHREADVIEW','Le nombre des contributions d&eacute;passe les capacit&eacute;s du mode par sujet<br />Changez pour le mode &agrave; plat');
@@ -207,45 +211,45 @@ define('_MD_EXCEEDTHREADVIEW','Le nombre des contributions d&eacute;passe les ca
 //forumform.inc
 define ("_MD_PRIVATE", "Ceci est un forum <strong>priv&eacute;</strong>.<br />seuls les utilisateurs disposant des droits d'acc&egrave;s sp&eacute;ciaux peuvent proposer de nouveaux sujets et r&eacute;pondre");
 define ("_MD_QUOTE", "Citation");
-define('_MD_VIEW_REQUIRE','Pr&eacute;requis de visualisation');
-define('_MD_REQUIRE_KARMA','Karma');
-define('_MD_REQUIRE_REPLY','R&eacute;pondre');
-define('_MD_REQUIRE_NULL','Aucun pr&eacute;requis');
+define ('_MD_VIEW_REQUIRE','Pr&eacute;requis de visualisation');
+define ('_MD_REQUIRE_KARMA','Karma');
+define ('_MD_REQUIRE_REPLY','R&eacute;pondre');
+define ('_MD_REQUIRE_NULL','Aucun pr&eacute;requis');
 
-define("_MD_SELECT_FORMTYPE","S&eacute;lectionnez votre type de formulaire d&eacute;sir&eacute;");
+define ("_MD_SELECT_FORMTYPE","S&eacute;lectionnez votre type de formulaire d&eacute;sir&eacute;");
 
-define("_MD_FORM_COMPACT","Compact");
-define("_MD_FORM_DHTML","DHTML");
-define("_MD_FORM_SPAW","Editeur Spaw");
-define("_MD_FORM_HTMLAREA","HTMLArea");
-define("_MD_FORM_KOIVI","Editeur Koivi");
-define("_MD_FORM_FCK","Editeur FCK");
-define("_MD_FORM_TINYMCE","Editeur TinyMCE");
+define ("_MD_FORM_COMPACT","Compact");
+define ("_MD_FORM_DHTML","DHTML");
+define ("_MD_FORM_SPAW","Editeur Spaw");
+define ("_MD_FORM_HTMLAREA","HTMLArea");
+define ("_MD_FORM_KOIVI","Editeur Koivi");
+define ("_MD_FORM_FCK","Editeur FCK");
+define ("_MD_FORM_TINYMCE","Editeur TinyMCE");
 
 // Messages d'ERREURS
-define ("_MD_ERRORFORUM", "ERREUR: Aucun forum n'a &eacute;t&eacute; s&eacute;lectionn&eacute;!");
-define ("_MD_ERRORPOST", "ERREUR: Aucune contribution n'a &eacute;t&eacute; s&eacute;lectionn&eacute;e!");
-define('_MD_NORIGHTTOVIEW','Vous ne disposez pas des privil&egrave;ges pour visualiser ce sujet.');
-define('_MD_NORIGHTTOPOST','Vous ne disposez pas des privil&egrave;ges pour contribuer &agrave; ce forum.');
-define('_MD_NORIGHTTOEDIT','Vous ne disposez pas des privil&egrave;ges pour &eacute;diter dans ce forum.');
-define('_MD_NORIGHTTOREPLY','Vous ne disposez pas des privil&egrave;ges pour r&eacute;pondre dans ce forum.');
-define('_MD_NORIGHTTOACCESS','Vous ne disposez pas des privil&egrave;ges pour acc&eacute;der &agrave; ce forum.');
-define('_MD_ERRORTOPIC','ERREUR: Sujet non s&eacute;lectionn&eacute;!');
-define('_MD_ERRORCONNECT','ERREUR: ne peut pas se connecter &agrave; la base de donn&eacute;es des forums.');
-define('_MD_ERROREXIST',"ERREUR: Le forum que vous avez s&eacute;lectionn&eacute; n'existe pas. Veuillez revenir en arri&egrave;re et recommencer.");
+define ("_MD_ERRORFORUM", "ERREUR : Aucun forum n'a &eacute;t&eacute; s&eacute;lectionn&eacute;!");
+define ("_MD_ERRORPOST", "ERREUR : Aucune contribution n'a &eacute;t&eacute; s&eacute;lectionn&eacute;e!");
+define ('_MD_NORIGHTTOVIEW','Vous ne disposez pas des privil&egrave;ges pour visualiser ce sujet.');
+define ('_MD_NORIGHTTOPOST','Vous ne disposez pas des privil&egrave;ges pour contribuer &agrave; ce forum.');
+define ('_MD_NORIGHTTOEDIT','Vous ne disposez pas des privil&egrave;ges pour &eacute;diter dans ce forum.');
+define ('_MD_NORIGHTTOREPLY','Vous ne disposez pas des privil&egrave;ges pour r&eacute;pondre dans ce forum.');
+define ('_MD_NORIGHTTOACCESS','Vous ne disposez pas des privil&egrave;ges pour acc&eacute;der &agrave; ce forum.');
+define ('_MD_ERRORTOPIC','ERREUR : Sujet non s&eacute;lectionn&eacute;!');
+define ('_MD_ERRORCONNECT','ERREUR : ne peut pas se connecter &agrave; la base de donn&eacute;es des forums.');
+define ('_MD_ERROREXIST',"ERREUR : Le forum que vous avez s&eacute;lectionn&eacute; n'existe pas. Veuillez revenir en arri&egrave;re et recommencer.");
 define ("_MD_ERROROCCURED", "Une erreur est apparue");
 define ("_MD_COULDNOTQUERY", "ne parvient pas &agrave; interroger la base de donn&eacute;es des forums.");
 define ("_MD_FORUMNOEXIST", "Erreur - Le forum/sujet que vous avez s&eacute;lectionn&eacute; n'existe pas. Veuillez revenir en arri&egrave;re et r&eacute;essayez.");
 define ("_MD_USERNOEXIST", "Cet utilisateur n'existe pas. Veuillez revenir en arri&egrave;re et rechercher encore.");
 define ("_MD_COULDNOTREMOVE", "Erreur - ne peut supprimer les contributions de la base de donn&eacute;es!");
 define ("_MD_COULDNOTREMOVETXT", "Erreur - ne peut supprimer les textes des contributions!");
-define('_MD_TIMEISUP',"Vous avez d&eacute;pass&eacute; la limite du temps imparti &agrave; l'&eacute;dition de ce post.");
-define('_MD_TIMEISUPDEL',"Vous avez d&eacute;pass&eacute; la limite du temps imparti &agrave; l'effacement de votre contribution.");
-
+define ('_MD_TIMEISUP',"Vous avez d&eacute;pass&eacute; la limite du temps imparti &agrave; l'&eacute;dition de ce post.");
+define ('_MD_TIMEISUPDEL',"Vous avez d&eacute;pass&eacute; la limite du temps imparti &agrave; l'effacement de votre contribution.");
 
 //reply.php
 define ("_MD_ON", "sur"); //D&eacute;pos&eacute; sur
-define ("_MD_USERWROTE","%s a &eacute;crit:"); //%s est le pseudo de l'utilisateur
+define ("_MD_USERWROTE","%s a &eacute;crit :"); //%s est le pseudo de l'utilisateur
+define('_MD_RE','Re');
 
 //post.php
 define ("_MD_EDITNOTALLOWED", "Vous n'&ecirc;tes pas autoris&eacute;s &agrave; &eacute;diter cette Contribution!");
@@ -256,30 +260,30 @@ define ("_MD_REPLYPOSTED", "Une r&eacute;ponse &agrave; votre sujet vient d'&eci
 define ("_MD_HELLO", "Bonjour %s,");
 define ("_MD_URRECEIVING", "Vous recevez cet email parce qu'une r&eacute;ponse &agrave; votre contribution a &eacute;t&eacute; post&eacute;e sur les forums de %s.");//%s est votre nom de votre site
 define ("_MD_CLICKBELOW", "Cliquez sur le lien afin de visualiser la discussion :");
-define('_MD_WAITFORAPPROVAL',"Veuillez patienter pour l'approbation.");
-define('_MD_POSTING_LIMITED','Pourquoi ne pas faire une pause et revenir dans %d secondes');
+define ('_MD_WAITFORAPPROVAL',"Veuillez patienter pour l'approbation.");
+define ('_MD_POSTING_LIMITED','Pourquoi ne pas faire une pause et revenir dans %d secondes');
 
 //forumform.inc
-define('_MD_NAMEMAIL','Nom/Email:');
-define ("_MD_LOGOUT", "D&eacute;connexion");
-define ("_MD_REGISTER", "Registre");
-define ("_MD_SUBJECTC", "Sujet:");
-define ("_MD_MESSAGEICON", "Ic&ocirc;ne du message:");
-define ("_MD_MESSAGEC", "Message:");
-define ("_MD_ALLOWEDHTML", "Autoriser le HTML:");
-define ("_MD_OPTIONS", "Options:");
+define ('_MD_NAMEMAIL','Nom/Email :');
+define ("_MD_LOGOUT", "Se d&eacute;connecter");
+define ("_MD_REGISTER", "S'enregistrer");
+define ("_MD_SUBJECTC", "Sujet :");
+define ("_MD_MESSAGEICON", "Ic&ocirc;ne du message :");
+define ("_MD_MESSAGEC", "Message :");
+define ("_MD_ALLOWEDHTML", "Autoriser le HTML :");
+define ("_MD_OPTIONS", "Options :");
 define ("_MD_POSTANONLY", "Poster anonymement");
-define('_MD_DOSMILEY','Activer les &eacute;moticones');
-define('_MD_DOXCODE','Activer les codes Xoops');
-define('_MD_DOBR','Activation du line break (Sugg&eacute;rr&eacute; non activ&eacute; si le HTML est activ&eacute;)');
-define('_MD_DOHTML','Activer les tags HTML');
+define ('_MD_DOSMILEY','Activer les &eacute;moticones');
+define ('_MD_DOXCODE','Activer les codes Xoops');
+define ('_MD_DOBR','Activation du line break (Sugg&eacute;rr&eacute; non activ&eacute; si le HTML est activ&eacute;)');
+define ('_MD_DOHTML','Activer les tags HTML');
 define ("_MD_NEWPOSTNOTIFY", "Notifiez-moi les nouvelles contributions sur ce sujet");
 define ("_MD_ATTACHSIG", "Attacher la signature");
 define ("_MD_POST", "Poster");
 define ("_MD_SUBMIT", "Valider");
 define ("_MD_CANCELPOST", "Abandonner");
-define('_MD_REMOVE','Enlever');
-define('_MD_UPLOAD','T&eacute;l&eacute;charger');
+define ('_MD_REMOVE','Enlever');
+define ('_MD_UPLOAD','T&eacute;l&eacute;charger');
 
 // forumuserpost.php
 define ("_MD_ADD", "Ajouter");
@@ -293,6 +297,7 @@ define('_MD_ERROR_BACK','Erreur - veuillez aller en arri&egrave;re et recommence
 define('_MD_GOTONEWFORUM','Voir le sujet mis &agrave; jour');
 
 define('_MD_TOPICDELETE','Le sujet a &eacute;t&eacute; effac&eacute;');
+define('_MD_TOPICMERGE','Le sujet a &eacute;t&eacute; fusionn&eacute;.');
 define('_MD_TOPICMOVE','Le sujet a &eacute;t&eacute; d&eacute;plac&eacute;');
 define('_MD_TOPICLOCK','Le sujet est verrouill&eacute;');
 define('_MD_TOPICUNLOCK','Le sujet a &eacute;t&eacute; d&eacute;verrouill&eacute;');
@@ -303,6 +308,7 @@ define('_MD_TOPICUNDIGEST','Le sujet a &eacute;t&eacute; d&eacute;sommairis&eacu
 
 define('_MD_DELETE','Effacer');
 define('_MD_MOVE','D&eacute;placer');
+define('_MD_MERGE','Fusionner');
 define('_MD_LOCK','Verrouiller');
 define('_MD_UNLOCK','D&eacute;verrouiller');
 define('_MD_STICKY','Agrafer');
@@ -312,6 +318,7 @@ define('_MD_UNDIGEST','D&eacute;sommairiser');
 
 define('_MD_DESC_DELETE','Une fois que vous aurez appuy&eacute; sur le bouton Effacer &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; et toutes ses contributions relatives seront <b>d&eacute;finitivement</b> effac&eacute;s.');
 define('_MD_DESC_MOVE','Une fois que vous aurez appuy&eacute; sur le bouton Modifier &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; et toutes ses contributions relatives seront d&eacute;plac&eacute;s vers le forum que vous aurez s&eacute;lectionn&eacute;.');
+define('_MD_DESC_MERGE','Une fois que vous aurez appuy&eacute; sur le bouton Fusionner &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; et toutes ses contributions relatives seront fusionn&eacute;s dans le sujet que vous aurez s&eacute;lectionn&eacute;.<br /><strong>Le num&eacute;ro de sujet de destination ID doit &ecirc;tre plus petit que celui du sujet courrant</strong>.');
 define('_MD_DESC_LOCK','Une fois que vous aurez appuy&eacute; sur le bouton Verouiller &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; sera verrouill&eacute;. Vous pourrez le d&eacute;verrouiller plus tard si vous le d&eacute;sirez.');
 define('_MD_DESC_UNLOCK','Une fois que vous aurez appuy&eacute; sur le bouton D&eacute;verrouiller &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; sera d&eacute;verrouill&eacute;. Vous pourrez le re-verrouiller plus tard si vous le d&eacute;sirez.');
 define('_MD_DESC_STICKY','Une fois que vous aurez appuy&eacute; sur le bouton Agrafer &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; sera mis en agrafe. Vous pourrez le d&eacute;sagrafer plus tard si vous le d&eacute;sirez.');
@@ -319,28 +326,29 @@ define('_MD_DESC_UNSTICKY','Une fois que vous aurez appuy&eacute; sur le bouton 
 define('_MD_DESC_DIGEST','Une fois que vous aurez appuy&eacute; sur le bouton Sommairiser &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; deviendra un sommaire. Vous pourrez le d&eacute;sommairiser plus tard si vous le d&eacute;sirez.');
 define('_MD_DESC_UNDIGEST','Une fois que vous aurez appuy&eacute; sur le bouton D&eacute;sommairiser &agrave; la fin de ce formulaire, le sujet que vous avez s&eacute;lectionn&eacute; sera d&eacute;sommairis&eacute;. Vous pourrez le remettre en sommaire une nouvelle fois plus tard si vous le d&eacute;sirez.');
 
-define('_MD_MOVETOPICTO','D&eacute;placer le sujet &agrave; :');
+define('_MD_MERGETOPICTO','Fusionner le sujet vers :');
+define('_MD_MOVETOPICTO','D&eacute;placer le sujet vers :');
 define('_MD_NOFORUMINDB','Pas de forum dans la base');
 
 // delete.php
 define ("_MD_DELNOTALLOWED", "D&eacute;sol&eacute;, mais vous n'&ecirc;tes pas autoris&eacute; &agrave; effacer cette contribution.");
-define ("_MD_AREUSUREDEL", "Etes vous certain de d&eacute;sirer effacer cette contribution et toutes les contributions enfants?");
+define ("_MD_AREUSUREDEL", "Etes vous certain de d&eacute;sirer effacer cette contribution et toutes les contributions enfants ?");
 define ("_MD_POSTSDELETED", "La contribution S&eacute;lectionn&eacute;e et toutes ses contributions enfants ont &eacute;t&eacute; effac&eacute;es.");
-define('_MD_POSTDELETED','Effacer la contribution s&eacute;lectionn&eacute;e.');
+define ('_MD_POSTDELETED','Effacer la contribution s&eacute;lectionn&eacute;e.');
 
 // les d&eacute;finitions ont boug&eacute; de global.
 define ("_MD_THREAD", "Contribution");
 define ("_MD_FROM", "De");
 define ("_MD_JOINED", "Inscrit");
 define ("_MD_ONLINE", "En ligne");
-define('_MD_OFFLINE','Hors Ligne');
-define('_MD_FLAT', 'A plat');
+define ('_MD_OFFLINE','Hors Ligne');
+define ('_MD_FLAT', 'A plat');
 
 
 // class.whoisonline.php
-define ("_MD_USERS_ONLINE", "Utilisateur(s) en ligne:");
+define ("_MD_USERS_ONLINE", "Utilisateur(s) en ligne :");
 define ("_MD_ANONYMOUS_USERS", "Utilisateur(s) anonymes");
-define ("_MD_REGISTERED_USERS", "Utilisateur(s) enregistr&eacute;s: ");
+define ("_MD_REGISTERED_USERS", "Utilisateur(s) enregistr&eacute;s : ");
 define ("_MD_BROWSING_FORUM", "Utilisateur(s) en consultation des forums");
 define ("_MD_TOTAL_ONLINE", "Total %d utilisateurs en ligne.");
 define ("_MD_ADMINISTRATOR", "Administrateur");
@@ -376,21 +384,21 @@ define("_MD_POLL_ALLOWMULTI", "Autoriser les s&eacute;lections multiples ?");
 define("_MD_POLL_NOTIFY", "Notifier l'auteur du sondage lorsque celui ci est expir&eacute; ?");
 define("_MD_POLL_POLLOPTIONS", "Options");
 define("_MD_POLL_EDITPOLL", "Editer le sondage");
-define("_MD_POLL_FORMAT", "Format: aaaa-mm-dd hh:mm:ss");
+define("_MD_POLL_FORMAT", "Format : aaaa-mm-dd hh:mm:ss");
 define("_MD_POLL_CURRENTTIME", "Nous sommes le %s");
 define("_MD_POLL_EXPIREDAT", "Expir&eacute; le %s");
 define("_MD_POLL_RESTART", "Relancer ce sondage");
 define("_MD_POLL_ADDMORE", "Ajouter plus d'options");
 define("_MD_POLL_RUSUREDEL", "Etes vous certain de vouloir effacer ce sondage et tous ses commentaires ?");
 define("_MD_POLL_RESTARTPOLL", "Relancer le sondage");
-define("_MD_POLL_RESET", "Mettre &agrave; Z&eacute;ro toutes les logs pour ce sondage?");
+define("_MD_POLL_RESET", "Mettre &agrave; Z&eacute;ro toutes les logs pour ce sondage ?");
 define("_MD_POLL_ADDPOLL","Ajouter un sondage");
 define("_MD_POLLMODULE_ERROR","Le module Xoopspoll n'est pas valide &agrave; l'utilisation");
 
 //report.php
 define("_MD_REPORTED", "Merci de votre rapport au sujet de ce post/sujet! Un mod&eacute;rateur le prendra en compte dans un court delai.");
 define("_MD_REPORT_ERROR", "Une erreur est apparue &agrave; l'envoi du rapport.");
-define("_MD_REPORT_TEXT", "Message de rapport:");
+define("_MD_REPORT_TEXT", "Message de rapport :");
 
 define("_MD_PDF","Cr&eacute;er un fichier PDF de la contribution");
 define("_MD_PDF_PAGE","Page");
@@ -403,21 +411,14 @@ define("_MD_VIEWALLPOSTS","Tous les Posts");
 define("_MD_VIEWTOPIC","Sujet");
 define("_MD_VIEWFORUM","Forum");
 
-define("_MD_COMPACT","Compacte");
+define("_MD_COMPACT","Compact");
 
 define("_MD_MENU_SELECT","SELECTION");
-define("_MD_MENU_HOVER","HOVER");
+define("_MD_MENU_HOVER","PASSAGE");
 define("_MD_MENU_CLICK","CLICK");
 
 define("_MD_WELCOME_SUBJECT","%s &agrave; rejoint le forum");
 define("_MD_WELCOME_MESSAGE","Bonjour, %s est un petit nouveau.");
-
-// !!IMPORTANT!! insert '\' to any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
-// insert additional '\' to 't', 'r', 'n'
-define("_MD_TODAY", "\A\u\j\o\u\\r\d\'\h\u\i H:i:s");
-define("_MD_YESTERDAY", "\H\i\e\\r H:i:s");
-define("_MD_MONTHDAY", "d/m H:i:s");
-define("_MD_YEARMONTHDAY", "d/m/Y H:i");
 
 define("_MD_VIEWNEWPOSTS","Voir les nouveaux posts");
 
@@ -427,6 +428,44 @@ define("_MD_ACCOUNT","Compte");
 define("_MD_NAME","Nom");
 define("_MD_PASSWORD","Mot de passe");
 define("_MD_LOGIN","Authentification");
+
+define("_MD_TRANSFER","Transf&eacute;rer");
+define("_MD_TRANSFER_DESC","Transf&eacute;rer la contribution vers d'autres applications");
+define("_MD_TRANSFER_DONE","Cette action a &eacute;t&eacute; effectu&eacute;e avec succ&egrave;s : %s");
+
+define("_MD_APPROVE","Approuver");
+define("_MD_RESTORE","Restaurer");
+define("_MD_SPLIT_ONE","Eclater");
+define("_MD_SPLIT_TREE","Eclater toutes les contributions enfin");
+define("_MD_SPLIT_ALL","Eclater tout");
+
+define("_MD_TYPE_ADMIN","Admin");
+define("_MD_TYPE_VIEW","Vue");
+define("_MD_TYPE_PENDING","En attente");
+define("_MD_TYPE_DELETED","Supprim&eacute;");
+define("_MD_TYPE_SUSPEND","Suspension");
+
+define("_MD_DBUPDATED", "Base de Donn&eacute;es mise &agrave; jour avec Succ&egrave;s!");
+
+define("_MD_SUSPEND_SUBJECT", "L'utilisateur %s est suspendu depuis %d jours");
+define("_MD_SUSPEND_TEXT", "L'utilisateur %s est suspendu depuis %d jours en raison de :<br />[quote]%s[/quote]<br /><br />La suspension courre jusqu'au %s");
+define("_MD_SUSPEND_UID", "Num&eacute;ro ID Utilisateur");
+define("_MD_SUSPEND_IP", "Segments d'adresses IP (adresse en entier ou segments)");
+define("_MD_SUSPEND_DURATION", "Dur&eacute;e de la Suspension (en jours)");
+define("_MD_SUSPEND_DESC", "Raison de la Suspension");
+define("_MD_SUSPEND_LIST", "Liste des Suspensions");
+define("_MD_SUSPEND_START", "D&eacute;but");
+define("_MD_SUSPEND_EXPIRE", "Fin");
+define("_MD_SUSPEND_SCOPE", "Scope");
+define("_MD_SUSPEND_MANAGEMENT", "Gestion de la Mod&eacute;ration");
+define("_MD_SUSPEND_NOACCESS", "Votre num&eacute;ro d'utilisateur ou votre adresse IP ont &eacute;t&eacute; suspendus");
+
+// !!IMPORTANT!! insert '\' to any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
+// insert additional '\' to 't', 'r', 'n'
+define("_MD_TODAY", "\A\u\j\o\u\\r\d\'\h\u\i G:i:s");
+define("_MD_YESTERDAY", "\H\i\e\\r G:i:s");
+define("_MD_MONTHDAY", "n/j G:i:s");
+define("_MD_YEARMONTHDAY", "Y/n/j G:i");
 
 // For user info
 // If you have customized userbar, define here.
