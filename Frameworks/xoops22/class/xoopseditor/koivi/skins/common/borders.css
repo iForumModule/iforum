@@ -1,0 +1,10 @@
+table 
+{ 
+border-left: 1px dotted silver; 
+border-top: 1px dotted silver; 
+} 
+table td, table th 
+{ 
+border-right: 1px dotted silver; 
+border-bottom: 1px dotted silver; 
+} 

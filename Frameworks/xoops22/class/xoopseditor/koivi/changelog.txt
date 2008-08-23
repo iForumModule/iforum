@@ -1,0 +1,9 @@
+Sept 26th, 2005 (phppp)
+
+1 Security fix according to Marijuana's report: /class/xoopseditor/koivi/dialogs.php 
+  A. removed $_GET['url']
+  B. added check on $_GET['skin']
+2 Bugfix: 
+  A. correction on including Xoops mainfile.php for dialogs.php; 
+  B. added charset to dialogs.php output page;
+3 Removed unncessary functions for dialogs.php: getMainfile, getLanguage
