@@ -26,7 +26,7 @@
 //  ------------------------------------------------------------------------ //
 
 $modversion['name'] = "NewBB 2.0";
-$modversion['version'] = 2.01;
+$modversion['version'] = 2.02;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "The XOOPS Project, samuels, phppp, Dave_L, herve, Mithrandir,  The Xoops China, The French Xoops Support";
 $modversion['author'] = "The XOOPS Project Module Dev Team - NewBB Teamleader Predator";
@@ -41,7 +41,7 @@ $modversion['author_realname'] = "Marko Schmuck";
 $modversion['author_website_url'] = "http://dev.xoops.org";
 $modversion['author_website_name'] = "dev.xoops.org";
 $modversion['author_email'] = "predator@xoops.org";
-$modversion['status_version'] = "2.01";
+$modversion['status_version'] = "2.02";
 $modversion['status'] = "Final";
 
 $modversion['warning'] = "This module comes as it is, without any guarantees what so ever.
