@@ -106,10 +106,13 @@ $nohtml = ($forum->getVar('allow_html'))?false:true;
 
 if(!empty($editor)){
 	newbb_setcookie("editor",$editor);
-}else{
-	$editor = newbb_getcookie("editor");
-	if(empty($editor) && is_object($xoopsUser)){
+}elseif(!$editor = newbb_getcookie("editor")){
+	//$editor = newbb_getcookie("editor");
+	if(is_object($xoopsUser)){
 		$editor =@ $xoopsUser->getVar("editor"); // Need set through user profile
+	}
+	if(empty($editor)){
+		$editor =@ $xoopsModuleConfig["editor_default"];
 	}
 }
 $forum_form->addElement(new XoopsFormSelectEditor($forum_form,"editor",$editor,$nohtml));

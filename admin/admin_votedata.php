@@ -38,8 +38,8 @@ switch ($op)
 {
     case "delvotes":
         global $xoopsDB, $_GET;
-        $rid = $_GET['rid'];
-        $topic_id = $_GET['topic_id'];
+        $rid = intval($_GET['rid']);
+        $topic_id = intval($_GET['topic_id']);
         $sql = $xoopsDB->queryF("DELETE FROM " . $xoopsDB->prefix('bb_votedata') . " WHERE ratingid = $rid");
         $xoopsDB->query($sql);
         newbb_updaterating($topic_id);

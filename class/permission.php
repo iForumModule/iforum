@@ -30,12 +30,10 @@
 // ------------------------------------------------------------------------- //
 if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
 
-class NewbbPermissionHandler extends XoopsObjectHandler 
+require_once XOOPS_ROOT_PATH."/kernel/groupperm.php";
+
+class NewbbPermissionHandler extends XoopsGroupPermHandler 
 {
-	function NewbbPermissionHandler()
-	{
-	}
-		
     /*
 	* Returns permissions for a certain type
 	*
@@ -171,20 +169,20 @@ class NewbbPermissionHandler extends XoopsObjectHandler
 			$newbb =& $module_handler->getByDirname('newbb');
 			$mid = $newbb->getVar("mid");
 	    }
-		$groupperm_handler =& xoops_gethandler('groupperm');
+		//$groupperm_handler =& xoops_gethandler('groupperm');
 		if(!is_array($groups)){
 		    $member_handler =& xoops_gethandler('member');
 		    $glist =& $member_handler->getGroupList();
 		    $groups = array_keys($glist);
 	    }
-		$ids = $groupperm_handler->getGroupIds("category_access", $category, $mid);
+		$ids = $this->getGroupIds("category_access", $category, $mid);
 	    $ids_add = array_diff($groups, $ids);
 	    $ids_rmv = array_diff($ids, $groups);
 		foreach($ids_add as $group){
-			$groupperm_handler->addRight("category_access", $category, $group, $mid);
+			$this->addRight("category_access", $category, $group, $mid);
 		}
 		foreach($ids_rmv as $group){
-			$groupperm_handler->deleteRight("category_access", $category, $group, $mid);
+			$this->deleteRight("category_access", $category, $group, $mid);
 		}
 		
         return true;
@@ -201,10 +199,43 @@ class NewbbPermissionHandler extends XoopsObjectHandler
 				$mid = $newbb->getVar("mid");
 		    }
 	    }
-		$groupperm_handler =& xoops_gethandler('groupperm');
-		if($groupperm_handler->checkRight($perm, $itemid, $groupid, $mid)) return true;
-		$groupperm_handler->addRight($perm, $itemid, $groupid, $mid);
+		//$groupperm_handler =& xoops_gethandler('groupperm');
+		if($this->_checkRight($perm, $itemid, $groupid, $mid)) return true;
+		$this->addRight($perm, $itemid, $groupid, $mid);
 		return true;
+    }
+
+    /**
+     * Check permission (directly)
+     * 
+     * @param	string    $gperm_name       Name of permission
+     * @param	int       $gperm_itemid     ID of an item
+     * @param	int/array $gperm_groupid    A group ID or an array of group IDs
+     * @param	int       $gperm_modid      ID of a module
+     * 
+     * @return	bool    TRUE if permission is enabled
+     */
+    function _checkRight($gperm_name, $gperm_itemid, $gperm_groupid, $gperm_modid = 1)
+    {
+        $criteria = new CriteriaCompo(new Criteria('gperm_modid', $gperm_modid));
+        $criteria->add(new Criteria('gperm_name', $gperm_name));
+        $gperm_itemid = intval($gperm_itemid);
+        if ($gperm_itemid > 0) {
+            $criteria->add(new Criteria('gperm_itemid', $gperm_itemid));
+        }
+        if (is_array($gperm_groupid)) {
+            $criteria2 = new CriteriaCompo();
+            foreach ($gperm_groupid as $gid) {
+                $criteria2->add(new Criteria('gperm_groupid', $gid), 'OR');
+            }
+            $criteria->add($criteria2);
+        } else {
+            $criteria->add(new Criteria('gperm_groupid', $gperm_groupid));
+        }
+        if ($this->getCount($criteria) > 0) {
+            return true;
+        }
+        return false;
     }
     
     function deleteRight($perm, $itemid, $groupid, $mid = null)
@@ -218,18 +249,18 @@ class NewbbPermissionHandler extends XoopsObjectHandler
 				$mid = $newbb->getVar("mid");
 		    }
 	    }
-		$groupperm_handler =& xoops_gethandler('groupperm');
-		if(is_callable(array($groupperm_handler, "deleteRight"))){
-			return $groupperm_handler->deleteRight($perm, $itemid, $groupid, $mid);
+		//$groupperm_handler =& xoops_gethandler('groupperm');
+		if(is_callable(array(&$this->XoopsGroupPermHandler, "deleteRight"))){
+			return $this->deleteRight($perm, $itemid, $groupid, $mid);
 		}else{
 	        $criteria = new CriteriaCompo(new Criteria('gperm_name', $perm));
 	        $criteria->add(new Criteria('gperm_groupid', $groupid));
 	        $criteria->add(new Criteria('gperm_itemid', $itemid));
 	        $criteria->add(new Criteria('gperm_modid', $mid));
-	        $perms_obj = $groupperm_handler->getObjects($criteria);
+	        $perms_obj = $this->getObjects($criteria);
 	        if (!empty($perms_obj)) {
 		        foreach($perms_obj as $perm_obj){
-	            	$groupperm_handler->delete($perm_obj);
+	            	$this->delete($perm_obj);
 		        }
 	        }
 	        unset($criteria, $perms_obj);
@@ -251,7 +282,7 @@ class NewbbPermissionHandler extends XoopsObjectHandler
 	    $perm_template = $this->getTemplate();
 	    if(empty($perm_template)) return false;
 	    
-		$groupperm_handler =& xoops_gethandler('groupperm');
+		//$groupperm_handler =& xoops_gethandler('groupperm');
 	    $member_handler =& xoops_gethandler('member');
 	    $glist =& $member_handler->getGroupList();
 		$perms = array_map("trim",explode(',', FORUM_PERM_ITEMS));
@@ -274,14 +305,6 @@ class NewbbPermissionHandler extends XoopsObjectHandler
 	    
 		$file_perm = XOOPS_CACHE_PATH."/newbb_perm_template.php";
 		$perms = @include $file_perm;
-		/*
-		if(!is_readable($file_perm)) {
-			//newbb_message("the template file can not be read: ".$file_perm);
-			return $perms;
-		}
-		include($file_perm);
-		$perms = unserialize($perms);
-		*/
 		return $perms;
     }
     
@@ -295,17 +318,6 @@ class NewbbPermissionHandler extends XoopsObjectHandler
 			trigger_error( "Cannot Create Permission Template", E_USER_WARNING );
 		}
 		
-		/*
-		if(!$fp = fopen($file_perm,"w")) {
-			newbb_message("the template file can not be created: ".$file_perm);
-			return false;
-		}
-		$file_content = "<?php\n";
-		$file_content .= "\treturn \$perms = '".serialize($perms)."';\n";
-		$file_content .= "?>";
-	    fputs($fp, $file_content);
-	    fclose($fp);
-        */
         return true;		
     }
 }

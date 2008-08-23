@@ -1,6 +1,6 @@
 CBB 3.0
 
-XOOPS Community bulletin Board 3.0, for XOOPS 2.0*, 2.2* and 2.3*
+XOOPS Community bulletin Board, for XOOPS 2.0*, 2.2* and 2.3*
 
 D.J.
 http://xoops.org.cn

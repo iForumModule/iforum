@@ -2,10 +2,11 @@ CBB
 
 XOOPS Community Bulletin Board
 
-Changelog 3.0
-Feb 14th, 2006 
+Changelog 3.01
+Feb 22th, 2006 
 =============
-Fixed bugs in class forum, category
+Fixed bugs in permission management
+Fixed bugs in formloader
 
 Changelog 3.0 RC2
 Feb 10th, 2006 

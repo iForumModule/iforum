@@ -29,6 +29,7 @@
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 include 'admin_header.php';
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 xoops_cp_header();
 
 loadModuleAdminMenu(3);
@@ -140,7 +141,7 @@ switch($action){
 		
 	case "apply_save":
 		if(empty($_POST["forums"])) break;
-	    $newbbperm_handler = &xoops_getmodulehandler('permission', 'newbb');
+	    $newbbperm_handler =& xoops_getmodulehandler('permission', 'newbb');
 		foreach($_POST["forums"] as $forum){
 			$newbbperm_handler->applyTemplate($forum, $module_id);
 		}

@@ -58,6 +58,7 @@ switch($op){
 		break;
 
 	default:
+		include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 		$limit = 5;
 		loadModuleAdminMenu(9,_AM_NEWBB_DIGESTADMIN);

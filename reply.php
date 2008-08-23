@@ -123,7 +123,7 @@ if ($xoopsModuleConfig['wol_enabled']){
     $topic_id=$forumpost->getVar('topic_id');
     $isreply =1;
     $istopic = 0;
-    $dohtml = 0;
+    $dohtml = 1;
     $dosmiley = 1;
     $doxcode = 1;
     $dobr = 1;

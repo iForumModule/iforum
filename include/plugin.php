@@ -39,6 +39,13 @@ $GLOBALS["xoopsModuleConfig"]["syncOnUpdate"] = false;
 // Set to true if your attachment would be corrupted after download with normal way
 $GLOBALS["xoopsModuleConfig"]["download_direct"] = false;
 
+// Set allowed editors 
+// Should set from module preferences?
+$GLOBALS["xoopsModuleConfig"]["editor_allowed"] = array(); 
+
+// Set the default editor
+$GLOBALS["xoopsModuleConfig"]["editor_default"] = ""; 
+
 // MENU handler
 /* You could remove anyone by commenting out in order to disable it */
 $valid_menumodes = array(

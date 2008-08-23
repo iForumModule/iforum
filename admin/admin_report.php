@@ -67,6 +67,7 @@ switch($op){
 
 	case "process":
 	default:
+		include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 		if($item == 'process'){
 			$process_result = 0;

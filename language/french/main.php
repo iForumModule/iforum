@@ -464,8 +464,9 @@ define("_MD_SUSPEND_NOACCESS", "Votre num&eacute;ro d'utilisateur ou votre adres
 // insert additional '\' to 't', 'r', 'n'
 define("_MD_TODAY", "\A\u\j\o\u\\r\d\'\h\u\i G:i:s");
 define("_MD_YESTERDAY", "\H\i\e\\r G:i:s");
-define("_MD_MONTHDAY", "n/j G:i:s");
-define("_MD_YEARMONTHDAY", "Y/n/j G:i");
+define("_MD_MONTHDAY", "d/m H:i:s");
+define("_MD_YEARMONTHDAY", "d/m/Y H:i");
+
 
 // For user info
 // If you have customized userbar, define here.

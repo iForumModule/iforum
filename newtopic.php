@@ -64,7 +64,7 @@ if ( empty($forum) ) {
     $myts =& MyTextSanitizer::getInstance();
     $hidden = "";
     $subject_pre="";
-    $dohtml = 0;
+    $dohtml = 1;
     $dosmiley = 1;
     $doxcode = 1;
     $dobr = 1;

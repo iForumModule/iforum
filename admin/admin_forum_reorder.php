@@ -51,6 +51,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != "") {
     }
     redirect_header("admin_forum_reorder.php", 1, _AM_NEWBB_BOARDREORDER);
 } else {
+	include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
     $orders = array();
     $cat_orders = array();
     $forum = array();

@@ -68,6 +68,7 @@ function editCategory($cat_id = 0)
     }
     $groups_cat_access = null;
     global $xoopsModule;
+	include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
     if ($cat_id) {
         $sform = new XoopsThemeForm(_AM_NEWBB_EDITCATEGORY . " " . $fc->getVar('cat_title'), "op", xoops_getenv('PHP_SELF'));

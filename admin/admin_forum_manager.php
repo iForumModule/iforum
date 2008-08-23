@@ -78,6 +78,7 @@ function editForum($ff = null, $parent_forum = 0)
 
     $mytree = new XoopsTree($xoopsDB->prefix("bb_categories"), "cat_id", "0");
 
+	include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
     if ($forum) {
         $sform = new XoopsThemeForm(_AM_NEWBB_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
     } else {
@@ -359,9 +360,9 @@ switch ($op) {
         $ff->setVar('hot_threshold', $_POST['hot_threshold']);
         if ($forum_handler->insert($ff)) {
 	        if(!empty($_POST["perm_template"])){
-			    $newbbperm_handler = &xoops_getmodulehandler('permission', 'newbb');
-			    $perm_template = $newbbperm_handler->getTemplate();
-				$groupperm_handler =& xoops_gethandler('groupperm');
+			    $groupperm_handler = &xoops_getmodulehandler('permission', 'newbb');
+			    $perm_template = $groupperm_handler->getTemplate();
+				//$groupperm_handler =& xoops_gethandler('groupperm');
 			    $member_handler =& xoops_gethandler('member');
 			    $glist =& $member_handler->getGroupList();
 				$perms = array_map("trim",explode(',', FORUM_PERM_ITEMS));

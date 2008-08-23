@@ -46,7 +46,7 @@ class Forum extends ArtObject {
         $this->initVar('cat_id', XOBJ_DTYPE_INT);
         $this->initVar('forum_type', XOBJ_DTYPE_INT);
         $this->initVar('parent_forum', XOBJ_DTYPE_INT);
-        $this->initVar('allow_html', XOBJ_DTYPE_INT);
+        $this->initVar('allow_html', XOBJ_DTYPE_INT); // To be added in 3.01: 0 - disabled; 1 - enabled; 2 - checked by default
         $this->initVar('allow_sig', XOBJ_DTYPE_INT);
         $this->initVar('allow_subject_prefix', XOBJ_DTYPE_INT);
         $this->initVar('hot_threshold', XOBJ_DTYPE_INT);

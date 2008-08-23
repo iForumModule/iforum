@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------ //
 include("admin_header.php");
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 xoops_cp_header();
 loadModuleAdminMenu(7, _AM_NEWBB_PRUNE_TITLE);

@@ -26,7 +26,7 @@
 //  ------------------------------------------------------------------------ //
 
 $modversion['name'] = _MI_NEWBB_NAME;
-$modversion['version'] = 3.0;
+$modversion['version'] = 3.01;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
 $modversion['author'] = "D.J. (phppp)";
@@ -38,7 +38,7 @@ $modversion['author_realname'] = "CBB Dev Team";
 $modversion['author_website_url'] = "http://xoopsforge.com";
 $modversion['author_website_name'] = "XForge";
 $modversion['author_email'] = "php_pp@hotmail.com";
-$modversion['status_version'] = "3.0";
+$modversion['status_version'] = "3.01";
 $modversion['status'] = "stable";
 
 $modversion['warning'] = "For XOOPS 2.0*, 2.2*, 2.3";

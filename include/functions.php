@@ -1303,7 +1303,8 @@ function newbb_welcome( $user = -1 )
 	if(!defined("_PROFILE_MA_ALLABOUT")) {
 		$mod->loadLanguage();
 	}
-	$groupperm_handler =& xoops_gethandler('groupperm');
+	//$groupperm_handler =& xoops_gethandler('groupperm');
+	$groupperm_handler =& xoops_getmodulehandler('permission', 'newbb');
 	$show_ids = $groupperm_handler->getItemIds('profile_show', $groups, $mod->getVar('mid'));
 	$visible_ids = $groupperm_handler->getItemIds('profile_visible', $groups, $mod->getVar('mid'));
 	unset($mod);
