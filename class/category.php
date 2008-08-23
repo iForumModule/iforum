@@ -123,10 +123,15 @@ class NewbbCategoryHandler extends XoopsObjectHandler
 
         if ($category->isNew()) {
             $category->setVar('cat_id', $this->db->genId($category->table . "_cat_id_seq"));
+            /*
             $sql = "INSERT INTO " . $category->table . " (cat_id, cat_image, cat_title, cat_description, cat_order, cat_state, cat_url, cat_showdescript)
 			         VALUES (" . $category->getVar('cat_id') . ", " . $this->db->quoteString($cat_image) . ", " . $this->db->quoteString($cat_title) . ", " . $this->db->quoteString($cat_description) . ", " . $cat_order . ", " . $cat_state . ", " . $this->db->quoteString($cat_url) . ", " . $cat_showdescript . " )";
+			*/
+            $sql = "INSERT INTO " . $category->table . " (cat_id, cat_image, cat_title, cat_description, cat_order, cat_url, cat_showdescript)
+			         VALUES (" . $category->getVar('cat_id') . ", " . $this->db->quoteString($cat_image) . ", " . $this->db->quoteString($cat_title) . ", " . $this->db->quoteString($cat_description) . ", " . $cat_order . ", " . $this->db->quoteString($cat_url) . ", " . $cat_showdescript . " )";
         } else {
-            $sql = "UPDATE " . $category->table . " SET cat_image=" . $this->db->quoteString($cat_image) . ", cat_title=" . $this->db->quoteString($cat_title) . ", cat_description=" . $this->db->quoteString($cat_description) . ", cat_order=" . $cat_order . ",  cat_state=" . $cat_state . ", cat_url=" . $this->db->quoteString($cat_url) . ",  cat_showdescript=" . $cat_showdescript . " WHERE cat_id=" . $cat_id;
+            //$sql = "UPDATE " . $category->table . " SET cat_image=" . $this->db->quoteString($cat_image) . ", cat_title=" . $this->db->quoteString($cat_title) . ", cat_description=" . $this->db->quoteString($cat_description) . ", cat_order=" . $cat_order . ",  cat_state=" . $cat_state . ", cat_url=" . $this->db->quoteString($cat_url) . ",  cat_showdescript=" . $cat_showdescript . " WHERE cat_id=" . $cat_id;
+            $sql = "UPDATE " . $category->table . " SET cat_image=" . $this->db->quoteString($cat_image) . ", cat_title=" . $this->db->quoteString($cat_title) . ", cat_description=" . $this->db->quoteString($cat_description) . ", cat_order=" . $cat_order . ", cat_url=" . $this->db->quoteString($cat_url) . ",  cat_showdescript=" . $cat_showdescript . " WHERE cat_id=" . $cat_id;
         }
         if (!$result = $this->db->query($sql)) {
             return false;

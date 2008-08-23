@@ -40,8 +40,8 @@ $modversion['author_realname'] = "XOOPS CHINA Dev Group";
 $modversion['author_website_url'] = "http://xoops.org.cn";
 $modversion['author_website_name'] = "XOOPS CHINA";
 $modversion['author_email'] = "infomax@gmail.com";
-$modversion['status_version'] = "1.16";
-$modversion['status'] = "20051226";
+$modversion['status_version'] = "1.16a";
+$modversion['status'] = "20060105";
 
 $modversion['warning'] = "The further development of NewBB 2";
 
