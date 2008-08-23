@@ -493,6 +493,7 @@ function xoops_module_install_newbb(&$module)
  
 function newbb_setModuleConfig(&$module, $isUpdate = false) 
 {
+	return true;
 	require_once(XOOPS_ROOT_PATH.'/class/xoopslists.php');
 	$imagesets =& XoopsLists::getDirListAsArray(XOOPS_ROOT_PATH.'/modules/newbb/images/imagesets/');
 	

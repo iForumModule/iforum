@@ -58,10 +58,10 @@ $forum = ($forum)?$forum:$forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum))    die(_MD_NORIGHTTOACCESS);
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOVIEW);
-if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_MD_FORUMNOEXIST);
+//if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_MD_FORUMNOEXIST);
 
-$pdf_data['title'] = $myts->htmlSpecialChars($forumdata['forum_name']);
-$pdf_data['subtitle'] = $myts->htmlSpecialChars($forumdata['topic_title']);
+$pdf_data['title'] = $viewtopic_forum->getVar("forum_name");
+$pdf_data['subtitle'] = $forumtopic->getVar('topic_title');
 $pdf_data['subsubtitle'] = $post_data['subject'];
 $pdf_data['date'] = $post_data['date'];
 $pdf_data['content'] = $post_data['text'];
@@ -88,6 +88,7 @@ $puffer='<br />';
 $pdf=new PDF();
 if(method_exists($pdf, "encoding")){
 	$pdf->encoding($pdf_data, _CHARSET);
+	$pdf->encoding($pdf_config, _CHARSET);
 }
 $pdf->SetCreator($pdf_config['creator']);
 $pdf->SetTitle($pdf_data['title']);

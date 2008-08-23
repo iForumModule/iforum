@@ -336,20 +336,25 @@ class Post extends ArtObject {
     }
 
     // TODO: cleaning up and merge with post hanldings in viewpost.php
-    function showPost($isadmin, $forumdata)
+    function showPost($isadmin)
     {
-        global $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsUser, $myts, $xoopsTpl, $forumUrl, $forumImage, $viewtopic_users, $viewtopic_posters, $viewtopic_forum, $online, $user_karma, $viewmode, $order, $start, $total_posts;
+        global $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsUser, $myts, $xoopsTpl;
+        global $forumUrl, $forumImage;
+        global $viewtopic_users, $viewtopic_posters, $viewtopic_forum, $forumtopic, $online, $user_karma, $viewmode, $order, $start, $total_posts, $topic_status;
         static $post_NO = 0;
         static $user_ip;
-        
-        /* Moved to class permission for centralized process */
-		//static $suspension = array();
 
+		$post_id = $this->getVar('post_id');
+		$topic_id = $this->getVar('topic_id');
+		$forum_id = $this->getVar('forum_id');
+		
+		$topic_status = $forumtopic->getVar('topic_status');
+
+        $uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
+		
         $post_NO ++;
         if (strtolower($order) == "desc") $post_no = $total_posts - ($start + $post_NO) + 1;
         else $post_no = $start + $post_NO;
-
-        $uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
 
         if ($isadmin or $this->checkIdentity()) {
             $post_text = $this->getVar('post_text');
@@ -380,11 +385,10 @@ class Post extends ArtObject {
             );
 
         $posticon = $this->getVar('icon');
-        //if (!empty($posticon) && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $posticon))
         if (!empty($posticon)){
-            $post_image = '<a name="' . $this->getVar('post_id') . '"><img src="' . XOOPS_URL . '/images/subject/' . $posticon . '" alt="" /></a>';
+            $post_image = '<a name="' . $post_id . '"><img src="' . XOOPS_URL . '/images/subject/' . $posticon . '" alt="" /></a>';
         }else{
-            $post_image = '<a name="' . $this->getVar('post_id') . '"><img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /></a>';
+            $post_image = '<a name="' . $post_id . '"><img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /></a>';
         }
 
         $post_title = $this->getVar('subject');
@@ -392,18 +396,8 @@ class Post extends ArtObject {
         $thread_buttons = array();
         
 		if($GLOBALS["xoopsModuleConfig"]['enable_permcheck']){
-			
-			/*
-			if(!isset($suspension[$this->getVar('forum_id')])){
-				$moderate_handler =& xoops_getmodulehandler('moderate', 'newbb');
-				$suspension[$this->getVar('forum_id')] = $moderate_handler->verifyUser(-1,"",$this->getVar('forum_id'));
-			}
-			*/
-			
 	        $topic_handler = &xoops_getmodulehandler('topic', 'newbb');
-	
-	        //if (!$suspension[$this->getVar('forum_id')] && $topic_handler->getPermission($viewtopic_forum, $forumdata['topic_status'], "edit")) {
-	        if ($topic_handler->getPermission($viewtopic_forum, $forumdata['topic_status'], "edit")) {
+	        if ($topic_handler->getPermission($forum_id, $topic_status, "edit")) {
 	            $edit_ok = false;
 	            if ($isadmin) {
 	                $edit_ok = true;
@@ -412,13 +406,12 @@ class Post extends ArtObject {
 	            }
 	            if ($edit_ok) {
 	                $thread_buttons['edit']['image'] = newbb_displayImage($forumImage['p_edit'], _EDIT);
-	                $thread_buttons['edit']['link'] = "edit.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order";
+	                $thread_buttons['edit']['link'] = "edit.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 	                $thread_buttons['edit']['name'] = _EDIT;
 	            }
 	        }
 	
-	        //if (!$suspension[$this->getVar('forum_id')] && $topic_handler->getPermission($viewtopic_forum, $forumdata['topic_status'], "delete")) {
-	        if ($topic_handler->getPermission($viewtopic_forum, $forumdata['topic_status'], "delete")) {
+	        if ($topic_handler->getPermission($forum_id, $topic_status, "delete")) {
 	            $delete_ok = false;
 	            if ($isadmin) {
 	                $delete_ok = true;
@@ -428,18 +421,17 @@ class Post extends ArtObject {
 	
 	            if ($delete_ok) {
 	                $thread_buttons['delete']['image'] = newbb_displayImage($forumImage['p_delete'], _DELETE);
-	                $thread_buttons['delete']['link'] = "delete.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order";
+	                $thread_buttons['delete']['link'] = "delete.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 	                $thread_buttons['delete']['name'] = _DELETE;
 	            }
 	        }
-	        //if (!$suspension[$this->getVar('forum_id')] && $topic_handler->getPermission($viewtopic_forum, $forumdata['topic_status'], "reply")) {
-	        if ($topic_handler->getPermission($viewtopic_forum, $forumdata['topic_status'], "reply")) {
+	        if ($topic_handler->getPermission($forum_id, $topic_status, "reply")) {
 	            $thread_buttons['reply']['image'] = newbb_displayImage($forumImage['p_reply'], _MD_REPLY);
-	            $thread_buttons['reply']['link'] = "reply.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
+	            $thread_buttons['reply']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
 	            $thread_buttons['reply']['name'] = _MD_REPLY;
 	            /*
 	            $thread_buttons['quote']['image'] = newbb_displayImage($forumImage['p_quote'], _MD_QUOTE);
-	            $thread_buttons['quote']['link'] = "reply.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start&amp;quotedac=1";
+	            $thread_buttons['quote']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start&amp;quotedac=1";
 	            $thread_buttons['quote']['name'] = _MD_QUOTE;
 	            */
 	        }
@@ -447,22 +439,22 @@ class Post extends ArtObject {
     	}else{
     	
 			$thread_buttons['edit']['image'] = newbb_displayImage($forumImage['p_edit'], _EDIT);
-			$thread_buttons['edit']['link'] = "edit.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order";
+			$thread_buttons['edit']['link'] = "edit.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 			$thread_buttons['edit']['name'] = _EDIT;
 			
 			$thread_buttons['delete']['image'] = newbb_displayImage($forumImage['p_delete'], _DELETE);
-			$thread_buttons['delete']['link'] = "delete.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order";
+			$thread_buttons['delete']['link'] = "delete.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 			$thread_buttons['delete']['name'] = _DELETE;
 			
 			$thread_buttons['reply']['image'] = newbb_displayImage($forumImage['p_reply'], _MD_REPLY);
-			$thread_buttons['reply']['link'] = "reply.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
+			$thread_buttons['reply']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
 			$thread_buttons['reply']['name'] = _MD_REPLY;
     	
 		}
 		
         if (!$isadmin && $xoopsModuleConfig['reportmod_enabled']) {
             $thread_buttons['report']['image'] = newbb_displayImage($forumImage['p_report'], _MD_REPORT);
-            $thread_buttons['report']['link'] = "report.php?forum=" . $forumdata['forum_id'] . "&amp;topic_id=" . $this->getVar('topic_id') . "&amp;viewmode=$viewmode&amp;order=$order";
+            $thread_buttons['report']['link'] = "report.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
             $thread_buttons['report']['name'] = _MD_REPORT;
         }
                 
@@ -470,7 +462,7 @@ class Post extends ArtObject {
         /*
         if ($isadmin) {
         	$thread_action['news']['image'] = newbb_displayImage($forumImage['news'], _MD_POSTTONEWS);
-        	$thread_action['news']['link'] = "posttonews.php?topic_id=" . $this->getVar('topic_id');
+        	$thread_action['news']['link'] = "posttonews.php?topic_id=" . $topic_id;
         	$thread_action['news']['name'] = _MD_POSTTONEWS;
         }
 
@@ -479,7 +471,7 @@ class Post extends ArtObject {
         $thread_action['pdf']['name'] = _MD_PDF;
 
         $thread_action['print']['image'] = newbb_displayImage($forumImage['printer'], _MD_PRINT);
-        $thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forumdata['forum_id']."&amp;topic_id=" . $this->getVar('topic_id');
+        $thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forum_id."&amp;topic_id=" . $topic_id;
         $thread_action['print']['name'] = _MD_PRINT;
 
         if(is_object($xoopsUser) && $this->getVar('uid') > 0 && isset($viewtopic_users[$this->getVar('uid')])){
@@ -490,7 +482,7 @@ class Post extends ArtObject {
         */
 
         $post = array(
-	    			'post_id' => $this->getVar('post_id'),
+	    			'post_id' => $post_id,
 	                'post_parent_id' => $this->getVar('pid'),
 	                'post_date' => newbb_formatTimestamp($this->getVar('post_time')),
 	                'post_image' => $post_image,
@@ -505,8 +497,6 @@ class Post extends ArtObject {
 	                'thread_buttons' => $thread_buttons,
 	                'poster' => $poster
 	       	);
-
-        //$xoopsTpl->append('topic_posts', $post);
 
         unset($thread_buttons);
         unset($eachposter);

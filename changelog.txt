@@ -2,6 +2,18 @@ CBB
 
 XOOPS Community Bulletin Board
 
+Changelog 3.02
+Apr 23rd, 2006 
+=============
+1 Fixed URL iteration for menumode (reported by genetailor)
+2 Skip cache for edit pages
+3 Charset completeness for PDF maker (reported by domecc)
+4 Performance improvement, including PHP scripting and MySQL db structure
+5 Added action request detection in xoops_version.php so that some useful features are reactived including "welcome forum"
+6 Bugfix for "sort by rating" URL (reported by Mowaffak)
+7 Added time limit to "recent replied topic" block
+8 Bugfix for signature setting (removed unnecessary user setting check)
+
 Changelog 3.01
 Feb 22th, 2006 
 =============

@@ -44,6 +44,9 @@ class Topic extends ArtObject {
         $this->initVar('forum_id', XOBJ_DTYPE_INT);
         $this->initVar('topic_status', XOBJ_DTYPE_INT);
         $this->initVar('topic_subject', XOBJ_DTYPE_INT);
+        $this->initVar('topic_sticky', XOBJ_DTYPE_INT);
+        $this->initVar('topic_digest', XOBJ_DTYPE_INT);
+        $this->initVar('digest_time', XOBJ_DTYPE_INT);
         $this->initVar('approved', XOBJ_DTYPE_INT);
         $this->initVar('poster_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('rating', XOBJ_DTYPE_OTHER);

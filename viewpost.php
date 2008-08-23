@@ -57,8 +57,8 @@ if(empty($forum_id)){
 	$access_forums = array_keys($forums);
 }
 else{
-	$forum =& $forum_handler->get($forum_id);
-	$forums[$forum_id] =& $forum;
+	$forum_obj =& $forum_handler->get($forum_id);
+	$forums[$forum_id] =& $forum_obj;
 	$access_forums = array($forum_id);
 }
 
@@ -134,27 +134,27 @@ $xoopsOption['template_main'] = 'newbb_viewpost.html';
 include XOOPS_ROOT_PATH."/header.php";
 
 if(!empty($forum_id)){
-	if (!$forum_handler->getPermission($forum, "view")){
+	if (!$forum_handler->getPermission($forum_obj, "view")){
 	    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
 	    exit();
 	}
-	if($forum->isSubforum())
+	if($forum_obj->isSubforum())
 	{
-		$q = "select forum_name from ".$xoopsDB->prefix('bb_forums')." WHERE forum_id=".$forum->getVar('parent_forum');
+		$q = "select forum_name from ".$xoopsDB->prefix('bb_forums')." WHERE forum_id=".$forum_obj->getVar('parent_forum');
 		$row = $xoopsDB->fetchArray($xoopsDB->query($q));
-		$xoopsTpl->assign(array('parent_forum' => $forum->getVar('parent_forum'), 'parent_name' => $myts->htmlSpecialChars($row['forum_name'])));
+		$xoopsTpl->assign(array('parent_forum' => $forum_obj->getVar('parent_forum'), 'parent_name' => $myts->htmlSpecialChars($row['forum_name'])));
 	}
-	$xoopsTpl->assign('forum_name', $forum->getVar('forum_name'));
-	$xoopsTpl->assign('forum_moderators', $forum->disp_forumModerators());
+	$xoopsTpl->assign('forum_name', $forum_obj->getVar('forum_name'));
+	$xoopsTpl->assign('forum_moderators', $forum_obj->disp_forumModerators());
 
 	$forum_lastview = newbb_getcookie('LF',true);
 	$forum_lastview[$forum_id] = time();
 	newbb_setcookie("LF", $forum_lastview);
-	$xoops_pagetitle = $xoopsModule->getVar('name'). ' - ' .$forum->getVar('forum_name'). ' - ' ._MD_VIEWALLPOSTS;
-	$xoopsTpl->assign("forum_id", $forum->getVar('forum_id'));
+	$xoops_pagetitle = $xoopsModule->getVar('name'). ' - ' .$forum_obj->getVar('forum_name'). ' - ' ._MD_VIEWALLPOSTS;
+	$xoopsTpl->assign("forum_id", $forum_obj->getVar('forum_id'));
 
 	if(!empty($xoopsModuleConfig['rss_enable'])){
-		$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'-'.$forum->getVar('forum_name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
+		$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'-'.$forum_obj->getVar('forum_name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
 	}
 }elseif(!empty($xoopsModuleConfig['rss_enable'])){
 	$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />';

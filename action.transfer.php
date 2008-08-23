@@ -76,7 +76,7 @@ $forum = ($forum)?$forum:$forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum))    die(_NOPERM);
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_NOPERM);
-if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_NOPERM);
+//if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_NOPERM);
 
 $op = empty($_POST["op"])?"":$_POST["op"];
 $op = strtolower(trim($op));

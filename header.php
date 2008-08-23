@@ -29,7 +29,7 @@
 include_once '../../mainfile.php';
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/vars.php";
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/functions.php";
-@include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
+include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
 
 $myts =& MyTextSanitizer::getInstance();
 
@@ -43,7 +43,7 @@ if(isset($_REQUEST['menumode'])){
 }
 
 $menumode_other = array();
-$menu_url = htmlSpecialChars($_SERVER[ 'REQUEST_URI' ]);
+$menu_url = htmlSpecialChars(preg_replace("/&menumode=[^&]/", "", $_SERVER[ 'REQUEST_URI' ]));
 $menu_url .= (false === strpos($menu_url, "?"))?"?menumode=":"&amp;menumode=";
 foreach($valid_menumodes as $key=>$val){
 	if($key != $menumode) $menumode_other[]=array("title"=>$val, "link"=>$menu_url.$key);

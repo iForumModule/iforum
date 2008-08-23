@@ -26,7 +26,7 @@
 //  ------------------------------------------------------------------------ //
 
 $modversion['name'] = _MI_NEWBB_NAME;
-$modversion['version'] = 3.01;
+$modversion['version'] = 3.02;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
 $modversion['author'] = "D.J. (phppp)";
@@ -49,6 +49,10 @@ $modversion['support_site_url'] = "http://xoopsforge.com/modules/newbb/";
 $modversion['support_site_name'] = "Team CBB";
 $modversion['submit_feature'] = "http://xoopsforge.com/modules/newbb/";
 $modversion['submit_bug'] = "http://xoopsforge.com/modules/newbb/";
+
+include_once(XOOPS_ROOT_PATH."/Frameworks/art/functions.ini.php");
+// Is performing module install/update?
+$isModuleAction = mod_isModuleAction($modversion['dirname']);
 
 // Sql file
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
@@ -121,7 +125,7 @@ $modversion['templates'][13]['description'] = '';
 
 // options[0] - Citeria valid: time(by default)
 // options[1] - NumberToDisplay: any positive integer
-// options[2] - reserved
+// options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
 // options[3] - DisplayMode: 0-full view;1-compact view;2-lite view
 // options[4] - Display Navigator: 1 (by default), 0 (No)
 // options[5] - SelectedForumIDs: null for all
@@ -131,7 +135,7 @@ $modversion['blocks'][1] = array(
 	'name' => _MI_NEWBB_BLOCK_TOPIC_POST,
 	'description' => "Shows recent replied topics",
 	'show_func' => "b_newbb_show",
-	'options' => "time|5|0|0|1|0",
+	'options' => "time|5|360|0|1|0",
 	'edit_func' => "b_newbb_edit",
 	'template' => 'newbb_block.html');
 
@@ -148,7 +152,7 @@ $modversion['blocks'][] = array(
 	'name' => _MI_NEWBB_BLOCK_TOPIC,
 	'description' => "Shows recent topics in the forums",
 	'show_func' => "b_newbb_topic_show",
-	'options' => "time|5|0|0|1|0|0",
+	'options' => "time|5|360|0|1|0|0",
 	'edit_func' => "b_newbb_topic_edit",
 	'template' => 'newbb_block_topic.html');
 
@@ -166,7 +170,7 @@ $modversion['blocks'][] = array(
 	'name' => _MI_NEWBB_BLOCK_POST,
 	'description' => "Shows recent posts in the forums",
 	'show_func' => "b_newbb_post_show",
-	'options' => "title|10|0|0|1|0|0",
+	'options' => "title|10|360|0|1|0|0",
 	'edit_func' => "b_newbb_post_edit",
 	'template' => 'newbb_block_post.html');
 
@@ -182,7 +186,7 @@ $modversion['blocks'][] = array(
 	'name' => _MI_NEWBB_BLOCK_AUTHOR,
 	'description' => "Shows authors stats",
 	'show_func' => "b_newbb_author_show",
-	'options' => "topic|5|0|0|1|0",
+	'options' => "topic|5|360|0|1|0",
 	'edit_func' => "b_newbb_author_edit",
 	'template' => 'newbb_block_author.html');	
 
@@ -194,8 +198,6 @@ $modversion['search']['func'] = "newbb_search";
 // Smarty
 $modversion['use_smarty'] = 1;
 
-//require_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
-
 $modversion['config'][] = array(
 	'name' 			=> 'do_debug',
 	'title' 		=> '_MI_DO_DEBUG',
@@ -204,13 +206,18 @@ $modversion['config'][] = array(
 	'valuetype' 	=> 'int',
 	'default' 		=> 0);
 
+$imagesets = array("default"=>"Default", "hsyong"=>"hsyong");
+if($isModuleAction){
+	require_once(XOOPS_ROOT_PATH.'/class/xoopslists.php');
+	$imagesets =& XoopsLists::getDirListAsArray(XOOPS_ROOT_PATH.'/modules/newbb/images/imagesets/');
+}
 $modversion['config'][] = array(
 	'name' 			=> 'image_set',
 	'title' 		=> '_MI_IMG_SET',
 	'description' 	=> '_MI_IMG_SET_DESC',
 	'formtype' 		=> 'select',
 	'valuetype' 	=> 'text',
-	'options' 		=> array("default"=>"Default", "hsyong"=>"hsyong"),
+	'options' 		=> $imagesets,
 	'default' 		=> "default");
 
 $modversion['config'][] = array(
@@ -222,13 +229,20 @@ $modversion['config'][] = array(
 	'options' 		=> array('png'=>'png', 'gif'=>'gif', 'auto'=>'auto'),
 	'default' 		=> "auto");
 
+
+$theme_set = array(_NONE=>"0");
+if($isModuleAction){
+    foreach ($GLOBALS["xoopsConfig"]["theme_set_allowed"] as $theme) {
+		$theme_set[$theme] = $theme;
+    }
+}
 $modversion["config"][] = array(
 	"name" => "theme_set",
 	"title" => "_MI_THEMESET",
 	"description" => "_MI_THEMESET_DESC",
 	"formtype"=> "select",
 	"valuetype" => "text",
-	"options"=> array(_NONE=>""),
+	"options"=> $theme_set,
 	"default" => "");
 
 $modversion['config'][] = array(
@@ -651,6 +665,21 @@ $modversion['config'][] = array(
 	'valuetype' => 'text',
 	'default' => _MI_DISCLAIMER_TEXT);
 
+$forum_options = array(_NONE => 0);
+if($isModuleAction){
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forums = $forum_handler->getForumsByCategory(0, '', false);
+	foreach (array_keys($forums) as $c) {
+		foreach(array_keys($forums[$c]) as $f){
+			$forum_options[$forums[$c][$f]["title"]]=$f;
+	        if(!isset($forums[$c][$f]["sub"])) continue;
+			foreach(array_keys($forums[$c][$f]["sub"]) as $s){
+				$forum_options["-- ".$forums[$c][$f]["sub"][$s]["title"]]=$s;
+			}
+		}
+	}
+	unset($forums);
+}
 $modversion['config'][] = array(
 	'name' => 'welcome_forum',
 	'title' => '_MI_WELCOMEFORUM',
@@ -658,10 +687,10 @@ $modversion['config'][] = array(
 	'formtype' => 'select',
 	'valuetype' => 'int',
 	'default' => 0,
-	'options' => '');
+	'options' => $forum_options);
 
 // Notification
-
+$modversion["notification"] = array();
 $modversion['hasNotification'] = 1;
 $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 $modversion['notification']['lookup_func'] = 'newbb_notify_iteminfo';

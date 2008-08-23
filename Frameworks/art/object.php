@@ -110,6 +110,7 @@ class ArtObject extends _XoopsObject
                     }
                 case XOBJ_DTYPE_TXTBOX:
                 case XOBJ_DTYPE_SOURCE:
+                case XOBJ_DTYPE_URL:
                 case XOBJ_DTYPE_EMAIL:
                     if ($v["changed"]) {
                         $cleanv = $this->db->quoteString($cleanv);
@@ -172,7 +173,18 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     
     function _setVar($var, $val)
     {
-        $this->{$var} = preg_replace("/[^a-z0-9\-_]/i", "", $val);
+        $this->{$var} = $val;
+    }
+    
+    function _getVar($var)
+    {
+	    static $vars = array();
+	    
+	    if(isset($vars[$var])) return $vars[$var];
+	    if(!isset($this->{$var})) $vars[$var] = null;
+        else $vars[$var] = preg_replace("/[^a-z0-9\-_]/i", "", $this->{$var});
+        
+        return $vars[$var];
     }
     
     /**
@@ -216,9 +228,11 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     function insert(&$object, $force = true)
     {
         if (!$object->isDirty()) {
+	        $object->setErrors("not isDirty");
 	        return $object->getVar($this->keyName);
         }
         if (!$object->cleanVars()) {
+	        $object->setErrors("cleanVars failed");
 	        return false;
         }
         if (empty($object->changedVars)) {
@@ -232,7 +246,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	        $vals = array_values($object->changedVars);
             $sql = "INSERT INTO " . $this->table . " (".implode(",", $keys).") VALUES (".implode(",", $vals).")";
             if (!$result = $this->db->{$queryFunc}($sql)) {
-                $object->setErrors("Insert object error:" . $sql);
+                $object->setErrors("Insert object error ($queryFunc):" . $sql);
                 return false;
             }
             $object_id = $this->db->getInsertId();
@@ -389,10 +403,10 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	    else $select = "o.*, l.*";
 	    $limit = null;
 	    $start = null;
-	    $linkfield = empty($linkfield)?$this->field_link:preg_replace("/[^a-z0-9\-_]/i", "", $linkfield); // deprecated
+	    $linkfield = empty($linkfield)?$this->_getVar("field_link"):preg_replace("/[^a-z0-9\-_]/i", "", $linkfield); // deprecated
         $sql = "SELECT $select".
         		" FROM " . $this->table." AS o ".
-        		" LEFT JOIN ".$this->table_link." AS l ON o.".$linkfield." = l.".$linkfield;
+        		" LEFT JOIN ".$this->_getVar("table_link")." AS l ON o.".$linkfield." = l.".$linkfield;
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql .= " ".$criteria->renderWhere();
             if ($sort = $criteria->getSort()) {
@@ -430,7 +444,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     {
         $sql = "SELECT COUNT(DISTINCT ".$this->keyName.") AS count".
         		" FROM " . $this->table." AS o ".
-        		" LEFT JOIN ".$this->table_link." AS l ON o.".$this->field_link." = l.".$this->field_link;
+        		" LEFT JOIN ".$this->_getVar("table_link")." AS l ON o.".$this->_getVar("field_link")." = l.".$this->_getVar("field_link");
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql .= " ".$criteria->renderWhere();
         }
@@ -443,13 +457,13 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     
    	function getCountsByLink($criteria = null)
     {
-        $sql = "SELECT l.".$this->keyName_link.", COUNT(*)".
+        $sql = "SELECT l.".$this->_getVar("keyName_link").", COUNT(*)".
         		" FROM " . $this->table." AS o ".
-        		" LEFT JOIN ".$this->table_link." AS l ON o.".$this->field_link." = l.".$this->field_link;
+        		" LEFT JOIN ".$this->_getVar("table_link")." AS l ON o.".$this->_getVar("field_link")." = l.".$this->_getVar("field_link");
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql .= " ".$criteria->renderWhere();
         }
-        $sql .=" GROUP BY l.".$this->keyName_link."";
+        $sql .=" GROUP BY l.".$this->_getVar("keyName_link")."";
         if (!$result = $this->db->query($sql)) {
             return false;
         }
@@ -468,7 +482,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	    }
         $sql = "UPDATE " . $this->table." AS o ".
         		" SET ".implode(", ", $set).
-        		" LEFT JOIN ".$this->table_link." AS l ON o.".$this->field_link." = l.".$this->field_link;
+        		" LEFT JOIN ".$this->_getVar("table_link")." AS l ON o.".$this->_getVar("field_link")." = l.".$this->_getVar("field_link");
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql .= " ".$criteria->renderWhere();
         }
@@ -479,7 +493,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     {
         $sql = "DELETE".
         		" FROM " . $this->table." AS o ".
-        		" LEFT JOIN ".$this->table_link." AS l ON o.".$this->field_link." = l.".$this->field_link;
+        		" LEFT JOIN ".$this->_getVar("table_link")." AS l ON o.".$this->_getVar("field_link")." = l.".$this->_getVar("field_link");
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql .= " ".$criteria->renderWhere();
         }

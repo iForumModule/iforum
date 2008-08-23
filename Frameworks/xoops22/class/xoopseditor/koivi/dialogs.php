@@ -54,7 +54,7 @@ $skin = isset($_GET['skin']) ? $_GET['skin'] : 'default';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 
 /* The path is specified */
-include_once(dirname(__FILE__) .'/../../../mainfile.php');
+include_once(dirname(__FILE__) .'/../../../../../mainfile.php');
 include_once(dirname(__FILE__) .'/preferences.php');
 $url = _XK_P_PATH;
 

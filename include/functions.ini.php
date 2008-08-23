@@ -32,7 +32,7 @@ if (!defined('XOOPS_ROOT_PATH')){ exit(); }
 
 if(defined("NEWBB_FUNCTIONS_INI")) return; define("NEWBB_FUNCTIONS_INI",1);
 
-//@include_once(XOOPS_ROOT_PATH."/Frameworks/art/functions.php");
+include_once(XOOPS_ROOT_PATH."/Frameworks/art/functions.php");
 
 function newbb_load_object()
 {
@@ -65,17 +65,17 @@ function getConfigForBlock()
     if(is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname") == "newbb"){
 	    $newbbConfig =& $GLOBALS["xoopsModuleConfig"];
     }else{
-		$module_handler = &xoops_gethandler('module');
+		$module_handler =& xoops_gethandler('module');
 		$newbb = $module_handler->getByDirname('newbb');
 	
-	    $config_handler = &xoops_gethandler('config');
+	    $config_handler =& xoops_gethandler('config');
 	    $criteria = new CriteriaCompo(new Criteria('conf_modid', $newbb->getVar('mid')));
 	    $criteria->add(new Criteria('conf_name', "('show_realname', 'subject_prefix', 'allow_require_reply')", "IN"));
 	    $configs =& $config_handler->getConfigs($criteria);
 	    foreach(array_keys($configs) as $i){
 		    $newbbConfig[$configs[$i]->getVar('conf_name')] = $configs[$i]->getConfValueForOutput();
 	    }
-	    unset($configs);
+	    unset($newbb, $configs);
     }
     return $newbbConfig;
 }
@@ -99,36 +99,7 @@ function newbb_load_lang_file( $filename, $module = '', $default = 'english' )
 // Adapted from PMA_getIp() [phpmyadmin project]
 function newbb_getIP($asString = false)
 {
-    // Gets the proxy ip sent by the user
-    $proxy_ip     = '';
-    if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-        $proxy_ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    } else if (!empty($_SERVER["HTTP_X_FORWARDED"])) {
-        $proxy_ip = $_SERVER["HTTP_X_FORWARDED"];
-    } else if (!empty($_SERVER["HTTP_FORWARDED_FOR"])) {
-        $proxy_ip = $_SERVER["HTTP_FORWARDED_FOR"];
-    } else if (!empty($_SERVER["HTTP_FORWARDED"])) {
-        $proxy_ip = $_SERVER["HTTP_FORWARDED"];
-    } else if (!empty($_SERVER["HTTP_VIA"])) {
-        $proxy_ip = $_SERVER["HTTP_VIA"];
-    } else if (!empty($_SERVER["HTTP_X_COMING_FROM"])) {
-        $proxy_ip = $_SERVER["HTTP_X_COMING_FROM"];
-    } else if (!empty($_SERVER["HTTP_COMING_FROM"])) {
-        $proxy_ip = $_SERVER["HTTP_COMING_FROM"];
-    }
-
-    if (!empty($proxy_ip) &&
-        $is_ip = ereg('^([0-9]{1,3}\.){3,3}[0-9]{1,3}', $proxy_ip, $regs) &&
-        count($regs) > 0
-  	) {
-      	$the_IP = $regs[0];
-  	}else{
-      	$the_IP = $_SERVER['REMOTE_ADDR'];	      	
-  	}
-    
-  	$the_IP = ($asString)?$the_IP:ip2long($the_IP);
-  	
-  	return $the_IP;
+	return mod_getIP($asString);
 }
 
 function newbb_formatTimestamp($time, $format="c", $timeoffset="")

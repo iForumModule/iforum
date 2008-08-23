@@ -59,13 +59,13 @@ if ( !$topic_id ) {
 }
 
 $forum = $topic->getVar('forum_id');
-$_forum =& $forum_handler->get($forum);
-if (!$forum_handler->getPermission($_forum)){
+$forum_obj =& $forum_handler->get($forum);
+if (!$forum_handler->getPermission($forum_obj)){
     redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
     exit();
 }
 
-$isadmin = newbb_isAdmin($_forum);
+$isadmin = newbb_isAdmin($forum_obj);
 $uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
 
 $forumpost =& $post_handler->get($post_id);
@@ -84,7 +84,7 @@ if (!$isadmin && !$forumpost->checkTimelimit('delete_timelimit')){
 
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
-	$online_handler->init($_forum);
+	$online_handler->init($forum_obj);
 }
 
 if ( $ok ) {

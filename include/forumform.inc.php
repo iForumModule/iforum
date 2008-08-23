@@ -117,6 +117,7 @@ if(!empty($editor)){
 }
 $forum_form->addElement(new XoopsFormSelectEditor($forum_form,"editor",$editor,$nohtml));
 
+$editor_configs = array();
 $editor_configs["name"] ="message";
 $editor_configs["value"] = $message;
 $editor_configs["rows"] = 35;

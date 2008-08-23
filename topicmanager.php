@@ -63,6 +63,8 @@ $action['unsticky']['sql'] = 'topic_sticky = 0';
 $action['undigest']['sql'] = 'topic_digest = 0';
 $action['digest']['sql'] = 'topic_digest = 1, digest_time = '.time();
 
+// Disable cache
+$xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;
 include XOOPS_ROOT_PATH.'/header.php';
 
 if ( isset($_POST['submit']) ) {

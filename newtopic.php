@@ -40,21 +40,21 @@ if ( empty($forum) ) {
     exit();
 }
     $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-    $forum = $forum_handler->get($forum);
-	if (!$forum_handler->getPermission($forum)){
+    $forum_obj = $forum_handler->get($forum);
+	if (!$forum_handler->getPermission($forum_obj)){
 	    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
 	    exit();
 	}
 
 	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-	if (!$topic_handler->getPermission($forum, 0, 'post')) {
-        redirect_header("viewforum.php?order=$order&amp;viewmode=$viewmode&amp;forum=".$forum->getVar('forum_id'),2,_MD_NORIGHTTOPOST);
+	if (!$topic_handler->getPermission($forum_obj, 0, 'post')) {
+        redirect_header("viewforum.php?order=$order&amp;viewmode=$viewmode&amp;forum=".$forum_obj->getVar('forum_id'),2,_MD_NORIGHTTOPOST);
 	    exit();
 	}
 
 	if ($xoopsModuleConfig['wol_enabled']){
 		$online_handler =& xoops_getmodulehandler('online', 'newbb');
-		$online_handler->init($forum);
+		$online_handler->init($forum_obj);
 	}
 
     $istopic = 1;
@@ -76,6 +76,8 @@ if ( empty($forum) ) {
     unset($topic_id);
 
 
+	// Disable cache
+	$xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;
     include XOOPS_ROOT_PATH.'/header.php';
     if ($xoopsModuleConfig['disc_show'] == 1 or $xoopsModuleConfig['disc_show'] == 3 ){
 	    echo "<div class=\"confirmMsg\">".$xoopsModuleConfig['disclaimer']."</div><br clear=\"both\">";

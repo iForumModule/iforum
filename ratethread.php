@@ -90,8 +90,8 @@ if ($rate > 0 ){
 }
 else
 {
-		redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_NOVOTERATE);
-        exit();
+	redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_NOVOTERATE);
+    exit();
 }
 // All is well.  Add to Line Item Rate to DB.
 $newid = $xoopsDB -> genId($xoopsDB -> prefix('bb_votedata') . "_ratingid_seq");
@@ -107,8 +107,5 @@ $ratemessage = _MD_VOTEAPPRE . "<br />" . sprintf(_MD_THANKYOU, $xoopsConfig['si
 redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, $ratemessage);
 exit();
 
-
 include 'footer.php';
-
-
 ?>

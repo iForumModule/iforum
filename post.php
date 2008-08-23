@@ -63,15 +63,15 @@ if ( !empty($isedit) && $post_id>0 ) {
 }
 $topic =& $topic_handler->get($topic_id);
 $forum_id = ($topic_id)?$topic->getVar("forum_id"):$forum;
-$forum =& $forum_handler->get($forum_id);
-if (!$forum_handler->getPermission($forum)){
+$forum_obj =& $forum_handler->get($forum_id);
+if (!$forum_handler->getPermission($forum_obj)){
     redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
     exit();
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
-	$online_handler->init($forum);
+	$online_handler->init($forum_obj);
 }
 
 include XOOPS_ROOT_PATH."/header.php";
@@ -110,7 +110,7 @@ if ( !empty($_POST['contents_submit']) ) {
 		}
 	}
 
-	$isadmin = newbb_isAdmin($forum);
+	$isadmin = newbb_isAdmin($forum_obj);
 
 	$time_valid = true;
 	if( !$isadmin && !empty($xoopsModuleConfig['post_timelimit']) ){
@@ -141,11 +141,11 @@ if ( !empty($_POST['contents_submit']) ) {
 		$uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
 
 		$topic_status = $topic_handler->get($topic_id,'topic_status');
-		if ( $topic_handler->getPermission($forum, $topic_status, 'edit')
+		if ( $topic_handler->getPermission($forum_obj, $topic_status, 'edit')
 			&& ( $isadmin || ( $forumpost->checkTimelimit('edit_timelimit') && $forumpost->checkIdentity() ))
 			) {}
 		else{
-		    redirect_header("viewtopic.php?forum=$forum&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOEDIT);
+		    redirect_header("viewtopic.php?forum=$forum_id&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOEDIT);
 		    exit();
 		}
 
@@ -155,15 +155,15 @@ if ( !empty($_POST['contents_submit']) ) {
     else {
 		if($topic_id){
 			$topic_status = $topic_handler->get($topic_id,'topic_status');
-			if (!$topic_handler->getPermission($forum, $topic_status, 'reply')) {
-			    redirect_header("viewtopic.php?forum=$forum&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOREPLY);
+			if (!$topic_handler->getPermission($forum_obj, $topic_status, 'reply')) {
+			    redirect_header("viewtopic.php?forum=$forum_id&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOREPLY);
 			    exit();
 			}
 		}
 		if(!$topic_id){
 			$topic_status = 0;
-			if (!$topic_handler->getPermission($forum, $topic_status, 'post')) {
-			    redirect_header("viewtopic.php?forum=$forum",2,_MD_NORIGHTTOPOST);
+			if (!$topic_handler->getPermission($forum_obj, $topic_status, 'post')) {
+			    redirect_header("viewtopic.php?forum=$forum_id",2,_MD_NORIGHTTOPOST);
 			    exit();
 			}
 		}
@@ -187,11 +187,11 @@ if ( !empty($_POST['contents_submit']) ) {
         $forumpost->setVar('uid', $uid);
     }
 
-	if($topic_handler->getPermission($forum, $topic_status, 'noapprove')) $approved = 1;
+	if($topic_handler->getPermission($forum_obj, $topic_status, 'noapprove')) $approved = 1;
 	else $approved = 0;
 	$forumpost->setVar('approved', $approved);
 
-    $forumpost->setVar('forum_id', $forum->getVar('forum_id'));
+    $forumpost->setVar('forum_id', $forum_obj->getVar('forum_id'));
 
     $subject = xoops_trim($_POST['subject']);
     $subject = ($subject == '') ? _NOTITLE : $subject;
@@ -209,7 +209,7 @@ if ( !empty($_POST['contents_submit']) ) {
 
     // The text filter is far from complete
     // Let's look for some comprehensive handlers
-	if($dohtml && !newbb_isAdmin($forum) ) {
+	if($dohtml && !newbb_isAdmin($forum_obj) ) {
 		$message=newbb_textFilter($message);
 	}
     $forumpost->setVar('post_text', $message);
@@ -237,25 +237,26 @@ if ( !empty($_POST['contents_submit']) ) {
     }
 	if (count($attachments_tmp)){
 		foreach($attachments_tmp as $key=>$attach){
-			rename(XOOPS_CACHE_PATH . "/" . $attachments_tmp[$key][0],
+			if(rename(XOOPS_CACHE_PATH . "/" . $attachments_tmp[$key][0],
 				XOOPS_ROOT_PATH . "/".$xoopsModuleConfig['dir_attachments']."/".$attachments_tmp[$key][0]
-			);
-            $forumpost->setAttachment($attach[0], $attach[1], $attach[2]);
+			)){
+	            $forumpost->setAttachment($attach[0], $attach[1], $attach[2]);
+	        }
         }
     }
 
     $error_upload = '';
 
     if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name']!=''
-    	&& $topic_handler->getPermission($forum, $topic_status, 'attach')
+    	&& $topic_handler->getPermission($forum_obj, $topic_status, 'attach')
     )
     {
-        $maxfilesize = $forum->getVar('attach_maxkb')*1024;
+        $maxfilesize = $forum_obj->getVar('attach_maxkb')*1024;
         $uploaddir = XOOPS_ROOT_PATH . "/".$xoopsModuleConfig['dir_attachments'];
 
         $uploader = new newbb_uploader(
         	$uploaddir,
-        	$forum->getVar('attach_ext'),
+        	$forum_obj->getVar('attach_ext'),
         	$maxfilesize
         );
 
@@ -289,7 +290,7 @@ if ( !empty($_POST['contents_submit']) ) {
 	newbb_setsession("LP", time()); // Recording last post time
 
 
-    if(newbb_checkSubjectPrefixPermission($forum) && !empty($_POST['subject_pre'])){
+    if(newbb_checkSubjectPrefixPermission($forum_obj) && !empty($_POST['subject_pre'])){
 		$subject_pre = intval($_POST['subject_pre']);
 		$sbj_res = $post_handler->insertnewsubject($forumpost->getVar('topic_id'), $subject_pre);
     }
@@ -302,35 +303,36 @@ if ( !empty($_POST['contents_submit']) ) {
 	    $tags['THREAD_URL'] = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/viewtopic.php?post_id='.$postid.'&amp;topic_id=' . $forumpost->getVar('topic_id').'&amp;forum=' . $forumpost->getVar('forum_id');
 	    $tags['POST_URL'] = $tags['THREAD_URL'] . '#forumpost' . $postid;
 	    include_once 'include/notification.inc.php';
-	    $forum_info = newbb_notify_iteminfo ('forum', $forum->getVar('forum_id'));
+	    $forum_info = newbb_notify_iteminfo ('forum', $forum_obj->getVar('forum_id'));
 	    $tags['FORUM_NAME'] = $forum_info['name'];
 	    $tags['FORUM_URL'] = $forum_info['url'];
 	    $notification_handler =& xoops_gethandler('notification');
         if (empty($isreply)) {
             // Notify of new thread
-            $notification_handler->triggerEvent('forum', $forum->getVar('forum_id'), 'new_thread', $tags);
+            $notification_handler->triggerEvent('forum', $forum_obj->getVar('forum_id'), 'new_thread', $tags);
         } else {
             // Notify of new post
             $notification_handler->triggerEvent('thread', $topic_id, 'new_post', $tags);
         }
         $notification_handler->triggerEvent('global', 0, 'new_post', $tags);
-        $notification_handler->triggerEvent('forum', $forum->getVar('forum_id'), 'new_post', $tags);
+        $notification_handler->triggerEvent('forum', $forum_obj->getVar('forum_id'), 'new_post', $tags);
         $myts =& MyTextSanitizer::getInstance();
         $tags['POST_CONTENT'] = $myts->stripSlashesGPC($_POST['message']);
         $tags['POST_NAME'] = $myts->stripSlashesGPC($_POST['subject']);
         $notification_handler->triggerEvent('global', 0, 'new_fullpost', $tags);
-        $notification_handler->triggerEvent('forum', $forum->getVar('forum_id'), 'new_fullpost', $tags);
+        $notification_handler->triggerEvent('forum', $forum_obj->getVar('forum_id'), 'new_fullpost', $tags);
     }
 
     // If user checked notification box, subscribe them to the
     // appropriate event; if unchecked, then unsubscribe
     if (!empty($xoopsUser) && !empty($xoopsModuleConfig['notification_enabled'])) {
 	    $notification_handler =& xoops_gethandler('notification');
-        if (!empty($_POST['notify'])) {
-            $notification_handler->subscribe('thread', $forumpost->getVar('topic_id'), 'new_post');
-        } else {
+        if (empty($_POST['notify'])) {
             $notification_handler->unsubscribe('thread', $forumpost->getVar('topic_id'), 'new_post');
+        } elseif ($_POST['notify'] > 0) {
+            $notification_handler->subscribe('thread', $forumpost->getVar('topic_id'), 'new_post');
         }
+        // elseif($_POST['notify']<0) keep it as it is
     }
 
     if($approved){
@@ -370,12 +372,12 @@ if ( !empty($_POST['contents_upload']) ) {
     if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name']!=''
     )
     {
-        $maxfilesize = $forum->getVar('attach_maxkb')*1024;
+        $maxfilesize = $forum_obj->getVar('attach_maxkb')*1024;
         $uploaddir = XOOPS_CACHE_PATH;
 
         $uploader = new newbb_uploader(
         	$uploaddir,
-        	$forum->getVar('attach_ext'),
+        	$forum_obj->getVar('attach_ext'),
         	$maxfilesize
         );
 
@@ -401,7 +403,7 @@ if ( !empty($_POST['contents_upload']) ) {
         {
             $error_upload = $uploader->getErrors();
         }
-    }
+   }
 }
 
 if ( !empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) ) {
@@ -417,7 +419,7 @@ if ( !empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) ) {
     $dobr = empty($_POST['dobr']) ? 0 : 1;
     $p_message = $_POST['message'];
     $p_message = $myts->previewTarea($p_message, $dohtml, $dosmiley, $doxcode, 1, $dobr);
-	if($dohtml && !newbb_isAdmin($forum) ) {
+	if($dohtml && !newbb_isAdmin($forum_obj) ) {
 		$p_message = newbb_textFilter($p_message);
 	}
 

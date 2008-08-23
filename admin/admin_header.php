@@ -32,6 +32,7 @@ include("../../../include/cp_header.php");
 //include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/vars.php";
 include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
+include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.admin.php";
 
 
 // include the default language file for the admin interface

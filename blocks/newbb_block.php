@@ -30,7 +30,7 @@ define('NEWBB_BLOCK_DEFINED',true);
 
 // options[0] - Citeria valid: time(by default)
 // options[1] - NumberToDisplay: any positive integer
-// options[2] - reserved
+// options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
 // options[3] - DisplayMode: 0-full view;1-compact view;2-lite view
 // options[4] - Display Navigator: 1 (by default), 0 (No)
 // options[5] - Title Length : 0 - no limit
@@ -40,37 +40,28 @@ function b_newbb_show($options)
 {
     global $xoopsConfig;
     global $access_forums;
-
+    
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
     $block = array();
     $i = 0;
     $order = "";
     $extra_criteria = "";
+	if(!empty($options[2])) {
+		$time_criteria = time() - newbb_getSinceTime($options[2]);
+		$extra_criteria = " AND p.post_time>".$time_criteria;
+	}
     $time_criteria = null;
     switch ($options[0]) {
         case 'time':
         default:
             $order = 'p.post_time';
-    		$extra_criteria = " AND p.approved=1";
+    		$extra_criteria .= " AND p.approved=1";
             break;
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
     
     $newbbConfig = getConfigForBlock();
-    /*
-    if($GLOBALS["xoopsModule"]->getVar("dirname") == "newbb"){
-	    $newbbConfig =& $GLOBALS["xoopsModuleConfig"];
-    }else{
-		$module_handler = &xoops_gethandler('module');
-		$newbb = $module_handler->getByDirname('newbb');
-	
-	    if(!isset($newbbConfig)){
-		    $config_handler = &xoops_gethandler('config');
-		    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
-	    }
-    }
-    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
@@ -116,30 +107,6 @@ function b_newbb_show($options)
 
     foreach ($rows as $arr) {
         $topic_page_jump = '';
-	    /*
-        $totalpages = ceil(($arr['topic_replies'] + 1) / $newbbConfig['posts_per_page']);
-        if ($totalpages > 1) {
-            //$topic_page_jump .= '&nbsp;&nbsp;&nbsp;<img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /> ';
-            $topic_page_jump .= '&nbsp;&nbsp;';
-            $append = false;
-            for ($i = 1; $i <= $totalpages; $i++) {
-                if ($i > 3 && $i < $totalpages) {
-                	if(!$append){
-                        	$topic_page_jump .= "...";
-                        	$append = true;
-                    	}
-                } else {
-                    $topic_page_jump .= '[<a href="' . XOOPS_URL . '/modules/newbb/viewtopic.php?topic_id=' . $arr['topic_id'] . '&amp;start=' . (($i - 1) * $newbbConfig['posts_per_page']) . '">' . $i . '</a>]';
-                }
-            }
-        }
-        if (!empty($arr['icon'])) {
-            $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/' . htmlspecialchars($arr['icon']) . '" alt="" />';
-        } else {
-            $last_post_icon = '<img src="' . XOOPS_URL . '/images/subject/icon1.gif" alt="" />';
-        }
-        $topic['jump_post'] = "<a href='" . XOOPS_URL . "/modules/newbb/viewtopic.php?topic_id=" . $arr['topic_id'] . "&amp;post_id=" . $arr['post_id'] . "#forumpost" . $arr['post_id'] . "'>" . $last_post_icon . "</a>";
-        */
         if ($arr['allow_subject_prefix']) {
             $subjectpres = explode(',', $newbbConfig['subject_prefix']);
             if (count($subjectpres) > 1) {
@@ -227,18 +194,7 @@ function b_newbb_topic_show($options)
             break;
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-    
 	$newbbConfig = getConfigForBlock();
-
-	/*
-	$module_handler = &xoops_gethandler('module');
-	$newbb = $module_handler->getByDirname('newbb');
-
-    if(!isset($newbbConfig)){
-	    $config_handler = &xoops_gethandler('config');
-	    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
-    }
-    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
@@ -282,24 +238,6 @@ function b_newbb_topic_show($options)
 
     foreach ($rows as $arr) {
         $topic_page_jump = '';
-        /*
-        $totalpages = ceil(($arr['topic_replies'] + 1) / $newbbConfig['posts_per_page']);
-        if ($totalpages > 1) {
-            //$topic_page_jump .= '&nbsp;&nbsp;&nbsp;<img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /> ';
-            $topic_page_jump .= '&nbsp;&nbsp;';
-            $append = false;
-            for ($i = 1; $i <= $totalpages; $i++) {
-                if ($i > 3 && $i < $totalpages) {
-                	if(!$append){
-                        	$topic_page_jump .= "...";
-                        	$append = true;
-                    	}
-                } else {
-                    $topic_page_jump .= '[<a href="' . XOOPS_URL . '/modules/newbb/viewtopic.php?topic_id=' . $arr['topic_id'] . '&amp;start=' . (($i - 1) * $newbbConfig['posts_per_page']) . '">' . $i . '</a>]';
-                }
-            }
-        }
-        */
         if ($arr['allow_subject_prefix']) {
             $subjectpres = explode(',', $newbbConfig['subject_prefix']);
             if (count($subjectpres) > 1) {
@@ -375,15 +313,6 @@ function b_newbb_post_show($options)
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
     $newbbConfig = getConfigForBlock();
-    /*
-	$module_handler = &xoops_gethandler('module');
-	$newbb = $module_handler->getByDirname('newbb');
-
-    if(!isset($newbbConfig)){
-	    $config_handler = &xoops_gethandler('config');
-	    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
-    }
-    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
@@ -516,15 +445,6 @@ function b_newbb_author_show($options)
     }
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
     $newbbConfig = getConfigForBlock();
-    /*
-	$module_handler = &xoops_gethandler('module');
-	$newbb = $module_handler->getByDirname('newbb');
-
-    if(!isset($newbbConfig)){
-	    $config_handler = &xoops_gethandler('config');
-	    $newbbConfig = &$config_handler->getConfigsByCat(0, $newbb->getVar('mid'));
-    }
-    */
 
     if(!isset($access_forums)){
     	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums

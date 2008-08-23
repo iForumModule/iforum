@@ -1,11 +1,27 @@
 <?php
-// $Id: local.php,v 1.1.2.5 2005/09/16 01:16:50 phppp Exp $
+/**
+ * Xoops multi-language string and encoding handling class
+ *
+ * @copyright	 The XOOPS project http://www.xoops.org/
+ * @license      http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @package      language
+ * @version      $Id: local.php 108 2006-03-23 17:41:10Z phppp $
+ * @author       D.J. (phppp)
+ * @since        2.2
+ */
+ 
+/**
+ * The class should be an abstract one using PHP embedded functions
+ * based on which, 
+ * each local language defines its own equalient methods
+ *
+ * A comprehensive handler is expected in Xoops 2.3 or 2.4
+ */
 
-// Local handler for string and encoding
 class XoopsLocal
 {	
 	// localized substr
-	function &substr($str, $start, $length, $trimmarker = '...')
+	function substr($str, $start, $length, $trimmarker = '...')
 	{
 	    if ( !XOOPS_USE_MULTIBYTES ) {
 	        return ( strlen($str) - $start <= $length ) ? substr( $str, $start, $length ) : substr( $str, $start, $length - strlen($trimmarker) ) . $trimmarker;
@@ -16,13 +32,13 @@ class XoopsLocal
 	    }
 	}
 	
-	function &utf8_encode(&$text)
+	// Each local language should define its own equalient utf8_encode 
+	function utf8_encode($text)
 	{
-		$text = XoopsLocal::convert_encoding($text, 'utf-8');
-	        return $text;
-	    }
+		return utf8_encode($text);
+    }
 	
-	function &convert_encoding(&$text, $to='utf-8', $from='')
+	function convert_encoding($text, $to='utf-8', $from='')
 	{
 		if(empty($text)) {		
 			return $text;
@@ -38,7 +54,7 @@ class XoopsLocal
 	    return $text;
 	}
 
-	function &trim($text)
+	function trim($text)
 	{
 	    $ret = trim($text);
 	    return $ret;
@@ -107,7 +123,7 @@ class XoopsLocal
 	// calling the function:
 	// Method 1: echo xoops_local("hello", "Some greeting words");
 	// Method 2: echo XoopsLocal::hello("Some greeting words");
-	function &hello($text)
+	function hello($text)
 	{
 		$ret = "<div>Hello, ".$text."</div>";
 		return $ret;

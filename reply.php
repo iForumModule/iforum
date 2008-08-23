@@ -57,28 +57,30 @@ $forumpost =& $post_handler->get($post_id);
 $topic_id = $forumpost->getVar("topic_id");
 $forum = $forumpost->getVar("forum_id");
 
-$forum = $forum_handler->get($forum);
-if (!$forum_handler->getPermission($forum)){
+$forum_obj = $forum_handler->get($forum);
+if (!$forum_handler->getPermission($forum_obj)){
     redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
     exit();
 }
 
 $topic_status = $topic_handler->get($topic_id,'topic_status');
-if ( !$topic_handler->getPermission($forum, $topic_status, 'reply')){
+if ( !$topic_handler->getPermission($forum_obj, $topic_status, 'reply')){
 	redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=".$forum->getVar('forum_id'), 2, _MD_NORIGHTTOREPLY);
     exit();
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
-	$online_handler->init($forum);
+	$online_handler->init($forum_obj);
 }
 
  
+	// Disable cache
+	$xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;
     include XOOPS_ROOT_PATH.'/header.php';
 
 	$myts =& MyTextSanitizer::getInstance();
-	$isadmin = newbb_isAdmin($forum);
+	$isadmin = newbb_isAdmin($forum_obj);
     $forumpostshow =& $post_handler->getByLimit($topic_id,5);
 
     if($forumpost->getVar('uid')) {
@@ -156,7 +158,7 @@ if ($xoopsModuleConfig['wol_enabled']){
     	$isadmin = 0;
     	if($eachpost->getVar('uid')) {
 	    	$p_name =newbb_getUnameFromId( $eachpost->getVar('uid'), $xoopsModuleConfig['show_realname'] );
-			if (newbb_isAdmin($forum, $eachpost->getVar('uid'))) $isadmin = 1;
+			if (newbb_isAdmin($forum_obj, $eachpost->getVar('uid'))) $isadmin = 1;
     	}else{
 	    	$poster_name = $eachpost->getVar('poster_name');
     		$p_name = (empty($poster_name))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($poster_name);

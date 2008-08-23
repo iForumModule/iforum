@@ -29,6 +29,8 @@
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 include 'header.php';
+// Disable cache
+$xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;
 include XOOPS_ROOT_PATH."/header.php";
 foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid') as $getint) {
     ${$getint} = isset($_GET[$getint]) ? intval($_GET[$getint]) : 0;
@@ -47,28 +49,28 @@ if ( empty($forum) ) {
     
 
     $forumpost =& $post_handler->get($post_id);
-    $forum = $forum_handler->get($forumpost->getVar("forum_id"));
-	if (!$forum_handler->getPermission($forum)){
+    $forum_obj =& $forum_handler->get($forumpost->getVar("forum_id"));
+	if (!$forum_handler->getPermission($forum_obj)){
 	    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
 	    exit();
 	}
 
 	if ($xoopsModuleConfig['wol_enabled']){
 		$online_handler =& xoops_getmodulehandler('online', 'newbb');
-		$online_handler->init($forum);
+		$online_handler->init($forum_obj);
 	}
-	$isadmin = newbb_isAdmin($forum);
+	$isadmin = newbb_isAdmin($forum_obj);
 	$uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
 
 	$topic_status = $topic_handler->get($topic_id,'topic_status');
-	if ( $topic_handler->getPermission($forum, $topic_status, 'edit')
+	if ( $topic_handler->getPermission($forum_obj, $topic_status, 'edit')
 		&& ( $isadmin || $forumpost->checkIdentity()) ) {}
 	else{
-	    redirect_header("viewtopic.php?forum=".$forum->getVar('forum_id')."&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOEDIT);
+	    redirect_header("viewtopic.php?forum=".$forum_obj->getVar('forum_id')."&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOEDIT);
 	    exit();
 	}
     if(!$isadmin && !$forumpost->checkTimelimit('edit_timelimit')){
-		redirect_header("viewtopic.php?forum=".$forum->getVar('forum_id')."&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_TIMEISUP);
+		redirect_header("viewtopic.php?forum=".$forum_obj->getVar('forum_id')."&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_TIMEISUP);
     	exit();
 	}
     $post_id2 = $forumpost->getVar('pid');
@@ -100,7 +102,7 @@ if ( empty($forum) ) {
     	$isadmin = 0;
     	if($forumpost2->getVar('uid')) {
 	    	$r_name = newbb_getUnameFromId( $forumpost2->getVar('uid'), $xoopsModuleConfig['show_realname']);
-			if (newbb_isAdmin($forum, $forumpost2->getVar('uid'))) $isadmin = 1;
+			if (newbb_isAdmin($forum_obj, $forumpost2->getVar('uid'))) $isadmin = 1;
     	}else{
 	    	$poster_name = $forumpost2->getVar('poster_name');
     		$r_name = (empty($poster_name))?$xoopsConfig['anonymous']:$poster_name;

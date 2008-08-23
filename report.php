@@ -80,6 +80,8 @@ if ( isset($_POST['submit']) ) {
     exit();
 }else{
 
+	// Disable cache
+	$xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;
     include XOOPS_ROOT_PATH.'/header.php';
 	include XOOPS_ROOT_PATH."/class/xoopsformloader.php";
 

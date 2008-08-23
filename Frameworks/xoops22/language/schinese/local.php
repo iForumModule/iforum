@@ -81,13 +81,13 @@ class XoopsLocal
 		return $ret;
 	}
 	
-	function &utf8_encode(&$text)
+	function utf8_encode($text)
 	{
 		$text = XoopsLocal::convert_encoding($text, 'utf-8');
 		return $text;
 	}
 	
-	function &convert_encoding(&$text, $to='utf-8', $from='')
+	function convert_encoding($text, $to='utf-8', $from='')
 	{
 		if(empty($text)) {		
 			return $text;
@@ -116,7 +116,7 @@ class XoopsLocal
 	    return $text;
 	}
 
-	function &trim($text)
+	function trim($text)
 	{
 	    $ret = trim($text);
 	    return $ret;
@@ -186,7 +186,7 @@ class XoopsLocal
 	// calling the function:
 	// Method 1: echo xoops_local("hello", "Some greeting words");
 	// Method 2: echo XoopsLocal::hello("Some greeting words");
-	function &hello($text)
+	function hello($text)
 	{
 		$ret = "<div>Hello, ".$text."</div>";
 		return $ret;
