@@ -18,10 +18,10 @@ define("_AM_NEWBB_POSTID","ID Mensaje");
 define("_AM_NEWBB_POSTDATE","Fecha del mensaje");
 define("_AM_NEWBB_POSTER","Enviado por");
 define("_AM_NEWBB_TOPICS","Asunto");
-define("_AM_NEWBB_SHORTSUMMARY","Resumen foro");
-define("_AM_NEWBB_TOTALPOSTS","Total mensajes");
-define("_AM_NEWBB_TOTALTOPICS","Total temas");
-define("_AM_NEWBB_TOTALVIEWS","Total visitas");
+define("_AM_NEWBB_SHORTSUMMARY","Resumen del foro");
+define("_AM_NEWBB_TOTALPOSTS","Total de mensajes");
+define("_AM_NEWBB_TOTALTOPICS","Total de temas");
+define("_AM_NEWBB_TOTALVIEWS","Total de visitas");
 define("_AM_NEWBB_BLOCKS","Bloques");
 define("_AM_NEWBB_SUBJECT","Asunto");
 define("_AM_NEWBB_APPROVE","Aprobar mensaje");
@@ -47,7 +47,7 @@ define('_AM_NEWBB_CANCELPOST','Cancelar envío');
 define('_AM_NEWBB_GOTOMOD','Ir al módulo');
 
 define('_AM_NEWBB_PREFERENCES','Preferencias del módulo');
-define('_AM_NEWBB_POLLMODULE','Modulo de encuestas de Xoops');
+define('_AM_NEWBB_POLLMODULE','Modulo de encuestas de ImpressCMS');
 define('_AM_NEWBB_POLL_OK','Listo para ser usado');
 define('_AM_NEWBB_GDLIB1','Librería GD1:');
 define('_AM_NEWBB_GDLIB2','Librería GD2:');
@@ -81,7 +81,7 @@ define('_AM_NEWBB_DIGEST_FAILED','Selección NO procesada');
 // admin_forum_manager.php
 define("_AM_NEWBB_NAME","Nombre");
 define("_AM_NEWBB_CREATEFORUM","Crear foro");
-define("_AM_NEWBB_EDIT","Editar");
+define("_AM_NEWBB_EDIT","Modificar");
 define("_AM_NEWBB_CLEAR","Limpiar");
 define("_AM_NEWBB_DELETE","Eliminar");
 define("_AM_NEWBB_ADD","Agregar");
@@ -90,7 +90,7 @@ define("_AM_NEWBB_ORDER","Ordenar");
 define("_AM_NEWBB_TWDAFAP","Nota: Esta acción eliminará el foro con todos los mensajes que existan dentro del mismo.<br><br>ADVERTENCIA: ¿Está seguro de querer eliminar este foro?");
 define("_AM_NEWBB_FORUMREMOVED","El foro y todos sus mensajes ha sido eliminado.");
 define("_AM_NEWBB_CREATENEWFORUM","Crear un nuevo foro");
-define("_AM_NEWBB_EDITTHISFORUM","Editar un foro:");
+define("_AM_NEWBB_EDITTHISFORUM","Modificar un foro:");
 define("_AM_NEWBB_SET_FORUMORDER","Ajustar orden del foro:");
 define("_AM_NEWBB_ALLOWPOLLS","Permitir encuestas:");
 define("_AM_NEWBB_ATTACHMENT_SIZE" ,"Tamaño max. en kb:");
@@ -100,7 +100,7 @@ define("_AM_NEWBB_ALLOWHTML","Permitir HTML:");
 define("_AM_NEWBB_YES","Si");
 define("_AM_NEWBB_NO","No");
 define("_AM_NEWBB_ALLOWSIGNATURES","Permitir firmas:");
-define("_AM_NEWBB_HOTTOPICTHRESHOLD","Cuantos mensajes calientes mostrar (Hot Topic Threshold):");
+define("_AM_NEWBB_HOTTOPICTHRESHOLD","Cuantos mensajes candentes mostrar (Hot Topic Threshold):");
 //define("_AM_NEWBB_POSTPERPAGE","Mensajes por página:<span style='font-size: xx-small; font-weight: normal; display: block;'>(Este es el número de mensajes<br> por tema que serán<br> mostrados en cada página)</span>");
 //define("_AM_NEWBB_TOPICPERFORUM","Temas por foro:<span style='font-size: xx-small; font-weight: normal; display: block;'>(Este es el número de temas<br> ppor foro que serán<br> mostrados en cada página)</span>");
 //define("_AM_NEWBB_SHOWNAME","Reemplazar nombre se usuario con el nombre real:");
@@ -109,7 +109,7 @@ define("_AM_NEWBB_HOTTOPICTHRESHOLD","Cuantos mensajes calientes mostrar (Hot To
 define("_AM_NEWBB_MODERATOR_REMOVE","Quitar moderadores actuales");
 define("_AM_NEWBB_MODERATOR_ADD","Agregar moderadores");
 define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX", "Permitir un prefijo en el asunto");
-define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX_DESC", "Permite incluir un prefijo en el asunto del mensaje, para por ejemplo indicar que el problema ha sido resuelto.");
+define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX_DESC", "Permite incluir un prefijo en el asunto del mensaje para, por ejemplo, indicar que el problema ha sido resuelto.");
 
 
 // admin_cat_manager.php
@@ -120,7 +120,7 @@ define("_AM_NEWBB_INACTIVE","Inactiva");
 define("_AM_NEWBB_STATE","Estado:");
 define("_AM_NEWBB_CATEGORYDESC","Descripción de la categoría:");
 define("_AM_NEWBB_SHOWDESC","Mostrar descripción:");
-define("_AM_NEWBB_IMAGE","Imágen:");
+define("_AM_NEWBB_IMAGE","Imagen:");
 //define("_AM_NEWBB_SPONSORIMAGE","Imagen patrocinador:");
 define("_AM_NEWBB_SPONSORLINK","Enlace patrocinador:");
 define("_AM_NEWBB_DELCAT","Eliminar categoría");
@@ -136,7 +136,7 @@ define("_AM_NEWBB_REMOVE","Eliminar");
 define("_AM_NEWBB_CATEGORY","Categoría:");
 define("_AM_NEWBB_DATABASEERROR","Error de base de datos");
 define("_AM_NEWBB_CATEGORYUPDATED","Categoría actualizada.");
-define("_AM_NEWBB_EDITCATEGORY","Editar categoría:");
+define("_AM_NEWBB_EDITCATEGORY","Modificar categoría:");
 define("_AM_NEWBB_CATEGORYTITLE","Título de la categoría:");
 define("_AM_NEWBB_CATEGORYCREATED","Categoría creada.");
 define("_AM_NEWBB_CREATENEWCATEGORY","Crear una nueva categoría");
@@ -169,12 +169,12 @@ define("_AM_NEWBB_BOARDREORDER","El foro ha sido reordenado");
 
 // admin_permission.php
 define("_AM_NEWBB_PERMISSIONS_TO_THIS_FORUM","Permisos de los temas de este foro");
-define("_AM_NEWBB_CAT_ACCESS","Acceso a Categoría");
+define("_AM_NEWBB_CAT_ACCESS","Acceso a categoría");
 define("_AM_NEWBB_CAN_ACCESS","Pueden acceder");
 define("_AM_NEWBB_CAN_VIEW","Pueden ver");
 define("_AM_NEWBB_CAN_POST","Pueden enviar");
 define("_AM_NEWBB_CAN_REPLY","Pueden responder");
-define("_AM_NEWBB_CAN_EDIT","Pueden editar");
+define("_AM_NEWBB_CAN_EDIT","Pueden modificar");
 define("_AM_NEWBB_CAN_DELETE","Pueden eliminar");
 define("_AM_NEWBB_CAN_ADDPOLL","Pueden agregar encuesta");
 define("_AM_NEWBB_CAN_VOTE","Pueden votar");
@@ -182,14 +182,14 @@ define("_AM_NEWBB_CAN_ATTACH","Pueden adjuntar archivos");
 define("_AM_NEWBB_CAN_NOAPPROVE","Pueden enviar sin aprobación");
 define("_AM_NEWBB_ACTION","Acción");
 
-define("_AM_NEWBB_PERM_TEMPLATE","Plantilla de Permisos por defecto");
+define("_AM_NEWBB_PERM_TEMPLATE","Plantilla de permisos predeterminados");
 define("_AM_NEWBB_PERM_TEMPLATE_DESC","Podrá ser aplicado a un foro ");
 define("_AM_NEWBB_PERM_FORUMS","Seleccionar foros");
 define("_AM_NEWBB_PERM_TEMPLATE_CREATED","Se ha creado la plantilla de permisos");
-define("_AM_NEWBB_PERM_TEMPLATE_ERROR","Errores ocurridos durante la creación de la plantilla de permisos ");
+define("_AM_NEWBB_PERM_TEMPLATE_ERROR","Hubo errores durante la creación de la plantilla de permisos");
 define("_AM_NEWBB_PERM_TEMPLATEAPP","Aplicar permisos de");
 define("_AM_NEWBB_PERM_TEMPLATE_APPLIED","Los permisos por defecto se han aplicado a los foros");
-define("_AM_NEWBB_PERM_ACTION","Acciones de los Permisos");
+define("_AM_NEWBB_PERM_ACTION","Acciones de los permisos");
 define("_AM_NEWBB_PERM_SETBYGROUP","Fijar permisos directamente al grupo");
 
 // admin_forum_prune.php
@@ -223,7 +223,7 @@ define ("_AM_NEWBB_PRUNE_2YEARS","2 años");
 // About.php constants
 define('_AM_NEWBB_AUTHOR_INFO', "Información del autor");
 define('_AM_NEWBB_AUTHOR_NAME', "Autor");
-define('_AM_NEWBB_AUTHOR_WEBSITE', "Sitio Web del autor");
+define('_AM_NEWBB_AUTHOR_WEBSITE', "Sitio web del autor");
 define('_AM_NEWBB_AUTHOR_EMAIL', "Email del autor");
 define('_AM_NEWBB_AUTHOR_CREDITS', "Créditos");
 define('_AM_NEWBB_MODULE_INFO', "Información sobre el desarrollo del módulo");

@@ -29,26 +29,26 @@ define('_MD_BOARD_DISCLAIMER','Advertencia');
 //index.php
 define('_MD_ADMINCP','Administración');
 define('_MD_FORUM','Foro');
-define('_MD_WELCOME','Bienvenido al Foro %s.');
+define('_MD_WELCOME','Bienvenido al foro %s.');
 define('_MD_TOPICS','Temas');
 define('_MD_POSTS','Mensajes');
 define('_MD_LASTPOST','Último mensaje');
 define('_MD_MODERATOR','Moderador');
 define('_MD_NEWPOSTS','Con nuevos mensajes');
 define('_MD_NONEWPOSTS','Sin nuevos mensajes ');
-define('_MD_PRIVATEFORUM','Foro Privado');
+define('_MD_PRIVATEFORUM','Foro privado');
 define('_MD_BY','Por'); // Posted by
 define('_MD_TOSTART','Para comenzar a ver los mensajes, seleccione el foro que quiera visitar.');
-define('_MD_TOTALTOPICSC','Total temas: ');
-define('_MD_TOTALPOSTSC','Total Mensajes: ');
-define('_MD_TOTALUSER','Total Usuarios: ');
+define('_MD_TOTALTOPICSC','Total de temas: ');
+define('_MD_TOTALPOSTSC','Total de mensajes: ');
+define('_MD_TOTALUSER','Total de usuarios: ');
 define('_MD_TIMENOW','Hora actual: %s');
-define('_MD_LASTVISIT','Su última Visita: %s');
-define('_MD_ADVSEARCH','Búsqueda Avanzada');
+define('_MD_LASTVISIT','Su última visita: %s');
+define('_MD_ADVSEARCH','Búsqueda avanzada');
 define('_MD_POSTEDON','Enviado el: ');
 define('_MD_SUBJECT','Tema');
-define('_MD_INACTIVEFORUM_NEWPOSTS','Foro Inactivo con nuevos mensajes');
-define('_MD_INACTIVEFORUM_NONEWPOSTS','Foro Inactivo sin nuevos mensajes');
+define('_MD_INACTIVEFORUM_NEWPOSTS','Foro inactivo con nuevos mensajes');
+define('_MD_INACTIVEFORUM_NONEWPOSTS','Foro inactivo sin nuevos mensajes');
 define('_MD_SUBFORUMS','Subforo');
 define('_MD_MAINFORUMOPT', 'Opciones');
 define("_MD_PENDING_POSTS_FOR_AUTH","Mensajes pendientes de aprobación:");
@@ -190,7 +190,7 @@ define('_MD_REPLY_REQUIREMENT', 'Para ver este mensaje, necesita contestar.');
 define('_MD_TOPICOPTIONADMIN','Opciones del tema');
 define('_MD_POLLOPTIONADMIN','Opciones de encuesta');
 
-define('_MD_EDITPOLL','Editar esta encuesta');
+define('_MD_EDITPOLL','Modificar esta encuesta');
 define('_MD_DELETEPOLL','Eliminar esta encuesta');
 define('_MD_RESTARTPOLL','Restablecer esta encuesta');
 define('_MD_ADDPOLL','Agregar encuesta');
@@ -209,7 +209,7 @@ define('_MD_EXCEEDTHREADVIEW','La cantidad de mensajes en este tema exceden el m
 
 
 //forumform.inc
-define('_MD_PRIVATE','Este es un foro <b>Privado</b>.<br />Sólo los usuarios autorizados pueden enviar y responder mensajes en este foro.');
+define('_MD_PRIVATE','Este es un foro <b>privado</b>.<br />Sólo los usuarios autorizados pueden enviar y responder mensajes en este foro.');
 define('_MD_QUOTE','Citar');
 define('_MD_VIEW_REQUIRE','Requisitos para ser visto:');
 define('_MD_REQUIRE_KARMA','Karma ');
@@ -253,7 +253,7 @@ define('_MD_RE','Re');
 
 //post.php
 define('_MD_EDITNOTALLOWED','No está autorizado para editar este mensaje.');
-define('_MD_EDITEDBY','Editado por');
+define('_MD_EDITEDBY','Modificado por');
 define('_MD_ANONNOTALLOWED','Los invitados no están autorizados a enviar mensajes.<br>Por favor regístrese.');
 define('_MD_THANKSSUBMIT','Gracias por el envío.');
 define('_MD_REPLYPOSTED','Una respuesta a su mensaje ha sido enviada.');
@@ -261,7 +261,7 @@ define('_MD_HELLO','Hola %s,');
 define('_MD_URRECEIVING','Esta recibiendo este correo debido a que un mensaje que envió en %s ha sido contestado.'); // %s is your site name
 define('_MD_CLICKBELOW','Haga clic en el enlace de abajo para ver el hilo:');
 define('_MD_WAITFORAPPROVAL','Gracias. Por favor espere la aprobación del mensaje.');
-define('_MD_POSTING_LIMITED','Le recomiendo tomar un descanso y volver en %d segundos');
+define('_MD_POSTING_LIMITED','Le recomiendamos tomar un descanso y volver en %d segundos');
 
 //forumform.inc
 define('_MD_NAMEMAIL','Nombre/Email:');
@@ -274,8 +274,8 @@ define('_MD_ALLOWEDHTML','Permitir HTML:');
 define('_MD_OPTIONS','Opciones:');
 define('_MD_POSTANONLY','Envío anónimo');
 define('_MD_DOSMILEY','Permitir caritas');
-define('_MD_DOXCODE','Permitir código de Xoops');
-define('_MD_DOBR','Permitir saltos de línea (Es conveniente no activarlo si la opción de permitir HTML está activada)');
+define('_MD_DOXCODE','Permitir códigos de ImpressCMS');
+define('_MD_DOBR','Permitir saltos de línea (es conveniente no activarlo si la opción de permitir HTML está activada)');
 define('_MD_DOHTML','Permitir etiquetas HTML');
 define('_MD_NEWPOSTNOTIFY', 'Notificarme de nuevos envíos en este hilo');
 define('_MD_ATTACHSIG','Incluir firma');
@@ -316,15 +316,15 @@ define('_MD_UNSTICKY','Despegar');
 define('_MD_DIGEST','Incluir en la selección');
 define('_MD_UNDIGEST','Excluir de la selección');
 
-define('_MD_DESC_DELETE','Al presionar el botón de Eliminar al final de este formulario el tema selecionado y todos sus mensajes relacionados serán  <b>permanentemente</b> eliminados.');
-define('_MD_DESC_MOVE','Al presionar el botón de Mover al final de este formulario el tema selecionado y todos sus mensajes relacionados serán movidos al foro seleccionado.');
-define('_MD_DESC_MERGE','Al presionar el botón de Combinar al final de este formulario el tema selecionado y todos sus mensajes relacionados, serán combinados al tema que usted tiene identificado para ser seleccionado.');//Once you press the merge button at the bottom of this form the topic you have selected, and its related posts, will be merged to the topic you have selected.<br /><strong>The destination topic ID must be smaller than current one</strong>.
-define('_MD_DESC_LOCK','Al presionar el botón de Bloquear al final de este formulario el tema selecionado será bloqueado. Puede desbloquearlo cuando quiera si así lo desea.');
-define('_MD_DESC_UNLOCK','Al presionar el botón de Desbloquear al final de este formulario el tema selecionado será desbloqueado. Puede bloquearlo cuando quiera si así lo desea.');
-define('_MD_DESC_STICKY','Al presionar el botón de Pegar al final de este formulario el tema selecionado será pegado. Puede despegarlo cuando quiera si así lo desea.');
-define('_MD_DESC_UNSTICKY','Al presionar el botón de Despegar al final de este formulario el tema selecionado será despagado. Puede pegarlo cuando quiera si así lo desea.');
-define('_MD_DESC_DIGEST','Al presionar el botón de Incluir en la selección al final de este formulario el tema selecionado será incluido en la selección o compendio de temas. Puede excluirlo cuando quiera si así lo desea.');
-define('_MD_DESC_UNDIGEST','Al presionar el botón de Excluir de la selección al final de este formulario el tema selecionado será excluido de la selección o compendio de temas. Puede incluirlo cuando quiera si así lo desea.');
+define('_MD_DESC_DELETE','Al presionar el botón de eliminar al final de este formulario el tema selecionado y todos sus mensajes relacionados serán  <b>permanentemente</b> eliminados.');
+define('_MD_DESC_MOVE','Al presionar el botón de mover al final de este formulario el tema selecionado y todos sus mensajes relacionados serán movidos al foro seleccionado.');
+define('_MD_DESC_MERGE','Al presionar el botón de mombinar al final de este formulario el tema selecionado y todos sus mensajes relacionados, serán combinados al tema que usted tiene identificado para ser seleccionado.');//Once you press the merge button at the bottom of this form the topic you have selected, and its related posts, will be merged to the topic you have selected.<br /><strong>The destination topic ID must be smaller than current one</strong>.
+define('_MD_DESC_LOCK','Al presionar el botón de bloquear al final de este formulario el tema selecionado será bloqueado. Puede desbloquearlo cuando quiera si así lo desea.');
+define('_MD_DESC_UNLOCK','Al presionar el botón de desbloquear al final de este formulario el tema selecionado será desbloqueado. Puede bloquearlo cuando quiera si así lo desea.');
+define('_MD_DESC_STICKY','Al presionar el botón de pegar al final de este formulario el tema selecionado será pegado. Puede despegarlo cuando quiera si así lo desea.');
+define('_MD_DESC_UNSTICKY','Al presionar el botón de despegar al final de este formulario el tema selecionado será despagado. Puede pegarlo cuando quiera si así lo desea.');
+define('_MD_DESC_DIGEST','Al presionar el botón de incluir en la selección al final de este formulario el tema selecionado será incluido en la selección o compendio de temas. Puede excluirlo cuando quiera si así lo desea.');
+define('_MD_DESC_UNDIGEST','Al presionar el botón de excluir de la selección al final de este formulario el tema selecionado será excluido de la selección o compendio de temas. Puede incluirlo cuando quiera si así lo desea.');
 
 define('_MD_MERGETOPICTO','Tema de la combinación:');//Merge Topic To:
 define('_MD_MOVETOPICTO','Mover tema a:');
@@ -332,7 +332,7 @@ define('_MD_NOFORUMINDB','Sin foros en la base de datos.');
 
 // delete.php
 define('_MD_DELNOTALLOWED','Lo lamento, pero no está autorizado para eliminar este mensaje.');
-define('_MD_AREUSUREDEL','¿está seguro de querer eliminar este mensaje y todos sus relacionados?');
+define('_MD_AREUSUREDEL','¿Está seguro de querer eliminar este mensaje y todos sus relacionados?');
 define('_MD_POSTSDELETED','El mensaje seleccionado y todos sus mensajes relacionados han sido eliminados.');
 define('_MD_POSTDELETED','El mensaje seleccionado ha sido eliminado.');
 
@@ -383,7 +383,7 @@ define("_MD_POLL_DISPLAYORDER", "Orden de visionado");
 define("_MD_POLL_ALLOWMULTI", "¿Permitir selecciones múltiples?");
 define("_MD_POLL_NOTIFY", "¿Notificar al autor cuando finalice?");
 define("_MD_POLL_POLLOPTIONS", "Opciones");
-define("_MD_POLL_EDITPOLL", "Editar encuesta");
+define("_MD_POLL_EDITPOLL", "Modificar encuesta");
 define("_MD_POLL_FORMAT", "Formato de fecha: dd-mm-aaaa hh:mm:ss");
 define("_MD_POLL_CURRENTTIME", "La hora actual es %s");
 define("_MD_POLL_EXPIREDAT", "Finalizó el %s");
@@ -393,7 +393,7 @@ define("_MD_POLL_RUSUREDEL", "¿Está seguro de querer eliminar esta encuesta y to
 define("_MD_POLL_RESTARTPOLL", "Restablecer encuesta");
 define("_MD_POLL_RESET", "¿Poner a cero todos los registros de esta encuesta?");
 define("_MD_POLL_ADDPOLL","Agregar encuesta");
-define("_MD_POLLMODULE_ERROR","El módulo de encuestas de Xoops no está disponible");
+define("_MD_POLLMODULE_ERROR","El módulo de encuestas no está disponible");
 
 //report.php
 define("_MD_REPORTED", "Gracias por su ayuda. Su reporte ha sido enviado a los administradores del sitio.");
@@ -422,7 +422,7 @@ define("_MD_WELCOME_MESSAGE","Hola, %s es un recién llegado.");
 
 define("_MD_VIEWNEWPOSTS","Ver nuevos mensajes");
 
-define("_MD_INVALID_SUBMIT","Envío inválido. Puede que su sesión expiró. Por favor reenvíelo o haga una copia del texto del mensaje e ingrese nuevamente para volver a enviarlo si fuese necesario.");
+define("_MD_INVALID_SUBMIT","Envío inválido. Puede que su sesión expirase. Por favor, reenvíelo o haga una copia del texto del mensaje e ingrese nuevamente para volver a enviarlo si fuese necesario.");
 
 define("_MD_ACCOUNT","Perfil");
 define("_MD_NAME","Nombre");
@@ -445,7 +445,7 @@ define("_MD_TYPE_PENDING","Pendiente");
 define("_MD_TYPE_DELETED","Borrar");
 define("_MD_TYPE_SUSPEND","Suspensión");
 
-define("_MD_DBUPDATED", "¡Base de datos actualizada con éxito!");
+define("_MD_DBUPDATED", "Base de datos actualizada con éxito");
 
 define("_MD_SUSPEND_SUBJECT", "El usuario %s ha sido suspendido por %d días");
 define("_MD_SUSPEND_TEXT", "El usuario %s ha sido suspendido por %d días: <br />[quote]%s[/quote]<br /> <br /> La suspensión es válida hasta %s");//User %s is suspended for %d days due to:<br />[quote]%s[/quote]<br /><br />The suspension is valid till %s

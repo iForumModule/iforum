@@ -5,10 +5,10 @@
 // Module Info
 
 // The name of this module
-define("_MI_NEWBB_NAME","CBB");
+define("_MI_NEWBB_NAME","iforum");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","Módulo de foros para xoops");
+define("_MI_NEWBB_DESC","Módulo de foros para ImpressCMS");
 
 // Names of blocks for this module (Not all module has blocks)
 define("_MI_NEWBB_BLOCK_TOPIC_POST","Temas recientemente contestados");//Recent Replied Topics
@@ -41,8 +41,6 @@ define("_MI_NEWBB_ADMENU_REPORT","Reportes");
 define("_MI_NEWBB_ADMENU_DIGEST","Digest");
 define("_MI_NEWBB_ADMENU_VOTE","Votos");
 
-
-
 //config options
 
 define("_MI_DO_DEBUG","Activar modo depuración");
@@ -55,8 +53,8 @@ define("_MI_THEMESET", "Juego de Plantillas");//Theme set
 define("_MI_THEMESET_DESC", "Module-wide, seleccionar '"._NONE."' el cual se utilizará como tema del sitio");// :?
 
 define("_MI_DIR_ATTACHMENT","Directorio para archivos adjuntos");
-define("_MI_DIR_ATTACHMENT_DESC","El path final debe ser 'XOOPS_ROOT_PATH/nombre del directorio'. Sin barras diagonales '/' antes y después. <br /> El path para las miniaturas deberá ser 'nombre del directorio/thumbs', también sin '/' al principio y final.");
-define("_MI_PATH_MAGICK","Path de ImageMagick");
+define("_MI_DIR_ATTACHMENT_DESC","El path final debe ser 'XOOPS_ROOT_PATH/nombre del directorio'. Sin barras diagonales '/' antes y después. <br />La ruta para las miniaturas deberá ser 'nombre del directorio/thumbs', también sin '/' al principio y final.");
+define("_MI_PATH_MAGICK","Ruta de ImageMagick");
 define("_MI_PATH_MAGICK_DESC","Por lo general es '/usr/bin/X11'. Déjelo en blanco si no tiene ImageMagicK instalado.");
 
 define("_MI_SUBFORUM_DISPLAY","Modo de vista de los subforos");
@@ -69,7 +67,7 @@ define("_MI_POST_EXCERPT","Longitud del mensaje emergente");
 define("_MI_POST_EXCERPT_DESC","Longitud del mensaje emergente al poner el puntero del ratón encima de un envío. 0 para desactivar el mensaje emergente.");
 
 define("_MI_PATH_NETPBM","Ruta de Netpbm");
-define("_MI_PATH_NETPBM_DESC","Usualmente es '/usr/bin'. Leave it BLANK if you do not have Netpbm installed or choice AUTO for autodetecting.");
+define("_MI_PATH_NETPBM_DESC","Usualmente es '/usr/bin'. Déjelo en blanco en caso de no tener instalado el programa o seleccione AUTO para que sea automáticamente detectado.");
 
 define("_MI_IMAGELIB","Seleccione la librería de imágenes a usar");
 define("_MI_IMAGELIB_DESC","Selecciona que librería de imágenes se usará para la creación de miniaturas. Seleccione AUTO para autodetectarla.");
@@ -111,9 +109,9 @@ define("_MI_RSS_MAX_DESCRIPTION", "Longitud Max. de la descripción");
 define("_MI_RSS_UTF8", "Codificar el RSS con UTF-8");
 define("_MI_RSS_UTF8_DESCRIPTION", "Si se selecciona, 'UTF-8' será usado para codificar el RSS, de lo contrario, '"._CHARSET."' será el utilizado.");
 define("_MI_RSS_CACHETIME", "Refresco de cache del RSS");
-define("_MI_RSS_CACHETIME_DESCRIPTION", "Tiempo de refresco de la cache del RSS, en minutos.");
+define("_MI_RSS_CACHETIME_DESCRIPTION", "Tiempo de refresco de la cache del RSS en minutos.");
 
-define("_MI_MEDIA_ENABLE","Activar capacidad Multi Media");
+define("_MI_MEDIA_ENABLE","Activar capacidad Multimedia");
 define("_MI_MEDIA_ENABLE_DESC","Permite mostrar las imágenes adjuntas directamente en el mensaje.");
 define("_MI_USERBAR_ENABLE","Activar barra de usuario");
 define("_MI_USERBAR_ENABLE_DESC","Muestra la barra de usuario: Perfil, PM, ICQ, MSN, etc...<br>Al pasar el mouse sobre el nombre del usuario se abre automáticamente un popup mostrando estos detalles.");
@@ -172,7 +170,7 @@ define("_MI_ANONYMOUS_PRE_DESC", "Indique el nombre que quiere darle a los usuar
 define("_MI_REQUIRE_REPLY", "Permitir requisito de participación");
 define("_MI_REQUIRE_REPLY_DESC", "Si es activado el usuario que envía un mensaje podrá requerir para poder leerlo un mínimo de participación en el foro, es decir, que los lectores del mensaje sean usuarios que ya han enviado respuestas en el foro.");
 
-define("_MI_EDIT_TIMELIMIT", "Límite de tiempo para editar un mensaje");
+define("_MI_EDIT_TIMELIMIT", "Límite de tiempo para modificar un mensaje");
 define("_MI_EDIT_TIMELIMIT_DESC", "Ajusta el límite de tiempo que tiene el autor para editar sus mensajes. En minutos");
 
 define("_MI_DELETE_TIMELIMIT", "Límite de tiempo para eliminar un mensaje");
@@ -250,25 +248,25 @@ define("_MI_USERMODERATE_DESC","");
 // Notification event descriptions and mail templates
 
 define ('_MI_NEWBB_THREAD_NOTIFY', 'Hilo');
-define ('_MI_NEWBB_THREAD_NOTIFYDSC', 'Opciones de Notificación que se aplican al hilo actual.');
+define ('_MI_NEWBB_THREAD_NOTIFYDSC', 'Opciones de notificación que se aplican al hilo actual.');
 
 define ('_MI_NEWBB_FORUM_NOTIFY', 'Foro');
-define ('_MI_NEWBB_FORUM_NOTIFYDSC', 'Opciones de Notificación que se aplican al foro actual.');
+define ('_MI_NEWBB_FORUM_NOTIFYDSC', 'Opciones de notificación que se aplican al foro actual.');
 
 define ('_MI_NEWBB_GLOBAL_NOTIFY', 'Global');
-define ('_MI_NEWBB_GLOBAL_NOTIFYDSC', 'Opciones de Notificación Globales del foro.');
+define ('_MI_NEWBB_GLOBAL_NOTIFYDSC', 'Opciones globales de notificación del foro.');
 
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFY', 'Nuevo Envío');
+define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFY', 'Nuevo envío');
 define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYCAP', 'Notificarme de nuevos envios en el hilo actual.');
 define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYDSC', 'Recibir notificación cuando un nuevo mensaje es escrito en el hilo actual.');
 define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificación : Nuevo envío en el hilo');
 
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFY', 'Nuevo Hilo');
+define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFY', 'Nuevo hilo');
 define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYCAP', 'Notificarme cuando un nuevo hilo es empezado en este foro.');
 define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYDSC', 'Recibir notificación cuando un nuevo hilo es comenzado el el foro actual.');
 define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificación : Nuevo hilo en el foro.');
 
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY', 'Nuevo Foro');
+define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY', 'Nuevo foro');
 define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYCAP', 'Notificarme cuando un nuevo foro es creado.');
 define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYDSC', 'Recibir notificación cuando un nuevo foro es creado.');
 define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificación : Nuevo Foro');
@@ -298,10 +296,10 @@ define("_MI_NEWBB_INSTALL_CAT_TITLE", "Categoría Test");
 define("_MI_NEWBB_INSTALL_CAT_DESC", "Categoría para test.");
 define("_MI_NEWBB_INSTALL_FORUM_NAME", "Foro test");
 define("_MI_NEWBB_INSTALL_FORUM_DESC", "Foro para test.");
-define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Felicitaciones! El foro está trabajando.");
+define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Felicitaciones: el foro está trabajando.");
 define("_MI_NEWBB_INSTALL_POST_TEXT", "
 	Bienvenido al foro de  ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))."
-	Siéntase libre de iniciar sesión y comenzar sus temas en el foro.
+	Le invitamos a iniciar su sesión y comenzar sus temas en el foro.
 	
 	Si tiene cualquier pregunta referente al uso de CBB, por favor, visite su sitio de soporte local, o la página del [url=http://xoopsforge.com/modules/newbb/]Módulo CBB[/url]
 	");
