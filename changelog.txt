@@ -2,6 +2,16 @@ CBB
 
 XOOPS Community Bulletin Board
 
+Changelog 3.03
+Apr 26th, 2006 
+=============
+1 Fixed rss+xml rel link (by CeBepuH)
+2 Fixed typo in "pm" path for "transfer" (by CeBepuH)
+3 Fixed clear property in newbb.css (by CeBepuH)
+4 Fixed undefined method "setMessage" for module which could lead to newbb 2.* upgrade failure 
+5 Split functions.php
+
+
 Changelog 3.02
 Apr 23rd, 2006 
 =============

@@ -24,6 +24,140 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+
+/* use hardcoded DB query to save queries */
+function newbb_getGroupsByUser($uid)
+{
+	global $xoopsDB;	
+    $ret = array();
+	if(empty($uid)) return $ret;
+    $uid_criteria = is_array($uid)?"IN(".implode(", ", array_map("intval", $uid)).")":"=".$uid;
+    $sql = 'SELECT groupid, uid FROM '.$xoopsDB->prefix('groups_users_link').' WHERE uid '.$uid_criteria;
+    $result = $xoopsDB->query($sql);
+    if (!$result) {
+        return $ret;
+    }
+    while ($myrow = $xoopsDB->fetchArray($result)) {
+        $ret[$myrow['uid']][] = $myrow['groupid'];
+    }
+    foreach($ret as $uid=>$groups){
+	    $ret[$uid] = array_unique($groups);
+    }
+    
+    return $ret;
+}
+
+function newbb_getrank($rank_id =0, $posts = 0)
+{
+	static $ranks;
+    $myts =& MyTextSanitizer::getInstance();
+    
+	if(empty($ranks)){
+		if(!class_exists("XoopsRankHandler")):
+		class XoopsRank extends ArtObject
+		{
+		    function XoopsRank()
+		    {
+		        $this->ArtObject();
+		        $this->initVar('rank_id', XOBJ_DTYPE_INT, null, false);
+		        $this->initVar('rank_title', XOBJ_DTYPE_TXTBOX, null, false);
+		        $this->initVar('rank_min', XOBJ_DTYPE_INT, 0);
+		        $this->initVar('rank_max', XOBJ_DTYPE_INT, 0);
+		        $this->initVar('rank_special', XOBJ_DTYPE_INT, 0);
+		        $this->initVar('rank_image', XOBJ_DTYPE_TXTBOX, "");
+		    }
+		}
+		class XoopsRankHandler extends ArtObjectHandler
+		{
+		    function XoopsRankHandler(&$db) {
+		        $this->ArtObjectHandler($db, 'ranks', 'XoopsRank', 'rank_id', 'rank_title');
+		    }
+		}
+		$rank_handler =& new XoopsRankHandler($GLOBALS["xoopsDB"]);
+		else:
+		$rank_handler =& xoops_gethandler('rank');
+		endif;
+		$ranks = $rank_handler->getObjects(null, true, false);
+	}
+	
+	$ret = array();
+	if($rank_id>0){
+		$ret["title"] = $myts->htmlspecialchars($ranks[$rank_id]["rank_title"]);		
+		$ret["image"] = $ranks[$rank_id]["rank_image"];		
+	}else{
+		foreach($ranks as $id=>$rank){
+			if($rank["rank_min"]<=$posts && $rank["rank_max"]>=$posts && empty($rank["rank_special"])){
+				$ret["title"] = $myts->htmlspecialchars($rank["rank_title"]);		
+				$ret["image"] = $rank["rank_image"];		
+				break;
+			}
+		}
+	}
+	return $ret;
+}
+
+function get_user_level(& $user)
+{
+
+    $RPG = $user->getVar('posts');
+    $RPGDIFF = $user->getVar('user_regdate');
+
+    $today = time();
+    $diff = $today - $RPGDIFF;
+    $exp = round($diff / 86400,0);
+    if ($exp<=0) { $exp = 1; }
+    $ppd= round($RPG / $exp, 0);
+    $level = pow (log10 ($RPG), 3);
+    $ep = floor (100 * ($level - floor ($level)));
+    $showlevel = floor ($level + 1);
+    $hpmulti =round ($ppd / 6, 1);
+    if ($hpmulti > 1.5) { $hpmulti = 1.5; }
+    if ($hpmulti < 1) { $hpmulti = 1; }
+    $maxhp = $level * 25 * $hpmulti;
+    $hp= $ppd / 5;
+    if ($hp >= 1) {
+        $hp= $maxhp;
+    } else {
+        $hp= floor ($hp * $maxhp);
+    }
+    $hp= floor ($hp);
+    $maxhp= floor ($maxhp);
+    if ($maxhp <= 0) {
+        $zhp = 1;
+    } else {
+        $zhp = $maxhp;
+    }
+    $hpf= floor (100 * ($hp / $zhp)) - 1;
+    $maxmp= ($exp * $level) / 5;
+    $mp= $RPG / 3;
+    if ($mp >= $maxmp) { $mp = $maxmp; }
+    $maxmp = floor ($maxmp);
+    $mp = floor ($mp);
+    if ($maxmp <= 0) {
+        $zmp = 1;
+    } else {
+        $zmp = $maxmp;
+    }
+    $mpf= floor (100 * ($mp / $zmp)) - 1;
+    if ( $hpf >= 98 ) { $hpf = $hpf - 2; }
+    if ( $ep >= 98 ) { $ep = $ep - 2; }
+    if ( $mpf >= 98 ) { $mpf = $mpf - 2; }
+
+    $level = array();
+    $level['level']  = $showlevel ;
+    $level['exp'] = $ep;
+    $level['exp_width'] = $ep.'%';
+    $level['hp']  = $hp;
+    $level['hp_max']  = $maxhp;
+    $level['hp_width'] = $hpf.'%';
+    $level['mp']  = $mp;
+    $level['mp_max']  = $maxmp;
+    $level['mp_width'] = $mpf.'%';
+
+    return $level;
+}
+
 class User extends XoopsObject
 {
 	var $user = null;

@@ -30,6 +30,49 @@
 // ------------------------------------------------------------------------- //
 include('admin_header.php');
 
+function newbb_getImageLibs()
+{
+	global $xoopsModuleConfig;
+
+	$imageLibs= array();
+	unset($output, $status);
+	if ( $xoopsModuleConfig['image_lib'] == 1 or $xoopsModuleConfig['image_lib'] == 0 ){
+		$path = empty($xoopsModuleConfig['path_magick'])?"":$xoopsModuleConfig['path_magick']."/";
+		@exec($path.'convert -version', $output, $status);
+		if(empty($status)&&!empty($output)){
+			if(preg_match("/imagemagick[ \t]+([0-9\.]+)/i",$output[0],$matches))
+			   $imageLibs['imagemagick'] = $matches[0];
+		}
+		unset($output, $status);
+	}
+	 if ( $xoopsModuleConfig['image_lib'] == 2 or $xoopsModuleConfig['image_lib'] == 0 ){
+		$path = empty($xoopsModuleConfig['path_netpbm'])?"":$xoopsModuleConfig['path_netpbm']."/";
+		@exec($path.'jpegtopnm -version 2>&1',  $output, $status);
+		if(empty($status)&&!empty($output)){
+			if(preg_match("/netpbm[ \t]+([0-9\.]+)/i",$output[0],$matches))
+			   $imageLibs['netpbm'] = $matches[0];
+		}
+		unset($output, $status);
+	}
+
+	$GDfuncList = get_extension_funcs('gd');
+	ob_start();
+	@phpinfo(INFO_MODULES);
+	$output=ob_get_contents();
+	ob_end_clean();
+	$matches[1]='';
+	if(preg_match("/GD Version[ \t]*(<[^>]+>[ \t]*)+([^<>]+)/s",$output,$matches)){
+		$gdversion = $matches[2];
+	}
+	if( $GDfuncList ){
+	 if( in_array('imagegd2',$GDfuncList) )
+		$imageLibs['gd2'] = $gdversion;
+	 else
+		$imageLibs['gd1'] = $gdversion;
+	}
+	return $imageLibs;
+}
+
 $op = '';
 $ok = isset($_POST['ok']) ? intval($_POST['ok']) : 0;
 foreach (array('approved', 'topic_id', 'post_id') as $getint) {

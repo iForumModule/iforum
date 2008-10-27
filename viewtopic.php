@@ -133,16 +133,15 @@ if ( empty($topic_lastread[$topic_id]) ) {
 $topic_lastread[$topic_id] = time();
 newbb_setcookie("LT", $topic_lastread);
 
+if(!empty($xoopsModuleConfig['rss_enable'])){
+	$xoops_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.$xoopsModule->getVar('name').'-'.$viewtopic_forum->getVar('forum_name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php?f='.$viewtopic_forum->getVar("forum_id").'" />';
+}
 $xoops_pagetitle = $forumtopic->getVar('topic_title') . ' - ' . $viewtopic_forum->getVar('forum_name') . ' - ' . $xoopsModule->getVar('name');
 
 $xoopsOption['xoops_pagetitle']= $xoops_pagetitle;
 $xoopsOption['xoops_module_header']= $xoops_module_header;
 include XOOPS_ROOT_PATH."/header.php";
 $xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
-
-if(!empty($xoopsModuleConfig['rss_enable'])){
-	$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'-'.$viewtopic_forum->getVar('forum_name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php?f='.$viewtopic_forum->getVar("forum_id").'" />';
-}
 $xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 
 if ($xoopsModuleConfig['wol_enabled']){
@@ -401,13 +400,18 @@ if ( $forumtopic->getVar('topic_haspoll')
 
 	$xoopsTpl->assign('topic_poll', 1);
 	$poll = new XoopsPoll($forumtopic->getVar('poll_id'));
+	$renderer = new XoopsPollRenderer($poll);
 	$uid = is_object($xoopsUser)?$xoopsUser->getVar("uid"):0;
 	if ( XoopsPollLog::hasVoted($forumtopic->getVar('poll_id'), $_SERVER['REMOTE_ADDR'], $uid) ) {
-		pollresults($forumtopic->getVar('poll_id'));
+		$renderer->assignResults($xoopsTpl);
+		//pollresults($forumtopic->getVar('poll_id'));
 		$xoopsTpl->assign('topic_pollresult', 1);
 		setcookie("bb_polls[".$forumtopic->getVar("poll_id")."]", 1);
 	} else {
-		pollview($forumtopic->getVar('poll_id'));
+	    $renderer->assignForm($xoopsTpl);
+	    $xoopsTpl->assign('lang_vote' , _PL_VOTE);
+	    $xoopsTpl->assign('lang_results' , _PL_RESULTS);
+		//pollview($forumtopic->getVar('poll_id'));
 		setcookie("bb_polls[".$forumtopic->getVar("poll_id")."]", 1);
 	}
 }

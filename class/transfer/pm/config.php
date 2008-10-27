@@ -46,6 +46,6 @@ if(!@include_once($root_path."/language/".$xoopsConfig['language'].".php")){
 return $config = array(
 		"title"		=>	_MD_TRANSFER_PM,
 		"level"		=>	1,
-		"module"	=>	is_dir(XOOPS_ROOT_PATH."/moduels/pm/")?"pm":""
+		"module"	=>	is_dir(XOOPS_ROOT_PATH."/modueles/pm/")?"pm":""
 	);
 ?>

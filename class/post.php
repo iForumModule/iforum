@@ -185,16 +185,17 @@ class Post extends ArtObject {
         $post_attachment = '';
         $attachments = $this->getAttachment();
         if (is_array($attachments) && count($attachments) > 0) {
+            include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/include/functions.image.php';
         	$image_extensions = array("jpg", "jpeg", "gif", "png", "bmp"); // need improve !!!
 	        $post_attachment .= '<br /><strong>' . _MD_ATTACHMENT . '</strong>:';
 	        $post_attachment .= '<br /><hr size="1" noshade="noshade" /><br />';
             foreach($attachments as $key => $att) {
                 $file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
                 $filetype = $file_extension;
-                if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/images/filetypes/' . $filetype . '.gif'))
-                    $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/images/filetypes/' . $filetype . '.gif';
+                if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif'))
+                    $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif';
                 else
-                    $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/images/filetypes/unknown.gif';
+                    $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/unknown.gif';
                 $file_size = filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
                 $file_size = number_format ($file_size / 1024, 2)." KB";
                 if (in_array(strtolower($file_extension), $image_extensions) && $xoopsModuleConfig['media_allowed']) {
@@ -203,7 +204,7 @@ class Post extends ArtObject {
                 		$isDisplayed = true;
                 }
                 else{
-                    $post_attachment .= '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
+                    $post_attachment .= '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
                 }
             	$post_attachment .= '<br />';
             }

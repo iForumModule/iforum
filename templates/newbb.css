@@ -89,7 +89,7 @@ table.index_category .desc, table.index_category .desc a{
 
 div#forum_header{
 	margin: 5px;
-	clear: all;
+	clear: both;
 }
 #forum_header div{
 	padding-top: 5px;
