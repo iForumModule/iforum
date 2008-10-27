@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include 'header.php';
 // Disable cache
 $xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;

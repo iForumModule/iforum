@@ -24,6 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
 
 newbb_load_object();
@@ -44,23 +48,7 @@ class Category extends ArtObject {
         $this->initVar('cat_order', XOBJ_DTYPE_INT);
         //$this->initVar('cat_state', XOBJ_DTYPE_INT);
         $this->initVar('cat_url', XOBJ_DTYPE_URL);
-        $this->initVar('cat_showdescript', XOBJ_DTYPE_INT);
-    }
-
-    function imgLink()
-    {
-        global $xoopsModule;
-
-        $ret = "<a href='" . XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/index.php?cat=" . $this->getVar('cat_id') . "'>" . "<img src='" . XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/images/topics/" . $this->getVar('cat_image') . "' alt='" . $this->getVar('cat_title') . "' /></a>";
-        return $ret;
-    }
-
-    function textLink()
-    {
-        global $xoopsModule;
-
-        $ret = "<a href='" . XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/index.php?cat=" . $this->getVar('cat_id') . "'>" . $this->getVar('cat_title') . "</a>";
-        return $ret;
+        //$this->initVar('cat_showdescript', XOBJ_DTYPE_INT);
     }
 }
 
@@ -69,98 +57,31 @@ class NewbbCategoryHandler extends ArtObjectHandler
     function NewbbCategoryHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
     }
-    
-	function &create($isNew = true)
-    {
-        $category = new Category();
-        if ($isNew) {
-            $category->setNew();
-        }
-        return $category;
-    }
 
-    function &get($id = 0)
+    function &getAllCats($permission = false, $idAsKey = true, $tags = null)
     {
-        $category = null;
-        if ($id > 0) {
-            $sql = "SELECT * FROM " . $this->db->prefix("bb_categories") . " WHERE cat_id = " . intval($id);
-            if (!$result = $this->db->query($sql)) {
-                return $category;
-            }
-            while ($row = $this->db->fetchArray($result)) {
-        		$category =& $this->create(false);
-                $category->assignVars($row);
-            }
-        }
-        return $category;
-    }
-
-    function &getAllCats($permission = false, $idAsKey = false)
-    {
-	    //static $_cachedCats=array();
 	    $perm_string = (empty($permission))?'all':'access';
-	    //if(isset($_cachedCats[$perm_string])) return $_cachedCats[$perm_string];
         $_cachedCats[$perm_string]=array();
-        $sql = "SELECT * FROM " . $this->db->prefix("bb_categories");
-        $sql .= " ORDER BY cat_order";
-        if (!$result = $this->db->query($sql)) {
-	        newbb_message("query error: ".$sql);
-            return $_cachedCats[$perm_string];
-        } 
-        while ($row = $this->db->fetchArray($result)) {
-            $category =& $this->create(false);
-            $category->assignVars($row);
-            if ($permission && !$this->getPermission($category)) continue;
+        $criteria = new Criteria("1", 1);
+        $criteria->setSort("cat_order");
+        $categories =& $this->getAll($criteria, $tags, $idAsKey);
+        foreach(array_keys($categories) as $key){
+            if ($permission && !$this->getPermission($categories[$key])) continue;
             if($idAsKey){
-            	$_cachedCats[$perm_string][$row["cat_id"]] = $category;
+            	$_cachedCats[$perm_string][$key] = $categories[$key];
             }else{
-            	$_cachedCats[$perm_string][] = $category;
+            	$_cachedCats[$perm_string][] = $categories[$key];
         	}
-            unset($category);
         }
         return $_cachedCats[$perm_string];
     }
 
     function insert(&$category)
     {
-        if (!$category->isDirty()) {
-            return true;
-        }
-        if (!$category->cleanVars()) {
-            return false;
-        }
-        foreach ($category->cleanVars as $k => $v) {
-            ${$k} = $v;
-        }
-        global $myts, $xoopsModule;
-
-        if ($category->isNew()) {
-            $category->setVar('cat_id', $this->db->genId($category->table . "_cat_id_seq"));
-            /*
-            $sql = "INSERT INTO " . $category->table . " (cat_id, cat_image, cat_title, cat_description, cat_order, cat_state, cat_url, cat_showdescript)
-			         VALUES (" . $category->getVar('cat_id') . ", " . $this->db->quoteString($cat_image) . ", " . $this->db->quoteString($cat_title) . ", " . $this->db->quoteString($cat_description) . ", " . $cat_order . ", " . $cat_state . ", " . $this->db->quoteString($cat_url) . ", " . $cat_showdescript . " )";
-			*/
-            $sql = "INSERT INTO " . $category->table . " (cat_id, cat_image, cat_title, cat_description, cat_order, cat_url, cat_showdescript)
-			         VALUES (" . $category->getVar('cat_id') . ", " . $this->db->quoteString($cat_image) . ", " . $this->db->quoteString($cat_title) . ", " . $this->db->quoteString($cat_description) . ", " . $cat_order . ", " . $this->db->quoteString($cat_url) . ", " . $cat_showdescript . " )";
-        } else {
-            //$sql = "UPDATE " . $category->table . " SET cat_image=" . $this->db->quoteString($cat_image) . ", cat_title=" . $this->db->quoteString($cat_title) . ", cat_description=" . $this->db->quoteString($cat_description) . ", cat_order=" . $cat_order . ",  cat_state=" . $cat_state . ", cat_url=" . $this->db->quoteString($cat_url) . ",  cat_showdescript=" . $cat_showdescript . " WHERE cat_id=" . $cat_id;
-            $sql = "UPDATE " . $category->table . " SET cat_image=" . $this->db->quoteString($cat_image) . ", cat_title=" . $this->db->quoteString($cat_title) . ", cat_description=" . $this->db->quoteString($cat_description) . ", cat_order=" . $cat_order . ", cat_url=" . $this->db->quoteString($cat_url) . ",  cat_showdescript=" . $cat_showdescript . " WHERE cat_id=" . $cat_id;
-        }
-        if (!$result = $this->db->query($sql)) {
-            return false;
-        }
-
-        if (!($category->getVar('cat_id'))){
-	        $category->setVar('cat_id', $this->db->getInsertId());
-        }
-        
+        parent::insert($category, true);
         if ($category->isNew()) {
 	        $this->applyPermissionTemplate($category);
         }
-        /*
-        $perm = &xoops_getmodulehandler('permission', 'newbb');
-        $perm->saveCategory_Permissions($category->groups_cat_access, $category->getVar('cat_id'), 'forum_cat_access');
-        */
 
         return $category->getVar('cat_id');
     }
@@ -169,27 +90,17 @@ class NewbbCategoryHandler extends ArtObjectHandler
     {
         global $xoopsModule;
 		$forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-        $forums =& $forum_handler->getForumsByCat($category->getVar('cat_id'));
-        if(count($forums[$category->getVar('cat_id')])>0) foreach($forums[$category->getVar('cat_id')] as $fid=>$forum){
-	        $forum_handler->delete($forum);
-        }
-        $sql = "DELETE FROM " . $category->table . " WHERE cat_id=" . $category->getVar('cat_id') . "";
-        if ($result = $this->db->query($sql)) {
+		$forum_handler->deleteAll(new Criteria("cat_id", $category->getVar('cat_id')), true, true);
+        if ($result = parent::delete($category)) {
             // Delete group permissions
             return $this->deletePermission($category);
-            /*
-            $gperm_handler = &xoops_gethandler('groupperm');
-            $criteria = new CriteriaCompo(new Criteria('gperm_modid', intval($xoopsModule->getVar('mid'))));
-            $criteria->add(new Criteria('gperm_name', 'forum_cat_access'));
-            $criteria->add(new Criteria('gperm_itemid', $category->getVar('cat_id')));
-            return $gperm_handler->deleteAll($criteria);
-            */
         } else {
-	        newbb_message("delete category error: ".$sql);
+	        $category->setErrors("delete category error: ".$sql);
             return false;
         }
     }
 
+    /*
     function &getLatestPosts($viewcat = 0)
     {
         $sql = 'SELECT f.*, u.uid, p.topic_id, p.post_time, p.subject, p.poster_name, p.icon FROM ' . $this->db->prefix('bb_forums') . ' f LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = f.forum_last_post_id LEFT JOIN ' . $this->db->prefix('users') . ' u ON u.uid = p.uid';
@@ -207,14 +118,25 @@ class NewbbCategoryHandler extends ArtObjectHandler
         }
         return $ret;
     }
+    */
 
-    function &getForums($categoryid = null, $permission = "", $asObject = true)
+    /*
+    function &getForums($categoryid = null, $permission = "", $asObject = true, $tags = null)
     {
         $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-        $ret = $forum_handler->getForumsByCategory($categoryid, $permission, $asObject);
+        $ret = $forum_handler->getForumsByCategory($categoryid, $permission, $asObject, $tags);
         return $ret;
     }
+    */
 
+    /*
+     * Check permission for a category
+     *
+     * TODO: get a list of categories per permission type
+     *
+     * @param	mixed (object or integer)	category object or ID
+     * return	bool
+     */
     function getPermission($category)
     {
         global $xoopsUser, $xoopsModule;
@@ -229,12 +151,6 @@ class NewbbCategoryHandler extends ArtObjectHandler
 
         $cat_id = is_object($category)? $category->getVar('cat_id'):intval($category);
         $permission = (isset($_cachedCategoryPerms[$cat_id]['category_access'])) ? 1 : 0;
-        /*
-        if(!empty($permission)){
-	        if(!is_object($category)) $category =& $this->get($cat_id);
-        	if ($category->getVar('cat_state')) $permission = 0; // if category inactive, all has no access except admin
-    	}
-    	*/
 
         return $permission;
     }

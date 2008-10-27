@@ -303,8 +303,9 @@ define("_MI_NEWBB_INSTALL_FORUM_NAME", "测试论坛");
 define("_MI_NEWBB_INSTALL_FORUM_DESC", "测试创建论坛.");
 define("_MI_NEWBB_INSTALL_POST_SUBJECT", "恭喜! 论坛已开始正常运行.");
 define("_MI_NEWBB_INSTALL_POST_TEXT", "
-	欢迎光临".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))."论坛.<br />
-	请注册登录并开始新话题.<br /><br />
-	如果您在使用中遇到任何问题, 请访问<a href=\"http://xoops.org.cn\" target=\"_blank\" title=\"Xoops China\">Xoops中文支持</a>或<a href=\"http://xoopsforge.com/modules/newbb/\" target=\"_blank\" title=\"CBB @ XoopsForge\">CBB开发者网站</a>.
+	欢迎光临".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))."论坛.
+	请注册登录并开始新话题.
+	
+	如果您在使用中遇到任何问题, 请访问[url=http://xoops.org.cn]Xoops中文支持[/url]或[url=http://xoopsforge.com/modules/newbb/]CBB开发者网站[/url].
 	");
 ?>

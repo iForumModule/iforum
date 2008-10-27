@@ -300,8 +300,9 @@ define("_MI_NEWBB_INSTALL_FORUM_NAME", "Forum Test");
 define("_MI_NEWBB_INSTALL_FORUM_DESC", "Forum for test.");
 define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
 define("_MI_NEWBB_INSTALL_POST_TEXT", "
-	Welcome to ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." forum.<br />
-	Feel free to register and login to start your topics.<br /><br />
-	If you have any question concerning CBB usage, plz visit your local support site or <a href=\"http://xoopsforge.com/modules/newbb/\" target=\"_blank\" title=\"CBB @ XoopsForge\">CBB Module Site</a>.
+	Welcome to ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." forum.
+	Feel free to register and login to start your topics.
+	
+	If you have any question concerning CBB usage, plz visit your local support site or [url=http://xoopsforge.com/modules/newbb/]CBB Module Site[/url].
 	");
 ?>

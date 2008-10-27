@@ -30,6 +30,143 @@
 // ------------------------------------------------------------------------- //
 include 'admin_header.php';
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
+
+/*
+ * Add category navigation to forum casscade structure
+ * <ol>Special points:
+ *	<li> Use negative values for category IDs to avoid conflict between category and forum
+ *	<li> Disabled checkbox for categories to avoid unnecessary permission items for categories in forum permission table
+ * </ol> 
+ * 
+ * Note: this is a __patchy__ solution. We should have a more extensible and flexible group permission management: not only for data architecture but also for management interface
+ */
+  
+class newbb_XoopsGroupPermForm extends XoopsGroupPermForm
+{
+    function newbb_XoopsGroupPermForm($title, $modid, $permname, $permdesc, $url = "")
+    {
+	    $this->XoopsGroupPermForm($title, $modid, $permname, $permdesc, $url);
+    } 
+    
+    function render()
+    { 
+        // load all child ids for javascript codes
+        foreach (array_keys($this->_itemTree)as $item_id) {
+            $this->_itemTree[$item_id]['allchild'] = array();
+            $this->_loadAllChildItemIds($item_id, $this->_itemTree[$item_id]['allchild']);
+        }
+        $gperm_handler =& xoops_gethandler('groupperm');
+        $member_handler =& xoops_gethandler('member');
+        $glist =& $member_handler->getGroupList();
+        foreach (array_keys($glist) as $i) {
+            // get selected item id(s) for each group
+            $selected = $gperm_handler->getItemIds($this->_permName, $i, $this->_modid);
+            $ele = new newbb_XoopsGroupFormCheckBox($glist[$i], 'perms[' . $this->_permName . ']', $i, $selected);
+            $ele->setOptionTree($this->_itemTree);
+            $this->addElement($ele);
+            unset($ele);
+        } 
+        $tray = new XoopsFormElementTray('');
+        $tray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $tray->addElement(new XoopsFormButton('', 'reset', _CANCEL, 'reset'));
+        $this->addElement($tray);
+        $ret = '<h4>' . $this->getTitle() . '</h4>' . $this->_permDesc . '<br />';
+        $ret .= "<form name='" . $this->getName() . "' id='" . $this->getName() . "' action='" . $this->getAction() . "' method='" . $this->getMethod() . "'" . $this->getExtra() . ">\n<table width='100%' class='outer' cellspacing='1' valign='top'>\n";
+        $elements =& $this->getElements();
+        $hidden = '';
+        foreach (array_keys($elements) as $i) {
+            if (!is_object($elements[$i])) {
+                $ret .= $elements[$i];
+            } elseif (!$elements[$i]->isHidden()) {
+                $ret .= "<tr valign='top' align='left'><td class='head'>" . $elements[$i]->getCaption();
+                if ($elements[$i]->getDescription() != '') {
+                    $ret .= '<br /><br /><span style="font-weight: normal;">' . $elements[$i]->getDescription() . '</span>';
+                }
+                $ret .= "</td>\n<td class='even'>\n" . $elements[$i]->render() . "\n</td></tr>\n";
+            } else {
+                $hidden .= $elements[$i]->render();
+            }
+        }
+        $ret .= "</table>$hidden</form>";
+        $ret .= $this->renderValidationJS( true );
+        return $ret;
+    }
+}
+
+class newbb_XoopsGroupFormCheckBox extends XoopsGroupFormCheckBox
+{
+    function newbb_XoopsGroupFormCheckBox($caption, $name, $groupId, $values = null)
+    {
+	    $this->XoopsGroupFormCheckBox($caption, $name, $groupId, $values);
+    }
+
+    /**
+     * Renders checkbox options for this group
+     * 
+     * @return string 
+     * @access public 
+     */
+    function render()
+    {
+		$ret = '<table class="outer"><tr><td class="odd"><table><tr>';
+		$cols = 1;
+		foreach ($this->_optionTree[0]['children'] as $topitem) {
+			if ($cols > 4) {
+				$ret .= '</tr><tr>';
+				$cols = 1;
+			}
+			$tree = '<td valign="top">';
+			$prefix = '';
+			$this->_renderOptionTree($tree, $this->_optionTree[$topitem], $prefix);
+			$ret .= $tree.'</td>';
+			$cols++;
+		}
+		$ret .= '</tr></table></td><td class="even">';
+		foreach (array_keys($this->_optionTree) as $id) {
+			if (!empty($id)) {
+				$option_ids[] = "'".$this->getName().'[groups]['.$this->_groupId.']['.$id.']'."'";
+			}
+		}
+		$checkallbtn_id = $this->getName().'[checkallbtn]['.$this->_groupId.']';
+		$option_ids_str = implode(', ', $option_ids);
+		$ret .= _ALL." <input id=\"".$checkallbtn_id."\" type=\"checkbox\" value=\"\" onclick=\"var optionids = new Array(".$option_ids_str."); xoopsCheckAllElements(optionids, '".$checkallbtn_id."');\" />";
+		$ret .= '</td></tr></table>';
+		return $ret;
+    } 
+    
+    function _renderOptionTree(&$tree, $option, $prefix, $parentIds = array())
+    {
+	    if($option['id'] > 0):
+        $tree .= $prefix . "<input type=\"checkbox\" name=\"" . $this->getName() . "[groups][" . $this->_groupId . "][" . $option['id'] . "]\" id=\"" . $this->getName() . "[groups][" . $this->_groupId . "][" . $option['id'] . "]\" onclick=\""; 
+        foreach ($parentIds as $pid) {
+	        if($pid <= 0) continue;
+            $parent_ele = $this->getName() . '[groups][' . $this->_groupId . '][' . $pid . ']';
+            $tree .= "var ele = xoopsGetElementById('" . $parent_ele . "'); if(ele.checked != true) {ele.checked = this.checked;}";
+        } 
+        foreach ($option['allchild'] as $cid) {
+            $child_ele = $this->getName() . '[groups][' . $this->_groupId . '][' . $cid . ']';
+            $tree .= "var ele = xoopsGetElementById('" . $child_ele . "'); if(this.checked != true) {ele.checked = false;}";
+        } 
+        $tree .= '" value="1"';
+        if (in_array($option['id'], $this->_value)) {
+            $tree .= ' checked="checked"';
+        } 
+        $tree .= " />" . $option['name'] . "<input type=\"hidden\" name=\"" . $this->getName() . "[parents][" . $option['id'] . "]\" value=\"" . implode(':', $parentIds). "\" /><input type=\"hidden\" name=\"" . $this->getName() . "[itemname][" . $option['id'] . "]\" value=\"" . htmlspecialchars($option['name']). "\" /><br />\n";
+        else:
+        $tree .= $prefix . $option['name'] . "<input type=\"hidden\" id=\"" . $this->getName() . "[groups][" . $this->_groupId . "][" . $option['id'] . "]\" /><br />\n";
+        endif;
+        if (isset($option['children'])) {
+            foreach ($option['children'] as $child) {
+	            if($option['id'] > 0){
+	                array_push($parentIds, $option['id']);
+                }
+                $this->_renderOptionTree($tree, $this->_optionTree[$child], $prefix . '&nbsp;-', $parentIds);
+            }
+        }
+    }
+}
+
 xoops_cp_header();
 
 loadModuleAdminMenu(3);
@@ -114,10 +251,11 @@ switch($action){
 		$opform->addElement($op_select);
 		$opform->display();
 		
-		$category_handler = &xoops_getmodulehandler('category', 'newbb');
-		$forums = $category_handler->getForums(0, '', false);
+		$forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+		$forums = $forum_handler->getForumsByCategory(0, '', false);
 		$fm_options = array();
 		foreach (array_keys($forums) as $c) {
+			$fm_options[-1*$c] = "[".$categories[$c]."]";
 			foreach(array_keys($forums[$c]) as $f){
 				$fm_options[$f] = $forums[$c][$f]["title"];
 		        if(!isset($forums[$c][$f]["sub"])) continue;
@@ -126,7 +264,7 @@ switch($action){
 				}
 			}
 		}
-		unset($forums);		
+		unset($forums, $categories);		
 		$fmform = new XoopsThemeForm(_AM_NEWBB_PERM_TEMPLATEAPP, 'fmform', 'admin_permissions.php', "post");
 		$fm_select = new XoopsFormSelect(_AM_NEWBB_PERM_FORUMS, 'forums', null, 5, true);
 		$fm_select->addOptionArray($fm_options);
@@ -143,44 +281,11 @@ switch($action){
 		if(empty($_POST["forums"])) break;
 	    $newbbperm_handler =& xoops_getmodulehandler('permission', 'newbb');
 		foreach($_POST["forums"] as $forum){
+			if($forum < 1) continue;
 			$newbbperm_handler->applyTemplate($forum, $module_id);
 		}
 	    redirect_header("admin_permissions.php", 2, _AM_NEWBB_PERM_TEMPLATE_APPLIED);
 		break;
-		/*
-	    $perm_template = $newbbperm_handler->getTemplate();
-		$groupperm_handler =& xoops_gethandler('groupperm');
-	    $member_handler =& xoops_gethandler('member');
-	    $glist =& $member_handler->getGroupList();
-		foreach(array_keys($glist) as $group){
-		    foreach($perms as $perm){
-			    $perm = "forum_".$perm;
-				$ids = $groupperm_handler->getItemIds($perm, $group, $module_id);
-				$ids_dif = array_diff($_POST["forums"], $ids);
-				foreach($ids_dif as $id){
-					if(empty($perm_template[$group][$perm])){
-						// deleteRight is not defined other versions than XOOPS 2.2*
-						//$groupperm_handler->deleteRight($perm, $id, $group, $module_id);
-				        $criteria = new CriteriaCompo(new Criteria('gperm_name', $perm));
-				        $criteria->add(new Criteria('gperm_groupid', $group));
-				        $criteria->add(new Criteria('gperm_itemid', $id));
-				        $criteria->add(new Criteria('gperm_modid', $module_id));
-				        $perms_obj = $groupperm_handler->getObjects($criteria);
-				        if (!empty($perms_obj)) {
-					        foreach($perms_obj as $perm_obj){
-				            	$groupperm_handler->delete($perm_obj);
-					        }
-				        }
-				        unset($criteria, $perms_obj);
-					}else{
-						$groupperm_handler->addRight($perm, $id, $group, $module_id);
-					}
-				}
-		    }
-		}
-	    redirect_header("admin_permissions.php", 2, _AM_NEWBB_PERM_TEMPLATE_APPLIED);
-		break;
-		*/
 		
 	default:
 		
@@ -196,8 +301,8 @@ switch($action){
 		$opform->addElement($op_select);
 		$opform->display();
 		
-		$category_handler = &xoops_getmodulehandler('category', 'newbb');
-		$forums = $category_handler->getForums(0, '', false);
+		$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+		$forums = $forum_handler->getForumsByCategory(0, '', false);
 		$op_options = array("category"=>_AM_NEWBB_CAT_ACCESS);
 		$fm_options = array("category"=>array("title"=>_AM_NEWBB_CAT_ACCESS, "item"=>"category_access", "desc"=>"", "anonymous"=>true));
 		foreach($perms as $perm){
@@ -225,45 +330,34 @@ switch($action){
 		$opform->display();
 		
 		$perm_desc = "";
-		include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
-		$form = new XoopsGroupPermForm($fm_options[$op]["title"], $module_id, $fm_options[$op]["item"], $fm_options[$op]["desc"], 'admin/admin_permissions.php', $fm_options[$op]["anonymous"]);
 		
+		$form = new newbb_XoopsGroupPermForm($fm_options[$op]["title"], $module_id, $fm_options[$op]["item"], $fm_options[$op]["desc"], 'admin/admin_permissions.php', $fm_options[$op]["anonymous"]);
+		
+		$category_handler =& xoops_getmodulehandler('category', 'newbb');
+		$categories = $category_handler->getAllCats("", true);
 		if($op=="category"){
-			$categories = $category_handler->getAllCats("", true);
 			foreach (array_keys($categories) as $key) {
 				$form->addItem($key, $categories[$key]->getVar('cat_title'));
 			}
 			unset($categories);
 		}else{
 			foreach (array_keys($forums) as $c) {
+				$key_c = -1 * $c;
+				$form->addItem($key_c, "<strong>[".$categories[$c]->getVar('cat_title')."]</strong>");
 				foreach(array_keys($forums[$c]) as $f){
-			        $form->addItem($f, $forums[$c][$f]["title"]);
+			        $form->addItem($f, $forums[$c][$f]["title"], $key_c);
 			        if(!isset($forums[$c][$f]["sub"])) continue;
 					foreach(array_keys($forums[$c][$f]["sub"]) as $s){
-			        	$form->addItem($s, "&rarr;".$forums[$c][$f]["sub"][$s]["title"]);
+			        	$form->addItem($s, "&rarr;".$forums[$c][$f]["sub"][$s]["title"], $f);
 					}
 				}
 			}
+			unset($forums, $categories);		
 		}
 		$form->display();
 		
 		break;
 }
-
-/*
-	$op_options = array();
-	foreach (array_keys($forums) as $c) {
-		foreach(array_keys($forums[$c]) as $f){
-			$op_options[$f] = $forums[$c][$f]["title"];
-	        if(!isset($forums[$c][$f]["sub"])) continue;
-			foreach(array_keys($forums[$c][$f]["sub"]) as $s){
-				$op_options[$s] = "-- ".$forums[$c][$f]["sub"][$s]["title"];
-			}
-		}
-	}
-	unset($forums);
-	$fm_options = array();
-*/
 
 xoops_cp_footer();
 ?>

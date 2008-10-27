@@ -24,9 +24,17 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 require_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
 if(defined('NEWBB_BLOCK_DEFINED')) return;
 define('NEWBB_BLOCK_DEFINED',true);
+
+function b_newbb_array_filter($var){
+	return $var > 0;
+}
 
 // options[0] - Citeria valid: time(by default)
 // options[1] - NumberToDisplay: any positive integer
@@ -40,9 +48,9 @@ function b_newbb_show($options)
 {
     global $xoopsConfig;
     global $access_forums;
-    
-    $db = &Database::getInstance();
-    $myts = &MyTextSanitizer::getInstance();
+
+    $db =& Database::getInstance();
+    $myts =& MyTextSanitizer::getInstance();
     $block = array();
     $i = 0;
     $order = "";
@@ -59,19 +67,21 @@ function b_newbb_show($options)
     		$extra_criteria .= " AND p.approved=1";
             break;
     }
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-    
     $newbbConfig = getConfigForBlock();
-
+    			
     if(!isset($access_forums)){
-    	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
+	    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+    	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
+	    	return null;
+    	}
+    	$access_forums = array_keys( $access_obj ); // get all accessible forums
+    	unset($access_obj );
 	}
-
     if (!empty($options[6])) {
-        $allowedforums = array_slice($options, 6); // get allowed forums
-        $allowed_forums = array_intersect($allowedforums, array_keys($access_forums));
+        $allowedforums = array_filter(array_slice($options, 6), "b_newbb_array_filter"); // get allowed forums
+        $allowed_forums = array_intersect($allowedforums, $access_forums);
     }else{
-        $allowed_forums = array_keys($access_forums);
+        $allowed_forums = $access_forums;
     }
 
     $forum_criteria = ' AND t.forum_id IN (' . implode(',', $allowed_forums) . ')';
@@ -103,7 +113,7 @@ function b_newbb_show($options)
         $author[$row["uid"]] = 1;
     }
     if (count($rows) < 1) return false;
-	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
+	$author_name = newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
 
     foreach ($rows as $arr) {
         $topic_page_jump = '';
@@ -139,7 +149,7 @@ function b_newbb_show($options)
         }
         $topic['topic_poster'] = $topic_poster;
         $topic['topic_page_jump'] = $topic_page_jump;
-        $block['topics'][] = &$topic;
+        $block['topics'][] = $topic;
         unset($topic);
     }
     $block['indexNav'] = intval($options[4]);
@@ -193,18 +203,22 @@ function b_newbb_topic_show($options)
             $order = 't.topic_time';
             break;
     }
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
 	$newbbConfig = getConfigForBlock();
 
     if(!isset($access_forums)){
-    	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
+	    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+    	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
+	    	return null;
+    	}
+    	$access_forums = array_keys( $access_obj ); // get all accessible forums
+    	unset($access_obj );
 	}
 
     if (!empty($options[6])) {
-        $allowedforums = array_slice($options, 6); // get allowed forums
-        $allowed_forums = array_intersect($allowedforums, array_keys($access_forums));
+        $allowedforums = array_filter(array_slice($options, 6), "b_newbb_array_filter"); // get allowed forums
+        $allowed_forums = array_intersect($allowedforums, $access_forums);
     }else{
-        $allowed_forums = array_keys($access_forums);
+        $allowed_forums = $access_forums;
     }
 
     $forum_criteria = ' AND t.forum_id IN (' . implode(',', $allowed_forums) . ')';
@@ -234,7 +248,7 @@ function b_newbb_topic_show($options)
         $author[$row["topic_poster"]] = 1;
     }
     if (count($rows) < 1) return false;
-	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
+	$author_name = newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
 
     foreach ($rows as $arr) {
         $topic_page_jump = '';
@@ -255,8 +269,9 @@ function b_newbb_topic_show($options)
         $topic['id'] = $arr['topic_id'];
 
         $title = $myts->htmlSpecialChars($arr['topic_title']);
-        if(!empty($options[5]))
-        $title = xoops_substr($title, 0, $options[5]);
+        if(!empty($options[5])){
+        	$title = xoops_substr($title, 0, $options[5]);
+    	}
         $topic['title'] = $title;
         $topic['replies'] = $arr['topic_replies'];
         $topic['views'] = $arr['topic_views'];
@@ -268,7 +283,7 @@ function b_newbb_topic_show($options)
         }
         $topic['topic_poster'] = $topic_poster;
         $topic['topic_page_jump'] = $topic_page_jump;
-        $block['topics'][] = &$topic;
+        $block['topics'][] = $topic;
         unset($topic);
     }
     $block['indexNav'] = intval($options[4]);
@@ -311,18 +326,22 @@ function b_newbb_post_show($options)
             $order = 'p.post_time';
             break;
     }
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
     $newbbConfig = getConfigForBlock();
 
     if(!isset($access_forums)){
-    	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
+	    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+    	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
+	    	return null;
+    	}
+    	$access_forums = array_keys( $access_obj ); // get all accessible forums
+    	unset($access_obj );
 	}
 
     if (!empty($options[6])) {
-        $allowedforums = array_slice($options, 6); // get allowed forums
-        $allowed_forums = array_intersect($allowedforums, array_keys($access_forums));
+        $allowedforums = array_filter(array_slice($options, 6), "b_newbb_array_filter"); // get allowed forums
+        $allowed_forums = array_intersect($allowedforums, $access_forums);
     }else{
-        $allowed_forums = array_keys($access_forums);
+        $allowed_forums = $access_forums;
     }
 
     $forum_criteria = ' AND p.forum_id IN (' . implode(',', $allowed_forums) . ')';
@@ -358,7 +377,7 @@ function b_newbb_post_show($options)
         $author[$row["uid"]] = 1;
     }
     if (count($rows) < 1) return false;
-	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
+	$author_name = newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
 
     foreach ($rows as $arr) {
 		//if ($arr['icon'] && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
@@ -373,8 +392,9 @@ function b_newbb_post_show($options)
         //$topic['id'] = $arr['topic_id'];
 
         $title = $myts->htmlSpecialChars($arr['subject']);
-        if($options[0]!="text" && !empty($options[5]))
-        $title = xoops_substr($title, 0, $options[5]);
+        if($options[0]!="text" && !empty($options[5])) {
+	        $title = xoops_substr($title, 0, $options[5]);
+        }
         $topic['title'] = $title;
         $topic['post_id'] = $arr['post_id'];
         $topic['time'] = newbb_formatTimestamp($arr['post_time']);
@@ -393,7 +413,7 @@ function b_newbb_post_show($options)
         	$topic['post_text'] = $post_text;
         }        
         
-        $block['topics'][] = &$topic;
+        $block['topics'][] = $topic;
         unset($topic);
     }
     $block['indexNav'] = intval($options[4]);
@@ -443,18 +463,22 @@ function b_newbb_author_show($options)
 			$extra_criteria = " AND post_time>".$time_criteria;
             break;
     }
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
     $newbbConfig = getConfigForBlock();
 
     if(!isset($access_forums)){
-    	$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
+	    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+    	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
+	    	return null;
+    	}
+    	$access_forums = array_keys( $access_obj ); // get all accessible forums
+    	unset($access_obj );
 	}
 
     if (!empty($options[5])) {
-        $allowedforums = array_slice($options, 5); // get allowed forums
-        $allowed_forums = array_intersect($allowedforums, array_keys($access_forums));
+        $allowedforums = array_filter(array_slice($options, 5), "b_newbb_array_filter"); // get allowed forums
+        $allowed_forums = array_intersect($allowedforums, $access_forums);
     }else{
-        $allowed_forums = array_keys($access_forums);
+        $allowed_forums = $access_forums;
     }
 
     if($type=="topic"){
@@ -489,7 +513,7 @@ function b_newbb_author_show($options)
 	    $author[$row["author"]]["count"] = $row["count"];
     }
     if (count($author) < 1) return false;
-	$author_name =& newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname']);
+	$author_name = newbb_getUnameFromIds(array_keys($author), $newbbConfig['show_realname']);
 	foreach(array_keys($author) as $uid){
 		$author[$uid]["name"] = $myts->htmlSpecialChars($author_name[$uid]);
 	}
@@ -533,14 +557,16 @@ function b_newbb_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $options_forum = array_slice($options, 6); // get allowed forums
+    $options_forum = array_filter(array_slice($options, 6), "b_newbb_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-	$category_handler = &xoops_getmodulehandler('category', 'newbb');
-	$forums = $category_handler->getForums(0, '', false);
+    $form .= newbb_forumSelectBox($options_forum);
+    /*
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
         	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
@@ -553,6 +579,7 @@ function b_newbb_edit($options)
 		}
 	}
     unset($forums);
+    */
     $form .= "</select><br />";
 
     return $form;
@@ -604,14 +631,16 @@ function b_newbb_topic_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $options_forum = array_slice($options, 6); // get allowed forums
+    $options_forum = array_filter(array_slice($options, 6), "b_newbb_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-	$category_handler = &xoops_getmodulehandler('category', 'newbb');
-	$forums = $category_handler->getForums(0, '', false);
+    $form .= newbb_forumSelectBox($options_forum);
+	/*    
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
         	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
@@ -624,6 +653,7 @@ function b_newbb_topic_edit($options)
 		}
 	}
     unset($forums);
+    */
     $form .= "</select><br />";
 
     return $form;
@@ -666,14 +696,16 @@ function b_newbb_post_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $options_forum = array_slice($options, 6); // get allowed forums
+    $options_forum = array_filter(array_slice($options, 6), "b_newbb_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-	$category_handler = &xoops_getmodulehandler('category', 'newbb');
-	$forums = $category_handler->getForums(0, '', false);
+    $form .= newbb_forumSelectBox($options_forum);
+    /*
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
         	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
@@ -686,6 +718,7 @@ function b_newbb_post_edit($options)
 		}
 	}
     unset($forums);
+    */
     $form .= "</select><br />";
 
     return $form;
@@ -728,14 +761,16 @@ function b_newbb_author_edit($options)
 
     $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
 
-    $options_forum = array_slice($options, 5); // get allowed forums
+    $options_forum = array_filter(array_slice($options, 5), "b_newbb_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
     $form .= "<br />&nbsp;&nbsp;<select name=\"options[]\" multiple=\"multiple\">";
     $form .= "<option value=\"0\" ";
     if ($isAll) $form .= " selected=\"selected\"";
     $form .= ">"._ALL."</option>";
-	$category_handler = &xoops_getmodulehandler('category', 'newbb');
-	$forums = $category_handler->getForums(0, '', false);
+    $form .= newbb_forumSelectBox($options_forum);
+    /*
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
         	$sel = ($isAll || in_array($f, $options_forum))?" selected=\"selected\"":"";
@@ -748,6 +783,7 @@ function b_newbb_author_edit($options)
 		}
 	}
     unset($forums);
+    */
     $form .= "</select><br />";
 
     return $form;

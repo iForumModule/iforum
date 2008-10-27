@@ -1,15 +1,18 @@
-
 <div id="forum_header">
-<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/index.php"><{$forum_index_title}></a></div>
-<{if $parent_forum}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a>
+-
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
+</div>
+<{if $parentforum}>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parentforum.id}>"><{$parentforum.name}></a></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <{else}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> <{$forum_topictype}></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> <{$forum_topictype}></div>
 <{/if}>
 </div>
+<div class="clear"></div>
 
-<br style="clear:both;" />
+<br />
 
 <{if $subforum}>
 <table cellspacing="1" class="outer" width="100%">
@@ -23,10 +26,10 @@
     </tr>
 
     <!-- start subforums -->
-  <{foreach item=sforum from=$subforum}> <{if $sforum.forum_permission}>
+  <{foreach item=sforum from=$subforum}>
   <tr>
     <td class="even" align="center" valign="middle"><{$sforum.forum_folder}></td>
-    <td class="odd" onclick="window.location='<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$sforum.forum_id}>'"><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$sforum.forum_id}>"><strong><{$sforum.forum_name}></strong></a><br />
+    <td class="odd" onclick="window.location='<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>'"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>"><strong><{$sforum.forum_name}></strong></a><br />
 		<{$sforum.forum_desc}>
 		<{if $sforum.forum_moderators}><br/>
       	<strong><{$smarty.const._MD_MODERATOR}>:&nbsp;</strong><{$sforum.forum_moderators}>
@@ -38,12 +41,11 @@
 		<{$sforum.forum_lastpost_user}>	<{$sforum.forum_lastpost_icon}>
 	</td>
   </tr>
-	<{/if}>
 	<{/foreach}>
   <!-- end subforums -->
 
 </table>
-<br style="clear:both;" />
+<br />
 <{/if}>
 
 <{if $mode gt 1}>
@@ -71,12 +73,12 @@
 </select>  
 <input type="hidden" name="forum_id" value="<{$forum_id}>" />
 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
-<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> 
 <{elseif $mode eq 1}>
-<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
-<a href="<{$xoops_url}>/modules/newbb/moderate.php?forum=<{$forum_id}>" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/moderate.php?forum=<{$forum_id}>" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
 <{/if}>
 </div>
 <{else}>
@@ -84,8 +86,9 @@
 <{$forum_addpoll}><{$forum_post_or_register}>
 </div>
 <{/if}>
+<div class="clear"></div>
 
-<br style="clear:both;" />
+<br />
 <div>
 <div class="dropdown">
 <{if $menumode eq 0}>
@@ -161,8 +164,9 @@
 <{$forum_pagenav}>
 </div>
 </div>
-<br style="clear:both;" />
-<br style="clear:both;" />
+<div class="clear"></div>
+<br />
+<br />
 
 <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
 	<tr class="head" align="left">
@@ -258,18 +262,21 @@
 </table>
 <!-- end forum main table -->
 
-<br style="clear:both;" />
+<br />
 
+<div>
 <div style="float: left; text-align:left;">
 <{$forum_addpoll}><{$forum_post_or_register}>
 </div>
 <div style="float: right; text-align:right;">
 <{$forum_pagenav}>
 </div>
+</div>
+<div class="clear"></div>
 
-<br style="clear:both;" />
-<br style="clear:both;" />
-
+<br style="clear: both;" />
+<br />
+<div>
 <div style="float: left; text-align: left;">
 	<{$img_newposts}> = <{$smarty.const._MD_NEWPOSTS}> (<{$img_hotnewposts}> = <{$smarty.const._MD_MORETHAN}>) <br />
 	<{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}> (<{$img_hotfolder}> = <{$smarty.const._MD_MORETHAN2}>) <br />
@@ -287,13 +294,16 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form><br />
 <{$forum_jumpbox}>
 </div>
-<br style="clear:both;" />
-<br style="clear:both;" />
+</div>
+<div class="clear"></div>
+<br style="clear: both;" />
+<br />
 
+<div>
 <div style="float: left;">
 <{foreach item=perm from=$permission_table}>
 <div><{$perm}></div>
@@ -303,19 +313,21 @@
 <div style="float: right; text-align: right;">
 	<{if $viewer_level gt 1}>
 		<{if $mode gt 0}>
-		<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
+		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
 		<{else}>
-		<a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>&amp;mode=1" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=1" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 		<{/if}> 
 	<{/if}>
 	<{if $rss_button}>
-	<a href="<{$xoops_url}>/modules/newbb/rss.php?f=<{$forum_id}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum_id}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
 	<{/if}>
 </div>
 <{/if}>
+</div>
+<div class="clear"></div>
 
-<br style="clear:both;" />
-<br style="clear:both;" />
+<br style="clear: both;" />
+<br />
 <{if $online}><{include file="db:newbb_online.html"}><{/if}>
 <{include file='db:system_notification_select.html'}>
 <!-- end module contents -->

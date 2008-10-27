@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
 include "header.php";
 
@@ -51,20 +51,17 @@ include XOOPS_ROOT_PATH."/header.php";
 $xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-$viewall_forums = $forum_handler->getForums(0,'access'); // get all accessible forums
+$viewall_forums = $forum_handler->getForums(0,'access', array("forum_id", "cat_id", "forum_name")); // get all accessible forums
 
 if ($xoopsModuleConfig['wol_enabled']){
 	$online_handler =& xoops_getmodulehandler('online', 'newbb');
 	$online_handler->init();
     $xoopsTpl->assign('online', $online_handler->show_online());
-    //$xoopsTpl->assign('color_admin', $xoopsModuleConfig['wol_admin_col']);
-    //$xoopsTpl->assign('color_mod', $xoopsModuleConfig['wol_mod_col']);
 }
 $xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
 $xoopsTpl->assign('folder_topic', newbb_displayImage($forumImage['folder_topic']));
 
 $sel_sort_array = array("t.topic_title"=>_MD_TOPICTITLE, "u.uname"=>_MD_TOPICPOSTER, "t.topic_time"=>_MD_TOPICTIME, "t.topic_replies"=>_MD_NUMBERREPLIES, "t.topic_views"=>_MD_VIEWS, "p.post_time"=>_MD_LASTPOSTTIME);
-//$sel_sort_array = array("t.topic_title"=>_MD_TOPICTITLE, "t.topic_replies"=>_MD_NUMBERREPLIES, "u.uname"=>_MD_TOPICPOSTER, "t.topic_views"=>_MD_VIEWS, "p.post_time"=>_MD_LASTPOSTTIME);
 if ( !isset($_GET['sortname']) || !in_array($_GET['sortname'], array_keys($sel_sort_array)) ) {
 	$sortname = "p.post_time";
 } else {
@@ -76,7 +73,7 @@ foreach ( $sel_sort_array as $sort_k => $sort_v ) {
 	$forum_selection_sort .= '<option value="'.$sort_k.'"'.(($sortname == $sort_k) ? ' selected="selected"' : '').'>'.$sort_v.'</option>';
 }
 $forum_selection_sort .= '</select>';
-$xoopsTpl->assign('forum_selection_sort', $forum_selection_sort);
+$xoopsTpl->assign_by_ref('forum_selection_sort', $forum_selection_sort);
 
 $sortorder = (!isset($_GET['sortorder']) || $_GET['sortorder'] != "ASC") ? "DESC" : "ASC";
 $forum_selection_order = '<select name="sortorder">';
@@ -85,7 +82,7 @@ $forum_selection_order .= '<option value="DESC"'.(($sortorder == "DESC") ? ' sel
 $forum_selection_order .= '</select>';
 
 // assign to template
-$xoopsTpl->assign('forum_selection_order', $forum_selection_order);
+$xoopsTpl->assign_by_ref('forum_selection_order', $forum_selection_order);
 
 $since = isset($_GET['since']) ? intval($_GET['since']) : $xoopsModuleConfig["since_default"];
 $forum_selection_since = newbb_sinceSelectBox($since);
@@ -143,7 +140,7 @@ switch($type){
 	}
 
 list($allTopics, $sticky) = $forum_handler->getAllTopics($viewall_forums, $startdate, $start, $sortname, $sortorder, $type);
-$xoopsTpl->assign('topics', $allTopics);
+$xoopsTpl->assign_by_ref('topics', $allTopics);
 unset($allTopics);
 $xoopsTpl->assign('sticky', $sticky);
 $xoopsTpl->assign('rating_enable', $xoopsModuleConfig['rating_enabled']);
@@ -166,6 +163,7 @@ $xoopsTpl->assign('current_type', $current_type);
 $xoopsTpl->assign('current_link', $current_link);
 
 $all_topics = $forum_handler->getTopicCount($viewall_forums, $startdate, $type);
+unset($viewall_forums);
 if ( $all_topics > $xoopsModuleConfig['topics_per_page']) {
 	include XOOPS_ROOT_PATH.'/class/pagenav.php';
 	$nav = new XoopsPageNav($all_topics, $xoopsModuleConfig['topics_per_page'], $start, "start", 'sortname='.$sortname.'&amp;sortorder='.$sortorder.'&amp;since='.$since."&amp;type=$type&amp;mode=".$mode);
@@ -174,7 +172,7 @@ if ( $all_topics > $xoopsModuleConfig['topics_per_page']) {
 	$xoopsTpl->assign('forum_pagenav', '');
 }
 if(!empty($xoopsModuleConfig['show_jump'])){
-	$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox(0));
+	$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox());
 }
 $xoopsTpl->assign('down',newbb_displayImage($forumImage['doubledown']));
 $xoopsTpl->assign('menumode',$menumode);

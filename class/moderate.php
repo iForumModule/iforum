@@ -24,6 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
@@ -68,7 +72,7 @@ class NewbbModerateHandler extends ArtObjectHandler
      * @param	int $expire Expiration time in UNIX, 0 for time()
      */
     function clearGarbage($expire=0){
-	    $expire = empty($expire)?time():intval($expire);
+	    $expire = time() - intval($expire);
 		$sql = sprintf("DELETE FROM %s WHERE mod_end < %u", $this->db->prefix('bb_moderates'), $expire);
         $this->db->queryF($sql);
     }
@@ -180,6 +184,38 @@ class NewbbModerateHandler extends ArtObjectHandler
         }
         $row = $this->db->fetchArray($result);
         return $row["expire"];
+    }
+    
+    /**
+     * clean orphan items from database
+     * 
+     * @return 	bool	true on success
+     */
+    function cleanOrphan()
+    {
+    	/* for MySQL 4.1+ */
+    	if($this->mysql_client_version() >= 4):
+        $sql = "DELETE FROM ".$this->table.
+        		" WHERE (forum_id >0 AND forum_id NOT IN ( SELECT DISTINCT forum_id FROM ".$this->db->prefix("bb_forums").") )";
+        else:
+        // for 4.0 +
+        /* */
+        $sql = 	"DELETE ".$this->table." FROM ".$this->table.
+        		" LEFT JOIN ".$this->db->prefix("bb_forums")." AS aa ON ".$this->table.".forum_id = aa.forum_id ".
+        		" WHERE ".$this->table.".forum_id > 0 AND (aa.forum_id IS NULL)";
+        /* */
+        // for 4.1+
+        /*
+        $sql = 	"DELETE bb FROM ".$this->table." AS bb".
+        		" LEFT JOIN ".$this->db->prefix("bb_forums")." AS aa ON bb.forum_id = aa.forum_id ".
+        		" WHERE bb.forum_id > 0 AND (aa.forum_id IS NULL)";
+        */
+		endif;
+        if (!$result = $this->db->queryF($sql)) {
+	        newbb_message("cleanOrphan:". $sql);
+            return false;
+        }
+        return true;
     }
 }
 ?>

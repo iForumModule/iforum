@@ -28,6 +28,10 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 class NewbbOnlineHandler
 {
     var $db;
@@ -90,21 +94,14 @@ class NewbbOnlineHandler
         global $xoopsModuleConfig, $forumImage;
 
         if ($this->forumtopic) {
-            //$criteria = new CriteriaCompo(new Criteria('online_topic', $this->forumtopic));
-            //$criteria->add(new Criteria('online_uid', '0', '<>'));
 	        $criteria = new Criteria('online_topic', $this->forumtopic);
         } elseif ($this->forum) {
-            //$criteria = new CriteriaCompo(new Criteria('online_forum', $this->forum));
-            //$criteria->add(new Criteria('online_uid', '0', '<>'));
 	        $criteria = new Criteria('online_forum', $this->forum);
         } else {
-            //$criteria = new Criteria('online_uid', '0', '<>');
 	        $criteria = null;
         }
-        //$num_total = $this->getCount($criteria_count);
         $users =& $this->getAll($criteria);
         $num_total = count($users);
-        //$num_anonymous = $num_total - $num_user;
 
 		$num_user = 0;
 		$users_id = array();
@@ -126,9 +123,6 @@ class NewbbOnlineHandler
 		$online['num_anonymous'] = $num_anonymous;
         $administrator_list = newbb_isModuleAdministrators($users_id, $GLOBALS["xoopsModule"]->getVar("mid"));
         foreach ($users_online as $uid=>$user) {
-            //$online['users'][$i]['link']= XOOPS_URL . "/userinfo.php?uid=" . $users[$i]['online_uid'];
-            //$online['users'][$i]['uname']= $users[$i]['online_uname'];
-            //if(newbb_isAdministrator($users[$i]['online_uid'])){
             if(!empty($administrator_list[$uid])){
                 $user['level']= 2;
             }
@@ -196,44 +190,15 @@ class NewbbOnlineHandler
 
         
         else: 
-        $sql = 	"DELETE ".$this->db->prefix('bb_online')." FROM ".$this->db->prefix('bb_online')." AS bb".
+        $sql = 	"DELETE ".$this->db->prefix('bb_online')." FROM ".$this->db->prefix('bb_online').
         		" LEFT JOIN ".$this->db->prefix('online')." AS aa ".
-        		" ON bb.online_uid = aa.online_uid WHERE bb.online_uid > 1 AND aa.online_uid IS NULL";
+        		" ON ".$this->db->prefix('bb_online').".online_uid = aa.online_uid WHERE ".$this->db->prefix('bb_online').".online_uid > 0 AND aa.online_uid IS NULL";
         $result = $this->db->queryF($sql);
-        $sql = 	"DELETE ".$this->db->prefix('bb_online')." FROM ".$this->db->prefix('bb_online')." AS bb".
+        $sql = 	"DELETE ".$this->db->prefix('bb_online')." FROM ".$this->db->prefix('bb_online').
         		" LEFT JOIN ".$this->db->prefix('online')." AS aa ".
-        		" ON bb.online_ip = aa.online_ip WHERE bb.online_uid = 0 AND aa.online_ip IS NULL";
+        		" ON ".$this->db->prefix('bb_online').".online_ip = aa.online_ip WHERE ".$this->db->prefix('bb_online').".online_uid = 0 AND aa.online_ip IS NULL";
         $result = $this->db->queryF($sql);
         return true;
-        /*
-        $uids = array();
-        $ips = array();
-        $sql = 'SELECT online_uid, online_ip FROM '.$this->db->prefix('online')." WHERE online_module = ".$xoopsModule->getVar('mid');
-        $result = $this->db->query($sql);
-        if (!$result) {
-	        //newbb_message("uid not exists in xoops online: ".$sql);
-        	$sql = "TRUNCATE ".$this->db->prefix('bb_online');
-        	$this->db->queryF($sql);
-        	return true;
-        }
-        while ($myrow = $this->db->fetchArray($result)) {
-            $uids[$myrow['online_uid']] = 1;
-            if($myrow['online_uid'] == 0) $ips[] = $this->db->quoteString($myrow['online_ip']);
-            unset($myrow);
-        }
-        $uid_string = implode(",",array_keys($uids));
-        if(count($ips)>0){
-        	$sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE ( online_uid NOT IN (".$uid_string.") ) OR ( online_uid = 0 AND online_ip NOT IN (".implode(",", $ips).") )";
-    	}
-        else{
-        	$sql = "DELETE FROM ".$this->db->prefix('bb_online')." WHERE ( online_uid NOT IN (".$uid_string.") )";
-        }
-
-        if (!$this->db->queryF($sql)) {
-            return false;
-        }
-        return true;
-        */
         endif;
     }
 

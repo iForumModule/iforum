@@ -24,20 +24,20 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
 if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
-if(!is_object($forum)){
+if(empty($forum_obj)){
     $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
     $forum = isset($_GET['forum']) ? intval($_GET['forum']) : (isset($forum) ? intval($forum) : 0);
-    $forum = $forum_handler->get($forum);
+    $forum_obj =& $forum_handler->get($forum);
 }
 
 foreach (array(
@@ -71,7 +71,7 @@ $forum_form = new XoopsThemeForm('', 'forumform', $forum_form_action, 'post', tr
 $forum_form->setExtra('enctype="multipart/form-data"');
 
 if (newbb_checkSubjectPrefixPermission($forum)) {
-	if ($forum->getVar('allow_subject_prefix')) {
+	if ($forum_obj->getVar('allow_subject_prefix')) {
 		$subject_add = new XoopsFormElementTray(_MD_TOPIC_SUBJECTC,'');
 		$subjectpres = explode(',',$xoopsModuleConfig['subject_prefix']);
 		$subjectpres = array_map('trim',$subjectpres);
@@ -102,7 +102,7 @@ foreach ($subject_icons as $iconfile) {
 }
 $forum_form->addElement($icons_radio);
 
-$nohtml = ($forum->getVar('allow_html'))?false:true;
+$nohtml = ($forum_obj->getVar('allow_html'))?false:true;
 
 if(!empty($editor)){
 	newbb_setcookie("editor",$editor);
@@ -134,7 +134,7 @@ if (is_object($xoopsUser) && $xoopsModuleConfig['allow_user_anonymous'] == 1) {
     $options_tray->addElement($noname_checkbox);
 }
 
-if ($forum->getVar('allow_html')) {
+if ($forum_obj->getVar('allow_html')) {
     $html_checkbox = new XoopsFormCheckBox('', 'dohtml', $dohtml);
     $html_checkbox->addOption(1, _MD_DOHTML);
     $options_tray->addElement($html_checkbox);
@@ -154,7 +154,7 @@ $br_checkbox = new XoopsFormCheckBox('', 'dobr', $dobr);
 $br_checkbox->addOption(1, _MD_DOBR);
 $options_tray->addElement($br_checkbox);
 
-if ($forum->getVar('allow_sig') && is_object($xoopsUser)) {
+if ($forum_obj->getVar('allow_sig') && is_object($xoopsUser)) {
     $attachsig_checkbox = new XoopsFormCheckBox('', 'attachsig', $attachsig);
     $attachsig_checkbox->addOption(1, _MD_ATTACHSIG);
     $options_tray->addElement($attachsig_checkbox);
@@ -183,12 +183,12 @@ if ( empty($admin_form_action) && is_object($xoopsUser) && $xoopsModuleConfig['n
 
 $forum_form->addElement($options_tray);
 
-if ($forum->getVar('allow_attachments') && $topic_handler->getPermission($forum, $topic_status, 'attach')) {
+if ($topic_handler->getPermission($forum_obj, $topic_status, 'attach')) {
 	$upload_tray = new XoopsFormElementTray(_MD_ATTACHMENT);
 	$upload_tray->addElement(new XoopsFormFile('', 'userfile',''));
 	$upload_tray->addElement(new XoopsFormButton('', 'contents_upload', _MD_UPLOAD, "submit"));
-    $upload_tray->addElement(new XoopsFormLabel("<BR /><BR />"._MD_MAX_FILESIZE.":", $forum->getVar('attach_maxkb')."K; "));
-    $upload_tray->addElement(new XoopsFormLabel(_MD_ALLOWED_EXTENSIONS.":", str_replace('|',' ',$forum->getVar('attach_ext'))));
+    $upload_tray->addElement(new XoopsFormLabel("<BR /><BR />"._MD_MAX_FILESIZE.":", $forum_obj->getVar('attach_maxkb')."K; "));
+    $upload_tray->addElement(new XoopsFormLabel(_MD_ALLOWED_EXTENSIONS.":", str_replace('|',' ',$forum_obj->getVar('attach_ext'))));
 	$forum_form->addElement($upload_tray);
 }
 
@@ -252,7 +252,7 @@ if(!class_exists("XoopsSecurity")){
 $forum_form->addElement(new XoopsFormHidden('pid', $pid));
 $forum_form->addElement(new XoopsFormHidden('post_id', $post_id));
 $forum_form->addElement(new XoopsFormHidden('topic_id', $topic_id));
-$forum_form->addElement(new XoopsFormHidden('forum', $forum->getVar('forum_id')));
+$forum_form->addElement(new XoopsFormHidden('forum', $forum_obj->getVar('forum_id')));
 $forum_form->addElement(new XoopsFormHidden('viewmode', $viewmode));
 $forum_form->addElement(new XoopsFormHidden('order', $order));
 $forum_form->addElement(new XoopsFormHidden('start', $start));
@@ -269,7 +269,7 @@ $cancel_button = new XoopsFormButton('', 'cancel', _CANCEL, 'button');
 if ( isset($topic_id) && $topic_id != "" )
     $extra = "viewtopic.php?topic_id=".intval($topic_id);
 else
-    $extra = "viewforum.php?forum=".$forum->getVar('forum_id');
+    $extra = "viewforum.php?forum=".$forum_obj->getVar('forum_id');
 $cancel_button->setExtra("onclick='location=\"".$extra."\"'");
 $cancel_button->setExtra("tabindex='6'");
 

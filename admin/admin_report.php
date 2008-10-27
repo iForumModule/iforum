@@ -53,11 +53,14 @@ switch($op){
 		$report_memos = isset($_POST['report_memo'])?$_POST['report_memo']:array();
 		foreach($report_ids as $rid => $value){
 			if($value) {
+				$report_obj =& $report_handler->get($rid);
 				if($item == 'processed') {
-					$report_handler->delete($rid);
+					$report_handler->delete($report_obj);
 				}
 				if($item == 'process'){
-					$report_handler->process($rid, $report_memos[$rid]);
+					$report_obj->setVar("report_result", 1);					
+					$report_obj->setVar("report_memo", $report_memos[$rid]);					
+					$report_handler->insert($report_obj);
 				}
 			}
 		}
@@ -131,7 +134,7 @@ switch($op){
 
 		echo "</table>";
 
-		$nav = new XoopsPageNav($report_handler->getReportCount(1), $limit, $start, "start");
+		$nav = new XoopsPageNav($report_handler->getCount(new Criteria("report_result", $process_result)), $limit, $start, "start", "item=".$item);
 		echo $nav->renderNav(4);
 
 		echo "</fieldset>";

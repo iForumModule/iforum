@@ -32,7 +32,6 @@ div.signature {
 div#index_welcome{
 	margin: 10px;
 	margin-bottom: 10px;
-	clear: both;
 }
 html>body div#index_welcome {
 	margin-bottom: 15px;
@@ -89,7 +88,6 @@ table.index_category .desc, table.index_category .desc a{
 
 div#forum_header{
 	margin: 5px;
-	clear: both;
 }
 #forum_header div{
 	padding-top: 5px;
@@ -160,6 +158,23 @@ span.online_admin{
 span.online_moderator{
     color:#006600;
 }
+
+
+/*
+ * From http://www.positioniseverything.net/easyclearing.html
+ */
+.clear:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+.clear {display: inline-table;}
+/* Hides from IE-mac \*/
+* html .clear {height: 1%;}
+.clear {display: block;}
+/* End hide from IE-mac */
 
 /* color -- dropdown menu for Forum */
 div.dropdown a, div.dropdown .menubar a{

@@ -1,17 +1,17 @@
-
 <div id="forum_header">
-<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/index.php"><{$lang_forum_index}></a></div>
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a></div>
 
 <{if $parent_forum}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <{elseif $forum_name}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <{/if}>
 <div>&nbsp;&nbsp; <{$post_content}> <strong><{$lang_title}></strong></div>
 </div>
+<div class="clear"></div>
 
-<br clear="all" />
+<br />
 <div>
 <div class="dropdown">
 <{if $menumode eq 0}>
@@ -81,8 +81,9 @@
 <{$pagenav}>
 </div>
 </div>
-<br clear="all" />
-<br clear="all" />
+<div class="clear"></div>
+<br />
+<br />
 
 <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
 
@@ -107,15 +108,16 @@
 </table>
 <!-- end forum main table -->
 
-<br clear="all" />
+<br />
 
 <div style="padding: 5px; float: right; text-align:right;">
 <{$pagenav}>
 </div>
+<div class="clear"></div>
 
-<br clear="all" />
-<br clear="all" />
-
+<br />
+<br />
+<div>
 <div style="float: left; text-align: left;">
 <form action="search.php" method="get">
 <input name="term" id="term" type="text" size="15" />
@@ -123,14 +125,16 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form>
 </div>
 <div style="float: right; text-align: right;">
 <{$forum_jumpbox}>
 </div>
-<br clear="all" />
-<br clear="all" />
+</div>
+<div class="clear"></div>
+<br />
+<br />
 
 <{if $online}><{include file="db:newbb_online.html"}><{/if}>
 <{include file='db:system_notification_select.html'}>

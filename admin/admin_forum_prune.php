@@ -124,7 +124,7 @@ if (!empty($_POST['submit'])) {
                 return _MD_ERROR;
             }
             // SYNC FORUMS AFTER DELETE
-            sync(null, "all forums");
+			$forum_handler->synchronization();
             // I THINK POSTS AND TOPICS HAVE BEEN DESTROYED :LOL:
         }
     }

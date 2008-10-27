@@ -24,6 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
 $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
@@ -60,18 +64,16 @@ $forumUrl['images_root'] = $forumUrl['root']."/images";
 
 //$handle = opendir(XOOPS_ROOT_PATH.'/modules/' . $xoopsModule->dirname() . '/images/imagesets/');
 $setdir = $xoopsModuleConfig['image_set'];
-if (empty($setdir) || !is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/')) {
+//if (empty($setdir) || !is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/')) {
+if (empty($setdir)) {
 	$setdir = "default";
 }
 
 $forumUrl['images_set']= $forumUrl['images_root']."/imagesets/".$setdir;
 if (is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/'.$xoopsConfig['language'])) {
 	$forumUrl['images_lang']=$forumUrl['images_set']."/".$xoopsConfig['language'];
-}
-elseif (is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/english')) {
+}else{
 	$forumUrl['images_lang']=$forumUrl['images_set']."/english";
-}else {
-	$forumUrl['images_lang']=$forumUrl['images_set'];
 }
 
 /* -- You shouldn't have to change anything after this point */
@@ -206,7 +208,10 @@ newbb_setsession("LV", $last_visit);
 */
 
 // include customized variables
-@include(XOOPS_ROOT_PATH.'/modules/newbb/include/plugin.php');
+// include customized variables
+if($customConfig = @include(XOOPS_ROOT_PATH."/modules/newbb/include/plugin.php")){
+	$GLOBALS["xoopsModuleConfig"] = array_merge($GLOBALS["xoopsModuleConfig"], $customConfig);
+}
 
 newbb_load_object();
 

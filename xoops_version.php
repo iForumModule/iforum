@@ -24,9 +24,13 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
 $modversion['name'] = _MI_NEWBB_NAME;
-$modversion['version'] = 3.02;
+$modversion['version'] = 3.04;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
 $modversion['author'] = "D.J. (phppp)";
@@ -38,8 +42,8 @@ $modversion['author_realname'] = "CBB Dev Team";
 $modversion['author_website_url'] = "http://xoopsforge.com";
 $modversion['author_website_name'] = "XForge";
 $modversion['author_email'] = "php_pp@hotmail.com";
-$modversion['status_version'] = "3.01";
-$modversion['status'] = "stable";
+$modversion['status_version'] = "3.04";
+$modversion['status'] = "Stable";
 
 $modversion['warning'] = "For XOOPS 2.0*, 2.2*, 2.3";
 
@@ -70,6 +74,8 @@ $modversion['tables'][8] = "bb_digest";
 $modversion['tables'][9] = "bb_report";
 $modversion['tables'][10] = "bb_attachments"; // reserved table for next version
 $modversion['tables'][11] = "bb_moderates"; // For suspension
+$modversion['tables'][12] = "bb_reads_forum";
+$modversion['tables'][13] = "bb_reads_topic";
 
 // Admin things
 $modversion['hasAdmin'] = 1;
@@ -667,8 +673,9 @@ $modversion['config'][] = array(
 
 $forum_options = array(_NONE => 0);
 if($isModuleAction){
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-	$forums = $forum_handler->getForumsByCategory(0, '', false);
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb', true);
+	$forums = $forum_handler->getForumsByCategory(0, '', false, array("parent_forum", "cat_id", "forum_name"));
+	if($forums):
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
 			$forum_options[$forums[$c][$f]["title"]]=$f;
@@ -679,6 +686,7 @@ if($isModuleAction){
 		}
 	}
 	unset($forums);
+	endif;
 }
 $modversion['config'][] = array(
 	'name' => 'welcome_forum',

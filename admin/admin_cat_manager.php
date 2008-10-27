@@ -79,7 +79,7 @@ function editCategory($cat_id = 0)
         $fc->setVar('cat_description', '');
         $fc->setVar('cat_order', 0);
         //$fc->setVar('cat_state', 0);
-        $fc->setVar('cat_showdescript', 1);
+        //$fc->setVar('cat_showdescript', 1);
         $fc->setVar('cat_url', 'http://www.xoops.org XOOPS');
     }
 
@@ -87,8 +87,8 @@ function editCategory($cat_id = 0)
     $sform->addElement(new XoopsFormText(_AM_NEWBB_CATEGORY, 'title', 50, 80, $fc->getVar('cat_title', 'E')), true);
     $sform->addElement(new XoopsFormDhtmlTextArea(_AM_NEWBB_CATEGORYDESC, 'catdescript', $fc->getVar('cat_description', 'E'), 10, 60), false);
 
-    $displaydescription_radio = new XoopsFormRadioYN(_AM_NEWBB_SHOWDESC, 'show', $fc->getVar('cat_showdescript'), '' . _YES . '', ' ' . _NO . '');
-    $sform->addElement($displaydescription_radio);
+    //$displaydescription_radio = new XoopsFormRadioYN(_AM_NEWBB_SHOWDESC, 'show', $fc->getVar('cat_showdescript'), '' . _YES . '', ' ' . _NO . '');
+    //$sform->addElement($displaydescription_radio);
 
     /*
     $status_select = new XoopsFormSelect(_AM_NEWBB_STATE, "state", $fc->getVar('cat_state'));
@@ -153,20 +153,12 @@ switch ($op) {
         echo "</tr>";
 
         foreach($categories as $key => $onecat) {
-	        /*
-            if (!$onecat->getVar('cat_state')) {
-                $status = _AM_NEWBB_ACTIVE;
-            } else {
-                $status = _AM_NEWBB_INACTIVE;
-            }
-            */
-            //$status = _AM_NEWBB_ACTIVE;
             $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&cat_id=" . $onecat->getVar('cat_id') . "\">".newbb_displayImage($forumImage['edit'], _EDIT)."</a>";
             $cat_del_link = "<a href=\"admin_cat_manager.php?op=del&cat_id=" . $onecat->getVar('cat_id') . "\">".newbb_displayImage($forumImage['delete'], _DELETE)."</a>";
+            $cat_title_link = "<a href=\"".XOOPS_URL."/modules/".$xoopsModule->getVar("dirname")."/index.php?cat=" . $onecat->getVar('cat_id') . "\">".$onecat->getVar('cat_title')."</a>";
 
             echo "<tr class='odd' align='left'>";
-            echo "<td>" . $onecat->textLink() . "</td>";
-            //echo "<td align='center'>" . $status . "</td>";
+            echo "<td>" . $cat_title_link . "</td>";
             echo "<td align='center'>" . $cat_edit_link . "</td>";
             echo "<td align='center'>" . $cat_del_link . "</td>";
             echo "</tr>";
@@ -215,7 +207,7 @@ switch ($op) {
         $fc->setVar('cat_description', @$_POST['catdescript']);
         //$fc->setVar('cat_state', $_POST['state']);
         $fc->setVar('cat_url', @$_POST['sponurl']);
-        $fc->setVar('cat_showdescript', @$_POST['show']);
+        //$fc->setVar('cat_showdescript', @$_POST['show']);
 
         if (!$category_handler->insert($fc)) {
             $message = _AM_NEWBB_DATABASEERROR;

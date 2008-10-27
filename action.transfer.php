@@ -87,7 +87,7 @@ $op_options	=& $transfer_handler->getList();
 // Display option form
 if(empty($_POST["op"])){
 	include XOOPS_ROOT_PATH."/header.php";
-	echo "<div class=\"confirmMsg\" style=\"width: 80%; padding:20px;margin:10px auto; text-align:left !important;\"><h2>"._MD_TRANSFER_DESC."</h2><br clear=\"all\">";
+	echo "<div class=\"confirmMsg\" style=\"width: 80%; padding:20px;margin:10px auto; text-align:left !important;\"><h2>"._MD_TRANSFER_DESC."</h2><br />";
 	echo "<form name=\"opform\" id=\"opform\" action=\"".xoops_getenv("PHP_SELF")."\" method=\"post\"><ul>\n";
 	foreach($op_options as $value=>$title){
 		echo "<li><a href=\"###\" onclick=\"document.forms.opform.op.value='".$value."'; document.forms.opform.submit();\">".$title."</a></li>\n";

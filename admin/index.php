@@ -30,6 +30,30 @@
 // ------------------------------------------------------------------------- //
 include('admin_header.php');
 
+function newbb_admin_getPathStatus($path)
+{
+	if(empty($path)) return false;
+	if(@is_writable($path)){
+		$path_status = _AM_NEWBB_AVAILABLE;
+	}elseif(!@is_dir($path)){
+		$path_status = _AM_NEWBB_NOTAVAILABLE." <a href=index.php?op=createdir&amp;path=$path>"._AM_NEWBB_CREATETHEDIR.'</a>';
+	}else{
+		$path_status = _AM_NEWBB_NOTWRITABLE." <a href=index.php?op=setperm&amp;path=$path>"._AM_NEWBB_SETMPERM.'</a>';
+	}
+	return $path_status;
+}
+
+function newbb_admin_mkdir($target, $mode=0777)
+{
+	// http://www.php.net/manual/en/function.mkdir.php
+	return is_dir($target) or ( newbb_admin_mkdir(dirname($target), $mode) and mkdir($target, $mode) );
+}
+
+function newbb_admin_chmod($target, $mode = 0777)
+{
+	return @chmod($target, $mode);
+}
+
 function newbb_getImageLibs()
 {
 	global $xoopsModuleConfig;
@@ -73,110 +97,9 @@ function newbb_getImageLibs()
 	return $imageLibs;
 }
 
-$op = '';
-$ok = isset($_POST['ok']) ? intval($_POST['ok']) : 0;
-foreach (array('approved', 'topic_id', 'post_id') as $getint) {
-    ${$getint} = isset($_POST[$getint]) ? intval($_POST[$getint]) : 0;
-}
-foreach (array('approved', 'topic_id', 'post_id') as $getint) {
-    ${$getint} = (${$getint})?${$getint}:(isset($_GET[$getint]) ? intval($_GET[$getint]) : 0);
-}
-if (isset($_GET['op'])) $op = $_GET['op'];
-if (isset($_POST['op'])) $op = $_POST['op'];
+$op = (isset($_GET['op']))? $_GET['op'] : "";
 
 switch ($op) {
-    case "del":
-        $post_handler = &xoops_getmodulehandler('post', 'newbb');
-        if (!empty($ok)) {
-            if (!empty($post_id)) {
-                $post = &$post_handler->get($post_id);
-
-                if ($ok == 2 && isset($post)) {
-                    $post_handler->delete($post, true);
-                }
-
-                sync($post->getVar('forum_id'), "forum");
-                sync($post->getVar('topic_id'), "topic");
-            }
-            if ($post->istopic()) {
-                redirect_header("index.php", 2, _AM_NEWBB_POSTSDELETED);
-                exit();
-            } else {
-                redirect_header("index.php", 2, _AM_NEWBB_POSTSDELETED);
-                exit();
-            }
-        } else {
-            xoops_cp_header();
-            xoops_confirm(array('post_id' => $post_id, 'op' => 'del', 'ok' => 2), 'index.php', _AM_NEWBB_DEL_ONE);
-            xoops_cp_footer();
-        }
-        exit();
-        break;
-
-    case "approve":
-
-        if (!empty($post_id)) {
-            $post_handler = &xoops_getmodulehandler('post', 'newbb');
-            if ($post_handler->approve($post_id)) {
-                redirect_header("index.php", 1, _AM_NEWBB_POSTAPPROVED);
-            } else {
-                redirect_header("index.php", 1, _AM_NEWBB_POSTNOTAPPROVED);
-            }
-        } elseif (!empty($topic_id)) {
-            $topic_handler = &xoops_getmodulehandler('topic', 'newbb');
-            if ($topic_handler->approve($topic_id)) {
-                redirect_header("index.php", 1, _AM_NEWBB_TOPICAPPROVED);
-            } else {
-                redirect_header("index.php", 1, _AM_NEWBB_TOPICNOTAPPROVED);
-            }
-        }
-        exit();
-        break;
-
-	/* removed */
-
-    case "mod":
-
-        if (empty($post_id)) {
-            redirect_header("index.php", 2, _MD_ERRORPOST);
-            exit();
-        } else {
-            xoops_cp_header();
-        	loadModuleAdminMenu(0, "Index");
-            echo "<br />";
-
-            $post_handler = &xoops_getmodulehandler('post', 'newbb');
-            $forumpost = &$post_handler->get($post_id);
-		    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-		    $forum = $forum_handler->get($forumpost->getVar('forum_id'));
-
-    		$pid = $forumpost->getVar('pid');
-		    $dohtml = $forumpost->getVar('dohtml');
-		    $dosmiley = $forumpost->getVar('dosmiley');
-		    $doxcode = $forumpost->getVar('doxcode');
-		    $icon = $forumpost->getVar('icon');
-		    $attachsig = $forumpost->getVar('attachsig');
-		    $topic_id=$forumpost->getVar('topic_id');
-		    $istopic = ( $forumpost->istopic() )?1:0;
-		    $isedit =1;
-		    $subject_pre="";
-		    $subject=$forumpost->getVar('subject', "E");
-		    $message=$forumpost->getVar('post_text', "E");
-		    $poster_name=$forumpost->getVar('poster_name', "E");
-		    $attachments=$forumpost->getAttachment();
-		    $post_karma=$forumpost->getVar('post_karma');
-		    $require_reply=$forumpost->getVar('require_reply');
-		    $hidden = "";
-
-			$admin_form_action = "admin_post.php";
-            include '../include/forumform.inc.php';
-            xoops_cp_footer();
-        }
-
-        exit();
-        break;
-	/* */
-
     case "createdir":
 		if (isset($_GET['path'])) $path = $_GET['path'];
         $res = newbb_admin_mkdir($path);
@@ -186,6 +109,7 @@ switch ($op) {
         break;
 
     case "setperm":
+		if (isset($_GET['path'])) $path = $_GET['path'];
         $res = newbb_admin_chmod($path, 0777);
         $msg = ($res)?_AM_NEWBB_PERMSET:_AM_NEWBB_PERMNOTSET;
         redirect_header('index.php', 2, $msg . ': ' . $path);
@@ -266,14 +190,14 @@ switch ($op) {
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_BOARDSUMMARY . "</legend>";
         echo "<div style='padding: 12px;'>";
         echo _AM_NEWBB_TOTALTOPICS . " <strong>" . get_total_topics() . "</strong> | ";
-        echo _AM_NEWBB_TOTALPOSTS . " <strong>" . get_total_posts(0, 'all') . "</strong> | ";
+        echo _AM_NEWBB_TOTALPOSTS . " <strong>" . get_total_posts() . "</strong> | ";
         echo _AM_NEWBB_TOTALVIEWS . " <strong>" . get_total_views() . "</strong></div>";
         echo "</fieldset><br />";
 
         $report_handler = &xoops_getmodulehandler('report', 'newbb');
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_REPORT . "</legend>";
-        echo "<div style='padding: 12px;'><a href='admin_report.php'>" . _AM_NEWBB_REPORT_PENDING . "</a> <strong>" . $report_handler->getReportCount(0) . "</strong> | ";
-        echo _AM_NEWBB_REPORT_PROCESSED . " <strong>" . $report_handler->getReportCount(1) . "</strong>";
+        echo "<div style='padding: 12px;'><a href='admin_report.php'>" . _AM_NEWBB_REPORT_PENDING . "</a> <strong>" . $report_handler->getCount(new Criteria("report_result", 0)) . "</strong> | ";
+        echo _AM_NEWBB_REPORT_PROCESSED . " <strong>" . $report_handler->getCount(new Criteria("report_result", 1)) . "</strong>";
         echo "</div>";
         echo "</fieldset><br />";
 

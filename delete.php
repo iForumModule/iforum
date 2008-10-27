@@ -96,8 +96,8 @@ if ( $ok ) {
     }else{
 	*/    
 	    $post_handler->delete($forumpost, $isDeleteOne);
-	    sync($forum, "forum");
-	    sync($topic_id, "topic");
+		$forum_handler->synchronization($forum);
+		$topic_handler->synchronization($topic_id);
     //}
 
     if ( $isDeleteOne ){

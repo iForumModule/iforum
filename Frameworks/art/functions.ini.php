@@ -61,6 +61,16 @@ if(!class_exists("XoopsLocal")){
 }
 
 
+function load_object()
+{
+	if(class_exists("ArtObject")) return true;
+	if(!defined("XOOPS_PATH") || !@include_once(XOOPS_PATH."/Frameworks/art/object.php")){
+		include_once(XOOPS_ROOT_PATH."/Frameworks/art/object.php");
+	}
+	if(class_exists("ArtObject")) return true;
+	else return false;
+}
+
 /**
  * Get localized string if it is defined 
  *
@@ -69,7 +79,7 @@ if(!class_exists("XoopsLocal")){
 if(!function_exists("mod_constant")) {
 function mod_constant($name)
 {
-	if(@defined($GLOBALS["VAR_PREFIXU"]."_".strtoupper($name))){
+	if(!empty($GLOBALS["VAR_PREFIXU"]) && @defined($GLOBALS["VAR_PREFIXU"]."_".strtoupper($name))){
 		return CONSTANT($GLOBALS["VAR_PREFIXU"]."_".strtoupper($name));
 	}elseif(defined(strtoupper($name))){
 		return CONSTANT(strtoupper($name));

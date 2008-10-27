@@ -24,6 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+// Author: phppp (D.J., infomax@gmail.com)                                  //
+// URL: http://xoopsforge.com, http://xoops.org.cn                          //
+// Project: Article Project                                                 //
+// ------------------------------------------------------------------------ //
 
 include_once("header.php");
 include_once XOOPS_ROOT_PATH.'/class/template.php';
@@ -51,8 +55,8 @@ error_reporting(0);
 			    $valid_forums[] = $forum;
 		    }
 	    }elseif($category>0){
-			$category_handler =& xoops_getmodulehandler('category', 'newbb');
-			$_forums = $category_handler->getForums($category);
+			//$category_handler =& xoops_getmodulehandler('category', 'newbb');
+			$_forums = $forum_handler->getForumsByCategory($category);
 			$forums = array_keys($_forums);
 			unset($_forums);
 		    foreach($forums as $forum){

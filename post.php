@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
 include 'header.php';
 include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/uploader.php';
@@ -159,8 +159,7 @@ if ( !empty($_POST['contents_submit']) ) {
 			    redirect_header("viewtopic.php?forum=$forum_id&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOREPLY);
 			    exit();
 			}
-		}
-		if(!$topic_id){
+		}else{
 			$topic_status = 0;
 			if (!$topic_handler->getPermission($forum_obj, $topic_status, 'post')) {
 			    redirect_header("viewtopic.php?forum=$forum_id",2,_MD_NORIGHTTOPOST);
@@ -185,6 +184,7 @@ if ( !empty($_POST['contents_submit']) ) {
         }
         $forumpost->setVar('poster_ip', newbb_getIP());
         $forumpost->setVar('uid', $uid);
+        $forumpost->setVar('post_time', time());
     }
 
 	if($topic_handler->getPermission($forum_obj, $topic_status, 'noapprove')) $approved = 1;
@@ -210,7 +210,7 @@ if ( !empty($_POST['contents_submit']) ) {
     // The text filter is far from complete
     // Let's look for some comprehensive handlers
 	if($dohtml && !newbb_isAdmin($forum_obj) ) {
-		$message=newbb_textFilter($message);
+		//$message=newbb_textFilter($message);
 	}
     $forumpost->setVar('post_text', $message);
     $forumpost->setVar('post_karma', $post_karma);
@@ -284,6 +284,7 @@ if ( !empty($_POST['contents_submit']) ) {
     if (!$postid ) {
         include_once(XOOPS_ROOT_PATH.'/header.php');
         xoops_error('Could not insert forum post');
+	    xoops_error($forumpost->getErrors());
         include_once(XOOPS_ROOT_PATH.'/footer.php');
         exit();
     }
@@ -420,7 +421,7 @@ if ( !empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) ) {
     $p_message = $_POST['message'];
     $p_message = $myts->previewTarea($p_message, $dohtml, $dosmiley, $doxcode, 1, $dobr);
 	if($dohtml && !newbb_isAdmin($forum_obj) ) {
-		$p_message = newbb_textFilter($p_message);
+		//$p_message = newbb_textFilter($p_message);
 	}
 
     echo "<table cellpadding='4' cellspacing='1' width='98%' class='outer'>";

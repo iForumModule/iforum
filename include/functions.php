@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
 if(!defined("NEWBB_FUNCTIONS")):
 define("NEWBB_FUNCTIONS", true);
@@ -81,9 +81,9 @@ function &newbb_displayTarea(&$text, $html = 0, $smiley = 1, $xcode = 1, $image 
 		if ($image != 0) {
 			// image allowed
 			$text = $myts->xoopsCodeDecode($text);
-        		} else {
-            		// image not allowed
-            		$text = $myts->xoopsCodeDecode($text, 0);
+		} else {
+    		// image not allowed
+    		$text = $myts->xoopsCodeDecode($text, 0);
 		}
 	}
 	if ($br != 0) {
@@ -134,41 +134,7 @@ function &newbb_textFilter($text, $force = false)
 
 function newbb_html2text($document)
 {
-	// PHP Manual:: function preg_replace
-	// $document should contain an HTML document.
-	// This will remove HTML tags, javascript sections
-	// and white space. It will also convert some
-	// common HTML entities to their text equivalent.
-
-	$search = array ("'<script[^>]*?>.*?</script>'si",  // Strip out javascript
-	                 "'<[\/\!]*?[^<>]*?>'si",          // Strip out HTML tags
-	                 "'([\r\n])[\s]+'",                // Strip out white space
-	                 "'&(quot|#34);'i",                // Replace HTML entities
-	                 "'&(amp|#38);'i",
-	                 "'&(lt|#60);'i",
-	                 "'&(gt|#62);'i",
-	                 "'&(nbsp|#160);'i",
-	                 "'&(iexcl|#161);'i",
-	                 "'&(cent|#162);'i",
-	                 "'&(pound|#163);'i",
-	                 "'&(copy|#169);'i",
-	                 "'&#(\d+);'e");                    // evaluate as php
-
-	$replace = array ("",
-	                 "",
-	                 "\\1",
-	                 "\"",
-	                 "&",
-	                 "<",
-	                 ">",
-	                 " ",
-	                 chr(161),
-	                 chr(162),
-	                 chr(163),
-	                 chr(169),
-	                 "chr(\\1)");
-
-	$text = preg_replace($search, $replace, $document);
+	$text = strip_tags($document);
 	return $text;
 }
 
@@ -317,7 +283,7 @@ function newbb_isAdministrator($user=-1, $mid=0)
 	global $xoopsUser, $xoopsModule;
 	static $administrators, $newBB_mid;
 
-	if(is_numeric($user) && $user == -1) $user = &$xoopsUser;
+	if(is_numeric($user) && $user == -1) $user =& $xoopsUser;
 	if(!is_object($user) && intval($user)<1) return false;
 	$uid = (is_object($user))?$user->getVar('uid'):intval($user);
 
@@ -326,8 +292,8 @@ function newbb_isAdministrator($user=-1, $mid=0)
 		    if(is_object($xoopsModule)&& 'newbb' == $xoopsModule->dirname()){
 		    	$newBB_mid = $xoopsModule->getVar('mid');
 		    }else{
-		        $modhandler = &xoops_gethandler('module');
-		        $newBB = &$modhandler->getByDirname('newbb');
+		        $modhandler =& xoops_gethandler('module');
+		        $newBB =& $modhandler->getByDirname('newbb');
 			    $newBB_mid = $newBB->getVar('mid');
 			    unset($newBB);
 		    }
@@ -343,7 +309,7 @@ function newbb_isAdmin($forum = 0, $user=-1)
 	global $xoopsUser;
 	static $_cachedModerators;
 
-	if(is_numeric($user) && $user == -1) $user = &$xoopsUser;
+	if(is_numeric($user) && $user == -1) $user =& $xoopsUser;
 	if(!is_object($user) && intval($user)<1) return false;
 	$uid = (is_object($user))?$user->getVar('uid'):intval($user);
 	if(newbb_isAdministrator($uid)) return true;
@@ -387,7 +353,7 @@ function newbb_checkSubjectPrefixPermission($forum = 0, $user=-1)
 	if($xoopsModuleConfig['subject_prefix_level']==1){
 		return true;
 	}
-	if(is_numeric($user) && $user == -1) $user = &$xoopsUser;
+	if(is_numeric($user) && $user == -1) $user =& $xoopsUser;
 	if(!is_object($user) && intval($user)<1) return false;
 	$uid = (is_object($user))?$user->getVar('uid'):intval($user);
 	if($xoopsModuleConfig['subject_prefix_level']==2){
@@ -407,247 +373,91 @@ function newbb_checkSubjectPrefixPermission($forum = 0, $user=-1)
 */
 function get_total_topics($forum_id="")
 {
-    global $xoopsDB;
+	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+	$criteria =& new CriteriaCompo(new Criteria("approved", 0, ">"));
     if ( $forum_id ) {
-        $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("bb_topics")." WHERE forum_id = $forum_id";
-    } else {
-        $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("bb_topics");
+	    $criteria->add(new Criteria("forum_id", intval($forum_id)));
     }
-    if ( !$result = $xoopsDB->query($sql) ) {
-        return null;
-    }
-
-    if ( !$myrow = $xoopsDB->fetchArray($result) ) {
-        return null;
-    }
-
-    return $myrow['total'];
+    return $topic_handler->getCount($criteria);
 }
 
 /*
 * Returns the total number of posts in the whole system, a forum, or a topic
 * Also can return the number of users on the system.
 */
-function get_total_posts($id, $type)
+function get_total_posts($id = 0, $type = "all")
 {
-    global $xoopsDB;
+	$post_handler =& xoops_getmodulehandler('post', 'newbb');
+	$criteria =& new CriteriaCompo(new Criteria("approved", 0, ">"));
     switch ( $type ) {
-        case 'users':
-        $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("users")." WHERE (uid > 0) AND ( level >0 )";
+    case 'forum':
+        if($id>0) $criteria->add(new Criteria("forum_id", intval($id)));
         break;
-        case 'all':
-        $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("bb_posts");
+    case 'topic':
+        if($id>0) $criteria->add(new Criteria("topic_id", intval($id)));
         break;
-        case 'forum':
-        $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("bb_posts")." WHERE forum_id = $id";
+    case 'all':
+    default:
         break;
-        case 'topic':
-        $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("bb_posts")." WHERE topic_id = $id";
-        break;
-        // Old, we should never get this.
-        case 'user':
-        exit("Should be using the users.user_posts column for this.");
     }
-    if ( !$result = $xoopsDB->query($sql) ) {
-	    newbb_message("get_total_posts::error :$sql");
-        return null;
-    }
-    if ( !$myrow = $xoopsDB->fetchArray($result) ) {
-        return null;
-    }
-    return $myrow['total'];
+    return $post_handler->getCount($criteria);
 }
 
 function get_total_views()
 {
     global $xoopsDB;
-    $total="";
-
     $sql = "SELECT sum(topic_views) FROM ".$xoopsDB->prefix("bb_topics")."";
-
     if ( !$result = $xoopsDB->query($sql) ) {
         return null;
     }
-
     list ($total) = $xoopsDB->fetchRow($result);
     return $total;
 }
 
-function newbb_make_jumpbox()
+function newbb_forumSelectBox($value = null, $permission = "access", $delimitor_category = true)
 {
-	$box = '<form name="forum_jumpbox" method="get" action="viewforum.php" onsubmit="javascript: if(document.forum_jumpbox.forum.value &lt; 1){return false;}">';
-	$box .= '<select class="select" name="forum" onchange="javascript: if(this.options[this.selectedIndex].value >0 ){ document.forms.forum_jumpbox.submit();}">';
-
-    $box .='<option value="-1">-- '._MD_SELFORUM.' --</option>';
-
 	$category_handler =& xoops_getmodulehandler('category', 'newbb');
-    $categories = $category_handler->getAllCats('access', true);
-    $forums = $category_handler->getForums(array_keys($categories), 'access', false);
-    
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+    $categories = $category_handler->getAllCats($permission, true);
+    $forums = $forum_handler->getForumsByCategory(array_keys($categories), $permission, false);
+
+    if(!defined("_MD_SELFORUM")) {
+		if ( !( $ret = @include_once( XOOPS_ROOT_PATH."/modules/newbb/language/".$GLOBALS['xoopsConfig']['language']."/main.php" ) ) ) {
+			include_once( XOOPS_ROOT_PATH."/modules/newbb/language/english/main.php" );
+		}
+    }
+    $value = is_array($value)?$value:array($value);
+    $box ='<option value="-1">-- '._MD_SELFORUM.' --</option>';
 	if(count($categories)>0 && count($forums)>0){
 		foreach(array_keys($forums) as $key){
-            $box .= "
-                <option value='-1'>&nbsp;</option>
-                <option value='-1'>".$categories[$key]->getVar('cat_title')."</option>";
+			if($delimitor_category) {
+	            $box .= "<option value='-1'>&nbsp;</option>";
+			}
+            $box .= "<option value='-1'>[".$categories[$key]->getVar('cat_title')."]</option>";
             foreach ($forums[$key] as $f=>$forum) {
-                $box .= "<option value='".$f."'>-- ".$forum['title']."</option>";
+                $box .= "<option value='".$f."' ".( (in_array($f, $value))?"'selected'":"" ).">-- ".$forum['title']."</option>";
 				if( !isset($forum["sub"]) || count($forum["sub"]) ==0 ) continue; 
 	            foreach (array_keys($forum["sub"]) as $s) {
-	                $box .= "<option value='".$s."'>---- ".$forum["sub"][$s]['title']."</option>";
+	                $box .= "<option value='".$s."' ".( (in_array($s, $value))?"'selected'":"" ).">---- ".$forum["sub"][$s]['title']."</option>";
                 }
             }
 		}
     } else {
         $box .= "<option value='-1'>"._MD_NOFORUMINDB."</option>";
     }
+    unset($forums, $categories);
+ 
+    return $box;   
+}
+	
+function newbb_make_jumpbox($forum_id = 0)
+{
+	$box = '<form name="forum_jumpbox" method="get" action="viewforum.php" onsubmit="javascript: if(document.forum_jumpbox.forum.value &lt; 1){return false;}">';
+	$box .= '<select class="select" name="forum" onchange="javascript: if(this.options[this.selectedIndex].value >0 ){ document.forms.forum_jumpbox.submit();}">';
+    $box .= newbb_forumSelectBox($forum_id);
     $box .= "</select> <input type='submit' class='button' value='"._GO."' /></form>";
     unset($forums, $categories);
     return $box;
-}
-
-/* TODO: implemented in corresponding class: forum, topic */
-function sync($id=0, $type='all forums')
-{
-    global $xoopsDB;
-    $id = intval($id);
-    switch ( $type ) {
-    case 'forum':
-        if(empty($id)){
-	        return sync(0, 'all forums');
-        }
-        $sql = "SELECT MAX(post_id) AS last_post FROM " . $xoopsDB->prefix("bb_posts") . " AS p LEFT JOIN  " . $xoopsDB->prefix("bb_topics") . " AS t ON p.topic_id=t.topic_id WHERE p.approved=1 AND t.approved=1 AND p.forum_id = $id";
-        if ( !$result = $xoopsDB->query($sql) ) {
-            exit("Could not get post ID");
-        }
-        if ( $row = $xoopsDB->fetchArray($result) ) {
-            $last_post = $row['last_post'];
-        }
-
-        $sql = "SELECT COUNT(*) AS total FROM " . $xoopsDB->prefix("bb_posts") . " AS p LEFT JOIN  " . $xoopsDB->prefix("bb_topics") . " AS t ON p.topic_id=t.topic_id WHERE p.approved=1 AND t.approved=1 AND p.forum_id = $id";
-        if ( !$result = $xoopsDB->query($sql) ) {
-            newbb_message("Could not get post count");
-            return false;
-        }
-        if ( $row = $xoopsDB->fetchArray($result) ) {
-            $total_posts = $row['total'];
-        }
-
-        $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("bb_topics")." WHERE approved=1 AND forum_id = $id";
-        if ( !$result = $xoopsDB->query($sql) ) {
-            newbb_message("Could not get topic count");
-            return false;
-        }
-        if ( $row = $xoopsDB->fetchArray($result) ) {
-            $total_topics = $row['total'];
-        }
-
-        $sql = sprintf("UPDATE %s SET forum_last_post_id = %u, forum_posts = %u, forum_topics = %u WHERE forum_id = %u", $xoopsDB->prefix("bb_forums"), $last_post, $total_posts, $total_topics, $id);
-        if ( !$result = $xoopsDB->queryF($sql) ) {
-            newbb_message("Could not update forum $id");
-            return false;
-        }
-        break;
-    case 'topic':
-        if(empty($id)){
-	        return sync(0, 'all topics');
-        }
-        $sql = "SELECT max(post_id) AS last_post FROM ".$xoopsDB->prefix("bb_posts")." WHERE approved=1 AND topic_id = $id";
-        if ( !$result = $xoopsDB->query($sql) ) {
-            newbb_message("Could not get post ID");
-            return false;
-        }
-        if ( $row = $xoopsDB->fetchArray($result) ) {
-            $last_post = $row['last_post'];
-        }
-        if ( $last_post > 0 ) {
-            $sql = "SELECT COUNT(*) AS total FROM ".$xoopsDB->prefix("bb_posts")." WHERE approved=1 AND topic_id = $id";
-            if ( !$result = $xoopsDB->query($sql) ) {
-                newbb_message("Could not get post count");
-                return false;
-            }
-            if ( $row = $xoopsDB->fetchArray($result) ) {
-                $total_posts = $row['total'];
-            }
-            $total_posts -= 1;
-            $sql = sprintf("UPDATE %s SET topic_replies = %u, topic_last_post_id = %u WHERE topic_id = %u", $xoopsDB->prefix("bb_topics"), $total_posts, $last_post, $id);
-            if ( !$result = $xoopsDB->queryF($sql) ) {
-                newbb_message("Could not update topic $id");
-                return false;
-            }
-        }
-        $sql = "SELECT MIN(post_id) AS top_post, COUNT(*) AS count FROM ".$xoopsDB->prefix("bb_posts")." WHERE topic_id = $id AND pid = 0";
-        if ( $result = $xoopsDB->query($sql) ) {
-        	list($top_post, $top_count) = $xoopsDB->fetchRow($result);
-        	if($top_count <= 1) break;
-	        $sql = 	"UPDATE ".$xoopsDB->prefix("bb_posts").
-	        		" SET pid = ".$top_post.
-	        		" WHERE".
-	        		" topic_id = ".$id.
-	        		" AND post_id <> ".$top_post.
-	        		" AND pid = 0";
-	        if ( !$result = $xoopsDB->queryF($sql) ) {
-	            newbb_message("Could not correct duplicated top posts for topic $id: ".$top_count);
-	            return false;
-	        }
-        }
-        
-        break;
-    case 'all forums':
-        $sql = "SELECT forum_id FROM ".$xoopsDB->prefix("bb_forums");
-        if ( !$result = $xoopsDB->query($sql) ) {
-            exit("Could not get forum IDs");
-        }
-        while ( $row = $xoopsDB->fetchArray($result) ) {
-            $id = $row['forum_id'];
-            sync($id, "forum");
-        }
-        break;
-    case 'all topics':
-        $sql = "SELECT topic_id FROM ".$xoopsDB->prefix("bb_topics")." WHERE approved=1";
-        if ( !$result = $xoopsDB->query($sql) ) {
-            exit("Could not get topic ID's");
-        }
-        while ( $row = $xoopsDB->fetchArray($result) ) {
-            $id = $row['topic_id'];
-            sync($id, "topic");
-        }
-        break;
-    }
-    return true;
-}
-
-function &newbb_admin_getPathStatus($path)
-{
-	if(empty($path)) return false;
-	if(@is_writable($path)){
-		$path_status = _AM_NEWBB_AVAILABLE;
-	}elseif(!@is_dir($path)){
-		$path_status = _AM_NEWBB_NOTAVAILABLE." <a href=index.php?op=createdir&amp;path=$path>"._AM_NEWBB_CREATETHEDIR.'</a>';
-	}else{
-		$path_status = _AM_NEWBB_NOTWRITABLE." <a href=index.php?op=setperm&amp;path=$path>"._AM_NEWBB_SETMPERM.'</a>';
-	}
-	return $path_status;
-}
-
-function newbb_admin_mkdir($target, $mode=0777)
-{
-	// http://www.php.net/manual/en/function.mkdir.php
-	return is_dir($target) or ( newbb_admin_mkdir(dirname($target), $mode) and mkdir($target, $mode) );
-	/*
-	// saint at corenova.com
-	// bart at cdasites dot com
-	if (is_dir($target)||empty($target)) return true; // best case check first
-	if (file_exists($target) && !is_dir($target)) return false;
-	if (newbb_admin_mkdir(substr($target,0,strrpos($target,'/')), $mode)){
-		if (!file_exists($target)) return mkdir($target, $mode); // crawl back up & create dir tree
-	}
-	return false;
-	*/
-}
-
-function newbb_admin_chmod($target, $mode = 0777)
-{
-	return @chmod($target, $mode);
 }
 
 function newbb_isIE5()
@@ -769,6 +579,91 @@ function newbb_welcome( $user = -1 )
 	unset($forum);
 	include_once dirname(__FILE__)."/functions.welcome.php";
 	return newbb_welcome_create($user, $xoopsModuleConfig["welcome_forum"]);
+}
+
+function newbb_synchronization($type = "")
+{
+	switch($type){
+	case "rate":
+	case "report":
+	case "post":
+	case "topic":
+	case "forum":
+	case "category":
+	case "moderate":
+	case "read":
+		$type = array($type);
+		$clean = $type;
+		break;
+	default:
+		$type = null;
+		$clean = array("category", "forum", "topic", "post", "report", "rate", "moderate", "readtopic", "readforum");
+		break;
+	}
+	foreach($clean as $item){
+		$handler =& xoops_getmodulehandler($item, "newbb");
+		$handler->cleanOrphan();
+		unset($handler);
+	}
+    $newbbConfig = newbb_load_config();
+	if(empty($type) || in_array("post", $type)):
+		$post_handler =& xoops_getmodulehandler("post", "newbb");
+        $expires = isset($newbbConfig["pending_expire"])?intval($newbbConfig["pending_expire"]):7;
+		$post_handler->cleanExpires($expires*24*3600);
+	endif;
+	if(empty($type) || in_array("topic", $type)):
+		$topic_handler =& xoops_getmodulehandler("topic", "newbb");
+        $expires = isset($newbbConfig["pending_expire"])?intval($newbbConfig["pending_expire"]):7;
+		$topic_handler->cleanExpires($expires*24*3600);
+		$topic_handler->synchronization();
+	endif;
+	if(empty($type) || in_array("forum", $type)):
+		$forum_handler =& xoops_getmodulehandler("forum", "newbb");
+		$forum_handler->synchronization();
+	endif;
+	if(empty($type) || in_array("moderate", $type)):
+		$moderate_handler =& xoops_getmodulehandler("moderate", "newbb");
+		$moderate_handler->clearGarbage();
+	endif;
+	if(empty($type) || in_array("read", $type)):
+		$read_handler =& xoops_getmodulehandler("readforum", "newbb");
+		$read_handler->clearGarbage();
+		$read_handler->synchronization();
+		$read_handler =& xoops_getmodulehandler("readtopic", "newbb");
+		$read_handler->clearGarbage();
+		$read_handler->synchronization();
+	endif;
+	return true;
+}
+
+function newbb_setRead($type, $item_id, $post_id, $uid = null)
+{
+	$read_handler =& xoops_getmodulehandler("read".$type, "newbb");
+	return $read_handler->setRead($item_id, $post_id, $uid);
+}
+
+function newbb_getRead($type, $item_id, $uid = null)
+{
+	$read_handler =& xoops_getmodulehandler("read".$type, "newbb");
+	return $read_handler->getRead($item_id, $uid);
+}
+
+function newbb_setRead_forum($status = 0, $uid = null)
+{
+	$read_handler =& xoops_getmodulehandler("readforum", "newbb");
+	return $read_handler->setRead_items($status, $uid);
+}
+
+function newbb_setRead_topic($status = 0, $forum_id = 0, $uid = null)
+{
+	$read_handler =& xoops_getmodulehandler("readtopic", "newbb");
+	return $read_handler->setRead_items($status, $forum_id, $uid);
+}
+
+function newbb_isRead($type, &$items, $uid = null)
+{
+	$read_handler =& xoops_getmodulehandler("read".$type, "newbb");
+	return $read_handler->isRead_items($items, $uid);
 }
 
 endif;

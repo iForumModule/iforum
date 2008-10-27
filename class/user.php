@@ -24,8 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-
-
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 /* use hardcoded DB query to save queries */
 function newbb_getGroupsByUser($uid)
 {
@@ -169,14 +171,15 @@ class User extends XoopsObject
 
     function &getUserbar()
     {
-	    global $xoopsModuleConfig, $xoopsUser, $isadmin;
-    	if (empty($xoopsModuleConfig['userbar_enabled'])) return null;
+	    global $xoopsUser, $isadmin;
+	    
     	$user =& $this->user;
     	$userbar = array();
         $userbar[] = array("link"=>XOOPS_URL . "/userinfo.php?uid=" . $user->getVar("uid"), "name" =>_PROFILE);
-		if (is_object($xoopsUser))
-        $userbar[]= array("link"=>"javascript:void openWithSelfMain('" . XOOPS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $user->getVar("uid") . "', 'pmlite', 450, 380);", "name"=>_MD_PM);
-        if($user->getVar('user_viewemail') || $isadmin)
+		if (is_object($xoopsUser)){
+        	$userbar[]= array("link"=>"javascript:void openWithSelfMain('" . XOOPS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $user->getVar("uid") . "', 'pmlite', 450, 380);", "name"=>_MD_PM);
+    	}
+        if($user->getVar('user_viewemail') || (is_object($xoopsUser) && $xoopsUser->isAdmin()) )
         $userbar[]= array("link"=>"javascript:void window.open('mailto:" . $user->getVar('email') . "', 'new');", "name"=>_MD_EMAIL);
         if($user->getVar('url'))
         $userbar[]= array("link"=>"javascript:void window.open('" . $user->getVar('url') . "', 'new');", "name"=>_MD_WWW);
@@ -224,7 +227,6 @@ class User extends XoopsObject
 	    $name = (empty($xoopsModuleConfig['show_realname'])||empty($name))?$user->getVar('uname'):$name;
 		$userinfo["name"] = $name;
 		$userinfo["link"] = "<a href=\"".XOOPS_URL . "/userinfo.php?uid=" . $user->getVar("uid") ."\">".$name."</a>";
-		//$userinfo["avatar"] = (is_file(XOOPS_UPLOAD_PATH."/".$user->getVar('user_avatar')))?$user->getVar('user_avatar'):"";
 		$userinfo["avatar"] = $user->getVar('user_avatar');
 		$userinfo["from"] = $user->getVar('user_from');
 		$userinfo["regdate"] = newbb_formatTimestamp($user->getVar('user_regdate'), 'reg');
@@ -233,21 +235,16 @@ class User extends XoopsObject
 		if(!empty($xoopsModuleConfig['user_level'])){
 			$userinfo["level"] = $this->getLevel();
 		}
-		/*
 		if(!empty($xoopsModuleConfig['userbar_enabled'])){
-			$userinfo["userbar"] =& $this->getUserbar();
+			$userinfo["userbar"] = $this->getUserbar();
 		}
-		*/
 
 		$rank = newbb_getrank($user->getVar("rank"), $user->getVar("posts"));
 		$userinfo['rank']["title"] = $rank['title'];
 	    if (!empty($rank['image'])) {
 	        $userinfo['rank']['image'] = "<img src='" . XOOPS_UPLOAD_URL . "/" . htmlspecialchars($rank['image'], ENT_QUOTES) . "' alt='' />";
 	    }
-	    //if ($user->attachsig()) {
-	        //$userinfo["signature"] = $myts->displayTarea($user->getVar("user_sig", "N"), 0, 1, 1);
-	        $userinfo["signature"] = $user->user_sig();
-	    //}
+        $userinfo["signature"] = $user->user_sig();
 	    return $userinfo;
     }
 }

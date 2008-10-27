@@ -24,89 +24,34 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-class Report extends XoopsObject {
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+newbb_load_object();
+
+class Report extends ArtObject {
     function Report()
     {
-        $this->db = &Database::getInstance();
+	    $this->ArtObject();
         $this->table = $this->db->prefix("bb_report");
         $this->initVar('report_id', XOBJ_DTYPE_INT);
         $this->initVar('post_id', XOBJ_DTYPE_INT);
         $this->initVar('reporter_uid', XOBJ_DTYPE_INT);
         $this->initVar('reporter_ip', XOBJ_DTYPE_INT);
         $this->initVar('report_time', XOBJ_DTYPE_INT);
-        $this->initVar('report_text', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('report_result', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('report_memo', XOBJ_DTYPE_TXTAREA);
-    }
-
-    function prepareVars()
-    {
-        foreach ($this->vars as $k => $v) {
-            $cleanv = $this->cleanVars[$k];
-            switch ($v['data_type']) {
-                case XOBJ_DTYPE_TXTBOX:
-                case XOBJ_DTYPE_TXTAREA:
-                case XOBJ_DTYPE_SOURCE:
-                case XOBJ_DTYPE_EMAIL:
-                    $cleanv = ($v['changed'])?$cleanv:'';
-                    if (!isset($v['not_gpc']) || !$v['not_gpc']) {
-                        $cleanv = $this->db->quoteString($cleanv);
-                    }
-                    break;
-                case XOBJ_DTYPE_INT:
-                    $cleanv = ($v['changed'])?$cleanv:0;
-                    break;
-                case XOBJ_DTYPE_ARRAY:
-                    $cleanv = ($v['changed'])?$cleanv:serialize(array());
-                    break;
-                case XOBJ_DTYPE_STIME:
-                case XOBJ_DTYPE_MTIME:
-                case XOBJ_DTYPE_LTIME:
-                    $cleanv = ($v['changed'])?$cleanv:0;
-                    break;
-
-                default:
-                    break;
-            }
-            $this->cleanVars[$k] = &$cleanv;
-            unset($cleanv);
-        }
-        return true;
+        $this->initVar('report_text', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('report_result', XOBJ_DTYPE_INT);
+        $this->initVar('report_memo', XOBJ_DTYPE_TXTBOX);
     }
 }
 
-class NewbbReportHandler extends XoopsObjectHandler {
-    function &get($id)
-    {
-	    $report = null;
-        $id = intval($id);
-        $sql = 'SELECT * FROM ' . $this->db->prefix('bb_report') . ' WHERE report_id=' . $id;
-        if($array = $this->db->fetchArray($this->db->query($sql))){
-	        $report =& $this->create(false);
-	        $report->assignVars($array);
-        }
-        return $report;
+class NewbbReportHandler extends ArtObjectHandler 
+{
+    function NewbbReportHandler(&$db) {
+        $this->ArtObjectHandler($db, 'bb_report', 'Report', 'report_id');
     }
-
-    function &create($isNew = true)
-    {
-        $report = new Report();
-        if ($isNew) {
-            $report->setNew();
-        }
-        return $report;
-    }
-
-    function process($report_id, $report_memo)
-    {
-        $sql = "UPDATE " . $this->db->prefix("bb_report") . " SET report_result = 1, report_memo = " . $this->db->quoteString($report_memo) . " WHERE report_id = $report_id";
-        if (!$result = $this->db->queryF($sql)) {
-            //echo "<br />process report error:" . $sql;
-            return false;
-        }
-        return true;
-    }
-
     function &getByPost($posts)
     {
 	    $ret = array();
@@ -114,38 +59,11 @@ class NewbbReportHandler extends XoopsObjectHandler {
 	        return $ret;
         }
         if (!is_array($posts)) $posts = array($posts);
-        $post_criteria = ' post_id IN (' . implode(',', $posts) . ')';
-
-        $sql = "SELECT * FROM " . $db->prefix('bb_report') . "  WHERE " . $post_criteria;
-        $result = $this->db->queryF($sql);
-        while ($myrow = $this->db->fetchArray($result)) {
-            $report = &$post_handler->create(false);
-            $report->assignVars($myrow);
-            $ret[$myrow['report_id']] = $report;
-            unset($report);
-        }
+        $post_criteria = new Criteria("post_id", "(" . implode(", ", $posts) . ")", "IN");
+		$ret =& $this->getAll($post_criteria);
         return $ret;
     }
-
-    function getReportCount($criteria, $forums = 0)
-    {
-        if (!$forums) {
-            $forum_criteria = '';
-        } else if (!is_array($forums)) {
-            $forums = array($forums);
-            $forum_criteria = ' r LEFT JOIN ' . $this->db->prefix("bb_posts") . ' p ON p.post_id= r.post_id WHERE p.forum_id IN (' . implode(',', $forums) . ')';
-        }
-        $tables_criteria = ' FROM ' . $this->db->prefix('bb_report');
-        $operator = (empty($forum_criteria))? ' WHERE ':' AND ';
-        $result_criteria = (isset($criteria))?$operator.' report_result = ' . intval($criteria):'';
-
-        $sql = "SELECT COUNT(*) as report_count " . $tables_criteria . $forum_criteria . $result_criteria;
-
-        $result = $this->db->query($sql);
-        if ($result) $row = $this->db->fetchArray($result);
-        return $row['report_count'];
-    }
-
+    
     function &getAllReports($forums = 0, $order = "ASC", $perpage = 0, &$start, $report_result = 0, $report_id = 0)
     {
         if ($order == "DESC") {
@@ -182,58 +100,21 @@ class NewbbReportHandler extends XoopsObjectHandler {
         $sql = "SELECT r.*, p.subject, p.topic_id, p.forum_id" . $tables_criteria . $forum_criteria . $result_criteria . $order_criteria;
         $result = $this->db->query($sql, $perpage, $start);
         $ret = array();
-        $report_handler = &xoops_getmodulehandler('report', 'newbb');
+        //$report_handler = &xoops_getmodulehandler('report', 'newbb');
         while ($myrow = $this->db->fetchArray($result)) {
             $ret[] = $myrow; // return as array
         }
         return $ret;
     }
-
-    function insert(&$report)
+    
+    /**
+     * clean orphan items from database
+     * 
+     * @return 	bool	true on success
+     */
+    function cleanOrphan()
     {
-        if (!$report->isDirty()) return true;
-        if (!$report->cleanVars())return false;
-        $report->prepareVars();
-        foreach ($report->cleanVars as $k => $v) {
-            ${$k} = $v;
-        }
-
-        if ($report->isNew()) {
-            $report_id = $this->db->genId($this->db->prefix("bb_report") . "_report_id_seq");
-
-            $sql = "INSERT INTO " . $this->db->prefix("bb_report") . "
-            			(  report_id,  post_id,  reporter_uid,  reporter_ip,  report_time,  report_text,  report_result,  report_memo )
-					VALUES
-            			( $report_id, $post_id, $reporter_uid, $reporter_ip, $report_time, $report_text, $report_result, $report_memo )";
-
-            if (!$result = $this->db->queryF($sql)) {
-                //echo "<br />Insert report error:" . $sql;
-                return false;
-            }
-            if ($report_id == 0) $report_id = $this->db->getInsertId();
-
-            $report->setVar('report_id', $report_id);
-        } else {
-            $sql = "UPDATE " . $this->db->prefix("bb_report") . " SET report_result = $report_result, report_memo = $report_memo WHERE report_id = " . $report->getVar('report_id');
-            $result = $this->db->queryF($sql);
-            if (!$result) {
-                //echo "<br />Process report error:" . $sql;
-                return false;
-            }
-        }
-        return $report->getVar('report_id');
-    }
-
-    function delete($report)
-    {
-        if (is_object($report)) $report_id = $report->getVar('report_id');
-        else $report_id = $report;
-        $sql = "DELETE FROM " . $this->db->prefix("bb_report") . " WHERE report_id=" . $report_id . "";
-        if (! $result = $this->db->queryF($sql)) {
-            //echo "<br />Delete report error:" . $sql;
-            return false;
-        }
-        return true;
+	    return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
     }
 }
 

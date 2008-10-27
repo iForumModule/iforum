@@ -24,6 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
@@ -35,70 +39,29 @@ class Post extends ArtObject {
     {
         $this->db = &Database::getInstance();
         $this->initVar('post_id', XOBJ_DTYPE_INT);
-        $this->initVar('topic_id', XOBJ_DTYPE_INT);
-        $this->initVar('forum_id', XOBJ_DTYPE_INT);
-        $this->initVar('post_time', XOBJ_DTYPE_INT);
-        $this->initVar('poster_ip', XOBJ_DTYPE_INT);
-        $this->initVar('poster_name', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('subject', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('pid', XOBJ_DTYPE_INT);
+        $this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
+        $this->initVar('forum_id', XOBJ_DTYPE_INT, 0, true);
+        $this->initVar('post_time', XOBJ_DTYPE_INT, 0, true);
+        $this->initVar('poster_ip', XOBJ_DTYPE_INT, 0);
+        $this->initVar('poster_name', XOBJ_DTYPE_TXTBOX, "");
+        $this->initVar('subject', XOBJ_DTYPE_TXTBOX, "", true);
+        $this->initVar('pid', XOBJ_DTYPE_INT, 0);
         $this->initVar('dohtml', XOBJ_DTYPE_INT, 0);
         $this->initVar('dosmiley', XOBJ_DTYPE_INT, 1);
         $this->initVar('doxcode', XOBJ_DTYPE_INT, 1);
-        $this->initVar('uid', XOBJ_DTYPE_INT, 1);
-        $this->initVar('icon', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('attachsig', XOBJ_DTYPE_INT);
-        $this->initVar('approved', XOBJ_DTYPE_INT, 1);
-        $this->initVar('post_karma', XOBJ_DTYPE_INT);
-        $this->initVar('require_reply', XOBJ_DTYPE_INT);
-        $this->initVar('attachment', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('post_text', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('post_edit', XOBJ_DTYPE_TXTAREA);
         $this->initVar('doimage', XOBJ_DTYPE_INT, 1);
         $this->initVar('dobr', XOBJ_DTYPE_INT, 1);
+        $this->initVar('uid', XOBJ_DTYPE_INT, 1);
+        $this->initVar('icon', XOBJ_DTYPE_TXTBOX, "");
+        $this->initVar('attachsig', XOBJ_DTYPE_INT, 0);
+        $this->initVar('approved', XOBJ_DTYPE_INT, 1);
+        $this->initVar('post_karma', XOBJ_DTYPE_INT, 0);
+        $this->initVar('require_reply', XOBJ_DTYPE_INT, 0);
+        $this->initVar('attachment', XOBJ_DTYPE_TXTAREA, "");
+        $this->initVar('post_text', XOBJ_DTYPE_TXTAREA, "");
+        $this->initVar('post_edit', XOBJ_DTYPE_TXTAREA, "");
     }
-    
-    /**
-     * add slashes to string variables of the object for storage.
-     * also add slashes whereever needed
-     *
-     * @return bool true if successful
-     * @access public
-     */
-    function prepareVars()
-    {
-        foreach ($this->vars as $k => $v) {
-            $cleanv = $this->cleanVars[$k];
-            switch ($v['data_type']) {
-                case XOBJ_DTYPE_TXTBOX:
-                case XOBJ_DTYPE_TXTAREA:
-                case XOBJ_DTYPE_SOURCE:
-                case XOBJ_DTYPE_EMAIL:
-                    $cleanv = ($v['changed'])?$cleanv:(empty($v['value'])?'':$v['value']);
-                    if (!isset($v['not_gpc']) || !$v['not_gpc']) {
-                        $cleanv = $this->db->quoteString($cleanv);
-                    }
-                    break;
-                case XOBJ_DTYPE_INT:
-                    $cleanv = ($v['changed'])?intval($cleanv):(empty($v['value'])?0:$v['value']);
-                    break;
-                case XOBJ_DTYPE_ARRAY:
-                    $cleanv = ($v['changed'])?$cleanv:serialize((count($v['value'])>0)?$v['value']:array());
-                    break;
-                case XOBJ_DTYPE_STIME:
-                case XOBJ_DTYPE_MTIME:
-                case XOBJ_DTYPE_LTIME:
-                    $cleanv = ($v['changed'])?$cleanv:(empty($v['value'])?0:$v['value']);
-                    break;
 
-                default:
-                    break;
-            }
-            $this->cleanVars[$k] = &$cleanv;
-            unset($cleanv);
-        }
-        return true;
-    }
     // ////////////////////////////////////////////////////////////////////////////////////
     // attachment functions    TODO: there should be a file/attachment management class
     function getAttachment()
@@ -192,18 +155,18 @@ class Post extends ArtObject {
             foreach($attachments as $key => $att) {
                 $file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
                 $filetype = $file_extension;
-                if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif'))
+                if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif')){
                     $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif';
-                else
+                }else{
                     $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/unknown.gif';
-                $file_size = filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
+                }
+                $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
                 $file_size = number_format ($file_size / 1024, 2)." KB";
                 if (in_array(strtolower($file_extension), $image_extensions) && $xoopsModuleConfig['media_allowed']) {
 	                    $post_attachment .= '<br /><img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>('.$file_size.')</small>';
 	                    $post_attachment .= '<br />' . newbb_attachmentImage($att['name_saved'], $asSource);
                 		$isDisplayed = true;
-                }
-                else{
+                }else{
                     $post_attachment .= '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
                 }
             	$post_attachment .= '<br />';
@@ -308,10 +271,7 @@ class Post extends ArtObject {
 
     function isTopic()
     {
-        if ($this->getVar('pid') == 0) {
-            return true;
-        }
-        return false;
+        return !$this->getVar('pid');
     }
 
     function checkTimelimit($action_tag = 'edit_timelimit')
@@ -517,7 +477,7 @@ class NewbbPostHandler extends ArtObjectHandler
     {
 	    $id = intval($id);
 	    $post = null;
-        $sql = 'SELECT p.*, t.*, tp.topic_status FROM ' . $this->db->prefix('bb_posts') . ' p LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' t ON p.post_id=t.post_id LEFT JOIN ' . $this->db->prefix('bb_topics') . ' tp ON tp.topic_id=p.topic_id WHERE p.post_id=' . $id;
+        $sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' t ON p.post_id=t.post_id WHERE p.post_id=' . $id;
         if($array = $this->db->fetchArray($this->db->query($sql))){
 	        $post =& $this->create(false);
 	        $post->assignVars($array);
@@ -541,15 +501,6 @@ class NewbbPostHandler extends ArtObjectHandler
         return $ret;
     }
 
-    function &create($isNew = true)
-    {
-        $post = new Post();
-        if ($isNew) {
-            $post->setNew();
-        }
-        return $post;
-    }
-
     function getPostForPDF(&$post)
     {
 	    return $post->getPostBody(true);
@@ -560,67 +511,51 @@ class NewbbPostHandler extends ArtObjectHandler
 	    return $post->getPostBody();
     }
 
-    function approve(&$post)
+    function approve(&$post, $force = false)
     {
-	    if(!is_object($post)){
+	    if(empty($post)){
+		    return false;
+	    }
+	    if(is_numeric($post)){
         	$post =& $this->get($post);
     	}
     	$post_id = $post->getVar("post_id");
-        if ($post_id==0) {
-            newbb_message("post not exist:" . $post_id);
-            return false;
-        }elseif($post->getVar("approved")>0){
+        if(empty($force) && $post->getVar("approved")>0){
 	        return true;
         }
-        $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET approved = 1 WHERE post_id = $post_id";
-        if (!$result = $this->db->queryF($sql)) {
-            newbb_message("approve post error:" . $sql);
-            return false;
-        }
+        $post->setVar("approved", 1);
+        $this->insert($post, true);
+    	$topic_handler =& xoops_getmodulehandler("topic", "newbb");
+    	$topic_obj =& $topic_handler->get($post->getVar("topic_id"));
+    	if($topic_obj->getVar("topic_last_post_id") < $post->getVar("post_id")){
+        	$topic_obj->setVar("topic_last_post_id", $post->getVar("post_id"));
+    	}
         if ($post->isTopic()) {
-            $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET approved = 1 WHERE topic_id = " . $post->getVar('topic_id');
-            if (!$result = $this->db->queryF($sql)) {
-                newbb_message("approve post error:" . $sql);
-                return false;
-            }
-            $sql = sprintf("UPDATE %s SET topic_last_post_id = %u, topic_time = %u WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post_id, time(), $post->getVar('topic_id'));
-            if (!$result = $this->db->queryF($sql)) {
-            }
+        	$topic_obj->setVar("approved", 1);
         } else {
-            $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_replies=topic_replies+1, topic_last_post_id = " . $post_id . " WHERE topic_id =" . $post->getVar('topic_id') . "";
-            if (!$result = $this->db->queryF($sql)) {
-            }
+        	$topic_obj->setVar("topic_replies", $topic_obj->getVar("topic_replies")+1);
         }
-        if ($post->isTopic()) $increment = " forum_topics = forum_topics+1, ";
-        else $increment = '';
-        $sql = sprintf("UPDATE %s SET forum_posts = forum_posts+1, " . $increment . " forum_last_post_id = %u WHERE forum_id = %u", $this->db->prefix("bb_forums"), $post_id, $post->getVar('forum_id'));
-        $result = $this->db->queryF($sql);
-        if (!$result) {
-        } ;
-        $member_handler = &xoops_gethandler('member');
-        $poster = &$member_handler->getUser($post->getVar('uid'));
+        $topic_handler->insert($topic_obj, true);
+    	$forum_handler =& xoops_getmodulehandler("forum", "newbb");
+    	$forum_obj =& $forum_handler->get($post->getVar("forum_id"));
+    	if($forum_obj->getVar("forum_last_post_id") < $post->getVar("post_id")){
+        	$forum_obj->setVar("forum_last_post_id", $post->getVar("post_id"));
+    	}
+        $forum_obj->setVar("forum_posts", $forum_obj->getVar("forum_posts")+1);
+        if ($post->isTopic()) {
+	        $forum_obj->setVar("forum_topics", $forum_obj->getVar("forum_topics")+1);
+        }
+        $forum_handler->insert($forum_obj, true);
+        $member_handler =& xoops_gethandler('member');
+        $poster =& $member_handler->getUser($post->getVar('uid'));
         if (is_object($poster)) {
 	        $poster->setVar('posts',$poster->getVar('posts') + 1);
 	        $res=$member_handler->insertUser($poster, true);
-            //$res = $poster->incrementPost(); 	// In order to make this work, we have to set
-            									//$_SERVER['REQUEST_METHOD'] = $_SERVER['REQUEST_METHOD'] = 'POST';
             unset($poster);
         }
 
         return true;
     }
-
-    /*
-    function unApprove($post_id)
-    {
-        $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET approved = 0 WHERE post_id = $post_id";
-        if (!$result = $this->db->queryF($sql)) {
-            newbb_message("unapprove post error:" . $sql);
-            return false;
-        }
-        return true;
-    }
-    */
 
     function insertnewsubject($topic_id, $subject)
     {
@@ -637,104 +572,95 @@ class NewbbPostHandler extends ArtObjectHandler
     {
         global $xoopsUser, $xoopsConfig;
 
-        if (!$post->isDirty()) return true;
-        if (!$post->cleanVars())return false;
-        $post->prepareVars();
-        foreach ($post->cleanVars as $k => $v) {
-            ${$k} = $v;
+        $topic_handler =& xoops_getmodulehandler("topic", "newbb");
+	    // Verify the topic ID
+        if($topic_id = $post->getVar("topic_id")){
+	        $topic_obj =& $topic_handler->get($topic_id);
+	        // Invalid topic OR the topic is no approved and the post is not top post
+	        if( !$topic_obj 
+	        //	|| (!$post->isTopic() && $topic_obj->getVar("approved") < 1) 
+	        ){
+		        return false;
+	        }
         }
-
-        $queryFunc = ($force)?"queryF":"query";
+        if(empty($topic_id)){
+	        $post->setVar("topic_id", 0);
+	        $post->setVar("pid", 0);
+	        $post->setNew();
+	        $topic_obj =& $topic_handler->create();
+        }
+        $text_handler =& xoops_getmodulehandler("text", "newbb");
+        $post_text_vars = array("post_text", "post_edit");
         if ($post->isNew()) {
-	        // Change query to queryF for welcome new user -- less security but no better solution
-	        // D.J., 14/04/2005
-            $post_time = time();
-            if (empty($topic_id)) {
-                $topic_id = $this->db->genId($this->db->prefix("bb_topics") . "_topic_id_seq");
-                $sql = "INSERT INTO " . $this->db->prefix("bb_topics") . "
-                			(topic_id,  topic_title, topic_poster, forum_id,  topic_time, poster_name,  approved)
-                        VALUES
-                        	($topic_id, $subject,    $uid,        $forum_id, $post_time, $poster_name, $approved)";
-
-                if (!$result = $this->db->{$queryFunc}($sql)) {
+            if (!$topic_id = $post->getVar("topic_id")) {
+	            $topic_obj->setVar("topic_title", $post->getVar("subject", "n"));
+	            $topic_obj->setVar("topic_poster", $post->getVar("uid"));
+	            $topic_obj->setVar("forum_id", $post->getVar("forum_id"));
+	            $topic_obj->setVar("topic_time", $post->getVar("post_time"));
+	            $topic_obj->setVar("poster_name", $post->getVar("poster_name"), true);
+	            $topic_obj->setVar("approved", $post->getVar("approved"), true);
+                if (!$topic_id = $topic_handler->insert($topic_obj, $force)) {
                     $post->deleteAttachment();
-                    $post->setErrors("Insert topic error:" . $sql);
+                    $post->setErrors("insert topic error");
+                	xoops_error($topic_obj->getErrors());
                     return false;
-                }
-                if ($topic_id == 0) {
-                    $topic_id = $this->db->getInsertId();
                 }
                 $post->setVar('topic_id', $topic_id);
                 
                 $pid = 0;
 	            $post->setVar("pid", 0);
             }elseif(empty($pid)){
-				$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
 	            $pid = $topic_handler->getTopPostId($topic_id);
 	            $post->setVar("pid", $pid);
             }
-            $pid = isset($pid)?intval($pid):0;
-            $post_id = $this->db->genId($this->db->prefix("bb_posts") . "_post_id_seq");
 
-            $sql = "INSERT INTO " . $this->db->prefix("bb_posts") . "
-            			( post_id,  pid,  topic_id,  forum_id,  post_time,  uid,  poster_ip,  poster_name,  subject,  dohtml,  dosmiley,  doxcode,  doimage,  dobr, icon,  attachsig,  attachment,  approved,  post_karma, require_reply)
-					VALUES
-                    	($post_id, $pid, $topic_id, $forum_id, $post_time, $uid, $poster_ip, $poster_name, $subject, $dohtml, $dosmiley, $doxcode, $doimage, $dobr, $icon, $attachsig, $attachment, $approved, $post_karma, $require_reply)";
-
-            if (!$result = $this->db->{$queryFunc}($sql)) {
-                $post->setErrors("Insert post error:" . $sql);
+	        $text_obj =& $text_handler->create();
+            foreach($post_text_vars as $key){
+	            $text_obj->vars[$key] = $post->vars[$key];
+            }
+            $post->destoryVars($post_text_vars);
+            if (!$post_id = parent::insert($post, $force)) {
                 return false;
             }
-            if ($post_id == 0) $post_id = $this->db->getInsertId();
-
-            $sql = sprintf("INSERT INTO %s (post_id, post_text) VALUES (%u, %s)", $this->db->prefix("bb_posts_text"), $post_id, $post_text);
-            if (!$result = $this->db->{$queryFunc}($sql)) {
-                $sql = sprintf("DELETE FROM %s WHERE post_id = %u", $this->db->prefix("bb_posts"), $post_id);
-                $this->db->query($sql);
+            $text_obj->setVar("post_id", $post_id);
+            $text_handler->insert($text_obj, $force);
+            if (!$text_handler->insert($text_obj, $force)) {
+	            $this->delete($post);
+                $post->setErrors("post text insert error");
+                xoops_error($text_obj->getErrors());
                 return false;
             }
-            if ($approved>0) {
-                if ($pid == 0) {
-                    $sql = sprintf("UPDATE %s SET topic_last_post_id = %u, topic_time = %u WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post_id, $post_time, $topic_id);
-                    if (!$result = $this->db->{$queryFunc}($sql)) {
-                    }
-                } else {
-                    $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_replies=topic_replies+1, topic_last_post_id = " . $post_id . " WHERE topic_id =" . $topic_id . "";
-                    if (!$result = $this->db->{$queryFunc}($sql)) {
-                    }
-                }
-                if (is_object($xoopsUser)) {
-			        $member_handler = &xoops_gethandler('member');
-			        $xoopsUser->setVar('posts',$xoopsUser->getVar('posts') + 1);
-			        $res=$member_handler->insertUser($xoopsUser, true);
-                }
-	            if ($post->isTopic()) $increment = " forum_topics = forum_topics+1, ";
-	            else $increment = '';
-	            $sql = sprintf("UPDATE %s SET forum_posts = forum_posts+1, " . $increment . " forum_last_post_id = %u WHERE forum_id = %u", $this->db->prefix("bb_forums"), $post_id, $forum_id);
-	            $result = $this->db->{$queryFunc}($sql);
-	            if (!$result) {
-	            } ;
+            if ($post->getVar("approved")>0) {
+	            $this->approve($post, true);
             }
             $post->setVar('post_id', $post_id);
         } else {
             if ($post->isTopic()) {
-                $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_title = $subject, approved = $approved WHERE topic_id = " . $post->getVar('topic_id');
-                if (!$result = $this->db->{$queryFunc}($sql)) {
-                    $post->setErrors("update topic error:" . $sql);
+	            if($post->getVar("subject") != $topic_obj->getVar("topic_title")){
+		            $topic_obj->setVar("topic_title", $post->getVar("subject", "n"));
+	            }
+	            if($post->getVar("approved") != $topic_obj->getVar("approved")){
+		            $topic_obj->setVar("approved", $post->getVar("approved"));
+	            }
+                if (!$result = $topic_handler->insert($topic_obj, $force)) {
+                    $post->setErrors("update topic error");
+                	xoops_error($topic_obj->getErrors());
                     return false;
                 }
             }
-            if(isset($pid)) $pid_update = isset($pid)?"pid=".$pid:"1=1";
-            $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET topic_id=$topic_id, $pid_update, subject = $subject, dohtml= $dohtml, dosmiley= $dosmiley, doxcode = $doxcode, doimage = $doimage, dobr = $dobr, icon= $icon, attachsig= $attachsig, attachment= $attachment, approved = $approved, post_karma = $post_karma, require_reply = $require_reply WHERE post_id = " . $post->getVar('post_id');
-            if (!$result = $this->db->{$queryFunc}($sql)) {
-                $post->setErrors("update post error:" . $sql);
+	        $text_obj =& $text_handler->get($post->getVar("post_id"));
+	        $text_obj->setDirty();
+            foreach($post_text_vars as $key){
+	            $text_obj->vars[$key] = $post->vars[$key];
+            }
+            $post->destoryVars($post_text_vars);
+            if (!$post_id = parent::insert($post, $force)) {
+                xoops_error($post->getErrors());
                 return false;
             }
-            $post_id = $post->getVar('post_id');
-            $sql = "UPDATE " . $this->db->prefix("bb_posts_text") . " SET post_text = $post_text, post_edit = $post_edit WHERE post_id = " . $post->getVar('post_id');
-            $result = $this->db->{$queryFunc}($sql);
-            if (!$result) {
-                $post->setErrors("update post text error:" . $sql);
+            if (!$text_handler->insert($text_obj, $force)) {
+                $post->setErrors("update post text error");
+                xoops_error($text_obj->getErrors());
                 return false;
             }
         }
@@ -852,7 +778,6 @@ class NewbbPostHandler extends ArtObjectHandler
             }
         }
 
-        $decrement = array();
         if( $postcount_toupdate>0 ){
 	        $member_handler = &xoops_gethandler('member');
 	        $poster = &$member_handler->getUser($post->getVar('uid'));
@@ -866,116 +791,28 @@ class NewbbPostHandler extends ArtObjectHandler
 	        if (!$result = $this->db->queryF($sql)) {
 	            newbb_message("Could not update post: " . $sql);
 	        }
-	        $decrement[] = "forum_posts = forum_posts-1";
-        }
-        /* Synchronization performed in function sync() */
-        /*
-        if ($post->isTopic() && $topiccount_toupdate>0) {
-	        $decrement[]= "forum_topics = forum_topics-1";
-        }
-        if(!isset($forum_lastpost[$post->getVar('forum_id')])){
-        	$sql = 'SELECT forum_last_post_id FROM ' . $this->db->prefix('bb_forums') . ' WHERE forum_id ='.$post->getVar('forum_id');
-        	if ($result = $this->db->query($sql)) {
-	        	$row = $this->db->fetchArray($result);
-	        	$forum_lastpost[$post->getVar('forum_id')] = $row["forum_last_post_id"];
-        	}else{
-	        	$forum_lastpost[$post->getVar('forum_id')] = -1;
-        	}
-    	}
-        if($forum_lastpost[$post->getVar('forum_id')] == $post->getVar('post_id')){
-        	$sql = 'SELECT MAX(post_id) AS last_post FROM ' . $this->db->prefix('bb_posts') . ' AS p LEFT JOIN  ' . $this->db->prefix('bb_topics') . ' AS t ON p.topic_id=t.topic_id WHERE p.approved=1 AND t.approved=1';
-        	if ($result = $this->db->query($sql)) {
-	        	$row = $this->db->fetchArray($result);
-				$decrement[]= "forum_last_post_id = ".$row["last_post"];
-        	}
-        }
-        if(count($decrement)){		        
-	        $sql = sprintf("UPDATE %s SET " . implode(", ", $decrement) . " WHERE forum_id = %u", $this->db->prefix("bb_forums"), $post->getVar('forum_id'));
-	        $result = $this->db->queryF($sql);
-        }
-        */
-
-        return true;
-    }
-
-    /*
-    function emptyTopic(&$post)
-    {
-	    global $xoopsModule, $xoopsConfig;
-        if(!is_object($post) || !$post->isTopic()) return false;
-
-        $sql = sprintf("UPDATE %s SET post_text='[--DELETED--]', post_edit='' WHERE post_id = %u", $this->db->prefix("bb_posts_text"), $post->getVar('post_id'));
-        if (!$result = $this->db->queryF($sql)) {
-            newbb_message("Could not remove post text: " . $sql);
-            return false;
-        }
-
-        $post->deleteAttachment();
-        $sql = sprintf("UPDATE %s SET uid=0, attachment='', attachsig=0 WHERE post_id = %u", $this->db->prefix("bb_posts"), $post->getVar('post_id'));
-        if (!$result = $this->db->queryF($sql)) {
-            newbb_message("Could not remove post : " . $sql);
-            return false;
-        }
-
-        $sql = sprintf("UPDATE %s SET topic_poster=0, topic_haspoll=0 WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post->getVar('topic_id'));
-        if (!$result = $this->db->queryF($sql)) {
-            newbb_message("Could not update topic: " . $sql);
-            return false;
-        }
-
-        if ($post->getVar('uid')) {
-            $sql = sprintf("UPDATE %s SET posts=posts-1 WHERE uid = %u", $this->db->prefix("users"), $post->getVar('uid'));
-            if (!$result = $this->db->queryF($sql)) {
-                newbb_message("Could not update user posts: ".$sql);
-            }
-        }
-
-		$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-		$poll_id =& $topic_handler->get($post->getVar('topic_id'), "poll_id");
-		if($poll_id>0){
-			if (is_dir(XOOPS_ROOT_PATH."/modules/xoopspoll/")){
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
-				$poll = new XoopsPoll($poll_id);
-				if ( $poll->delete() != false ) {
-					XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
-					XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
-					xoops_comment_delete($xoopsModule->getVar('mid'), $poll->getVar('poll_id'));
-				}
-			}
-		}
-        $sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_votedata"), $post->getVar('topic_id'));
-        if (!$result = $this->db->queryF($sql)) {
-            newbb_message("Could not delete votedata: ".$sql);
         }
 
         return true;
     }
-    */
 
     function getPostCount($criteria = null)
     {
-        $sql = 'SELECT COUNT(*) AS count FROM ' . $this->db->prefix('bb_posts');
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
-            $sql .= " ".$criteria->renderWhere();
-        }
-        $result = $this->db->query($sql);
-        if (!$result) {
-            newbb_message("NewbbPostHandler::getPostCount error:" . $sql);
-            return false;
-        }
-        $myrow = $this->db->fetchArray($result);
-        return $myrow["count"];
+	    return parent::getCount($criteria);
     }
 
-    function &getPostsByLimit($limit=1, $start=0, $criteria = null)
+    /*
+     * TODO: combining viewtopic.php
+     */
+    function &getPostsByLimit($criteria = null, $limit=1, $start=0, $join = null)
     {
+        $ret = array();
         $sql = 'SELECT p.*, t.* '.
         		' FROM ' . $this->db->prefix('bb_posts') . ' AS p'.
         		' LEFT JOIN ' . $this->db->prefix('bb_posts_text') . " AS t ON t.post_id = p.post_id";
-
+		if(!empty($join)){        		
+			$sql .= $join;
+		}
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql .= " ".$criteria->renderWhere();
             if ($criteria->getSort() != "") {
@@ -985,16 +822,65 @@ class NewbbPostHandler extends ArtObjectHandler
         $result = $this->db->query($sql, intval($limit), intval($start));
         if (!$result) {
             newbb_message( "NewbbPostHandler::getPostsByLimit error:" . $sql);
-            return null;
+            return $ret;
         }
-        $ret = array();
         while ($myrow = $this->db->fetchArray($result)) {
-            $post = &$this->create(false);
+            $post =& $this->create(false);
             $post->assignVars($myrow);
             $ret[$myrow['post_id']] = $post;
             unset($post);
         }
         return $ret;
+    }
+    
+    /**
+     * clean orphan items from database
+     * 
+     * @return 	bool	true on success
+     */
+    function cleanOrphan()
+    {
+	    parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
+	    parent::cleanOrphan($this->db->prefix("bb_posts_text"), "post_id");
+	    
+    	/* for MySQL 4.1+ */
+    	if($this->mysql_client_version() >= 4):
+        $sql = "DELETE FROM ".$this->db->prefix("bb_posts_text").
+        		" WHERE (post_id NOT IN ( SELECT DISTINCT post_id FROM ".$this->table.") )";
+        else:
+        // for 4.0+
+        /* */
+        $sql = 	"DELETE ".$this->db->prefix("bb_posts_text")." FROM ".$this->db->prefix("bb_posts_text").
+        		" LEFT JOIN ".$this->table." AS aa ON ".$this->db->prefix("bb_posts_text").".post_id = aa.post_id ".
+        		" WHERE (aa.post_id IS NULL)";
+        /* */
+        // Alternative for 4.1+
+        /*
+        $sql = 	"DELETE bb FROM ".$this->db->prefix("bb_posts_text")." AS bb".
+        		" LEFT JOIN ".$this->table." AS aa ON bb.post_id = aa.post_id ".
+        		" WHERE (aa.post_id IS NULL)";
+        */
+		endif;
+        if (!$result = $this->db->queryF($sql)) {
+	        newbb_message("cleanOrphan:". $sql);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * clean expired objects from database
+     * 
+     * @param 	int 	$expire 	time limit for expiration
+     * @return 	bool	true on success
+     */
+    function cleanExpires($expire = 0)
+    {
+	    $crit_expire =& new CriteriaCompo(new Criteria("approved", 0, "<="));
+	    if(!empty($expire)){
+	    	$crit_expire->add(new Criteria("post_time", time()-intval($expire), "<"));
+    	}
+	    return $this->deleteAll($crit_expire, true/*, true*/);
     }
 }
 

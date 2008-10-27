@@ -1,32 +1,34 @@
 <div id="index_welcome">
-	<div class="title"><a href="<{$xoops_url}>/modules/newbb/"><{$lang_welcomemsg}></a></div>
+	<div class="title"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/"><{$lang_welcomemsg}></a></div>
 	<div class="desc"><{$smarty.const._MD_TOSTART}></div>
 	<div class="visit"><{$lang_currenttime}>
 		<br /><{$lang_lastvisit}>
 		<br /><{$smarty.const._MD_TOTALTOPICSC}><strong><{$total_topics}></strong> | <{$smarty.const._MD_TOTALPOSTSC}><strong><{$total_posts}></strong>
 	</div>
 </div>
+<div class="clear"></div>
 
 <{if $viewer_level eq 2 AND $mode gt 0}>
 	<div style="padding: 5px;float: right; text-align:right;">
 	
 	<{$smarty.const._MD_TOPIC}>: 
-	<a href="<{$xoops_url}>/modules/newbb/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-	<a href="<{$xoops_url}>/modules/newbb/viewall.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-	<a href="<{$xoops_url}>/modules/newbb/viewall.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a>
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a>
 	<br style="clear:both;" /> 
 	
 	<{$smarty.const._MD_POST2}>: 
-	<a href="<{$xoops_url}>/modules/newbb/viewpost.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-	<a href="<{$xoops_url}>/modules/newbb/viewpost.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-	<a href="<{$xoops_url}>/modules/newbb/viewpost.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a>
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a>
 	<br style="clear:both;" /> 
 	
-	<a href="<{$xoops_url}>/modules/newbb/moderate.php" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a> | 
-	<a href="<{$xoops_url}>/modules/newbb/admin/index.php" target="_self" title="<{$smarty.const._MD_ADMINCP}>"><{$smarty.const._MD_ADMINCP}></a>
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/moderate.php" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a> | 
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/admin/index.php" target="_self" title="<{$smarty.const._MD_ADMINCP}>"><{$smarty.const._MD_ADMINCP}></a>
 	
 	</div>
-	<br style="clear:both;" />
+	<br />
+	<div class="clear"></div>
 <{/if}>
 
 <div class="dropdown">
@@ -114,8 +116,8 @@
 	</div>
 <{/if}>
 </div>
-<br style="clear:both;" />
-<br style="clear:both;" />
+<div class="clear"></div>
+<br /><br />
 
 <!-- start forum categories -->
 <{foreach item=category from=$categories}>
@@ -126,7 +128,7 @@
 		<td width="8%"><img src="<{$category.cat_image}>" alt="<{$category.cat_title}>" /></td>
 		<{/if}>
 		<td align="left">
-			<a href="<{$xoops_url}>/modules/newbb/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a>
+			<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a>
 			<{if $category.cat_description}><p class="desc"><{$category.cat_description}></p><{/if}>
 		</td>
 		<{if $category.cat_sponsor}>
@@ -162,9 +164,9 @@
       <td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
       <td colspan="2" class="odd">
 		<div id="index_forum">
-	      	<span class="item"><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
+	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/newbb/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$forum.forum_desc}>
 	      	</span>
@@ -194,9 +196,9 @@
       <td class="even" align="center" valign="middle" width="5%"><{$subforum.forum_folder}></td>
       <td width="52%" class="odd">
 		<div id="index_forum">
-	      	<span class="item"><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$subforum.forum_id}>"><strong><{$subforum.forum_name}></strong></a>
+	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$subforum.forum_id}>"><strong><{$subforum.forum_name}></strong></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/newbb/rss.php?f=<{$subforum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$subforum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$subforum.forum_desc}>
 	      	</span>
@@ -229,9 +231,9 @@
 		<{/if}>
       	<td class="odd">
 		<div id="index_forum">
-	      	<span class="item"><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
+	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/newbb/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$forum.forum_desc}>
 	      	</span>
@@ -266,9 +268,9 @@
       	<td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
       	<td class="odd">
 		<div id="index_forum">
-	      	<span class="item"><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
+	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/newbb/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$forum.forum_desc}>
 	      	</span>
@@ -295,7 +297,8 @@
 <{/foreach}>
 <!-- end forum categories -->
 
-<br style="clear:both;" />
+<br />
+<div>
 <div style="float: left; text-align: left;">
 	<{$img_hotfolder}> = <{$smarty.const._MD_NEWPOSTS}><br />
 	<{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}><br />
@@ -310,27 +313,31 @@
         <input type="hidden" name="searchin" id="searchin" value="both" />
         <input type="submit" name="submit" id="submit" value="<{$smarty.const._MD_SEARCH}>" />
         <br />
-        [ <a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a> ]
+        [ <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a> ]
 	</form>
 </div>
+</div>
+<div class="clear"></div>
 
-<br style="clear:both;" />
+<br style="clear: both;" />
 <div style="float:right;text-align:right;padding-top: 5px;">
 	<{if $viewer_level gt 1}>
 		<{if $mode gt 0}>
-		<a href="<{$xoops_url}>/modules/newbb/index.php?mode=0&amp;cat=<{$viewcat}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
+		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?mode=0&amp;cat=<{$viewcat}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
 		<{else}>
-		<a href="<{$xoops_url}>/modules/newbb/index.php?mode=1&amp;cat=<{$viewcat}>" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?mode=1&amp;cat=<{$viewcat}>" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 		<{/if}> 
 	<{/if}>
 	<{if $rss_button}>
-	<a href="<{$xoops_url}>/modules/newbb/rss.php?c=<{$viewcat}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
-	<br style="clear:both;" />
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?c=<{$viewcat}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
+	<br />
 	<{/if}>
-	<a href="http://xoopsforge.com" target="_blank" title="Powered by CBB v<{$version}>"><img src="<{$xoops_url}>/modules/newbb/images/cbb.png" alt="Powered by CBB v<{$version}>" title="Powered by CBB v<{$version}>" /></a>
+	<a href="http://xoopsforge.com" target="_blank" title="Powered by CBB v<{$version}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/images/cbb.png" alt="Powered by CBB v<{$version}>" title="Powered by CBB v<{$version}>" /></a>
 </div>
-<br style="clear:both;" />
-<br style="clear:both;" />
+<div class="clear"></div>
+
+<br />
+<br />
 <{if $online}><{include file="db:newbb_online.html"}><{/if}>
 <{include file='db:system_notification_select.html'}>
 <!-- end module contents -->

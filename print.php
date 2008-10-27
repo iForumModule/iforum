@@ -24,7 +24,19 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
+/* 
+ * Print contents of a post or a topic
+ * currently only available for post print
+ *
+ * TODO: topic print; print with page splitting
+ * 
+ */
+ 
 error_reporting(0);
 include 'header.php';
 error_reporting(0);
@@ -35,12 +47,16 @@ $forum = isset($_GET['forum']) ? intval($_GET['forum']) : 0;
 $topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) : 0;
 $post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) : 0;
 
-if ( empty($post_id) && empty($topic_id) )  die(_MD_ERRORTOPIC);
+if ( empty($post_id) && empty($topic_id) ){
+	die(_MD_ERRORTOPIC);
+}
 
 if(!empty($post_id)){
 	$post_handler =& xoops_getmodulehandler('post', 'newbb');
 	$post = & $post_handler->get($post_id);
-	if(!$approved = $post->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
+	if(!$approved = $post->getVar('approved')){
+		die(_MD_NORIGHTTOVIEW);
+	}
 	$topic_id = $post->getVar("topic_id");
 	$post_data = $post_handler->getPostForPrint($post);
 	$isPost = 1;
@@ -48,17 +64,28 @@ if(!empty($post_id)){
 }
 
 $topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-$forumtopic =& $topic_handler->getByPost($post_id);
+$forumtopic =& $topic_handler->get($topic_id);
 $topic_id = $forumtopic->getVar('topic_id');
 $forum = $forumtopic->getVar('forum_id');
-if(!$approved = $forumtopic->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
+if(!$approved = $forumtopic->getVar('approved'))    {
+	die(_MD_NORIGHTTOVIEW);
+}
+
+$isadmin = newbb_isAdmin($viewtopic_forum);
+if(!$isadmin && $forumtopic->getVar('approved')<0 ){
+    die(_MD_NORIGHTTOVIEW);
+}
 
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 $forum = $forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
-if (!$forum_handler->getPermission($viewtopic_forum))    die(_MD_NORIGHTTOACCESS);
-if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOVIEW);
-//if ( !$forumdata =  $topic_handler->getViewData($topic_id, $forum) )die(_MD_FORUMNOEXIST);
+if (!$forum_handler->getPermission($viewtopic_forum)){
+    die(_MD_NORIGHTTOVIEW);
+}
+
+if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view")){
+	die(_MD_NORIGHTTOVIEW);
+}
 
 }else{
 	$post_data = unserialize(base64_decode($_POST["post_data"]));
@@ -71,11 +98,11 @@ if(empty($isPost)){
 
 	echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n";
     echo "<html>\n<head>\n";
-    echo "<title>" . $xoopsConfig['sitename'] . "</title>\n";
+    echo "<title>" . htmlspecialchars($xoopsConfig['sitename']) . "</title>\n";
     echo "<meta http-equiv='Content-Type' content='text/html; charset=" . _CHARSET . "' />\n";
-    echo "<meta name='AUTHOR' content='" . $xoopsConfig['sitename'] . "' />\n";
-    echo "<meta name='COPYRIGHT' content='Copyright (c) ".date('Y')." by " . $xoopsConfig['sitename'] . "' />\n";
-    echo "<meta name='DESCRIPTION' content='" . $xoopsConfig['slogan'] . "' />\n";
+    echo "<meta name='AUTHOR' content='" . htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES) . "' />\n";
+    echo "<meta name='COPYRIGHT' content='Copyright (c) ".date('Y')." by " . htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES) . "' />\n";
+    echo "<meta name='DESCRIPTION' content='" . htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES) . "' />\n";
     echo "<meta name='GENERATOR' content='" . XOOPS_VERSION . "' />\n\n\n";
     echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
 	 	  <div style='width: 750px; border: 1px solid #000; padding: 20px;'>
@@ -103,12 +130,12 @@ if(empty($isPost)){
 
 	echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n";
     echo "<html>\n<head>\n";
-    echo "<title>" . $xoopsConfig['sitename'] . "</title>\n";
+    echo "<title>" . htmlspecialchars($xoopsConfig['sitename']) . "</title>\n";
     echo "<meta http-equiv='Content-Type' content='text/html; charset=" . _CHARSET . "' />\n";
-    echo "<meta name='AUTHOR' content='" . $xoopsConfig['sitename'] . "' />\n";
-    echo "<meta name='COPYRIGHT' content='Copyright (c) ".date('Y')." by " . $xoopsConfig['sitename'] . "' />\n";
-    echo "<meta name='DESCRIPTION' content='" . $xoopsConfig['slogan'] . "' />\n";
-    echo "<meta name='GENERATOR' content='" . XOOPS_VERSION . "' />\n";
+    echo "<meta name='AUTHOR' content='" . htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES) . "' />\n";
+    echo "<meta name='COPYRIGHT' content='Copyright (c) ".date('Y')." by " . htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES) . "' />\n";
+    echo "<meta name='DESCRIPTION' content='" . htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES) . "' />\n";
+    echo "<meta name='GENERATOR' content='" . XOOPS_VERSION . "' />\n\n\n";
     echo "</head>\n\n\n";
     echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
  		  <div style='width: 750px; border: 1px solid #000; padding: 20px;'>

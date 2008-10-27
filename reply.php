@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include 'header.php';
 foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'start') as $getint) {
     ${$getint} = isset($_GET[$getint]) ? intval($_GET[$getint]) : 0;
@@ -65,7 +65,7 @@ if (!$forum_handler->getPermission($forum_obj)){
 
 $topic_status = $topic_handler->get($topic_id,'topic_status');
 if ( !$topic_handler->getPermission($forum_obj, $topic_status, 'reply')){
-	redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=".$forum->getVar('forum_id'), 2, _MD_NORIGHTTOREPLY);
+	redirect_header("viewtopic.php?topic_id=$topic_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid&amp;forum=".$forum_obj->getVar('forum_id'), 2, _MD_NORIGHTTOREPLY);
     exit();
 }
 

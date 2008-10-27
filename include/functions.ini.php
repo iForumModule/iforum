@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')){ exit(); }
 
 if(defined("NEWBB_FUNCTIONS_INI")) return; define("NEWBB_FUNCTIONS_INI",1);
@@ -36,10 +36,7 @@ include_once(XOOPS_ROOT_PATH."/Frameworks/art/functions.php");
 
 function newbb_load_object()
 {
-	if(class_exists("ArtObject")) return;
-	if(!defined("XOOPS_PATH") || !@include_once(XOOPS_PATH."/Frameworks/art/object.php")){
-		@include_once(XOOPS_ROOT_PATH."/Frameworks/art/object.php");
-	}
+	return load_object();
 }
 
 function newbb_message( $message )
@@ -55,8 +52,37 @@ function newbb_message( $message )
 	return;
 }
 
+function &newbb_load_config()
+{
+	static $moduleConfig;
+	if(isset($moduleConfig)){
+		return $moduleConfig;
+	}
+	
+    if(isset($GLOBALS["xoopsModule"]) && is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname") == "newbb"){
+	    $moduleConfig =& $GLOBALS["xoopsModuleConfig"];
+    }else{
+		$module_handler = &xoops_gethandler('module');
+		$module = $module_handler->getByDirname("newbb");
+	
+	    $config_handler = &xoops_gethandler('config');
+	    $criteria = new CriteriaCompo(new Criteria('conf_modid', $module->getVar('mid')));
+	    $configs =& $config_handler->getConfigs($criteria);
+	    foreach(array_keys($configs) as $i){
+		    $moduleConfig[$configs[$i]->getVar('conf_name')] = $configs[$i]->getConfValueForOutput();
+	    }
+	    unset($configs);
+    }
+	if($customConfig = @include(XOOPS_ROOT_PATH."/modules/newbb/include/plugin.php")){
+		$moduleConfig = array_merge($moduleConfig, $customConfig);
+	}
+    return $moduleConfig;
+}
+
 function getConfigForBlock()
 {
+	return newbb_load_config();
+	
 	static $newbbConfig;
 	if(isset($newbbConfig)){
 		return $newbbConfig;

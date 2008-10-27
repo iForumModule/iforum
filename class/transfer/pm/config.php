@@ -1,5 +1,5 @@
 <?php
-// $Id: config.php,v 1.1.1.1 2005/10/19 16:23:35 phppp Exp $
+// $Id: config.php,v 1.1.1.1 2005/11/10 19:51:11 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -46,6 +46,6 @@ if(!@include_once($root_path."/language/".$xoopsConfig['language'].".php")){
 return $config = array(
 		"title"		=>	_MD_TRANSFER_PM,
 		"level"		=>	1,
-		"module"	=>	is_dir(XOOPS_ROOT_PATH."/modueles/pm/")?"pm":""
+		"module"	=>	is_dir(XOOPS_ROOT_PATH."/modules/pm/")?"pm":""
 	);
 ?>

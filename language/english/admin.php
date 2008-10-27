@@ -95,7 +95,7 @@ define("_AM_NEWBB_SET_FORUMORDER","Set Forum Position:");
 define("_AM_NEWBB_ALLOWPOLLS","Allow Polls:");
 define("_AM_NEWBB_ATTACHMENT_SIZE" ,"Max Size in kb`s:");
 define("_AM_NEWBB_ALLOWED_EXTENSIONS", "Allowed Extensions:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*' indicates no limititations.<br /> Extensions delimited by '|'</span>");
-define("_AM_NEWBB_ALLOW_ATTACHMENTS", "Allow Attachments:");
+//define("_AM_NEWBB_ALLOW_ATTACHMENTS", "Allow Attachments:");
 define("_AM_NEWBB_ALLOWHTML","Allow HTML:");
 define("_AM_NEWBB_YES","Yes");
 define("_AM_NEWBB_NO","No");

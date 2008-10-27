@@ -2,6 +2,48 @@ CBB
 
 XOOPS Community Bulletin Board
 
+Changelog 3.04 Final
+June 3rd, 2006 
+=============
+1 MySQL syntax for data synchronization for different versions
+2 xhtml fixes
+3 bugfix for group permission check form (reported by Aries)
+
+Changelog 3.04 RC4
+May 27th, 2006 
+=============
+1 Bugfix for topic title transfered from post subject
+2 Added topic check before storing post (reported by marco)
+3 Removed unnecessary forum option 'allow_attachments' 
+4 Other minor fixes
+
+Changelog 3.04 RC3
+May 20th, 2006 
+=============
+1 Fixed bugs in print.php (reported by ideiafacil)
+2 Code correction for performance and cleaning up
+3 Partial improvement on permission precision
+4 Improvement on category/forum structured display for permission admin and block edit pages
+5 Improvement on compliant xhtml
+
+Changelog 3.04 RC2
+May 9th, 2006 
+=============
+1 Fixed bugs reported on xoops.org
+2 Created object handler for post_text
+3 Changed fields in TABLE bb_forums
+4 Changed testing post message in language file
+
+Changelog 3.04 RC
+May 8th, 2006 
+=============
+1 category, forum, topic, post, report, rate refactoring
+2 Added reading records options: cookie, database (inspired by Ajout Gizmhail)
+3 Added data synchronization
+4 Added missing "previous/next topic"
+5 Modified database structure for query optimization
+6 Fixed bug in templates for file inclusion: for both update from file and from db modes 
+
 Changelog 3.03
 Apr 26th, 2006 
 =============

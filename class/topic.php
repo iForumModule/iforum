@@ -24,6 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
@@ -32,7 +36,7 @@ class Topic extends ArtObject {
 
     function Topic()
     {
-        $this->db = &Database::getInstance();
+	    $this->ArtObject();
         $this->table = $this->db->prefix("bb_topics");
         $this->initVar('topic_id', XOBJ_DTYPE_INT);
         $this->initVar('topic_title', XOBJ_DTYPE_TXTBOX);
@@ -54,14 +58,7 @@ class Topic extends ArtObject {
         $this->initVar('topic_haspoll', XOBJ_DTYPE_INT);
         $this->initVar('poll_id', XOBJ_DTYPE_INT);
     }
-
-    /*
-    function setOrder($order)
-    {
-        $this->order = $order;
-    }
-    */
-
+    
     function incrementCounter()
     {
         $sql = 'UPDATE ' . $this->db->prefix('bb_topics') . ' SET topic_views = topic_views + 1 WHERE topic_id =' . $this->getVar('topic_id');
@@ -75,38 +72,23 @@ class NewbbTopicHandler extends ArtObjectHandler
         $this->ArtObjectHandler($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
     }
     
-    function &get($id, $var = '')
+    function &get($id, $var = null)
     {
-	    $topic = null;
-	    $id = intval($id);
-        if (empty($id)) {
-	        return $topic;
-        }
-        $sel = $var?$var:'*';
-        $sql = 'SELECT ' . $sel . ' FROM ' . $this->db->prefix('bb_topics') . ' WHERE topic_id=' . $id;
-        $result = $this->db->query($sql);
-        if (!$result) {
-            newbb_message("NewbbTopicHandler::get error:" . $sql);
-            return $topic;
-        }
-        if(!$array = $this->db->fetchArray($result)){
-	        return $topic;
-        }
-        if($var) {
-	        return $array[$var];
-        }
-        $topic =& $this->create(false);
-        $topic->assignVars($array);
-        return $topic;
-    }
-
-    function &create($isNew = true)
-    {
-        $topic = new Topic();
-        if ($isNew) {
-            $topic->setNew();
-        }
-        return $topic;
+	    $ret = null;
+	    if(!empty($var) && is_string($var)) {
+		    $tags = array($var);
+	    }else{
+		    $tags = $var;
+	    }
+	    if(!$topic_obj = parent::get($id, $tags)){
+		    return $ret;
+	    }
+	    if(!empty($var) && is_string($var)) {
+		    $ret = @$topic_obj->getVar($var);
+	    }else{
+		    $ret =& $topic_obj;
+	    }
+	    return $ret;
     }
 
     function approve($topic_id)
@@ -117,14 +99,50 @@ class NewbbTopicHandler extends ArtObjectHandler
             return false;
         }
 		$post_handler =& xoops_getmodulehandler('post', 'newbb');
-        $post_handler->identifierName = false;
-	    $criteria = new Criteria('topic_id', $topic_id);        
-        $posts = $post_handler->getList($criteria);
-        $posts = array_keys($posts);
-        foreach($posts as $post_id){
-	        $post_handler->approve($post_id);
+        $posts_obj =& $post_handler->getAll(new Criteria('topic_id', $topic_id));
+        foreach(array_keys($posts_obj) as $post_id){
+	        $post_handler->approve($posts_obj[$post_id]);
         }
+        unset($posts_obj);
         return true;
+    }
+
+    /**
+     * get previous/next topic
+     *
+     * @param	integer	$topic_id	current topic ID
+     * @param	integer	$action
+     * <ul>
+     *		<li> -1: previous </li>
+     *		<li> 0: current </li>
+     *		<li> 1: next </li>
+     * </ul>
+     * @param	integer	$forum_id	the scope for moving
+     * <ul>
+     *		<li> >0 : inside the forum </li>
+     *		<li> <= 0: global </li>
+     * </ul>
+     * @access public
+     */
+    function &getByMove($topic_id, $action, $forum_id = 0)
+    {
+	    $topic = null;
+	    if(!empty($action)):
+        $sql = "SELECT * FROM " . $this->table.
+               	" WHERE 1=1".
+               	(($forum_id>0)?" AND forum_id=".intval($forum_id):"").
+               	" AND topic_id ".(($action>0)?">":"<").intval($topic_id).
+				" ORDER BY topic_id ".(($action>0)?"ASC":"DESC")." LIMIT 1";
+        if($result = $this->db->query($sql)){
+        	if($row = $this->db->fetchArray($result)):
+	        $topic =& $this->create(false);
+	        $topic->assignVars($row);
+	        return $topic;
+	        endif;
+        }
+        endif;
+        $topic =& $this->get($topic_id);
+        return $topic;
     }
 
     function &getByPost($post_id)
@@ -147,23 +165,19 @@ class NewbbTopicHandler extends ArtObjectHandler
     {
         switch($type){
 	        case "pending":
-	        	$approve_criteria = ' AND approved = 0';
+				$approved = 0;	        	
 	        	break;
 	        case "deleted":
-	        	$approve_criteria = ' AND approved = -1';
+				$approved = -1;	        	
 	        	break;
 	        default:
-	        	$approve_criteria = ' AND approved = 1';
+				$approved = 1;	        	
 	        	break;
         }
-        $approve_criteria = ' AND approved = 1';
-        $sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_posts') . " WHERE topic_id=" . intval($topic->getVar('topic_id')) . $approve_criteria;
-        $result = $this->db->query($sql);
-        if (!$result) {
-            newbb_message("NewbbTopicHandler::getPostCount error:" . $sql);
-            return false;
-        }
-        list($count) = $this->db->fetchRow($result);
+	    $criteria =& new CriteriaCompo(new Criteria("topic_id", $topic->getVar('topic_id')));
+	    $criteria->add(new Criteria("approved", $approved));
+	    $post_handler =& xoops_getmodulehandler("post", "newbb");
+	    $count = $post_handler->getCount($criteria);
         return $count;
     }
 
@@ -181,7 +195,7 @@ class NewbbTopicHandler extends ArtObjectHandler
             newbb_message("NewbbTopicHandler::getTopPost error:" . $sql);
             return $post;
         }
-        $post_handler = &xoops_getmodulehandler('post', 'newbb');
+        $post_handler =& xoops_getmodulehandler('post', 'newbb');
         $myrow = $this->db->fetchArray($result);
         $post =& $post_handler->create(false);
         $post->assignVars($myrow);
@@ -204,6 +218,7 @@ class NewbbTopicHandler extends ArtObjectHandler
     {
 	    global $xoopsModuleConfig;
 
+        $ret = array();
         $perpage = (intval($perpage)>0)?intval($perpage):(empty($xoopsModuleConfig['posts_per_page'])?10:$xoopsModuleConfig['posts_per_page']);
         $start = (intval($start)>0)?intval($start):0;
         switch($type){
@@ -230,19 +245,18 @@ class NewbbTopicHandler extends ArtObjectHandler
             $result = $this->db->query($sql);
 	        if (!$result) {
 	            newbb_message("NewbbTopicHandler::getAllPosts:post-count error:" . $sql);
-	            return false;
+	            return $ret;
 	        }
             list($position) = $this->db->fetchRow($result);
             $start = intval($position / $perpage) * $perpage;
         }
 
-        $sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p, ' . $this->db->prefix('bb_posts_text') . " t WHERE p.topic_id=" . intval($topic->getVar('topic_id')) . " AND p.post_id = t.post_id" . $approve_criteria . " ORDER BY p.post_id $order";
+        $sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p, ' . $this->db->prefix('bb_posts_text') . " t WHERE p.topic_id=" . $topic->getVar('topic_id') . " AND p.post_id = t.post_id" . $approve_criteria . " ORDER BY p.post_id $order";
         $result = $this->db->query($sql, $perpage, $start);
         if (!$result) {
             newbb_message("NewbbTopicHandler::getAllPosts error:" . $sql);
-            return false;
+            return $ret;
         }
-        $ret = array();
         $post_handler = &xoops_getmodulehandler('post', 'newbb');
         while ($myrow = $this->db->fetchArray($result)) {
             $post = &$post_handler->create(false);
@@ -269,7 +283,6 @@ class NewbbTopicHandler extends ArtObjectHandler
 
         $postArray['post_time'] = newbb_formatTimestamp($postArray['post_time']);
 
-        //if (is_file(XOOPS_ROOT_PATH . "/images/subject/" . $postArray['icon']))
         if (!empty($postArray['icon'])){
             $postArray['icon'] = '<img src="' . XOOPS_URL . "/images/subject/" . htmlspecialchars($postArray['icon']) . '" alt="" />';
         }else{
@@ -293,66 +306,6 @@ class NewbbTopicHandler extends ArtObjectHandler
         return $postArray;
     }
 
-
-    function getViewData($topic_id, $forum, $move = '')
-    {
-        $sql = "SELECT
-				t.topic_id,
-		        t.topic_title,
-		        t.topic_poster,
-		        t.topic_status,
-		        t.topic_subject,
-		        t.topic_sticky,
-		        t.topic_digest,
-		        t.digest_time,
-		        t.topic_time,
-		        t.topic_last_post_id,
-		        t.approved,
-		        t.poster_name,
-		        t.rating,
-		        t.votes,
-		        t.topic_haspoll,
-		        t.poll_id,
-		        f.forum_id,
-		        f.forum_name,
-		        f.allow_html,
-		        f.allow_sig,
-		        f.hot_threshold,
-				f.forum_type,
-		        f.allow_attachments,
-		        f.attach_maxkb,
-		        f.attach_ext,
-		        f.allow_polls,
-		        f.parent_forum
-		        FROM
-		        " . $this->db->prefix('bb_topics') . " t
-		        LEFT JOIN " . $this->db->prefix('bb_forums') . " f ON f.forum_id = t.forum_id
-		        WHERE ";
-        if ('next' == $move)
-            $sql .= "
-				t.topic_id > $topic_id AND t.forum_id = $forum
-				ORDER BY t.topic_id ASC LIMIT 1";
-        elseif ('prev' == $move)
-            $sql .= "
-				t.topic_id < $topic_id AND t.forum_id = $forum
-				ORDER BY t.topic_id DESC LIMIT 1";
-        else
-            $sql .= "
-		        t.topic_id = $topic_id";
-
-        $result = $this->db->query($sql);
-        if (!$result) {
-            newbb_message("NewbbTopicHandler::getViewData error:" . $sql);
-            return false;
-        }
-
-        if (!$forumdata = $this->db->fetchArray($result)) {
-            return false;
-        }
-
-        return $forumdata;
-    }
-
     function &getAllPosters(&$topic, $isApproved = true)
     {
         $sql = 'SELECT DISTINCT uid FROM ' . $this->db->prefix('bb_posts') . "  WHERE topic_id=" . $topic->getVar('topic_id')." AND uid>0";
@@ -369,7 +322,7 @@ class NewbbTopicHandler extends ArtObjectHandler
         return $ret;
     }
 
-    function delete(&$topic, $force = false){
+    function delete(&$topic, $force = true){
 	    $topic_id = is_object($topic)?$topic->getVar("topic_id"):intval($topic);
 	    if(empty($topic_id)){
 		    return false;
@@ -381,7 +334,7 @@ class NewbbTopicHandler extends ArtObjectHandler
     }
     
     // get permission
-    // parameter: $type: 'post', 'view',  'reply', 'edit', 'delete', 'addpoll', 'vote', 'attach'(, 'noapprove' -- to be added)
+    // parameter: $type: 'post', 'view',  'reply', 'edit', 'delete', 'addpoll', 'vote', 'attach'
     // $gperm_names = "'forum_can_post', 'forum_can_view', 'forum_can_reply', 'forum_can_edit', 'forum_can_delete', 'forum_can_addpoll', 'forum_can_vote', 'forum_can_attach', 'forum_can_noapprove'";
     function getPermission($forum, $topic_locked = 0, $type = "view")
     {
@@ -405,6 +358,155 @@ class NewbbTopicHandler extends ArtObjectHandler
         if ($topic_locked && 'view' != $type) $permission = 0;
 
         return $permission;
+    }
+    
+    /**
+     * clean orphan items from database
+     * 
+     * @return 	bool	true on success
+     */
+    function cleanOrphan()
+    {
+	    parent::cleanOrphan($this->db->prefix("bb_forums"), "forum_id");
+	    parent::cleanOrphan($this->db->prefix("bb_posts"), "topic_id");
+	    
+	    return true;
+    }
+
+    /**
+     * clean expired objects from database
+     * 
+     * @param 	int 	$expire 	time limit for expiration
+     * @return 	bool	true on success
+     */
+    function cleanExpires($expire = 0)
+    {
+	    $crit_expire =& new CriteriaCompo(new Criteria("approved", 0, "<="));
+	    //if(!empty($expire)){
+	    	$crit_expire->add(new Criteria("topic_time", time()-intval($expire), "<"));
+    	//}
+	    return $this->deleteAll($crit_expire, true/*, true*/);
+    }
+    
+    function synchronization($object = null, $force = true)
+    {
+	    global $xoopsDB;
+	    
+	    if(empty($object)) {
+	    	/* for MySQL 4.1+ */
+	    	if($this->mysql_client_version() >= 4):
+		    // Set topic_last_post_id
+	        $sql = "UPDATE ".$this->table.
+	        		" SET ".$this->table.".topic_last_post_id = @last_post =(".
+	        		"	SELECT MAX(post_id) AS last_post ".
+	        		" 	FROM " . $this->db->prefix("bb_posts") . 
+	        		" 	WHERE approved=1 AND topic_id = ".$this->table.".topic_id".
+	        		" )".
+	        		" WHERE ".$this->table.".topic_last_post_id <> @last_post";
+			$this->db->queryF($sql);
+		    // Set topic_replies
+	        $sql = "UPDATE ".$this->table.
+	        		" SET ".$this->table.".topic_replies = @replies =(".
+	        		"	SELECT count(*) AS total ".
+	        		" 	FROM " . $this->db->prefix("bb_posts") . 
+	        		" 	WHERE approved=1 AND topic_id = ".$this->table.".topic_id".
+	        		" )".
+	        		" WHERE ".$this->table.".topic_replies <> @replies";
+			$this->db->queryF($sql);
+	        else:
+	        // for 4.0+
+		    $topics = $this->getIds();
+		    foreach($topics as $id){
+			    if(!$obj =& $this->get($id)) continue;
+			    $this->synchronization($obj);
+			    unset($obj);
+		    }
+		    unset($topics);
+	        endif;
+
+		    /*
+		    // MYSQL syntax error
+		    // Set post pid for top post
+	        $sql = "UPDATE ".$this->db->prefix("bb_posts").
+	        		" SET ".$this->db->prefix("bb_posts").".pid = 0".
+	        		" LEFT JOIN ".$this->db->prefix("bb_posts")." AS aa ON aa.topic_id = ".$this->db->prefix("bb_posts").".topic_id".
+	        		" WHERE ".$this->db->prefix("bb_posts").".pid <> 0 ".
+	        		" 	AND ".$this->db->prefix("bb_posts").".post_id = MIN(aa.post_id)";
+			$this->db->queryF($sql);
+		    // Set post pid for non-top post
+	        $sql = "UPDATE ".$this->db->prefix("bb_posts").
+	        		" SET ".$this->db->prefix("bb_posts").".pid = MIN(aa.post_id)".
+	        		" LEFT JOIN ".$this->db->prefix("bb_posts")." AS aa ON aa.topic_id = ".$this->db->prefix("bb_posts").".topic_id".
+	        		" WHERE ".$this->db->prefix("bb_posts").".pid <> 0 ".
+	        		" 	AND ".$this->db->prefix("bb_posts").".post_id <> @top_post";
+			$this->db->queryF($sql);
+			*/			
+			return;
+	    }
+	    if(!is_object($object)){
+		    $object =& $this->get(intval($object));
+	    }
+	    if(!$object->getVar("topic_id")) return false;
+
+        if($force):
+        $sql = "SELECT MAX(post_id) AS last_post, COUNT(*) AS total ".
+        		" FROM " . $xoopsDB->prefix("bb_posts") . 
+        		" WHERE approved=1 AND topic_id = ".$object->getVar("topic_id");
+        if ( $result = $xoopsDB->query($sql) )
+        if ( $row = $xoopsDB->fetchArray($result) ) {
+	        if($object->getVar("topic_last_post_id") != $row['last_post']){
+            	$object->setVar("topic_last_post_id", $row['last_post']);
+        	}
+	        if($object->getVar("topic_replies") != $row['total'] -1 ){
+            	$object->setVar("topic_replies", $row['total'] -1);
+        	}
+        }
+        $this->insert($object, true);
+        endif;
+        
+	    $time_synchronization = 30 * 24 * 3600; // in days; this should be counted since last synchronization
+        if($force || $object->getVar("topic_time") > (time() - $time_synchronization)):
+        $sql = "SELECT MIN(post_id) AS top_post FROM ".$xoopsDB->prefix("bb_posts")." WHERE approved = 1 AND topic_id = ".$object->getVar("topic_id");
+        if ( $result = $xoopsDB->query($sql) ) {
+        	list($top_post) = $xoopsDB->fetchRow($result);
+        	if(empty($top_post)) return false;
+	        $sql = 	"UPDATE ".$xoopsDB->prefix("bb_posts").
+	        		" SET pid = 0 ".
+	        		" WHERE post_id = ".$top_post.
+	        		" AND pid <> 0";
+	        if ( !$result = $xoopsDB->queryF($sql) ) {
+	            //newbb_message("Could not set top post $top_post for topic: ".$sql);
+	            //return false;
+	        }
+	        $sql = 	"UPDATE ".$xoopsDB->prefix("bb_posts").
+	        		" SET pid = ".$top_post.
+	        		" WHERE".
+	        		" 	topic_id = ".$object->getVar("topic_id").
+	        		" 	AND post_id <> ".$top_post.
+	        		" 	AND pid = 0";
+	        if ( !$result = $xoopsDB->queryF($sql) ) {
+	            //newbb_message("Could not set post parent ID for topic: ".$sql);
+	            //return false;
+	        }
+	        
+	        /*
+		    // MYSQL syntax error
+	        $sql = 	"UPDATE ".$xoopsDB->prefix("bb_posts").
+	        		" SET ".$xoopsDB->prefix("bb_posts"). ".pid = ".$top_post.
+	        		" LEFT JOIN ".$xoopsDB->prefix("bb_posts"). " AS bb".
+	        		" 	ON bb.post_id = ".$xoopsDB->prefix("bb_posts"). ".pid".
+	        		" WHERE".
+	        		" 	".$xoopsDB->prefix("bb_posts"). ".topic_id = ".$object->getVar("topic_id").
+	        		" 	AND ".$xoopsDB->prefix("bb_posts"). ".post_id <> ".$top_post.
+	        		" 	AND bb.topic_id <>".$object->getVar("topic_id");
+	        if ( !$result = $xoopsDB->queryF($sql) ) {
+	            //newbb_message("Could not concile posts for topic: ".$sql);
+	            //return false;
+	        }
+	        */
+        }
+        endif;
+		return true;
     }
 }
 

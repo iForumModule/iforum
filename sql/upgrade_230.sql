@@ -5,7 +5,7 @@ CREATE TABLE `bb_moderates` (
   `mod_desc` varchar(255) NOT NULL default '',
   `uid` int(10) NOT NULL default '0',
   `ip` varchar(32) NOT NULL default '',
-  `forum_id` int(4) NOT NULL default '0',
+  `forum_id` smallint(4) NOT NULL default '0',
   PRIMARY KEY  (`mod_id`),
   KEY `uid` (`uid`)
 ) TYPE=MyISAM;

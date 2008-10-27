@@ -95,7 +95,7 @@ define("_AM_NEWBB_SET_FORUMORDER","讨论区顺序：");
 define("_AM_NEWBB_ALLOWPOLLS","允许投票：");
 define("_AM_NEWBB_ATTACHMENT_SIZE" ,"最大附件(kb)：");
 define("_AM_NEWBB_ALLOWED_EXTENSIONS", "允许使用的扩展名:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*'代表没有限制。多个扩展名用'|'分隔</span>");
-define("_AM_NEWBB_ALLOW_ATTACHMENTS", "允许附件上传：");
+//define("_AM_NEWBB_ALLOW_ATTACHMENTS", "允许附件上传：");
 define("_AM_NEWBB_ALLOWHTML","允许使用HTML:");
 define("_AM_NEWBB_YES","是");
 define("_AM_NEWBB_NO","否");

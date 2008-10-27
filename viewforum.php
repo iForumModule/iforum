@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 
 include "header.php";
 
@@ -36,36 +36,23 @@ if ( empty($_GET['forum']) ) {
 	exit();
 }
 
-$forum_id = isset($_GET['forum'])?intval($_GET['forum']):0; // ?
+if (isset($_GET['mark_read'])){
+    if(1 == intval($_GET['mark_read'])){ // marked as read
+	    $markvalue = 1;
+	    $markresult = _MD_MARK_READ;
+    }else{ // marked as unread
+	    $markvalue = 0;
+	    $markresult = _MD_MARK_UNREAD;
+    }
+	newbb_setRead_topic($markvalue, $_GET['forum']);
+	$url = "viewforum.php?start=".$_GET['start']."&amp;forum=".$_GET['forum']."&amp;sortname=".$_GET['sortname']."&amp;sortorder=".$_GET['sortorder']."&amp;since=".$_GET['since'];
+    redirect_header($url,2, $markresult);
+}
 
+$forum_id = intval($_GET['forum']);
 $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "digest", "unreplied", "unread")))? $_GET['type'] : "";
 $mode = !empty($_GET['mode']) ? intval($_GET['mode']) : 0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?2:$mode;
-
-if (isset($_GET['mark_read'])){
-	$topic_lastread = newbb_getcookie('LT',true);
-	$topics = newbb_getcookie("ST",true);
-	if(count($topics)>0){
-	    if(1 == intval($_GET['mark_read'])){ 						// mark topics on this page as read
-		    foreach($topics as $topic){
-				$topic_lastread[$topic] = time();
-			}
-			newbb_setcookie("LT", $topic_lastread);
-		    $marktarget = _MD_ALL_FORUM_MARKED;
-		    $markresult = _MD_MARK_READ;
-	    }else{ 					// mark topics as unread
-		    foreach($topics as $topic){
-				$topic_lastread[$topic] = false;
-			}
-			newbb_setcookie("LT", $topic_lastread);
-		    $marktarget = _MD_ALL_TOPIC_MARKED;
-		    $markresult = _MD_MARK_UNREAD;
-	    }
-
-		$url = "viewforum.php?start=".$_GET['start']."&amp;forum=$forum_id&amp;sortname=".$_GET['sortname']."&amp;sortorder=".$_GET['sortorder']."&amp;since=".$_GET['since']."&amp;type=$type";
-	    redirect_header($url,2, $marktarget.' '.$markresult);
-	}
-}
 
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 $forum_obj =& $forum_handler->get($forum_id);
@@ -73,13 +60,10 @@ if (!$forum_handler->getPermission($forum_obj)){
     redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
     exit();
 }
+newbb_setRead("forum", $forum_id, $forum_obj->getVar("forum_last_post_id"));
 
-// cookie should be handled before calling XOOPS_ROOT_PATH."/header.php", otherwise it won't work for cache
-$forum_lastview = newbb_getcookie('LF',true);
-$forum_lastview[$forum_obj->getVar('forum_id')] = time();
-newbb_setcookie("LF", $forum_lastview);
 
-$xoops_pagetitle = $xoopsModule->getVar('name'). ' - ' .$forum_obj->getVar('forum_name');
+$xoops_pagetitle = $forum_obj->getVar('forum_name') . " [" .$xoopsModule->getVar('name')."]";
 if(!empty($xoopsModuleConfig['rss_enable'])){
 	$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'-'.$forum_obj->getVar('forum_name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
 }
@@ -89,7 +73,6 @@ $xoopsOption['xoops_pagetitle']= $xoops_pagetitle;
 $xoopsOption['xoops_module_header']= $xoops_module_header;
 include XOOPS_ROOT_PATH."/header.php";
 $xoopsTpl->assign('xoops_module_header', $xoops_module_header);
-
 $xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
 $xoopsTpl->assign("forum_id", $forum_obj->getVar('forum_id'));
 
@@ -113,7 +96,6 @@ $getpermission =& xoops_getmodulehandler('permission', 'newbb');
 $permission_set = $getpermission->getPermissions("forum", $forum_obj->getVar('forum_id'));
 
 $t_new = newbb_displayImage($forumImage['t_new'],_MD_POSTNEW);
-
 if ($forum_handler->getPermission($forum_obj, "post")){
 	$xoopsTpl->assign('forum_post_or_register', "<a href=\"newtopic.php?forum=".$forum_obj->getVar('forum_id')."\">".$t_new."</a>");
 	if ($forum_handler->getPermission($forum_obj, "addpoll") && $forum_obj->getVar('allow_polls') == 1){
@@ -131,13 +113,26 @@ if ($forum_handler->getPermission($forum_obj, "post")){
 	}
 }
 
-
-if($forum_obj->isSubforum())
-{
-	$q = "select forum_name from ".$xoopsDB->prefix('bb_forums')." WHERE forum_id=".$forum_obj->getVar('parent_forum');
-	$row = $xoopsDB->fetchArray($xoopsDB->query($q));
-	$xoopsTpl->assign(array('parent_forum' => $forum_obj->getVar('parent_forum'), 'parent_name' => $myts->htmlSpecialChars($row['forum_name'])));
+if($forum_obj->getVar('parent_forum')){
+	$parent_forum_obj =& $forum_handler->get($forum_obj->getVar('parent_forum'), array("forum_name"));
+	$parentforum = array("id"=>$forum_obj->getVar('parent_forum'), "name"=>$parent_forum_obj->getVar("forum_name"));
+	unset($parent_forum_obj);
+	$xoopsTpl->assign_by_ref("parentforum", $parentforum);
+}else{
+	$criteria =& new Criteria("parent_forum", $forum_id);
+	$criteria->setSort("forum_order");
+	if($forums_obj =& $forum_handler->getAll($criteria)){
+		$subforum_array = $forum_handler->display($forums_obj);
+		$subforum = array_values($subforum_array[$forum_id]);
+		unset($forums_obj, $subforum_array);
+		$xoopsTpl->assign_by_ref("subforum", $subforum);
+	}
 }
+
+$category_handler =& xoops_getmodulehandler("category");
+$category_obj =& $category_handler->get($forum_obj->getVar("cat_id"), array("cat_title"));
+$xoopsTpl->assign('category', array("id" => $forum_obj->getVar("cat_id"), "title" => $category_obj->getVar('cat_title')));
+
 $xoopsTpl->assign('forum_index_title', sprintf(_MD_FORUMINDEX,htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
 $xoopsTpl->assign('folder_topic', newbb_displayImage($forumImage['folder_topic']));
 $xoopsTpl->assign('forum_name', $forum_obj->getVar('forum_name'));
@@ -156,7 +151,7 @@ foreach ( $sel_sort_array as $sort_k => $sort_v ) {
 }
 $forum_selection_sort .= '</select>';
 
-$xoopsTpl->assign('forum_selection_sort', $forum_selection_sort);
+$xoopsTpl->assign_by_ref('forum_selection_sort', $forum_selection_sort);
 
 $sortorder = (!isset($_GET['sortorder']) || $_GET['sortorder'] != "ASC") ? "DESC" : "ASC";
 $forum_selection_order = '<select name="sortorder">';
@@ -164,12 +159,12 @@ $forum_selection_order .= '<option value="ASC"'.(($sortorder == "ASC") ? ' selec
 $forum_selection_order .= '<option value="DESC"'.(($sortorder == "DESC") ? ' selected="selected"' : '').'>'._MD_DESCENDING.'</option>';
 $forum_selection_order .= '</select>';
 
-$xoopsTpl->assign('forum_selection_order', $forum_selection_order);
+$xoopsTpl->assign_by_ref('forum_selection_order', $forum_selection_order);
 
 $since = isset($_GET['since']) ? intval($_GET['since']) : $xoopsModuleConfig["since_default"];
 $forum_selection_since = newbb_sinceSelectBox($since);
 
-$xoopsTpl->assign('forum_selection_since', $forum_selection_since);
+$xoopsTpl->assign_by_ref('forum_selection_since', $forum_selection_since);
 $xoopsTpl->assign('h_topic_link', "viewforum.php?forum=$forum_id&amp;sortname=t.topic_title&amp;since=$since&amp;sortorder=". (($sortname == "t.topic_title" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
 $xoopsTpl->assign('h_reply_link', "viewforum.php?forum=$forum_id&amp;sortname=t.topic_replies&amp;since=$since&amp;sortorder=". (($sortname == "t.topic_replies" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
 $xoopsTpl->assign('h_poster_link', "viewforum.php?forum=$forum_id&amp;sortname=u.uname&amp;since=$since&amp;sortorder=". (($sortname == "u.uname" && $sortorder == "DESC") ? "ASC" : "DESC"))."&amp;type=$type";
@@ -183,12 +178,8 @@ $startdate = empty($since)?0:(time() - newbb_getSinceTime($since));
 $start = !empty($_GET['start']) ? intval($_GET['start']) : 0;
 
 list($allTopics, $sticky) = $forum_handler->getAllTopics($forum_obj,$startdate,$start,$sortname,$sortorder,$type,$xoopsModuleConfig['post_excerpt']);
-// the cookie should be set before calling xoops/header.php, however, ...
-newbb_setcookie("ST", array_keys($allTopics));
-
-$xoopsTpl->assign('topics', $allTopics);
-unset($allTopics);
-$xoopsTpl->assign("subforum", $forum_obj->getSubforums());
+$xoopsTpl->assign_by_ref('topics', $allTopics);
+//unset($allTopics);
 $xoopsTpl->assign('sticky', $sticky);
 $xoopsTpl->assign('rating_enable', $xoopsModuleConfig['rating_enabled']);
 $xoopsTpl->assign('img_newposts', newbb_displayImage($forumImage['newposts_topic']));
@@ -247,7 +238,7 @@ if ( $all_topics > $xoopsModuleConfig['topics_per_page']) {
 }
 
 if(!empty($xoopsModuleConfig['show_jump'])){
-	$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox($forum_obj));
+	$xoopsTpl->assign('forum_jumpbox', newbb_make_jumpbox($forum_obj->getVar('forum_id')));
 }
 $xoopsTpl->assign('down',newbb_displayImage($forumImage['doubledown']));
 $xoopsTpl->assign('menumode',$menumode);
@@ -255,7 +246,7 @@ $xoopsTpl->assign('menumode_other',$menumode_other);
 
 if($xoopsModuleConfig['show_permissiontable']){
 	$permission_table = & $getpermission->permission_table($permission_set,$forum_obj->getVar('forum_id'), false, $isadmin);
-	$xoopsTpl->assign('permission_table', $permission_table);
+	$xoopsTpl->assign_by_ref('permission_table', $permission_table);
 	unset($permission_table);
 }
 

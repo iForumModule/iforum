@@ -71,9 +71,10 @@ if (isset($_POST['submit']) && $_POST['submit'] != "") {
     echo "</td><td class='head' align='left' width='30%'><strong>" . _AM_NEWBB_REORDERTITLE . "</strong>";
     echo "</td><td class='head' align='center' width='5%'><strong>" . _AM_NEWBB_REORDERWEIGHT . "</strong>";
     echo "</td></tr>";
-    $category_handler = &xoops_getmodulehandler('category', 'newbb');
-    $categorys = $category_handler->getAllCats();
-	$forums = $category_handler->getForums();
+    $category_handler =& xoops_getmodulehandler('category', 'newbb');
+    $categories = $category_handler->getAllCats();
+	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forums = $forum_handler->getForumsByCategory();
 
 	$forums_array = array();
 	foreach ($forums as $forumid => $forum) {
@@ -94,7 +95,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != "") {
         }
 	}
 
-    foreach($categorys as $onecat) {
+    foreach($categories as $key => $onecat) {
         echo "<tr>";
         echo "<td align='left' class='head'>" . $onecat->getVar('cat_id') . "</td>";
         echo "<input type='hidden' name='cat[]' value='" . $onecat->getVar('cat_id') . "' />";

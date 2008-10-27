@@ -41,7 +41,7 @@ if (isset($_POST['default'])) $op = 'default';
 if (isset($_GET['forum'])) $forum = $_GET['forum'];
 if (isset($_POST['forum'])) $forum = $_POST['forum'];
 
-$forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 /**
  * newForum()
  *
@@ -73,7 +73,7 @@ function editForum($ff = null, $parent_forum = 0)
         $new = false;
     }
     if ($parent_forum > 0) {
-        $pf = &$forum_handler->get($parent_forum);
+        $pf =& $forum_handler->get($parent_forum);
     }
 
     $mytree = new XoopsTree($xoopsDB->prefix("bb_categories"), "cat_id", "0");
@@ -95,7 +95,7 @@ function editForum($ff = null, $parent_forum = 0)
         $ff->setVar('allow_polls', 1);
         $ff->setVar('allow_subject_prefix', 1);
         $ff->setVar('hot_threshold', 10);
-        $ff->setVar('allow_attachments', 1);
+        //$ff->setVar('allow_attachments', 1);
         $ff->setVar('attach_maxkb', 1000);
         $ff->setVar('attach_ext', 'zip|gif|jpg');
     }
@@ -103,7 +103,7 @@ function editForum($ff = null, $parent_forum = 0)
     $sform->addElement(new XoopsFormText(_AM_NEWBB_FORUMNAME, 'forum_name', 50, 80, $ff->getVar('forum_name', 'E')), true);
     $sform->addElement(new XoopsFormDhtmlTextArea(_AM_NEWBB_FORUMDESCRIPTION, 'forum_desc', $ff->getVar('forum_desc', 'E'), 10, 60), false);
 
-    $sform->addElement(new XoopsFormHidden('parent_forum', $parent_forum));
+    $sform->addElement(new XoopsFormHidden('parent_forum', $ff->getVar('parent_forum')));
     if ($parent_forum == 0) {
         ob_start();
         if ($new) {
@@ -136,8 +136,10 @@ function editForum($ff = null, $parent_forum = 0)
 
     $sform->addElement(new XoopsFormText(_AM_NEWBB_HOTTOPICTHRESHOLD, 'hot_threshold', 5, 10, $ff->getVar('hot_threshold')), true);
 
+    /*
     $allowattach_radio = new XoopsFormRadioYN(_AM_NEWBB_ALLOW_ATTACHMENTS, 'allow_attachments', $ff->getVar('allow_attachments'), '' . _YES . '', ' ' . _NO . '');
     $sform->addElement($allowattach_radio);
+    */
     $sform->addElement(new XoopsFormText(_AM_NEWBB_ATTACHMENT_SIZE, 'attach_maxkb', 5, 10, $ff->getVar('attach_maxkb')), true);
     $sform->addElement(new XoopsFormText(_AM_NEWBB_ALLOWED_EXTENSIONS, 'attach_ext', 50, 512, $ff->getVar('attach_ext')), true);
    	$sform->addElement(new XoopsFormSelectUser(_AM_NEWBB_MODERATOR, 'forum_moderator', false, $ff->getVar("forum_moderator"), 5, true));
@@ -211,7 +213,7 @@ switch ($op) {
 	
 			$category_handler =& xoops_getmodulehandler('category', 'newbb');
 		    $categories = $category_handler->getAllCats('', true);
-		    $forums = $category_handler->getForums(0, '', false);
+		    $forums = $forum_handler->getForumsByCategory(array_keys($categories), '', false);
 		
 			if(count($categories)>0 && count($forums)>0){
 				foreach(array_keys($forums) as $key){
@@ -276,8 +278,8 @@ switch ($op) {
 	        $box = '<select name="dest_forum">';
             $box .= '<option value=0 selected>' . _AM_NEWBB_SELECT . '</option>';
 	
-			$category_handler =& xoops_getmodulehandler('category', 'newbb');
-		    $forums = $category_handler->getForums(0, '', false);
+			//$category_handler =& xoops_getmodulehandler('category', 'newbb');
+		    $forums = $forum_handler->getForumsByCategory(0, '', false);
 		
 			if(count($forums)>0){
 				foreach(array_keys($forums) as $key){
@@ -308,10 +310,11 @@ switch ($op) {
     case 'sync':
         loadModuleAdminMenu(5, _AM_NEWBB_SYNCFORUM);
         if (isset($_POST['submit'])) {
-            flush();
-            sync(null, "all forums");
-            flush();
-            sync(null, "all topics");
+			newbb_synchronization();
+			/*
+			$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+			$topic_handler->synchronization();
+			*/
             redirect_header("./index.php", 1, _AM_NEWBB_SYNCHING);
             exit();
         } else {
@@ -354,7 +357,7 @@ switch ($op) {
         $ff->setVar('allow_sig', @$_POST['allow_sig']);
         $ff->setVar('allow_polls', $_POST['allow_polls']);
         $ff->setVar('allow_subject_prefix', @$_POST['allow_subject_prefix']);
-        $ff->setVar('allow_attachments', $_POST['allow_attachments']);
+        //$ff->setVar('allow_attachments', $_POST['allow_attachments']);
         $ff->setVar('attach_maxkb', $_POST['attach_maxkb']);
         $ff->setVar('attach_ext', $_POST['attach_ext']);
         $ff->setVar('hot_threshold', $_POST['hot_threshold']);
@@ -430,7 +433,7 @@ switch ($op) {
 
 		$category_handler = &xoops_getmodulehandler('category', 'newbb');
     	$categories = $category_handler->getAllCats('', true);
-		$forums = $category_handler->getForums(0, '', false);
+		$forums = $forum_handler->getForumsByCategory(array_keys($categories), '', false);
 		foreach (array_keys($categories) as $c) {
             $category =& $categories[$c];
             $cat_link = "<a href=\"" . $forumUrl['root'] . "/index.php?viewcat=" . $category->getVar('cat_id') . "\">" . $category->getVar('cat_title') . "</a>";

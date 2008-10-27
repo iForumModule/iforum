@@ -24,6 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include "header.php";
 
 if ( isset($_POST['submit']) ) {
@@ -36,9 +40,21 @@ if ( isset($_POST['submit']) ) {
     }
 }
 
+if ( !$topic_id ) {
+	$redirect = empty($forum_id)?"index.php":'viewforum.php?forum='.$forum;
+    redirect_header($redirect, 2, _MD_ERRORTOPIC);
+}
+
+$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$forum = $topic_handler->get($topic_id, "forum_id");
+$forum_new = !empty($newtopic)?$topic_handler->get($newtopic, "forum_id"):0;
+
 $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-if (!$forum_handler->getPermission($forum, 'moderate')){
-    redirect_header("viewtopic.php?forum=$forum&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid",2,_MD_NORIGHTTOACCESS);
+if (!$forum_handler->getPermission($forum, 'moderate')
+	|| (!empty($forum_new) && !$forum_handler->getPermission($forum_new, 'reply')) // The forum for the topic to be merged to
+	|| (!empty($newforum) && !$forum_handler->getPermission($newforum, 'post')) // The forum to be moved to
+){
+    redirect_header("viewtopic.php?forum=$forum&amp;topic_id=$topic_id",2,_NOPERM);
     exit();
 }
 
@@ -70,14 +86,14 @@ include XOOPS_ROOT_PATH.'/header.php';
 if ( isset($_POST['submit']) ) {
 	$mode = $_POST['mode'];
 	if('delete'==$mode){
-		$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+		//$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
         $topic_handler->delete($topic_id);
-	    sync($forum, "forum");
+		$forum_handler->synchronization($forum);
 	    //sync($topic_id, "topic");
         //xoops_notification_deletebyitem ($xoopsModule->getVar('mid'), 'thread', $topic_id);
         echo $action[$mode]['msg']."<p><a href='viewforum.php?forum=$forum'>"._MD_RETURNTOTHEFORUM."</a></p><p><a href='index.php'>"._MD_RETURNFORUMINDEX."</a></p>";
 	}elseif('merge'==$mode){
-		$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+		//$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
 		$post_handler =& xoops_getmodulehandler('post', 'newbb');
 		
 		$newtopic_obj =& $topic_handler->get($newtopic);
@@ -97,7 +113,7 @@ if ( isset($_POST['submit']) ) {
         $criteria_newtopic = new Criteria("topic_id", $newtopic);
         $topic_handler->updateAll("topic_views", $topic_views, $criteria_newtopic, true);
         
-        sync($newtopic, "topic");
+		$topic_handler->synchronization($newtopic);
         
 		$poll_id = $topic_handler->get($topic_id, "poll_id");
 		if($poll_id>0){
@@ -139,8 +155,8 @@ if ( isset($_POST['submit']) ) {
             if ( !$r = $xoopsDB->query($sql) ) {
 	            return false;
             }
-            sync($newforum, 'forum');
-            sync($forum, 'forum');
+			$forum_handler->synchronization($newforum);
+			$forum_handler->synchronization($forum);
         	echo $action[$mode]['msg']."<p><a href='viewtopic.php?topic_id=$topic_id&amp;forum=$newforum'>"._MD_GOTONEWFORUM."</a></p><p><a href='index.php'>"._MD_RETURNFORUMINDEX."</a></p>";
         }else{
     		redirect_header("javascript:history.go(-1)",2,_MD_ERRORFORUM);
@@ -168,7 +184,7 @@ if ( isset($_POST['submit']) ) {
 
 		$category_handler =& xoops_getmodulehandler('category', 'newbb');
 	    $categories = $category_handler->getAllCats('access', true);
-	    $forums = $category_handler->getForums(0, 'access', false);
+	    $forums = $forum_handler->getForumsByCategory(array_keys($categories), 'post', false);
 	
 		if(count($categories)>0 && count($forums)>0){
 			foreach(array_keys($forums) as $key){

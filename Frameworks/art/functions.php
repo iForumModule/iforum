@@ -81,12 +81,13 @@ function mod_getIP($asString = false)
 function &mod_getUnameFromIds( $userid, $usereal = 0, $linked = false )
 {
 	if(!is_array($userid))  $userid = array($userid);
-	$userid = array_map("intval", $userid);
+	$userid = array_map("intval", array_filter($userid));
 
 	$users = array();
 	if(count($userid)>0){
         $sql = 'SELECT uid, uname, name FROM ' . $GLOBALS['xoopsDB']->prefix('users'). ' WHERE level>0 AND uid IN('.implode(",", array_unique($userid)).')';
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+	        mod_message("user query error: ".$sql);
             return $users;
         }
 	    $myts =& MyTextSanitizer::getInstance();
@@ -107,6 +108,7 @@ function &mod_getUnameFromIds( $userid, $usereal = 0, $linked = false )
 
 function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
 {
+	$myts =& MyTextSanitizer::getInstance();
 	$userid = intval($userid);
 	if ($userid > 0) {
         $member_handler =& xoops_gethandler('member');
@@ -114,9 +116,9 @@ function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
         if (is_object($user)) {
 		    $myts =& MyTextSanitizer::getInstance();
             if ( $usereal && $user->getVar('name') ) {
-				$username = $myts->htmlSpecialChars($user->getVar('name'));
+				$username = $user->getVar('name');
         	} else {
-				$username = $myts->htmlSpecialChars($user->getVar('uname'));
+				$username = $user->getVar('uname');
 			}
         }
         if(!empty($linked)){

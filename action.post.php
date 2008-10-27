@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include 'header.php';
 
 $topic_id = isset($_POST['topic_id']) ? intval($_POST['topic_id']) : 0;
@@ -75,10 +75,10 @@ switch($op){
 			unset($post_obj);
 		}
 		foreach(array_keys($topics) as $topic){
-			sync($topic, "topic");
+			$topic_handler->synchronization($topic);
 		}
 		foreach(array_keys($forums) as $forum){
-			sync($forum, "forum");
+			$forum_handler->synchronization($forum);
 		}
 		break;
 	case "approve":
@@ -88,15 +88,6 @@ switch($op){
 		$forums=array();
 		$criteria = new Criteria("post_id", "(".implode(",", $post_id).")", "IN");
 		$posts_obj =& $post_handler->getObjects($criteria, true);
-		/*
-		if(is_array($topic_id)):
-		foreach($topic_id as $topic){
-			$topic_handler->approve($topic);
-			sync($topic, "topic");
-			$forums[$topics_obj[$topic]->getVar("forum_id")] = 1;
-		}
-		endif;
-		*/
 		foreach($post_id as $post){
         	$post_obj =& $posts_obj[$post];
         	if(!empty($topic_id) && $topic_id!=$post_obj->getVar("topic_id")) continue;
@@ -105,10 +96,10 @@ switch($op){
 			$forums[$post_obj->getVar("forum_id")] = 1;
 		}
 		foreach(array_keys($topics) as $topic){
-			sync($topic, "topic");
+			$topic_handler->synchronization($topic);
 		}
 		foreach(array_keys($forums) as $forum){
-			sync($forum, "forum");
+			$forum_handler->synchronization($forum);
 		}
 		
 		if(empty($xoopsModuleConfig['notification_enabled'])) break;
@@ -151,10 +142,10 @@ switch($op){
 			unset($post_obj);
 		}
 		foreach(array_keys($topics) as $topic){
-			sync($topic, "topic");
+			$topic_handler->synchronization($topic);
 		}
 		foreach(array_keys($forums) as $forum){
-			sync($forum, "forum");
+			$forum_handler->synchronization($forum);
 		}
 		break;
 	case "split":
@@ -165,19 +156,19 @@ switch($op){
 		$topic_id = $post_obj->getVar("topic_id");
 		
 		$newtopic =& $topic_handler->create();
-		$newtopic->setVar("topic_title", $post_obj->getVar("subject"), false);
-		$newtopic->setVar("topic_poster", $post_obj->getVar("uid"), false);
-		$newtopic->setVar("forum_id", $post_obj->getVar("forum_id"), false);
-		$newtopic->setVar("topic_time", $post_obj->getVar("post_time"), false);
-		$newtopic->setVar("poster_name", $post_obj->getVar("poster_name"), false);
-		$newtopic->setVar("approved", 1, false);
+		$newtopic->setVar("topic_title", $post_obj->getVar("subject"), true);
+		$newtopic->setVar("topic_poster", $post_obj->getVar("uid"), true);
+		$newtopic->setVar("forum_id", $post_obj->getVar("forum_id"), true);
+		$newtopic->setVar("topic_time", $post_obj->getVar("post_time"), true);
+		$newtopic->setVar("poster_name", $post_obj->getVar("poster_name"), true);
+		$newtopic->setVar("approved", 1, true);
 		$topic_handler->insert($newtopic, true);		
 		$new_topic_id = $newtopic->getVar('topic_id');
 		
 		$pid = $post_obj->getVar("pid");
 		
-		$post_obj->setVar("topic_id", $new_topic_id, false);
-		$post_obj->setVar("pid", 0, false);
+		$post_obj->setVar("topic_id", $new_topic_id, true);
+		$post_obj->setVar("pid", 0, true);
 		$post_handler->insert($post_obj);
 		
 		/* split a single post */
@@ -220,8 +211,8 @@ switch($op){
 		}
 		
         $forum_id = $post_obj->getVar("forum_id");
-		sync($topic_id, "topic");
-		sync($new_topic_id, "topic");
+		$topic_handler->synchronization($topic_id);
+		$topic_handler->synchronization($new_topic_id);
         $sql = sprintf("UPDATE %s SET forum_topics = forum_topics+1 WHERE forum_id = %u", $xoopsDB->prefix("bb_forums"), $forum_id);
         $result = $xoopsDB->queryF($sql);
         

@@ -24,10 +24,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
 include 'header.php';
 newbb_load_lang_file("search");
 $config_handler =& xoops_gethandler('config');
@@ -210,9 +210,9 @@ foreach ($forum_array as $key => $forum) {
     }
 }
 $select_forum .= '</select>';
-$xoopsTpl->assign("forum_selection_box", $select_forum);
+$xoopsTpl->assign_by_ref("forum_selection_box", $select_forum);
 $select_since = &newbb_sinceSelectBox($xoopsModuleConfig['since_default']);
-$xoopsTpl->assign("since_selection_box", $select_since);
+$xoopsTpl->assign_by_ref("since_selection_box", $select_since);
 
 if ($xoopsConfigSearch['keyword_min'] > 0) {
 	$xoopsTpl->assign("search_rule", sprintf(_SR_KEYIGNORE, $xoopsConfigSearch['keyword_min']));

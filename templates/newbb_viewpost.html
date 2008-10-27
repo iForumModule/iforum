@@ -1,23 +1,24 @@
 
 <div id="forum_header">
-<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/index.php"><{$lang_forum_index}></a></div>
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a></div>
 
 <{if $parent_forum}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <{elseif $forum_name}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <{/if}>
 <div>&nbsp;&nbsp; <{$post_content}> <strong><{$lang_title}></strong></div>
 </div>
+<div class="clear"></div>
 
-<br style="clear:both;" />
+<br />
 
 <div style="padding: 5px;">
     <a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_NEXTTOPIC}></a>
 </div>
 
-<br style="clear:both;" />
+<br />
 <div>
 <div class="dropdown">
 <{if $menumode eq 0}>
@@ -119,8 +120,9 @@
 <{$pagenav}>
 </div>
 </div>
-<br style="clear:both;" />
-<br style="clear:both;" />
+<div class="clear"></div>
+<br />
+<br />
 
 <{if $mode gt 1}>
 <form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="javascript: if(window.document.forum_posts_admin.op.value &lt; 1){return false;}">
@@ -128,9 +130,9 @@
 
 <{foreach item=post from=$posts}>
 <{if $viewmode_compact}>
-<{include file="../modules/$xoops_dirname/templates/newbb_item.html" topic_post=$post}>
+<{include file="$newbb_template_path/newbb_item.html" topic_post=$post}>
 <{else}>
-<{include file="../modules/$xoops_dirname/templates/newbb_thread.html" topic_post=$post mode=$mode}>
+<{include file="$newbb_template_path/newbb_thread.html" topic_post=$post mode=$mode}>
 <{/if}>
 <div style="float:right;text-align:right; padding: 5px;">
 <a href="viewtopic.php?topic_id=<{$post.topic_id}>"><strong><{$smarty.const._MD_VIEWTOPIC}></strong></a>
@@ -138,8 +140,9 @@
  | <a href="viewforum.php?forum=<{$post.forum_id}>"><strong><{$smarty.const._MD_VIEWFORUM}></strong></a>
 <{/if}>
 </div>
-<br style="clear:both;" />
-<br style="clear:both;" />
+<div class="clear"></div>
+<br />
+<br />
 <{/foreach}>
 
 <{if $viewer_level gt 1}>
@@ -157,31 +160,34 @@
 </select>
 <input type="hidden" name="uid" value="<{$uid}>" /> | 
 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
-<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 </form>
 <{elseif $mode eq 1}>
-<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
-<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a>
 <{else}>
-<a href="<{$xoops_url}>/modules/newbb/viewpost.php?uid=<{$uid}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 <{/if}>
 </div>
 <{/if}>
+<div class="clear"></div>
 
-<br style="clear:both;" />
-
+<br />
+<div>
 <div style="float: left; text-align:left;">
 	<a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>
 </div>
 <div style="float: right; text-align:right;">
 <{$pagenav}>
 </div>
+</div>
+<div class="clear"></div>
 
-<br style="clear:both;" />
-<br style="clear:both;" />
-
+<br />
+<br />
+<div>
 <div style="float: left; text-align: left;">
 <form action="search.php" method="get">
 <input name="term" id="term" type="text" size="15" />
@@ -189,14 +195,17 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/newbb/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form>
 </div>
 <div style="float: right; text-align: right;">
 <{$forum_jumpbox}>
 </div>
-<br style="clear:both;" />
-<br style="clear:both;" />
+</div>
+<div class="clear"></div>
+
+<br />
+<br />
 
 <{if $online}><{include file="db:newbb_online.html"}><{/if}>
 <!-- end module contents -->
