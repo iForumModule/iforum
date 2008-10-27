@@ -2,6 +2,13 @@ CBB
 
 XOOPS Community Bulletin Board
 
+Changelog 3.08
+Jan 3rd, 2007 
+=============
+1 Bugfix for user stats (jorff, agl)
+2 Bugfix for reading new posts
+
+
 Changelog 3.07
 October 29th, 2006 
 =============

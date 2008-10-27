@@ -43,7 +43,7 @@ if(!$isadmin){
 }
 
 if(!empty($xoopsModuleConfig['rss_enable'])){
-	$xoops_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$xoopsModule->getVar('name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />';
+	$xoops_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.$xoopsModule->getVar('name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />';
 }
 $xoopsOption['xoops_module_header']= $xoops_module_header;
 $xoopsOption['template_main'] = 'newbb_viewall.html';

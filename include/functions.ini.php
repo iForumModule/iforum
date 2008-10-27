@@ -141,6 +141,9 @@ function newbb_formatTimestamp($time, $format = "c", $timeoffset = "")
 		$format = $GLOBALS["xoopsModuleConfig"]["formatTimestamp_custom"];
 	}
 	
+	load_functions("locale");
+	return XoopsLocal::formatTimestamp($time, $format, $timeoffset);
+	
 	if(class_exists("XoopsLocal") && is_callable(array("XoopsLocal", "formatTimestamp")) && defined("_TODAY")){
 		return XoopsLocal::formatTimestamp($time, $format, $timeoffset);
 	}

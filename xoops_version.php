@@ -30,7 +30,7 @@
 //  ------------------------------------------------------------------------ //
 
 $modversion['name'] = _MI_NEWBB_NAME;
-$modversion['version'] = 3.07;
+$modversion['version'] = 3.08;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
 $modversion['author'] = "D.J. (phppp)";
@@ -672,7 +672,7 @@ $modversion['config'][] = array(
 	'default' => _MI_DISCLAIMER_TEXT);
 
 $forum_options = array(_NONE => 0);
-if($isModuleAction){
+if( $isModuleAction && "update_ok" == $_POST["op"] ) {
 	$forum_handler =& xoops_getmodulehandler('forum', 'newbb', true);
 	$forums = $forum_handler->getForumsByCategory(0, '', false, array("parent_forum", "cat_id", "forum_name"));
 	if($forums):

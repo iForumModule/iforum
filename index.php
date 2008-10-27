@@ -161,7 +161,7 @@ $xoopsTpl->assign('mark_unread', "index.php?mark_read=2");
 
 $xoopsTpl->assign('all_link', "viewall.php");
 $xoopsTpl->assign('post_link', "viewpost.php");
-$xoopsTpl->assign('newpost_link', "viewpost.php?new=1");
+$xoopsTpl->assign('newpost_link', "viewpost.php?type=new");
 $xoopsTpl->assign('digest_link', "viewall.php?type=digest");
 $xoopsTpl->assign('unreplied_link', "viewall.php?type=unreplied");
 $xoopsTpl->assign('unread_link', "viewall.php?type=unread");

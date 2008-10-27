@@ -198,7 +198,7 @@ $xoopsTpl->assign('mark_read', $mark_read_link);
 $xoopsTpl->assign('mark_unread', $mark_unread_link);
 
 $xoopsTpl->assign('post_link', "viewpost.php?forum=".$forum_obj->getVar('forum_id'));
-$xoopsTpl->assign('newpost_link', "viewpost.php?new=1&amp;forum=".$forum_obj->getVar('forum_id'));
+$xoopsTpl->assign('newpost_link', "viewpost.php?type=new&amp;forum=".$forum_obj->getVar('forum_id'));
 $xoopsTpl->assign('all_link', "viewforum.php?start=$start&amp;forum=".$forum_obj->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since");
 $xoopsTpl->assign('digest_link', "viewforum.php?start=$start&amp;forum=".$forum_obj->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=digest");
 $xoopsTpl->assign('unreplied_link', "viewforum.php?start=$start&amp;forum=".$forum_obj->getVar('forum_id')."&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since&amp;type=unreplied");

@@ -125,7 +125,7 @@ $editor_configs["rows"] = empty($xoopsModuleConfig["editor_rows"])? 35 : $xoopsM
 $editor_configs["cols"] = empty($xoopsModuleConfig["editor_cols"])? 60 : $xoopsModuleConfig["editor_cols"];
 $editor_configs["width"] = empty($xoopsModuleConfig["editor_width"])? "100%" : $xoopsModuleConfig["editor_width"];
 $editor_configs["height"] = empty($xoopsModuleConfig["editor_height"])? "400px" : $xoopsModuleConfig["editor_height"];
-$forum_form->addElement(new XoopsFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure=null), true);
+$forum_form->addElement(new XoopsFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure=null));
 
 $options_tray = new XoopsFormElementTray(_MD_OPTIONS, '<br />');
 if (is_object($xoopsUser) && $xoopsModuleConfig['allow_user_anonymous'] == 1) {

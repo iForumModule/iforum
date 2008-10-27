@@ -4,7 +4,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
 
-if(!@include_once (XOOPS_ROOT_PATH."/Frameworks/xoops22/class/xoopsformloader.php")){
+if(!@include_once XOOPS_ROOT_PATH."/Frameworks/xoops22/class/xoopsformloader.php"){
 	include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
 }
 ?>

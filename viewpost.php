@@ -57,8 +57,7 @@ if($mode){
 if(empty($forum_id)){
 	$forums = $forum_handler->getForums(0, "view");
 	$access_forums = array_keys($forums);
-}
-else{
+}else{
 	$forum_obj =& $forum_handler->get($forum_id);
 	$forums[$forum_id] =& $forum_obj;
 	$access_forums = array($forum_id);

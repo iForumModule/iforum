@@ -424,7 +424,7 @@ define("_MD_VIEWNEWPOSTS","查看新帖子");
 
 define("_MD_INVALID_SUBMIT","无效提交。可能系统session失效或是超过系统规定的时间而退出, 请重新提交或保存帖子的内容并重新登陆提交。");
 
-define("_MD_ACCOUNT","账号");
+define("_MD_ACCOUNT","帐号");
 define("_MD_NAME","用户名");
 define("_MD_PASSWORD","密码");
 define("_MD_LOGIN","登录");
@@ -443,7 +443,7 @@ define("_MD_TYPE_ADMIN","管理");
 define("_MD_TYPE_VIEW","浏览");
 define("_MD_TYPE_PENDING","待审核");
 define("_MD_TYPE_DELETED","垃圾站");
-define("_MD_TYPE_SUSPEND","封禁账号");
+define("_MD_TYPE_SUSPEND","封禁帐号");
 
 define("_MD_DBUPDATED","数据已成功更新!");
 
@@ -458,7 +458,7 @@ define("_MD_SUSPEND_START", "起始");
 define("_MD_SUSPEND_EXPIRE", "截止");
 define("_MD_SUSPEND_SCOPE", "范围");
 define("_MD_SUSPEND_MANAGEMENT", "用户监视管理");
-define("_MD_SUSPEND_NOACCESS", "你的账号或IP已被禁止发言");
+define("_MD_SUSPEND_NOACCESS", "你的帐号或IP已被禁止发言");
 
 // !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
 // insert double '\' before 't', 'r', 'n'

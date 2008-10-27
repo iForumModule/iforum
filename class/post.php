@@ -549,12 +549,16 @@ class NewbbPostHandler extends ArtObjectHandler
 	        $forum_obj->setVar("forum_topics", $forum_obj->getVar("forum_topics")+1);
         }
         $forum_handler->insert($forum_obj, true);
-        $member_handler =& xoops_gethandler('member');
-        $poster =& $member_handler->getUser($post->getVar('uid'));
-        if (is_object($poster)) {
-	        $poster->setVar('posts',$poster->getVar('posts') + 1);
-	        $res=$member_handler->insertUser($poster, true);
-            unset($poster);
+        
+        // Update user stats
+        if($post->getVar('uid') > 0) {
+	        $member_handler =& xoops_gethandler('member');
+	        $poster =& $member_handler->getUser($post->getVar('uid'));
+	        if (is_object($poster) && $post->getVar('uid') == $poster->getVar("uid")) {
+		        $poster->setVar('posts', $poster->getVar('posts') + 1);
+		        $res = $member_handler->insertUser($poster, true);
+	            unset($poster);
+	        }
         }
 
         return true;
@@ -780,18 +784,22 @@ class NewbbPostHandler extends ArtObjectHandler
             }
         }
 
-        if( $postcount_toupdate>0 ){
-	        $member_handler = &xoops_gethandler('member');
-	        $poster = &$member_handler->getUser($post->getVar('uid'));
-	        if (is_object($poster)) {
-		        $poster->setVar('posts',$poster->getVar('posts') - 1);
-		        $res=$member_handler->insertUser($poster, true);
-	            unset($poster);
+        if( $postcount_toupdate > 0 ){
+        
+	        // Update user stats
+	        if($post->getVar('uid') > 0) {
+		        $member_handler =& xoops_gethandler('member');
+		        $poster =& $member_handler->getUser($post->getVar('uid'));
+		        if (is_object($poster) && $post->getVar('uid') == $poster->getVar("uid")) {
+			        $poster->setVar('posts', $poster->getVar('posts') - 1);
+			        $res = $member_handler->insertUser($poster, true);
+		            unset($poster);
+		        }
 	        }
 	
 	        $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET pid = " . $post->getVar('pid') . " WHERE pid=" . $post->getVar('post_id');
 	        if (!$result = $this->db->queryF($sql)) {
-	            newbb_message("Could not update post: " . $sql);
+	            //xoops_error($this->db->error());
 	        }
         }
 

@@ -30,7 +30,7 @@
 // ------------------------------------------------------------------------- //
 include 'admin_header.php';
 include XOOPS_ROOT_PATH . "/class/xoopstree.php";
-include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
+//include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
 
 $op = '';
 $confirm = '';
@@ -59,12 +59,12 @@ function newForum($parent_forum = 0)
  * @param integer $catid
  * @return
  */
-function editForum($ff = null, $parent_forum = 0)
+function editForum($ff, $parent_forum = 0)
 {
-    global $myts, $xoopsDB, $xoopsModule;;
+    global $myts, $xoopsDB, $xoopsModule, $forum_handler;
 
-    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
-    if ($ff == null) {
+    //$forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+    if (!is_object($ff)) {
         $ff =& $forum_handler->create();
         $new = true;
         $forum = 0;
@@ -78,7 +78,7 @@ function editForum($ff = null, $parent_forum = 0)
 
     $mytree = new XoopsTree($xoopsDB->prefix("bb_categories"), "cat_id", "0");
 
-	include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+	require_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
     if ($forum) {
         $sform = new XoopsThemeForm(_AM_NEWBB_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
     } else {
@@ -142,7 +142,9 @@ function editForum($ff = null, $parent_forum = 0)
     $sform->addElement($allowattach_radio);
     */
     $sform->addElement(new XoopsFormText(_AM_NEWBB_ATTACHMENT_SIZE, 'attach_maxkb', 5, 10, $ff->getVar('attach_maxkb')), true);
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_ALLOWED_EXTENSIONS, 'attach_ext', 50, 512, $ff->getVar('attach_ext')), true);
+    //$sform->addElement(new XoopsFormText(_AM_NEWBB_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ff->getVar('attach_ext')), true);
+    $ext = $ff->getVar('attach_ext');
+    $sform->addElement(new XoopsFormText(_AM_NEWBB_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ext), true);
    	$sform->addElement(new XoopsFormSelectUser(_AM_NEWBB_MODERATOR, 'forum_moderator', false, $ff->getVar("forum_moderator"), 5, true));
 
     $perm_tray = new XoopsFormElementTray(_AM_NEWBB_PERMISSIONS_TO_THIS_FORUM, '');
