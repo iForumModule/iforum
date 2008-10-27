@@ -17,11 +17,12 @@ if (!defined("XOOPS_ROOT_PATH") || !is_object($xoopsModule)) {
 	exit();
 }
 
-if(!@include_once dirname(__FILE__)."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname").".php"){
-	if(!@include_once XOOPS_ROOT_PATH."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/include/transfer.inc.php"){
+if (!@include_once dirname(__FILE__)."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname").".php") {
+	if (!@include_once XOOPS_ROOT_PATH."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/include/plugin.transfer.php") {
 		return null;
 	}
 }
+
 $transfer_handler = new ModuleTransferHandler();
 $ret = $transfer_handler->do_transfer($op, $data);
 

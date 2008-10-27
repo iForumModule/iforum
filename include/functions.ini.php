@@ -59,8 +59,12 @@ function &newbb_load_config()
 		return $moduleConfig;
 	}
 	
-    if(isset($GLOBALS["xoopsModule"]) && is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname") == "newbb"){
-	    $moduleConfig =& $GLOBALS["xoopsModuleConfig"];
+    if(isset($GLOBALS["xoopsModule"]) && is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname", "n") == "newbb"){
+	    if(!empty($GLOBALS["xoopsModuleConfig"])) {
+		    $moduleConfig =& $GLOBALS["xoopsModuleConfig"];
+	    }else{
+		    return null;
+	    }
     }else{
 		$module_handler = &xoops_gethandler('module');
 		$module = $module_handler->getByDirname("newbb");

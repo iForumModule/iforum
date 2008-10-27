@@ -31,6 +31,7 @@
 if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 
 $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
@@ -211,9 +212,8 @@ newbb_setsession("LV", $last_visit);
 */
 
 // include customized variables
-// include customized variables
-if($customConfig = @include(XOOPS_ROOT_PATH."/modules/newbb/include/plugin.php")){
-	$GLOBALS["xoopsModuleConfig"] = array_merge($GLOBALS["xoopsModuleConfig"], $customConfig);
+if( is_object($GLOBALS["xoopsModule"]) && "newbb" == $GLOBALS["xoopsModule"]->getVar("dirname", "n") ) {
+	$GLOBALS["xoopsModuleConfig"] = newbb_load_config();
 }
 
 newbb_load_object();

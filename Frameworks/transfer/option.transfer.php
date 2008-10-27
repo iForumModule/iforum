@@ -17,7 +17,11 @@ if (!defined("XOOPS_ROOT_PATH") || !is_object($xoopsModule)) {
 	exit();
 }
 
-require_once dirname(__FILE__)."/modules/".$xoopsModule->getVar("dirname").".php";
+if (!@include_once dirname(__FILE__)."/modules/".$xoopsModule->getVar("dirname").".php") {
+	if (!@include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/plugin.transfer.php") {
+		die("No plugin available");
+	}
+}
 $transfer_handler = new ModuleTransferHandler();
 $op_options	= $transfer_handler->getList();
 

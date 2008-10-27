@@ -1,0 +1,15 @@
+XOOPS Frameworks Package Changelog
+
+
+============================
+2007/11/11: 1.22
+============================
+1 Added Youtube plugin
+
+
+============================
+2007/09/14: 1.21
+============================
+1 Start making changelog
+2 Fixed a bug in module.sanitizer.php that caused bbcode parse failure (phppp/Bandit-X)
+3 Prepare for 1.21 release

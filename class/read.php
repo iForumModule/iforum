@@ -33,7 +33,7 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 /**
@@ -47,12 +47,9 @@ newbb_load_object();
 
 class Read extends ArtObject 
 {
-    var $table;
-
     function Read($type)
     {
-        $this->ArtObject();
-        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_reads_".$type);
+        $this->ArtObject("bb_reads_".$type);
         $this->initVar('read_id', XOBJ_DTYPE_INT);
         $this->initVar('uid', XOBJ_DTYPE_INT);
         $this->initVar('read_item', XOBJ_DTYPE_INT);
@@ -100,12 +97,12 @@ class NewbbReadHandler extends ArtObjectHandler
 	var $mode;
 	
     function NewbbReadHandler(&$db, $type) {
-	    $type = ("forum" == $type)?"forum":"topic";
+	    $type = ("forum" == $type) ? "forum" : "topic";
         $this->ArtObjectHandler($db, 'bb_reads_'.$type, 'Read'.$type, 'read_id', 'post_id');
         $this->type = $type;
 	    $newbbConfig = newbb_load_config();
-        $this->lifetime = isset($newbbConfig["read_expire"])?$newbbConfig["read_expire"] *24*3600 : 30*24*3600;
-        $this->mode = isset($newbbConfig["read_mode"])?$newbbConfig["read_mode"]:2;
+        $this->lifetime = !empty($newbbConfig["read_expire"]) ? $newbbConfig["read_expire"] *24*3600 : 30*24*3600;
+        $this->mode = isset($newbbConfig["read_mode"]) ? $newbbConfig["read_mode"] : 2;
     }
 
     /**
@@ -119,7 +116,7 @@ class NewbbReadHandler extends ArtObjectHandler
         $this->db->queryF($sql);
 	    
     	/* for MySQL 4.1+ */
-    	if($this->mysql_client_version() >= 4):
+    	if($this->mysql_major_version() >= 4):
         $sql = 	"DELETE bb FROM ".$this->table." AS bb".
         		" LEFT JOIN ".$this->table." AS aa ON bb.read_item = aa.read_item ".
         		" WHERE aa.post_id > bb.post_id";
@@ -130,7 +127,7 @@ class NewbbReadHandler extends ArtObjectHandler
         		" WHERE aa.post_id > ".$this->table.".post_id";
 		endif;
         if (!$result = $this->db->queryF($sql)) {
-	        newbb_message("cleanOrphan:". $sql);
+            xoops_error($this->db->error());
             return false;
         }
         return true;
@@ -180,8 +177,8 @@ class NewbbReadHandler extends ArtObjectHandler
         
     function setRead_cookie($read_item, $post_id)
     {
-	    $cookie_name = ($this->type == "forum")?"LF":"LT";
-		$lastview = newbb_getcookie($cookie_name,true);
+	    $cookie_name = ($this->type == "forum") ? "LF" : "LT";
+		$lastview = newbb_getcookie($cookie_name, true);
 		$lastview[$read_item] = time();
 		newbb_setcookie($cookie_name, $lastview);
     }
@@ -237,6 +234,8 @@ class NewbbReadHandler extends ArtObjectHandler
     function isRead_items_db(&$items, $uid)
     {
 	    $ret = array();
+	    if(empty($items)) return $ret;
+	    
 	    if(empty($uid)){
 		    if(is_object($GLOBALS["xoopsUser"])){
 			    $uid = $GLOBALS["xoopsUser"]->getVar("uid");

@@ -25,8 +25,6 @@ class transfer_pdf extends Transfer
 	{
 		eval(parent::do_transfer());
 	
-		//$_GET["article"] = $data["id"];
-		//$_GET["page"] = $data["page"];
 		global $pdf_data;
 		
 		$pdf_data["title"] = $data["title"];
@@ -35,12 +33,8 @@ class transfer_pdf extends Transfer
 		$pdf_data["date"] = $data["date"];
 		$pdf_data["content"] = $data["content"];
 		$pdf_data["url"] = $data["url"];
-		//$hiddens["pdf_data"] = base64_encode(serialize($pdf_data));
 			
-		//include XOOPS_ROOT_PATH."/header.php";
-		//xoops_confirm($hiddens, XOOPS_URL."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/pdf.php", $this->config["title"]);
-		include XOOPS_ROOT_PATH."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/pdf.php";
-		//include XOOPS_ROOT_PATH."/footer.php";
+		include XOOPS_ROOT_PATH."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname", "n")."/pdf.php";
 		exit();
 	}
 }

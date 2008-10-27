@@ -195,25 +195,28 @@ switch($action){
         $newbbperm_handler = &xoops_getmodulehandler('permission', 'newbb');
         $perm_template = $newbbperm_handler->getTemplate($groupid = 0);
         foreach (array_keys($glist) as $i) {
-            $selected = !empty($perm_template[$i])?array_keys($perm_template[$i]):array();
+            $selected = !empty($perm_template[$i]) ? array_keys($perm_template[$i]) : array();
             $ret_ele  = '<tr align="left" valign="top"><td class="head">'.$glist[$i].'</td>';
 			$ret_ele .= '<td class="even">';
 			$ret_ele .= '<table class="outer"><tr><td class="odd"><table><tr>';
 			$ii = 0;
+			$option_ids = array();
 			foreach ($perms as $perm) {
 				$ii++;
-				if($ii%5==0){
+				if($ii % 5 ==0 ){
 					$ret_ele .= '</tr><tr>';
 				}
 				$checked = in_array("forum_".$perm, $selected)?" checked='checked'":"";
-				$ret_ele .='<td><input name="perms['.$i.']['."forum_".$perm.']" id="perms['.$i.']" onclick="" value="1" type="checkbox"'.$checked.'>'.CONSTANT("_AM_NEWBB_CAN_".strtoupper($perm)).'<br></td>';
+				$option_id = $perm.'_'.$i;
+				$option_ids[] = $option_id;
+				$ret_ele .='<td><input name="perms['.$i.']['."forum_".$perm.']" id="'.$option_id.'" onclick="" value="1" type="checkbox"'.$checked.'>'.CONSTANT("_AM_NEWBB_CAN_".strtoupper($perm)).'<br></td>';
 			}
 			$ret_ele .= '</tr></table></td><td class="even">';
-			$ret_ele .= _ALL.' <input id="checkall['.$i.']" type="checkbox" value="" onclick="xoopsCheckGroup(\'template\', \'checkall['.$i.']\', \'perms['.$i.']\')" />';
+			$ret_ele .= _ALL.' <input id="checkall['.$i.']" type="checkbox" value="" onclick="var optionids = new Array('.implode(", ", $option_ids).'); xoopsCheckAllElements(optionids, \'checkall['.$i.']\')" />';
 			$ret_ele .= '</td></tr></table>';
 			$ret_ele .= '</td></tr>';
             $elements[] = $ret_ele;
-        } 
+        }
         $tray = new XoopsFormElementTray('');
         $tray->addElement(new XoopsFormHidden('action', 'template_save'));
         $tray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));

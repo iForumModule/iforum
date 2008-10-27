@@ -33,15 +33,14 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Category extends ArtObject {
-    var $table;
 
     function Category()
     {
-        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_categories");
+	    $this->ArtObject("bb_categories");
         $this->initVar('cat_id', XOBJ_DTYPE_INT);
         $this->initVar('pid', XOBJ_DTYPE_INT, 0);
         $this->initVar('cat_title', XOBJ_DTYPE_TXTBOX);

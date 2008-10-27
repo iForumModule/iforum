@@ -17,8 +17,8 @@ if (!defined("XOOPS_ROOT_PATH") || !is_object($GLOBALS["xoopsModule"])) {
 	return null;
 }
 
-if(!@include_once dirname(__FILE__)."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname").".php"){
-	if(!@include_once XOOPS_ROOT_PATH."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/include/transfer.inc.php"){
+if (!@include_once dirname(__FILE__)."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname").".php") {
+	if (!@include_once XOOPS_ROOT_PATH."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/include/plugin.transfer.php") {
 		return null;
 	}
 }

@@ -34,6 +34,8 @@
  * phppp
  */
 
+die("Sorry, we are not ready yet!<br />If you have any suggestion, plz contact php_pp@hotmail.com");
+
 include_once("header.php");
 include XOOPS_ROOT_PATH."/header.php";
 $forum = isset($_GET['forum']) ? intval($_GET['forum']) : 0;

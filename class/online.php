@@ -152,9 +152,9 @@ class NewbbOnlineHandler
 
     	$uid = intval($uid);
         if ($uid > 0) {
-            $sql = "SELECT COUNT(*) FROM " . $this->table = $GLOBALS["xoopsDB"]->prefix('bb_online') . " WHERE online_uid=" . $uid;
+            $sql = "SELECT COUNT(*) FROM " . $GLOBALS["xoopsDB"]->prefix('bb_online') . " WHERE online_uid=" . $uid;
         } else {
-            $sql = "SELECT COUNT(*) FROM " . $this->table = $GLOBALS["xoopsDB"]->prefix('bb_online') . " WHERE online_uid=" . $uid . " AND online_ip='" . $ip . "'";
+            $sql = "SELECT COUNT(*) FROM " . $GLOBALS["xoopsDB"]->prefix('bb_online') . " WHERE online_uid=" . $uid . " AND online_ip='" . $ip . "'";
         }
 		list($count) = $GLOBALS["xoopsDB"]->fetchRow($GLOBALS["xoopsDB"]->queryF($sql));
         if ($count > 0) {
@@ -238,8 +238,8 @@ class NewbbOnlineHandler
             return false;
         }
         while ($myrow = $GLOBALS["xoopsDB"]->fetchArray($result)) {
-            $ret[] = &$myrow;
-            if($myrow["online_uid"]>0){
+            $ret[] = $myrow;
+            if( $myrow["online_uid"] > 0 ){
             	$this->user_ids[] = $myrow["online_uid"];
         	}
             unset($myrow);

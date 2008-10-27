@@ -28,7 +28,12 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
-/* use hardcoded DB query to save queries */
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
+
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 function newbb_getGroupsByUser($uid)
 {
 	global $xoopsDB;	
@@ -258,7 +263,9 @@ class NewbbUserHandler extends XoopsObjectHandler
     function &get($uid)
     {
 	    global $xoopsModuleConfig, $forumImage;
-        if(!isset($this->users[$uid])) return false;
+	    $userinfo = array();
+	    
+        if(!isset($this->users[$uid])) return $userinfo;
         if(class_exists("User_language")){
         	$user = new User_language($this->users[$uid]);
     	}else{

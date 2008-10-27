@@ -33,15 +33,14 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Forum extends ArtObject {
-    var $table;
 
     function Forum()
     {
-        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_forums");
+	    $this->ArtObject("bb_forums");
         $this->initVar('forum_id', XOBJ_DTYPE_INT);
         $this->initVar('forum_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('forum_desc', XOBJ_DTYPE_TXTAREA);
@@ -614,7 +613,7 @@ class NewbbForumHandler extends ArtObjectHandler
     {
 	    parent::cleanOrphan($this->db->prefix("bb_categories"), "cat_id");
 	    
-    	if($this->mysql_client_version() >= 4):
+    	if($this->mysql_major_version() >= 4):
     	/*
         $sql = "DELETE FROM ".$this->table.
         		" WHERE (parent_forum >0 AND parent_forum NOT IN ( SELECT DISTINCT forum_id FROM ".$this->table.") )";
@@ -626,9 +625,9 @@ class NewbbForumHandler extends ArtObjectHandler
 	        xoops_error("cleanOrphan error:". $sql);
         endif;
         else:
-        $this->_setVar("identifierName", "parent_forum");
+        $this->identifierName = "parent_forum";
         $forum_list = $this->getList(new Criteria("parent_forum", 0, ">"));
-        $this->_setVar("identifierName", "forum_name");
+        $this->identifierName = "forum_name";
         if($parent_forums = @array_values($forum_list)){
 	        $parent_list = $this->getIds(new Criteria("forum_id", "(".implode(", ", $parent_forums).")", "IN"));
 	        foreach($forum_list as $forum_id => $parent_forum){
@@ -649,7 +648,7 @@ class NewbbForumHandler extends ArtObjectHandler
 	    
 	    if(empty($object)) {
 	    	/* for MySQL 4.1+ */
-	    	if($this->mysql_client_version() >= 4){
+	    	if($this->mysql_major_version() >= 4){
 	        $sql = "UPDATE ".$this->table.
 	        		" SET ".$this->table.".forum_last_post_id = @last_post =(".
 	        		"	SELECT MAX(post_id) AS last_post ".

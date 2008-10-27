@@ -9,7 +9,7 @@
  * @version		$Id$
  * @package		Frameworks::art
  */
-if(!defined("FRAMEWORKS_ART_FUNCTIONS_SANITIZER")):
+if (!defined("FRAMEWORKS_ART_FUNCTIONS_SANITIZER")):
 define("FRAMEWORKS_ART_FUNCTIONS_SANITIZER", true);
 
 /* 
@@ -24,25 +24,25 @@ function text_filter(&$text, $force = false)
 {
 	global $xoopsUser, $xoopsConfig, $xoopsUserIsAdmin;
 	
-	if(empty($force) && $xoopsUserIsAdmin){
+	if (empty($force) && $xoopsUserIsAdmin) {
 		return $text;
 	}
 	
-	if(include_once dirname(dirname(__FILE__))."/PEAR/HTML/Safe.php") {
+	if (@include_once dirname(dirname(__FILE__))."/PEAR/HTML/Safe.php") {
 		 $safehtml =& new HTML_Safe();
 		 $text = $safehtml->parse($text);
 		 return $text;
 	}
 	
 	// For future applications
-	$tags = empty($xoopsConfig["filter_tags"])? array() : explode(",", $xoopsConfig["filter_tags"]);
+	$tags = empty($xoopsConfig["filter_tags"]) ? array() : explode(",", $xoopsConfig["filter_tags"]);
 	$tags = array_map("trim", $tags);
 	
 	// Set embedded tags
 	$tags[] = "SCRIPT";
 	$tags[] = "VBSCRIPT";
 	$tags[] = "JAVASCRIPT";
-	foreach($tags as $tag){
+	foreach ($tags as $tag) {
 		$search[] = "/<".$tag."[^>]*?>.*?<\/".$tag.">/si";
 		$replace[] = " [!".strtoupper($tag)." FILTERED!] ";
 	}

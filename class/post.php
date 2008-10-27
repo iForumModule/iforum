@@ -33,13 +33,13 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Post extends ArtObject {
     var $attachment_array = array();
 
-    function Post($id = null)
+    function Post()
     {
         $this->initVar('post_id', XOBJ_DTYPE_INT);
         $this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
@@ -612,7 +612,7 @@ class NewbbPostHandler extends ArtObjectHandler
                 
                 $pid = 0;
 	            $post->setVar("pid", 0);
-            }elseif(empty($pid)){
+            }elseif(!$post->getVar("pid")){
 	            $pid = $topic_handler->getTopPostId($topic_id);
 	            $post->setVar("pid", $pid);
             }
@@ -626,7 +626,6 @@ class NewbbPostHandler extends ArtObjectHandler
                 return false;
             }
             $text_obj->setVar("post_id", $post_id);
-            $text_handler->insert($text_obj, $force);
             if (!$text_handler->insert($text_obj, $force)) {
 	            $this->delete($post);
                 $post->setErrors("post text insert error");
@@ -847,7 +846,7 @@ class NewbbPostHandler extends ArtObjectHandler
 	    parent::cleanOrphan($this->db->prefix("bb_posts_text"), "post_id");
 	    
     	/* for MySQL 4.1+ */
-    	if($this->mysql_client_version() >= 4):
+    	if($this->mysql_major_version() >= 4):
         $sql = "DELETE FROM ".$this->db->prefix("bb_posts_text").
         		" WHERE (post_id NOT IN ( SELECT DISTINCT post_id FROM ".$this->table.") )";
         else:

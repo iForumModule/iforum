@@ -32,6 +32,7 @@
 include_once("header.php");
 include_once XOOPS_ROOT_PATH.'/class/template.php';
 error_reporting(0);
+$xoopsLogger->activated = false;
 
 	$forums = null;
 	$category = empty($_GET["c"])?null:intval($_GET["c"]);

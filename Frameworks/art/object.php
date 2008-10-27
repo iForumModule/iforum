@@ -14,20 +14,18 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once (dirname(__FILE__)."/functions.ini.php");
-
 load_objectHandler("persistable");
-//class_exists("_XoopsPersistableObjectHandler") || require_once dirname(__FILE__)."/object.persistable.php";
 
-if(!class_exists("ArtObject")):
+if (!class_exists("ArtObject")):
 
 /**
- * Article Object
+ * Art Object
  * 
  * @author D.J. (phppp)
  * @copyright copyright &copy; 2005 XoopsForge.com
  * @package module::article
  *
- * {@link XoopsObject} 
+ * {@link _XoopsPersistableObject} 
  **/
 
 class ArtObject extends _XoopsPersistableObject
@@ -68,7 +66,7 @@ class ArtObject extends _XoopsPersistableObject
     function _loadFilters()
     {
 	    static $loaded;
-	    if(!isset($loaded)) return;
+	    if (!isset($loaded)) return;
 	    $loaded = 1;
 	    
 	    $path = empty($this->plugin_path) ? dirname(__FILE__).'/filters' : $this->plugin_path;
@@ -102,13 +100,13 @@ class ArtObject extends _XoopsPersistableObject
 }
 
 /**
-* Article object handler class.  
+* object handler class.  
 * @package module::article
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
 *
-* {@link XoopsPersistableObjectHandler} 
+* {@link _XoopsPersistableObjectHandler} 
 *
 */
 
@@ -135,26 +133,16 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	 *
 	 * @param object $db reference to the {@link XoopsDatabase} object	 
 	 **/
-    function ArtObjectHandler(&$db, $table, $className, $keyName, $identifierName = false) {
+    function ArtObjectHandler(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
 	    $table = $db->prefix($table);
         $this->_XoopsPersistableObjectHandler( $db, $table, $className, $keyName, $identifierName );
     }
     
     function _loadHandler($name, $params = array()) {
-	    if( !isset($this->_handler[$name]) ) {
+	    if ( !isset($this->_handler[$name]) ) {
 		    load_objectHandler($name);
-		    //require_once dirname(__FILE__)."/object.{$name}.php";
 		    $className = "ArtObject".ucfirst($name)."Handler";
-	        $this->_handler[$name] =& new $className(
-	        					$this->db, 
-	        					$this->table, 
-	        					$this->className, 
-	        					$this->keyName, 
-	        					$this->identifierName);
-	    }
-	    if(!$params) return;
-        foreach( $params as $key) {
-	    	$this->_handler[$name]->{$key} = $this->{$key};
+	        $this->_handler[$name] =& new $className($this);
         }
     }
     
@@ -228,22 +216,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	    $ret = $this->_handler["render"]->getIds($criteria);
 	    return $ret;
 	}
-    
-    /**
-     * get objects matching a condition
-     * 
-     * @param object	$criteria {@link CriteriaElement} to match
-     * @param array		$tags 	variables to fetch
-     * @param bool		$asObject 	flag indicating as object, otherwise as array
-     * @return array of articles {@link Article}
-     */
-    function &getAll($criteria = null, $tags = null, $asObject = true)
-    {
-	    $this->_loadHandler("render");
-	    $ret = $this->_handler["render"]->getAll($criteria, $tags, $asObject);
-	    return $ret;
-    }
-
+	
     /**
      * get a limited list of objects matching a condition
      * 
@@ -254,7 +227,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
      * @param object	$criteria 	{@link CriteriaElement} to match
      * @param array		$tags 		variables to fetch
      * @param bool		$asObject 	flag indicating as object, otherwise as array
-     * @return array of objects 	{@link Object}
+     * @return array of objects 	{@link ArtObject}
      */
    	function &getByLimit($limit=0, $start = 0, $criteria = null, $tags = null, $asObject=true)
    	{
@@ -325,7 +298,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
      * @param 	object	$criteria 	{@link CriteriaElement} to match
      * @param 	array	$tags 		variables to fetch
      * @param 	bool	$asObject 	flag indicating as object, otherwise as array
-     * @return 	array of articles {@link Barticle}
+     * @return 	array of articles {@link ArtObject}
      */
    	function &getByLink($criteria = null, $tags = null, $asObject = true, $field_link = null, $field_object = null)
     {
@@ -338,7 +311,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
      * count objects matching a condition of a category (categories)
      * 
      * @param object $criteria {@link CriteriaElement} to match
-     * @return int count of articles
+     * @return int count of objects
      */
    	function getCountByLink($criteria = null)
     {

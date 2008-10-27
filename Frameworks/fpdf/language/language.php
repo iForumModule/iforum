@@ -16,7 +16,7 @@ if (!defined('FPDF_PATH')){ exit(); }
 global $pdf_config;
 
 // Valid PDF charset
-$pdf_config['charset']	= 'ISO-8859-1';
+$pdf_config['charset']	= defined('FPDF_CHARSET_XOOPS') ? FPDF_CHARSET_XOOPS : 'ISO-8859-1';
 
 // Language definitios
 $pdf_config['constant']	= array(
@@ -100,9 +100,13 @@ $pdf_config['scale'] 			= '0.8';
 $pdf_config['dateformat'] 		= _DATESTRING;
 $pdf_config['footerpage'] 		= "Page %s";
 
-if(class_exists("FPDF_local")){
+if( class_exists("FPDF_local") ){
 	class FPDF_XOOPS extends FPDF_local{}
+}elseif( "utf-8" == strtolower($pdf_config['charset']) ){
+	require_once FPDF_PATH.'/ufpdf.php';
+	class FPDF_XOOPS extends UFPDF{}
 }else{
+	require_once FPDF_PATH.'/fpdf.php';
 	class FPDF_XOOPS extends FPDF{}
 }
 
@@ -112,8 +116,10 @@ class _PDF_language extends FPDF_XOOPS
 {
 	var $out_charset;
 	
-	function _PDF_language()
+	function _PDF_language($orientation='P', $unit='mm', $format='A4')
 	{
+	    //Call parent constructor
+	    $this->FPDF($orientation, $unit, $format);
 		$this->out_charset = $GLOBALS['pdf_config']['charset'];
 	}
 

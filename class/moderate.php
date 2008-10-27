@@ -33,7 +33,7 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 /**
@@ -46,12 +46,10 @@ newbb_load_object();
  */
 
 class Moderate extends ArtObject {
-    var $table;
 
     function Moderate()
     {
-        $this->db = &Database::getInstance();
-        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_moderates");
+	    $this->ArtObject("bb_moderates");
         $this->initVar('mod_id', XOBJ_DTYPE_INT);
         $this->initVar('mod_start', XOBJ_DTYPE_INT);
         $this->initVar('mod_end', XOBJ_DTYPE_INT);
@@ -198,7 +196,7 @@ class NewbbModerateHandler extends ArtObjectHandler
     function cleanOrphan()
     {
     	/* for MySQL 4.1+ */
-    	if($this->mysql_client_version() >= 4):
+    	if($this->mysql_major_version() >= 4):
         $sql = "DELETE FROM ".$this->table.
         		" WHERE (forum_id >0 AND forum_id NOT IN ( SELECT DISTINCT forum_id FROM ".$this->db->prefix("bb_forums").") )";
         else:

@@ -15,6 +15,6 @@
  
 define("_MD_TRANSFER", "Toolkit");
 define("_MD_TRANSFER_DESC", "Forward to other applications");
-define("_MD_TRANSFER_DONE", "The operation successed");
+define("_MD_TRANSFER_DONE", "The operation succeed");
 define("_MD_TRANSFER_MORE", "More options");
 ?>

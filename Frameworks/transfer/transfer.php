@@ -17,25 +17,29 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 define("TRANSFER_ROOT_PATH", dirname(__FILE__));
+defined("FRAMEWORKS_ART_FUNCTIONS_INI") || require_once(XOOPS_ROOT_PATH."/Frameworks/art/functions.ini.php");
 
 function transfer_load_language($path, $language, $charset)
 {
 	if ( DIRECTORY_SEPARATOR != "/" ) $path = str_replace( strpos( $path, "\\\\", 2 ) ? "\\\\" : DIRECTORY_SEPARATOR, "/", $path);
-	$file = $path.'/'.$language.'_'.strtolower(str_replace('-', '_', $charset)).'.php';
-	if(@include_once($file)){
+	if (@include_once($path.'/'.$language.'.php')) {
 		return true;
 	}
-	if(@include_once($path.'/'.$language.'.php')){
+	$file = $path.'/'.strtolower($language.'_'.str_replace('-', '', $charset)).'.php';
+	if (@include_once($file)) {
 		return true;
 	}
-	if(@include_once($path.'/english.php')){
+	if (@include_once($path.'/'.$language.'.php')) {
+		return true;
+	}
+	if (@include_once($path.'/english.php')) {
 		return true;
 	}
 	xoops_error("No Language File: {$path} - {$language} - {$charset}");
 	return false;
 }
 
-if(!class_exists("Transfer")):
+if (!class_exists("Transfer")):
 class Transfer
 {
 	var $name;
@@ -43,9 +47,9 @@ class Transfer
 	
     function Transfer($item, $language = null)
     {
-	    $this->name = strtolower(empty($item)? get_class($this) : $item);
+	    $this->name = strtolower( empty($item) ? get_class($this) : $item );
 		$this->load_language($this->name, $language);
-		$this->config = require(TRANSFER_ROOT_PATH."/plugin/".$this->name."/config.php");
+		$this->config = require TRANSFER_ROOT_PATH."/plugin/".$this->name."/config.php";
     }
     
     /**
@@ -64,11 +68,11 @@ class Transfer
      */
     function load_language($item = null, $language = "", $path = "", $charset = _CHARSET)
     {
-	    $item = strtolower(empty($item)? get_class($this) : $item);
+	    $item = strtolower( empty($item) ? get_class($this) : $item );
 	    
-		$path = empty($path)? TRANSFER_ROOT_PATH."/plugin/{$item}/language" : $path;
+		$path = empty($path) ? TRANSFER_ROOT_PATH."/plugin/{$item}/language" : $path;
 		
-		$language = empty($language)? $GLOBALS["xoopsConfig"]["language"] : $language;
+		$language = empty($language) ? $GLOBALS["xoopsConfig"]["language"] : $language;
 		$language = preg_replace("/[^a-z0-9_\-]/i", "", $language);
 		
 		transfer_load_language($path, $language, $charset);
@@ -89,7 +93,7 @@ class Transfer
 }
 endif;
 
-if(!class_exists("TransferHandler")):
+if (!class_exists("TransferHandler")):
 class TransferHandler
 {
 	var $root_path;
@@ -119,9 +123,9 @@ class TransferHandler
      */
     function load_language($language = "", $charset = _CHARSET, $path = "")
     {
-		$path = empty($path)? TRANSFER_ROOT_PATH."/language" : $path;
+		$path = empty($path) ? TRANSFER_ROOT_PATH."/language" : $path;
 		
-		$language = empty($language)? $GLOBALS["xoopsConfig"]["language"] : $language;
+		$language = empty($language) ? $GLOBALS["xoopsConfig"]["language"] : $language;
 		$language = preg_replace("/[^a-z0-9_\-]/i", "", $language);
 		
 		transfer_load_language($path, $language, $charset);
@@ -136,13 +140,13 @@ class TransferHandler
      */
     function &getList($skip = array(), $sort = true)
     {
-	    if(!empty($GLOBALS["addons_skip_module"]) && is_array($GLOBALS["addons_skip_module"])) {
+	    if (!empty($GLOBALS["addons_skip_module"]) && is_array($GLOBALS["addons_skip_module"])) {
 		    $skip = array_merge($skip, $GLOBALS["addons_skip_module"]);
 	    }
-		$mod_dirname = is_object($GLOBALS["xoopsModule"])? $GLOBALS["xoopsModule"]->getVar("dirname") : "system";
+		$mod_dirname = is_object($GLOBALS["xoopsModule"]) ? $GLOBALS["xoopsModule"]->getVar("dirname") : "system";
 		
 		// Load the cache
-		if(function_exists("mod_loadCacheFile") && $list = mod_loadCacheFile("{$mod_dirname}_".intval($sort), "transfer")){
+		if (function_exists("mod_loadCacheFile") && $list = mod_loadCacheFile("{$mod_dirname}_".intval($sort), "transfer")) {
 			return $list;
 		}
 	    
@@ -154,13 +158,13 @@ class TransferHandler
 
 		$list_sort = array();
 		// All active addons
-		foreach($list_addon as $item){
+		foreach ($list_addon as $item) {
 			Transfer::load_language($item);
-			if(@include_once($this->root_path."/".$item."/config.php")){
-				if(empty($config["level"])) continue;
-				if(!empty($skip) && in_array($item, $skip)) continue;
-				if(!empty($config["module"])) {
-					if($config["module"] == $mod_dirname) continue;
+			if (@include_once($this->root_path."/".$item."/config.php")) {
+				if (empty($config["level"])) continue;
+				if (!empty($skip) && in_array($item, $skip)) continue;
+				if (!empty($config["module"])) {
+					if ($config["module"] == $mod_dirname) continue;
 					$list_module[] = htmlspecialchars($config["module"]);
 				}
 				$list[$item] = array(
@@ -174,19 +178,18 @@ class TransferHandler
 		}
 		
 		// Escape invalid addons belonging to a module 
-		if(!empty($list_module)) {
+		if (!empty($list_module)) {
 	    	$module_handler =& xoops_gethandler("module");
-			$criteria = new CriteriaCompo(new Criteria("isactive", 1));
-			$module_invalid = array_diff( $list_module, array_keys( $module_handler->getList($criteria, true) ) );
+			$module_invalid = array_diff( $list_module, array_keys( $module_handler->getList(new Criteria("isactive", 1), true) ) );
 			
-			foreach($module_invalid as $key){
+			foreach ($module_invalid as $key) {
 				unset($list[$key]);
 				unset($list_sort[$key]);
 			}
 		}
 		
 		// Sort the list if requried
-		if(!empty($sort)){
+		if (!empty($sort)) {
 			$list_sort = array_values($list_sort);
 			array_multisort($list, SORT_STRING,
 			               $list_sort, SORT_NUMERIC, SORT_DESC);
@@ -194,7 +197,7 @@ class TransferHandler
 		unset($list_addon, $list_sort, $list_module);
 		
 		// Generate the cache
-		if(function_exists("mod_createCacheFile")){
+		if (function_exists("mod_createCacheFile")) {
 			mod_createCacheFile($list, "{$mod_dirname}_".intval($sort), "transfer");
 		}
 		
@@ -204,10 +207,10 @@ class TransferHandler
     function load_item($item)
     {
 	    $item = preg_replace("/[^a-z0-9_\-]/i", "", $item);
-		if(!include_once($this->root_path."/".$item."/index.php")) return false;
+		if (!include_once($this->root_path."/".$item."/index.php")) return false;
 		$class = "transfer_".$item;
 		$this->item =& new $class();
-		if(!is_object($this->item)) {
+		if (!is_object($this->item)) {
 			xoops_error("item not available: $item");
 			exit();
 		}
@@ -223,7 +226,7 @@ class TransferHandler
      */
     function do_transfer($item, &$data)
     {
-	    if(!$this->load_item($item)) return false;
+	    if (!$this->load_item($item)) return false;
 		return $this->item->do_transfer($data);
     }
 }

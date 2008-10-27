@@ -14,11 +14,8 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-load_objectHandler("persistable");
-//class_exists("_XoopsPersistableObjectHandler") || require_once dirname(__FILE__)."/object.persistable.php";
-
 /**
-* Article object stats handler class.  
+* Object stats handler class.  
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
@@ -27,10 +24,16 @@ load_objectHandler("persistable");
 *
 */
 
-class ArtObjectStatsHandler extends _XoopsPersistableObjectHandler
+class ArtObjectStatsHandler
 {
-    function ArtObjectStatsHandler(&$db, $table, $className, $keyName, $identifierName = false) {
-        $this->_XoopsPersistableObjectHandler( $db, $table, $className, $keyName, $identifierName );
+    /**#@+
+     *
+     * @var object
+     */
+    var $_handler;
+    
+    function ArtObjectStatsHandler(&$handler) {
+	    $this->_handler =& $handler; 
     }
     
     /**
@@ -49,24 +52,24 @@ class ArtObjectStatsHandler extends _XoopsPersistableObjectHandler
                 $field = $criteria->groupby.", "; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
         }
-        $sql = 'SELECT '.$field.'COUNT(*) FROM '.$this->table;
+        $sql = 'SELECT '.$field.'COUNT(*) FROM '.$this->_handler->table;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
             if ($criteria->groupby != "") {
                 $sql .= $criteria->getGroupby();
             }
         }
-        $result = $this->db->query($sql);
+        $result = $this->_handler->db->query($sql);
         if (!$result) {
             return 0;
         }
         if ($groupby == false) {
-            list($count) = $this->db->fetchRow($result);
+            list($count) = $this->_handler->db->fetchRow($result);
             return $count;
         }
         else {
             $ret = array();
-            while (list($id, $count) = $this->db->fetchRow($result)) {
+            while (list($id, $count) = $this->_handler->db->fetchRow($result)) {
                 $ret[$id] = $count;
             }
             return $ret;
@@ -86,26 +89,27 @@ class ArtObjectStatsHandler extends _XoopsPersistableObjectHandler
 	    $sql_where = "";
 	    $limit = null;
 	    $start = null;
-	    $groupby_key = $this->keyName;
+	    $groupby_key = $this->_handler->keyName;
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql_where = $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
-            if($groupby = $criteria->groupby){
+            if($groupby = $criteria->groupby) {
 	            $groupby_key = $groupby;
             }
         }
         $sql = "SELECT ".$groupby_key.", COUNT(*) AS count".
-        		" FROM " . $this->table.
+        		" FROM " . $this->_handler->table.
         		" ".$sql_where.
-        		" GROUP BY ".$groupby_key.
-        		" ORDER BY count DESC";
-        if(!$result = $this->db->query($sql, $limit, $start)) {
+        		" GROUP BY ".$groupby_key
+        		//." ORDER BY count DESC"
+        		;
+        if(!$result = $this->_handler->db->query($sql, $limit, $start)) {
 	        //xoops_error("get object counts error: ".$sql);
             return $ret;
         }
         $ret = array();
-        while (list($id, $count) = $this->db->fetchRow($result)) {
+        while (list($id, $count) = $this->_handler->db->fetchRow($result)) {
             $ret[$id] = $count;
         }
         return $ret;

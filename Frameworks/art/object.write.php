@@ -14,11 +14,8 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-load_objectHandler("persistable");
-//class_exists("_XoopsPersistableObjectHandler") || require_once dirname(__FILE__)."/object.persistable.php";
-
 /**
-* Article object write handler class.  
+* Object write handler class.  
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
@@ -27,10 +24,16 @@ load_objectHandler("persistable");
 *
 */
 
-class ArtObjectWriteHandler extends _XoopsPersistableObjectHandler
+class ArtObjectWriteHandler
 {
-    function ArtObjectWriteHandler(&$db, $table, $className, $keyName, $identifierName = false) {
-        $this->_XoopsPersistableObjectHandler( $db, $table, $className, $keyName, $identifierName );
+    /**#@+
+     *
+     * @var object
+     */
+    var $_handler;
+    
+    function ArtObjectWriteHandler(&$handler) {
+	    $this->_handler =& $handler; 
     }
 
     function &cleanVars(&$object)
@@ -51,18 +54,26 @@ class ArtObjectWriteHandler extends _XoopsPersistableObjectHandler
                 case XOBJ_DTYPE_SOURCE:
                 case XOBJ_DTYPE_URL:
                 case XOBJ_DTYPE_EMAIL:
-                    $cleanv = $this->db->quoteString($cleanv);
+                case XOBJ_DTYPE_OTHER:
+                    $cleanv = $this->_handler->db->quoteString($cleanv);
                     break;
                 case XOBJ_DTYPE_INT:
                 	break;
                 case XOBJ_DTYPE_ARRAY:
-                	$cleanv = $this->db->quoteString($cleanv);
+                	$cleanv = $v['value'];
+                    if ( !$v['not_gpc'] ){
+	                    $cleanv = array_map(array(&$ts, "stripSlashesGPC"), $cleanv);
+                    }
+                    foreach (array_keys($cleanv) as $key) {
+	                    $cleanv[$key] = str_replace('\\"', '"', addslashes($cleanv[$key]));
+                    }
+ 	                $cleanv = "'".serialize($cleanv)."'";
                     break;
                 case XOBJ_DTYPE_STIME:
                 case XOBJ_DTYPE_MTIME:
                 case XOBJ_DTYPE_LTIME:
                 default:
-                    break;
+                   break;
             }
         	$changedVars[$k] = $cleanv;
             unset($cleanv);
@@ -72,7 +83,7 @@ class ArtObjectWriteHandler extends _XoopsPersistableObjectHandler
     }
     
     /**
-     * insert a new object into the database
+     * insert an object into the database
      * 
      * @param	object	$object 	{@link ArtObject} reference to ArtObject
      * @param 	bool 	$force 		flag to force the query execution despite security settings
@@ -82,40 +93,39 @@ class ArtObjectWriteHandler extends _XoopsPersistableObjectHandler
     {
         if (!$object->isDirty()) {
 	        $object->setErrors("not isDirty");
-	        return $object->getVar($this->keyName);
+	        return $object->getVar($this->_handler->keyName);
         }
         if (!$changedVars = $this->cleanVars($object)) {
 	        $object->setErrors("cleanVars failed");
-	        return $object->getVar($this->keyName);
+	        return $object->getVar($this->_handler->keyName);
         }
         $queryFunc = empty($force) ? "query" : "queryF";
         
         if ($object->isNew()) {
-	        //unset($changedVars[$this->keyName]);
 	        $keys = array_keys($changedVars);
 	        $vals = array_values($changedVars);
-            $sql = "INSERT INTO " . $this->table . " (".implode(",", $keys).") VALUES (".implode(",", $vals).")";
-            if (!$result = $this->db->{$queryFunc}($sql)) {
+            $sql = "INSERT INTO " . $this->_handler->table . " (".implode(",", $keys).") VALUES (".implode(",", $vals).")";
+            if (!$result = $this->_handler->db->{$queryFunc}($sql)) {
                 $object->setErrors("Insert object error ($queryFunc):" . $sql);
                 return false;
             }
             $object->unsetNew();
-	        if(!$object->getVar($this->keyName) && $object_id = $this->db->getInsertId()){
-	            $object->assignVar($this->keyName, $object_id);
+	        if(!$object->getVar($this->_handler->keyName) && $object_id = $this->_handler->db->getInsertId()){
+	            $object->assignVar($this->_handler->keyName, $object_id);
         	}
         } else {
             $keys = array();
 	        foreach ($changedVars as $k => $v) {
 	            $keys[] = " {$k} = {$v}";
 	        }
-            $sql = "UPDATE " . $this->table . " SET ".implode(",",$keys)." WHERE ".$this->keyName." = " . $object->getVar($this->keyName);
-            if (!$result = $this->db->{$queryFunc}($sql)) {
+            $sql = "UPDATE " . $this->_handler->table . " SET ".implode(",",$keys)." WHERE ".$this->_handler->keyName." = " . $this->_handler->db->quoteString($object->getVar($this->_handler->keyName));
+            if (!$result = $this->_handler->db->{$queryFunc}($sql)) {
                 $object->setErrors("update object error:" . $sql);
                 return false;
             }
         }
         unset($changedVars);
-        return $object->getVar($this->keyName);
+        return $object->getVar($this->_handler->keyName);
     }
 
     /**
@@ -127,21 +137,21 @@ class ArtObjectWriteHandler extends _XoopsPersistableObjectHandler
      */
     function delete(&$obj, $force = false)
     {
-        if (is_array($this->keyName)) {
+        if (is_array($this->_handler->keyName)) {
             $clause = array();
-            for ($i = 0; $i < count($this->keyName); $i++) {
-	            $clause[] = $this->keyName[$i]." = ".$obj->getVar($this->keyName[$i]);
+            for ($i = 0; $i < count($this->_handler->keyName); $i++) {
+	            $clause[] = $this->_handler->keyName[$i]." = ".$this->_handler->db->quoteString($obj->getVar($this->_handler->keyName[$i]));
             }
             $whereclause = implode(" AND ", $clause);
         }
         else {
-            $whereclause = $this->keyName." = ".$obj->getVar($this->keyName);
+            $whereclause = $this->_handler->keyName." = ".$this->_handler->db->quoteString($obj->getVar($this->_handler->keyName));
         }
-        $sql = "DELETE FROM ".$this->table." WHERE ".$whereclause;
+        $sql = "DELETE FROM ".$this->_handler->table." WHERE ".$whereclause;
         if (false != $force) {
-            $result = $this->db->queryF($sql);
+            $result = $this->_handler->db->queryF($sql);
         } else {
-            $result = $this->db->query($sql);
+            $result = $this->_handler->db->query($sql);
         }
         if (!$result) {
             return false;
@@ -157,27 +167,27 @@ class ArtObjectWriteHandler extends _XoopsPersistableObjectHandler
      */
     function deleteAll($criteria = null, $force = true, $asObject = false)
     {
-        if($asObject){
-	        $objects =& $this->getAll($criteria);
-	        foreach(array_keys($objects) as $key){
+        if ($asObject) {
+	        $objects =& $this->_handler->getAll($criteria);
+	        foreach (array_keys($objects) as $key) {
 		        $this->delete($objects[$key], $force);
 	        }
 	        unset($objects);
 	        return true;
         }
         $queryFunc = empty($force) ? "query" : "queryF";
-        $sql = 'DELETE FROM '.$this->table;
-        if (!empty($criteria)){
-	        if(is_subclass_of($criteria, 'criteriaelement')) {
+        $sql = 'DELETE FROM '.$this->_handler->table;
+        if (!empty($criteria)) {
+	        if (is_subclass_of($criteria, 'criteriaelement')) {
 	            $sql .= ' '.$criteria->renderWhere();
-            }else{
+            } else {
 	            return false; 
             }
         }
-        if (!$this->db->{$queryFunc}($sql)) {
+        if (!$this->_handler->db->{$queryFunc}($sql)) {
             return false;
         }
-        $rows = $this->db->getAffectedRows();
+        $rows = $this->_handler->db->getAffectedRows();
         return $rows > 0 ? $rows : true;
     }
 
@@ -196,18 +206,18 @@ class ArtObjectWriteHandler extends _XoopsPersistableObjectHandler
     	if ( is_numeric( $fieldvalue ) ) {
     		$set_clause .=  $fieldvalue;
     	} elseif ( is_array( $fieldvalue ) ) {
-    		$set_clause .= $this->db->quoteString( implode( ',', $fieldvalue ) );
+    		$set_clause .= $this->_handler->db->quoteString( implode( ',', $fieldvalue ) );
     	} else {
-    		$set_clause .= $this->db->quoteString( $fieldvalue );
+    		$set_clause .= $this->_handler->db->quoteString( $fieldvalue );
     	}
-        $sql = 'UPDATE '.$this->table.' SET '.$set_clause;
+        $sql = 'UPDATE '.$this->_handler->table.' SET '.$set_clause;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
         }
         if (false != $force) {
-            $result = $this->db->queryF($sql);
+            $result = $this->_handler->db->queryF($sql);
         } else {
-            $result = $this->db->query($sql);
+            $result = $this->_handler->db->query($sql);
         }
         if (!$result) {
             return false;

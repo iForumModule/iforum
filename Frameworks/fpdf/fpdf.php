@@ -19,7 +19,7 @@
 * Author:   Olivier PLATHEY                                                    *
 * License:  Freeware                                                           *
 *                                                                              *
-* You may use and modify this software as you wish.                            *
+* You may use, modify and redistribute this software as you wish.              *
 *******************************************************************************/
 
 if(!class_exists('FPDF'))

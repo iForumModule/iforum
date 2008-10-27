@@ -167,7 +167,7 @@ if ( !empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !e
         }
       	$search_url = XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname')."/search.php?".$paras;
 
-       	$next_results =& newbb_search($queries, $andor, 1, $start + $limit, $uid, $forum, $sortby, $searchin, $subquery);
+       	$next_results = newbb_search($queries, $andor, 1, $start + $limit, $uid, $forum, $sortby, $searchin, $subquery);
         $next_count = count($next_results);
         $has_next = false;
         if (is_array($next_results) && $next_count >0) {
@@ -188,7 +188,7 @@ if ( !empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !e
         }
     }
 
-	$search_info = _SR_KEYWORDS.": ".$term;
+	$search_info = _SR_KEYWORDS.": ".$myts->htmlSpecialChars($term);
     if($uname_required){
 	    if($search_info) $search_info .= "<br />";
 	    $search_info .= _MD_USERNAME.": ".$myts->htmlSpecialChars($search_username);
@@ -211,7 +211,7 @@ foreach ($forum_array as $key => $forum) {
 }
 $select_forum .= '</select>';
 $xoopsTpl->assign_by_ref("forum_selection_box", $select_forum);
-$select_since = &newbb_sinceSelectBox($xoopsModuleConfig['since_default']);
+$select_since = newbb_sinceSelectBox($xoopsModuleConfig['since_default']);
 $xoopsTpl->assign_by_ref("since_selection_box", $select_since);
 
 if ($xoopsConfigSearch['keyword_min'] > 0) {

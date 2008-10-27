@@ -14,11 +14,8 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-load_objectHandler("persistable");
-//class_exists("_XoopsPersistableObjectHandler") || require_once dirname(__FILE__)."/object.persistable.php";
-
 /**
-* Article object render handler class.  
+* Object render handler class.  
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
@@ -27,14 +24,22 @@ load_objectHandler("persistable");
 *
 */
 
-class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
+class ArtObjectRenderHandler
 {
-    function ArtObjectRenderHandler(&$db, $table, $className, $keyName, $identifierName = false) {
-        $this->_XoopsPersistableObjectHandler( $db, $table, $className, $keyName, $identifierName );
+    /**#@+
+     *
+     * @var object
+     */
+    var $_handler;
+    
+    function ArtObjectRenderHandler(&$handler) {
+	    $this->_handler =& $handler; 
     }
 
     /**
      * retrieve objects from the database
+     *
+     * For performance consideration, getAll() is recommended
      * 
      * @param object $criteria {@link CriteriaElement} conditions to be met
      * @param bool $id_as_key use the ID as key for the array?
@@ -46,7 +51,7 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
     {
         $ret = array();
         $limit = $start = 0;
-        $sql = 'SELECT * FROM '.$this->table;
+        $sql = 'SELECT * FROM '.$this->_handler->table;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
             if ($criteria->getSort() != '') {
@@ -55,7 +60,7 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        $result = $this->db->query($sql, $limit, $start);
+        $result = $this->_handler->db->query($sql, $limit, $start);
         if (!$result) {
             return $ret;
         }
@@ -75,8 +80,8 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
      */
     function convertResultSet($result, $id_as_key = false, $as_object = true) {
         $ret = array();
-        while ($myrow = $this->db->fetchArray($result)) {
-            $obj =& $this->create(false);
+        while ($myrow = $this->_handler->db->fetchArray($result)) {
+            $obj =& $this->_handler->create(false);
             $obj->assignVars($myrow);
             if (!$id_as_key) {
                 if ($as_object) {
@@ -92,7 +97,7 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
                 }
             } else {
                 if ($as_object) {
-                    $ret[$myrow[$this->keyName]] =& $obj;
+                    $ret[$myrow[$this->_handler->keyName]] =& $obj;
                 }
                 else {
                     $row = array();
@@ -100,7 +105,7 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
                     foreach (array_keys($vars) as $i) {
                         $row[$i] = $obj->getVar($i);
                     }
-                    $ret[$myrow[$this->keyName]] = $row;
+                    $ret[$myrow[$this->_handler->keyName]] = $row;
                 }
             }
             unset($obj);
@@ -126,11 +131,11 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
             $criteria = new CriteriaCompo();
         }
             
-        $sql = 'SELECT '.$this->keyName;
-        if(!empty($this->identifierName)){
-	        $sql .= ', '.$this->identifierName;
+        $sql = 'SELECT '.$this->_handler->keyName;
+        if(!empty($this->_handler->identifierName)){
+	        $sql .= ', '.$this->_handler->identifierName;
         }
-        $sql .= ' FROM '.$this->table;
+        $sql .= ' FROM '.$this->_handler->table;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
             if ($criteria->getSort() != '') {
@@ -139,15 +144,15 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        $result = $this->db->query($sql, $limit, $start);
+        $result = $this->_handler->db->query($sql, $limit, $start);
         if (!$result) {
             return $ret;
         }
 
         $myts =& MyTextSanitizer::getInstance();
-        while ($myrow = $this->db->fetchArray($result)) {
+        while ($myrow = $this->_handler->db->fetchArray($result)) {
             //identifiers should be textboxes, so sanitize them like that
-            $ret[$myrow[$this->keyName]] = empty($this->identifierName) ? 1 : $myts->htmlSpecialChars($myrow[$this->identifierName]);
+            $ret[$myrow[$this->_handler->keyName]] = empty($this->_handler->identifierName) ? 1 : $myts->htmlSpecialChars($myrow[$this->_handler->identifierName]);
         }
         return $ret;
     }
@@ -161,16 +166,19 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
     function &getIds($criteria = null)
     {
         $ret = array();
-        $sql = "SELECT ".$this->keyName." FROM " . $this->table;
+        $sql = "SELECT ".$this->_handler->keyName." FROM " . $this->_handler->table;
+        $limit = $start = null;
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
             $sql .= " ".$criteria->renderWhere();
+            $limit = $criteria->getLimit();
+            $start = $criteria->getStart();
         }
-        if(!$result = $this->db->query($sql)){
-	        xoops_error($this->db->error());
+        if(!$result = $this->_handler->db->query($sql, $limit, $start)){
+	        //xoops_error($this->_handler->db->error());
 	        return $ret;
         }
-        while ($myrow = $this->db->fetchArray($result)) {
-	        $ret[] = $myrow[$this->keyName];
+        while ($myrow = $this->_handler->db->fetchArray($result)) {
+	        $ret[] = $myrow[$this->_handler->keyName];
         }
         return $ret;
 	}
@@ -185,19 +193,19 @@ class ArtObjectRenderHandler extends _XoopsPersistableObjectHandler
      * @param object	$criteria 	{@link CriteriaElement} to match
      * @param array		$tags 		variables to fetch
      * @param bool		$asObject 	flag indicating as object, otherwise as array
-     * @return array of objects 	{@link Object}
+     * @return array of objects 	{@link ArtObject}
      */
    	function &getByLimit($limit=0, $start = 0, $criteria = null, $tags = null, $asObject=true)
    	{
         if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
 	        $criteria->setLimit($limit);
 	        $criteria->setStart($start);
-        }elseif(!empty($limit)){
+        } elseif(!empty($limit)) {
 			$criteria = new CriteriaCompo();
 	        $criteria->setLimit($limit);
 	        $criteria->setStart($start);
         }
-        $ret =& $this->getAll($criteria, $tags, $asObject);
+        $ret =& $this->_handler->getAll($criteria, $tags, $asObject);
         return $ret;
    	}	
 }

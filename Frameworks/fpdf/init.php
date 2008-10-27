@@ -25,19 +25,27 @@
 // Project: Article Project                                                 //
 // ------------------------------------------------------------------------ //
 
-if (!defined('XOOPS_ROOT_PATH')){ exit(); }
+if (!defined('XOOPS_ROOT_PATH')) { exit(); }
+$xoopsLogger->activated = false;
+
+defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once dirname(__FILE__)."/../art/functions.ini.php";
 
 define('FPDF_PATH', dirname(__FILE__));
 define('FPDF_FONTPATH', FPDF_PATH.'/font/');
 
-require_once FPDF_PATH.'/xoopspdf.php';
-/*
-$language = preg_replace("/[^a-z0-9_\-]/i", "", $xoopsConfig['language']);
-if(include_once(FPDF_PATH.'/language/'.$language.'_'.str_replace('-', '_', _CHARSET).'.php')){
-}elseif(include_once(FPDF_PATH.'/language/'.$language.'.php')){
-}elseif(!include_once(FPDF_PATH.'/language/english.php')){
-	die('No Language File!');
+/**
+ * Set PDF maker cache policy
+ * 
+ * Cache value $xoopsOption["pdf_cache"] can be set in module/dirname/pdf.php; if not, set below
+ *
+ * Possible cache values:
+ * 0 - no cache
+ * -1 - update cache upon content change verified by md5
+ * positive integer - seconds
+ */
+if (!isset($GLOBALS["xoopsOption"]["pdf_cache"])) {
+    $GLOBALS["xoopsOption"]["pdf_cache"] = -1;
 }
-*/
-//include FPDF_PATH.'/xoopsfpdf.php';
+
+require_once FPDF_PATH.'/xoopspdf.php';
 ?>

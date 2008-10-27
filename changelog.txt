@@ -2,6 +2,15 @@ CBB
 
 XOOPS Community Bulletin Board
 
+Changelog 3.07
+October 29th, 2006 
+=============
+1 Bugfix for permission template (js related)
+2 Added support for FCKeditor upload
+3 Added support for extended xcode which allows flash/wmplayer/...
+4 Fix for XSS reported by bubuche93
+
+
 Changelog 3.06
 October 8th, 2006 
 =============

@@ -26,7 +26,7 @@ $config = require_once("config.php");
 $myts =& MyTextSanitizer::getInstance();
 
 $email_to = $myts->stripSlashesGPC($_POST["email"]);
-if(!checkEmail($email_to)) {
+if (!checkEmail($email_to)) {
 	include XOOPS_ROOT_PATH."/header.php";
 	echo "<div class=\"resultMsg\">"."Invalid email";
 	echo "<br clear=\"all\" /><br /><input type=\"button\" value=\""._CLOSE."\" onclick=\"window.close()\"></div>";
@@ -39,10 +39,10 @@ $content = $myts->stripSlashesGPC($_POST["content"]);
 $xoopsMailer =& getMailer();
 $xoopsMailer->useMail();
 $xoopsMailer->setToEmails($email_to);
-if(is_object($xoopsUser)){
+if (is_object($xoopsUser)) {
 	$xoopsMailer->setFromEmail($xoopsUser->getVar("email", "E"));
 	$xoopsMailer->setFromName($xoopsUser->getVar("uname", "E"));
-}else{
+} else {
 	require_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
 	$xoopsMailer->setFromName(mod_getIP(true));				
 }

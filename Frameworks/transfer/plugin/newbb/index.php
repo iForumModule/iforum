@@ -25,17 +25,34 @@ class transfer_newbb extends Transfer
 	{
 		eval(parent::do_transfer());
 		
-		if(!empty($data["entry"])){
+		$invalid = false;
+		$approved = 0;
+		if(empty($data["entry"])){
+			$invalid = true;
+		}elseif(!$forum_id = intval( empty($data["forum_id"]) ? @$this->config["forum"] : $data["forum_id"] )) {
+			$invalid = true;
+		}else{
+			$forum_handler =& xoops_getmodulehandler("forum", "newbb");
+			if (!$forum_handler->getPermission($forum_id, "post")){
+				$invalid = true;
+			}else{
+				$approved = $forum_handler->getPermission($forum_id, "noapprove");
+			}
+		}
+		
+		if(!empty($invalid)){
 			header("location: ".sprintf($this->config["url"], $data["entry"]));
 			return;
 		}
 		
 		$post_handler =& xoops_getmodulehandler("post", "newbb");
 		$post_obj =& $post_handler->create();
-		require_once(XOOPS_ROOT_PATH."/modules/newbb/include/functions.ini.php");
+		mod_loadFunctions("user", "newbb");
+	    $post_obj->setVar("approved", $approved);
+	    $post_obj->setVar("post_time", time());
 	    $post_obj->setVar("poster_ip", newbb_getIP());
 	    $post_obj->setVar("uid", empty($GLOBALS["xoopsUser"])? 0 : $GLOBALS["xoopsUser"]->getVar("uid"));
-	    $post_obj->setVar("forum_id", empty($data["forum_id"]) ? @$this->config["forum"] : $data["forum_id"]);
+	    $post_obj->setVar("forum_id", $forum_id);
 		$post_obj->setVar("subject", $data["title"]);
 		$post_text = $data["content"]."<br />".
 			"<a href=\"".$data["url"]."\">"._MORE."</a>";

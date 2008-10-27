@@ -38,7 +38,7 @@ class ModuleTransferHandler extends TransferHandler
      * @param	boolean	$sort	To sort the list upon 'level'
      * return	array	$list
      */
-    function &getList($skip = array(), $sort = true)
+    function getList($skip = array(), $sort = true)
     {
 	    $list = parent::getList($skip, $sort);
 	    return $list;

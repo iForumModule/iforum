@@ -54,8 +54,8 @@ class ModuleTransferHandler extends TransferHandler
     {
 	    $ret = parent::do_transfer($item, $data);
 	
-		if($item == "newbb" && !empty($ret["data"]["topic_id"]) ){
-			$article_handler =& xoops_getmodulehandler("article", $GLOBALS["xoopsModule"]->getVar("dirname"));
+		if ($item == "newbb" && !empty($ret["data"]["topic_id"]) ) {
+			$article_handler =& xoops_getmodulehandler("article", $GLOBALS["xoopsModule"]->getVar("dirname", "n"));
 			$article_obj =& $article_handler->get($data["id"]);
 			$article_obj->setVar("art_forum", $ret["data"]["topic_id"]);
 			$article_handler->insert($article_obj, true);

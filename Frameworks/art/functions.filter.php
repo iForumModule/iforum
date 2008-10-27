@@ -10,7 +10,7 @@
  * @package		Frameworks::art
  */
 
-if(!defined("FRAMEWORKS_ART_FUNCTIONS_FILTER")):
+if (!defined("FRAMEWORKS_ART_FUNCTIONS_FILTER")):
 define("FRAMEWORKS_ART_FUNCTIONS_FILTER", true);
 
 /**
@@ -29,11 +29,11 @@ define("FRAMEWORKS_ART_FUNCTIONS_FILTER", true);
 function mod_loadFilters(&$object, $method)
 {
 	load_functions("cache");
-    if(!$modules_active = mod_loadCacheFile("modules_active", "system")){
+    if (!$modules_active = mod_loadCacheFile("modules_active", "system")) {
 	    $module_handler =& xoops_gethandler('module');
 	    $modules_obj = $module_handler->getObjects(new Criteria('isactive', 1));
 	    $modules_active = array();
-	    foreach(array_keys($modules_obj) as $key){
+	    foreach (array_keys($modules_obj) as $key) {
 		    $modules_active[] = $modules_obj[$key]->getVar("dirname");
 	    }
 	    unset($modules_obj);
@@ -41,8 +41,8 @@ function mod_loadFilters(&$object, $method)
     }
     $class = is_object($object) ? get_class($object) : $object;
     foreach ($modules_active as $f) {
-        if(!@include_once XOOPS_ROOT_PATH."/modules/{$f}/filter/{$class}.{$method}.php") continue;
-        if(function_exists("{$class}_{$method}")) call_user_func_array("{$class}_{$method}", array(&$object));
+        if (!@include_once XOOPS_ROOT_PATH."/modules/{$f}/filter/{$class}.{$method}.php") continue;
+        if (function_exists("{$class}_{$method}")) call_user_func_array("{$class}_{$method}", array(&$object));
     }
 }
     

@@ -9,7 +9,7 @@
  * @version		$Id$
  * @package		Frameworks::art
  */
-if(!defined("FRAMEWORKS_ART_FUNCTIONS_USER")):
+if (!defined("FRAMEWORKS_ART_FUNCTIONS_USER")):
 define("FRAMEWORKS_ART_FUNCTIONS_USER", true);
 
 defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once (dirname(__FILE__)."/functions.ini.php");
@@ -52,22 +52,22 @@ function mod_getIP($asString = false)
       	$the_IP = $_SERVER['REMOTE_ADDR'];	      	
   	}
     
-  	$the_IP = ($asString)?$the_IP:ip2long($the_IP);
+  	$the_IP = ($asString) ? $the_IP : ip2long($the_IP);
   	
   	return $the_IP;
 }
 
-function &mod_getUnameFromIds( $uid, $usereal = 0, $linked = false )
+function &mod_getUnameFromIds( $uid, $usereal = false, $linked = false )
 {
-	if(!is_array($uid))  $uid = array($uid);
+	if (!is_array($uid))  $uid = array($uid);
 	$userid = array_map("intval", array_filter($uid));
 
 	$myts =& MyTextSanitizer::getInstance();
 	$users = array();
-	if(count($userid)>0){
+	if (count($userid) > 0) {
         $sql = 'SELECT uid, uname, name FROM ' . $GLOBALS['xoopsDB']->prefix('users'). ' WHERE level>0 AND uid IN('.implode(",", array_unique($userid)).')';
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
-	        xoops_error("user query error: ".$sql);
+	        //xoops_error("user query error: ".$sql);
             return $users;
         }
         while ($row = $GLOBALS['xoopsDB']->fetchArray($result)) {
@@ -77,12 +77,14 @@ function &mod_getUnameFromIds( $uid, $usereal = 0, $linked = false )
         	} else {
 				$users[$uid] = $myts->htmlSpecialChars($row["uname"]);
 			}
-			if($linked){
-				$users[$uid] = '<a href="' . XOOPS_URL . '/userinfo.php?uid='.$uid.'">'.$users[$uid].'</a>';
+			if ($linked){
+				$users[$uid] = '<a href="' . XOOPS_URL . '/userinfo.php?uid='.$uid.'" title="'.$users[$uid].'">'.$users[$uid].'</a>';
 			}
         }
 	}
-	if(in_array(0, $users)) $users[0] = $myts->htmlSpecialChars($GLOBALS['xoopsConfig']['anonymous']);
+	if (in_array(0, $users, true)) {
+		$users[0] = $myts->htmlSpecialChars($GLOBALS['xoopsConfig']['anonymous']);
+	}
     return $users;
 }
 
@@ -99,12 +101,12 @@ function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
         	} else {
 				$username = $user->getVar('uname');
 			}
-	        if(!empty($linked)){
-				$username = '<a href="' . XOOPS_URL . '/userinfo.php?uid='.$userid.'">'.$username.'</a>';
+	        if (!empty($linked)){
+				$username = '<a href="' . XOOPS_URL . '/userinfo.php?uid='.$userid.'" title="'.$username.'">'.$username.'</a>';
 	        }
         }
     }
-    if(empty($username)){
+    if (empty($username)){
 		$username = $myts->htmlSpecialChars($GLOBALS['xoopsConfig']['anonymous']);
     }
     return $username;

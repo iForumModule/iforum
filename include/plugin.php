@@ -32,6 +32,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
 /* some static xoopsModuleConfig */
+$customConfig = array();
 
 // specification for custom time format
 // default manner will be used if not specified

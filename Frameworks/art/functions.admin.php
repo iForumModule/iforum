@@ -13,9 +13,9 @@
 if(!defined("FRAMEWORKS_ART_FUNCTIONS_ADMIN")):
 define("FRAMEWORKS_ART_FUNCTIONS_ADMIN", true);
 
-defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once (dirname(__FILE__)."/functions.ini.php");
+defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once dirname(__FILE__)."/functions.ini.php";
 
-function loadModuleAdminMenu ($currentoption = -1, $breadcrumb="")
+function loadModuleAdminMenu ($currentoption = -1, $breadcrumb = "")
 {
 	// For XOOPS 2.2*
 	if(isset($GLOBALS["xTheme"]) && method_exists($GLOBALS["xTheme"], "loadModuleAdminMenu")){
@@ -27,15 +27,16 @@ function loadModuleAdminMenu ($currentoption = -1, $breadcrumb="")
 	return true;
 }
 
-function _loadModuleAdminMenu($currentoption, $breadcrumb="")
+function _loadModuleAdminMenu($currentoption, $breadcrumb = "")
 {
 	$adminmenu = array();
 	
 	if(!@include XOOPS_ROOT_PATH."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/".$GLOBALS["xoopsModule"]->getInfo("adminmenu")){
 		return null;
 	}
+	$breadcrumb = empty($breadcrumb) ? $adminmenu[$currentoption]["title"] : $breadcrumb;
 	$module_link = XOOPS_URL."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/";
-	$image_link = XOOPS_URL."/Frameworks/xoops22/include";
+	$image_link = XOOPS_URL."/Frameworks/compat/include";
 	
 	$adminmenu_text ='
 	<style type="text/css">
@@ -72,8 +73,9 @@ function _loadModuleAdminMenu($currentoption, $breadcrumb="")
 	 <ul>
 	';
 	foreach(array_keys($adminmenu) as $key){
-		$adminmenu_text .= (($currentoption == $key)? '<li class="current">':'<li>').'<a href="'.$module_link.$adminmenu[$key]["link"].'"><span>'.$adminmenu[$key]["title"].'</span></a></li>';
+		$adminmenu_text .= (($currentoption == $key) ? '<li class="current">':'<li>').'<a href="'.$module_link.$adminmenu[$key]["link"].'"><span>'.$adminmenu[$key]["title"].'</span></a></li>';
 	}
+	$adminmenu_text .= '<li><a href="'.XOOPS_URL.'/modules/system/admin.php?fct=preferences&op=showmod&mod='.$GLOBALS["xoopsModule"]->getVar("mid").'"><span>'._PREFERENCES.'</span></a></li>';
 	$adminmenu_text .='
 	 </ul>
 	</div>

@@ -10,7 +10,7 @@
  * @package		Frameworks::art
  */
 
-if(!defined("FRAMEWORKS_ART_FUNCTIONS")):
+if (!defined("FRAMEWORKS_ART_FUNCTIONS")):
 define("FRAMEWORKS_ART_FUNCTIONS", true);
 
 defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once (dirname(__FILE__)."/functions.ini.php");
@@ -30,10 +30,10 @@ load_functions("admin");
 function mod_getMysqlVersion($conn = null)
 {
     static $mysql_version;
-    if(isset($mysql_version)) return $mysql_version;
-    if(!is_null($conn)){
+    if (isset($mysql_version)) return $mysql_version;
+    if (!is_null($conn)) {
 	    $version = mysql_get_server_info($conn);
-    }else{
+    } else {
 	    $version = mysql_get_server_info();
     }
     return $mysql_version;

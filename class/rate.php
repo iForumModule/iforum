@@ -33,14 +33,13 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Nrate extends ArtObject {
     function Nrate()
     {
-	    $this->ArtObject();
-        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_votedata");
+	    $this->ArtObject("bb_votedata");
         $this->initVar('ratingid', XOBJ_DTYPE_INT);
         $this->initVar('topic_id', XOBJ_DTYPE_INT);
         $this->initVar('ratinguser', XOBJ_DTYPE_INT);

@@ -12,18 +12,28 @@
  * @package		frameworks
  */
 
-if (!defined('XOOPS_ROOT_PATH')){ exit(); }
-if (!defined('FPDF_PATH')){ exit(); }
+if (!defined('XOOPS_ROOT_PATH')) { exit(); }
+if (!defined('FPDF_PATH')) { exit(); }
 
 class xoopsPDF
 {
+	var $language;
+	var $charset;
 	var $data;
 	var $config;
 	var $pdf_handler;
+	var $cache;
+	var $cache_id;
+	var $content;
+	var $delimiter = "[XoopsPDF]";
 	
-	function xoopsPDF($language)
+	function xoopsPDF($language, $charset = _CHARSET)
 	{
-		$this->_load_locale(preg_replace("/[^a-z0-9_\-]/i", "", $language));
+		$this->charset = preg_replace("/[^a-z0-9_\-]/i", "", $charset);
+		$this->language = preg_replace("/[^a-z0-9_\-]/i", "", $language);
+		define("FPDF_CHARSET_XOOPS", $this->charset);
+		$this->_load_locale();
+		$this->cache = $GLOBALS["xoopsOption"]["pdf_cache"];
 	}
 	
 	function initialize($orientation='P', $unit='mm', $format='A4')
@@ -32,18 +42,143 @@ class xoopsPDF
 	    $this->pdf_handler =& new PDF($orientation, $unit, $format);
 	}
 	
-	function _encoding($charset)
+	function _encoding()
 	{
-		$this->pdf_handler->encoding($this->data, $charset);
-		$this->pdf_handler->encoding($this->config, $charset);
+		$this->pdf_handler->encoding($this->data, $this->charset);
+		$this->pdf_handler->encoding($this->config, $this->charset);
 	}
 	
-	function output(&$pdf_data, $charset = _CHARSET)
+	function loadCache($filename)
 	{
-		$this->data =& $pdf_data;
-		$this->_encoding($charset);
+    	$filename = XOOPS_CACHE_PATH."/{$filename}.html";
+        if ( file_exists($filename) && ($fd = @fopen($filename, 'rb')) ) {
+            $contents = '';
+            while (!feof($fd)) {
+                $contents .= fread($fd, 8192);
+            }
+            fclose($fd);
+            if ( !$pos = strpos($contents, $this->delimiter) ) return null;
+            $data["key"] = substr($contents, 0, $pos);
+            $data["content"] = substr($contents, $pos + strlen($this->delimiter));
+            return $data;
+        }
+        return null;
+	}
+	
+	function createCache($data, $filename)
+	{
+    	$filename = XOOPS_CACHE_PATH."/{$filename}.html";
+        if ($fd = @fopen($filename, 'wb')) {
+            fputs($fd, $data["key"].$this->delimiter.$data["content"]);
+            fclose($fd);
+            return true;
+        }
+        return false;
+	}
+	
+    /**
+     * PDF maker cache policy
+     * 
+     * Possible cache values:
+     * 0 - no cache
+     * -1 - update cache upon content change verified by md5
+     * positive integer - seconds
+     */
+	function is_cached()
+	{
+    	//load_functions("cache");
+    	if (!$data = $this->loadCache($this->cache_id)) {
+        	return false;
+    	}
+    	if ($this->cache > 0) {
+        	if (time() - $data["key"] > $this->cache) {
+            	return false;
+        	}
+        	$this->content = $data["content"];
+        	return true;
+    	}
+    	if (md5(serialize($this->data)) == $data["key"]) {
+        	$this->content = $data["content"];
+        	return true;
+    	}
+    	
+    	return false;
+	}
+	
+	function generateCacheId($cache_id) {
 		
-		$pdf_data =& $this->data;
+		// Generate language section
+		$extra_string = $this->language."|".$this->charset;
+		
+		// XOOPS_DB_PASS and XOOPS_DB_NAME (before we find better variables) are used to protect sensitive contents
+		$extra_string .= '|' . substr( md5(XOOPS_DB_PASS.XOOPS_DB_NAME), 0, strlen(XOOPS_DB_USER) * 2 );
+		$cache_id .= '|' . $extra_string;
+		$this->cache_id = urlencode($cache_id);
+		return $this->cache_id;
+	}
+	
+	function checkCache() {
+		global $xoopsModule;
+
+		if ( $this->cache ) {
+			$uri = str_replace( XOOPS_URL, '', $_SERVER['REQUEST_URI'] );
+			// Clean uri by removing session id
+			if (defined('SID') && SID && strpos($uri, SID)) {
+				$uri = preg_replace("/([\?&])(".SID."$|".SID."&)/", "\\1", $uri);
+			}
+			$dirname = is_object($xoopsModule) ? $xoopsModule->getVar( 'dirname', 'n' ) : "system";
+			$cacheId = $this->generateCacheId($dirname . '|' . $uri);
+
+			if ( $this->is_cached( ) ) {
+				$this->render( );
+				return true;
+            }
+		}
+		return false;
+	}
+	
+	function render()
+	{
+    	if (!$this->content) {
+            $this->content = $this->pdf_handler->Output("", "S");
+            if ($this->cache) {
+                $data = array();
+                $data["content"] = $this->content;
+            	if ($this->cache > 0) {
+                	$data["key"] = time();
+            	} else {
+                	$data["key"] = md5(serialize($this->data));
+            	}
+        	    $this->createCache($data, $this->cache_id);
+        	}
+    	}
+    	
+    	$name = "doc.pdf";
+		//Send to standard output
+		if(ob_get_contents())
+			$this->pdf_handler->Error('Some data has already been output, can\'t send PDF file');
+		if(php_sapi_name()!='cli')
+		{
+			//We send to a browser
+			header('Content-Type: application/pdf');
+			if(headers_sent())
+				$this->pdf_handler->Error('Some data has already been output to browser, can\'t send PDF file');
+			header('Content-Length: '.strlen($this->content));
+			header('Content-disposition: inline; filename="'.$name.'"');
+		}
+		echo $this->content;
+	}
+	 
+	function output($pdf_data)
+	{
+		$this->data = $pdf_data;
+		if ($this->checkCache()) {
+    		return true;
+		}
+		
+		$this->_encoding();
+		
+		$pdf_data = $this->data;
 		$pdf_config =& $this->config;
 		
 		$pdf =& $this->pdf_handler;
@@ -111,14 +246,14 @@ class xoopsPDF
 		$pdf->SetFont($pdf_config["font"]["content"]["family"],$pdf_config["font"]["content"]["style"],$pdf_config["font"]["content"]["size"]);
 		$pdf->WriteHTML($pdf_data["content"],$pdf_config["scale"]);
 		
-		$pdf->Output();
+		$this->render();
 	}
 
-	function _load_locale($language)
+	function _load_locale()
 	{
-		if(include_once(FPDF_PATH.'/language/'.$language.'_'.str_replace('-', '_', _CHARSET).'.php')){
-		}elseif(include_once(FPDF_PATH.'/language/'.$language.'.php')){
-		}elseif(!include_once(FPDF_PATH.'/language/english.php')){
+		if ( @include_once(FPDF_PATH.'/language/'.strtolower($this->language.'_'.str_replace('-', '', $this->charset)).'.php') ) {
+		} elseif ( @include_once(FPDF_PATH.'/language/'.$this->language.'.php') ) {
+		} elseif ( !@include_once(FPDF_PATH.'/language/english.php') ) {
 			die('No Language File!');
 		}
 		$this->config =& $GLOBALS["pdf_config"];

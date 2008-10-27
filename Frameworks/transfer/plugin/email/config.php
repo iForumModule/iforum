@@ -9,17 +9,6 @@
  * @version		$Id$
  * @package		Frameworks:transfer
  */
-/* 
-if (!defined("XOOPS_ROOT_PATH")) {
-	exit();
-}
-global $xoopsConfig;
-
-$xoopsConfig['language'] = preg_replace("/[^a-z0-9_\-]/i", "", $xoopsConfig['language']);
-if(!@include_once(dirname(__FILE__)."/language/".$xoopsConfig['language'].".php")){
-	include_once(dirname(__FILE__)."/language/english.php");
-}
-*/
 
 $item_name = strtoupper(basename(dirname(__FILE__)));
 return $config = array(

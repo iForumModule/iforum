@@ -28,7 +28,7 @@
 // URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
-include("../../../include/cp_header.php");
+include "../../../include/cp_header.php";
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/vars.php";
 include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
 include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.admin.php";

@@ -33,14 +33,13 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Ntext extends ArtObject {
     function Ntext()
     {
-	    $this->ArtObject();
-        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_posts_text");
+	    $this->ArtObject("bb_posts_text");
         $this->initVar('post_id', XOBJ_DTYPE_INT);
         $this->initVar('post_text', XOBJ_DTYPE_TXTAREA);
         $this->initVar('post_edit', XOBJ_DTYPE_TXTAREA);

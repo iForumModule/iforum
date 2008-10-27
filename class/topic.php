@@ -33,16 +33,14 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
-class Topic extends ArtObject {
-    //var $order;
-
+class Topic extends ArtObject 
+{
     function Topic()
     {
-	    $this->ArtObject();
-        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_topics");
+	    $this->ArtObject("bb_topics");
         $this->initVar('topic_id', XOBJ_DTYPE_INT);
         $this->initVar('topic_title', XOBJ_DTYPE_TXTBOX);
         $this->initVar('topic_poster', XOBJ_DTYPE_INT);
@@ -224,8 +222,8 @@ class NewbbTopicHandler extends ArtObjectHandler
 	    global $xoopsModuleConfig;
 
         $ret = array();
-        $perpage = (intval($perpage)>0)?intval($perpage):(empty($xoopsModuleConfig['posts_per_page'])?10:$xoopsModuleConfig['posts_per_page']);
-        $start = (intval($start)>0)?intval($start):0;
+        $perpage = (intval($perpage)>0) ? intval($perpage) : (empty($xoopsModuleConfig['posts_per_page']) ? 10 : $xoopsModuleConfig['posts_per_page']);
+        $start = intval($start);
         switch($type){
 	        case "pending":
 	        	$approve_criteria = ' AND p.approved = 0';
@@ -300,7 +298,7 @@ class NewbbTopicHandler extends ArtObjectHandler
         $postArray['subject'] = '<a href="viewtopic.php?viewmode=thread&amp;topic_id=' . $topic->getVar('topic_id') . '&amp;forum=' . $postArray['forum_id'] . '&amp;post_id=' . $postArray['post_id'] . '">' . $postArray['subject'] . '</a>';
 
         $isActiveUser = false;
-        if (isset($viewtopic_users[$postArray['uid']])) {
+        if (isset($viewtopic_users[$postArray['uid']]['name'])) {
 	        $postArray['poster'] = $viewtopic_users[$postArray['uid']]['name'];
 	        if($postArray['uid']>0)
 	        $postArray['poster'] = "<a href=\"".XOOPS_URL . "/userinfo.php?uid=" . $postArray['uid'] ."\">".$viewtopic_users[$postArray['uid']]['name']."</a>";
@@ -399,7 +397,7 @@ class NewbbTopicHandler extends ArtObjectHandler
 	    
 	    if(empty($object)) {
 	    	/* for MySQL 4.1+ */
-	    	if($this->mysql_client_version() >= 4):
+	    	if($this->mysql_major_version() >= 4):
 		    // Set topic_last_post_id
 	        $sql = "UPDATE ".$this->table.
 	        		" SET ".$this->table.".topic_last_post_id = @last_post =(".

@@ -15,4 +15,4 @@
  
 define("_MD_TRANSFER_BLOG", "Blog");
 define("_MD_TRANSFER_BLOG_DESC", "Write blog with this item");
-?
+?>
