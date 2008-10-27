@@ -28,18 +28,20 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
 
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Category extends ArtObject {
-    var $db;
     var $table;
 
     function Category()
     {
-        $this->db = &Database::getInstance();
-        $this->table = $this->db->prefix("bb_categories");
+        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_categories");
         $this->initVar('cat_id', XOBJ_DTYPE_INT);
         $this->initVar('pid', XOBJ_DTYPE_INT, 0);
         $this->initVar('cat_title', XOBJ_DTYPE_TXTBOX);
@@ -99,35 +101,6 @@ class NewbbCategoryHandler extends ArtObjectHandler
             return false;
         }
     }
-
-    /*
-    function &getLatestPosts($viewcat = 0)
-    {
-        $sql = 'SELECT f.*, u.uid, p.topic_id, p.post_time, p.subject, p.poster_name, p.icon FROM ' . $this->db->prefix('bb_forums') . ' f LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = f.forum_last_post_id LEFT JOIN ' . $this->db->prefix('users') . ' u ON u.uid = p.uid';
-        if ($viewcat != 0) {
-            $sql .= ' WHERE f.cat_id = ' . intval($viewcat);
-        } else {
-            $sql .= ' ORDER BY f.cat_id, f.forum_order';
-        }
-        if (!$result = $this->db->query($sql)) {
-            return false;
-        }
-        $ret = array();
-        while ($row = $this->db->fetchArray($result)) {
-            $ret[$row['forum_id']] = $row;
-        }
-        return $ret;
-    }
-    */
-
-    /*
-    function &getForums($categoryid = null, $permission = "", $asObject = true, $tags = null)
-    {
-        $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-        $ret = $forum_handler->getForumsByCategory($categoryid, $permission, $asObject, $tags);
-        return $ret;
-    }
-    */
 
     /*
      * Check permission for a category

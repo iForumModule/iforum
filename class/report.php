@@ -28,6 +28,11 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
+
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
@@ -35,7 +40,7 @@ class Report extends ArtObject {
     function Report()
     {
 	    $this->ArtObject();
-        $this->table = $this->db->prefix("bb_report");
+        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_report");
         $this->initVar('report_id', XOBJ_DTYPE_INT);
         $this->initVar('post_id', XOBJ_DTYPE_INT);
         $this->initVar('reporter_uid', XOBJ_DTYPE_INT);

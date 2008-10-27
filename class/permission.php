@@ -29,6 +29,10 @@
 // Project: Article Project                                                 //
 // ------------------------------------------------------------------------ //
 if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
 
 require_once XOOPS_ROOT_PATH."/kernel/groupperm.php";
 
@@ -203,7 +207,6 @@ class NewbbPermissionHandler extends XoopsGroupPermHandler
 				unset($newbb);
 		    }
 	    }
-		//$groupperm_handler =& xoops_gethandler('groupperm');
 		if($this->_checkRight($perm, $itemid, $groupid, $mid)) return true;
 		$this->addRight($perm, $itemid, $groupid, $mid);
 		return true;
@@ -254,7 +257,6 @@ class NewbbPermissionHandler extends XoopsGroupPermHandler
 				unset($newbb);
 		    }
 	    }
-		//$groupperm_handler =& xoops_gethandler('groupperm');
 		if(is_callable(array(&$this->XoopsGroupPermHandler, "deleteRight"))){
 			return $this->deleteRight($perm, $itemid, $groupid, $mid);
 		}else{
@@ -275,6 +277,9 @@ class NewbbPermissionHandler extends XoopsGroupPermHandler
         
     function applyTemplate($forum, $mid=null)
     {
+	    $perm_template = $this->getTemplate();
+	    if(empty($perm_template)) return false;
+	    
 	    if(empty($mid)){
 		    if(is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname")=="newbb"){
 			    $mid = $GLOBALS["xoopsModule"]->getVar("mid");
@@ -285,8 +290,6 @@ class NewbbPermissionHandler extends XoopsGroupPermHandler
 				unset($newbb);
 		    }
 	    }
-	    $perm_template = $this->getTemplate();
-	    if(empty($perm_template)) return false;
 	    
 		//$groupperm_handler =& xoops_gethandler('groupperm');
 	    $member_handler =& xoops_gethandler('member');
@@ -307,24 +310,13 @@ class NewbbPermissionHandler extends XoopsGroupPermHandler
     
     function &getTemplate()
     {
-	    $perms = null;
-	    
-		$file_perm = XOOPS_CACHE_PATH."/newbb_perm_template.php";
-		$perms = @include $file_perm;
+		$perms = mod_loadCacheFile("perm_template", "newbb");
 		return $perms;
     }
     
     function setTemplate($perms)
     {
-		$file_perm = XOOPS_CACHE_PATH."/newbb_perm_template.php";
-		if ( $fp = fopen( $file_perm , "wt" ) ) {
-			fwrite( $fp, "<?php\nreturn " . var_export( $perms, true ) . ";\n?>" );
-			fclose( $fp );
-		} else {
-			trigger_error( "Cannot Create Permission Template", E_USER_WARNING );
-		}
-		
-        return true;		
+		return mod_createCacheFile($perms, "perm_template", "newbb");
     }
 }
 

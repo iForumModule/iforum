@@ -32,19 +32,11 @@
 include('admin_header.php');
 include_once XOOPS_ROOT_PATH."/class/pagenav.php";
 
-
-$op = 'default';
-$item = 'process';
-
-if (isset($_GET['op'])) $op = $_GET['op'];
-if (isset($_POST['op'])) $op = $_POST['op'];
-if (isset($_GET['item'])) $item = $_GET['item'];
-if (isset($_POST['item'])) $item = $_POST['item'];
-if (isset($_GET['report_id'])) $cat_id = $_GET['report_id'];
-if (isset($_POST['report_id'])) $cat_id = $_POST['report_id'];
+$op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"default");
+$item = !empty($_GET['op'])? $_GET['item'] : (!empty($_POST['item'])?$_POST['item']:"process");
 
 $start = (isset($_GET['start']))?$_GET['start']:0;
-$report_handler =& xoops_getmodulehandler('report', 'newbb');
+//$report_handler =& xoops_getmodulehandler('report', 'newbb');
 
 xoops_cp_header();
 switch($op){

@@ -28,6 +28,9 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+if (!defined('XOOPS_ROOT_PATH')) {
+	exit();
+}
 require_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
 if(defined('NEWBB_BLOCK_DEFINED')) return;
 define('NEWBB_BLOCK_DEFINED',true);

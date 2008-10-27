@@ -28,7 +28,15 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+if (!defined('XOOPS_ROOT_PATH')) {
+	exit();
+}
 /* some static xoopsModuleConfig */
+
+// specification for custom time format
+// default manner will be used if not specified
+$customConfig["formatTimestamp_custom"] = ""; // Could be set as "Y-m-d H:i" 
+
 
 // requiring "name" field for anonymous users in edit form
 $customConfig["require_name"] = true; 

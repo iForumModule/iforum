@@ -28,6 +28,11 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
+
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
@@ -42,13 +47,12 @@ newbb_load_object();
 
 class Read extends ArtObject 
 {
-    var $db;
     var $table;
 
     function Read($type)
     {
         $this->ArtObject();
-        $this->table = $this->db->prefix("bb_reads_".$type);
+        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_reads_".$type);
         $this->initVar('read_id', XOBJ_DTYPE_INT);
         $this->initVar('uid', XOBJ_DTYPE_INT);
         $this->initVar('read_item', XOBJ_DTYPE_INT);

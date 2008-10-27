@@ -1,38 +1,19 @@
 <?php
-// $Id: functions.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: phppp (D.J., infomax@gmail.com)                                  //
-// URL: http://xoopsforge.com, http://xoops.org.cn                          //
-// Project: Article Project                                                 //
-// ------------------------------------------------------------------------ //
+/**
+ * Module admin functions
+ *
+ * @copyright	The XOOPS project http://www.xoops.org/
+ * @license		http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @author		Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
+ * @since		1.00
+ * @version		$Id$
+ * @package		Frameworks::art
+ */
 
 if(!defined("FRAMEWORKS_ART_FUNCTIONS_ADMIN")):
 define("FRAMEWORKS_ART_FUNCTIONS_ADMIN", true);
 
-include_once (dirname(__FILE__)."/functions.ini.php");
+defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once (dirname(__FILE__)."/functions.ini.php");
 
 function loadModuleAdminMenu ($currentoption = -1, $breadcrumb="")
 {

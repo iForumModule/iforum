@@ -30,9 +30,7 @@
 // ------------------------------------------------------------------------- //
 include 'admin_header.php';
 
-$op = "";
-if (isset($_GET['op'])) $op = $_GET['op'];
-if (isset($_POST['op'])) $op = $_POST['op'];
+$op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"");
 
 switch ($op)
 {

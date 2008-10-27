@@ -2,6 +2,12 @@ CBB
 
 XOOPS Community Bulletin Board
 
+Changelog 3.06
+October 8th, 2006 
+=============
+Bugfix version
+
+
 Changelog 3.05
 July 22nd, 2006 
 =============

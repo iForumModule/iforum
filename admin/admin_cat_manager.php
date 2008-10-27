@@ -31,16 +31,10 @@
 include('admin_header.php');
 xoops_cp_header();
 
-$op = '';
+$op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"");
+$cat_id = intval( !empty($_GET['cat_id'])? $_GET['cat_id'] : (!empty($_POST['cat_id'])?$_POST['cat_id']:0) );
 
-if (isset($_GET['op'])) $op = $_GET['op'];
-if (isset($_POST['op'])) $op = $_POST['op'];
-if (isset($_POST['default'])) $op = 'default';
-if (isset($_GET['cat_id'])) $cat_id = $_GET['cat_id'];
-if (isset($_POST['cat_id'])) $cat_id = $_POST['cat_id'];
-$category_handler = &xoops_getmodulehandler('category', 'newbb');
-
-//newbb_message($op);
+$category_handler =& xoops_getmodulehandler('category', 'newbb');
 
 /**
  * newCategory()
@@ -62,9 +56,9 @@ function editCategory($cat_id = 0)
 {
     $category_handler = &xoops_getmodulehandler('category', 'newbb');
     if ($cat_id > 0) {
-        $fc = &$category_handler->get($cat_id);
+        $fc =& $category_handler->get($cat_id);
     } else {
-        $fc = &$category_handler->create();
+        $fc =& $category_handler->create();
     }
     $groups_cat_access = null;
     global $xoopsModule;

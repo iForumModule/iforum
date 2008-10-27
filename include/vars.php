@@ -28,6 +28,9 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+if (!defined('XOOPS_ROOT_PATH')) {
+	exit();
+}
 
 $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
@@ -207,6 +210,7 @@ newbb_setsession("LV", $last_visit);
 		LVT - Last Visit Temp
 */
 
+// include customized variables
 // include customized variables
 if($customConfig = @include(XOOPS_ROOT_PATH."/modules/newbb/include/plugin.php")){
 	$GLOBALS["xoopsModuleConfig"] = array_merge($GLOBALS["xoopsModuleConfig"], $customConfig);

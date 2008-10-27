@@ -281,7 +281,7 @@ if($xoopsModuleConfig['allow_require_reply'] && $require_reply){
 }
 
 if ($viewmode == "thread") {
-	if(isset($post_id)&&$post_id){
+	if(!empty($post_id)){
 		$post_handler =& xoops_getmodulehandler('post', 'newbb');
 		$currentPost = $post_handler -> get($post_id);
 		
@@ -574,7 +574,9 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 	$editor_configs["rows"] = 10;
 	$editor_configs["cols"] = 60;
 	if(!$editor_handler =& xoops_gethandler("editor", true)){
-		require_once XOOPS_ROOT_PATH."/Frameworks/xoops22/class/xoopseditor/xoopseditor.php";
+		if(!@include_once XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php") {
+			require_once XOOPS_ROOT_PATH."/Frameworks/xoops22/class/xoopseditor/xoopseditor.php";
+		}
 		$editor_handler =& new XoopsEditorHandler();
 	}
 	$editor_object = & $editor_handler->get($quickform, $editor_configs,"",1);

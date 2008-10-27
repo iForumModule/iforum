@@ -1,38 +1,19 @@
 <?php
-// $Id: formselecteditor.php,v 1.1.2.4 2005/07/19 11:37:19 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
 /**
- * base class
+ * Editor framework for XOOPS
+ *
+ * @copyright	The XOOPS project http://www.xoops.org/
+ * @license		http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @author		Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
+ * @since		1.00
+ * @version		$Id$
+ * @package		xoopseditor
  */
-//include_once dirname(__FILE__)."/formelementtray.php";
-include_once dirname(dirname(__FILE__))."/xoopseditor/xoopseditor.php";
+if (!defined('XOOPS_ROOT_PATH')) {
+	exit();
+}
+
+require_once XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php";
 
 /**
  * A select box with available editors
@@ -41,7 +22,7 @@ include_once dirname(dirname(__FILE__))."/xoopseditor/xoopseditor.php";
  * @subpackage  form
  * 
  * @author	    phppp (D.J.)
- * @copyright	copyright (c) 2000-2003 XOOPS.org
+ * @copyright	The XOOPS Project
  */
 class XoopsFormSelectEditor extends XoopsFormElementTray
 {	
@@ -51,9 +32,9 @@ class XoopsFormSelectEditor extends XoopsFormElementTray
 	 * @param	object	$form	the form calling the editor selection	
 	 * @param	string	$name	editor name
 	 * @param	string	$value	Pre-selected text value
-     * @param	bool	$noHtml  dohtml disabled
+     * @param	bool	$noHtml	dohtml disabled
 	 */
-	function XoopsFormSelectEditor(&$form, $name="editor", $value=null, $noHtml=false)
+	function XoopsFormSelectEditor(&$form, $name = "editor", $value = null, $noHtml = false)
 	{
 		$this->XoopsFormElementTray(_SELECT);
 

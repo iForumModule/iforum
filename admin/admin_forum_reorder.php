@@ -35,7 +35,7 @@ if (isset($_POST['orders'])) $orders = $_POST['orders'];
 if (isset($_POST['cat'])) $cat = $_POST['cat'];
 if (isset($_POST['forum'])) $forum = $_POST['forum'];
 
-if (isset($_POST['submit']) && $_POST['submit'] != "") {
+if (!empty($_POST['submit'])) {
     for ($i = 0; $i < count($cat_orders); $i++) {
         $sql = "update " . $xoopsDB->prefix("bb_categories") . " set cat_order = " . $cat_orders[$i] . " WHERE cat_id=$cat[$i]";
         if (!$result = $xoopsDB->query($sql)) {

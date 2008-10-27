@@ -33,15 +33,8 @@ include('admin_header.php');
 include_once XOOPS_ROOT_PATH."/class/pagenav.php";
 
 
-$op = 'default';
-$item = 'process';
-
-if (isset($_GET['op'])) $op = $_GET['op'];
-if (isset($_POST['op'])) $op = $_POST['op'];
-if (isset($_GET['item'])) $item = $_GET['item'];
-if (isset($_POST['item'])) $item = $_POST['item'];
-if (isset($_GET['report_id'])) $cat_id = $_GET['report_id'];
-if (isset($_POST['report_id'])) $cat_id = $_POST['report_id'];
+$op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"default");
+$item = !empty($_GET['op'])? $_GET['item'] : (!empty($_POST['item'])?$_POST['item']:"process");
 
 $start = (isset($_GET['start']))?$_GET['start']:0;
 $report_handler =& xoops_getmodulehandler('report', 'newbb');
@@ -97,7 +90,7 @@ switch($op){
 		echo "<td class='bg3' width='10%'>".$extra."</td>";
 		echo "</tr>";
 
-		$reports =& $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
+		$reports = $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
 		foreach($reports as $report){
 			$post_link = "<a href=\"".XOOPS_URL."/modules/".$xoopsModule->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".$myts->htmlSpecialChars($report['subject'])."</a>";
 			$checkbox = '<input type="checkbox" name="report_id['.$report['report_id'].']" value="1" checked="checked" />';

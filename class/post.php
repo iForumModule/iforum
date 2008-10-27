@@ -28,16 +28,19 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
+
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Post extends ArtObject {
-    var $db;
     var $attachment_array = array();
 
     function Post($id = null)
     {
-        $this->db = &Database::getInstance();
         $this->initVar('post_id', XOBJ_DTYPE_INT);
         $this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
         $this->initVar('forum_id', XOBJ_DTYPE_INT, 0, true);
@@ -86,8 +89,8 @@ class Post extends ArtObject {
             $attachment_save = base64_encode(serialize($this->attachment_array));
         else $attachment_save = '';
         $this->setVar('attachment', $attachment_save);
-        $sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET attachment=" . $this->db->quoteString($attachment_save) . " WHERE post_id = " . $this->getVar('post_id');
-        if (!$result = $this->db->queryF($sql)) {
+        $sql = "UPDATE " . $GLOBALS["xoopsDB"]->prefix("bb_posts") . " SET attachment=" . $GLOBALS["xoopsDB"]->quoteString($attachment_save) . " WHERE post_id = " . $this->getVar('post_id');
+        if (!$result = $GLOBALS["xoopsDB"]->queryF($sql)) {
             newbb_message("save attachment error: ". $sql);
             return false;
         }

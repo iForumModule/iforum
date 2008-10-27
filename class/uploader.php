@@ -28,6 +28,10 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
 include_once XOOPS_ROOT_PATH . "/class/uploader.php";
 class newbb_uploader extends XoopsMediaUploader {
     var $ext = "";
@@ -41,21 +45,22 @@ class newbb_uploader extends XoopsMediaUploader {
     /**
      * Constructor
      *
-     * @param string $uploadDir
-     * @param array $allowedMimeTypes
-     * @param int $maxFileSize
-     * @param int $maxWidth
-     * @param int $maxHeight
-     * @param int $cmodvalue
+     * @param string 	$uploadDir
+     * @param array 	$allowedMimeTypes
+     * @param int 		$maxFileSize
+     * @param int 		$maxWidth
+     * @param int 		$maxHeight
      */
     function newbb_uploader($uploadDir, $allowedMimeTypes = 0, $maxFileSize = 0, $maxWidth = 0, $maxHeight = 0)
     {
         if (!is_array($allowedMimeTypes)) {
-            $allowedMimeTypes = explode("|", strtolower($allowedMimeTypes));
-            if (in_array("*", $allowedMimeTypes)) {
-                $allowedMimeTypes = false;
+	        if(empty($allowedMimeTypes) || $allowedMimeTypes == "*"){
+                $allowedMimeTypes = array();
+	        }else{
+	            $allowedMimeTypes = explode("|", strtolower($allowedMimeTypes));
             }
         }
+	    $allowedMimeTypes = array_filter(array_map("trim", $allowedMimeTypes));
         $this->XoopsMediaUploader($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight);
     }
 

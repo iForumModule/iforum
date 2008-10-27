@@ -6,6 +6,13 @@ if (!setlocale(LC_ALL, 'zh')) {
 	setlocale(LC_ALL, $original_locale );
 }
 
+// !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A", "B", "c", "d", "D", "F", "g", "G", "h", "H", "i", "I", "j", "l", "L", "m", "M", "n", "O", "r", "s", "S", "t", "T", "U", "w", "W", "Y", "y", "z", "Z"	
+// insert double '\' before 't', 'r', 'n'
+define("_TODAY", "½ñÌì G:i:s");
+define("_YESTERDAY", "×òÌì G:i:s");
+define("_MONTHDAY", "n/j G:i:s");
+define("_YEARMONTHDAY", "Y/n/j G:i");
+
 // Local handler for string and encoding
 class XoopsLocal
 {	

@@ -32,6 +32,7 @@
 if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
+
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 if(empty($forum_obj)){
@@ -180,7 +181,6 @@ if ( empty($admin_form_action) && is_object($xoopsUser) && $xoopsModuleConfig['n
     $notify_checkbox->addOption(1, _MD_NEWPOSTNOTIFY);
     $options_tray->addElement($notify_checkbox);
 }
-
 $forum_form->addElement($options_tray);
 
 if ($topic_handler->getPermission($forum_obj, $topic_status, 'attach')) {
@@ -188,7 +188,9 @@ if ($topic_handler->getPermission($forum_obj, $topic_status, 'attach')) {
 	$upload_tray->addElement(new XoopsFormFile('', 'userfile',''));
 	$upload_tray->addElement(new XoopsFormButton('', 'contents_upload', _MD_UPLOAD, "submit"));
     $upload_tray->addElement(new XoopsFormLabel("<BR /><BR />"._MD_MAX_FILESIZE.":", $forum_obj->getVar('attach_maxkb')."K; "));
-    $upload_tray->addElement(new XoopsFormLabel(_MD_ALLOWED_EXTENSIONS.":", str_replace('|',' ',$forum_obj->getVar('attach_ext'))));
+    $extensions = trim(str_replace('|',' ',$forum_obj->getVar('attach_ext')));
+    $extensions = (empty($extensions) || $extensions == "*")?_ALL:$extensions;
+    $upload_tray->addElement(new XoopsFormLabel(_MD_ALLOWED_EXTENSIONS.":", $extensions));
 	$forum_form->addElement($upload_tray);
 }
 
@@ -222,15 +224,14 @@ if($xoopsModuleConfig['enable_karma'] || $xoopsModuleConfig['allow_require_reply
 		$radiobox->addOption( 'require_reply', _MD_REQUIRE_REPLY);
 	}
 	if($xoopsModuleConfig['enable_karma']){
-		$karmas = explode(',',$xoopsModuleConfig['karma_options']);
-		$karmas = array_map("trim", $karmas);
+		$karmas = array_map("trim", explode(',', $xoopsModuleConfig['karma_options']));
 		if(count($karmas)>1) {
 			foreach($karmas as $karma){
 				$karma_array[strval($karma)] = intval($karma);
 			}
 			$karma_select = new XoopsFormSelect('', "post_karma", $post_karma);
 			$karma_select->addOptionArray($karma_array);
-			$radiobox->addOption( 'require_karma', _MD_REQUIRE_KARMA.$karma_select->render());
+			$radiobox->addOption( 'require_karma', _MD_REQUIRE_KARMA. ($karma_select->render()) );
 		}
 	}
 	$radiobox->addOption( 'require_null', _MD_REQUIRE_NULL);

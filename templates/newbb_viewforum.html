@@ -223,7 +223,7 @@
 	      <{/if}>
 		</td>
 		<td width="4%" align="center"><{$topic.topic_icon}></td>
-		<td>&nbsp;<a href="<{$topic.topic_link}>" title="<{$topic.topic_excerpt}>">
+		<td>&nbsp;<a href="<{$topic.topic_link}>" title="<{$topic.topic_excerpt|strip_tags}>">
 			<{$topic.topic_title}></a><{$topic.attachment}> <{$topic.topic_page_jump}>
 		</td>
 		<td align="center" valign="middle"><{$topic.topic_poster}></td>

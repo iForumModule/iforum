@@ -28,18 +28,20 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
 
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
 class Forum extends ArtObject {
-    var $db;
     var $table;
 
     function Forum()
     {
-        $this->db = &Database::getInstance();
-        $this->table = $this->db->prefix("bb_forums");
+        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_forums");
         $this->initVar('forum_id', XOBJ_DTYPE_INT);
         $this->initVar('forum_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('forum_desc', XOBJ_DTYPE_TXTAREA);
@@ -86,6 +88,7 @@ class Forum extends ArtObject {
 	        else $moderators_new[]=$id;
         }
         if(count($moderators_new)>0){
+			include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
 	        $moderators_new = newbb_getUnameFromIds($moderators_new);
 	        foreach($moderators_new as $id => $name){
 				$_cachedModerators[$id] = $name;
@@ -112,6 +115,7 @@ class Forum extends ArtObject {
         if (empty($valid_moderators) || !is_array($valid_moderators)) {
             return $ret;
         }
+		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
         $moderators = newbb_getUnameFromIds($valid_moderators, !empty($xoopsModuleConfig['show_realname']), true);
 		$ret = implode(", ", $moderators);
 		return $ret;
@@ -155,7 +159,7 @@ class NewbbForumHandler extends ArtObjectHandler
     {
 	    $_cachedForums=array();
 	    $perm_string = (empty($permission))?'all':$permission;
-        $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+        $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 	    $criteria = new CriteriaCompo(new Criteria("1", 1));
         if (is_numeric($cat) && $cat> 0) {
 	        $criteria->add(new Criteria("cat_id", intval($cat)));
@@ -225,6 +229,8 @@ class NewbbForumHandler extends ArtObjectHandler
     function getAllTopics(&$forum, $startdate, $start, $sortname, $sortorder, $type = '', $excerpt = 0)
     {
         global $xoopsModule, $xoopsConfig, $xoopsModuleConfig, $forumImage, $forumUrl, $myts, $xoopsUser, $viewall_forums;
+		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+		
         $UserUid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : null;
 
         $topic_lastread = newbb_getcookie('LT', true);
@@ -402,8 +408,8 @@ class NewbbForumHandler extends ArtObjectHandler
             }elseif( ($myrow['post_karma']>0 || $myrow['require_reply']>0) && !newbb_isAdmin($forum) ){
 	            $topic_excerpt = "";
             }else{
-	            $topic_excerpt = xoops_substr(newbb_html2text($myrow['post_text']), 0, $excerpt);
-	            $topic_excerpt = $myts->htmlSpecialChars($topic_excerpt);
+	            $topic_excerpt = xoops_substr(newbb_html2text($myts->displayTarea($myrow['post_text'])), 0, $excerpt);
+	            $topic_excerpt = str_replace("[", "&#91;", $myts->htmlSpecialChars($topic_excerpt));
             }
 
             $topic_subject = ($allow_subject_prefix)?$subject_array[$myrow['topic_subject']]:"";
@@ -490,6 +496,7 @@ class NewbbForumHandler extends ArtObjectHandler
     function getTopicCount(&$forum, $startdate, $type)
     {
 	    global $xoopsModuleConfig;
+		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
 	    
         $criteria_extra = '';
         $criteria_approve = ' AND t.approved = 1'; // any others?
@@ -557,6 +564,7 @@ class NewbbForumHandler extends ArtObjectHandler
     {
         global $xoopsUser, $xoopsModule;
         static $_cachedPerms;
+		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
 
         if($type == "all") return true;
         if (newbb_isAdministrator()) return true;
@@ -719,6 +727,7 @@ class NewbbForumHandler extends ArtObjectHandler
     function &display(&$forums_obj)
     {
         global $xoopsModule, $xoopsConfig, $xoopsModuleConfig, $forumImage, $myts;
+		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
 	    
 		$posts = array();
 		$posts_obj = array();

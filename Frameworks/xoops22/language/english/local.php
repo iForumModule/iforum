@@ -9,6 +9,13 @@
  * @author       D.J. (phppp)
  * @since        2.2
  */
+
+// !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A", "B", "c", "d", "D", "F", "g", "G", "h", "H", "i", "I", "j", "l", "L", "m", "M", "n", "O", "r", "s", "S", "t", "T", "U", "w", "W", "Y", "y", "z", "Z"	
+// insert double '\' before 't', 'r', 'n'
+define("_TODAY", "\T\o\d\a\y G:i:s");
+define("_YESTERDAY", "\Y\e\s\\t\e\\r\d\a\y G:i:s");
+define("_MONTHDAY", "n/j G:i:s");
+define("_YEARMONTHDAY", "Y/n/j G:i");
  
 /**
  * The class should be an abstract one using PHP embedded functions

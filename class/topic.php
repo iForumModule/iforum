@@ -28,6 +28,11 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
+
 include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
 newbb_load_object();
 
@@ -37,7 +42,7 @@ class Topic extends ArtObject {
     function Topic()
     {
 	    $this->ArtObject();
-        $this->table = $this->db->prefix("bb_topics");
+        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_topics");
         $this->initVar('topic_id', XOBJ_DTYPE_INT);
         $this->initVar('topic_title', XOBJ_DTYPE_TXTBOX);
         $this->initVar('topic_poster', XOBJ_DTYPE_INT);
@@ -61,8 +66,8 @@ class Topic extends ArtObject {
     
     function incrementCounter()
     {
-        $sql = 'UPDATE ' . $this->db->prefix('bb_topics') . ' SET topic_views = topic_views + 1 WHERE topic_id =' . $this->getVar('topic_id');
-        $this->db->queryF($sql);
+        $sql = 'UPDATE ' . $GLOBALS["xoopsDB"]->prefix('bb_topics') . ' SET topic_views = topic_views + 1 WHERE topic_id =' . $this->getVar('topic_id');
+        $GLOBALS["xoopsDB"]->queryF($sql);
     }
 }
 

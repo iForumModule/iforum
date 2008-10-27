@@ -48,7 +48,7 @@ $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
  * @param integer $catid
  * @return
  */
-function newForum($parent_forum = null)
+function newForum($parent_forum = 0)
 {
     editForum(null, $parent_forum);
 }
@@ -65,7 +65,7 @@ function editForum($ff = null, $parent_forum = 0)
 
     $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
     if ($ff == null) {
-        $ff = &$forum_handler->create();
+        $ff =& $forum_handler->create();
         $new = true;
         $forum = 0;
     } else {
@@ -84,6 +84,7 @@ function editForum($ff = null, $parent_forum = 0)
     } else {
         $sform = new XoopsThemeForm(_AM_NEWBB_CREATENEWFORUM, "op", xoops_getenv('PHP_SELF'));
 
+        $ff->setVar('parent_forum', $parent_forum);
         $ff->setVar('forum_order', 0);
         $ff->setVar('forum_name', '');
         $ff->setVar('forum_desc', '');
@@ -391,7 +392,7 @@ switch ($op) {
         }
 
     case "mod":
-        $ff = &$forum_handler->get($forum);
+        $ff =& $forum_handler->get($forum);
         loadModuleAdminMenu(2, _AM_NEWBB_EDITTHISFORUM . $ff->getVar('forum_name'));
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITTHISFORUM . "</legend>";
         echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'><tr><td class='odd'>";
@@ -492,18 +493,8 @@ switch ($op) {
         echo "</fieldset>";
         break;
 
-    case "default":
-    default:
-        loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
-        echo "<br />";
-
-        newForum();
-
-        echo "</fieldset>";
-        break;
-
     case "addsubforum":
+    /*
         loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
         echo "<br />";
@@ -513,6 +504,19 @@ switch ($op) {
 
         echo "</fieldset>";
 
+        break;
+	*/
+	
+    case "default":
+    default:
+        loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
+        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
+        echo "<br />";
+
+        //$parent_forum = isset($_GET['parent_forum']) ? intval($_GET['parent_forum']) : null;
+        newForum(@intval($_GET['parent_forum']));
+
+        echo "</fieldset>";
         break;
 }
 xoops_cp_footer();

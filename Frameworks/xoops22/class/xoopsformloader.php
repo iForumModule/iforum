@@ -29,11 +29,20 @@ include_once XOOPS_ROOT_PATH."/class/xoopsform/formdhtmltextarea.php";
 include_once XOOPS_ROOT_PATH."/class/xoopsform/formelementtray.php";
 include_once XOOPS_ROOT_PATH."/class/xoopsform/themeform.php";
 include_once XOOPS_ROOT_PATH."/class/xoopsform/simpleform.php";
+@include_once XOOPS_ROOT_PATH."/class/xoopsform/formcalendar.php"; // for XOOPS 22
 include_once XOOPS_ROOT_PATH."/class/xoopsform/formtextdateselect.php";
 include_once XOOPS_ROOT_PATH."/class/xoopsform/formdatetime.php";
 include_once XOOPS_ROOT_PATH."/class/xoopsform/formhiddentoken.php";
 
-include_once dirname(__FILE__)."/xoopsform/formselectuser.php";
-include_once dirname(__FILE__)."/xoopsform/formeditor.php";
-include_once dirname(__FILE__)."/xoopsform/formselecteditor.php";
+if(!@include_once XOOPS_ROOT_PATH."/class/xoopsform/formselectuser.php") {
+	include_once dirname(__FILE__)."/xoopsform/formselectuser.php";
+}
+
+if(!@include_once XOOPS_ROOT_PATH."/class/xoopsform/formeditor.php") {
+	include_once dirname(__FILE__)."/xoopsform/formeditor.php";
+}
+
+if( !@include_once XOOPS_ROOT_PATH."/class/xoopsform/formselecteditor.php" ) {
+	include_once dirname(__FILE__)."/xoopsform/formselecteditor.php";
+}
 ?>

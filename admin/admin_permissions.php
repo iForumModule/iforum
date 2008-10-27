@@ -32,7 +32,7 @@ include 'admin_header.php';
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
-/*
+/**
  * Add category navigation to forum casscade structure
  * <ol>Special points:
  *	<li> Use negative values for category IDs to avoid conflict between category and forum
@@ -177,7 +177,6 @@ $perms = array_map("trim",explode(',', FORUM_PERM_ITEMS));
 
 switch($action){
 	case "template":
-		
 		$opform = new XoopsSimpleForm(_AM_NEWBB_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
 		$op_select = new XoopsFormSelect("", 'action');
 		$op_select->setExtra('onchange="document.forms.actionform.submit()"');
@@ -228,6 +227,7 @@ switch($action){
         $ret .= '</table></form>';
         echo $ret;
         break;	
+        
 	case "template_save":
         $newbbperm_handler = &xoops_getmodulehandler('permission', 'newbb');
         $res = $newbbperm_handler->setTemplate($_POST['perms'], $groupid = 0);
@@ -237,6 +237,7 @@ switch($action){
 	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE_ERROR);
         }
 		break;
+		
 	case "apply":
         $newbbperm_handler = &xoops_getmodulehandler('permission', 'newbb');
 	    $perm_template = $newbbperm_handler->getTemplate();
@@ -269,7 +270,7 @@ switch($action){
 		}
 		unset($forums, $categories);		
 		$fmform = new XoopsThemeForm(_AM_NEWBB_PERM_TEMPLATEAPP, 'fmform', 'admin_permissions.php', "post");
-		$fm_select = new XoopsFormSelect(_AM_NEWBB_PERM_FORUMS, 'forums', null, 5, true);
+		$fm_select = new XoopsFormSelect(_AM_NEWBB_PERM_FORUMS, 'forums', null, 10, true);
 		$fm_select->addOptionArray($fm_options);
 		$fmform->addElement($fm_select);
         $tray = new XoopsFormElementTray('');

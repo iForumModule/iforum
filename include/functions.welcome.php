@@ -55,6 +55,7 @@ function newbb_welcome_create( &$user, $forum_id )
     $forumpost->setVar('dobr', 1);
     $forumpost->setVar('icon', "");
     $forumpost->setVar('attachsig', 1);
+    $forumpost->setVar('post_time', time());
 
 	$categories = array();
 	

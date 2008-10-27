@@ -39,8 +39,7 @@ class Digest extends XoopsObject {
 
     function Digest()
     {
-        $this->db = &Database::getInstance();
-        $this->table = $this->db->prefix("bb_digest");
+        $this->table = $GLOBALS["xoopsDB"]->prefix("bb_digest");
         $this->initVar('digest_id', XOBJ_DTYPE_INT);
         $this->initVar('digest_time', XOBJ_DTYPE_INT);
         $this->initVar('digest_content', XOBJ_DTYPE_TXTAREA);

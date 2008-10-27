@@ -128,18 +128,21 @@ function newbb_getIP($asString = false)
 	return mod_getIP($asString);
 }
 
-function newbb_formatTimestamp($time, $format="c", $timeoffset="")
+function newbb_formatTimestamp($time, $format = "c", $timeoffset = "")
 {
-	$format = strtolower($format);
-	if($format=="reg"||$format=="") {
+	if(strtolower($format) == "reg" || strtolower($format) == "") {
 		$format = "c";
 	}
+	if( (strtolower($format) == "custom" || strtolower($format) == "c") && !empty($GLOBALS["xoopsModuleConfig"]["formatTimestamp_custom"]) ) {
+		$format = $GLOBALS["xoopsModuleConfig"]["formatTimestamp_custom"];
+	}
+	
 	if(class_exists("XoopsLocal") && is_callable(array("XoopsLocal", "formatTimestamp")) && defined("_TODAY")){
 		return XoopsLocal::formatTimestamp($time, $format, $timeoffset);
 	}
 	
     global $xoopsConfig, $xoopsUser;
-    if(strtolower($format) == "rss" ||strtolower($format) == "r"){
+    if(strtolower($format) == "rss" || strtolower($format) == "r"){
     	$TIME_ZONE = "";
     	if(!empty($GLOBALS['xoopsConfig']['server_TZ'])){
 			$server_TZ = abs(intval($GLOBALS['xoopsConfig']['server_TZ']*3600.0));

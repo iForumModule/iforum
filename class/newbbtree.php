@@ -28,6 +28,10 @@
 // URL: http://xoopsforge.com, http://xoops.org.cn                          //
 // Project: Article Project                                                 //
 // ------------------------------------------------------------------------ //
+ 
+if (!defined("XOOPS_ROOT_PATH")) {
+	exit();
+}
 include_once XOOPS_ROOT_PATH . "/class/xoopstree.php";
 
 class NewBBTree extends XoopsTree {

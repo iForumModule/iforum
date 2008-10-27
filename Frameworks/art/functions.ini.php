@@ -1,74 +1,149 @@
 <?php
-// $Id: functions.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: phppp (D.J., infomax@gmail.com)                                  //
-// URL: http://xoopsforge.com, http://xoops.org.cn                          //
-// Project: Article Project                                                 //
-// ------------------------------------------------------------------------ //
+/**
+ * Initial functions
+ *
+ * @copyright	The XOOPS project http://www.xoops.org/
+ * @license		http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @author		Taiwen Jiang (phppp or D.J.) <php_pp@hotmail.com>
+ * @since		1.00
+ * @version		$Id$
+ * @package		Frameworks::art
+ */
 
 if(!defined("FRAMEWORKS_ART_FUNCTIONS_INI")):
 define("FRAMEWORKS_ART_FUNCTIONS_INI", true);
 
+define("FRAMEWORKS_ROOT_PATH", XOOPS_ROOT_PATH."/Frameworks/art");
 
-// backward compatible
-if(!function_exists("xoops_local")):
-// calling XoopsLocal::{$func}()
-function xoops_local($func)
-{
-	// get parameters
-	$func_args = func_get_args();
-	$func = array_shift($func_args);
-	// local method defined
-	if(is_callable(array("XoopsLocal", $func))) {
-		return call_user_func_array(array("XoopsLocal", $func), $func_args);
+global $xoops;
+if(!is_object($xoops) || "xos_kernel_Xoops2" != get_class($xoops)):
+
+if(!class_exists("xos_kernel_Xoops2")):
+/**
+ * Extremely reduced kernel class
+ * This class should not really be defined in this file, but it wasn't worth including an entire
+ * file for those two functions.
+ * Few notes:
+ * - modules should use this class methods to generate physical paths/URIs (the ones which do not conform
+ * will perform badly when true URL rewriting is implemented)
+ */
+class xos_kernel_Xoops2 {
+	var $paths = array(
+		'www' => array(), 'modules' => array(), 'themes' => array(),
+	);
+	function xos_kernel_Xoops2() {
+		$this->paths['www'] = array( XOOPS_ROOT_PATH, XOOPS_URL );
+		$this->paths['modules'] = array( XOOPS_ROOT_PATH . '/modules', XOOPS_URL . '/modules' );
+		$this->paths['themes'] = array( XOOPS_ROOT_PATH . '/themes', XOOPS_URL . '/themes' );
 	}
-	// php function defined
-	if(function_exists($func)){
-		return call_user_func_array($func, $func_args);
+	/**
+	 * Convert a XOOPS path to a physical one
+	 */
+	function path( $url, $virtual = false ) {
+		$path = '';
+		@list( $root, $path ) = explode( '/', $url, 2 );
+		if ( !isset( $this->paths[$root] ) ) {
+			list( $root, $path ) = array( 'www', $url );
+		}
+		if ( !$virtual ) {		// Returns a physical path
+			return $this->paths[$root][0] . '/' . $path;
+		}
+		return !isset( $this->paths[$root][1] ) ? '' : ( $this->paths[$root][1] . '/' . $path );
 	}
-	// nothing
-	return null;
+	/**
+	* Convert a XOOPS path to an URL
+	*/
+	function url( $url ) {
+		return ( false !== strpos( $url, '://' ) ? $url : $this->path( $url, true ) );
+	}
+	/**
+	* Build an URL with the specified request params
+	*/
+	function buildUrl( $url, $params = array() ) {
+		if ( $url == '.' ) {
+			$url = $_SERVER['REQUEST_URI'];
+		}
+		$split = explode( '?', $url );
+		if ( count($split) > 1 ) {
+			list( $url, $query ) = $split;
+			parse_str( $query, $query );
+			$params = array_merge( $query, $params );
+		}
+		if ( !empty( $params ) ) {
+			foreach ( $params as $k => $v ) {
+				$params[$k] = $k . '=' . rawurlencode($v);
+			}
+			$url .= '?' . implode( '&', $params );
+		}
+		return $url;
+	}
 }
 endif;
-if(!class_exists("XoopsLocal")){
-	$GLOBALS["xoopsConfig"]["language"] = preg_replace("/[^a-z0-9_\-]/i", "", $GLOBALS["xoopsConfig"]["language"]);
-	if(!@include_once (dirname(dirname(__FILE__))."/xoops22/language/".$GLOBALS["xoopsConfig"]["language"]."/local.php")){
-		include_once (dirname(dirname(__FILE__))."/xoops22/language/english/local.php");
+/* Be careful not to use reference, otherwise the $xoops won't be kept alive for XOOPS 2.2 */
+$xoops = new xos_kernel_Xoops2();
+
+endif;
+
+/**
+ * Load declaration of an object handler
+ *
+ *
+ * @param	string	$handler	handler name, optional
+ * @return	bool
+ */
+function load_objectHandler($handler = "")
+{
+	if(empty($handler)) {
+		$handlerClass	= "ArtObject";
+		$fileName		= "object.php"; 
+	}else{
+		$handlerClass	= "ArtObject".ucfirst($handler)."Handler";
+		$fileName		= "object.{$handler}.php"; 
 	}
+	
+	class_exists($handlerClass) || require_once(FRAMEWORKS_ROOT_PATH."/{$fileName}");
+	return class_exists($handlerClass);
 }
 
 
 function load_object()
 {
-	if(class_exists("ArtObject")) return true;
-	if(!defined("XOOPS_PATH") || !@include_once(XOOPS_PATH."/Frameworks/art/object.php")){
-		include_once(XOOPS_ROOT_PATH."/Frameworks/art/object.php");
-	}
-	if(class_exists("ArtObject")) return true;
-	else return false;
+	return load_objectHandler();
+}
+
+/**
+ * Load a collective functions of Frameworks
+ *
+ * @param	string	$group		name of  the collective functions, empty for functions.php
+ * @return	bool
+ */
+function load_functions($group = "")
+{
+	$constant = strtoupper( "frameworks_functions" . ($group) ? "_{$group}" : "" );
+	if(defined($constant)) return true;
+	return @include_once FRAMEWORKS_ROOT_PATH."/functions.{$group}" . (empty($group) ? "" : "." ) . "php";
+}
+
+
+/**
+ * Load a collective functions of a module
+ *
+ * The function file should be located in /modules/MODULE/functions.{$group}.php
+ * To avoid slowdown caused by include_once, a constant is suggested in the corresponding file: capitalized {$dirname}_{functions}[_{$group}]
+ *
+ * The function is going to be formulated to use xos_kernel_Xoops2::loadService() in XOOPS 2.3+
+ *
+ * @param	string	$group		name of  the collective functions, empty for functions.php
+ * @param	string	$dirname	module dirname, optional
+ * @return	bool
+ */
+function mod_loadFunctions($group = "", $dirname = "")
+{
+	$dirname = !empty($dirname) ? $dirname : $GLOBALS["xoopsModule"]->getVar("dirname");
+	$constant = strtoupper( "{$dirname}_functions" . ( ($group) ? "_{$group}" : "" ) . "_loaded" );
+	if(defined($constant)) return true;
+	$filename = XOOPS_ROOT_PATH."/modules/{$dirname}/include/functions.{$group}" . (empty($group) ? "" : "." ) . "php";
+	return @include_once $filename;
 }
 
 /**
@@ -86,6 +161,21 @@ function mod_constant($name)
 	}else{
 		return str_replace("_", " ", strtolower($name));
 	}
+}
+}
+
+/**
+ * Get completed DB prefix if it is defined 
+ *
+ * @param	string	$name	string to be completed
+ * @param	boolean	$isRel	relative - do not add XOOPS->DB prefix
+ */
+if(!function_exists("mod_DB_prefix")) {
+function mod_DB_prefix($name, $isRel = false)
+{
+	$relative_name = $GLOBALS["MOD_DB_PREFIX"]."_".$name;
+	if($isRel) return $relative_name;
+	return $GLOBALS["xoopsDB"]->prefix($relative_name);
 }
 }
 
