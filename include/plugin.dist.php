@@ -62,6 +62,14 @@ $customConfig["read_expire"] = 30;
 // maximum records per forum for one user
 $customConfig["read_items"] = 100;
 
+// default value for editor rows, coloumns 
+$customConfig["editor_rows"] = 35;
+$customConfig["editor_cols"] = 60;
+
+// default value for editor width, height (string)
+$customConfig["editor_width"] = "100%";
+$customConfig["editor_height"] = "400px";
+
 // MENU handler
 /* You could remove anyone by commenting out in order to disable it */
 $valid_menumodes = array(

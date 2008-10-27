@@ -375,6 +375,44 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     }
     
     /**
+     * get counts matching a condition
+     * 
+     * @param object	$criteria {@link CriteriaElement} to match
+     * @return array of conunts
+     */
+   	function getCounts($criteria = null)
+    {
+	    $ret = array();
+	    
+	    $sql_where = "";
+	    $limit = null;
+	    $start = null;
+	    $groupby_key = $this->keyName;
+        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+            $sql_where = $criteria->renderWhere();
+            $limit = $criteria->getLimit();
+            $start = $criteria->getStart();
+            if($groupby = $criteria->groupby){
+	            $groupby_key = $groupby;
+            }
+        }
+        $sql = "SELECT ".$groupby_key.", COUNT(*) AS count".
+        		" FROM " . $this->table.
+        		" ".$sql_where.
+        		" GROUP BY ".$groupby_key.
+        		" ORDER BY count DESC";
+        if(!$result = $this->db->query($sql, $limit, $start)) {
+	        //xoops_error("get object counts error: ".$sql);
+            return $ret;
+        }
+        $ret = array();
+        while (list($id, $count) = $this->db->fetchRow($result)) {
+            $ret[$id] = $count;
+        }
+        return $ret;
+    }
+    
+    /**
      * delete all objects meeting the conditions
      * 
      * @param	object	$criteria {@link CriteriaElement} with conditions to meet
@@ -616,8 +654,8 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	    static $mysql_version;
 	    if(isset($mysql_version)) return $mysql_version;
 	    $version = mysql_get_client_info();
-	    if(version_compare( $version, "5.0.0", "gt" ) ) $mysql_version = 5;
-	    elseif(version_compare( $version, "4.1.0", "gt" ) ) $mysql_version = 4;
+	    if(version_compare( $version, "5.0.0", "ge" ) ) $mysql_version = 5;
+	    elseif(version_compare( $version, "4.1.0", "ge" ) ) $mysql_version = 4;
 	    else $mysql_version = 3;
 	    return $mysql_version;
     }
@@ -663,9 +701,9 @@ function text_filter(&$text, $force = false)
 	
 	// Set iframe tag
 	$search[]= "/<IFRAME[^>\/]*SRC=(['\"])?([^>\/]*)(\\1)[^>\/]*?\/>/si";
-	$replace[]=" [!IFRAME FILTERED!] \\2 ";
+	$replace[]=" [!IFRAME FILTERED! \\2] ";
 	$search[]= "/<IFRAME[^>]*?>([^<]*)<\/IFRAME>/si";
-	$replace[]=" [!IFRAME FILTERED!] \\1 ";
+	$replace[]=" [!IFRAME FILTERED! \\1] ";
 	// action
 	$text = preg_replace($search, $replace, $text);
 	return $text;

@@ -447,14 +447,14 @@ if ( !empty($_POST['contents_upload']) || !empty($_POST['contents_preview']) || 
     $subject = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['subject']));
 	$message = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['message']));
     $poster_name = isset($_POST['poster_name'])?$myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['poster_name'])):'';
-    $hidden = isset($_POST['hidden'])?$myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['hidden'])):'';
-    $notify = !empty($_POST['notify']) ? 1 : 0;
+    $hidden = isset($_POST['hidden'])? $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST['hidden'])):'';
+    $notify = @intval($_POST['notify']);
     $attachsig = !empty($_POST['attachsig']) ? 1 : 0;
     $isreply = !empty($_POST['isreply']) ? 1 : 0;
     $isedit = !empty($_POST['isedit']) ? 1 : 0;
     $icon = (!empty($_POST['icon']) && is_file(XOOPS_ROOT_PATH . "/images/subject/" . $_POST['icon']) ) ? $_POST['icon'] : '';
     $view_require = isset($_POST['view_require']) ? $_POST['view_require'] : '';
-    $post_karma = (($view_require == 'require_karma')&&isset($_POST['post_karma']))?intval($_POST['post_karma']):0;
+    $post_karma = ( ($view_require == 'require_karma') && isset($_POST['post_karma']) )? intval($_POST['post_karma']) : 0 ;
     $require_reply = ($view_require == 'require_reply')?1:0;
 
     if(empty($_POST['contents_upload'])) $contents_preview = 1;

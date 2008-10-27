@@ -136,8 +136,8 @@ switch($op){
 		unset($topics_obj, $forums_obj);
 		break;
 	case "move":
-		if(!empty($_POST["newforum"]) && $_POST["newforum"]!=$forum_id
-			&& !$forum_handler->getPermission($_POST["newforum"], 'post')
+		if(!empty($_POST["newforum"]) && $_POST["newforum"] != $forum_id
+			&& $forum_handler->getPermission($_POST["newforum"], 'post')
 		){
         	$criteria = new Criteria('topic_id', "(".implode(",", $topic_id).")", "IN");
 			$post_handler =& xoops_getmodulehandler('post', 'newbb');
@@ -178,6 +178,7 @@ switch($op){
 	        echo '</td></tr>';
 		    echo '<tr class="bg3"><td colspan="2" align="center">';
 		    echo "<input type='hidden' name='op' value='move' />";
+		    echo "<input type='hidden' name='forum_id' value='{$forum_id}' />";
 		    foreach($topic_id as $id){
 		    	echo "<input type='hidden' name='topic_id[]' value='".$id."' />";
 	    	}

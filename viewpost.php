@@ -126,9 +126,11 @@ $viewmode = isset($_GET['viewmode'])?
 				!empty($viewmode_cookie)?
 				$viewmode_cookie:
 				(
+				/*
 					is_object($xoopsUser)?
 					$xoopsUser->getVar('umode'):
-					$valid_modes[$xoopsModuleConfig['view_mode']-1]
+				*/
+					@$valid_modes[$xoopsModuleConfig['view_mode']-1]
 				)
 			);
 $viewmode = in_array($viewmode, $valid_modes)?$viewmode:"flat";

@@ -115,15 +115,15 @@ if(!empty($editor)){
 		$editor =@ $xoopsModuleConfig["editor_default"];
 	}
 }
-$forum_form->addElement(new XoopsFormSelectEditor($forum_form,"editor",$editor,$nohtml));
+$forum_form->addElement(new XoopsFormSelectEditor($forum_form, "editor", $editor, $nohtml));
 
 $editor_configs = array();
 $editor_configs["name"] ="message";
 $editor_configs["value"] = $message;
-$editor_configs["rows"] = 35;
-$editor_configs["cols"] = 60;
-$editor_configs["width"] = "100%";
-$editor_configs["height"] = "400px";
+$editor_configs["rows"] = empty($xoopsModuleConfig["editor_rows"])? 35 : $xoopsModuleConfig["editor_rows"];
+$editor_configs["cols"] = empty($xoopsModuleConfig["editor_cols"])? 60 : $xoopsModuleConfig["editor_cols"];
+$editor_configs["width"] = empty($xoopsModuleConfig["editor_width"])? "100%" : $xoopsModuleConfig["editor_width"];
+$editor_configs["height"] = empty($xoopsModuleConfig["editor_height"])? "400px" : $xoopsModuleConfig["editor_height"];
 $forum_form->addElement(new XoopsFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure=null), true);
 
 $options_tray = new XoopsFormElementTray(_MD_OPTIONS, '<br />');
@@ -163,7 +163,7 @@ if ($forum_obj->getVar('allow_sig') && is_object($xoopsUser)) {
 if ( empty($admin_form_action) && is_object($xoopsUser) && $xoopsModuleConfig['notification_enabled']) {
     if (!empty($notify)) {
 		// If 'notify' set, use that value (e.g. preview or upload)
-		$notify = 1;
+		//$notify = 1;
 	}
 	else {
 		// Otherwise, check previous subscribed status...

@@ -251,11 +251,14 @@ switch($action){
 		$opform->addElement($op_select);
 		$opform->display();
 		
+		$category_handler =& xoops_getmodulehandler('category', 'newbb');
+		$categories = $category_handler->getAllCats("", true);
+		
 		$forum_handler = &xoops_getmodulehandler('forum', 'newbb');
 		$forums = $forum_handler->getForumsByCategory(0, '', false);
 		$fm_options = array();
-		foreach (array_keys($forums) as $c) {
-			$fm_options[-1*$c] = "[".$categories[$c]."]";
+		foreach (array_keys($categories) as $c) {
+			$fm_options[-1*$c] = "[".$categories[$c]->getVar('cat_title')."]";
 			foreach(array_keys($forums[$c]) as $f){
 				$fm_options[$f] = $forums[$c][$f]["title"];
 		        if(!isset($forums[$c][$f]["sub"])) continue;
@@ -336,12 +339,12 @@ switch($action){
 		$category_handler =& xoops_getmodulehandler('category', 'newbb');
 		$categories = $category_handler->getAllCats("", true);
 		if($op=="category"){
-			foreach (array_keys($categories) as $key) {
-				$form->addItem($key, $categories[$key]->getVar('cat_title'));
+			foreach (array_keys($categories) as $c) {
+				$form->addItem($c, $categories[$c]->getVar('cat_title'));
 			}
 			unset($categories);
 		}else{
-			foreach (array_keys($forums) as $c) {
+			foreach (array_keys($categories) as $c) {
 				$key_c = -1 * $c;
 				$form->addItem($key_c, "<strong>[".$categories[$c]->getVar('cat_title')."]</strong>");
 				foreach(array_keys($forums[$c]) as $f){

@@ -72,11 +72,11 @@ function newbb_welcome_create( &$user, $forum_id )
 	unset($mod);
 	$fieldids = array_intersect($show_ids, $visible_ids);
 	$profile_handler =& xoops_gethandler('profile');
-	$fields =& $profile_handler->loadFields();
+	$fields = $profile_handler->loadFields();
 	$cat_handler =& xoops_getmodulehandler('category', 'profile');
-	$categories =& $cat_handler->getObjects(null, true, false);
+	$categories = $cat_handler->getObjects(null, true, false);
 	$fieldcat_handler =& xoops_getmodulehandler('fieldcategory', 'profile');
-	$fieldcats =& $fieldcat_handler->getObjects(null, true, false);
+	$fieldcats = $fieldcat_handler->getObjects(null, true, false);
 	
 	// Add core fields
 	$categories[0]['cat_title'] = sprintf(_PROFILE_MA_ALLABOUT, $user->getVar('uname'));

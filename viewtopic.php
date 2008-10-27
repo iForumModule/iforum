@@ -94,24 +94,26 @@ $viewmode_cookie = newbb_getcookie("V");
 if(isset($_GET['viewmode']) && in_array($_GET['viewmode'], $valid_modes)) {
 	newbb_setcookie("V", $_GET['viewmode'], $forumCookie['expire']);
 }
-$viewmode = isset($_GET['viewmode'])?
-			$_GET['viewmode']:
+$viewmode = isset($_GET['viewmode'])? $_GET['viewmode'] : 
 			(
 				!empty($viewmode_cookie)?
 				$viewmode_cookie:
 				(
+			/*
 					is_object($xoopsUser)?
 					$xoopsUser->getVar('umode'):
-					$valid_modes[$xoopsModuleConfig['view_mode']-1]
+			*/
+					@$valid_modes[$xoopsModuleConfig['view_mode']-1]
 				)
 			);
 $viewmode = in_array($viewmode, $valid_modes)?$viewmode:"flat";
-$order = (isset($_GET['order']) && in_array(strtoupper($_GET['order']),array("DESC","ASC")))?
-			$_GET['order']:
+$order = (isset($_GET['order']) && in_array(strtoupper($_GET['order']),array("DESC","ASC")))?$_GET['order']:"ASC";
+			/*
 			(
 				(is_object($xoopsUser) && $xoopsUser->getVar('uorder')==1)?
 				"DESC":"ASC"
 			);
+			*/
 
 $total_posts = $topic_handler->getPostCount($forumtopic, $type);
 

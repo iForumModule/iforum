@@ -29,7 +29,7 @@
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
 
-function xoops_module_update_newbb_v100(&$module) 
+function xoops_module_update_newbb_v220(&$module) 
 {
     $perms=array('post','view','reply','edit','delete','addpoll','vote','attach','noapprove');
     foreach($perms as $perm){
@@ -38,20 +38,20 @@ function xoops_module_update_newbb_v100(&$module)
 		if (!$result) {
 			/* Shouldn't setErrors from here, otherwise the update will be failed in cleanVars check */
 			$module->setErrors("Could not change ".$perm.": ".$sql);
-		}        
+		}
     }
     $sql = "UPDATE ".$GLOBALS['xoopsDB']->prefix('group_permission')." SET gperm_name='forum_access' WHERE gperm_name='global_forum_access'";
     $result = $GLOBALS['xoopsDB']->queryF($sql);
 	if (!$result) {
 		/* Shouldn't setErrors from here, otherwise the update will be failed in cleanVars check */
 		$module->setErrors("Could not change forum_access");
-	}        
+	}
     $sql = "UPDATE ".$GLOBALS['xoopsDB']->prefix('group_permission')." SET gperm_name='category_access' WHERE gperm_name='forum_cat_access'";
     $result = $GLOBALS['xoopsDB']->queryF($sql);
 	if (!$result) {
 		$module->setErrors("Could not change category_access");
-	}        
-    
+	}
+	
     $sql = "SELECT forum_id, forum_moderator FROM ".$GLOBALS['xoopsDB']->prefix('bb_forums');
     $result = $GLOBALS['xoopsDB']->query($sql);
     while ($row = $GLOBALS['xoopsDB']->fetchArray($result)) {

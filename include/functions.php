@@ -435,10 +435,10 @@ function newbb_forumSelectBox($value = null, $permission = "access", $delimitor_
 			}
             $box .= "<option value='-1'>[".$categories[$key]->getVar('cat_title')."]</option>";
             foreach ($forums[$key] as $f=>$forum) {
-                $box .= "<option value='".$f."' ".( (in_array($f, $value))?"'selected'":"" ).">-- ".$forum['title']."</option>";
+                $box .= "<option value='".$f."' ".( (in_array($f, $value))?" selected":"" ).">-- ".$forum['title']."</option>";
 				if( !isset($forum["sub"]) || count($forum["sub"]) ==0 ) continue; 
 	            foreach (array_keys($forum["sub"]) as $s) {
-	                $box .= "<option value='".$s."' ".( (in_array($s, $value))?"'selected'":"" ).">---- ".$forum["sub"][$s]['title']."</option>";
+	                $box .= "<option value='".$s."' ".( (in_array($s, $value))?" selected":"" ).">---- ".$forum["sub"][$s]['title']."</option>";
                 }
             }
 		}

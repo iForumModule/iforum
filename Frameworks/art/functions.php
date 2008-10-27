@@ -78,19 +78,19 @@ function mod_getIP($asString = false)
   	return $the_IP;
 }
 
-function &mod_getUnameFromIds( $userid, $usereal = 0, $linked = false )
+function &mod_getUnameFromIds( $uid, $usereal = 0, $linked = false )
 {
-	if(!is_array($userid))  $userid = array($userid);
-	$userid = array_map("intval", array_filter($userid));
+	if(!is_array($uid))  $uid = array($uid);
+	$userid = array_map("intval", array_filter($uid));
 
+	$myts =& MyTextSanitizer::getInstance();
 	$users = array();
 	if(count($userid)>0){
         $sql = 'SELECT uid, uname, name FROM ' . $GLOBALS['xoopsDB']->prefix('users'). ' WHERE level>0 AND uid IN('.implode(",", array_unique($userid)).')';
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
-	        mod_message("user query error: ".$sql);
+	        xoops_error("user query error: ".$sql);
             return $users;
         }
-	    $myts =& MyTextSanitizer::getInstance();
         while ($row = $GLOBALS['xoopsDB']->fetchArray($result)) {
 	        $uid = $row["uid"];
             if ( $usereal && $row["name"] ) {
@@ -103,6 +103,7 @@ function &mod_getUnameFromIds( $userid, $usereal = 0, $linked = false )
 			}
         }
 	}
+	if(in_array(0, $users)) $users[0] = $myts->htmlSpecialChars($GLOBALS['xoopsConfig']['anonymous']);
     return $users;
 }
 
@@ -144,7 +145,7 @@ function mod_createCacheFile($data, $name = null, $dirname = null)
 		fwrite( $fp, "<?php\nreturn " . var_export( $data, true ) . ";\n?>" );
 		fclose( $fp );
 	} else {
-		trigger_error( "Cannot create cache file: ".$file_name, E_USER_WARNING );
+		xoops_error( "Cannot create cache file: ".$file_name );
 	}
     return $file_name;
 }

@@ -208,7 +208,6 @@ newbb_setsession("LV", $last_visit);
 */
 
 // include customized variables
-// include customized variables
 if($customConfig = @include(XOOPS_ROOT_PATH."/modules/newbb/include/plugin.php")){
 	$GLOBALS["xoopsModuleConfig"] = array_merge($GLOBALS["xoopsModuleConfig"], $customConfig);
 }

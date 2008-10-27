@@ -2,6 +2,18 @@ CBB
 
 XOOPS Community Bulletin Board
 
+Changelog 3.05
+July 22nd, 2006 
+=============
+1 Bugfix for notifying new replies for a specific topic
+2 Bugfix for permission check when moving a post
+3 Removed inherition of view mode and post order from system-wide preference
+4 Added editor parameter control based on plugin'ed configs
+5 Bugfix for xhtml compliance in forum selection box (reported by skalpa)
+6 Bugfix for update scripts for newbb 2.2
+7 Bugfix for category name display in permission admin
+8 Bugfix for view_level check in viewforum template (reported by topmuzik.com)
+
 Changelog 3.04 Final
 June 3rd, 2006 
 =============
