@@ -1,5 +1,5 @@
 <?php
-// $Id: english.php,v 1.1.1.1 2005/10/19 16:23:36 phppp Exp $
+// $Id: report.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,14 +24,39 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-/**
- * Transfer::newbb language
- *
- * @author	    phppp, http://xoops.org.cn
- * @copyright	copyright (c) 2005 XOOPSForge.com
- * @package		module::article
- *
- */
- 
-define("_MD_TRANSFER_PM","Envoyer un message priv&eacute; &agrave; l'auteur de cette contribution");
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+newbb_load_object();
+
+class Ntext extends ArtObject {
+    function Ntext()
+    {
+	    $this->ArtObject();
+        $this->table = $this->db->prefix("bb_posts_text");
+        $this->initVar('post_id', XOBJ_DTYPE_INT);
+        $this->initVar('post_text', XOBJ_DTYPE_TXTAREA);
+        $this->initVar('post_edit', XOBJ_DTYPE_TXTAREA);
+    }
+}
+
+class NewbbTextHandler extends ArtObjectHandler 
+{
+    function NewbbTextHandler(&$db) {
+        $this->ArtObjectHandler($db, 'bb_posts_text', 'Ntext', 'post_id');
+    }
+    
+    /**
+     * clean orphan items from database
+     * 
+     * @return 	bool	true on success
+     */
+    function cleanOrphan()
+    {
+	    return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
+    }
+}
+
 ?>

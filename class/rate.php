@@ -1,5 +1,5 @@
 <?php
-// $Id: english.php,v 1.1.1.1 2005/10/19 16:23:35 phppp Exp $
+// $Id: report.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,14 +24,42 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-/**
- * Transfer::newbb language
- *
- * @author	    phppp, http://xoops.org.cn
- * @copyright	copyright (c) 2005 XOOPSForge.com
- * @package		module::article
- *
- */
- 
-define("_MD_TRANSFER_BLOG","Envoyer cette contribution dans le blog");
+//  Author: phppp (D.J., infomax@gmail.com)                                  //
+//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
+//  Project: Article Project                                                 //
+//  ------------------------------------------------------------------------ //
+include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+newbb_load_object();
+
+class Nrate extends ArtObject {
+    function Nrate()
+    {
+	    $this->ArtObject();
+        $this->table = $this->db->prefix("bb_votedata");
+        $this->initVar('ratingid', XOBJ_DTYPE_INT);
+        $this->initVar('topic_id', XOBJ_DTYPE_INT);
+        $this->initVar('ratinguser', XOBJ_DTYPE_INT);
+        $this->initVar('rating', XOBJ_DTYPE_INT);
+        $this->initVar('ratingtimestamp', XOBJ_DTYPE_INT);
+        $this->initVar('ratinghostname', XOBJ_DTYPE_TXTBOX);
+    }
+}
+
+class NewbbRateHandler extends ArtObjectHandler 
+{
+    function NewbbRateHandler(&$db) {
+        $this->ArtObjectHandler($db, 'bb_votedata', 'Nrate', 'ratingid');
+    }
+    
+    /**
+     * clean orphan items from database
+     * 
+     * @return 	bool	true on success
+     */
+    function cleanOrphan()
+    {
+	    return parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
+    }
+}
+
 ?>

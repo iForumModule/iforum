@@ -1,0 +1,32 @@
+CBB 3.04
+CBB - XOOPS Community bulletin Board, for XOOPS 2.0*, 2.2* and 2.3*
+
+The CBB Team are pleased to announce the release of CBB 3.04. 
+The release has been mainly focused on code refactoring and performance improvement.
+
+Although every contributor is much appreciated we have no need of saying "thank you" because -
+EVERYONE OF US is a member of the CBB Team
+
+
+User guide:
+1 Check the file xoops-module-cbb-304/readme.html for details
+2 Make sure to always use the latest Frameworks by checking the emtpy file xoops-module-cbb-304/art/version *.** (applicable to all modules using the Frameworks/art/) 
+3 The package is supposed able to upgrade any previous version of newbb and CBB. If you have any issue with upgrade, please report it
+4 Set extra preferences in file /modules/newbb/include/plugin.dist.php and rename to plugin.php
+5 Check CBB FAQ: http://xoopsforge.com/modules/newbb/viewtopic.php?topic_id=407 (You are always welcome to contribute your tips)
+
+
+Roadmap (in order of priority):
+1 Templates cleanup and upgrading to the Xoops new template engine added in Xoops 2.014
+2 Multi-level of forums. We have implemented the feature on a production site, which is based on the current CBB/newbb database structure. A new architecture is to be utilized based on a tree handling codebase by Skalpa.
+3 Precise permission control: group permission to attachments/downloads, topic types, HTML filtering
+4 Migration to Xoops 2.3 base
+5 Karma or vote/veto system implemention
+6 Replacing Xoops Comment system (Demo available on a production site)
+(The priority is to be adjusted according to http://xoopsforge.com/modules/newbb/viewtopic.php?topic_id=150)
+
+
+D.J. (phppp)
+http://xoopsforge.com
+
+June 3rd, 2006
