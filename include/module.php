@@ -100,7 +100,7 @@ function xoops_module_install_newbb(&$module)
     $category->setVar('cat_image', "", true);
     $category->setVar('cat_order', 1);
     $category->setVar('cat_description', _MI_NEWBB_INSTALL_CAT_DESC, true);
-    $category->setVar('cat_url', "http://xoops.org XOOPS", true);
+    $category->setVar('cat_url', "http://www.impresscms.org ImpressCMS", true);
     if (!$cat_id = $category_handler->insert($category)) {
         return true;
     }
@@ -115,7 +115,7 @@ function xoops_module_install_newbb(&$module)
     $forum->setVar('parent_forum', 0);
     $forum->setVar('cat_id', $cat_id);
     $forum->setVar('forum_type', 0);
-    $forum->setVar('allow_html', 0);
+    $forum->setVar('allow_html', 1);
     $forum->setVar('allow_sig', 1);
     $forum->setVar('allow_polls', 0);
     $forum->setVar('allow_subject_prefix', 1);

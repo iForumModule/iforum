@@ -194,3 +194,18 @@ div.dropdown .menu a:hover, div.dropdown .userbar a:hover{
     color: #333;
 }
 /* color - end */
+div.dropdown ul, div.dropdown .userbar{
+	direction: ltr;
+}
+
+div.dropdown li ul {
+	left: -150px !important; /* for IE, tune the value if necessary */
+}
+div.dropdown li>ul { 
+	left: -1px !important; /* for non-IE, tune the value if necessary */
+}
+
+div.dropdown .userbar{
+	float: right !important;  /* need a more formal solution, any help would be appreciated */
+}
+/* direction fix end */
