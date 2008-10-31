@@ -29,6 +29,7 @@
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
 
+$modulename = basename( dirname( __FILE__ ) );
 $modversion['name'] = _MI_NEWBB_NAME;
 $modversion['version'] = 3.08;
 $modversion['description'] = _MI_NEWBB_DESC;
@@ -36,7 +37,7 @@ $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J.
 $modversion['author'] = "D.J. (phppp)";
 $modversion['license'] = "GNU General Public License (GPL) see LICENSE";
 $modversion['image'] = "images/xoopsbb_slogo.png";
-$modversion['dirname'] = "newbb";
+$modversion['dirname'] = $modulename;
 
 $modversion['author_realname'] = "CBB Dev Team";
 $modversion['author_website_url'] = "http://xoopsforge.com";
@@ -54,7 +55,7 @@ $modversion['support_site_name'] = "Team CBB";
 $modversion['submit_feature'] = "http://xoopsforge.com/modules/newbb/";
 $modversion['submit_bug'] = "http://xoopsforge.com/modules/newbb/";
 
-include_once(XOOPS_ROOT_PATH."/Frameworks/art/functions.ini.php");
+include_once(XOOPS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
 // Is performing module install/update?
 $isModuleAction = mod_isModuleAction($modversion['dirname']);
 

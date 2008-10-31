@@ -47,10 +47,10 @@
 <br />
 
 <div style="padding: 5px;">
-<span style="float: left; text-align:left;">
+<span style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
 <a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEXTTOPIC}></a>
 </span>
-<span style="float: right; text-align:right;">
+<span style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 <{$forum_reply}><{$forum_addpoll}>&nbsp;<{$forum_post_or_register}>
 </span>
 </div>
@@ -229,7 +229,7 @@
 
 <{/if}>
 </div>
-<div style="padding: 5px;float: right; text-align:right;">
+<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 <{$forum_page_nav}>
 </div>
 </div>
@@ -253,7 +253,7 @@
 <{/foreach}>
 
 <{if $viewer_level gt 1}>
-<div style="float: right; text-align:right;" id="admin">
+<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;" id="admin">
 <{if $mode gt 1}>
 <{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');" /> 
 <select name="op">
@@ -284,10 +284,10 @@
 
 <br />
 <div>
-<div style="float: left; text-align:left;">
+<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
 	<a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEXTTOPIC}></a>
 </div>
-<div style="float: right; text-align:right;">
+<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 <{$forum_page_nav}>
 </div>
 </div>
@@ -295,7 +295,7 @@
 
 <br />
 
-<div style="padding: 5px; float: left; text-align:left;">
+<div style="padding: 5px; float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
 <{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}>
 </div>
 <div class="clear"></div>
@@ -316,12 +316,12 @@
 <{/if}>
 
 <div>
-<div style="float: left; text-align: left;">
+<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
 <{foreach item=perm from=$permission_table}>
 <div><{$perm}></div>
 <{/foreach}>
 </div>
-<div style="float: right; text-align: right;">
+<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 <form action="search.php" method="get">
 <input name="term" id="term" type="text" size="15" />
 <input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />

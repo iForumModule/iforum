@@ -6,7 +6,7 @@
    	</th>
 
     <th width="75%" align="left"><div class="comTitle"><{$topic_post.post_title}></div></th>
-    <th align="right"><div class="comTitle" style="float: right;"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a></div></th>
+    <th align="right"><div class="comTitle" style="float: <{$smarty.const._MD_RIGHT}>;"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a></div></th>
   </tr>
 
   <tr>
@@ -50,7 +50,7 @@
 	<{/if}>
 	<div class="clear"></div>
     <br />
-    <div style="float: right; padding: 5px; margin-top: 10px;">
+    <div style="float: <{$smarty.const._MD_RIGHT}>; padding: 5px; margin-top: 10px;">
 	<{if $topic_post.poster_ip}>
 	IP: <a href="http://www.whois.sc/<{$topic_post.poster_ip}>" target="_blank"><{$topic_post.poster_ip}></a> |
 	<{/if}>
@@ -58,7 +58,7 @@
 	<{if $topic_post.post_edit}>
 	<div class="clear"></div>
     <br />
-	<div style="float: right; padding: 5px; margin-top: 10px;"><small><{$topic_post.post_edit}></small></div>
+	<div style="float: <{$smarty.const._MD_RIGHT}>; padding: 5px; margin-top: 10px;"><small><{$topic_post.post_edit}></small></div>
 	<{/if}>
 	</td>
   </tr>

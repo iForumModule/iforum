@@ -249,7 +249,8 @@ class User extends XoopsObject
 	    if (!empty($rank['image'])) {
 	        $userinfo['rank']['image'] = "<img src='" . XOOPS_UPLOAD_URL . "/" . htmlspecialchars($rank['image'], ENT_QUOTES) . "' alt='' />";
 	    }
-        $userinfo["signature"] = $user->user_sig();
+		$var = $user->getVar('user_sig', 'N');
+        $userinfo["signature"] = $myts->displayTarea($var, 1, 1, 1, 1, 1);
 	    return $userinfo;
     }
 }

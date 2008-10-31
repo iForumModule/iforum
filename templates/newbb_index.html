@@ -9,7 +9,7 @@
 <div class="clear"></div>
 
 <{if $viewer_level eq 2 AND $mode gt 0}>
-	<div style="padding: 5px;float: right; text-align:right;">
+	<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 	
 	<{$smarty.const._MD_TOPIC}>: 
 	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
@@ -299,13 +299,13 @@
 
 <br />
 <div>
-<div style="float: left; text-align: left;">
+<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
 	<{$img_hotfolder}> = <{$smarty.const._MD_NEWPOSTS}><br />
 	<{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}><br />
 	<{$img_locked_newposts}> = <{$smarty.const._MD_INACTIVEFORUM_NEWPOSTS}><br />
 	<{$img_locked_nonewposts}> = <{$smarty.const._MD_INACTIVEFORUM_NONEWPOSTS}>
 </div>
-<div style="float: right; text-align: right;">
+<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 	<form action="search.php" method="post" name="search" id="search">
         <input name="term" id="term" type="text" size="20" />
         <input type="hidden" name="forum" id="forum" value="all" />
@@ -320,7 +320,7 @@
 <div class="clear"></div>
 
 <br style="clear: both;" />
-<div style="float:right;text-align:right;padding-top: 5px;">
+<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;padding-top: 5px;">
 	<{if $viewer_level gt 1}>
 		<{if $mode gt 0}>
 		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?mode=0&amp;cat=<{$viewcat}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 

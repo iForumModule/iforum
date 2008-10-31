@@ -33,7 +33,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/compat/class/xoopsformloader.php";
 
 if(empty($forum_obj)){
     $forum_handler =& xoops_getmodulehandler('forum', 'newbb');

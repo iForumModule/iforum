@@ -30,7 +30,7 @@
 //  ------------------------------------------------------------------------ //
 include 'header.php';
 // To enable image auto-resize by js
-$xoops_module_header .= '<script src="'.XOOPS_URL.'/Frameworks/textsanitizer/xoops.js" type="text/javascript"></script>';
+$xoops_module_header .= '<script src="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
 
 $topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) : 0;
 $post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) : 0;
@@ -569,7 +569,7 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 		$forum_form->addElement($user_tray, '');
 	}
 
-	$quickform = "textarea";
+	$quickform = "dhtmltextarea";
 	$editor_configs = array();
 	$editor_configs["caption"] = _MD_MESSAGEC;
 	$editor_configs["name"] ="message";

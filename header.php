@@ -33,7 +33,7 @@
 include_once '../../mainfile.php';
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/vars.php";
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/include/functions.php";
-include_once XOOPS_ROOT_PATH."/Frameworks/art/functions.php";
+include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/art/functions.php";
 
 $myts =& MyTextSanitizer::getInstance();
 
@@ -59,7 +59,7 @@ if(!empty($xoopsModuleConfig['pngforie_enabled'])){
 	$newbb_module_header .= '<style type="text/css">img {behavior:url("include/pngbehavior.htc");}</style>';
 }
 $newbb_module_header .= '
-	<link rel="stylesheet" type="text/css" href="templates/newbb.css" />
+	<link rel="stylesheet" type="text/css" href="templates/newbb'.(( defined("_ADM_USE_RTL") && _ADM_USE_RTL )?'_rtl':'').'.css" />
 	<script type="text/javascript">var toggle_cookie="'.$forumCookie['prefix'].'G'.'";</script>
 	<script src="include/js/newbb_toggle.js" type="text/javascript"></script>
 	';

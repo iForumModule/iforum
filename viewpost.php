@@ -30,7 +30,7 @@
 //  ------------------------------------------------------------------------ //
 include 'header.php';
 // To enable image auto-resize by js
-$xoops_module_header .= '<script src="'.XOOPS_URL.'/Frameworks/textsanitizer/xoops.js" type="text/javascript"></script>';
+$xoops_module_header .= '<script src="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
 
 $start = !empty($_GET['start']) ? intval($_GET['start']) : 0;
 $forum_id = !empty($_GET['forum']) ? intval($_GET['forum']) : 0;

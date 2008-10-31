@@ -32,7 +32,7 @@ if (!defined('XOOPS_ROOT_PATH')){ exit(); }
 
 if(defined("NEWBB_FUNCTIONS_INI")) return; define("NEWBB_FUNCTIONS_INI",1);
 
-include_once(XOOPS_ROOT_PATH."/Frameworks/art/functions.php");
+include_once(XOOPS_ROOT_PATH."/modules/".basename(  dirname(  dirname( __FILE__ ) ) )."/class/art/functions.php");
 
 function newbb_load_object()
 {

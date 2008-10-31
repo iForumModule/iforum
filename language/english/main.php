@@ -501,4 +501,7 @@ class User_language extends User
 		return $userbar;
     }
 }
+// @TODO: This must be part of the core
+define('_MD_LEFT','left'); // type here right in rtl languages
+define('_MD_RIGHT','right'); // type here left in rtl languages
 ?>

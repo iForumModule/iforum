@@ -10,7 +10,7 @@
 <{/if}>
 
 <{if $viewer_level gt 1}>
-<div style="padding: 5px;float: right; text-align:right;" id="admin">
+<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;" id="admin">
 <{if $mode gt 1}>
 <{$smarty.const._ALL}>: <input type="checkbox" name="topic_check1" id="topic_check1" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');" /> 
 <select name="op">
@@ -109,7 +109,7 @@
 
 <{/if}>
 </div>
-<div style="padding: 5px;float: right; text-align:right;">
+<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 <{$forum_pagenav}>
 </div>
 </div>
@@ -182,13 +182,13 @@
 <!-- end forum main table -->
 
 <{if $forum_pagenav}>
-<div style="float: right; text-align:right; padding: 5px;"><{$forum_pagenav}></div>
+<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>; padding: 5px;"><{$forum_pagenav}></div>
 <br />
 <{/if}>
 <div class="clear"></div>
 
 <div>
-<div style="float: left; text-align: left;">
+<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
 	<{$img_newposts}> = <{$smarty.const._MD_NEWPOSTS}> (<{$img_hotnewposts}> = <{$smarty.const._MD_MORETHAN}>) <br />
 	<{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}> (<{$img_hotfolder}> = <{$smarty.const._MD_MORETHAN2}>) <br />
 	<{$img_locked}> = <{$smarty.const._MD_TOPICLOCKED}> <br />
@@ -196,7 +196,7 @@
 	<{$img_digest}> = <{$smarty.const._MD_TOPICDIGEST}> <br />
 	<{$img_poll}> = <{$smarty.const._MD_TOPICHASPOLL}>
 </div>
-<div style="float: right; text-align: right;">
+<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
 <form action="search.php" method="get">
 <input name="term" id="term" type="text" size="15" />
 <input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
