@@ -104,7 +104,7 @@ if(empty($_POST["op"])){
 	$data = array();
     $data["id"] = $post_id;
     $data["uid"] = $post->getVar("uid");
-	$data["url"] = XOOPS_URL."/modules/newbb/viewtopic.php?topic_id=".$topic_id."&post_id=".$post_id;
+	$data["url"] = XOOPS_URL."/modules/".basename( dirname( __FILE__ ) )."/viewtopic.php?topic_id=".$topic_id."&post_id=".$post_id;
 	$post_data =& $post->getPostBody();
 	$data["author"] = $post_data["author"];
 	$data["title"] = $post_data["subject"];

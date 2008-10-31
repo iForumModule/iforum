@@ -31,7 +31,7 @@
 if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
 
 $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
@@ -60,7 +60,7 @@ $valid_menumodes = array(
 	2 => _MD_MENU_HOVER		// for "mouse hover to expand"
 	);
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
 
 // You shouldn't have to change any of these
 $forumUrl['root'] = XOOPS_URL."/modules/" . $xoopsModule->dirname();

@@ -31,7 +31,7 @@
 
 $modulename = basename( dirname( __FILE__ ) );
 $modversion['name'] = _MI_NEWBB_NAME;
-$modversion['version'] = 3.08;
+$modversion['version'] = 1.00;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
 $modversion['author'] = "D.J. (phppp)";
@@ -46,7 +46,7 @@ $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "3.07";
 $modversion['status'] = "Stable";
 
-$modversion['warning'] = "For XOOPS 2.0*, 2.2*, 2.3";
+$modversion['warning'] = "For XOOPS 2.0*, 2.2*, 2.3 And ImpressCMS 1.0, 1.1";
 
 $modversion['demo_site_url'] = "http://xoopsforge.com/modules/newbb/";
 $modversion['demo_site_name'] = "XForge";
@@ -216,7 +216,7 @@ $modversion['config'][] = array(
 $imagesets = array("default"=>"Default", "hsyong"=>"hsyong");
 if($isModuleAction){
 	require_once(XOOPS_ROOT_PATH.'/class/xoopslists.php');
-	$imagesets =& XoopsLists::getDirListAsArray(XOOPS_ROOT_PATH.'/modules/newbb/images/imagesets/');
+	$imagesets =& XoopsLists::getDirListAsArray(XOOPS_ROOT_PATH.'/modules/'.$modulename.'/images/imagesets/');
 }
 $modversion['config'][] = array(
 	'name' 			=> 'image_set',
@@ -319,7 +319,7 @@ $modversion['config'][] = array(
 	'description' => '_MI_DIR_ATTACHMENT_DESC',
 	'formtype' => 'textbox',
 	'valuetype' => 'text',
-	'default' => 'uploads/newbb');
+	'default' => 'uploads/'.$modulename);
 
 $modversion['config'][] = array(
 	'name' => 'media_allowed',

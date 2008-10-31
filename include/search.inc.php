@@ -31,7 +31,7 @@
 if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
-require_once(XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php');
+require_once(XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php');
 
 function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 0, $sortby = 0, $searchin = "both", $subquery = "")
 {

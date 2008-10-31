@@ -422,8 +422,8 @@ function newbb_forumSelectBox($value = null, $permission = "access", $delimitor_
     $forums = $forum_handler->getForumsByCategory(array_keys($categories), $permission, false);
 
     if(!defined("_MD_SELFORUM")) {
-		if ( !( $ret = @include_once( XOOPS_ROOT_PATH."/modules/newbb/language/".$GLOBALS['xoopsConfig']['language']."/main.php" ) ) ) {
-			include_once( XOOPS_ROOT_PATH."/modules/newbb/language/english/main.php" );
+		if ( !( $ret = @include_once( XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/language/".$GLOBALS['xoopsConfig']['language']."/main.php" ) ) ) {
+			include_once( XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/language/english/main.php" );
 		}
     }
     $value = is_array($value)?$value:array($value);

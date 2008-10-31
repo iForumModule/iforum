@@ -33,7 +33,7 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
 newbb_load_object();
 
 class Topic extends ArtObject 
@@ -272,7 +272,7 @@ class NewbbTopicHandler extends ArtObjectHandler
 
     function &getPostTree(&$postArray, $pid=0)
     {
-		include_once XOOPS_ROOT_PATH . "/modules/newbb/class/newbbtree.php";
+		include_once XOOPS_ROOT_PATH . "/modules/".basename( dirname( dirname( __FILE__ ) ) )."/class/newbbtree.php";
         $NewBBTree = new NewBBTree('bb_posts');
         $NewBBTree->setPrefix('&nbsp;&nbsp;');
         $NewBBTree->setPostArray($postArray);

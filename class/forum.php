@@ -33,7 +33,7 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.ini.php';
+defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.ini.php';
 newbb_load_object();
 
 class Forum extends ArtObject {
@@ -87,7 +87,7 @@ class Forum extends ArtObject {
 	        else $moderators_new[]=$id;
         }
         if(count($moderators_new)>0){
-			include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+			include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 	        $moderators_new = newbb_getUnameFromIds($moderators_new);
 	        foreach($moderators_new as $id => $name){
 				$_cachedModerators[$id] = $name;
@@ -114,7 +114,7 @@ class Forum extends ArtObject {
         if (empty($valid_moderators) || !is_array($valid_moderators)) {
             return $ret;
         }
-		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
         $moderators = newbb_getUnameFromIds($valid_moderators, !empty($xoopsModuleConfig['show_realname']), true);
 		$ret = implode(", ", $moderators);
 		return $ret;
@@ -228,7 +228,7 @@ class NewbbForumHandler extends ArtObjectHandler
     function getAllTopics(&$forum, $startdate, $start, $sortname, $sortorder, $type = '', $excerpt = 0)
     {
         global $xoopsModule, $xoopsConfig, $xoopsModuleConfig, $forumImage, $forumUrl, $myts, $xoopsUser, $viewall_forums;
-		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 		
         $UserUid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : null;
 
@@ -384,17 +384,17 @@ class NewbbForumHandler extends ArtObjectHandler
                     	}
                     } else {
                         $topic_page_jump .= '[<a href="viewtopic.php?topic_id=' . $myrow['topic_id'] . '&amp;start=' . (($i - 1) * $xoopsModuleConfig['posts_per_page']) . '">' . $i . '</a>]';
-                        $topic_page_jump_icon = "<a href='" . XOOPS_URL . "/modules/newbb/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * $xoopsModuleConfig['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . newbb_displayImage($forumImage['docicon']) . "</a>";
+                        $topic_page_jump_icon = "<a href='" . XOOPS_URL . "/modules/".basename( dirname(  dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * $xoopsModuleConfig['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . newbb_displayImage($forumImage['docicon']) . "</a>";
                     }
                 }
             }
             else {
-            	$topic_page_jump_icon = "<a href='" . XOOPS_URL . "/modules/newbb/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>" . newbb_displayImage($forumImage['docicon']) . "</a>";
+            	$topic_page_jump_icon = "<a href='" . XOOPS_URL . "/modules/".basename( dirname(  dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>" . newbb_displayImage($forumImage['docicon']) . "</a>";
         	}
             // ------------------------------------------------------
             // => topic array
             if (is_object($viewall_forums[$myrow['forum_id']])){
-                $forum_link = '<a href="' . XOOPS_URL . '/modules/newbb/viewforum.php?forum=' . $myrow['forum_id'] . '">' . $viewall_forums[$myrow['forum_id']]->getVar('forum_name') . '</a>';
+                $forum_link = '<a href="' . XOOPS_URL . '/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/viewforum.php?forum=' . $myrow['forum_id'] . '">' . $viewall_forums[$myrow['forum_id']]->getVar('forum_name') . '</a>';
             }else {
 	            $forum_link = '';
             }
@@ -495,7 +495,7 @@ class NewbbForumHandler extends ArtObjectHandler
     function getTopicCount(&$forum, $startdate, $type)
     {
 	    global $xoopsModuleConfig;
-		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 	    
         $criteria_extra = '';
         $criteria_approve = ' AND t.approved = 1'; // any others?
@@ -563,7 +563,7 @@ class NewbbForumHandler extends ArtObjectHandler
     {
         global $xoopsUser, $xoopsModule;
         static $_cachedPerms;
-		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 
         if($type == "all") return true;
         if (newbb_isAdministrator()) return true;
@@ -726,7 +726,7 @@ class NewbbForumHandler extends ArtObjectHandler
     function &display(&$forums_obj)
     {
         global $xoopsModule, $xoopsConfig, $xoopsModuleConfig, $forumImage, $myts;
-		include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 	    
 		$posts = array();
 		$posts_obj = array();

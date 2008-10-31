@@ -77,7 +77,7 @@ function &newbb_load_config()
 	    }
 	    unset($configs);
     }
-	if($customConfig = @include(XOOPS_ROOT_PATH."/modules/newbb/include/plugin.php")){
+	if($customConfig = @include(XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/include/plugin.php")){
 		$moduleConfig = array_merge($moduleConfig, $customConfig);
 	}
     return $moduleConfig;

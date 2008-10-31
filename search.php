@@ -33,7 +33,7 @@ newbb_load_lang_file("search");
 $config_handler =& xoops_gethandler('config');
 $xoopsConfigSearch =& $config_handler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if ($xoopsConfigSearch['enable_search'] != 1) {
-    header('Location: '.XOOPS_URL.'/modules/newbb/index.php');
+    header('Location: '.XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php');
     exit();
 }
 
@@ -41,7 +41,7 @@ $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0;
 $xoopsOption['template_main']= 'newbb_search.html';
 include XOOPS_ROOT_PATH.'/header.php';
 
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/search.inc.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( __FILE__ ) ).'/include/search.inc.php';
 $limit = $xoopsModuleConfig['topics_per_page'];
 
 $queries = array();

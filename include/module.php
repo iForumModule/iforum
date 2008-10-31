@@ -34,8 +34,8 @@ if (!defined('XOOPS_ROOT_PATH')) {
 if(defined("XOOPS_MODULE_NEWBB_FUCTIONS")) exit();
 define("XOOPS_MODULE_NEWBB_FUCTIONS", 1);
 
-@include_once XOOPS_ROOT_PATH.'/modules/newbb/include/plugin.php';
-include_once XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+@include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/plugin.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
 
 newbb_load_object();
 
@@ -62,12 +62,12 @@ function xoops_module_update_newbb(&$module, $oldversion = null)
     }
     
     if ($oldversion < 230) {
-        $GLOBALS['xoopsDB']->queryFromFile(XOOPS_ROOT_PATH."/modules/newbb/sql/upgrade_230.sql");
+        $GLOBALS['xoopsDB']->queryFromFile(XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/sql/upgrade_230.sql");
 		//$module->setErrors("bb_moderates table inserted");
     }
 
     if ($oldversion < 304) {
-        $GLOBALS['xoopsDB']->queryFromFile(XOOPS_ROOT_PATH."/modules/newbb/sql/mysql.304.sql");
+        $GLOBALS['xoopsDB']->queryFromFile(XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/sql/mysql.304.sql");
     }
     
 	if(!empty($newbbConfig["syncOnUpdate"])){
