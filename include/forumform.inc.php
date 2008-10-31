@@ -36,7 +36,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/compat/class/xoopsformloader.php";
 
 if(empty($forum_obj)){
-    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+    $forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
     $forum = isset($_GET['forum']) ? intval($_GET['forum']) : (isset($forum) ? intval($forum) : 0);
     $forum_obj =& $forum_handler->get($forum);
 }
@@ -64,7 +64,7 @@ foreach (array(
 }
 
 
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$topic_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
 $topic_status = $topic_handler->get(@$topic_id,'topic_status');
 
 $forum_form_action = (empty($admin_form_action))?"post.php":$admin_form_action; // admin/index.php also uses this form

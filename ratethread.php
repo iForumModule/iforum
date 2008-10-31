@@ -38,7 +38,7 @@ foreach(array("topic_id", "rate", "forum") as $var){
 	${$var} = isset($_POST[$var]) ? intval($_POST[$var]) : (isset($_GET[$var])?intval($_GET[$var]):0);
 }
 
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
 $topic_obj =& $topic_handler->get($topic_id);
 if (!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "post")
 	&&

@@ -41,7 +41,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 	$uid = (is_object($xoopsUser)&&$xoopsUser->isactive())?$xoopsUser->getVar('uid'):0;
 
 	if(!isset($allowedForums[$uid])){
-		$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+		$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
 		if (is_array($forums) && count($forums) > 0) {
 			$forums = array_map('intval', $forums);
 			foreach($forums as $forumid){
@@ -160,7 +160,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 	}
 
 	$module_handler = &xoops_gethandler('module');
-	$newbb = &$module_handler->getByDirname('newbb');
+	$newbb = &$module_handler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
 
 	if(!isset($newbbConfig)){
 		$config_handler =& xoops_gethandler('config');

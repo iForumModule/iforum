@@ -94,7 +94,7 @@ function xoops_module_pre_install_newbb(&$module)
 function xoops_module_install_newbb(&$module)
 {
 	/* Create a test category */
-	$category_handler =& xoops_getmodulehandler('category', 'newbb');
+	$category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$category =& $category_handler->create();
     $category->setVar('cat_title', _MI_NEWBB_INSTALL_CAT_TITLE, true);
     $category->setVar('cat_image', "", true);
@@ -106,7 +106,7 @@ function xoops_module_install_newbb(&$module)
     }
 
     /* Create a forum for test */
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
     $forum =& $forum_handler->create();
     $forum->setVar('forum_name', _MI_NEWBB_INSTALL_FORUM_NAME, true);
     $forum->setVar('forum_desc', _MI_NEWBB_INSTALL_FORUM_DESC, true);
@@ -143,7 +143,7 @@ function xoops_module_install_newbb(&$module)
     }
     
     /* Create a test post */
-	$post_handler =& xoops_getmodulehandler('post', 'newbb');
+	$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$forumpost =& $post_handler->create();
     $forumpost->setVar('poster_ip', newbb_getIP());
     $forumpost->setVar('uid', $GLOBALS["xoopsUser"]->getVar("uid"));

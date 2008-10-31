@@ -43,9 +43,9 @@ if ( empty($post_id) || empty($op)) {
     exit();
 }
 
-$post_handler =& xoops_getmodulehandler('post', 'newbb');
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
 if(empty($topic_id)){
 	$viewtopic_forum = null;
 }else{

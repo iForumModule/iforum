@@ -71,9 +71,9 @@ if (!empty($_POST['submit'])) {
     echo "</td><td class='head' align='left' width='30%'><strong>" . _AM_NEWBB_REORDERTITLE . "</strong>";
     echo "</td><td class='head' align='center' width='5%'><strong>" . _AM_NEWBB_REORDERWEIGHT . "</strong>";
     echo "</td></tr>";
-    $category_handler =& xoops_getmodulehandler('category', 'newbb');
+    $category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
     $categories = $category_handler->getAllCats();
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$forums = $forum_handler->getForumsByCategory();
 
 	$forums_array = array();

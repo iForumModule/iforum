@@ -54,7 +54,7 @@ $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pendi
 $mode = !empty($_GET['mode']) ? intval($_GET['mode']) : 0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?2:$mode;
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
 $forum_obj =& $forum_handler->get($forum_id);
 if (!$forum_handler->getPermission($forum_obj)){
     redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
@@ -87,12 +87,12 @@ $xoopsTpl->assign('mode', $mode);
 $xoopsTpl->assign('type', $type);
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', 'newbb');
+	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 	$online_handler->init($forum_obj);
     $xoopsTpl->assign('online', $online_handler->show_online());
 }
 
-$getpermission =& xoops_getmodulehandler('permission', 'newbb');
+$getpermission =& xoops_getmodulehandler('permission', basename( dirname( __FILE__ ) ));
 $permission_set = $getpermission->getPermissions("forum", $forum_obj->getVar('forum_id'));
 
 $t_new = newbb_displayImage($forumImage['t_new'],_MD_POSTNEW);

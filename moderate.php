@@ -40,7 +40,7 @@ if(!$isadmin){
 }
 $is_administrator = newbb_isAdmin();
 
-$moderate_handler =& xoops_getmodulehandler('moderate', 'newbb');
+$moderate_handler =& xoops_getmodulehandler('moderate', basename( dirname( __FILE__ ) ));
 
 if(!empty($_POST["submit"])&&!empty($_POST["expire"])){
 	if( !empty($_POST["ip"]) && !preg_match("/^([0-9]{1,3}\.){0,3}[0-9]{1,3}$/", $_POST["ip"])) $_POST["ip"]="";
@@ -61,7 +61,7 @@ if(!empty($_POST["submit"])&&!empty($_POST["expire"])){
 		$moderate_obj->setVar("mod_desc", @$_POST["desc"]);
 		if($res = $moderate_handler->insert($moderate_obj) && !empty($forum_id) && !empty($_POST["uid"]) ){
 			$uname = XoopsUser::getUnameFromID($_POST["uid"]);
-			$post_handler =& xoops_getmodulehandler("post", "newbb");
+			$post_handler =& xoops_getmodulehandler("post", basename( dirname( __FILE__ ) ));
 			$forumpost =& $post_handler->create();
 		    $forumpost->setVar("poster_ip", newbb_getIP());
 		    $forumpost->setVar("uid", empty($GLOBALS["xoopsUser"])?0:$GLOBALS["xoopsUser"]->getVar("uid"));

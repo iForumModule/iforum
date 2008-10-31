@@ -212,7 +212,7 @@ newbb_setsession("LV", $last_visit);
 */
 
 // include customized variables
-if( is_object($GLOBALS["xoopsModule"]) && "newbb" == $GLOBALS["xoopsModule"]->getVar("dirname", "n") ) {
+if( is_object($GLOBALS["xoopsModule"]) && basename(  dirname(  dirname( __FILE__ ) ) ) == $GLOBALS["xoopsModule"]->getVar("dirname", "n") ) {
 	$GLOBALS["xoopsModuleConfig"] = newbb_load_config();
 }
 

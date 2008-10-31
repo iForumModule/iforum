@@ -50,11 +50,11 @@ $xoopsOption['template_main'] = 'newbb_viewall.html';
 include XOOPS_ROOT_PATH."/header.php";
 $xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
 $viewall_forums = $forum_handler->getForums(0,'access', array("forum_id", "cat_id", "forum_name")); // get all accessible forums
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', 'newbb');
+	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 	$online_handler->init();
     $xoopsTpl->assign('online', $online_handler->show_online());
 }

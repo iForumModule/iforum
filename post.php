@@ -51,9 +51,9 @@ if ( empty($forum) ) {
     exit();
 }
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-$post_handler =& xoops_getmodulehandler('post', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
 
 if ( !empty($isedit) && $post_id>0 ) {
     $forumpost =& $post_handler->get($post_id);
@@ -70,7 +70,7 @@ if (!$forum_handler->getPermission($forum_obj)){
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', 'newbb');
+	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 	$online_handler->init($forum_obj);
 }
 

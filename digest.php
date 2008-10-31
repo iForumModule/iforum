@@ -36,7 +36,7 @@ if($xoopsModuleConfig['email_digest'] ==0){
 	echo "<br />Not set";
 	return false;
 }
-$digest_handler =& xoops_getmodulehandler('digest', 'newbb');
+$digest_handler =& xoops_getmodulehandler('digest', basename( dirname( __FILE__ ) ));
 $msg = $digest_handler->process();
 $msg .= ob_get_contents();
 ob_end_clean();

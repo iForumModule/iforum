@@ -39,21 +39,21 @@ if ( empty($forum) ) {
     redirect_header("index.php", 2, _MD_ERRORFORUM);
     exit();
 }
-    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+    $forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
     $forum_obj = $forum_handler->get($forum);
 	if (!$forum_handler->getPermission($forum_obj)){
 	    redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
 	    exit();
 	}
 
-	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+	$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
 	if (!$topic_handler->getPermission($forum_obj, 0, 'post')) {
         redirect_header("viewforum.php?order=$order&amp;viewmode=$viewmode&amp;forum=".$forum_obj->getVar('forum_id'),2,_MD_NORIGHTTOPOST);
 	    exit();
 	}
 
 	if ($xoopsModuleConfig['wol_enabled']){
-		$online_handler =& xoops_getmodulehandler('online', 'newbb');
+		$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 		$online_handler->init($forum_obj);
 	}
 

@@ -45,11 +45,11 @@ if ( !$topic_id ) {
     redirect_header($redirect, 2, _MD_ERRORTOPIC);
 }
 
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
 $forum = $topic_handler->get($topic_id, "forum_id");
 $forum_new = !empty($newtopic)?$topic_handler->get($newtopic, "forum_id"):0;
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
 if (!$forum_handler->getPermission($forum, 'moderate')
 	|| (!empty($forum_new) && !$forum_handler->getPermission($forum_new, 'reply')) // The forum for the topic to be merged to
 	|| (!empty($newforum) && !$forum_handler->getPermission($newforum, 'post')) // The forum to be moved to
@@ -59,7 +59,7 @@ if (!$forum_handler->getPermission($forum, 'moderate')
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', 'newbb');
+	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 	$online_handler->init($forum);
 }
 
@@ -86,15 +86,15 @@ include XOOPS_ROOT_PATH.'/header.php';
 if ( isset($_POST['submit']) ) {
 	$mode = $_POST['mode'];
 	if('delete'==$mode){
-		//$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+		//$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
         $topic_handler->delete($topic_id);
 		$forum_handler->synchronization($forum);
 	    //sync($topic_id, "topic");
         //xoops_notification_deletebyitem ($xoopsModule->getVar('mid'), 'thread', $topic_id);
         echo $action[$mode]['msg']."<p><a href='viewforum.php?forum=$forum'>"._MD_RETURNTOTHEFORUM."</a></p><p><a href='index.php'>"._MD_RETURNFORUMINDEX."</a></p>";
 	}elseif('merge'==$mode){
-		//$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-		$post_handler =& xoops_getmodulehandler('post', 'newbb');
+		//$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+		$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
 		
 		$newtopic_obj =& $topic_handler->get($newtopic);
 		/* return false if destination topic is newer or not existing */
@@ -182,7 +182,7 @@ if ( isset($_POST['submit']) ) {
         echo '<tr><td class="bg3">'._MD_MOVETOPICTO.'</td><td class="bg1">';
         $box = '<select name="newforum" size="1">';
 
-		$category_handler =& xoops_getmodulehandler('category', 'newbb');
+		$category_handler =& xoops_getmodulehandler('category', basename( dirname( __FILE__ ) ));
 	    $categories = $category_handler->getAllCats('access', true);
 	    $forums = $forum_handler->getForumsByCategory(array_keys($categories), 'post', false);
 	

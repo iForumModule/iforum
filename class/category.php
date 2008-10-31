@@ -90,7 +90,7 @@ class NewbbCategoryHandler extends ArtObjectHandler
     function delete(&$category)
     {
         global $xoopsModule;
-		$forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+		$forum_handler = &xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
 		$forum_handler->deleteAll(new Criteria("cat_id", $category->getVar('cat_id')), true, true);
         if ($result = parent::delete($category)) {
             // Delete group permissions
@@ -117,7 +117,7 @@ class NewbbCategoryHandler extends ArtObjectHandler
         if (newbb_isAdministrator()) return true;
 
         if(!isset($_cachedCategoryPerms)){
-	        $getpermission = &xoops_getmodulehandler('permission', 'newbb');
+	        $getpermission = &xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
 	        $_cachedCategoryPerms = $getpermission->getPermissions("category");
         }
 
@@ -129,13 +129,13 @@ class NewbbCategoryHandler extends ArtObjectHandler
         
     function deletePermission(&$category)
     {
-		$perm_handler =& xoops_getmodulehandler('permission', 'newbb');
+		$perm_handler =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
 		return $perm_handler->deleteByCategory($category->getVar("cat_id"));
 	}
     
     function applyPermissionTemplate(&$category)
     {
-		$perm_handler =& xoops_getmodulehandler('permission', 'newbb');
+		$perm_handler =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
 		return $perm_handler->setCategoryPermission($category->getVar("cat_id"));
 	}
 }

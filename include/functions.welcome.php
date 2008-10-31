@@ -40,7 +40,7 @@ function newbb_welcome_create( &$user, $forum_id )
 		return false;
 	}
 	
-	$post_handler =& xoops_getmodulehandler('post', 'newbb');
+	$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$forumpost =& $post_handler->create();
     $forumpost->setVar('poster_ip', newbb_getIP());
     $forumpost->setVar('uid', $user->getVar("uid"));
@@ -67,7 +67,7 @@ function newbb_welcome_create( &$user, $forum_id )
 	if(!defined("_PROFILE_MA_ALLABOUT")) {
 		$mod->loadLanguage();
 	}
-	$groupperm_handler =& xoops_getmodulehandler('permission', 'newbb');
+	$groupperm_handler =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$show_ids = $groupperm_handler->getItemIds('profile_show', $groups, $mod->getVar('mid'));
 	$visible_ids = $groupperm_handler->getItemIds('profile_visible', $groups, $mod->getVar('mid'));
 	unset($mod);

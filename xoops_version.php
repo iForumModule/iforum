@@ -43,8 +43,8 @@ $modversion['author_realname'] = "CBB Dev Team";
 $modversion['author_website_url'] = "http://xoopsforge.com";
 $modversion['author_website_name'] = "XForge";
 $modversion['author_email'] = "php_pp@hotmail.com";
-$modversion['status_version'] = "3.07";
-$modversion['status'] = "Stable";
+$modversion['status_version'] = "1.00";
+$modversion['status'] = "Beta";
 
 $modversion['warning'] = "For XOOPS 2.0*, 2.2*, 2.3 And ImpressCMS 1.0, 1.1";
 
@@ -674,7 +674,7 @@ $modversion['config'][] = array(
 
 $forum_options = array(_NONE => 0);
 if( $isModuleAction && "update_ok" == $_POST["op"] ) {
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb', true);
+	$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ), true);
 	$forums = $forum_handler->getForumsByCategory(0, '', false, array("parent_forum", "cat_id", "forum_name"));
 	if($forums):
 	foreach (array_keys($forums) as $c) {

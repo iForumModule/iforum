@@ -59,7 +59,7 @@ function &newbb_load_config()
 		return $moduleConfig;
 	}
 	
-    if(isset($GLOBALS["xoopsModule"]) && is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname", "n") == "newbb"){
+    if(isset($GLOBALS["xoopsModule"]) && is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname", "n") == basename(  dirname(  dirname( __FILE__ ) ) )){
 	    if(!empty($GLOBALS["xoopsModuleConfig"])) {
 		    $moduleConfig =& $GLOBALS["xoopsModuleConfig"];
 	    }else{
@@ -67,7 +67,7 @@ function &newbb_load_config()
 	    }
     }else{
 		$module_handler = &xoops_gethandler('module');
-		$module = $module_handler->getByDirname("newbb");
+		$module = $module_handler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
 	
 	    $config_handler = &xoops_gethandler('config');
 	    $criteria = new CriteriaCompo(new Criteria('conf_modid', $module->getVar('mid')));
@@ -92,11 +92,11 @@ function getConfigForBlock()
 		return $newbbConfig;
 	}
 	
-    if(is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname") == "newbb"){
+    if(is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname") == basename(  dirname(  dirname( __FILE__ ) ) )){
 	    $newbbConfig =& $GLOBALS["xoopsModuleConfig"];
     }else{
 		$module_handler =& xoops_gethandler('module');
-		$newbb = $module_handler->getByDirname('newbb');
+		$newbb = $module_handler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
 	
 	    $config_handler =& xoops_gethandler('config');
 	    $criteria = new CriteriaCompo(new Criteria('conf_modid', $newbb->getVar('mid')));
@@ -180,7 +180,7 @@ function newbb_formatTimestamp($time, $format = "c", $timeoffset = "")
     case 'c':
     case 'custom':
     default:
-    	newbb_load_lang_file("main", "newbb");
+    	newbb_load_lang_file("main", basename(  dirname(  dirname( __FILE__ ) ) ));
         $current_timestamp = xoops_getUserTimestamp(time(), $timeoffset);
         if(date("Ymd", $usertimestamp) == date("Ymd", $current_timestamp)){
 			$datestring = _MD_TODAY;

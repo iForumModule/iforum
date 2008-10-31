@@ -147,7 +147,7 @@ class NewbbForumHandler extends ArtObjectHandler
         // RMV-NOTIFY
         xoops_notification_deletebyitem ($xoopsModule->getVar('mid'), 'forum', $forum->getVar('forum_id'));
         // Get list of all topics in forum, to delete them too
-		$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+		$topic_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
 		$topic_handler->deleteAll(new Criteria("forum_id", $forum->getVar('forum_id')), true, true);
         $this->updateAll("parent_forum", $forum->getVar('parent_forum'), new Criteria("parent_forum", $forum->getVar('forum_id')));
        	$this->deletePermission($forum);
@@ -158,7 +158,7 @@ class NewbbForumHandler extends ArtObjectHandler
     {
 	    $_cachedForums=array();
 	    $perm_string = (empty($permission))?'all':$permission;
-        $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+        $forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
 	    $criteria = new CriteriaCompo(new Criteria("1", 1));
         if (is_numeric($cat) && $cat> 0) {
 	        $criteria->add(new Criteria("cat_id", intval($cat)));
@@ -571,7 +571,7 @@ class NewbbForumHandler extends ArtObjectHandler
         if ($forum->getVar('forum_type')) return false;// if forum inactive, all has no access except admin
 
 		if(!empty($checkCategory)){
-            $category_handler =& xoops_getmodulehandler('category', 'newbb');
+            $category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
             $categoryPerm = $category_handler->getPermission($forum->getVar('cat_id'));
         	if (!$categoryPerm) return false;
     	}
@@ -584,7 +584,7 @@ class NewbbForumHandler extends ArtObjectHandler
            	$perm_type = 'forum';
             $perm_item = (in_array($type, $perms))?'forum_' . $type:"forum_access";
 			if (!isset($_cachedPerms[$perm_type])) {
-				$getpermission =& xoops_getmodulehandler('permission', 'newbb');
+				$getpermission =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
 				$_cachedPerms[$perm_type] = $getpermission->getPermissions($perm_type);
 			}
         	$permission = (isset($_cachedPerms[$perm_type][$forum->getVar('forum_id')][$perm_item])) ? 1 : 0;
@@ -594,13 +594,13 @@ class NewbbForumHandler extends ArtObjectHandler
     
     function deletePermission(&$forum)
     {
-		$perm_handler =& xoops_getmodulehandler('permission', 'newbb');
+		$perm_handler =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
 		return $perm_handler->deleteByForum($forum->getVar("forum_id"));
 	}
     
     function applyPermissionTemplate(&$forum)
     {
-		$perm_handler =& xoops_getmodulehandler('permission', 'newbb');
+		$perm_handler =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
 		return $perm_handler->applyTemplate($forum->getVar("forum_id"));
 	}
 	        
@@ -734,7 +734,7 @@ class NewbbForumHandler extends ArtObjectHandler
 			$posts[] = $forums_obj[$id]->getVar("forum_last_post_id");
 		}
 		if(!empty($posts)){
-			$post_handler =& xoops_getmodulehandler('post', 'newbb');
+			$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
 			$posts_obj =& $post_handler->getAll(new Criteria("post_id", "(".implode(", ", $posts).")", "IN"), array("uid", "topic_id", "post_time", "subject", "poster_name", "icon"));
 		}
 		

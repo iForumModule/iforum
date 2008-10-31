@@ -289,11 +289,11 @@ function newbb_isAdministrator($user=-1, $mid=0)
 
 	if(!$mid){
 		if (!isset($newBB_mid)) {
-		    if(is_object($xoopsModule)&& 'newbb' == $xoopsModule->dirname()){
+		    if(is_object($xoopsModule)&& basename(  dirname(  dirname( __FILE__ ) ) ) == $xoopsModule->dirname()){
 		    	$newBB_mid = $xoopsModule->getVar('mid');
 		    }else{
 		        $modhandler =& xoops_gethandler('module');
-		        $newBB =& $modhandler->getByDirname('newbb');
+		        $newBB =& $modhandler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
 			    $newBB_mid = $newBB->getVar('mid');
 			    unset($newBB);
 		    }
@@ -316,7 +316,7 @@ function newbb_isAdmin($forum = 0, $user=-1)
 
 	$cache_id = (is_object($forum))?$forum->getVar('forum_id'):intval($forum);
 	if(!isset($_cachedModerators[$cache_id])){
-		$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+		$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
 		if(!is_object($forum)) $forum = $forum_handler->get(intval($forum));
 		$_cachedModerators[$cache_id] = $forum_handler->getModerators($forum);
 	}
@@ -336,7 +336,7 @@ function newbb_isModerator($forum = 0, $user=-1)
 
 	$cache_id = (is_object($forum))?$forum->getVar('forum_id'):intval($forum);
 	if(!isset($_cachedModerators[$cache_id])){
-		$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+		$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
 		if(!is_object($forum)) $forum = $forum_handler->get(intval($forum));
 		$_cachedModerators[$cache_id] = $forum_handler->getModerators($forum);
 	}
@@ -373,7 +373,7 @@ function newbb_checkSubjectPrefixPermission($forum = 0, $user=-1)
 */
 function get_total_topics($forum_id="")
 {
-	$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+	$topic_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$criteria =& new CriteriaCompo(new Criteria("approved", 0, ">"));
     if ( $forum_id ) {
 	    $criteria->add(new Criteria("forum_id", intval($forum_id)));
@@ -387,7 +387,7 @@ function get_total_topics($forum_id="")
 */
 function get_total_posts($id = 0, $type = "all")
 {
-	$post_handler =& xoops_getmodulehandler('post', 'newbb');
+	$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$criteria =& new CriteriaCompo(new Criteria("approved", 0, ">"));
     switch ( $type ) {
     case 'forum':
@@ -416,8 +416,8 @@ function get_total_views()
 
 function newbb_forumSelectBox($value = null, $permission = "access", $delimitor_category = true)
 {
-	$category_handler =& xoops_getmodulehandler('category', 'newbb');
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+	$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
     $categories = $category_handler->getAllCats($permission, true);
     $forums = $forum_handler->getForumsByCategory(array_keys($categories), $permission, false);
 
@@ -570,7 +570,7 @@ function newbb_welcome( $user = -1 )
 		return false;
 	}
 
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
 	$forum =& $forum_handler->get($xoopsModuleConfig["welcome_forum"]);
 	if (!$forum_handler->getPermission($forum)){
 		unset($forum);
@@ -601,35 +601,35 @@ function newbb_synchronization($type = "")
 		break;
 	}
 	foreach($clean as $item){
-		$handler =& xoops_getmodulehandler($item, "newbb");
+		$handler =& xoops_getmodulehandler($item, basename(  dirname(  dirname( __FILE__ ) ) ));
 		$handler->cleanOrphan();
 		unset($handler);
 	}
     $newbbConfig = newbb_load_config();
 	if(empty($type) || in_array("post", $type)):
-		$post_handler =& xoops_getmodulehandler("post", "newbb");
+		$post_handler =& xoops_getmodulehandler("post", basename(  dirname(  dirname( __FILE__ ) ) ));
         $expires = isset($newbbConfig["pending_expire"])?intval($newbbConfig["pending_expire"]):7;
 		$post_handler->cleanExpires($expires*24*3600);
 	endif;
 	if(empty($type) || in_array("topic", $type)):
-		$topic_handler =& xoops_getmodulehandler("topic", "newbb");
+		$topic_handler =& xoops_getmodulehandler("topic", basename(  dirname(  dirname( __FILE__ ) ) ));
         $expires = isset($newbbConfig["pending_expire"])?intval($newbbConfig["pending_expire"]):7;
 		$topic_handler->cleanExpires($expires*24*3600);
 		$topic_handler->synchronization();
 	endif;
 	if(empty($type) || in_array("forum", $type)):
-		$forum_handler =& xoops_getmodulehandler("forum", "newbb");
+		$forum_handler =& xoops_getmodulehandler("forum", basename(  dirname(  dirname( __FILE__ ) ) ));
 		$forum_handler->synchronization();
 	endif;
 	if(empty($type) || in_array("moderate", $type)):
-		$moderate_handler =& xoops_getmodulehandler("moderate", "newbb");
+		$moderate_handler =& xoops_getmodulehandler("moderate", basename(  dirname(  dirname( __FILE__ ) ) ));
 		$moderate_handler->clearGarbage();
 	endif;
 	if(empty($type) || in_array("read", $type)):
-		$read_handler =& xoops_getmodulehandler("readforum", "newbb");
+		$read_handler =& xoops_getmodulehandler("readforum", basename(  dirname(  dirname( __FILE__ ) ) ));
 		$read_handler->clearGarbage();
 		$read_handler->synchronization();
-		$read_handler =& xoops_getmodulehandler("readtopic", "newbb");
+		$read_handler =& xoops_getmodulehandler("readtopic", basename(  dirname(  dirname( __FILE__ ) ) ));
 		$read_handler->clearGarbage();
 		$read_handler->synchronization();
 	endif;
@@ -638,31 +638,31 @@ function newbb_synchronization($type = "")
 
 function newbb_setRead($type, $item_id, $post_id, $uid = null)
 {
-	$read_handler =& xoops_getmodulehandler("read".$type, "newbb");
+	$read_handler =& xoops_getmodulehandler("read".$type, basename(  dirname(  dirname( __FILE__ ) ) ));
 	return $read_handler->setRead($item_id, $post_id, $uid);
 }
 
 function newbb_getRead($type, $item_id, $uid = null)
 {
-	$read_handler =& xoops_getmodulehandler("read".$type, "newbb");
+	$read_handler =& xoops_getmodulehandler("read".$type, basename(  dirname(  dirname( __FILE__ ) ) ));
 	return $read_handler->getRead($item_id, $uid);
 }
 
 function newbb_setRead_forum($status = 0, $uid = null)
 {
-	$read_handler =& xoops_getmodulehandler("readforum", "newbb");
+	$read_handler =& xoops_getmodulehandler("readforum", basename(  dirname(  dirname( __FILE__ ) ) ));
 	return $read_handler->setRead_items($status, $uid);
 }
 
 function newbb_setRead_topic($status = 0, $forum_id = 0, $uid = null)
 {
-	$read_handler =& xoops_getmodulehandler("readtopic", "newbb");
+	$read_handler =& xoops_getmodulehandler("readtopic", basename(  dirname(  dirname( __FILE__ ) ) ));
 	return $read_handler->setRead_items($status, $forum_id, $uid);
 }
 
 function newbb_isRead($type, &$items, $uid = null)
 {
-	$read_handler =& xoops_getmodulehandler("read".$type, "newbb");
+	$read_handler =& xoops_getmodulehandler("read".$type, basename(  dirname(  dirname( __FILE__ ) ) ));
 	return $read_handler->isRead_items($items, $uid);
 }
 

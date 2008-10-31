@@ -41,8 +41,8 @@ $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pendi
 $mode = !empty($_GET['mode']) ? intval($_GET['mode']) : 0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")) )?2:$mode;
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-$post_handler =& xoops_getmodulehandler('post', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
 
 $isadmin = newbb_isAdmin($forum_id);
 /* Only admin has access to admin mode */
@@ -115,7 +115,7 @@ switch($type){
 $criteria_count->add($criteria_type_count);
 $criteria_post->add($criteria_type_post);
 
-$karma_handler =& xoops_getmodulehandler('karma', 'newbb');
+$karma_handler =& xoops_getmodulehandler('karma', basename( dirname( __FILE__ ) ));
 $user_karma = $karma_handler->getUserKarma();
 
 $valid_modes = array("flat", "compact");
@@ -195,7 +195,7 @@ if(count($poster_array)>0){
 if ($xoopsModuleConfig['wol_enabled']){
 	$online = array();
 	if(!empty($user_criteria)){
-		$online_handler =& xoops_getmodulehandler('online', 'newbb');
+		$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 		$online_handler->init($forum_id);
 		$online_full = $online_handler->getAll(new Criteria('online_uid', $user_criteria, 'IN'));
 		if(is_array($online_full)&&count($online_full)>0){
@@ -219,7 +219,7 @@ if($xoopsModuleConfig['groupbar_enabled']){
 $viewtopic_users = array();
 
 if(count($userid_array)>0){
-	$user_handler =& xoops_getmodulehandler('user', 'newbb');
+	$user_handler =& xoops_getmodulehandler('user', basename( dirname( __FILE__ ) ));
 	$user_handler->setUsers($users);
 	$user_handler->setGroups($groups_disp);
 	$user_handler->setStatus($online);
@@ -231,7 +231,7 @@ unset($users);
 unset($groups_disp);
 
 $pn =0;
-$topic_handler = &xoops_getmodulehandler('topic', 'newbb');
+$topic_handler = &xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
 static $suspension = array();
 foreach(array_keys($posts) as $id){
 	$pn++;
@@ -274,7 +274,7 @@ foreach(array_keys($posts) as $id){
 	if($GLOBALS["xoopsModuleConfig"]['enable_permcheck']){
 	
 		if(!isset($suspension[$post->getVar('forum_id')])){
-			$moderate_handler =& xoops_getmodulehandler('moderate', 'newbb');
+			$moderate_handler =& xoops_getmodulehandler('moderate', basename( dirname( __FILE__ ) ));
 			$suspension[$post->getVar('forum_id')] = $moderate_handler->verifyUser(-1,"",$post->getVar('forum_id'));
 		}
 		

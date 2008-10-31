@@ -52,7 +52,7 @@ if ( empty($post_id) && empty($topic_id) ){
 }
 
 if(!empty($post_id)){
-	$post_handler =& xoops_getmodulehandler('post', 'newbb');
+	$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
 	$post = & $post_handler->get($post_id);
 	if(!$approved = $post->getVar('approved')){
 		die(_MD_NORIGHTTOVIEW);
@@ -63,7 +63,7 @@ if(!empty($post_id)){
 	$post_data["url"] = XOOPS_URL."/".basename( dirname( __FILE__ ) )."/viewtopic.php?topic_id=".$post->getVar("topic_id")."&amp;post_id=".$post_id;
 }
 
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
+$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
 $forumtopic =& $topic_handler->get($topic_id);
 $topic_id = $forumtopic->getVar('topic_id');
 $forum = $forumtopic->getVar('forum_id');
@@ -76,7 +76,7 @@ if(!$isadmin && $forumtopic->getVar('approved')<0 ){
     die(_MD_NORIGHTTOVIEW);
 }
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
 $forum = $forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum)){

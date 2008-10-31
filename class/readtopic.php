@@ -100,7 +100,7 @@ class NewbbReadtopicHandler extends NewbbReadHandler
 	    $cookie_name = "LT";
 	    $cookie_vars = newbb_getcookie($cookie_name, true);
 	    
-		$item_handler =& xoops_getmodulehandler('topic', 'newbb');
+		$item_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
 		$criteria =& new CriteriaCompo(new Criteria("forum_id", $forum_id));
 		$criteria->setSort("topic_last_post_id");
 		$criteria->setOrder("DESC");
@@ -128,7 +128,7 @@ class NewbbReadtopicHandler extends NewbbReadHandler
 		    }
 	    }
 	    
-		$item_handler =& xoops_getmodulehandler('topic', 'newbb');
+		$item_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
 		$criteria_topic =& new CriteriaCompo(new Criteria("forum_id", $forum_id));
 		$criteria_topic->setSort("topic_last_post_id");
 		$criteria_topic->setOrder("DESC");

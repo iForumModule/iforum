@@ -101,7 +101,7 @@ class NewbbTopicHandler extends ArtObjectHandler
             newbb_message("NewbbTopicHandler::approve error:" . $sql);
             return false;
         }
-		$post_handler =& xoops_getmodulehandler('post', 'newbb');
+		$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
         $posts_obj =& $post_handler->getAll(new Criteria('topic_id', $topic_id));
         foreach(array_keys($posts_obj) as $post_id){
 	        $post_handler->approve($posts_obj[$post_id]);
@@ -179,7 +179,7 @@ class NewbbTopicHandler extends ArtObjectHandler
         }
 	    $criteria =& new CriteriaCompo(new Criteria("topic_id", $topic->getVar('topic_id')));
 	    $criteria->add(new Criteria("approved", $approved));
-	    $post_handler =& xoops_getmodulehandler("post", "newbb");
+	    $post_handler =& xoops_getmodulehandler("post", basename(  dirname(  dirname( __FILE__ ) ) ));
 	    $count = $post_handler->getCount($criteria);
         return $count;
     }
@@ -198,7 +198,7 @@ class NewbbTopicHandler extends ArtObjectHandler
             newbb_message("NewbbTopicHandler::getTopPost error:" . $sql);
             return $post;
         }
-        $post_handler =& xoops_getmodulehandler('post', 'newbb');
+        $post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
         $myrow = $this->db->fetchArray($result);
         $post =& $post_handler->create(false);
         $post->assignVars($myrow);
@@ -260,7 +260,7 @@ class NewbbTopicHandler extends ArtObjectHandler
             newbb_message("NewbbTopicHandler::getAllPosts error:" . $sql);
             return $ret;
         }
-        $post_handler = &xoops_getmodulehandler('post', 'newbb');
+        $post_handler = &xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
         while ($myrow = $this->db->fetchArray($result)) {
             $post = &$post_handler->create(false);
             $post->assignVars($myrow);
@@ -331,7 +331,7 @@ class NewbbTopicHandler extends ArtObjectHandler
 		    return false;
 	    }
         $post_obj =& $this->getTopPost($topic_id);
-		$post_handler =& xoops_getmodulehandler('post', 'newbb');
+		$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
 	    $post_handler->delete($post_obj, false, $force);
 	    return true;
     }
@@ -350,7 +350,7 @@ class NewbbTopicHandler extends ArtObjectHandler
 	    if($forum<1) return false;
 
         if (!isset($_cachedTopicPerms)){
-            $getpermission = &xoops_getmodulehandler('permission', 'newbb');
+            $getpermission = &xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
             $_cachedTopicPerms = $getpermission->getPermissions("forum", $forum);
         }
 

@@ -41,9 +41,9 @@ if ( empty($forum) ) {
     exit();
 } 
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
-$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
-$post_handler =& xoops_getmodulehandler('post', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
 
 if ( !$topic_id && !$post_id ) {
 	$redirect = empty($forum)?"index.php":'viewforum.php?forum='.$forum;
@@ -70,7 +70,7 @@ if ( !$topic_handler->getPermission($forum_obj, $topic_status, 'reply')){
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', 'newbb');
+	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 	$online_handler->init($forum_obj);
 }
 
@@ -142,7 +142,7 @@ if ($xoopsModuleConfig['wol_enabled']){
 
     include 'include/forumform.inc.php';
 
-	$karma_handler =& xoops_getmodulehandler('karma', 'newbb');
+	$karma_handler =& xoops_getmodulehandler('karma', basename( dirname( __FILE__ ) ));
 	$user_karma = $karma_handler->getUserKarma();
 
     foreach ($forumpostshow as $eachpost) {

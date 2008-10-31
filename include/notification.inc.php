@@ -38,7 +38,7 @@ define('NEWBB_NOTIFY_ITEMINFO', 1);
 function newbb_notify_iteminfo($category, $item_id)
 {
 	$module_handler =& xoops_gethandler('module');
-	$module =& $module_handler->getByDirname('newbb');
+	$module =& $module_handler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
 
 	if ($category=='global') {
 		$item['name'] = '';

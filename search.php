@@ -59,7 +59,7 @@ $term = isset($_POST['term']) ? $_POST['term'] : (isset($_GET['term']) ? $_GET['
 $uname = isset($_POST['uname']) ? $_POST['uname'] : (isset($_GET['uname']) ? $_GET['uname'] : null);
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', 'newbb');
+	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
 	$online_handler->init(0);
 }
 
@@ -196,10 +196,10 @@ if ( !empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !e
 	$xoopsTpl->assign("search_info", $search_info);
 }
 
-$forumperms =& xoops_getmodulehandler('permission', 'newbb');
+$forumperms =& xoops_getmodulehandler('permission', basename( dirname( __FILE__ ) ));
 $allowed_forums = $forumperms->getPermissions('forum');
 
-$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
 $forum_array = $forum_handler->getForums();
 
 $select_forum = '<select name="forum[]" size="5" multiple="multiple">';
