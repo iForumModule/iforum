@@ -31,7 +31,7 @@ function transfer_pdf(&$data)
 	global $xoopsLogger, $xoopsOption, $xoopsTpl, $xoopsblock;
 
 	$_config = require(dirname(__FILE__)."/config.php");
-	
+    $pdf_data["id"] = $data["id"];
 	$pdf_data["title"] = $data["title"];
 	$pdf_data["subtitle"] = $data["subtitle"];
 	$pdf_data["author"] = $data["author"];
@@ -42,7 +42,7 @@ function transfer_pdf(&$data)
 	$hiddens["pdf_data"] = base64_encode(serialize($pdf_data));
 		
 	include XOOPS_ROOT_PATH."/header.php";
-	xoops_confirm($hiddens, XOOPS_URL."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/makepdf.php", $_config["title"]);
+	xoops_confirm($hiddens, XOOPS_URL."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/makepdf.php?post_id=".$pdf_data["id"], $_config["title"]);
 	$GLOBALS["xoopsOption"]['output_type'] = "plain";
 	include XOOPS_ROOT_PATH."/footer.php";
 	exit();

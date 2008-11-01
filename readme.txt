@@ -1,10 +1,12 @@
-CBB 3.0
+IFORUM 1.0
 
-XOOPS Community bulletin Board, for XOOPS 2.0*, 2.2* and 2.3*
+ImpressCMS bulletin Board, for ImpressCMS 1.1*
 
-D.J.
-http://xoops.org.cn
-http://xoopsforge.com
+iforum, is fork of newbb (aka CBB), at this stage it just has some minor changes to work efficient with ImpressCMS 1.1
+We will have a total code re-writing at a later stage!
+
+Stranger
+http://www.impresscms.org
 
 
 Appendix
@@ -28,21 +30,3 @@ div.dropdown .menu a:hover, div.dropdown .userbar a:hover{
 }
 /* color - end */
 
-2 Fix for "right-to-left" themes (Arabic, Persian and more): adding to theme/style.css as following:
-
-/* direction -- for rtl */
-div.dropdown ul, div.dropdown .userbar{
-	direction: ltr;
-}
-
-div.dropdown li ul {
-	left: -150px !important; /* for IE, tune the value if necessary */
-}
-div.dropdown li>ul { 
-	left: -1px !important; /* for non-IE, tune the value if necessary */
-}
-
-div.dropdown .userbar{
-	float: right !important;  /* need a more formal solution, any help would be appreciated */
-}
-/* direction fix end */

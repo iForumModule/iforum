@@ -46,7 +46,7 @@ $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "1.00";
 $modversion['status'] = "Beta";
 
-$modversion['warning'] = "For XOOPS 2.0*, 2.2*, 2.3 And ImpressCMS 1.0, 1.1";
+$modversion['warning'] = "For ImpressCMS 1.1";
 
 $modversion['demo_site_url'] = "http://xoopsforge.com/modules/newbb/";
 $modversion['demo_site_name'] = "XForge";
