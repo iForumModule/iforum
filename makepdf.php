@@ -31,7 +31,6 @@
 
 error_reporting(0);
 include 'header.php';
-require_once XOOPS_ROOT_PATH.'/include/pdf.php';
 
 $forum = isset($_GET['forum']) ? intval($_GET['forum']) : 0;
 $topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) : 0;
@@ -70,6 +69,7 @@ if ( !$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic
     redirect_header(XOOPS_URL.'/modules/newbb/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
+require_once XOOPS_ROOT_PATH.'/include/pdf.php';
 $post_data = $post_handler->getPostForPDF($post);
 $pdf_data['title'] = $viewtopic_forum->getVar("forum_name");
 $pdf_data['subtitle'] = $forumtopic->getVar('topic_title');
@@ -78,10 +78,10 @@ $pdf_data['date'] = $post_data['date'];
 $pdf_data['content'] = $post_data['text'];
 $pdf_data['author'] = $post_data['author'];
 
-$content = '<b><i><u>'.NEWBB_PDF_SUBJECT.': '.$pdf_data['title'].'</u></i></b><br /><b>
-'.NEWBB_PDF_TOPIC.': '.$pdf_data['subject'].'</b><br />
-'._POSTEDBY.' : '.$pdf_data['author'].'<br />
-'.NEWBB_PDF_DATE.':  '.formatTimestamp($pdf_data['date'],$dateformat).'<br /><br /><br />'.$pdf_data['content'].'<br />';
+$content = '<b><i><u>'._PDF_SUBJECT.': '.$pdf_data['title'].'</u></i></b><br /><b>
+'._PDF_TOPIC.': '.$pdf_data['subsubtitle'].'</b><br />
+'._POSTEDBY.': '.$pdf_data['author'].'<br />
+'._PDF_DATE.': '.formatTimestamp($pdf_data['date'],$dateformat).'<br /><br /><br />'.$pdf_data['content'].'<br />';
 $doc_title = $pdf_data['subtitle'];
 $doc_keywords = 'ICMS';
 $contents = Generate_PDF ($content, $doc_title, $doc_keywords);

@@ -13,6 +13,7 @@ Nov 1st, 2008
 3 Removed need to have frameworks
 4 Implemented (partly, it is not finished yet) easy-renaming
 5 Changed PDF generator to TCPDF for UTF-8 languages
+6 Added xoops-magazine image set as default
 
 
 ==========================================================

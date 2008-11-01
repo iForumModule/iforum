@@ -504,5 +504,7 @@ class User_language extends User
 // @TODO: This must be part of the core
 define('_MD_LEFT','right'); // type here right in rtl languages
 define('_MD_RIGHT','left'); // type here left in rtl languages
-
+define('_PDF_SUBJECT','عنوان'); 
+define('_PDF_TOPIC','مبحث'); 
+define('_PDF_DATE','تاریخ'); 
 ?>
