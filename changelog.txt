@@ -14,7 +14,7 @@ Nov 1st, 2008
 4 Implemented (partly, it is not finished yet) easy-renaming
 5 Changed PDF generator to TCPDF for UTF-8 languages
 6 Added xoops-magazine image set as default
-7 New icons (thanks McDonald)
+7 New icons (thanks McDonald And http://dryicons.com/)
 
 ==========================================================
 
