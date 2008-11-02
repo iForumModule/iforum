@@ -139,7 +139,8 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 	$users = array();
 	$i = 0;
  	while($myrow = $xoopsDB->fetchArray($result)){
-        $ret[$i]['link'] = "viewtopic.php?topic_id=".$myrow['topic_id']."&amp;forum=".$myrow['forum_id']."&amp;post_id=".$myrow['post_id']."#forumpost".$myrow['post_id'];
+ 		$ret[$i]['image'] = "images/imforum_iconsearch.png";
+       $ret[$i]['link'] = "viewtopic.php?topic_id=".$myrow['topic_id']."&amp;forum=".$myrow['forum_id']."&amp;post_id=".$myrow['post_id']."#forumpost".$myrow['post_id'];
 		$ret[$i]['title'] = $myrow['subject'];
 		$ret[$i]['time'] = $myrow['post_time'];
 		$ret[$i]['uid'] = $myrow['uid'];

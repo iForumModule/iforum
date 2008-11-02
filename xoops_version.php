@@ -36,7 +36,9 @@ $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
 $modversion['author'] = "D.J. (phppp)";
 $modversion['license'] = "GNU General Public License (GPL) see LICENSE";
-$modversion['image'] = "images/xoopsbb_slogo.png";
+$modversion['iconsmall'] = "images/imforum_iconsmall.png";
+$modversion['iconbig'] = "images/imforum_iconbig.png";
+$modversion['image'] = "images/imforum_icon.png";
 $modversion['dirname'] = $modulename;
 
 $modversion['author_realname'] = "CBB Dev Team";
