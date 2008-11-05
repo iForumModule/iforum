@@ -116,7 +116,7 @@
 
 <{/if}>
 </div>
-<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{$pagenav}>
 </div>
 </div>
@@ -134,7 +134,7 @@
 <{else}>
 <{include file="$newbb_template_path/newbb_thread.html" topic_post=$post mode=$mode}>
 <{/if}>
-<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>; padding: 5px;">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
 <a href="viewtopic.php?topic_id=<{$post.topic_id}>"><strong><{$smarty.const._MD_VIEWTOPIC}></strong></a>
 <{if !$forum_name }>
  | <a href="viewforum.php?forum=<{$post.forum_id}>"><strong><{$smarty.const._MD_VIEWFORUM}></strong></a>
@@ -146,7 +146,7 @@
 <{/foreach}>
 
 <{if $viewer_level gt 1}>
-<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;" id="admin">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;" id="admin">
 <{if $mode gt 1}>
 <{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');" /> 
 <select name="op">
@@ -176,10 +176,10 @@
 
 <br />
 <div>
-<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
 	<a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>
 </div>
-<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{$pagenav}>
 </div>
 </div>
@@ -188,7 +188,7 @@
 <br />
 <br />
 <div>
-<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
 <form action="search.php" method="get">
 <input name="term" id="term" type="text" size="15" />
 <input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
@@ -198,7 +198,7 @@
 [<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form>
 </div>
-<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{$forum_jumpbox}>
 </div>
 </div>

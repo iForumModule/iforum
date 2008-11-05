@@ -53,10 +53,10 @@
 <{/if}>
 
 <{if $mode gt 0}>
-<div style="padding: 5px;float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;" id="admin">
+<div style="padding: 5px;float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;" id="admin">
 <{$forum_addpoll}><{$forum_post_or_register}>
 </div>
-<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{if $mode gt 1}>
 <{$smarty.const._ALL}>: <input type="checkbox" name="topic_check1" id="topic_check1" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');" /> 
 <select name="op">
@@ -82,7 +82,7 @@
 <{/if}>
 </div>
 <{else}>
-<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{$forum_addpoll}><{$forum_post_or_register}>
 </div>
 <{/if}>
@@ -160,7 +160,7 @@
 	</div>
 <{/if}>
 </div>
-<div style="padding: 5px;float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{$forum_pagenav}>
 </div>
 </div>
@@ -265,10 +265,10 @@
 <br />
 
 <div>
-<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
 <{$forum_addpoll}><{$forum_post_or_register}>
 </div>
-<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{$forum_pagenav}>
 </div>
 </div>
@@ -277,7 +277,7 @@
 <br style="clear: both;" />
 <br />
 <div>
-<div style="float: <{$smarty.const._MD_LEFT}>; text-align: <{$smarty.const._MD_LEFT}>;">
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
 	<{$img_newposts}> = <{$smarty.const._MD_NEWPOSTS}> (<{$img_hotnewposts}> = <{$smarty.const._MD_MORETHAN}>) <br />
 	<{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}> (<{$img_hotfolder}> = <{$smarty.const._MD_MORETHAN2}>) <br />
 	<{$img_locked}> = <{$smarty.const._MD_TOPICLOCKED}> <br />
@@ -285,7 +285,7 @@
 	<{$img_digest}> = <{$smarty.const._MD_TOPICDIGEST}> <br />
 	<{$img_poll}> = <{$smarty.const._MD_TOPICHASPOLL}>
 </div>
-<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <form action="search.php" method="get">
 <input name="term" id="term" type="text" size="15" />
 <input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
@@ -304,13 +304,13 @@
 <br />
 
 <div>
-<div style="float: <{$smarty.const._MD_LEFT}>;">
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>;">
 <{foreach item=perm from=$permission_table}>
 <div><{$perm}></div>
 <{/foreach}>
 </div>
 <{if $rss_button OR $viewer_level gt 1}>
-<div style="float: <{$smarty.const._MD_RIGHT}>; text-align: <{$smarty.const._MD_RIGHT}>;">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 	<{if $viewer_level gt 1}>
 		<{if $mode gt 0}>
 		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
