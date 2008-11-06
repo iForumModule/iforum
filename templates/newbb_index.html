@@ -127,12 +127,12 @@
 		<{if $category.cat_image}>
 		<td width="8%"><img src="<{$category.cat_image}>" alt="<{$category.cat_title}>" /></td>
 		<{/if}>
-		<td align="left">
+		<td align="<{$smarty.const._GLOBAL_LEFT}>">
 			<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a>
 			<{if $category.cat_description}><p class="desc"><{$category.cat_description}></p><{/if}>
 		</td>
 		<{if $category.cat_sponsor}>
-		<td width="15%" nowrap="nowrap" align="right">
+		<td width="15%" nowrap="nowrap" align="<{$smarty.const._GLOBAL_RIGHT}>">
 		<p class="desc"><a href="<{$category.cat_sponsor.link}>" title="<{$category.cat_sponsor.title}>" target="_blank"><{$category.cat_sponsor.title}></a></p>
 		</td>
 		<{/if}>
@@ -145,9 +145,9 @@
     <tr class="head" align="center">
 		<td width="5%">&nbsp;</td>
 		<{if $subforum_display == "expand"}>
-		<td colspan="2" width="57%" nowrap="nowrap" align="left"><{$smarty.const._MD_FORUM}></td>
+		<td colspan="2" width="57%" nowrap="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_FORUM}></td>
 		<{else}>
-		<td width="57%" nowrap="nowrap" align="left"><{$smarty.const._MD_FORUM}></td>
+		<td width="57%" nowrap="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_FORUM}></td>
 		<{/if}>
 		<td width="9%" nowrap="nowrap"><{$smarty.const._MD_TOPICS}></td>
 		<td width="9%" nowrap="nowrap"><{$smarty.const._MD_POSTS}></td>
@@ -179,7 +179,7 @@
       </td>
       <td class="even" align="center" valign="middle"><{$forum.forum_topics}> </td>
       <td class="odd" align="center" valign="middle"><{$forum.forum_posts}> </td>
-      <td class="even" align="right" valign="middle"><{$forum.forum_lastpost_time}> <br />
+      <td class="even" align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$forum.forum_lastpost_time}> <br />
 		<{$forum.forum_lastpost_icon}> <br />
 		<{$forum.forum_lastpost_user}>
 	  </td>
@@ -188,7 +188,7 @@
     <tr class="head" >
       <td width="5%">&nbsp;</td>
       <td width="5%" align="center"><{$img_subforum}>&nbsp;</td>
-      <td colspan="4" nowrap="nowrap" align="left"><{$smarty.const._MD_SUBFORUMS}></td>
+      <td colspan="4" nowrap="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_SUBFORUMS}></td>
     </tr>
 <{foreach item=subforum from=$forum.subforum}>
     <tr>
@@ -211,7 +211,7 @@
 	  </td>
       <td class="even" width="9%" align="center" valign="middle"><{$subforum.forum_topics}> </td>
       <td class="odd" width="9%" align="center" valign="middle"><{$subforum.forum_posts}> </td>
-      <td class="even" width="20%" align="right" valign="middle"><{$subforum.forum_lastpost_time}> <br />
+      <td class="even" width="20%" align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$subforum.forum_lastpost_time}> <br />
 		<{$subforum.forum_lastpost_icon}> <br />
 		<{$subforum.forum_lastpost_user}>
 	  </td>
@@ -246,13 +246,13 @@
         </td>
       	<td class="even" align="center" valign="middle"><{$forum.forum_topics}> </td>
       	<td class="odd" align="center" valign="middle"><{$forum.forum_posts}> </td>
-      	<td class="even" align="right" valign="middle"><{$forum.forum_lastpost_time}> <br />
+      	<td class="even" align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$forum.forum_lastpost_time}> <br />
 			<{$forum.forum_lastpost_icon}> <br />
 			<{$forum.forum_lastpost_user}>  </td>
     </tr>
 	<{if $forum.subforum}>
     <tr>
-     	<td class="odd" colspan="4" align="left"><{$smarty.const._MD_SUBFORUMS}>&nbsp;<{$img_subforum}>&nbsp;
+     	<td class="odd" colspan="4" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_SUBFORUMS}>&nbsp;<{$img_subforum}>&nbsp;
 			<{foreach item=subforum from=$forum.subforum}>
 			&nbsp;[<a href="viewforum.php?forum=<{$subforum.forum_id}>"><{$subforum.forum_name}></a>]
 			<{/foreach}>
@@ -283,7 +283,7 @@
         </td>
       	<td class="even" align="center" valign="middle"><{$forum.forum_topics}> </td>
       	<td class="odd" align="center" valign="middle"><{$forum.forum_posts}> </td>
-      	<td class="even" align="right" valign="middle"><{$forum.forum_lastpost_time}> <br />
+      	<td class="even" align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$forum.forum_lastpost_time}> <br />
 			<{$forum.forum_lastpost_icon}> <br />
 			<{$forum.forum_lastpost_user}>
 		</td>

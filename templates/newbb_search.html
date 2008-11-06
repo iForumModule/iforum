@@ -2,7 +2,7 @@
 
 <table border="0" cellpadding="5" align="center">
   <tr>
-    <td colspan="2" align="left"><{$img_folder}>&nbsp;&nbsp;<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forumindex}></a><br />
+    <td colspan="2" align="<{$smarty.const._GLOBAL_LEFT}>"><{$img_folder}>&nbsp;&nbsp;<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forumindex}></a><br />
 		&nbsp;&nbsp;&nbsp;<{$img_folder}>&nbsp;&nbsp;<a href="search.php"><{$smarty.const._SR_SEARCH}></a></td>
   </tr>
 </table>
@@ -14,11 +14,11 @@
     <tr>
       <td><table border="0" cellpadding="1" cellspacing="1" width="100%" class="head">
           <tr>
-            <td class="head" width="10%" align="right"><strong><{$smarty.const._SR_KEYWORDS}></strong>&nbsp;</td>
+            <td class="head" width="10%" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._SR_KEYWORDS}></strong>&nbsp;</td>
             <td class="even"><input type="text" name="term" /></td>
           </tr>
           <tr>
-            <td class="head" align="right"><strong><{$smarty.const._SR_TYPE}></strong>&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._SR_TYPE}></strong>&nbsp;</td>
             <td class="even">
 	            <select name="andor">
 	            <option value="any" selected="selected"><{$smarty.const._SR_ANY}></option>
@@ -28,21 +28,21 @@
             </td>
           </tr>
           <tr>
-            <td class="head" align="right"><strong><{$smarty.const._MD_FORUMC}></strong>&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._MD_FORUMC}></strong>&nbsp;</td>
             <td class="even"><{$forum_selection_box}></td>
           </tr>
           <tr>
-            <td class="head" align="right"><strong><{$smarty.const._SR_SEARCHIN}></strong>&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._SR_SEARCHIN}></strong>&nbsp;</td>
             <td class="even"><input type="radio" name="searchin" value="title" /><{$smarty.const._MD_SUBJECT}>&nbsp;&nbsp;
               <input type="radio" name="searchin" value="text" /><{$smarty.const._MD_BODY}>&nbsp;&nbsp;
               <input type="radio" name="searchin" value="both" checked="checked" /><{$smarty.const._MD_SUBJECT}> & <{$smarty.const._MD_BODY}>&nbsp;&nbsp;</td>
           </tr>
           <tr>
-            <td class="head" align="right"><strong><{$smarty.const._MD_AUTHOR}></strong>&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._MD_AUTHOR}></strong>&nbsp;</td>
             <td class="even"><input type="text" name="uname" value="" /></td>
           </tr>
           <tr>
-            <td class="head" align="right"><strong><{$smarty.const._MD_SORTBY}></strong>&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._MD_SORTBY}></strong>&nbsp;</td>
             <td class="even">
             	<select name=="sortby">
             	<option value="p.post_time desc" selected="selected"><{$smarty.const._MD_DATE}></option>
@@ -53,17 +53,17 @@
           	</td>
           </tr>
           <tr>
-            <td class="head" align="right"><strong><{$smarty.const._MD_SINCE}></strong>&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._MD_SINCE}></strong>&nbsp;</td>
             <td class="even"><{$since_selection_box}></td>
           </tr>
           <{if $search_rule}>
           <tr>
-            <td class="head" align="right"><strong><{$smarty.const._SR_SEARCHRULE}></strong>&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>"><strong><{$smarty.const._SR_SEARCHRULE}></strong>&nbsp;</td>
             <td class="even"><{$search_rule}></td>
           </tr>
           <{/if}>
           <tr>
-            <td class="head" align="right">&nbsp;</td>
+            <td class="head" align="<{$smarty.const._GLOBAL_RIGHT}>">&nbsp;</td>
             <td class="even"><input type="submit" name="submit" value="<{$smarty.const._MD_SEARCH}>" /></td>
         </table></td>
     </tr>

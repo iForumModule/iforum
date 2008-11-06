@@ -43,7 +43,7 @@ newbb_load_object();
 function xoops_module_update_newbb(&$module, $oldversion = null) 
 {
 	$newbbConfig = newbb_load_config();
-	
+	/*
     //$oldversion = $module->getVar('version');
     //$oldconfig = $module->getVar('hasconfig');
     // NewBB 1.0 -- no config
@@ -69,7 +69,7 @@ function xoops_module_update_newbb(&$module, $oldversion = null)
     if ($oldversion < 304) {
         $GLOBALS['xoopsDB']->queryFromFile(XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/sql/mysql.304.sql");
     }
-    
+    */
 	if(!empty($newbbConfig["syncOnUpdate"])){
 		newbb_synchronization();
 	}

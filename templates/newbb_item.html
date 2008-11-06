@@ -21,7 +21,7 @@ IP: <a href="http://www.whois.sc/<{$topic_post.poster_ip}>" target="_blank"><{$t
 </div>
 <{/if}>
 
-<div class="foot">
+<div class="foot" align="<{$smarty.const._GLOBAL_RIGHT}>">
 <{foreach item=btn from=$topic_post.thread_buttons}> <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a> <{/foreach}>
 <a href="#threadtop" title="<{$smarty.const._MD_UP}>"> <{$p_up}></a>
 </div>

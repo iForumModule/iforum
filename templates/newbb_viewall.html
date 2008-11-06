@@ -119,7 +119,7 @@
 
 <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
 
-    <tr class="head" align="left">
+    <tr class="head" align="<{$smarty.const._GLOBAL_LEFT}>">
 	      <td  width="5%" colspan="2">
 	      <{if $mode gt 1}>
 			<{$smarty.const._ALL}>: <input type="checkbox" name="topic_check" id="topic_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check');" /> 
@@ -152,11 +152,11 @@
 		<{/if}>
 		<{$topic.topic_title}></a><{$topic.attachment}> <{$topic.topic_page_jump}>
 	</td>
-    <td align="left" valign="middle"><{$topic.topic_forum_link}></td>
+    <td align="<{$smarty.const._GLOBAL_LEFT}>" valign="middle"><{$topic.topic_forum_link}></td>
     <td align="center" valign="middle"><{$topic.topic_replies}></td>
     <td align="center" valign="middle"><{$topic.topic_poster}></td>
     <td align="center" valign="middle"><{$topic.topic_views}></td>
-    <td align="right" valign="middle"><{$topic.topic_last_posttime}><br />
+    <td align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$topic.topic_last_posttime}><br />
 		<{$smarty.const._MD_BY}> <{$topic.topic_last_poster}>
 	</td>
   </tr>

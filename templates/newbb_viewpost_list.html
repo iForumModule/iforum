@@ -87,7 +87,7 @@
 
 <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
 
-    <tr class="head" align="left">
+    <tr class="head" align="<{$smarty.const._GLOBAL_LEFT}>">
 		<th colspan="2" align="center"><strong><{$smarty.const._MD_POSTS}></strong></th>
 		<th width="15%" align="center" nowrap="nowrap"><strong><{$smarty.const._MD_FORUM}></strong></th>
 		<th width="15%" align="center" nowrap="nowrap"><strong><{$smarty.const._MD_POSTER}></strong></th>
@@ -99,9 +99,9 @@
   <tr class="<{cycle values="even,odd"}>">
     <td width="4%" align="center"><{$post.image}></td>
     <td>&nbsp;<{$post.title}></td>
-    <td align="left" valign="middle"><{$post.forum}></td>
+    <td align="<{$smarty.const._GLOBAL_LEFT}>" valign="middle"><{$post.forum}></td>
     <td align="center" valign="middle"><{$post.poster}></td>
-    <td align="right" valign="middle"><{$post.time}></td>
+    <td align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$post.time}></td>
   </tr>
 <{/foreach}>
   <!-- end forum topic -->

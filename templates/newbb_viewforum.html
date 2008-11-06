@@ -19,7 +19,7 @@
 
     <tr class="head" align="center">
       <td width="5%">&nbsp;</td>
-      <td nowrap="nowrap" align="left"><{$smarty.const._MD_SUBFORUMS}></td>
+      <td nowrap="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_SUBFORUMS}></td>
       <td nowrap="nowrap"><{$smarty.const._MD_TOPICS}></td>
       <td nowrap="nowrap"><{$smarty.const._MD_POSTS}></td>
       <td nowrap="nowrap"><{$smarty.const._MD_LASTPOST}></td>
@@ -37,7 +37,7 @@
    	</td>
     <td class="even" align="center" valign="middle"><{$sforum.forum_topics}></td>
     <td class="odd" align="center" valign="middle"><{$sforum.forum_posts}></td>
-    <td class="even" align="right" valign="middle"><{$sforum.forum_lastpost_time}><br />
+    <td class="even" align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$sforum.forum_lastpost_time}><br />
 		<{$sforum.forum_lastpost_user}>	<{$sforum.forum_lastpost_icon}>
 	</td>
   </tr>
@@ -169,7 +169,7 @@
 <br />
 
 <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
-	<tr class="head" align="left">
+	<tr class="head" align="<{$smarty.const._GLOBAL_LEFT}>">
       <td  width="5%" colspan="2">
       <{if $mode gt 1}>
 		<{$smarty.const._ALL}>: <input type="checkbox" name="topic_check" id="topic_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check');" /> 
@@ -233,7 +233,7 @@
 		<{if $rating_enable}>
 		<td align="center" valign="middle"><{$topic.rating_img}></td>
 		<{/if}>
-		<td align="right" valign="middle"><{$topic.topic_last_posttime}><br />
+		<td align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$topic.topic_last_posttime}><br />
 		<{$topic.topic_last_poster}> <{$topic.topic_page_jump_icon}></td>
 
 	</tr>

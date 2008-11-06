@@ -46,7 +46,7 @@ $modversion['author_website_url'] = "http://xoopsforge.com";
 $modversion['author_website_name'] = "XForge";
 $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "1.00";
-$modversion['status'] = "Beta";
+$modversion['status'] = "RC 1";
 
 $modversion['warning'] = "For ImpressCMS 1.1";
 

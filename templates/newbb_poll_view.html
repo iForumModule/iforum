@@ -8,8 +8,8 @@
     </tr>
 <{foreach item=option from=$poll.options}>
     <tr>
-      <td class="even" align="left" width="2%"><{$option.input}></td>
-      <td class="odd" align="left" width="98%"><{$option.text}></td>
+      <td class="even" align="<{$smarty.const._GLOBAL_LEFT}>" width="2%"><{$option.input}></td>
+      <td class="odd" align="<{$smarty.const._GLOBAL_LEFT}>" width="98%"><{$option.text}></td>
     </tr>
 <{/foreach}>
     <tr>

@@ -33,7 +33,10 @@ if(!defined("NEWBB_FUNCTIONS")):
 define("NEWBB_FUNCTIONS", true);
 
 include_once dirname(__FILE__)."/functions.ini.php";
-
+if(!defined("_GLOBAL_LEFT")){
+define('_GLOBAL_LEFT', (( defined('_ADM_USE_RTL') && _ADM_USE_RTL )?"right":"left"));} // type here right in rtl languages
+if(!defined("_GLOBAL_RIGHT")){
+define('_GLOBAL_RIGHT', (( defined('_ADM_USE_RTL') && _ADM_USE_RTL )?"left":"right"));} // type here left in rtl languages
 function &newbb_getUnameFromIds( $userid, $usereal = 0, $linked = false )
 {
 	$users = mod_getUnameFromIds( $userid, $usereal, $linked);

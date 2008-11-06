@@ -1,12 +1,12 @@
 <a id="forumpost<{$topic_post.post_id}>"></a>
 <table class="outer" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0px;">
   <tr>
-       <th width="20%" align="left">
+       <th width="20%" align="<{$smarty.const._GLOBAL_LEFT}>">
        <div class="comUserName"><{$topic_post.poster.link}></div>
    	</th>
 
-    <th width="75%" align="left"><div class="comTitle"><{$topic_post.post_title}></div></th>
-    <th align="right"><div class="comTitle" style="float: <{$smarty.const._GLOBAL_RIGHT}>;"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a></div></th>
+    <th width="75%" align="<{$smarty.const._GLOBAL_LEFT}>"><div class="comTitle"><{$topic_post.post_title}></div></th>
+    <th align="<{$smarty.const._GLOBAL_RIGHT}>"><div class="comTitle" style="float: <{$smarty.const._GLOBAL_RIGHT}>;"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a></div></th>
   </tr>
 
   <tr>
@@ -78,7 +78,7 @@
     <td width="20%" class="foot">
 	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.transfer.php?post_id=<{$topic_post.post_id}>" target="_blank" title="<{$smarty.const._MD_TRANSFER_DESC}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/images/external.png" alt="<{$smarty.const._MD_TRANSFER_DESC}>" /> <{$smarty.const._MD_TRANSFER}></a>
 	</td>
-    <td colspan="2" class="foot"><div align="right">
+    <td colspan="2" class="foot"><div align="<{$smarty.const._GLOBAL_RIGHT}>">
     <{if $mode gt 1}>
 		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=1" target="_self" title="<{$smarty.const._MD_SPLIT_ONE}>"><{$smarty.const._MD_SPLIT_ONE}></a> | 
 		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=2" target="_self" title="<{$smarty.const._MD_SPLIT_TREE}>"><{$smarty.const._MD_SPLIT_TREE}></a> | 
