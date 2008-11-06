@@ -41,21 +41,22 @@ $modversion['iconbig'] = "images/imforum_iconbig.png";
 $modversion['image'] = "images/imforum_icon.png";
 $modversion['dirname'] = $modulename;
 
-$modversion['author_realname'] = "CBB Dev Team";
-$modversion['author_website_url'] = "http://xoopsforge.com";
-$modversion['author_website_name'] = "XForge";
+$modversion['author_realname'] = "ImpressCMS iforum Dev Team";
+$modversion['author_website_url'] = "http://community.impresscms.org/modules/newbb/";
+$modversion['author_website_name'] = _IMPRESSCMS_COMMUNITY;
+$modversion['author_email'] = "pesian_stranger@users.sourceforge.net";
 $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "1.00";
 $modversion['status'] = "RC 1";
 
 $modversion['warning'] = "For ImpressCMS 1.1";
 
-$modversion['demo_site_url'] = "http://xoopsforge.com/modules/newbb/";
-$modversion['demo_site_name'] = "XForge";
-$modversion['support_site_url'] = "http://xoopsforge.com/modules/newbb/";
-$modversion['support_site_name'] = "Team CBB";
-$modversion['submit_feature'] = "http://xoopsforge.com/modules/newbb/";
-$modversion['submit_bug'] = "http://xoopsforge.com/modules/newbb/";
+$modversion['demo_site_url'] = "http://community.impresscms.org/modules/newbb/";
+$modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
+$modversion['support_site_url'] = "http://community.impresscms.org/modules/newbb/";
+$modversion['support_site_name'] = "ImpressCMS community website";
+$modversion['submit_feature'] = "http://community.impresscms.org/modules/newbb/";
+$modversion['submit_bug'] = "http://community.impresscms.org/modules/newbb/";
 
 include_once(XOOPS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
 // Is performing module install/update?
