@@ -6,52 +6,52 @@ define('MAIN_DEFINED',true);
 define('_MD_ERROR','Erro');
 define('_MD_NOPOSTS','Nenhuma mensagem');
 define('_MD_GO','Enviar');
-define('_MD_SELFORUM','Selecione um fÛrum');
+define('_MD_SELFORUM','Selecione um f√≥rum');
 
 define('_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST','Arquivo anexado:');
-define('_MD_ALLOWED_EXTENSIONS','Extensıes permitidas');
-define('_MD_MAX_FILESIZE','Tamanho m·ximo de arquivo');
+define('_MD_ALLOWED_EXTENSIONS','Extens√µes permitidas');
+define('_MD_MAX_FILESIZE','Tamanho m√°ximo de arquivo');
 define('_MD_ATTACHMENT','Anexar arquivo');
 define('_MD_FILESIZE','Tamanho');
 define('_MD_HITS','Acessos');
 define('_MD_GROUPS','Grupos:');
 define('_MD_DEL_ONE','Excluir apenas esta mensagem');
-define('_MD_DEL_RELATED','Excluir todas as mensagens deste tÛpico');
-define('_MD_MARK_ALL_FORUMS','Marcar todos os fÛruns como');
-define('_MD_MARK_ALL_TOPICS','Marcar todos os tÛpicos como');
-define('_MD_MARK_UNREAD','n„o lidos');
+define('_MD_DEL_RELATED','Excluir todas as mensagens deste t√≥pico');
+define('_MD_MARK_ALL_FORUMS','Marcar todos os f√≥runs como');
+define('_MD_MARK_ALL_TOPICS','Marcar todos os t√≥picos como');
+define('_MD_MARK_UNREAD','n√£o lidos');
 define('_MD_MARK_READ','lidos');
-define('_MD_ALL_FORUM_MARKED','Todos os fÛruns marcados como');
-define('_MD_ALL_TOPIC_MARKED','Todos os tÛpicos marcados como');
-define('_MD_BOARD_DISCLAIMER','DeclaraÁ„o de IsenÁ„o de Responsabilidade');
+define('_MD_ALL_FORUM_MARKED','Todos os f√≥runs marcados como');
+define('_MD_ALL_TOPIC_MARKED','Todos os t√≥picos marcados como');
+define('_MD_BOARD_DISCLAIMER','Declara√ß√£o de Isen√ß√£o de Responsabilidade');
 
 
 //index.php
-define('_MD_ADMINCP','AdministraÁ„o');
-define('_MD_FORUM','FÛrum');
-define('_MD_WELCOME','Bem-vindo ao FÛrum %s .');
-define('_MD_TOPICS','TÛpicos');
+define('_MD_ADMINCP','Administra√ß√£o');
+define('_MD_FORUM','F√≥rum');
+define('_MD_WELCOME','Bem-vindo ao F√≥rum %s .');
+define('_MD_TOPICS','T√≥picos');
 define('_MD_POSTS','Mensagens');
-define('_MD_LASTPOST','⁄ltima Mensagem');
+define('_MD_LASTPOST','√öltima Mensagem');
 define('_MD_MODERATOR','Moderador');
 define('_MD_NEWPOSTS','Novas mensagens');
 define('_MD_NONEWPOSTS','Sem novas mensagens');
-define('_MD_PRIVATEFORUM','FÛrum privativo');
+define('_MD_PRIVATEFORUM','F√≥rum privativo');
 define('_MD_BY','por'); // Posted by
-define('_MD_TOSTART','Para acessar as mensagens, selecione abaixo o fÛrum que deseja visitar.');
-define('_MD_TOTALTOPICSC','TÛpicos: ');
+define('_MD_TOSTART','Para acessar as mensagens, selecione abaixo o f√≥rum que deseja visitar.');
+define('_MD_TOTALTOPICSC','T√≥picos: ');
 define('_MD_TOTALPOSTSC','Mensagens: ');
-define('_MD_TOTALUSER','Usu·rios: ');
+define('_MD_TOTALUSER','Usu√°rios: ');
 define('_MD_TIMENOW','Data e hora atual: %s');
-define('_MD_USER_LASTVISIT','⁄ltima visita: %s');
-define('_MD_ADVSEARCH','Busca AvanÁada');
+define('_MD_USER_LASTVISIT','√öltima visita: %s');
+define('_MD_ADVSEARCH','Busca Avan√ßada');
 define('_MD_POSTEDON','Enviado em: ');
 define('_MD_SUBJECT','Assunto');
-define('_MD_INACTIVEFORUM_NEWPOSTS','FÛrum inativo com novas mensagens');
-define('_MD_INACTIVEFORUM_NONEWPOSTS','FÛrum inativo sem novas mensagens');
-define('_MD_SUBFORUMS','SubfÛruns');
-define('_MD_MAINFORUMOPT', 'OpÁıes');
-define("_MD_PENDING_POSTS_FOR_AUTH","Mensagens aguardando aprovaÁ„o:");
+define('_MD_INACTIVEFORUM_NEWPOSTS','F√≥rum inativo com novas mensagens');
+define('_MD_INACTIVEFORUM_NONEWPOSTS','F√≥rum inativo sem novas mensagens');
+define('_MD_SUBFORUMS','Subf√≥runs');
+define('_MD_MAINFORUMOPT', 'Op√ß√µes');
+define("_MD_PENDING_POSTS_FOR_AUTH","Mensagens aguardando aprova√ß√£o:");
 
 
 
@@ -59,19 +59,19 @@ define("_MD_PENDING_POSTS_FOR_AUTH","Mensagens aguardando aprovaÁ„o:");
 define('_MD_MODERATEDBY','Moderado por');
 define('_MD_SEARCH','Procurar');
 //define('_MD_SEARCHRESULTS','Search Results');
-define('_MD_FORUMINDEX','Õndice do FÛrum %s');
-define('_MD_POSTNEW','Novo tÛpico');
+define('_MD_FORUMINDEX','√çndice do F√≥rum %s');
+define('_MD_POSTNEW','Novo t√≥pico');
 define('_MD_REGTOPOST','Registre-se para enviar mensagens');
 
 //search.php
 define('_MD_SEARCHALLFORUMS','Todos');
-define('_MD_FORUMC','FÛrum:');
+define('_MD_FORUMC','F√≥rum:');
 define('_MD_AUTHORC','Autor:');
 define('_MD_SORTBY','Ordenar por:');
-define('_MD_DATE','⁄ltima <br>Mensagem');
-define('_MD_TOPIC','TÛpico');
+define('_MD_DATE','√öltima <br>Mensagem');
+define('_MD_TOPIC','T√≥pico');
 define('_MD_POST2','Msg');
-define('_MD_USERNAME','Usu·rio');
+define('_MD_USERNAME','Usu√°rio');
 define('_MD_BODY','Mensagem');
 define('_MD_SINCE','Desde');
 
@@ -81,79 +81,79 @@ define('_MD_POSTER','Autor');
 define('_MD_VIEWS','Leituras');
 define('_MD_MORETHAN','Novas mensagens [Popular]');
 define('_MD_MORETHAN2','Sem novas mensagens  [Popular]');
-define('_MD_TOPICSHASATT','TÛpico com anexo(s)');
-define('_MD_TOPICHASPOLL','TÛpico com votaÁ„o');
-define('_MD_TOPICLOCKED','TÛpico bloqueado');
+define('_MD_TOPICSHASATT','T√≥pico com anexo(s)');
+define('_MD_TOPICHASPOLL','T√≥pico com vota√ß√£o');
+define('_MD_TOPICLOCKED','T√≥pico bloqueado');
 define('_MD_LEGEND','Legenda');
-define('_MD_NEXTPAGE','PrÛxima p·gina');
+define('_MD_NEXTPAGE','Pr√≥xima p√°gina');
 define('_MD_SORTEDBY','Ordenado por');
-define('_MD_TOPICTITLE','TÌtulo do tÛpico');
+define('_MD_TOPICTITLE','T√≠tulo do t√≥pico');
 define('_MD_NUMBERREPLIES','Respostas');
-define('_MD_TOPICPOSTER','Autor do tÛpico');
+define('_MD_TOPICPOSTER','Autor do t√≥pico');
 define('_MD_TOPICTIME','Data<br>Hora');
-define('_MD_LASTPOSTTIME','Data da ˙ltima mensagem');
+define('_MD_LASTPOSTTIME','Data da √∫ltima mensagem');
 define('_MD_ASCENDING','Ordem ascendente');
 define('_MD_DESCENDING','Ordem descendente');
-define('_MD_FROMLASTHOURS','Das ˙ltimas %s horas');
-define('_MD_FROMLASTDAYS','Dos ˙ltimos %s dias');
+define('_MD_FROMLASTHOURS','Das √∫ltimas %s horas');
+define('_MD_FROMLASTDAYS','Dos √∫ltimos %s dias');
 define('_MD_THELASTYEAR','Do ano passado');
-define('_MD_BEGINNING','Desde o inÌcio');
-define('_MD_SEARCHTHISFORUM', 'Procurar neste fÛrum');
+define('_MD_BEGINNING','Desde o in√≠cio');
+define('_MD_SEARCHTHISFORUM', 'Procurar neste f√≥rum');
 define('_MD_TOPIC_SUBJECTC','Prefixo:');
 
 
-define('_MD_RATINGS','AvaliaÁıes');
-define("_MD_CAN_ACCESS", "VocÍ <b>pode</b> acessar o fÛrum.<br />");
-define("_MD_CANNOT_ACCESS", "VocÍ <b>n„o pode</b> acessar o fÛrum.<br />");
-define("_MD_CAN_POST", "VocÍ <b>pode</b> iniciar um novo tÛpico.<br />");
-define("_MD_CANNOT_POST", "VocÍ <b>n„o pode</b> iniciar um novo tÛpico.<br />");
-define("_MD_CAN_VIEW", "VocÍ <b>pode</b> exibir os tÛpicos.<br />");
-define("_MD_CANNOT_VIEW", "VocÍ <b>n„o pode</b> exibir os tÛpicos.<br />");
-define("_MD_CAN_REPLY", "VocÍ <b>pode</b> responder.<br>");
-define("_MD_CANNOT_REPLY", "VocÍ <b>n„o pode</b> responder.<br>");
-define("_MD_CAN_EDIT", "VocÍ <b>pode</b> editar.<br>");
-define("_MD_CANNOT_EDIT", "VocÍ <b>n„o pode</b> editar.<br>");
-define("_MD_CAN_DELETE", "VocÍ <b>pode</b> excluir mensagens.<br>");
-define("_MD_CANNOT_DELETE", "VocÍ <b>n„o pode</b> excluir mensagens.<br>");
-define("_MD_CAN_ADDPOLL", "VocÍ <b>pode</b> incluir votaÁıes.<br>");
-define("_MD_CANNOT_ADDPOLL", "VocÍ <b>n„o pode</b> incluir votaÁıes.<br>");
-define("_MD_CAN_VOTE", "VocÍ <b>pode</b> votar.<br>");
-define("_MD_CANNOT_VOTE", "VocÍ <b>n„o pode</b> votar.<br>");
-define("_MD_CAN_ATTACH", "VocÍ <b>pode</b> anexar arquivos.<br>");
-define("_MD_CANNOT_ATTACH", "VocÍ <b>n„o pode</b> anexar arquivos.<br>");
-define("_MD_CAN_NOAPPROVE", "VocÍ <b>pode</b> enviar mensagens sem aprovaÁ„o.<br>");
-define("_MD_CANNOT_NOAPPROVE", "VocÍ <b>n„o pode</b> enviar mensagens sem aprovaÁ„o.<br>");
-define("_MD_IMTOPICS","TÛpicos importantes");
-define("_MD_NOTIMTOPICS","TÛpicos do fÛrum");
-define('_MD_FORUMOPTION', 'OpÁıes');
+define('_MD_RATINGS','Avalia√ß√µes');
+define("_MD_CAN_ACCESS", "Voc√™ <b>pode</b> acessar o f√≥rum.<br />");
+define("_MD_CANNOT_ACCESS", "Voc√™ <b>n√£o pode</b> acessar o f√≥rum.<br />");
+define("_MD_CAN_POST", "Voc√™ <b>pode</b> iniciar um novo t√≥pico.<br />");
+define("_MD_CANNOT_POST", "Voc√™ <b>n√£o pode</b> iniciar um novo t√≥pico.<br />");
+define("_MD_CAN_VIEW", "Voc√™ <b>pode</b> exibir os t√≥picos.<br />");
+define("_MD_CANNOT_VIEW", "Voc√™ <b>n√£o pode</b> exibir os t√≥picos.<br />");
+define("_MD_CAN_REPLY", "Voc√™ <b>pode</b> responder.<br>");
+define("_MD_CANNOT_REPLY", "Voc√™ <b>n√£o pode</b> responder.<br>");
+define("_MD_CAN_EDIT", "Voc√™ <b>pode</b> editar.<br>");
+define("_MD_CANNOT_EDIT", "Voc√™ <b>n√£o pode</b> editar.<br>");
+define("_MD_CAN_DELETE", "Voc√™ <b>pode</b> excluir mensagens.<br>");
+define("_MD_CANNOT_DELETE", "Voc√™ <b>n√£o pode</b> excluir mensagens.<br>");
+define("_MD_CAN_ADDPOLL", "Voc√™ <b>pode</b> incluir vota√ß√µes.<br>");
+define("_MD_CANNOT_ADDPOLL", "Voc√™ <b>n√£o pode</b> incluir vota√ß√µes.<br>");
+define("_MD_CAN_VOTE", "Voc√™ <b>pode</b> votar.<br>");
+define("_MD_CANNOT_VOTE", "Voc√™ <b>n√£o pode</b> votar.<br>");
+define("_MD_CAN_ATTACH", "Voc√™ <b>pode</b> anexar arquivos.<br>");
+define("_MD_CANNOT_ATTACH", "Voc√™ <b>n√£o pode</b> anexar arquivos.<br>");
+define("_MD_CAN_NOAPPROVE", "Voc√™ <b>pode</b> enviar mensagens sem aprova√ß√£o.<br>");
+define("_MD_CANNOT_NOAPPROVE", "Voc√™ <b>n√£o pode</b> enviar mensagens sem aprova√ß√£o.<br>");
+define("_MD_IMTOPICS","T√≥picos importantes");
+define("_MD_NOTIMTOPICS","T√≥picos do f√≥rum");
+define('_MD_FORUMOPTION', 'Op√ß√µes');
 
-define('_MD_VAUP','Ver todas as mensagens n„o respondidas');
+define('_MD_VAUP','Ver todas as mensagens n√£o respondidas');
 define('_MD_VANP','Ver todos as novas mensagens');
 
 
-define('_MD_UNREPLIED','TÛpicos sem resposta');
-define('_MD_UNREAD','TÛpicos n„o lidos');
-define('_MD_ALL','Todos os tÛpicos');
+define('_MD_UNREPLIED','T√≥picos sem resposta');
+define('_MD_UNREAD','T√≥picos n√£o lidos');
+define('_MD_ALL','Todos os t√≥picos');
 define('_MD_ALLPOSTS','Todas as mensagens');
 define('_MD_VIEW','Exibir');
 
 //viewtopic.php
 define('_MD_AUTHOR','Autor');
-define('_MD_LOCKTOPIC','Bloquear este tÛpico');
-define('_MD_UNLOCKTOPIC','Desbloquear este tÛpico');
-define('_MD_UNSTICKYTOPIC','Desfixar este tÛpico');
-define('_MD_STICKYTOPIC','Fixar este tÛpico');
+define('_MD_LOCKTOPIC','Bloquear este t√≥pico');
+define('_MD_UNLOCKTOPIC','Desbloquear este t√≥pico');
+define('_MD_UNSTICKYTOPIC','Desfixar este t√≥pico');
+define('_MD_STICKYTOPIC','Fixar este t√≥pico');
 define('_MD_DIGESTTOPIC','Incluir no Informativo');
 define('_MD_UNDIGESTTOPIC','Retirar do Informativo');
-define('_MD_MERGETOPIC','Mesclar este tÛpico');
-define('_MD_MOVETOPIC','Mover este tÛpico');
-define('_MD_DELETETOPIC','Excluir este tÛpico');
+define('_MD_MERGETOPIC','Mesclar este t√≥pico');
+define('_MD_MOVETOPIC','Mover este t√≥pico');
+define('_MD_DELETETOPIC','Excluir este t√≥pico');
 define('_MD_TOP','Topo');
 define('_MD_BOTTOM','Final');
-define('_MD_PREVTOPIC','TÛpico anterior');
-define('_MD_NEXTTOPIC','PrÛximo tÛpico');
+define('_MD_PREVTOPIC','T√≥pico anterior');
+define('_MD_NEXTTOPIC','Pr√≥ximo t√≥pico');
 define('_MD_GROUP','Grupo:');
-define('_MD_QUICKREPLY','Resposta r·pida');
+define('_MD_QUICKREPLY','Resposta r√°pida');
 define('_MD_POSTREPLY','Responder');
 define('_MD_PRINTTOPICS','Imprimir');
 define('_MD_PRINT','Imprimir');
@@ -165,58 +165,58 @@ define('_MD_AIM','AOL');
 define('_MD_YIM','Yahoo!');
 define('_MD_MSNM','MSN');
 define('_MD_ICQ','ICQ');
-define('_MD_PRINT_TOPIC_LINK', 'URL para esta discuss„o');
-define('_MD_ADDTOLIST','Adicione ‡ sua Lista de Contatos');
-define('_MD_TOPICOPT', 'OpÁıes');
-define('_MD_VIEWMODE', 'VisualizaÁ„o');
+define('_MD_PRINT_TOPIC_LINK', 'URL para esta discuss√£o');
+define('_MD_ADDTOLIST','Adicione √† sua Lista de Contatos');
+define('_MD_TOPICOPT', 'Op√ß√µes');
+define('_MD_VIEWMODE', 'Visualiza√ß√£o');
 define('_MD_NEWEST', 'Novos primeiro');
 define('_MD_OLDEST', 'Antigos primeiro');
 
 define('_MD_FORUMSEARCH','Procurar');
 
 define('_MD_RATED','Avaliado:');
-define('_MD_RATE','Avaliar tÛpico');
-define('_MD_RATEDESC','Avalie este tÛpico');
+define('_MD_RATE','Avaliar t√≥pico');
+define('_MD_RATEDESC','Avalie este t√≥pico');
 define('_MD_RATING','Enviar');
-define('_MD_RATE1','PÈssimo');
+define('_MD_RATE1','P√©ssimo');
 define('_MD_RATE2','Ruim');
 define('_MD_RATE3','Regular');
 define('_MD_RATE4','Bom');
 define('_MD_RATE5','Excelente');
 
-define('_MD_TOPICOPTION','OpÁıes');
-define('_MD_KARMA_REQUIREMENT', 'Seu Karma atual È %s e o karma requerido È %s. <br /> Favor tentar mais tarde.');
-define('_MD_REPLY_REQUIREMENT', 'Para exibir esta mensagem, vocÍ precisa enviar antes a sua resposta.');
-define('_MD_TOPICOPTIONADMIN','AdministraÁ„o do tÛpico');
-define('_MD_POLLOPTIONADMIN','AdministraÁ„o de votaÁıes');
+define('_MD_TOPICOPTION','Op√ß√µes');
+define('_MD_KARMA_REQUIREMENT', 'Seu Karma atual √© %s e o karma requerido √© %s. <br /> Favor tentar mais tarde.');
+define('_MD_REPLY_REQUIREMENT', 'Para exibir esta mensagem, voc√™ precisa enviar antes a sua resposta.');
+define('_MD_TOPICOPTIONADMIN','Administra√ß√£o do t√≥pico');
+define('_MD_POLLOPTIONADMIN','Administra√ß√£o de vota√ß√µes');
 
-define('_MD_EDITPOLL','Editar esta votaÁ„o');
-define('_MD_DELETEPOLL','Excluir esta votaÁ„o');
-define('_MD_RESTARTPOLL','Reativar esta votaÁ„o');
-define('_MD_ADDPOLL','Incluir uma votaÁ„o');
+define('_MD_EDITPOLL','Editar esta vota√ß√£o');
+define('_MD_DELETEPOLL','Excluir esta vota√ß√£o');
+define('_MD_RESTARTPOLL','Reativar esta vota√ß√£o');
+define('_MD_ADDPOLL','Incluir uma vota√ß√£o');
 
-define('_MD_QUICKREPLY_EMPTY','Digite uma resposta r·pida aqui');
+define('_MD_QUICKREPLY_EMPTY','Digite uma resposta r√°pida aqui');
 
-define('_MD_LEVEL','Level :');
+define('_MD_LEVEL','N√≠vel :');
 define('_MD_HP','HP :');
 define('_MD_MP','MP :');
 define('_MD_EXP','EXP :');
 
-define('_MD_BROWSING','Navegando neste TÛpico:');
-define('_MD_POSTTONEWS','Enviar este tÛpico para NotÌcias');
+define('_MD_BROWSING','Navegando neste T√≥pico:');
+define('_MD_POSTTONEWS','Enviar este t√≥pico para Not√≠cias');
 
-define('_MD_EXCEEDTHREADVIEW','Quantidade de mensagens excede o limite para vis„o expandida<br />Alterando para modo agrupado');
+define('_MD_EXCEEDTHREADVIEW','Quantidade de mensagens excede o limite para vis√£o expandida<br />Alterando para modo agrupado');
 
 
 //forumform.inc
-define('_MD_PRIVATE','Este È um fÛrum <strong>privativo</b>.</b>Somente usu·rios com acesso especial podem acess·-lo.');
+define('_MD_PRIVATE','Este √© um f√≥rum <strong>privativo</b>.</b>Somente usu√°rios com acesso especial podem acess√°-lo.');
 define('_MD_QUOTE','Citar');
 define('_MD_VIEW_REQUIRE','Exibir requisitos');
 define('_MD_REQUIRE_KARMA','Karma');
 define('_MD_REQUIRE_REPLY','Resposta');
 define('_MD_REQUIRE_NULL','Sem requisitos');
 
-define("_MD_SELECT_FORMTYPE","Selecione o modelo de formul·rio");
+define("_MD_SELECT_FORMTYPE","Selecione o modelo de formul√°rio");
 
 define("_MD_FORM_COMPACT","Compacto");
 define("_MD_FORM_DHTML","DHTML");
@@ -227,24 +227,24 @@ define("_MD_FORM_KOIVI","Koivi Editor");
 define("_MD_FORM_TINYMCE","TinyMCE Editor");
 
 // ERROR messages
-define('_MD_ERRORFORUM','ERRO: FÛrum n„o selecionado!');
-define('_MD_ERRORPOST','ERRO: Mensagem n„o selecionada!');
-define('_MD_NORIGHTTOVIEW','VocÍ n„o tem permiss„o para exibir este fÛrum.');
-define('_MD_NORIGHTTOPOST','VocÍ n„o tem permiss„o para publicar neste fÛrum.');
-define('_MD_NORIGHTTOEDIT','VocÍ n„o tem permiss„o para editar neste fÛrum.');
-define('_MD_NORIGHTTOREPLY','VocÍ n„o tem permiss„o para responder neste fÛrum.');
-define('_MD_NORIGHTTOACCESS','VocÍ n„o tem permiss„o para acessar este fÛrum.');
-define('_MD_ERRORTOPIC','ERRO: TÛpico n„o selecionado!');
-define('_MD_ERRORCONNECT','ERRO: O fÛrum que vocÍ selecionou n„o existe. Por favor, tente novamente mais tarde.');
-define('_MD_ERROREXIST','ERRO: N„o È possÌvel conectar ao banco de dados.');
+define('_MD_ERRORFORUM','ERRO: F√≥rum n√£o selecionado!');
+define('_MD_ERRORPOST','ERRO: Mensagem n√£o selecionada!');
+define('_MD_NORIGHTTOVIEW','Voc√™ n√£o tem permiss√£o para exibir este f√≥rum.');
+define('_MD_NORIGHTTOPOST','Voc√™ n√£o tem permiss√£o para publicar neste f√≥rum.');
+define('_MD_NORIGHTTOEDIT','Voc√™ n√£o tem permiss√£o para editar neste f√≥rum.');
+define('_MD_NORIGHTTOREPLY','Voc√™ n√£o tem permiss√£o para responder neste f√≥rum.');
+define('_MD_NORIGHTTOACCESS','Voc√™ n√£o tem permiss√£o para acessar este f√≥rum.');
+define('_MD_ERRORTOPIC','ERRO: T√≥pico n√£o selecionado!');
+define('_MD_ERRORCONNECT','ERRO: O f√≥rum que voc√™ selecionou n√£o existe. Por favor, tente novamente mais tarde.');
+define('_MD_ERROREXIST','ERRO: N√£o √© poss√≠vel conectar ao banco de dados.');
 define('_MD_ERROROCCURED','Ocorreu um erro');
-define('_MD_COULDNOTQUERY','N„o È possÌvel consultar o banco de dados do fÛrum.');
-define('_MD_FORUMNOEXIST','ERRO: O fÛrum ou tÛpico que vocÍ selecionou n„o existe. Por favor, tente novamente mais tarde.');
-define('_MD_USERNOEXIST','Usu·rio n„o existe. Por favor, tente novamente mais tarde.');
-define('_MD_COULDNOTREMOVE','OperaÁ„o de exclus„o n„o realizada!');
-define('_MD_COULDNOTREMOVETXT','Exclus„o dos textos das mensagens n„o realizada!');
-define('_MD_TIMEISUP','VocÍ alcanÁou o limite de tempo para editar sua mensagem.');
-define('_MD_TIMEISUPDEL','VocÍ alcanÁou o limite do tempo para excluir sua mensagem.');
+define('_MD_COULDNOTQUERY','N√£o √© poss√≠vel consultar o banco de dados do f√≥rum.');
+define('_MD_FORUMNOEXIST','ERRO: O f√≥rum ou t√≥pico que voc√™ selecionou n√£o existe. Por favor, tente novamente mais tarde.');
+define('_MD_USERNOEXIST','Usu√°rio n√£o existe. Por favor, tente novamente mais tarde.');
+define('_MD_COULDNOTREMOVE','Opera√ß√£o de exclus√£o n√£o realizada!');
+define('_MD_COULDNOTREMOVETXT','Exclus√£o dos textos das mensagens n√£o realizada!');
+define('_MD_TIMEISUP','Voc√™ alcan√ßou o limite de tempo para editar sua mensagem.');
+define('_MD_TIMEISUPDEL','Voc√™ alcan√ßou o limite do tempo para excluir sua mensagem.');
 
 //reply.php
 define('_MD_ON','em'); //Posted on
@@ -252,32 +252,32 @@ define('_MD_USERWROTE','%s escreveu:'); // %s is username
 define('_MD_RE','Re');
 
 //post.php
-define('_MD_EDITNOTALLOWED','VocÍ n„o tem permiss„o para editar esta mensagem.');
+define('_MD_EDITNOTALLOWED','Voc√™ n√£o tem permiss√£o para editar esta mensagem.');
 define('_MD_EDITEDBY','Editado por');
-define('_MD_ANONNOTALLOWED','Visitantes anÙnimos n„o tÍm autorizaÁ„o para enviar mensagens.<br>Por favor, registre-se.');
-define('_MD_THANKSSUBMIT','Obrigado pela sua participaÁ„o!');
-define('_MD_REPLYPOSTED','Foi enviada uma resposta para o seu tÛpico.');
-define('_MD_HELLO','Ol· %s,');
-define('_MD_URRECEIVING','VocÍ est· recebendo este e-mail porque uma tÛpico que vocÍ criou no fÛrum do site %s foi respondido.'); // %s is your site name
-define('_MD_CLICKBELOW','Clique no link abaixo para exibir o tÛpico:');
-define('_MD_WAITFORAPPROVAL','Obrigado. Sua mensagem ser· analisada antes da publicaÁ„o.');
-define('_MD_POSTING_LIMITED','DÍ um tempo e volte em %d segundos');
+define('_MD_ANONNOTALLOWED','Visitantes an√¥nimos n√£o t√™m autoriza√ß√£o para enviar mensagens.<br>Por favor, registre-se.');
+define('_MD_THANKSSUBMIT','Obrigado pela sua participa√ß√£o!');
+define('_MD_REPLYPOSTED','Foi enviada uma resposta para o seu t√≥pico.');
+define('_MD_HELLO','Ol√° %s,');
+define('_MD_URRECEIVING','Voc√™ est√° recebendo este e-mail porque uma t√≥pico que voc√™ criou no f√≥rum do site %s foi respondido.'); // %s is your site name
+define('_MD_CLICKBELOW','Clique no link abaixo para exibir o t√≥pico:');
+define('_MD_WAITFORAPPROVAL','Obrigado. Sua mensagem ser√° analisada antes da publica√ß√£o.');
+define('_MD_POSTING_LIMITED','D√™ um tempo e volte em %d segundos');
 
 //forumform.inc
 define('_MD_NAMEMAIL','Nome/e-mail:');
 define('_MD_LOGOUT','Sair');
 define('_MD_REGISTER','Registro');
 define('_MD_SUBJECTC','Assunto:');
-define('_MD_MESSAGEICON','Õcone da mensagem:');
+define('_MD_MESSAGEICON','√çcone da mensagem:');
 define('_MD_MESSAGEC','Mensagem:');
 define('_MD_ALLOWEDHTML','HTML desativado:');
-define('_MD_OPTIONS','OpÁıes:');
+define('_MD_OPTIONS','Op√ß√µes:');
 define('_MD_POSTANONLY','Enviar anonimamente');
 define('_MD_DOSMILEY','Ativar emoticons');
-define('_MD_DOXCODE','Ativar cÛdigos Xoops');
-define('_MD_DOBR','Ativar quebra de linha (N„o marcar em modo HTML)');
+define('_MD_DOXCODE','Ativar c√≥digos Xoops');
+define('_MD_DOBR','Ativar quebra de linha (N√£o marcar em modo HTML)');
 define('_MD_DOHTML','Ativar HTML');
-define('_MD_NEWPOSTNOTIFY', 'Avise-me sobre novas mensagens neste tÛpico');
+define('_MD_NEWPOSTNOTIFY', 'Avise-me sobre novas mensagens neste t√≥pico');
 define('_MD_ATTACHSIG','Inserir assinatura');
 define('_MD_POST','Escrever');
 define('_MD_SUBMIT','Enviar');
@@ -290,21 +290,21 @@ define('_MD_ADD','Incluir');
 define('_MD_REPLY','Responder');
 
 // topicmanager.php
-define('_MD_VIEWTHETOPIC','Exibir tÛpico');
-define('_MD_RETURNTOTHEFORUM','Voltar ao fÛrum');
-define('_MD_RETURNFORUMINDEX','Voltar ao Ìndice do fÛrum');
+define('_MD_VIEWTHETOPIC','Exibir t√≥pico');
+define('_MD_RETURNTOTHEFORUM','Voltar ao f√≥rum');
+define('_MD_RETURNFORUMINDEX','Voltar ao √≠ndice do f√≥rum');
 define('_MD_ERROR_BACK','Ocorreu um erro por favor volte e tente novamente.');
-define('_MD_GOTONEWFORUM','Exibir tÛpico atualizado.');
+define('_MD_GOTONEWFORUM','Exibir t√≥pico atualizado.');
 
-define('_MD_TOPICDELETE','O tÛpico foi excluÌdo.');
-define('_MD_TOPICMERGE','Este tÛpico foi mesclado');
-define('_MD_TOPICMOVE','O tÛpico foi movido.');
-define('_MD_TOPICLOCK','O tÛpico foi bloqueado.');
-define('_MD_TOPICUNLOCK','O tÛpico foi desbloqueado.');
-define('_MD_TOPICSTICKY','O tÛpico foi afixado.');
-define('_MD_TOPICUNSTICKY','O tÛpico n„o È mais fixo.');
-define('_MD_TOPICDIGEST','TÛpico incluÌdo no Informativo');
-define('_MD_TOPICUNDIGEST','O tÛpico foi excluÌdo do Informativo.');
+define('_MD_TOPICDELETE','O t√≥pico foi exclu√≠do.');
+define('_MD_TOPICMERGE','Este t√≥pico foi mesclado');
+define('_MD_TOPICMOVE','O t√≥pico foi movido.');
+define('_MD_TOPICLOCK','O t√≥pico foi bloqueado.');
+define('_MD_TOPICUNLOCK','O t√≥pico foi desbloqueado.');
+define('_MD_TOPICSTICKY','O t√≥pico foi afixado.');
+define('_MD_TOPICUNSTICKY','O t√≥pico n√£o √© mais fixo.');
+define('_MD_TOPICDIGEST','T√≥pico inclu√≠do no Informativo');
+define('_MD_TOPICUNDIGEST','O t√≥pico foi exclu√≠do do Informativo.');
 
 define('_MD_DELETE','Excluir');
 define('_MD_MOVE','Mover');
@@ -316,28 +316,28 @@ define('_MD_UNSTICKY','Desfixar');
 define('_MD_DIGEST','Incluir no Informativo');
 define('_MD_UNDIGEST','Retirar do Informativo');
 
-define('_MD_DESC_DELETE','Clicando em EXCLUIR no final desta p·gina, o tÛpico selecionado e todas as mensagens vinculadas ser„o <strong>permanentemente</strong> excluÌdos.');
-define('_MD_DESC_MOVE','Clicando em MOVER no final desta p·gina, o tÛpico selecionado e todas as mensagens vinculadas ser„o movidas para o fÛrum selecionado.');
-define('_MD_DESC_MERGE','Clicando em Mesclar no final desta p·gina, o tÛpico selecionado e todas as mensagem vinculadas a ele ser„o combinadas com o tÛpico que vocÍ selecionou. <br/> O ID do tÛpico de destino tem que ser menor que o atual.</strong>. ');
-define('_MD_DESC_LOCK','Clicando em BLOQUEAR no final desta p·gina, o tÛpico selecionado ser· bloqueado. Se desejar, vocÍ poder· desbloque·-lo posteriormente.');
-define('_MD_DESC_UNLOCK','Clicando em DESBLOQUEAR no final desta p·gina, o tÛpico selecionado ser· desbloqueado. Se desejar, vocÍ poder· bloque·-lo posteriormente.');
-define('_MD_DESC_STICKY','Clicando em FIXAR no final desta p·gina, o tÛpico selecionado ser· fixado. Se desejar, vocÍ poder· desfix·-lo posteriormente.');
-define('_MD_DESC_UNSTICKY','Clicando em DESFIXAR no final desta p·gina, o tÛpico selecionado ser· desfixado. Se desejar, vocÍ poder· fix·-lo posteriormente.');
-define('_MD_DESC_DIGEST','Clicando em INCLUIR NO RESUMO no final desta p·gina, o tÛpico selecionado ser· incluÌdo no resumo. Se desejar, vocÍ poder· retir·-lo posteriormente.');
-define('_MD_DESC_UNDIGEST','Clicando em RETIRAR DO RESUMO no final desta p·gina, o tÛpico selecionado ser· retirado do resumo. Se desejar, vocÍ poder· incluÌ-lo posteriormente.');
+define('_MD_DESC_DELETE','Clicando em EXCLUIR no final desta p√°gina, o t√≥pico selecionado e todas as mensagens vinculadas ser√£o <strong>permanentemente</strong> exclu√≠dos.');
+define('_MD_DESC_MOVE','Clicando em MOVER no final desta p√°gina, o t√≥pico selecionado e todas as mensagens vinculadas ser√£o movidas para o f√≥rum selecionado.');
+define('_MD_DESC_MERGE','Clicando em Mesclar no final desta p√°gina, o t√≥pico selecionado e todas as mensagem vinculadas a ele ser√£o combinadas com o t√≥pico que voc√™ selecionou. <br/> O ID do t√≥pico de destino tem que ser menor que o atual.</strong>. ');
+define('_MD_DESC_LOCK','Clicando em BLOQUEAR no final desta p√°gina, o t√≥pico selecionado ser√° bloqueado. Se desejar, voc√™ poder√° desbloque√°-lo posteriormente.');
+define('_MD_DESC_UNLOCK','Clicando em DESBLOQUEAR no final desta p√°gina, o t√≥pico selecionado ser√° desbloqueado. Se desejar, voc√™ poder√° bloque√°-lo posteriormente.');
+define('_MD_DESC_STICKY','Clicando em FIXAR no final desta p√°gina, o t√≥pico selecionado ser√° fixado. Se desejar, voc√™ poder√° desfix√°-lo posteriormente.');
+define('_MD_DESC_UNSTICKY','Clicando em DESFIXAR no final desta p√°gina, o t√≥pico selecionado ser√° desfixado. Se desejar, voc√™ poder√° fix√°-lo posteriormente.');
+define('_MD_DESC_DIGEST','Clicando em INCLUIR NO RESUMO no final desta p√°gina, o t√≥pico selecionado ser√° inclu√≠do no resumo. Se desejar, voc√™ poder√° retir√°-lo posteriormente.');
+define('_MD_DESC_UNDIGEST','Clicando em RETIRAR DO RESUMO no final desta p√°gina, o t√≥pico selecionado ser√° retirado do resumo. Se desejar, voc√™ poder√° inclu√≠-lo posteriormente.');
 
-define('_MD_MERGETOPICTO','Mesclar tÛpico com:');
-define('_MD_MOVETOPICTO','Mover o tÛpico para:');
-define('_MD_NOFORUMINDB','N„o h· nenhum fÛrum no banco de dados');
+define('_MD_MERGETOPICTO','Mesclar t√≥pico com:');
+define('_MD_MOVETOPICTO','Mover o t√≥pico para:');
+define('_MD_NOFORUMINDB','N√£o h√° nenhum f√≥rum no banco de dados');
 
 // delete.php
-define('_MD_DELNOTALLOWED','VocÍ n„o tem permiss„o para excluir esta mensagem.');
-define('_MD_AREUSUREDEL','VocÍ tem certeza de que deseja excluir esta mensagem e todas as outras vinculadas a ela?');
-define('_MD_POSTSDELETED','Mensagem selecionada e todas as vinculadas foram excluÌdas.');
-define('_MD_POSTDELETED','Mensagem selecionada excluÌda.');
+define('_MD_DELNOTALLOWED','Voc√™ n√£o tem permiss√£o para excluir esta mensagem.');
+define('_MD_AREUSUREDEL','Voc√™ tem certeza de que deseja excluir esta mensagem e todas as outras vinculadas a ela?');
+define('_MD_POSTSDELETED','Mensagem selecionada e todas as vinculadas foram exclu√≠das.');
+define('_MD_POSTDELETED','Mensagem selecionada exclu√≠da.');
 
 // definitions moved from global.
-define('_MD_THREAD','TÛpico');
+define('_MD_THREAD','T√≥pico');
 define('_MD_FROM','De');
 define('_MD_JOINED','Cadastrado em');
 define('_MD_ONLINE','Online');
@@ -346,83 +346,83 @@ define('_MD_FLAT', 'Expandir');
 
 
 // online.php
-define('_MD_USERS_ONLINE', 'Usu·rios Online:');
-define('_MD_ANONYMOUS_USERS', 'usu·rios anÙnimos');
-define('_MD_REGISTERED_USERS', 'usu·rios cadastrados: ');
-define('_MD_BROWSING_FORUM','usu·rios neste fÛrum');
-define('_MD_TOTAL_ONLINE','Total de %d usu·rios online.');
+define('_MD_USERS_ONLINE', 'Usu√°rios Online:');
+define('_MD_ANONYMOUS_USERS', 'usu√°rios an√¥nimos');
+define('_MD_REGISTERED_USERS', 'usu√°rios cadastrados: ');
+define('_MD_BROWSING_FORUM','usu√°rios neste f√≥rum');
+define('_MD_TOTAL_ONLINE','Total de %d usu√°rios online.');
 define('_MD_ADMINISTRATOR','Administrador');
 
-define('_MD_NO_SUCH_FILE','Arquivo n„o existe!');
+define('_MD_NO_SUCH_FILE','Arquivo n√£o existe!');
 define('_MD_ERROR_UPATEATTACHMENT','Ocorreu um erro ao anexar o arquivo');
 
 // ratethread.php
-define("_MD_CANTVOTEOWN", "VocÍ n„o pode votar no tÛpico que vocÍ criou.<br />Todos os votos s„o revisados.");
-define("_MD_VOTEONCE", "Por favor n„o vote no mesmo tÛpico mais de uma vez.");
-define("_MD_VOTEAPPRE", "Obrigado pela colaboraÁ„o!");
+define("_MD_CANTVOTEOWN", "Voc√™ n√£o pode votar no t√≥pico que voc√™ criou.<br />Todos os votos s√£o revisados.");
+define("_MD_VOTEONCE", "Por favor n√£o vote no mesmo t√≥pico mais de uma vez.");
+define("_MD_VOTEAPPRE", "Obrigado pela colabora√ß√£o!");
 define("_MD_THANKYOU", "Obrigado por votar no %s"); // %s is your site name
 define("_MD_VOTES","Votos");
-define("_MD_NOVOTERATE","VocÍ n„o avaliou este tÛpico");
+define("_MD_NOVOTERATE","Voc√™ n√£o avaliou este t√≥pico");
 
 
 // polls.php
 define("_MD_POLL_DBUPDATED","O Banco de dados foi atualizado com sucesso!");
-define("_MD_POLL_POLLCONF","ConfiguraÁ„o das votaÁıes");
-define("_MD_POLL_POLLSLIST", "Lista de votaÁıes");
-define("_MD_POLL_AUTHOR", "Autor desta votaÁ„o");
+define("_MD_POLL_POLLCONF","Configura√ß√£o das vota√ß√µes");
+define("_MD_POLL_POLLSLIST", "Lista de vota√ß√µes");
+define("_MD_POLL_AUTHOR", "Autor desta vota√ß√£o");
 define("_MD_POLL_DISPLAYBLOCK", "Exibir no bloco?");
-define("_MD_POLL_POLLQUESTION", "Pergunta da votaÁ„o");
+define("_MD_POLL_POLLQUESTION", "Pergunta da vota√ß√£o");
 define("_MD_POLL_VOTERS", "Total de votantes");
 define("_MD_POLL_VOTES", "Total de votos");
 define("_MD_POLL_EXPIRATION", "Expira em");
 define("_MD_POLL_EXPIRED", "Expirou");
 define("_MD_POLL_VIEWLOG","Exibir log");
-define("_MD_POLL_CREATNEWPOLL", "Incluir votaÁ„o");
-define("_MD_POLL_POLLDESC", "DescriÁ„o da votaÁ„o");
-define("_MD_POLL_DISPLAYORDER", "Ordem de exibiÁ„o");
-define("_MD_POLL_ALLOWMULTI", "Permitir seleÁ„o m˙ltipla?");
-define("_MD_POLL_NOTIFY", "Notificar o autor da votaÁ„o quando expirar?");
-define("_MD_POLL_POLLOPTIONS", "OpÁıes");
-define("_MD_POLL_EDITPOLL", "Editar votaÁ„o");
+define("_MD_POLL_CREATNEWPOLL", "Incluir vota√ß√£o");
+define("_MD_POLL_POLLDESC", "Descri√ß√£o da vota√ß√£o");
+define("_MD_POLL_DISPLAYORDER", "Ordem de exibi√ß√£o");
+define("_MD_POLL_ALLOWMULTI", "Permitir sele√ß√£o m√∫ltipla?");
+define("_MD_POLL_NOTIFY", "Notificar o autor da vota√ß√£o quando expirar?");
+define("_MD_POLL_POLLOPTIONS", "Op√ß√µes");
+define("_MD_POLL_EDITPOLL", "Editar vota√ß√£o");
 define("_MD_POLL_FORMAT", "Formato: yyyy-mm-dd hh:mm:ss");
 define("_MD_POLL_CURRENTTIME", "Data e Hora atual: %s");
 define("_MD_POLL_EXPIREDAT", "Expirou em %s");
-define("_MD_POLL_RESTART", "Reativar esta votaÁ„o");
-define("_MD_POLL_ADDMORE", "Incluir mais opÁıes");
-define("_MD_POLL_RUSUREDEL", "VocÍ tem certeza que quer excluir esta votaÁ„o e todo seu conte˙do?");
-define("_MD_POLL_RESTARTPOLL", "Reativar votaÁ„o");
-define("_MD_POLL_RESET", "Apagar todos os registros para esta votaÁ„o?");
-define("_MD_POLL_ADDPOLL","Incluir votaÁ„o");
-define("_MD_POLLMODULE_ERROR","MÛdulo Enquetes n„o est· disponÌvel");
+define("_MD_POLL_RESTART", "Reativar esta vota√ß√£o");
+define("_MD_POLL_ADDMORE", "Incluir mais op√ß√µes");
+define("_MD_POLL_RUSUREDEL", "Voc√™ tem certeza que quer excluir esta vota√ß√£o e todo seu conte√∫do?");
+define("_MD_POLL_RESTARTPOLL", "Reativar vota√ß√£o");
+define("_MD_POLL_RESET", "Apagar todos os registros para esta vota√ß√£o?");
+define("_MD_POLL_ADDPOLL","Incluir vota√ß√£o");
+define("_MD_POLLMODULE_ERROR","M√≥dulo Enquetes n√£o est√° dispon√≠vel");
 
 //report.php
-define("_MD_REPORTED", "Obrigado por informar sobre esse tÛpico/mensagem! Um moderador examir· seu relatÛrio em breve.");
-define("_MD_REPORT_ERROR", "Ocorreu um erro ao enviar seu relatÛrio.");
+define("_MD_REPORTED", "Obrigado por informar sobre esse t√≥pico/mensagem! Um moderador examir√° seu relat√≥rio em breve.");
+define("_MD_REPORT_ERROR", "Ocorreu um erro ao enviar seu relat√≥rio.");
 define("_MD_REPORT_TEXT", "Mensagem:");
 
 define("_MD_PDF","Criar PDF com esta mensagem");
-define("_MD_PDF_PAGE","P·gina");
+define("_MD_PDF_PAGE","P√°gina");
 
 //print.php
 define("_MD_COMEFROM","Fonte:");
 
 //viewpost.php
 define("_MD_VIEWALLPOSTS","Todas as mensagens");
-define("_MD_VIEWTOPIC","TÛpico");
-define("_MD_VIEWFORUM","FÛrum");
+define("_MD_VIEWTOPIC","T√≥pico");
+define("_MD_VIEWFORUM","F√≥rum");
 
 define("_MD_COMPACT","Compacto");
 
-define("_MD_MENU_SELECT","Menu Caixa de SeleÁ„o");
-define("_MD_MENU_HOVER","Menu sensÌvel ao mouse");
+define("_MD_MENU_SELECT","Menu Caixa de Sele√ß√£o");
+define("_MD_MENU_HOVER","Menu sens√≠vel ao mouse");
 define("_MD_MENU_CLICK","Menu desativado por clique");
 
-define("_MD_WELCOME_SUBJECT","%s acessou o fÛrum");
-define("_MD_WELCOME_MESSAGE","Ol·, %s È novo no fÛrum.");
+define("_MD_WELCOME_SUBJECT","%s acessou o f√≥rum");
+define("_MD_WELCOME_MESSAGE","Ol√°, %s √© novo no f√≥rum.");
 
 define("_MD_VIEWNEWPOSTS","Exibir novas mensagens");
 
-define("_MD_INVALID_SUBMIT","Envio inv·lido. VocÍ deve ter excedido o tempo da sess„o. Reenvie ou faÁa uma cÛpia da sua mensagem, entre novamente no site e tente novamente.");
+define("_MD_INVALID_SUBMIT","Envio inv√°lido. Voc√™ deve ter excedido o tempo da sess√£o. Reenvie ou fa√ßa uma c√≥pia da sua mensagem, entre novamente no site e tente novamente.");
 
 define("_MD_ACCOUNT","Conta");
 define("_MD_NAME","Nome");
@@ -431,12 +431,12 @@ define("_MD_LOGIN","Entrar");
 
 define("_MD_TRANSFER","Transferir");
 define("_MD_TRANSFER_DESC","Transferir mensagem para outros aplicativos");
-define("_MD_TRANSFER_DONE","A aÁ„o foi realizada com sucesso: %s");
+define("_MD_TRANSFER_DONE","A a√ß√£o foi realizada com sucesso: %s");
 
 define("_MD_APPROVE","Aprovar");
 define("_MD_RESTORE","Restaurar");
 define("_MD_SPLIT_ONE","Dividir");
-define("_MD_SPLIT_TREE","Separar para as crianÁas");
+define("_MD_SPLIT_TREE","Separar para as crian√ßas");
 define("_MD_SPLIT_ALL","Dividir tudo");
 
 define("_MD_TYPE_ADMIN","Admin");
@@ -447,17 +447,17 @@ define("_MD_TYPE_SUSPEND","Suspenso");
 
 define("_MD_DBUPDATED", "Banco de dados atualizado com sucesso!");
 
-define("_MD_SUSPEND_SUBJECT", "Usu·rio %s foi suspenso por %d dias");
-define("_MD_SUSPEND_TEXT", "Usu·rio %s foi suspenso por %d dias devido a:<br />[quote]%s[/quote]<br /><br /> A suspens„o È v·lid· atÈ %s");
-define("_MD_SUSPEND_UID", "ID do usu·rio");
+define("_MD_SUSPEND_SUBJECT", "Usu√°rio %s foi suspenso por %d dias");
+define("_MD_SUSPEND_TEXT", "Usu√°rio %s foi suspenso por %d dias devido a:<br />[quote]%s[/quote]<br /><br /> A suspens√£o √© v√°lid√° at√© %s");
+define("_MD_SUSPEND_UID", "ID do usu√°rio");
 define("_MD_SUSPEND_IP", "Partes do IP [completo ou partes]");
-define("_MD_SUSPEND_DURATION", "DuraÁ„o da suspens„o [Dias]");
-define("_MD_SUSPEND_DESC", "Motivo da suspens„o");
+define("_MD_SUSPEND_DURATION", "Dura√ß√£o da suspens√£o [Dias]");
+define("_MD_SUSPEND_DESC", "Motivo da suspens√£o");
 define("_MD_SUSPEND_LIST", "Lista dos suspensos");
-define("_MD_SUSPEND_START", "ComeÁar");
+define("_MD_SUSPEND_START", "Come√ßar");
 define("_MD_SUSPEND_EXPIRE", "Final");
-define("_MD_SUSPEND_SCOPE", "EspaÁo");
-define("_MD_SUSPEND_MANAGEMENT", "GerÍncia da atividade de ModeraÁ„o");
+define("_MD_SUSPEND_SCOPE", "Espa√ßo");
+define("_MD_SUSPEND_MANAGEMENT", "Ger√™ncia da atividade de Modera√ß√£o");
 define("_MD_SUSPEND_NOACCESS", "Seu ID ou IP foi suspenso");
 
 // !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"	
@@ -501,34 +501,34 @@ class User_language extends User
 		return $userbar;
     }
 }
-define('_PDF_SUBJECT','Subject'); 
-define('_PDF_TOPIC','Topic'); 
-define('_PDF_DATE','Date'); 
+define('_PDF_SUBJECT','Assunto'); 
+define('_PDF_TOPIC','T√≥pico'); 
+define('_PDF_DATE','Data'); 
 
-//define("_MD_DIGESTS", "Resumo"); //Mantido atÈ saber se n„o iremos aproveitar...GibaPhp
-//define('_MD_USER_LASTPOST', '⁄ltimo mensagem: %s');
-//define('_MD_USER_NOLASTPOST', 'VocÍ n„o tem mensagem ainda');
-//define('_MD_USER_TOPICS', 'Seus TÛpicos: ');
+//define("_MD_DIGESTS", "Resumo"); //Mantido at√© saber se n√£o iremos aproveitar...GibaPhp
+//define('_MD_USER_LASTPOST', '√öltimo mensagem: %s');
+//define('_MD_USER_NOLASTPOST', 'Voc√™ n√£o tem mensagem ainda');
+//define('_MD_USER_TOPICS', 'Seus T√≥picos: ');
 //define('_MD_USER_POSTS', 'Mensagens: ');
 //define('_MD_USER_DIGESTS', 'Resumo: ');
 
 //define('_MD_VIEW_NEWPOSTS', 'Visualizar Novos Posts');
 
 
-//define('_MD_TODAYTOPICSC','TÛpicos Hoje: ');
+//define('_MD_TODAYTOPICSC','T√≥picos Hoje: ');
 //define('_MD_TODAYPOSTSC','Mensagens Hoje: ');
 //define('_MD_TOTALDIGESTSC','Resumo Total: ');
 
-//define("_MD_CAN_TYPE", "VocÍ <strong>pode </strong>ver os tÛpicos.<br />");
-//define("_MD_CANNOT_TYPE", "VocÍ <strong>n„o pode</strong> ver os tÛpicos.<br />");
-//define("_MD_CAN_HTML", "VocÍ <strong>pode</strong> usar cÛdigo HTML.<br />");
-//define("_MD_CANNOT_HTML", "VocÍ <strong>n„o pode</strong> usar cÛdigo HTML.<br />");
-//define("_MD_CAN_UPLOAD", "VocÍ <strong>pode</strong> upar(subir) de arquivos.<br />");
-//define("_MD_CANNOT_UPLOAD", "VocÍ <strong>n„o pode</strong> upar(subir) de arquivos.<br />");
-//define("_MD_CAN_SIGNATURE", "VocÍ <strong>pode</strong> usar assinatura.<br />");
-//define("_MD_CANNOT_SIGNATURE", "VocÍ <strong>n„o pode</strong> usar assinatura.<br />");
+//define("_MD_CAN_TYPE", "Voc√™ <strong>pode </strong>ver os t√≥picos.<br />");
+//define("_MD_CANNOT_TYPE", "Voc√™ <strong>n√£o pode</strong> ver os t√≥picos.<br />");
+//define("_MD_CAN_HTML", "Voc√™ <strong>pode</strong> usar c√≥digo HTML.<br />");
+//define("_MD_CANNOT_HTML", "Voc√™ <strong>n√£o pode</strong> usar c√≥digo HTML.<br />");
+//define("_MD_CAN_UPLOAD", "Voc√™ <strong>pode</strong> upar(subir) de arquivos.<br />");
+//define("_MD_CANNOT_UPLOAD", "Voc√™ <strong>n√£o pode</strong> upar(subir) de arquivos.<br />");
+//define("_MD_CAN_SIGNATURE", "Voc√™ <strong>pode</strong> usar assinatura.<br />");
+//define("_MD_CANNOT_SIGNATURE", "Voc√™ <strong>n√£o pode</strong> usar assinatura.<br />");
 
-//define("_MD_NEWBB_TYPE", "Tipo de TÛpico");
+//define("_MD_NEWBB_TYPE", "Tipo de T√≥pico");
 //define("_MD_NEWBB_TAG", "Tag");
 
 ?>
