@@ -1,22 +1,22 @@
-Olá {X_UNAME},
+OlÃ¡ {X_UNAME},
 
-Um novo fórum com o nome "{FORUM_NAME}" acaba de ser criado no site {X_SITENAME}.
+Um novo fÃ³rum com o nome "{FORUM_NAME}" acaba de ser criado no site {X_SITENAME}.
 
-Descrição deste Fórum:
+DescriÃ§Ã£o deste FÃ³rum:
 {FORUM_DESCRIPTION}
 
-Clique no link abaixo para ver o novo fórum:
+Clique no link abaixo para ver o novo fÃ³rum:
 {FORUM_URL}
 
-Clique neste outro link se desejar ver todos os fóruns existentes:
+Clique neste outro link se desejar ver todos os fÃ³runs existentes:
 {X_MODULE_URL}
 
 -----------
 
-Você está recebendo esta mensagem porque marcou a opção de ser avisado quando um novo fórum for criado.
+VocÃª estÃ¡ recebendo esta mensagem porque marcou a opÃ§Ã£o para ser avisado quando um novo fÃ³rum for criado.
 
-Se você considerar que isto é um erro ou tenha feito esta solicitação,
-clique no link abaixo para reconfigurar as suas notificações:
+Se vocÃª considera que isto Ã© um erro ou nÃ£o tenha feito esta solicitaÃ§Ã£o,
+clique no link abaixo para reconfigurar as suas notificaÃ§Ãµes:
 
 {X_UNSUBSCRIBE_URL}
 
