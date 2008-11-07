@@ -134,6 +134,7 @@ function newbb_getIP($asString = false)
 
 function newbb_formatTimestamp($time, $format = "c", $timeoffset = "")
 {
+	/*
 	if(strtolower($format) == "reg" || strtolower($format) == "") {
 		$format = "c";
 	}
@@ -147,7 +148,7 @@ function newbb_formatTimestamp($time, $format = "c", $timeoffset = "")
 	if(class_exists("XoopsLocal") && is_callable(array("XoopsLocal", "formatTimestamp")) && defined("_TODAY")){
 		return XoopsLocal::formatTimestamp($time, $format, $timeoffset);
 	}
-	
+	*/
     global $xoopsConfig, $xoopsUser;
     if(strtolower($format) == "rss" || strtolower($format) == "r"){
     	$TIME_ZONE = "";
