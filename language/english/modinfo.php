@@ -5,10 +5,10 @@
 // Module Info
 
 // The name of this module
-define("_MI_NEWBB_NAME","CBB");
+define("_MI_NEWBB_NAME","iForum");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","XOOPS Community Bulletin Board");
+define("_MI_NEWBB_DESC","Community Bulletin Board");
 
 // Names of blocks for this module (Not all module has blocks)
 define("_MI_NEWBB_BLOCK_TOPIC_POST","Recent Replied Topics");
