@@ -47,7 +47,7 @@ $modversion['author_website_name'] = _IMPRESSCMS_COMMUNITY;
 $modversion['author_email'] = "pesian_stranger@users.sourceforge.net";
 $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "1.00";
-$modversion['status'] = "RC 1";
+$modversion['status'] = "RC 2";
 
 $modversion['warning'] = "For ImpressCMS 1.1";
 
@@ -66,12 +66,12 @@ $isModuleAction = mod_isModuleAction($modversion['dirname']);
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 
 // create folder
-if (!file_exists(XOOPS_ROOT_PATH."/uploads/iforum")) {
-  $chemin=XOOPS_ROOT_PATH.'/uploads/iforum';
+if (!file_exists(XOOPS_ROOT_PATH."/uploads/".$modulename)) {
+  $chemin=XOOPS_ROOT_PATH.'/uploads/'.$modulename;
   mkdir("$chemin",0777);
 }
-if (!file_exists(XOOPS_ROOT_PATH."/uploads/iforum/thumbs")) {
-  $chemin=XOOPS_ROOT_PATH.'/uploads/iforum/thumbs';
+if (!file_exists(XOOPS_ROOT_PATH."/uploads/".$modulename."/thumbs")) {
+  $chemin=XOOPS_ROOT_PATH.'/uploads/'.$modulename.'/thumbs';
   mkdir("$chemin",0777);
 }
 
