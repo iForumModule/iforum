@@ -285,7 +285,7 @@ define('_MD_SUBMIT','Submit');
 define('_MD_CANCELPOST','Cancel Post');
 define('_MD_REMOVE','Remove');
 define('_MD_UPLOAD','Upload');
-define('_MD_UP','nach oben');
+define('_MD_UP','Top');
 
 // forumuserpost.php
 define('_MD_ADD','Add');
