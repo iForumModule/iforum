@@ -15,7 +15,7 @@ Changelog 1.0 RC2
 6 Bugfix: for newbb_rtl.css
 7 Bugfix: date&time.
 8 added: the module create the upload-folders automatically (sato-san)
-
+9 added: spanish files with UTF-8  (juancj)
 
 Changelog 1.0 RC
 Nov 6th, 2008 
