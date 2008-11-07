@@ -81,7 +81,7 @@ table.index_category .desc, table.index_category .desc a{
 }
 
 #index_forum span.extra{
-	float: right;
+	float: left;
 	text-align: right;
 	margin: 0px;
 }
@@ -101,7 +101,7 @@ div.dropdown{
 
 div.dropdown .menu, div.dropdown .userbar{
 	font-weight: bold;
-	float: right;
+	float: left;
 	margin: 0px 1px;
 	border: 0px !important;
 	padding: 0px;

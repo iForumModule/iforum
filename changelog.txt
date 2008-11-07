@@ -11,6 +11,8 @@ Changelog 1.0 RC2
 2 added: _MD_UP on language/english/main.php (sato-san)
 3 added: _MD_POSTTIME on language/english/main.php (sato-san)
 4 added: german files with UTF-8  (sato-san)
+5 Bugfix for fast-reply (McDonald)
+6 Bugfix for newbb_rtl.css
 
 Changelog 1.0 RC
 Nov 6th, 2008 
