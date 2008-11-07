@@ -116,7 +116,10 @@ if(!empty($editor)){
 		$editor =@ $xoopsModuleConfig["editor_default"];
 	}
 }
-$forum_form->addElement(new XoopsFormSelectEditor($forum_form, "editor", $editor, $nohtml));
+	$config_handler =& xoops_gethandler('config');
+	$xoopsConfig =& $config_handler->getConfigsByCat(XOOPS_CONF);
+	$icms_allowed_editors = str_replace('default',$xoopsConfig["editor_default"], $xoopsConfig["editor_enabled_list"]);
+$forum_form->addElement(new XoopsFormSelectEditor($forum_form, "editor", $editor, $nohtml, $icms_allowed_editors));
 
 $editor_configs = array();
 $editor_configs["name"] ="message";
