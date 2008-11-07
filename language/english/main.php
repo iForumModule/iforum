@@ -471,7 +471,7 @@ define("_MD_YEARMONTHDAY", "Y/n/j G:i");
 
 // For user info
 // If you have customized userbar, define here.
-require_once(XOOPS_ROOT_PATH."/modules/newbb/class/user.php");
+require_once(XOOPS_ROOT_PATH."/modules/".basename(  dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/user.php");
 class User_language extends User
 {
     function User_language(&$user)

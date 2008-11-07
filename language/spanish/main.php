@@ -4,22 +4,22 @@ if(defined('MAIN_DEFINED')) return;
 define('MAIN_DEFINED',true);
 
 define('_MD_ERROR','Error');
-define('_MD_NOPOSTS','Sin envíos');
+define('_MD_NOPOSTS','Sin envï¿½os');
 define('_MD_GO','Ir');
 define('_MD_SELFORUM','Seleccione un foro');
 
 define('_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST','Archivo');
 define('_MD_ALLOWED_EXTENSIONS','Extensiones permitidas:');
-define('_MD_MAX_FILESIZE','Tamaño máximo del archivo');
+define('_MD_MAX_FILESIZE','Tamaï¿½o mï¿½ximo del archivo');
 define('_MD_ATTACHMENT','Archivo adjunto');
-define('_MD_FILESIZE','Tamaño');
+define('_MD_FILESIZE','Tamaï¿½o');
 define('_MD_HITS','Clics');
 define('_MD_GROUPS','Grupos:');
-define('_MD_DEL_ONE','Eliminar sólo este mensaje');
+define('_MD_DEL_ONE','Eliminar sï¿½lo este mensaje');
 define('_MD_DEL_RELATED','Eliminar este mensaje y todos los relacionados');
 define('_MD_MARK_ALL_FORUMS','Marcar todos los foros');
 define('_MD_MARK_ALL_TOPICS','Marcar todos los temas');
-define('_MD_MARK_UNREAD','no leídos');
+define('_MD_MARK_UNREAD','no leï¿½dos');
 define('_MD_MARK_READ','leidos');
 define('_MD_ALL_FORUM_MARKED','Todos los foros marcados');
 define('_MD_ALL_TOPIC_MARKED','Todos los temas marcados');
@@ -27,12 +27,12 @@ define('_MD_BOARD_DISCLAIMER','Advertencia');
 
 
 //index.php
-define('_MD_ADMINCP','Administración');
+define('_MD_ADMINCP','Administraciï¿½n');
 define('_MD_FORUM','Foro');
 define('_MD_WELCOME','Bienvenido al Foro %s.');
 define('_MD_TOPICS','Temas');
 define('_MD_POSTS','Mensajes');
-define('_MD_LASTPOST','Último mensaje');
+define('_MD_LASTPOST','ï¿½ltimo mensaje');
 define('_MD_MODERATOR','Moderador');
 define('_MD_NEWPOSTS','Con nuevos mensajes');
 define('_MD_NONEWPOSTS','Sin nuevos mensajes ');
@@ -43,23 +43,23 @@ define('_MD_TOTALTOPICSC','Total temas: ');
 define('_MD_TOTALPOSTSC','Total Mensajes: ');
 define('_MD_TOTALUSER','Total Usuarios: ');
 define('_MD_TIMENOW','Hora actual: %s');
-define('_MD_LASTVISIT','Su última Visita: %s');
-define('_MD_ADVSEARCH','Búsqueda Avanzada');
+define('_MD_LASTVISIT','Su ï¿½ltima Visita: %s');
+define('_MD_ADVSEARCH','Bï¿½squeda Avanzada');
 define('_MD_POSTEDON','Enviado el: ');
 define('_MD_SUBJECT','Tema');
 define('_MD_INACTIVEFORUM_NEWPOSTS','Foro Inactivo con nuevos mensajes');
 define('_MD_INACTIVEFORUM_NONEWPOSTS','Foro Inactivo sin nuevos mensajes');
 define('_MD_SUBFORUMS','Subforo');
 define('_MD_MAINFORUMOPT', 'Opciones');
-define("_MD_PENDING_POSTS_FOR_AUTH","Mensajes pendientes de aprobación:");
+define("_MD_PENDING_POSTS_FOR_AUTH","Mensajes pendientes de aprobaciï¿½n:");
 
 
 
 //page_header.php
 define('_MD_MODERATEDBY','Moderado por');
 define('_MD_SEARCH','Buscar');
-//define('_MD_SEARCHRESULTS','Resultado de la búsqueda');
-define('_MD_FORUMINDEX','%s índice del foro');
+//define('_MD_SEARCHRESULTS','Resultado de la bï¿½squeda');
+define('_MD_FORUMINDEX','%s ï¿½ndice del foro');
 define('_MD_POSTNEW','Enviar mensaje nuevo');
 define('_MD_REGTOPOST','Registrarse para enviar');
 
@@ -85,18 +85,18 @@ define('_MD_TOPICSHASATT','Tema con archivo adjunto');
 define('_MD_TOPICHASPOLL','Tema con encuesta.');
 define('_MD_TOPICLOCKED','Tema bloqueado.');
 define('_MD_LEGEND','Leyenda');
-define('_MD_NEXTPAGE','Página siguiente');
+define('_MD_NEXTPAGE','Pï¿½gina siguiente');
 define('_MD_SORTEDBY','Ordenar por');
-define('_MD_TOPICTITLE','Título del tema');
-define('_MD_NUMBERREPLIES','Número de respuestas');
+define('_MD_TOPICTITLE','Tï¿½tulo del tema');
+define('_MD_NUMBERREPLIES','Nï¿½mero de respuestas');
 define('_MD_TOPICPOSTER','Enviado por');
-define('_MD_TOPICTIME','Fecha de publicación');
-define('_MD_LASTPOSTTIME','Hora del último envío');
+define('_MD_TOPICTIME','Fecha de publicaciï¿½n');
+define('_MD_LASTPOSTTIME','Hora del ï¿½ltimo envï¿½o');
 define('_MD_ASCENDING','Orden ascendente');
 define('_MD_DESCENDING','Orden descendente');
-define('_MD_FROMLASTHOURS','Desde las %s últimas horas');
-define('_MD_FROMLASTDAYS','Desde los %s últimos días');
-define('_MD_THELASTYEAR','Desde el año pasado');
+define('_MD_FROMLASTHOURS','Desde las %s ï¿½ltimas horas');
+define('_MD_FROMLASTDAYS','Desde los %s ï¿½ltimos dï¿½as');
+define('_MD_THELASTYEAR','Desde el aï¿½o pasado');
 define('_MD_BEGINNING','Desde el principio');
 define('_MD_SEARCHTHISFORUM', 'Buscar en este foro');
 define('_MD_TOPIC_SUBJECTC','Prefijo del asunto:');
@@ -121,8 +121,8 @@ define("_MD_CAN_VOTE", "<b>Puede</b> votar.<br />");
 define("_MD_CANNOT_VOTE", "<b>No puede</b> votar.<br />");
 define("_MD_CAN_ATTACH", "<b>Puede</b> adjuntar archivos.<br />");
 define("_MD_CANNOT_ATTACH", "<b>No puede</b> adjuntar archivos.<br />");
-define("_MD_CAN_NOAPPROVE", "<b>Puede</b> hacer un envío sin aprobación.<br />");
-define("_MD_CANNOT_NOAPPROVE", "<b>No puede</b> hacer un envío sin aprobación.<br />");
+define("_MD_CAN_NOAPPROVE", "<b>Puede</b> hacer un envï¿½o sin aprobaciï¿½n.<br />");
+define("_MD_CANNOT_NOAPPROVE", "<b>No puede</b> hacer un envï¿½o sin aprobaciï¿½n.<br />");
 define("_MD_IMTOPICS","Temas importantes");
 define("_MD_NOTIMTOPICS","Temas del foro");
 define('_MD_FORUMOPTION', 'Opciones del foro');
@@ -143,8 +143,8 @@ define('_MD_LOCKTOPIC','Bloquear este tema');
 define('_MD_UNLOCKTOPIC','Desbloquear este tema');
 define('_MD_UNSTICKYTOPIC','Despegar este tema');
 define('_MD_STICKYTOPIC','Pegar este tema');
-define('_MD_DIGESTTOPIC','Incluir este tema en la selección');
-define('_MD_UNDIGESTTOPIC','Excluir este tema de la selección');
+define('_MD_DIGESTTOPIC','Incluir este tema en la selecciï¿½n');
+define('_MD_UNDIGESTTOPIC','Excluir este tema de la selecciï¿½n');
 define('_MD_MERGETOPIC','Combinar este tema');
 define('_MD_MOVETOPIC','Mover este tema');
 define('_MD_DELETETOPIC','Eliminar este tema');
@@ -153,8 +153,8 @@ define('_MD_BOTTOM','Abajo');
 define('_MD_PREVTOPIC','Tema anterior');
 define('_MD_NEXTTOPIC','Tema siguiente');
 define('_MD_GROUP','Grupo:');
-define('_MD_QUICKREPLY','respuesta rápida');
-define('_MD_POSTREPLY','Envíe su respuesta');
+define('_MD_QUICKREPLY','respuesta rï¿½pida');
+define('_MD_POSTREPLY','Envï¿½e su respuesta');
 define('_MD_PRINTTOPICS','Imprimir este tema');
 define('_MD_PRINT','Imprimir este mensaje');
 define('_MD_REPORT','Reporte');
@@ -165,7 +165,7 @@ define('_MD_AIM','AIM');
 define('_MD_YIM','YIM');
 define('_MD_MSNM','MSNM');
 define('_MD_ICQ','ICQ');
-define('_MD_PRINT_TOPIC_LINK', 'URL de esta discusión');
+define('_MD_PRINT_TOPIC_LINK', 'URL de esta discusiï¿½n');
 define('_MD_ADDTOLIST','Agregar a su lista de contactos');
 define('_MD_TOPICOPT', 'Opciones del tema');
 define('_MD_VIEWMODE', 'Modo');
@@ -185,7 +185,7 @@ define('_MD_RATE4','Bueno');
 define('_MD_RATE5','Excelente');
 
 define('_MD_TOPICOPTION','Opciones');
-define('_MD_KARMA_REQUIREMENT', 'Su karma personal %s no es el karma requerido %s. <br /> Por favor inténtelo más adelante.');
+define('_MD_KARMA_REQUIREMENT', 'Su karma personal %s no es el karma requerido %s. <br /> Por favor intï¿½ntelo mï¿½s adelante.');
 define('_MD_REPLY_REQUIREMENT', 'Para ver este mensaje, necesita contestar.');
 define('_MD_TOPICOPTIONADMIN','Opciones del tema');
 define('_MD_POLLOPTIONADMIN','Opciones de encuesta');
@@ -195,7 +195,7 @@ define('_MD_DELETEPOLL','Eliminar esta encuesta');
 define('_MD_RESTARTPOLL','Restablecer esta encuesta');
 define('_MD_ADDPOLL','Agregar encuesta');
 
-define('_MD_QUICKREPLY_EMPTY','Inserte su respuesta rápida aquí');
+define('_MD_QUICKREPLY_EMPTY','Inserte su respuesta rï¿½pida aquï¿½');
 
 define('_MD_LEVEL','Nivel :');
 define('_MD_HP','HP :');
@@ -205,11 +205,11 @@ define('_MD_EXP','EXP :');
 define('_MD_BROWSING','Usuarios revisando este tema :');
 define('_MD_POSTTONEWS','Publicar este mensaje en las noticias');
 
-define('_MD_EXCEEDTHREADVIEW','La cantidad de mensajes en este tema exceden el máximo permitido para el modo de vista en arbol<br />Por favor cámbielo a modo de vista plana');
+define('_MD_EXCEEDTHREADVIEW','La cantidad de mensajes en este tema exceden el mï¿½ximo permitido para el modo de vista en arbol<br />Por favor cï¿½mbielo a modo de vista plana');
 
 
 //forumform.inc
-define('_MD_PRIVATE','Este es un foro <b>Privado</b>.<br />Sólo los usuarios autorizados pueden enviar y responder mensajes en este foro.');
+define('_MD_PRIVATE','Este es un foro <b>Privado</b>.<br />Sï¿½lo los usuarios autorizados pueden enviar y responder mensajes en este foro.');
 define('_MD_QUOTE','Citar');
 define('_MD_VIEW_REQUIRE','Requisitos para ser visto:');
 define('_MD_REQUIRE_KARMA','Karma ');
@@ -236,31 +236,31 @@ define('_MD_NORIGHTTOREPLY','No tiene permiso para responder en este foro.');
 define('_MD_NORIGHTTOACCESS','No tiene permiso para acceder a este foro.');
 define('_MD_ERRORTOPIC','ERROR: tema no seleccionado.');
 define('_MD_ERRORCONNECT','ERROR: Imposible conectar con la base de datos del foro.');
-define('_MD_ERROREXIST','ERROR: El foro seleccionado no existe. Por favor regrese atrás e inténtelo de nuevo.');
+define('_MD_ERROREXIST','ERROR: El foro seleccionado no existe. Por favor regrese atrï¿½s e intï¿½ntelo de nuevo.');
 define('_MD_ERROROCCURED','Ha ocurrido un error.');
 define('_MD_COULDNOTQUERY','Imposible consultar la base de datos.');
-define('_MD_FORUMNOEXIST','ERROR: El foro/tema seleccionado no existe. Por favor regrese atrás e inténtelo de nuevo.');
-define('_MD_USERNOEXIST','ERROR: El usuario no existe.  Por favor regrese atrás e inténtelo de nuevo.');
+define('_MD_FORUMNOEXIST','ERROR: El foro/tema seleccionado no existe. Por favor regrese atrï¿½s e intï¿½ntelo de nuevo.');
+define('_MD_USERNOEXIST','ERROR: El usuario no existe.  Por favor regrese atrï¿½s e intï¿½ntelo de nuevo.');
 define('_MD_COULDNOTREMOVE','ERROR: No es posible eliminar el mensaje de la base de datos.');
 define('_MD_COULDNOTREMOVETXT','ERROR: No es posible eliminar el texto del mensaje.');
-define('_MD_TIMEISUP','Ha sobrepasado el tiempo límite para poder editar este mensaje.');
-define('_MD_TIMEISUPDEL','Ha sobrepasado el tiempo límite para poder eliminar este mensaje.');
+define('_MD_TIMEISUP','Ha sobrepasado el tiempo lï¿½mite para poder editar este mensaje.');
+define('_MD_TIMEISUPDEL','Ha sobrepasado el tiempo lï¿½mite para poder eliminar este mensaje.');
 
 //reply.php
 define('_MD_ON','enviado el'); //Posted on
-define('_MD_USERWROTE','%s escribió:'); // %s is username
+define('_MD_USERWROTE','%s escribiï¿½:'); // %s is username
 define('_MD_RE','Re');
 
 //post.php
-define('_MD_EDITNOTALLOWED','No está autorizado para editar este mensaje.');
+define('_MD_EDITNOTALLOWED','No estï¿½ autorizado para editar este mensaje.');
 define('_MD_EDITEDBY','Editado por');
-define('_MD_ANONNOTALLOWED','Los invitados no están autorizados a enviar mensajes.<br>Por favor regístrese.');
-define('_MD_THANKSSUBMIT','Gracias por el envío.');
+define('_MD_ANONNOTALLOWED','Los invitados no estï¿½n autorizados a enviar mensajes.<br>Por favor regï¿½strese.');
+define('_MD_THANKSSUBMIT','Gracias por el envï¿½o.');
 define('_MD_REPLYPOSTED','Una respuesta a su mensaje ha sido enviada.');
 define('_MD_HELLO','Hola %s,');
-define('_MD_URRECEIVING','Esta recibiendo este correo debido a que un mensaje que envió en %s ha sido contestado.'); // %s is your site name
+define('_MD_URRECEIVING','Esta recibiendo este correo debido a que un mensaje que enviï¿½ en %s ha sido contestado.'); // %s is your site name
 define('_MD_CLICKBELOW','Haga clic en el enlace de abajo para ver el hilo:');
-define('_MD_WAITFORAPPROVAL','Gracias. Por favor espere la aprobación del mensaje.');
+define('_MD_WAITFORAPPROVAL','Gracias. Por favor espere la aprobaciï¿½n del mensaje.');
 define('_MD_POSTING_LIMITED','Le recomiendo tomar un descanso y volver en %d segundos');
 
 //forumform.inc
@@ -272,16 +272,16 @@ define('_MD_MESSAGEICON','Icono del mensaje:');
 define('_MD_MESSAGEC','Mensaje:');
 define('_MD_ALLOWEDHTML','Permitir HTML:');
 define('_MD_OPTIONS','Opciones:');
-define('_MD_POSTANONLY','Envío anónimo');
+define('_MD_POSTANONLY','Envï¿½o anï¿½nimo');
 define('_MD_DOSMILEY','Permitir caritas');
-define('_MD_DOXCODE','Permitir código de Xoops');
-define('_MD_DOBR','Permitir saltos de línea (Es conveniente no activarlo si la opción de permitir HTML está activada)');
+define('_MD_DOXCODE','Permitir cï¿½digo de Xoops');
+define('_MD_DOBR','Permitir saltos de lï¿½nea (Es conveniente no activarlo si la opciï¿½n de permitir HTML estï¿½ activada)');
 define('_MD_DOHTML','Permitir etiquetas HTML');
-define('_MD_NEWPOSTNOTIFY', 'Notificarme de nuevos envíos en este hilo');
+define('_MD_NEWPOSTNOTIFY', 'Notificarme de nuevos envï¿½os en este hilo');
 define('_MD_ATTACHSIG','Incluir firma');
-define('_MD_POST','Envío');
+define('_MD_POST','Envï¿½o');
 define('_MD_SUBMIT','Enviar');
-define('_MD_CANCELPOST','Cancelar envío');
+define('_MD_CANCELPOST','Cancelar envï¿½o');
 define('_MD_REMOVE','Eliminar');
 define('_MD_UPLOAD','Subir');
 
@@ -292,8 +292,8 @@ define('_MD_REPLY','Responder');
 // topicmanager.php
 define('_MD_VIEWTHETOPIC','Ver el tema');
 define('_MD_RETURNTOTHEFORUM','Regresar al foro');
-define('_MD_RETURNFORUMINDEX','Regresar al índice del foro');
-define('_MD_ERROR_BACK','ERROR: Por favor regrese e inténtelo de nuevo.');
+define('_MD_RETURNFORUMINDEX','Regresar al ï¿½ndice del foro');
+define('_MD_ERROR_BACK','ERROR: Por favor regrese e intï¿½ntelo de nuevo.');
 define('_MD_GOTONEWFORUM','Ver el tema actualizado');
 
 define('_MD_TOPICDELETE','El tema ha sido eliminado.');
@@ -303,36 +303,36 @@ define('_MD_TOPICLOCK','El tema ha sido bloqueado.');
 define('_MD_TOPICUNLOCK','El tema ha sido desbloqueado.');
 define('_MD_TOPICSTICKY','El tema ha sido pegado.');
 define('_MD_TOPICUNSTICKY','El tema ha sido despegado.');
-define('_MD_TOPICDIGEST','El tema ha sido incluido en la selección.');
-define('_MD_TOPICUNDIGEST','El tema ha sido excluido de la selección.');
+define('_MD_TOPICDIGEST','El tema ha sido incluido en la selecciï¿½n.');
+define('_MD_TOPICUNDIGEST','El tema ha sido excluido de la selecciï¿½n.');
 
 define('_MD_DELETE','Eliminar');
 define('_MD_MOVE','Mover');
-define('_MD_MERGE','Combinar');//Fusión - Merge
+define('_MD_MERGE','Combinar');//Fusiï¿½n - Merge
 define('_MD_LOCK','Bloquear');
 define('_MD_UNLOCK','Desbloquear');
 define('_MD_STICKY','Pegar');
 define('_MD_UNSTICKY','Despegar');
-define('_MD_DIGEST','Incluir en la selección');
-define('_MD_UNDIGEST','Excluir de la selección');
+define('_MD_DIGEST','Incluir en la selecciï¿½n');
+define('_MD_UNDIGEST','Excluir de la selecciï¿½n');
 
-define('_MD_DESC_DELETE','Al presionar el botón de Eliminar al final de este formulario el tema selecionado y todos sus mensajes relacionados serán  <b>permanentemente</b> eliminados.');
-define('_MD_DESC_MOVE','Al presionar el botón de Mover al final de este formulario el tema selecionado y todos sus mensajes relacionados serán movidos al foro seleccionado.');
-define('_MD_DESC_MERGE','Al presionar el botón de Combinar al final de este formulario el tema selecionado y todos sus mensajes relacionados, serán combinados al tema que usted tiene identificado para ser seleccionado.');//Once you press the merge button at the bottom of this form the topic you have selected, and its related posts, will be merged to the topic you have selected.<br /><strong>The destination topic ID must be smaller than current one</strong>.
-define('_MD_DESC_LOCK','Al presionar el botón de Bloquear al final de este formulario el tema selecionado será bloqueado. Puede desbloquearlo cuando quiera si así lo desea.');
-define('_MD_DESC_UNLOCK','Al presionar el botón de Desbloquear al final de este formulario el tema selecionado será desbloqueado. Puede bloquearlo cuando quiera si así lo desea.');
-define('_MD_DESC_STICKY','Al presionar el botón de Pegar al final de este formulario el tema selecionado será pegado. Puede despegarlo cuando quiera si así lo desea.');
-define('_MD_DESC_UNSTICKY','Al presionar el botón de Despegar al final de este formulario el tema selecionado será despagado. Puede pegarlo cuando quiera si así lo desea.');
-define('_MD_DESC_DIGEST','Al presionar el botón de Incluir en la selección al final de este formulario el tema selecionado será incluido en la selección o compendio de temas. Puede excluirlo cuando quiera si así lo desea.');
-define('_MD_DESC_UNDIGEST','Al presionar el botón de Excluir de la selección al final de este formulario el tema selecionado será excluido de la selección o compendio de temas. Puede incluirlo cuando quiera si así lo desea.');
+define('_MD_DESC_DELETE','Al presionar el botï¿½n de Eliminar al final de este formulario el tema selecionado y todos sus mensajes relacionados serï¿½n  <b>permanentemente</b> eliminados.');
+define('_MD_DESC_MOVE','Al presionar el botï¿½n de Mover al final de este formulario el tema selecionado y todos sus mensajes relacionados serï¿½n movidos al foro seleccionado.');
+define('_MD_DESC_MERGE','Al presionar el botï¿½n de Combinar al final de este formulario el tema selecionado y todos sus mensajes relacionados, serï¿½n combinados al tema que usted tiene identificado para ser seleccionado.');//Once you press the merge button at the bottom of this form the topic you have selected, and its related posts, will be merged to the topic you have selected.<br /><strong>The destination topic ID must be smaller than current one</strong>.
+define('_MD_DESC_LOCK','Al presionar el botï¿½n de Bloquear al final de este formulario el tema selecionado serï¿½ bloqueado. Puede desbloquearlo cuando quiera si asï¿½ lo desea.');
+define('_MD_DESC_UNLOCK','Al presionar el botï¿½n de Desbloquear al final de este formulario el tema selecionado serï¿½ desbloqueado. Puede bloquearlo cuando quiera si asï¿½ lo desea.');
+define('_MD_DESC_STICKY','Al presionar el botï¿½n de Pegar al final de este formulario el tema selecionado serï¿½ pegado. Puede despegarlo cuando quiera si asï¿½ lo desea.');
+define('_MD_DESC_UNSTICKY','Al presionar el botï¿½n de Despegar al final de este formulario el tema selecionado serï¿½ despagado. Puede pegarlo cuando quiera si asï¿½ lo desea.');
+define('_MD_DESC_DIGEST','Al presionar el botï¿½n de Incluir en la selecciï¿½n al final de este formulario el tema selecionado serï¿½ incluido en la selecciï¿½n o compendio de temas. Puede excluirlo cuando quiera si asï¿½ lo desea.');
+define('_MD_DESC_UNDIGEST','Al presionar el botï¿½n de Excluir de la selecciï¿½n al final de este formulario el tema selecionado serï¿½ excluido de la selecciï¿½n o compendio de temas. Puede incluirlo cuando quiera si asï¿½ lo desea.');
 
-define('_MD_MERGETOPICTO','Tema de la combinación:');//Merge Topic To:
+define('_MD_MERGETOPICTO','Tema de la combinaciï¿½n:');//Merge Topic To:
 define('_MD_MOVETOPICTO','Mover tema a:');
 define('_MD_NOFORUMINDB','Sin foros en la base de datos.');
 
 // delete.php
-define('_MD_DELNOTALLOWED','Lo lamento, pero no está autorizado para eliminar este mensaje.');
-define('_MD_AREUSUREDEL','¿está seguro de querer eliminar este mensaje y todos sus relacionados?');
+define('_MD_DELNOTALLOWED','Lo lamento, pero no estï¿½ autorizado para eliminar este mensaje.');
+define('_MD_AREUSUREDEL','ï¿½estï¿½ seguro de querer eliminar este mensaje y todos sus relacionados?');
 define('_MD_POSTSDELETED','El mensaje seleccionado y todos sus mensajes relacionados han sido eliminados.');
 define('_MD_POSTDELETED','El mensaje seleccionado ha sido eliminado.');
 
@@ -340,29 +340,29 @@ define('_MD_POSTDELETED','El mensaje seleccionado ha sido eliminado.');
 define('_MD_THREAD','Hilo');
 define('_MD_FROM','Desde:');
 define('_MD_JOINED','Registrado');
-define('_MD_ONLINE','En línea');
+define('_MD_ONLINE','En lï¿½nea');
 define('_MD_OFFLINE','Ausente');
 define('_MD_FLAT', 'Plana');
 
 
 // online.php
-define('_MD_USERS_ONLINE', 'Usuarios en línea:');
+define('_MD_USERS_ONLINE', 'Usuarios en lï¿½nea:');
 define('_MD_ANONYMOUS_USERS', 'Invitados:');
 define('_MD_REGISTERED_USERS', 'Registrados: ');
 define('_MD_BROWSING_FORUM','Usuarios navegando los foros');
-define('_MD_TOTAL_ONLINE','En total hay %d usuarios en línea.');
+define('_MD_TOTAL_ONLINE','En total hay %d usuarios en lï¿½nea.');
 define('_MD_ADMINISTRATOR','Administrador');
 
 define('_MD_NO_SUCH_FILE','El archivo no existe.');
 define('_MD_ERROR_UPATEATTACHMENT','Un error se ha producido al enviar el archivo adjunto.');
 
 // ratethread.php
-define("_MD_CANTVOTEOWN", "No puede votar por un envío realizado por usted mismo.<br />Todos los votos son guardados y revisados.");
-define("_MD_VOTEONCE", "Por favor no vote más de una vez por el mismo tema.");
+define("_MD_CANTVOTEOWN", "No puede votar por un envï¿½o realizado por usted mismo.<br />Todos los votos son guardados y revisados.");
+define("_MD_VOTEONCE", "Por favor no vote mï¿½s de una vez por el mismo tema.");
 define("_MD_VOTEAPPRE", "Su voto es apreciado.");
 define("_MD_THANKYOU", "Gracias por tomarse el tiempo necesario para votar en %s"); // %s is your site name
 define("_MD_VOTES","Votos");
-define("_MD_NOVOTERATE","Todavía no ha valorado este tema.");
+define("_MD_NOVOTERATE","Todavï¿½a no ha valorado este tema.");
 
 
 // polls.php
@@ -370,30 +370,30 @@ define("_MD_POLL_DBUPDATED","Base de datos actualizada satisfactoriamente.");
 define("_MD_POLL_POLLCONF","Configuracion de encuestas");
 define("_MD_POLL_POLLSLIST", "Lista de encuestas");
 define("_MD_POLL_AUTHOR", "Autor de la encuesta");
-define("_MD_POLL_DISPLAYBLOCK", "¿Mostar en el bloque?");
+define("_MD_POLL_DISPLAYBLOCK", "ï¿½Mostar en el bloque?");
 define("_MD_POLL_POLLQUESTION", "Pregunta de la encuesta");
 define("_MD_POLL_VOTERS", "Total votantes");
 define("_MD_POLL_VOTES", "Total votos");
-define("_MD_POLL_EXPIRATION", "Finalización");
+define("_MD_POLL_EXPIRATION", "Finalizaciï¿½n");
 define("_MD_POLL_EXPIRED", "Finalizada");
-define("_MD_POLL_VIEWLOG","Ver bitácora");
+define("_MD_POLL_VIEWLOG","Ver bitï¿½cora");
 define("_MD_POLL_CREATNEWPOLL", "Crear nueva encuesta");
-define("_MD_POLL_POLLDESC", "Descripción de la encuesta");
+define("_MD_POLL_POLLDESC", "Descripciï¿½n de la encuesta");
 define("_MD_POLL_DISPLAYORDER", "Orden de visionado");
-define("_MD_POLL_ALLOWMULTI", "¿Permitir selecciones múltiples?");
-define("_MD_POLL_NOTIFY", "¿Notificar al autor cuando finalice?");
+define("_MD_POLL_ALLOWMULTI", "ï¿½Permitir selecciones mï¿½ltiples?");
+define("_MD_POLL_NOTIFY", "ï¿½Notificar al autor cuando finalice?");
 define("_MD_POLL_POLLOPTIONS", "Opciones");
 define("_MD_POLL_EDITPOLL", "Editar encuesta");
 define("_MD_POLL_FORMAT", "Formato de fecha: dd-mm-aaaa hh:mm:ss");
 define("_MD_POLL_CURRENTTIME", "La hora actual es %s");
-define("_MD_POLL_EXPIREDAT", "Finalizó el %s");
+define("_MD_POLL_EXPIREDAT", "Finalizï¿½ el %s");
 define("_MD_POLL_RESTART", "Restablecer esta encuesta");
-define("_MD_POLL_ADDMORE", "Agregar más opciones");
-define("_MD_POLL_RUSUREDEL", "¿Está seguro de querer eliminar esta encuesta y todos sus comentarios?");
+define("_MD_POLL_ADDMORE", "Agregar mï¿½s opciones");
+define("_MD_POLL_RUSUREDEL", "ï¿½Estï¿½ seguro de querer eliminar esta encuesta y todos sus comentarios?");
 define("_MD_POLL_RESTARTPOLL", "Restablecer encuesta");
-define("_MD_POLL_RESET", "¿Poner a cero todos los registros de esta encuesta?");
+define("_MD_POLL_RESET", "ï¿½Poner a cero todos los registros de esta encuesta?");
 define("_MD_POLL_ADDPOLL","Agregar encuesta");
-define("_MD_POLLMODULE_ERROR","El módulo de encuestas de Xoops no está disponible");
+define("_MD_POLLMODULE_ERROR","El mï¿½dulo de encuestas de Xoops no estï¿½ disponible");
 
 //report.php
 define("_MD_REPORTED", "Gracias por su ayuda. Su reporte ha sido enviado a los administradores del sitio.");
@@ -401,7 +401,7 @@ define("_MD_REPORT_EORROR", "Un error ha ocurrido al intentar enviar el reporte.
 define("_MD_REPORT_TEXT", "Mensaje del reporte:");
 
 define("_MD_PDF","Crear PDF con este mensaje");
-define("_MD_PDF_PAGE","Página %s");
+define("_MD_PDF_PAGE","Pï¿½gina %s");
 
 //print.php
 define("_MD_COMEFROM","Este mensaje viene de :");
@@ -418,20 +418,20 @@ define("_MD_MENU_HOVER","Hover");
 define("_MD_MENU_CLICK","Clic");
 
 define("_MD_WELCOME_SUBJECT","%s ha entrado en el foro");
-define("_MD_WELCOME_MESSAGE","Hola, %s es un recién llegado.");
+define("_MD_WELCOME_MESSAGE","Hola, %s es un reciï¿½n llegado.");
 
 define("_MD_VIEWNEWPOSTS","Ver nuevos mensajes");
 
-define("_MD_INVALID_SUBMIT","Envío inválido. Puede que su sesión expiró. Por favor reenvíelo o haga una copia del texto del mensaje e ingrese nuevamente para volver a enviarlo si fuese necesario.");
+define("_MD_INVALID_SUBMIT","Envï¿½o invï¿½lido. Puede que su sesiï¿½n expirï¿½. Por favor reenvï¿½elo o haga una copia del texto del mensaje e ingrese nuevamente para volver a enviarlo si fuese necesario.");
 
 define("_MD_ACCOUNT","Perfil");
 define("_MD_NAME","Nombre");
-define("_MD_PASSWORD","Contraseña");
+define("_MD_PASSWORD","Contraseï¿½a");
 define("_MD_LOGIN","Ingreso");
 
 define("_MD_TRANSFER","Transferir a");//Transferencia
 define("_MD_TRANSFER_DESC","Transferir el mensaje a otras aplicaciones");
-define("_MD_TRANSFER_DONE","La acción ha sido ejecutada: %s");
+define("_MD_TRANSFER_DONE","La acciï¿½n ha sido ejecutada: %s");
 
 define("_MD_APPROVE","Aprobar");
 define("_MD_RESTORE","Restaurar");
@@ -443,22 +443,22 @@ define("_MD_TYPE_ADMIN","Admin");
 define("_MD_TYPE_VIEW","Ver");
 define("_MD_TYPE_PENDING","Pendiente");
 define("_MD_TYPE_DELETED","Borrar");
-define("_MD_TYPE_SUSPEND","Suspensión");
+define("_MD_TYPE_SUSPEND","Suspensiï¿½n");
 
-define("_MD_DBUPDATED", "¡Base de datos actualizada con éxito!");
+define("_MD_DBUPDATED", "ï¿½Base de datos actualizada con ï¿½xito!");
 
-define("_MD_SUSPEND_SUBJECT", "El usuario %s ha sido suspendido por %d días");
-define("_MD_SUSPEND_TEXT", "El usuario %s ha sido suspendido por %d días: <br />[quote]%s[/quote]<br /> <br /> La suspensión es válida hasta %s");//User %s is suspended for %d days due to:<br />[quote]%s[/quote]<br /><br />The suspension is valid till %s
+define("_MD_SUSPEND_SUBJECT", "El usuario %s ha sido suspendido por %d dï¿½as");
+define("_MD_SUSPEND_TEXT", "El usuario %s ha sido suspendido por %d dï¿½as: <br />[quote]%s[/quote]<br /> <br /> La suspensiï¿½n es vï¿½lida hasta %s");//User %s is suspended for %d days due to:<br />[quote]%s[/quote]<br /><br />The suspension is valid till %s
 define("_MD_SUSPEND_UID", "ID de Usuario");
 define("_MD_SUSPEND_IP", "IP (Todos los segmentos)");
-define("_MD_SUSPEND_DURATION", "Duración de la suspensión(días)");
-define("_MD_SUSPEND_DESC", "Razón de la suspensión");
+define("_MD_SUSPEND_DURATION", "Duraciï¿½n de la suspensiï¿½n(dï¿½as)");
+define("_MD_SUSPEND_DESC", "Razï¿½n de la suspensiï¿½n");
 define("_MD_SUSPEND_LIST", "Lista de suspendidos");
 define("_MD_SUSPEND_START", "Inicio");
 define("_MD_SUSPEND_EXPIRE", "Fin");
 define("_MD_SUSPEND_SCOPE", "Alcance");//Scope
-define("_MD_SUSPEND_MANAGEMENT", "Administrar Moderación");
-define("_MD_SUSPEND_NOACCESS", "Se ha suspendido su identificación o IP");
+define("_MD_SUSPEND_MANAGEMENT", "Administrar Moderaciï¿½n");
+define("_MD_SUSPEND_NOACCESS", "Se ha suspendido su identificaciï¿½n o IP");
 
 // !!IMPORTANT!! insert '\' to any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"
 // insert additional '\' to 't', 'r', 'n'
@@ -469,7 +469,7 @@ define("_MD_YEARMONTHDAY", "j/n/Y G:i");
 
 // For user info
 // If you have customized userbar, define here.
-require_once(XOOPS_ROOT_PATH."/modules/newbb/class/user.php");
+require_once(XOOPS_ROOT_PATH."/modules/".basename(  dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/user.php");
 class User_language extends User
 {
     function User_language(&$user)
