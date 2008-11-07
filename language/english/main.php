@@ -74,6 +74,7 @@ define('_MD_POST2','Post');
 define('_MD_USERNAME','Username');
 define('_MD_BODY','Body');
 define('_MD_SINCE','Since');
+define('_MD_POSTTIME','Date');
 
 //viewforum.php
 define('_MD_REPLIES','Replies');
