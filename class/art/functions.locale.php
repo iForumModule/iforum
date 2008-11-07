@@ -36,8 +36,8 @@ function xoops_local($func)
 endif;
 if (!class_exists("XoopsLocal")) {
 	$GLOBALS["xoopsConfig"]["language"] = preg_replace("/[^a-z0-9_\-]/i", "", $GLOBALS["xoopsConfig"]["language"]);
-	if (!@include_once dirname(dirname(__FILE__))."/compat/language/".$GLOBALS["xoopsConfig"]["language"]."/local.php") {
-		require_once dirname(dirname(__FILE__))."/compat/language/english/local.php";
+	if (!@include_once XOOPS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/language/".$GLOBALS["xoopsConfig"]["language"]."/local.php") {
+		require_once XOOPS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/language/english/local.php";
 	}
 } else {
 	$methods = get_class_methods("XoopsLocal");

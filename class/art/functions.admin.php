@@ -36,7 +36,7 @@ function _loadModuleAdminMenu($currentoption, $breadcrumb = "")
 	}
 	$breadcrumb = empty($breadcrumb) ? $adminmenu[$currentoption]["title"] : $breadcrumb;
 	$module_link = XOOPS_URL."/modules/".$GLOBALS["xoopsModule"]->getVar("dirname")."/";
-	$image_link = XOOPS_URL."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/compat/include";
+	$image_link = XOOPS_URL."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/images";
 	
 	$adminmenu_text ='
 	<style type="text/css">
