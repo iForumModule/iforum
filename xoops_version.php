@@ -65,6 +65,16 @@ $isModuleAction = mod_isModuleAction($modversion['dirname']);
 // Sql file
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 
+// create folder
+if (!file_exists(XOOPS_ROOT_PATH."/uploads/iforum")) {
+  $chemin=XOOPS_ROOT_PATH.'/uploads/iforum';
+  mkdir("$chemin",0777);
+}
+if (!file_exists(XOOPS_ROOT_PATH."/uploads/iforum/thumbs")) {
+  $chemin=XOOPS_ROOT_PATH.'/uploads/iforum/thumbs';
+  mkdir("$chemin",0777);
+}
+
 // Tables created by sql file (without prefix!)
 $modversion['tables'][0] = "bb_archive";
 $modversion['tables'][1] = "bb_categories";
