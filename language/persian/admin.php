@@ -65,15 +65,15 @@ define('_AM_NEWBB_REPORT_PENDING','گزارش‌های معلق');
 define('_AM_NEWBB_REPORT_PROCESSED','گزارش‌های پردازش شده');
 
 define('_AM_NEWBB_CREATETHEDIR','بساز');
-define('_AM_NEWBB_SETMPERM','گذاشتن دسترسی ها');
+define('_AM_NEWBB_SETMPERM','گذاشتن دسترسی‌ها');
 define('_AM_NEWBB_DIRCREATED','شاخه ساخته شد');
 define('_AM_NEWBB_DIRNOTCREATED','شاخه شاخته نشد');
 define('_AM_NEWBB_PERMSET','دسترسی تنظیم شد');
 define('_AM_NEWBB_PERMNOTSET','دسترسی تنظیم نشد');
 
-define('_AM_NEWBB_DIGEST','آگهای رسانی خلاصه ها');
+define('_AM_NEWBB_DIGEST','آگهای رسانی خلاصه‌ها');
 define('_AM_NEWBB_DIGEST_PAST','<font color="red"> %d دقیقه پیش گذاشته شده است</font>');
-define('_AM_NEWBB_DIGEST_NEXT',' %d دقیقه دیگر فرستاده می شود');
+define('_AM_NEWBB_DIGEST_NEXT',' %d دقیقه دیگر فرستاده می‌شود');
 define('_AM_NEWBB_DIGEST_ARCHIVE','خلاصه در آرشیو قرار گرفت');
 define('_AM_NEWBB_DIGEST_SENT','خلاصه در حال فرستاده شدن');
 define('_AM_NEWBB_DIGEST_FAILED','خلاصه فرستاده نشد');
@@ -82,7 +82,7 @@ define('_AM_NEWBB_DIGEST_FAILED','خلاصه فرستاده نشد');
 define("_AM_NEWBB_NAME","نام");
 define("_AM_NEWBB_CREATEFORUM","ایجاد انجمن");
 define("_AM_NEWBB_EDIT","ویرایش");
-define("_AM_NEWBB_CLEAR","پاک کردن گزینه ها");
+define("_AM_NEWBB_CLEAR","پاک کردن گزینه‌ها");
 define("_AM_NEWBB_DELETE","حذف");
 define("_AM_NEWBB_ADD","اضافه‌کردن");
 define("_AM_NEWBB_MOVE","انتقال");
@@ -94,22 +94,22 @@ define("_AM_NEWBB_EDITTHISFORUM","ویرایش انجمن:");
 define("_AM_NEWBB_SET_FORUMORDER","تنظیم محل قرارگیری انجمن:");
 define("_AM_NEWBB_ALLOWPOLLS","اجازه‌دادن نظرسنجی‌ها:");
 define("_AM_NEWBB_ATTACHMENT_SIZE" ,"حداکثر سایز ممکن بر حسب KB:");
-define("_AM_NEWBB_ALLOWED_EXTENSIONS", "پسوند های مجاز:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*' یعنی بدون محدودیت. برای جدا کردن از نشان '|' استفاده کنید.</span>");
+define("_AM_NEWBB_ALLOWED_EXTENSIONS", "پسوند‌های مجاز:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*' یعنی بدون محدودیت. برای جدا کردن از نشان '|' استفاده کنید.</span>");
 define("_AM_NEWBB_ALLOW_ATTACHMENTS", "اجازه دادن پیوست:");
 define("_AM_NEWBB_ALLOWHTML","اجازه دادن استفاده از HTML:");
 define("_AM_NEWBB_YES","بله");
 define("_AM_NEWBB_NO","خیر");
 define("_AM_NEWBB_ALLOWSIGNATURES","اجازه دادن استفاده از امضا:");
-define("_AM_NEWBB_HOTTOPICTHRESHOLD","تعداد عنوان های مهم:");
-//define("_AM_NEWBB_POSTPERPAGE","تعداد پست‌ها در صفحه<span style='font-size: xx-small; font-weight: normal; display: block;'>(این گزینه تعداد پستها را<br> در عنوان نشان می دهد که<br> در هر صفحه اتز عنوان وجود دارد)</span>");
-//define("_AM_NEWBB_TOPICPERFORUM","تعداد عنوان ها در انجمن<span style='font-size: xx-small; font-weight: normal; display: block;'>(این گزینه تعداد عنوان ها را در انجمن نشان می دهد<br> که در هر صفحه از انجمن<br> این تعداد عنوان وجود دارد)</span>");
+define("_AM_NEWBB_HOTTOPICTHRESHOLD","تعداد عنوان‌های مهم:");
+//define("_AM_NEWBB_POSTPERPAGE","تعداد پست‌ها در صفحه<span style='font-size: xx-small; font-weight: normal; display: block;'>(این گزینه تعداد پستها را<br> در عنوان نشان می‌دهد که<br> در هر صفحه اتز عنوان وجود دارد)</span>");
+//define("_AM_NEWBB_TOPICPERFORUM","تعداد عنوان‌ها در انجمن<span style='font-size: xx-small; font-weight: normal; display: block;'>(این گزینه تعداد عنوان‌ها را در انجمن نشان می‌دهد<br> که در هر صفحه از انجمن<br> این تعداد عنوان وجود دارد)</span>");
 //define("_AM_NEWBB_SHOWNAME","جایگزینی نام کاربری با نام واقعی:");
 //define("_AM_NEWBB_SHOWICONSPANEL","نمایش پنل شکلک‌ها:");
 //define("_AM_NEWBB_SHOWSMILIESPANEL","نمایش پنل Smiley ها:");
-define("_AM_NEWBB_MODERATOR_REMOVE","حذف ناظر های کنونی");
+define("_AM_NEWBB_MODERATOR_REMOVE","حذف ناظر‌های کنونی");
 define("_AM_NEWBB_MODERATOR_ADD","اظافه کردن ناظر");
-define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX", "اجازه استفاده از پیشوند برای عنوان ها در این انجمن");
-define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX_DESC", "این به کاربران اجازه می دهد پیوندی مناسب با موضوع عنوان به عنوان های این انجمن اضافه کنند");
+define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX", "اجازه استفاده از پیشوند برای عنوان‌ها در این انجمن");
+define("_AM_NEWBB_ALLOW_SUBJECT_PREFIX_DESC", "این به کاربران اجازه می‌دهد پیوندی مناسب با موضوع عنوان به عنوان‌های این انجمن اضافه کنند");
 
 
 // admin_cat_manager.php
@@ -134,7 +134,7 @@ define("_AM_NEWBB_FORUMDESCRIPTION","توضیحات انجمن:");
 define("_AM_NEWBB_MODERATOR","ناظرین:");
 define("_AM_NEWBB_REMOVE","حذف");
 define("_AM_NEWBB_CATEGORY","شاخه:");
-define("_AM_NEWBB_DATABASEERROR","خطای دیتابیس");
+define("_AM_NEWBB_DATABASEERROR","خطای پایگاه داده");
 define("_AM_NEWBB_CATEGORYUPDATED","شاخه به روز شد.");
 define("_AM_NEWBB_EDITCATEGORY","ویرایش شاخه:");
 define("_AM_NEWBB_CATEGORYTITLE","عنوان شاخه:");
@@ -145,8 +145,8 @@ define("_AM_NEWBB_ACCESSLEVEL","سطح دسترسی کامل:");
 define("_AM_NEWBB_CATEGORY1","شاخه");
 define("_AM_NEWBB_FORUMUPDATE","تنظیمات انجمن به روز شد.");
 define("_AM_NEWBB_FORUM_ERROR","خطا: تنظیمات انجمن به روز نشد.");
-define("_AM_NEWBB_CLICKBELOWSYNC","کلیک کردن زیر باعث می‌شود تاپیک‌ها و صفحه‌های فروم شما با مقداردهی صحیحی از دیتابیس تنظیم شوند. از این بخش هنگامی استفاده کنید که مطلع شده‌اید بی‌ نظمی در تعداد تاپیک‌ها و صفحهات وجود دارد. ");
-define("_AM_NEWBB_SYNCHING","همزمان کردن صفه اصلی انجمن و انجمن ها (این کار ممکن است مدتی طول بکشد)");
+define("_AM_NEWBB_CLICKBELOWSYNC","کلیک کردن زیر باعث می‌شود تاپیک‌ها و صفحه‌های فروم شما با مقداردهی صحیحی از پایگاه داده تنظیم شوند. از این بخش هنگامی استفاده کنید که مطلع شده‌اید بی‌ نظمی در تعداد تاپیک‌ها و صفحهات وجود دارد. ");
+define("_AM_NEWBB_SYNCHING","همزمان کردن صفه اصلی انجمن و انجمن‌ها (این کار ممکن است مدتی طول بکشد)");
 define("_AM_NEWBB_CATEGORYDELETED","شاخه پاک شد.");
 define("_AM_NEWBB_MOVE2CAT","بردن به شاخه‌:");
 define("_AM_NEWBB_MAKE_SUBFORUM_OF","ایجاد زیرانجمن:");
@@ -173,29 +173,29 @@ define("_AM_NEWBB_CAT_ACCESS","می‌توانید به شاخه دسترسی د
 define("_AM_NEWBB_CAN_ACCESS","می‌توانید به انجمن دسترسی داشته باشید");
 define("_AM_NEWBB_CAN_VIEW","می‌توانید مطالب را بخوانید");
 define("_AM_NEWBB_CAN_POST","می‌توانید عنوان جدید باز کنید");
-define("_AM_NEWBB_CAN_REPLY","می‌توانید به عنوان ها پاسخ دهید");
-define("_AM_NEWBB_CAN_EDIT","می‌توانید پیام‌ها ی خودتان را ویرایش کنید");
-define("_AM_NEWBB_CAN_DELETE","می‌توانید پیام‌ها ی خودتان را حذف کنید");
+define("_AM_NEWBB_CAN_REPLY","می‌توانید به عنوان‌ها پاسخ دهید");
+define("_AM_NEWBB_CAN_EDIT","می‌توانید پیام‌ها‌ی خودتان را ویرایش کنید");
+define("_AM_NEWBB_CAN_DELETE","می‌توانید پیام‌ها‌ی خودتان را حذف کنید");
 define("_AM_NEWBB_CAN_ADDPOLL","می‌توانید نظر سنجی اضافه کنید");
-define("_AM_NEWBB_CAN_VOTE","می‌توانید در نظر سنجی ها شرکت کنید");
+define("_AM_NEWBB_CAN_VOTE","می‌توانید در نظر سنجی‌ها شرکت کنید");
 define("_AM_NEWBB_CAN_ATTACH","می‌توانید فایل‌ها را به پیام خود پیوست کنید");
 define("_AM_NEWBB_CAN_NOAPPROVE","می‌توانید پیام بدون نیاز به تایید بزنید");
 define("_AM_NEWBB_ACTION","عمل");
 
-define("_AM_NEWBB_PERM_TEMPLATE","تمپلیت دسترسی های پیشفرض");
+define("_AM_NEWBB_PERM_TEMPLATE","الگوی دسترسی‌های پیشفرض");
 define("_AM_NEWBB_PERM_TEMPLATE_DESC","میتواند به یک انجمن اضافه شود");
-define("_AM_NEWBB_PERM_FORUMS","انتخاب انجمن ها");
-define("_AM_NEWBB_PERM_TEMPLATE_CREATED","تمپلیت دسترسی ها ساخته شد");
-define("_AM_NEWBB_PERM_TEMPLATE_ERROR","خطا در حین ساخته شدن تمپلیت دسترسی ها");
-define("_AM_NEWBB_PERM_TEMPLATEAPP","اعمال دسترسی های پیشفرض");
-define("_AM_NEWBB_PERM_TEMPLATE_APPLIED","دسترسی های پیشفرض در انجمن ها اعمال شد");
-define("_AM_NEWBB_PERM_ACTION","عمل های دسترسی ها");
-define("_AM_NEWBB_PERM_SETBYGROUP","اعمال دسترسی برای گروه ها به صورت مستقیم");
+define("_AM_NEWBB_PERM_FORUMS","انتخاب انجمن‌ها");
+define("_AM_NEWBB_PERM_TEMPLATE_CREATED","الگوی دسترسی‌ها ساخته شد");
+define("_AM_NEWBB_PERM_TEMPLATE_ERROR","خطا در حین ساخته شدن الگوی دسترسی‌ها");
+define("_AM_NEWBB_PERM_TEMPLATEAPP","اعمال دسترسی‌های پیشفرض");
+define("_AM_NEWBB_PERM_TEMPLATE_APPLIED","دسترسی‌های پیشفرض در انجمن‌ها اعمال شد");
+define("_AM_NEWBB_PERM_ACTION","عمل‌های دسترسی‌ها");
+define("_AM_NEWBB_PERM_SETBYGROUP","اعمال دسترسی برای گروه‌ها به صورت مستقیم");
 
 // admin_forum_prune.php
 
 define ("_AM_NEWBB_PRUNE_RESULTS_TITLE","نتیجه‌ی هرس‌کردن");
-define ("_AM_NEWBB_PRUNE_RESULTS_TOPICS","تاپیک‌ های هرس شده");
+define ("_AM_NEWBB_PRUNE_RESULTS_TOPICS","تاپیک‌‌های هرس شده");
 define ("_AM_NEWBB_PRUNE_RESULTS_POSTS","پست‌های هرس شده");
 define ("_AM_NEWBB_PRUNE_RESULTS_FORUMS","انجمن‌های هرس شده");
 define ("_AM_NEWBB_PRUNE_STORE","به جای حذف کردن آن در این انجمن قرارشان بده:");
@@ -205,7 +205,7 @@ define ("_AM_NEWBB_PRUNE_FORUMSELERROR","شما فراموش کرده‌اید �
 define ("_AM_NEWBB_PRUNE_DAYS","پاک کردن تاپیک بدون پاسخ در :");
 define ("_AM_NEWBB_PRUNE_FORUMS","انجمن‌هایی که هرس می‌شوند:");
 define ("_AM_NEWBB_PRUNE_STICKY","تاپیک‌های مهم(Sticky) را حفظ کن.");
-define ("_AM_NEWBB_PRUNE_DIGEST","تاپیک های خلاصه را حفظ کن");
+define ("_AM_NEWBB_PRUNE_DIGEST","تاپیک‌های خلاصه را حفظ کن");
 define ("_AM_NEWBB_PRUNE_LOCK","تاپیک‌های قفل را حفظ کن");
 define ("_AM_NEWBB_PRUNE_HOT","تاپیک‌هایی که بیشتر از این پاسخ‌ها را دارند نگه دار");
 define ("_AM_NEWBB_PRUNE_SUBMIT","تایید");
@@ -239,9 +239,9 @@ define('_AM_NEWBB_AUTHOR_WORD_EXTRA', "
 ");
 
 // admin_report.php
-define("_AM_NEWBB_REPORTADMIN","مدیریت پیام های گزارش شده");
+define("_AM_NEWBB_REPORTADMIN","مدیریت پیام‌های گزارش شده");
 define("_AM_NEWBB_PROCESSEDREPORT","دیدن پاسخ ارسال شده توسط ناظر به گزارش فرستاده شده");
-define("_AM_NEWBB_PROCESSREPORT","گزارش های ارسال شده");
+define("_AM_NEWBB_PROCESSREPORT","گزارش‌های ارسال شده");
 define("_AM_NEWBB_REPORTTITLE","عنوان گزارش");
 define("_AM_NEWBB_REPORTEXTRA","بخش اضافی");
 define("_AM_NEWBB_REPORTPOST","پیام گزارش شده");
@@ -249,19 +249,19 @@ define("_AM_NEWBB_REPORTTEXT","متن گزارش ارسال شده");
 define("_AM_NEWBB_REPORTMEMO","Process memo");
 
 // admin_report.php
-define("_AM_NEWBB_DIGESTADMIN","مدیریت خلاصه ها");
-define("_AM_NEWBB_DIGESTCONTENT","متن خلاصه ها");
+define("_AM_NEWBB_DIGESTADMIN","مدیریت خلاصه‌ها");
+define("_AM_NEWBB_DIGESTCONTENT","متن خلاصه‌ها");
 
 // admin_votedata.php
 define("_AM_NEWBB_VOTE_RATINGINFOMATION", "اطلاعات ارزش گذاری");
-define("_AM_NEWBB_VOTE_TOTALVOTES", "همه رای ها: ");
-define("_AM_NEWBB_VOTE_REGUSERVOTES", "رای های کاربران عضو: %s");
-define("_AM_NEWBB_VOTE_ANONUSERVOTES", "رای های کاربران مهمان: %s");
+define("_AM_NEWBB_VOTE_TOTALVOTES", "همه‌ی رای ها: ");
+define("_AM_NEWBB_VOTE_REGUSERVOTES", "رای‌های کاربران عضو: %s");
+define("_AM_NEWBB_VOTE_ANONUSERVOTES", "رای‌های کاربران مهمان: %s");
 define("_AM_NEWBB_VOTE_USER", "کاربر");
 define("_AM_NEWBB_VOTE_IP", "آدرس IP");
 define("_AM_NEWBB_VOTE_USERAVG", "متوسط ارزش گذاری کاربران");
-define("_AM_NEWBB_VOTE_TOTALRATE", "همه ارزش گذاری ها");
-define("_AM_NEWBB_VOTE_DATE", "ارسال شده ها");
+define("_AM_NEWBB_VOTE_TOTALRATE", "همه‌ی ارزش گذاری‌ها");
+define("_AM_NEWBB_VOTE_DATE", "ارسال شده‌ها");
 define("_AM_NEWBB_VOTE_RATING", "ارزش");
 define("_AM_NEWBB_VOTE_NOREGVOTES", "هیچ کاربر عضوی رای نداده است");
 define("_AM_NEWBB_VOTE_NOUNREGVOTES", "هیچ کاربر مهمانی رای نداده است");
@@ -271,5 +271,5 @@ define("_AM_NEWBB_VOTE_FILETITLE", "نام تاپیک");
 define("_AM_NEWBB_VOTE_DISPLAYVOTES", "اطلاعات ارزش گذاری");
 define("_AM_NEWBB_VOTE_NOVOTES", "هیچ رایی برای نشان دادن نیست");
 define("_AM_NEWBB_VOTE_DELETE", "هیچ رایی برای نشان دادن نیست");
-define("_AM_NEWBB_VOTE_DELETEDSC", "رای های انتخاب شده از دیتابیس <b>حذف شدند</b>");
+define("_AM_NEWBB_VOTE_DELETEDSC", "رای‌های انتخاب شده از پایگاه داده <b>حذف شدند</b>");
 ?>
