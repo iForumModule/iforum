@@ -1,8 +1,8 @@
-Olá {X_UNAME},
+OlÃ¡ {X_UNAME},
 
-Uma nova resposta foi incluida no tópico "{THREAD_NAME}".
+Uma nova resposta foi enviada no tÃ³pico "{THREAD_NAME}".
 
-Clique no link abaixo para ver este tópico:
+Clique no link abaixo para ver este tÃ³pico:
 {POST_URL}
 
 Clique no link abaixo para ver apenas esta corrente (Item):
@@ -10,10 +10,10 @@ Clique no link abaixo para ver apenas esta corrente (Item):
 
 -----------
 
-Você está recebendo esta mensagem porque marcou a opção para ser avisado quando alguém responder neste tópico no fórum.
+VocÃª estÃ¡ recebendo esta mensagem porque marcou a opÃ§Ã£o para ser avisado quando alguÃ©m responder neste tÃ³pico no fÃ³rum.
 
-Se você considerar que isto é um erro ou tenha feito esta solicitação,
-clique no link abaixo para reconfigurar as suas notificações:
+Se vocÃª considerar que isto Ã© um erro ou nÃ£o tenha feito esta solicitaÃ§Ã£o,
+clique no link abaixo para reconfigurar as suas notificaÃ§Ãµes:
 
 {X_UNSUBSCRIBE_URL}
 

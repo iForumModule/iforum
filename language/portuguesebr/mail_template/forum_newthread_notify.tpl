@@ -1,19 +1,19 @@
-Olá {X_UNAME},
+OlÃ¡ {X_UNAME},
 
-Um novo tópico com o título "{THREAD_NAME}" foi iniciado no fórum "{FORUM_NAME}".
+Um novo tÃ³pico com o tÃ­tulo "{THREAD_NAME}" foi criado no fÃ³rum "{FORUM_NAME}".
 
-Clique no link abaixo para ver este tópico:
+Clique no link abaixo para ver este tÃ³pico:
 {THREAD_URL}
 
-Se desejar, clique no link abaixo para ver este fórum:
+Se desejar, clique no link abaixo para ver este fÃ³rum:
 {FORUM_URL}
 
 -----------
 
-Você está recebendo esta mensagem porque marcou a opção de ser avisado quando um novo tópico for enviado neste fórum.
+VocÃª estÃ¡ recebendo esta mensagem porque marcou a opÃ§Ã£o de ser avisado quando um novo tÃ³pico for enviado neste fÃ³rum.
 
-Se você considerar que isto é um erro ou tenha feito esta solicitação,
-clique no link abaixo para reconfigurar as suas notificações:
+Se vocÃª considera que isto Ã© um erro ou nÃ£o tenha feito esta solicitaÃ§Ã£o,
+clique no link abaixo para reconfigurar as suas notificaÃ§Ãµes:
 
 {X_UNSUBSCRIBE_URL}
 

@@ -1,16 +1,16 @@
-Olá {X_UNAME},
+OlÃ¡ {X_UNAME},
 
-Uma nova mensagem foi enviado no fórum "{FORUM_NAME}".
+Uma nova mensagem foi enviada no fÃ³rum "{FORUM_NAME}".
 
 Clique no link abaixo para ver esta mensagem:
 {POST_URL}
 
 -----------
 
-Você está recebendo esta mensagem porque marcou a opção de ser avisado quando uma nova mensagem for enviada neste fórum.
+VocÃª estÃ¡ recebendo esta mensagem porque marcou a opÃ§Ã£o de ser avisado quando uma nova mensagem for enviada neste fÃ³rum.
 
-Se você considerar que isto é um erro ou tenha feito esta solicitação,
-clique no link abaixo para reconfigurar as suas notificações:
+Se vocÃª considera que isto Ã© um erro ou nÃ£o tenha feito esta solicitaÃ§Ã£o,
+clique no link abaixo para reconfigurar as suas notificaÃ§Ãµes:
 {X_UNSUBSCRIBE_URL}
 
 -----------

@@ -1,16 +1,16 @@
-Olá {X_UNAME},
+OlÃ¡ {X_UNAME},
 
-Um novo tópico foi incluido no módulo {X_MODULE} deste site.
+Um novo tÃ³pico foi incluido no mÃ³dulo {X_MODULE} deste site.
 
-Clique no link abaixo para ver este novo tópico:
+Clique no link abaixo para ver este novo tÃ³pico:
 {POST_URL}
 
 -----------
 
-Você está recebendo esta mensagem porque marcou a opção de ser avisado sobre qualquer novo tópico nos fóruns.
+VocÃª estÃ¡ recebendo esta mensagem porque marcou a opÃ§Ã£o de ser avisado sobre qualquer novo tÃ³pico nos fÃ³runs.
 
-Se você considerar que isto é um erro ou tenha feito esta solicitação,
-clique no link abaixo para reconfigurar as suas notificações:
+Se vocÃª considerar que isto Ã© um erro ou nÃ£o tenha feito esta solicitaÃ§Ã£o,
+clique no link abaixo para reconfigurar as suas notificaÃ§Ãµes:
 
 {X_UNSUBSCRIBE_URL}
 

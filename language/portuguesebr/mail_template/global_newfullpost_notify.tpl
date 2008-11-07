@@ -1,9 +1,9 @@
 Hello {X_UNAME},
 
-Um novo tópico foi incluido no módulo {X_MODULE} deste site.
-Isto está disponível no tópico "{THREAD_NAME}" do fórum "{FORUM_NAME}".
+Um novo tÃ³pico foi incluido no mÃ³dulo {X_MODULE} deste site.
+Isto estÃ¡ disponÃ­vel no tÃ³pico "{THREAD_NAME}" do fÃ³rum "{FORUM_NAME}".
 
-Clique no link abaixo para ver este tópico no fórum (Onde também poderá responde-lo se desejar):
+Clique no link abaixo para ver este tÃ³pico no fÃ³rum (Onde tambÃ©m poderÃ¡ responde-lo se desejar):
 {POST_URL}
 
 -----------
@@ -12,10 +12,10 @@ Clique no link abaixo para ver este tópico no fórum (Onde também poderá responde
 {POST_CONTENT}
 -----------
 
-Você está recebendo esta mensagem porque marcou a opção de ser avisado se qualquer nova mensagem for enviada nos fóruns.
+VocÃª estÃ¡ recebendo esta mensagem porque marcou a opÃ§Ã£o de ser avisado se qualquer nova mensagem for enviada nos fÃ³runs.
 
-Se você considerar que isto é um erro ou tenha feito esta solicitação,
-clique no link abaixo para reconfigurar as suas notificações:
+Se vocÃª considerar que isto Ã© um erro ou nÃ£o tenha feito esta solicitaÃ§Ã£o,
+clique no link abaixo para reconfigurar as suas notificaÃ§Ãµes:
 
 {X_UNSUBSCRIBE_URL}
 

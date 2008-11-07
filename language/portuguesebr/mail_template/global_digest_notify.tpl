@@ -1,17 +1,17 @@
-Olá {X_UNAME},
+OlÃ¡ {X_UNAME},
 
-Um sumário está a disposição em {X_MODULE} no site  {X_SITENAME}: # {DIGEST_ID} .
+Um resumo estÃ¡ a disposiÃ§Ã£o em {X_MODULE} no site  {X_SITENAME}: # {DIGEST_ID} .
 
-Clique neste link para ver tudo relacionado a este fórum:
+Clique neste link para ver tudo relacionado a este fÃ³rum:
 
 {DIGEST_CONTENT}
 
 -----------
 
-Você está recebendo esta mensagem porque marcou a opção de ser avisado com um sumário dos novos tópicos no fórum.
+VocÃª estÃ¡ recebendo esta mensagem porque marcou a opÃ§Ã£o de ser avisado quando um resumo dos novos tÃ³picos forem criados no fÃ³rum.
 
-Se você considerar que isto é um erro ou tenha feito esta solicitação,
-clique no link abaixo para reconfigurar as suas notificações:
+Se vocÃª considera que isto Ã© um erro ou nÃ£o tenha feito esta solicitaÃ§Ã£o,
+clique no link abaixo para reconfigurar as suas notificaÃ§Ãµes:
 
 {X_UNSUBSCRIBE_URL}
 
