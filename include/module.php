@@ -150,7 +150,7 @@ function xoops_module_install_newbb(&$module)
 	$forumpost->setVar('approved', 1);
     $forumpost->setVar('forum_id', $forum_id);
     $forumpost->setVar('subject', _MI_NEWBB_INSTALL_POST_SUBJECT, true);
-    $forumpost->setVar('dohtml', 0);
+    $forumpost->setVar('dohtml', 1);
     $forumpost->setVar('dosmiley', 1);
     $forumpost->setVar('doxcode', 1);
     $forumpost->setVar('dobr', 1);
