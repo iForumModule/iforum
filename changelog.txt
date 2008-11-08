@@ -1,6 +1,6 @@
 IFORUM
 
-ImpressCMS bulletin Board, for ImpressCMS 1.1*
+ImpressCMS bulletin Board, for ImpressCMS > 1.1.1
 
 iforum, is fork of newbb (aka CBB), at this stage it just has some minor changes to work efficient with ImpressCMS 1.1
 We will have a total code re-writing at a later stage!
@@ -21,6 +21,8 @@ Changelog 1.0 RC2
 12 added: Russian files with UTF-8  (algalochkin)
 13 Bugfix: PDF issues
 14 Improved: &newbb_displayTarea (to use icms purifier)
+15 added: smarty modulename (in blocks)
+16 used icms smarty values
 
 Changelog 1.0 RC
 Nov 6th, 2008 

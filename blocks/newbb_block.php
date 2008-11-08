@@ -51,7 +51,7 @@ function b_newbb_show($options)
 {
     global $xoopsConfig;
     global $access_forums;
-
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $db =& Database::getInstance();
     $myts =& MyTextSanitizer::getInstance();
     $block = array();
@@ -156,6 +156,7 @@ function b_newbb_show($options)
         unset($topic);
     }
     $block['indexNav'] = intval($options[4]);
+    $block['modulename'] = $modulename;
 
     return $block;
 }
@@ -172,7 +173,7 @@ function b_newbb_topic_show($options)
 {
     global $xoopsConfig;
     global $access_forums;
-
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
     $block = array();
@@ -290,6 +291,7 @@ function b_newbb_topic_show($options)
         unset($topic);
     }
     $block['indexNav'] = intval($options[4]);
+    $block['modulename'] = $modulename;
 
     return $block;
 }
@@ -306,7 +308,7 @@ function b_newbb_post_show($options)
 {
     global $xoopsConfig;
     global $access_forums;
-
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
     $block = array();
@@ -420,6 +422,7 @@ function b_newbb_post_show($options)
         unset($topic);
     }
     $block['indexNav'] = intval($options[4]);
+    $block['modulename'] = $modulename;
     return $block;
 }
 
@@ -435,7 +438,7 @@ function b_newbb_author_show($options)
 {
     global $xoopsConfig;
     global $access_forums;
-
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $db = &Database::getInstance();
     $myts = &MyTextSanitizer::getInstance();
     $block = array();
@@ -523,11 +526,13 @@ function b_newbb_author_show($options)
     $block['authors'] =& $author;
     $block['disp_mode'] = $options[3]; // 0 - full view; 1 - lite view;
     $block['indexNav'] = intval($options[4]);
+    $block['modulename'] = $modulename;
     return $block;
 }
 
 function b_newbb_edit($options)
 {
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='time'";
     if($options[0]=="time") $form .= " selected='selected' ";
@@ -590,6 +595,7 @@ function b_newbb_edit($options)
 
 function b_newbb_topic_edit($options)
 {
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='time'";
 	    if($options[0]=="time") $form .= " selected='selected' ";
@@ -664,6 +670,7 @@ function b_newbb_topic_edit($options)
 
 function b_newbb_post_edit($options)
 {
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='title'";
 	    if($options[0]=="title") $form .= " selected='selected' ";
@@ -729,6 +736,7 @@ function b_newbb_post_edit($options)
 
 function b_newbb_author_edit($options)
 {
+	$modulename = basename( dirname( dirname( __FILE__ ) ) );
     $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='post'";
 	    if($options[0]=="post") $form .= " selected='selected' ";

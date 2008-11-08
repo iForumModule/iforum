@@ -11,8 +11,8 @@
 
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
-    <td><a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
-    <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
+    <td><a href="<{$modules_url}>/<{$block.modulename}>/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
+    <td><a href="<{$modules_url}>/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
 		<{if $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
@@ -20,7 +20,7 @@
 	</td>
     <td align="center"><{$topic.replies}></td>
     <td align="center"><{$topic.views}></td>
-    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}></td>
+    <td align="<{$smarty.const._GLOBAL_RIGHT}>"><{$topic.time}><br /><{$topic.topic_poster}></td>
   </tr>
   <{/foreach}>
 
@@ -33,13 +33,13 @@
 
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
-    <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
+    <td><a href="<{$modules_url}>/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
 		<{if $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
 		<{$topic.title}></a><{$topic.topic_page_jump}>
 	</td>
-    <td align="right"><{$topic.time}><br /><{$topic.topic_poster}></td>
+    <td align="<{$smarty.const._GLOBAL_RIGHT}>"><{$topic.time}><br /><{$topic.topic_poster}></td>
   </tr>
   <{/foreach}>
 
@@ -47,7 +47,7 @@
 
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
-    <td><a href="<{$xoops_url}>/modules/newbb/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
+    <td><a href="<{$modules_url}>/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
 		<{if $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
@@ -61,8 +61,8 @@
 </table>
 
 <{if $block.indexNav}>
-<div style="text-align:right; padding: 5px;">
-<a href="<{$xoops_url}>/modules/newbb/viewall.php"><{$smarty.const._MB_NEWBB_ALLTOPICS}></a> |
-<a href="<{$xoops_url}>/modules/newbb/"><{$smarty.const._MB_NEWBB_VSTFRMS}></a>
+<div style="text-align:<{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
+<a href="<{$modules_url}>/<{$block.modulename}>/viewall.php"><{$smarty.const._MB_NEWBB_ALLTOPICS}></a> |
+<a href="<{$modules_url}>/<{$block.modulename}>/"><{$smarty.const._MB_NEWBB_VSTFRMS}></a>
 </div>
 <{/if}>
