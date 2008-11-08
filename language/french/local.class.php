@@ -18,7 +18,7 @@
  * A comprehensive handler is expected in Xoops 2.3 or 2.4
  */
 
-class XoopsLocalGerman
+class XoopsLocalFrench
 {	
 	// localized substr
 	function substr($str, $start, $length, $trimmarker = '...')
@@ -132,7 +132,7 @@ class XoopsLocalGerman
 	        break;
 	        
         case 'mysql':
-	        $datestring = "d-m-Y H:i:s";
+	        $datestring = "Y-m-d H:i:s";
 	        break;
 	        
         case 'l':
@@ -183,7 +183,7 @@ class XoopsLocalGerman
 	// Method 2: echo XoopsLocal::hello("Some greeting words");
 	function hello($text)
 	{
-		$ret = "<div>Hallo, ".$text."</div>";
+		$ret = "<div>Hello, ".$text."</div>";
 		return $ret;
 	}
 }

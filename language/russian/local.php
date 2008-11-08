@@ -26,7 +26,7 @@ define("_TIMEFORMAT_DESC", "Valid formats: \"s\" - "._SHORTDATESTRING."; \"m\" -
 							"specified string - Refer to <a href=\"http://php.net/manual/en/function.date.php\" target=\"_blank\">PHP manual</a>."
 							);
 							
-require_once dirname(dirname(__FILE__))."/russian/local.class.php";
+require_once "local.class.php";
 
 /**
  * The class should be an abstract one using PHP embedded functions
