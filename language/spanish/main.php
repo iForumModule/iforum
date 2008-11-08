@@ -504,4 +504,6 @@ class User_language extends User
 define('_PDF_SUBJECT','Asunto'); 
 define('_PDF_TOPIC','Hilo'); 
 define('_PDF_DATE','Fecha'); 
+define('_MD_UP','Top');
+define('_MD_POSTTIME','Date');
 ?>

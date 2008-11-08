@@ -469,7 +469,7 @@ define("_MD_YEARMONTHDAY", "d/m/Y H:i");
 
 // For user info
 // If you have customized userbar, define here.
-require_once(XOOPS_ROOT_PATH."/modules/newbb/class/user.php");
+require_once(XOOPS_ROOT_PATH."/modules/".basename(  dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/user.php");
 class User_language extends User
 {
     function User_language(&$user)
@@ -501,4 +501,6 @@ class User_language extends User
 		return $userbar;
     }
 }
+define('_MD_UP','En haut');
+define('_MD_POSTTIME','Date');
 ?>
