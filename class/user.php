@@ -205,7 +205,7 @@ class User extends XoopsObject
 	    $user =& $this->user;
 		$level = get_user_level($user);
 		if($xoopsModuleConfig['user_level']==2){
-			$table = "<table class='userlevel'><tr><td class='end'><img src='" . $forumUrl['images_set'] . "/rpg/img_left.gif' alt='' /></td><td class='center' background='" . $forumUrl['images_set'] . "/rpg/img_backing.gif'><img src='" . $forumUrl['images_set'] . "/rpg/%s.gif' width='%d' alt='' /></td><td><img src='" . $forumUrl['images_set'] . "/rpg/img_right.gif' alt='' /></td></tr></table>";
+			$table = "<table class='userlevel'><tr><td class='end'><img src='" . $forumUrl['images_set'] . "/rpg/img_"._GLOBAL_LEFT.".gif' alt='' /></td><td class='center' background='" . $forumUrl['images_set'] . "/rpg/img_backing.gif'><img src='" . $forumUrl['images_set'] . "/rpg/%s.gif' width='%d' alt='' /></td><td><img src='" . $forumUrl['images_set'] . "/rpg/img_"._GLOBAL_RIGHT.".gif' alt='' /></td></tr></table>";
 
 			$info = _MD_LEVEL . " " . $level['level'] . "<br />" . _MD_HP . " " . $level['hp'] . " / " . $level['hp_max'] . "<br />".
 				sprintf($table, "orange", $level['hp_width']);
