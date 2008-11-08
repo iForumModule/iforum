@@ -41,6 +41,13 @@ if (empty($post_id))  {
     exit();
 }
 
+// Not exists
+$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$post = & $post_handler->get($post_id);
+if ( empty($post) ) {
+    redirect_header(XOOPS_URL.'/modules/newbb/index.php', 2, _MD_NORIGHTTOVIEW);
+    exit();
+}
 // Not yet approved
 $post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
 $post = & $post_handler->get($post_id);

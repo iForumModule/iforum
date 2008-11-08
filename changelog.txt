@@ -19,6 +19,8 @@ Changelog 1.0 RC2
 10 added: Portuguesebr files with UTF-8  (Gibaphp)
 11 added: French files with UTF-8  (FaYsSaL)
 12 added: Russian files with UTF-8  (algalochkin)
+13 Bugfix: PDF issues
+14 Improved: &newbb_displayTarea (to use icms purifier)
 
 Changelog 1.0 RC
 Nov 6th, 2008 

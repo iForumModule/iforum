@@ -65,36 +65,48 @@ function newbb_htmlSpecialChars($text)
 	return preg_replace(array("/&amp;/i", "/&nbsp;/i"), array('&', '&amp;nbsp;'), htmlspecialchars($text));
 }
 
-function &newbb_displayTarea(&$text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1)
-{
-	global $myts;
+	function &newbb_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $config = 'display')
+	{
+		// ################# Preload Trigger beforeDisplayTarea ##############
+		global $icmsPreloadHandler, $myts;
+		$icmsPreloadHandler->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 
-	if ($html != 1) {
-		// html not allowed
-		$text = newbb_htmlSpecialChars($text);
-	}
-	$text = $myts->codePreConv($text, $xcode); // Ryuji_edit(2003-11-18)
-	$text = $myts->makeClickable($text);
-	if ($smiley != 0) {
-		// process smiley
-		$text = $myts->smiley($text);
-	}
-	if ($xcode != 0) {
-		// decode xcode
-		if ($image != 0) {
-			// image allowed
-			$text = $myts->xoopsCodeDecode($text);
-		} else {
-    		// image not allowed
-    		$text = $myts->xoopsCodeDecode($text, 0);
+		if($html != 1)
+		{
+			$text = $myts->htmlSpecialChars($text);
 		}
+
+		$text = $myts->codePreConv($text, $xcode); // Ryuji_edit(2003-11-18)
+		$text = $myts->makeClickable($text);
+		if($smiley != 0)
+		{
+			$text = $myts->smiley($text);
+		}
+		if($xcode != 0)
+		{
+			if($image != 0)
+			{
+				$text = $myts->xoopsCodeDecode($text);
+			}
+			else
+			{
+				$text = $myts->xoopsCodeDecode($text, 0);
+			}
+		}
+		if($br != 0)
+		{
+			$text = $myts->nl2Br($text);
+		}
+		$text = $myts->codeConv($text, $xcode, $image);	// Ryuji_edit(2003-11-18)
+		if($html != 0)
+		{
+			$text = $myts->html_purifier($text, $config);
+		}
+		// ################# Preload Trigger afterDisplayTarea ##############
+		global $icmsPreloadHandler;
+		$icmsPreloadHandler->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
+		return $text;
 	}
-	if ($br != 0) {
-		$text = $myts->nl2Br($text);
-	}
-	$text = $myts->codeConv($text, $xcode, $image);	// Ryuji_edit(2003-11-18)
-	return $text;
-}
 
 /* 
  * Filter out possible malicious text
