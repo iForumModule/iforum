@@ -8,7 +8,7 @@ define("_MB_NEWBB_FORUM","Форум");
 define("_MB_NEWBB_TOPIC","Тема");
 define("_MB_NEWBB_RPLS","Ответы");
 define("_MB_NEWBB_VIEWS","Просмотры");
-define("_MB_NEWBB_LPOST","Last Post");
+define("_MB_NEWBB_LPOST","Последнее сообщение");
 define("_MB_NEWBB_VSTFRMS","Форумы");
 define("_MB_NEWBB_DISPLAY","Number of posts: ");
 define("_MB_NEWBB_DISPLAYMODE","Режим отображения: ");

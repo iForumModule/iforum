@@ -13,8 +13,8 @@
 // !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A", "B", "c", "d", "D", "F", "g", "G", "h", "H", "i", "I", "j", "l", "L", "m", "M", "n", "O", "r", "s", "S", "t", "T", "U", "w", "W", "Y", "y", "z", "Z"	
 // insert double '\' before 't', 'r', 'n'
 if(!defined("_YEARMONTHDAY")) {
-	define("_TODAY", "\T\o\d\a\y G:i");
-	define("_YESTERDAY", "\Y\e\s\\t\e\\r\d\a\y G:i");
+	define("_TODAY", "\С\е\г\о\д\н\я G:i");
+	define("_YESTERDAY", "\В\ч\е\р\а G:i");
 	define("_MONTHDAY", "n/j G:i");
 	define("_YEARMONTHDAY", "Y/n/j G:i");
 }

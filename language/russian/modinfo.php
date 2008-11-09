@@ -34,11 +34,11 @@ define("_MI_NEWBB_ADMENU_CATEGORY","Категории");
 define("_MI_NEWBB_ADMENU_FORUM","Форумы");
 define("_MI_NEWBB_ADMENU_PERMISSION","Права доступа");
 define("_MI_NEWBB_ADMENU_BLOCK","Блоки");
-define("_MI_NEWBB_ADMENU_ORDER","Порядок");
-define("_MI_NEWBB_ADMENU_SYNC","Синхр. форумов");
-define("_MI_NEWBB_ADMENU_PRUNE","Prune");
+define("_MI_NEWBB_ADMENU_ORDER","Упорядочивание");
+define("_MI_NEWBB_ADMENU_SYNC","Синхронизация");
+define("_MI_NEWBB_ADMENU_PRUNE","Очистка");
 define("_MI_NEWBB_ADMENU_REPORT","Отчеты");
-define("_MI_NEWBB_ADMENU_DIGEST","Справочник");
+define("_MI_NEWBB_ADMENU_DIGEST","Дайджесты");
 define("_MI_NEWBB_ADMENU_VOTE","Голосование");
 
 
@@ -249,60 +249,60 @@ define("_MI_USERMODERATE_DESC","");
 // RMV-NOTIFY
 // Notification event descriptions and mail templates
 
-define ('_MI_NEWBB_THREAD_NOTIFY', 'Thread');
-define ('_MI_NEWBB_THREAD_NOTIFYDSC', 'Notification options that apply to the current thread.');
+define ('_MI_NEWBB_THREAD_NOTIFY', 'Поток');
+define ('_MI_NEWBB_THREAD_NOTIFYDSC', 'Опции оповещений, которые добавляются к текущему потоку.');
 
-define ('_MI_NEWBB_FORUM_NOTIFY', 'Forum');
-define ('_MI_NEWBB_FORUM_NOTIFYDSC', 'Notification options that apply to the current forum.');
+define ('_MI_NEWBB_FORUM_NOTIFY', 'Форум');
+define ('_MI_NEWBB_FORUM_NOTIFYDSC', 'Опции оповещений, которые добавляются к текущему форуму.');
 
-define ('_MI_NEWBB_GLOBAL_NOTIFY', 'Global');
-define ('_MI_NEWBB_GLOBAL_NOTIFYDSC', 'Global forum notification options.');
+define ('_MI_NEWBB_GLOBAL_NOTIFY', 'Общие');
+define ('_MI_NEWBB_GLOBAL_NOTIFYDSC', 'Опции общих оповещений форума.');
 
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFY', 'New Post');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYCAP', 'Notify me of new posts in the current thread.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYDSC', 'Receive notification when a new message is posted in the current thread.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : New post in thread');
+define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFY', 'Новое сообщение');
+define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYCAP', 'Оповестить меня о новом сообщении в этом потоке.');
+define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено новое сообщение в этом потоке.');
+define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение в потоке');
 
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFY', 'New Thread');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYCAP', 'Notify me of new topics in the current forum.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYDSC', 'Receive notification when a new thread is started in the current forum.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : New thread in forum');
+define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFY', 'Новый поток');
+define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYCAP', 'Оповестить меня о новом сообщении в этом потоке на этом форуме.');
+define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYDSC', 'Получить извещение, когда будет создан новый поток на этом форуме.');
+define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новый поток на форуме');
 
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY', 'New Forum');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYCAP', 'Notify me when a new forum is created.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYDSC', 'Receive notification when a new forum is created.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : New forum');
+define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY', 'Новый форум');
+define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYCAP', 'Оповестить меня, когда будет создан новый форум.');
+define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYDSC', 'Получить извещение, когда будет создан новый форум.');
+define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новый форум');
 
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFY', 'New Post');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYCAP', 'Notify me of any new posts.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYDSC', 'Receive notification when any new message is posted.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : New post');
+define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFY', 'Новое сообщение');
+define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение.');
+define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено любое новое сообщение.');
+define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение');
 
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFY', 'New Post');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYCAP', 'Notify me of any new posts in the current forum.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYDSC', 'Receive notification when any new message is posted in the current forum.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : New post in forum');
+define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFY', 'Новое сообщение');
+define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение на этом форуме.');
+define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено любое новое сообщение на этом форуме.');
+define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение на форуме');
 
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFY', 'New Post (Full Text)');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Notify me of any new posts (include full text in message).');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Receive full text notification when any new message is posted.');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : New post (full text)');
+define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFY', 'Новое сообщение (весь текст)');
+define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение (включая весь текст сообщения).');
+define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Получить весь текст сообщения, когда когда будет получено любое новое сообщение.');
+define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение (весь текст)');
 
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFY', 'Digest');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Notify me of post digest.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Receive digest notification.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : post digest');
+define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFY', 'Дайджест');
+define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Оповестить мня о получении дайджеста.');
+define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Получить извещение о дайджесте.');
+define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : получен дайджест');
 
 // FOR installation
-define("_MI_NEWBB_INSTALL_CAT_TITLE", "Category Test");
-define("_MI_NEWBB_INSTALL_CAT_DESC", "Category for test.");
-define("_MI_NEWBB_INSTALL_FORUM_NAME", "Forum Test");
-define("_MI_NEWBB_INSTALL_FORUM_DESC", "Forum for test.");
-define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
+define("_MI_NEWBB_INSTALL_CAT_TITLE", "Тестовая категория");
+define("_MI_NEWBB_INSTALL_CAT_DESC", "Категория для тестирования.");
+define("_MI_NEWBB_INSTALL_FORUM_NAME", "Тестовый форум");
+define("_MI_NEWBB_INSTALL_FORUM_DESC", "Форум для тестирования.");
+define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Поздравляем! Форум работает.");
 define("_MI_NEWBB_INSTALL_POST_TEXT", "
-	Welcome to ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." forum.
-	Feel free to register and login to start your topics.
+	Добро пожаловать на форум ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES)).".
+	Чтобы открыть собственные темы, Вам достаточно просто зарегистрироваться и войти на сайт.
 	
-	If you have any question concerning CBB usage, plz visit your local support site or [url=http://xoopsforge.com/modules/newbb/]CBB Module Site[/url].
+	Если у Вас имеются вопросы относительно использования CBB, пожалуйста, посетите сайт локальной поддержки или [url=http://xoopsforge.com/modules/newbb/]сайт CBB модуля[/url].
 	");
 ?>

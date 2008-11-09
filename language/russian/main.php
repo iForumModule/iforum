@@ -3,10 +3,10 @@
 if(defined('MAIN_DEFINED')) return;
 define('MAIN_DEFINED',true);
 
-define('_MD_ERROR','Error');
-define('_MD_NOPOSTS','No Posts');
-define('_MD_GO','Go');
-define('_MD_SELFORUM','Select a Forum');
+define('_MD_ERROR','Ошибка');
+define('_MD_NOPOSTS','Нет сообщений');
+define('_MD_GO','Выполнить');
+define('_MD_SELFORUM','Выбор форума');
 
 define('_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST','Attached file:');
 define('_MD_ALLOWED_EXTENSIONS','Allowed extensions');
@@ -14,7 +14,7 @@ define('_MD_MAX_FILESIZE','Maxium file size');
 define('_MD_ATTACHMENT','Attach file');
 define('_MD_FILESIZE','Size');
 define('_MD_HITS','Hits');
-define('_MD_GROUPS','Groups:');
+define('_MD_GROUPS','Группы:');
 define('_MD_DEL_ONE','Delete only this post');
 define('_MD_DEL_RELATED','Delete all posts in this topic');
 define('_MD_MARK_ALL_FORUMS','Mark all forums');
@@ -30,27 +30,27 @@ define('_MD_BOARD_DISCLAIMER','Board Disclaimer');
 define('_MD_ADMINCP','Панель управления');
 define('_MD_FORUM','Форум');
 define('_MD_WELCOME','Добро пожаловать на форум %s.');
-define('_MD_TOPICS','Topics');
-define('_MD_POSTS','Posts');
-define('_MD_LASTPOST','Last Post');
-define('_MD_MODERATOR','Moderator');
-define('_MD_NEWPOSTS','New posts');
-define('_MD_NONEWPOSTS','No new posts');
-define('_MD_PRIVATEFORUM','Inactiv Forum');
-define('_MD_BY','by'); // Posted by
-define('_MD_TOSTART','To start viewing messages, select the forum that you want to visit from the list below.');
-define('_MD_TOTALTOPICSC','Total Topics: ');
-define('_MD_TOTALPOSTSC','Total Posts: ');
-define('_MD_TOTALUSER','Total Users: ');
-define('_MD_TIMENOW','The time now is %s');
-define('_MD_LASTVISIT','You last visited: %s');
+define('_MD_TOPICS','Темы');
+define('_MD_POSTS','Сообщения');
+define('_MD_LASTPOST','Последние');
+define('_MD_MODERATOR','Модератор');
+define('_MD_NEWPOSTS','Новое сообщение');
+define('_MD_NONEWPOSTS','Нет новых сообщений');
+define('_MD_PRIVATEFORUM','Неактивный форум');
+define('_MD_BY',' '); // Posted by
+define('_MD_TOSTART','Чтобы начать просматривать сообщения, выберите форум, который Вы хотите посетить из списка ниже.');
+define('_MD_TOTALTOPICSC','Всего тем: ');
+define('_MD_TOTALPOSTSC','Всего сообщений: ');
+define('_MD_TOTALUSER','Всего пользователей: ');
+define('_MD_TIMENOW','Сейчас: %s');
+define('_MD_LASTVISIT','Ваш последний визит: %s');
 define('_MD_ADVSEARCH','Расширенный поиск');
-define('_MD_POSTEDON','Posted on: ');
-define('_MD_SUBJECT','Subject');
-define('_MD_INACTIVEFORUM_NEWPOSTS','Inactive forum with new posts');
-define('_MD_INACTIVEFORUM_NONEWPOSTS','Inactive forum without new posts');
-define('_MD_SUBFORUMS','Subforums');
-define('_MD_MAINFORUMOPT', 'Main Options');
+define('_MD_POSTEDON','Отправлено: ');
+define('_MD_SUBJECT','Тема');
+define('_MD_INACTIVEFORUM_NEWPOSTS','Неактивный форум с новыми сообщениями');
+define('_MD_INACTIVEFORUM_NONEWPOSTS','Неактивный форум без новых сообщений');
+define('_MD_SUBFORUMS','Подфорумы');
+define('_MD_MAINFORUMOPT', 'Основные опции');
 define("_MD_PENDING_POSTS_FOR_AUTH","Posts pending approval:");
 
 
@@ -76,17 +76,17 @@ define('_MD_BODY','Body');
 define('_MD_SINCE','Since');
 
 //viewforum.php
-define('_MD_REPLIES','Replies');
-define('_MD_POSTER','Poster');
-define('_MD_VIEWS','Views');
-define('_MD_MORETHAN','New posts [ Popular ]');
-define('_MD_MORETHAN2','No New posts [ Popular ]');
+define('_MD_REPLIES','Ответы');
+define('_MD_POSTER','Отпр.');
+define('_MD_VIEWS','Просм.');
+define('_MD_MORETHAN','Есть новые сообщения [ Popular ]');
+define('_MD_MORETHAN2','Нет новых сообщений [ Popular ]');
 define('_MD_TOPICSHASATT','Topic has Attachments');
 define('_MD_TOPICHASPOLL','Topic has a Poll');
-define('_MD_TOPICLOCKED','Topic is Locked');
+define('_MD_TOPICLOCKED','Тема блокирована');
 define('_MD_LEGEND','Legend');
-define('_MD_NEXTPAGE','Next Page');
-define('_MD_SORTEDBY','Sorted by');
+define('_MD_NEXTPAGE','След.');
+define('_MD_SORTEDBY','Сортировать по');
 define('_MD_TOPICTITLE','topic title');
 define('_MD_NUMBERREPLIES','number of replies');
 define('_MD_TOPICPOSTER','topic poster');
@@ -103,32 +103,32 @@ define('_MD_TOPIC_SUBJECTC','Topic Prefix:');
 
 
 define('_MD_RATINGS','Ratings');
-define("_MD_CAN_ACCESS", "You <strong>can</strong> access the forum.<br />");
+define("_MD_CAN_ACCESS", "Вы <strong>имеете</strong> доступ к форуму.<br />");
 define("_MD_CANNOT_ACCESS", "You <strong>cannot</strong> access the forum.<br />");
-define("_MD_CAN_POST", "You <strong>can</strong> start a new topic.<br />");
+define("_MD_CAN_POST", "Вы <strong>можете</strong> открывать новую тему.<br />");
 define("_MD_CANNOT_POST", "You <strong>cannot</strong> start a new topic.<br />");
-define("_MD_CAN_VIEW", "You <strong>can</strong> view topic.<br />");
+define("_MD_CAN_VIEW", "Вы <strong>можете</strong> просматривать тему.<br />");
 define("_MD_CANNOT_VIEW", "You <strong>cannot</strong> view topic.<br />");
-define("_MD_CAN_REPLY", "You <strong>can</strong> reply to posts.<br />");
+define("_MD_CAN_REPLY", "Вы <strong>можете</strong> отвечать на сообщения.<br />");
 define("_MD_CANNOT_REPLY", "You <strong>cannot</strong> reply to posts.<br />");
-define("_MD_CAN_EDIT", "You <strong>can</strong> edit your posts.<br />");
+define("_MD_CAN_EDIT", "Вы <strong>можете</strong> редактировать Ваши сообщения.<br />");
 define("_MD_CANNOT_EDIT", "You <strong>cannot</strong> edit your posts.<br />");
-define("_MD_CAN_DELETE", "You <strong>can</strong> delete your posts.<br />");
+define("_MD_CAN_DELETE", "Вы <strong>можете</strong> удалять Ваши сообщения.<br />");
 define("_MD_CANNOT_DELETE", "You <strong>cannot</strong> delete your posts.<br />");
-define("_MD_CAN_ADDPOLL", "You <strong>can</strong> add new polls.<br />");
+define("_MD_CAN_ADDPOLL", "Вы <strong>можете</strong> добавлять новый опрос.<br />");
 define("_MD_CANNOT_ADDPOLL", "You <strong>cannot</strong> add new polls.<br />");
-define("_MD_CAN_VOTE", "You <strong>can</strong> vote in polls.<br />");
+define("_MD_CAN_VOTE", "Вы <strong>можете</strong> голосовать в опросах.<br />");
 define("_MD_CANNOT_VOTE", "You <strong>cannot</strong> vote in polls.<br />");
-define("_MD_CAN_ATTACH", "You <strong>can</strong> attach files to posts.<br />");
+define("_MD_CAN_ATTACH", "Вы <strong>можете</strong> присоединять файлы к сообщениям.<br />");
 define("_MD_CANNOT_ATTACH", "You <strong>cannot</strong> attach files to posts.<br />");
-define("_MD_CAN_NOAPPROVE", "You <strong>can</strong> post without approval.<br />");
+define("_MD_CAN_NOAPPROVE", "Вы <strong>можете</strong> отправлять сообщения без одобрения.<br />");
 define("_MD_CANNOT_NOAPPROVE", "You <strong>cannot</strong> post without approval.<br />");
-define("_MD_IMTOPICS","Important Topics");
-define("_MD_NOTIMTOPICS","Forum Topics");
-define('_MD_FORUMOPTION', 'Forum options');
+define("_MD_IMTOPICS","Важные темы");
+define("_MD_NOTIMTOPICS","Темы форума");
+define('_MD_FORUMOPTION', 'Опции форума');
 
-define('_MD_VAUP','View all unreplied posts');
-define('_MD_VANP','View all new posts');
+define('_MD_VAUP','Просмотр всех безответных сообщений');
+define('_MD_VANP','Просмотр всех сообщений');
 
 
 define('_MD_UNREPLIED','unreplied topics');
@@ -337,24 +337,24 @@ define('_MD_POSTSDELETED','Selected post and all its child posts deleted.');
 define('_MD_POSTDELETED','Selected post deleted.');
 
 // definitions moved from global.
-define('_MD_THREAD','Thread');
-define('_MD_FROM','From');
-define('_MD_JOINED','Joined');
-define('_MD_ONLINE','Online');
-define('_MD_OFFLINE','Offline');
-define('_MD_FLAT', 'Flat');
+define('_MD_THREAD','Поток');
+define('_MD_FROM','От');
+define('_MD_JOINED','Присоединился');
+define('_MD_ONLINE','На связи');
+define('_MD_OFFLINE','Отключен');
+define('_MD_FLAT', 'Плоский');
 
 
 // online.php
-define('_MD_USERS_ONLINE', 'Users Online:');
-define('_MD_ANONYMOUS_USERS', 'Anonymous Users');
-define('_MD_REGISTERED_USERS', 'Registered Users: ');
-define('_MD_BROWSING_FORUM','Users browsing forum');
-define('_MD_TOTAL_ONLINE','Total %d Users Online.');
-define('_MD_ADMINISTRATOR','Administrator');
+define('_MD_USERS_ONLINE', 'На связи:');
+define('_MD_ANONYMOUS_USERS', 'гостей');
+define('_MD_REGISTERED_USERS', 'участников: ');
+define('_MD_BROWSING_FORUM','пользователей просматривают форум');
+define('_MD_TOTAL_ONLINE','Всего на связи %d пользователей.');
+define('_MD_ADMINISTRATOR','Администратор');
 
-define('_MD_NO_SUCH_FILE','File not exist!');
-define('_MD_ERROR_UPATEATTACHMENT','Error occur when updating attachment');
+define('_MD_NO_SUCH_FILE','Файл не существует!');
+define('_MD_ERROR_UPATEATTACHMENT','Ошибка во время обновления вложения');
 
 // ratethread.php
 define("_MD_CANTVOTEOWN", "You cannot vote on the topic you submitted.<br />All votes are logged and reviewed.");
@@ -439,10 +439,10 @@ define("_MD_SPLIT_ONE","Split");
 define("_MD_SPLIT_TREE","Split all children");
 define("_MD_SPLIT_ALL","Split all");
 
-define("_MD_TYPE_ADMIN","Admin");
+define("_MD_TYPE_ADMIN","Администрирование");
 define("_MD_TYPE_VIEW","View");
-define("_MD_TYPE_PENDING","Pending");
-define("_MD_TYPE_DELETED","Deleted");
+define("_MD_TYPE_PENDING","В ожидании");
+define("_MD_TYPE_DELETED","Удалено");
 define("_MD_TYPE_SUSPEND","Suspension");
 
 define("_MD_DBUPDATED", "Database Updated Successfully!");
