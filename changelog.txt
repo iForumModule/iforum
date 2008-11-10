@@ -24,6 +24,8 @@ Changelog 1.0 RC2
 15 added: smarty modulename (in blocks)
 16 issues with RTL
 17 Bugfix: if no editor is allowed, the form will disappear
+18 Bugfix: with FCKEDITOR paths
+19 Bugfix: xoopseditor path changed to editors
 
 Changelog 1.0 RC
 Nov 6th, 2008 

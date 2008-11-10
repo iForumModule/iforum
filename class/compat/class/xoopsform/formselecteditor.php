@@ -13,7 +13,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
 
-require_once XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php";
+require_once XOOPS_ROOT_PATH."/class/xoopseditor.php";
 
 /**
  * A select box with available editors

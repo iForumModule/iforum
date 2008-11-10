@@ -16,5 +16,5 @@ if(defined("NEWBB_DISABLE_UPLOAD") && constant("NEWBB_DISABLE_UPLOAD")){
 	define("FCKUPLOAD_DISABLED", 1);
 }
 define("XOOPS_FCK_FOLDER", $xoopsModule->getVar("dirname"));
-include XOOPS_ROOT_PATH."/class/xoopseditor/FCKeditor/editor/filemanager/upload/php/upload.php";
+include XOOPS_ROOT_PATH."/editors/FCKeditor/editor/filemanager/upload/php/upload.php";
 ?>

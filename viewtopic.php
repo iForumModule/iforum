@@ -576,8 +576,8 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 	$editor_configs["rows"] = 10;
 	$editor_configs["cols"] = 60;
 	if(!$editor_handler =& xoops_gethandler("editor", true)){
-		if(!@include_once XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php") {
-			require_once XOOPS_ROOT_PATH."/Frameworks/xoops22/class/xoopseditor/xoopseditor.php";
+		if(!@include_once XOOPS_ROOT_PATH."/class/xoopseditor.php") {
+			require_once XOOPS_ROOT_PATH."/modules/".basename( dirname( __FILE__ ) )."/class/compat/xoopseditor/xoopseditor.php";
 		}
 		$editor_handler =& new XoopsEditorHandler();
 	}
