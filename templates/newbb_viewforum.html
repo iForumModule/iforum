@@ -1,13 +1,13 @@
 <div id="forum_header">
-<div><{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/index.php"><{$forum_index_title}></a>
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a>
 -
-<a href="<{$modules_url}>/<{$icms_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
 </div>
 <{if $parentforum}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$parentforum.id}>"><{$parentforum.name}></a></div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parentforum.id}>"><{$parentforum.name}></a></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <{else}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> <{$forum_topictype}></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> <{$forum_topictype}></div>
 <{/if}>
 </div>
 <div class="clear"></div>
@@ -29,7 +29,7 @@
   <{foreach item=sforum from=$subforum}>
   <tr>
     <td class="even" align="center" valign="middle"><{$sforum.forum_folder}></td>
-    <td class="odd" onclick="window.location='<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>'"><a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>"><strong><{$sforum.forum_name}></strong></a><br />
+    <td class="odd" onclick="window.location='<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>'"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>"><strong><{$sforum.forum_name}></strong></a><br />
 		<{$sforum.forum_desc}>
 		<{if $sforum.forum_moderators}><br/>
       	<strong><{$smarty.const._MD_MODERATOR}>:&nbsp;</strong><{$sforum.forum_moderators}>
@@ -73,12 +73,12 @@
 </select>  
 <input type="hidden" name="forum_id" value="<{$forum_id}>" />
 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> 
 <{elseif $mode eq 1}>
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/moderate.php?forum=<{$forum_id}>" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/moderate.php?forum=<{$forum_id}>" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
 <{/if}>
 </div>
 <{else}>
@@ -294,7 +294,7 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$modules_url}>/<{$icms_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form><br />
 <{$forum_jumpbox}>
 </div>
@@ -313,13 +313,13 @@
 <div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 	<{if $viewer_level gt 1}>
 		<{if $mode gt 0}>
-		<a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
+		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
 		<{else}>
-		<a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=1" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>&amp;mode=1" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 		<{/if}> 
 	<{/if}>
 	<{if $rss_button}>
-	<a href="<{$modules_url}>/<{$icms_dirname}>/rss.php?f=<{$forum_id}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum_id}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
 	<{/if}>
 </div>
 <{/if}>

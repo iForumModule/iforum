@@ -1,16 +1,16 @@
 
 <div id="forum_header">
-<div><{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/index.php"><{$lang_forum_index}></a> 
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a> 
 -
-<a href="<{$modules_url}>/<{$icms_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
 </div>
 
 <{if $parent_forum}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <div>&nbsp;&nbsp; <{$post_content}> <strong><{$topic_title}></strong></div>
 <{else}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
 <div>&nbsp;&nbsp;<{$post_content}> <strong><{$topic_title}></strong></div>
 <{/if}>
 </div>
@@ -304,7 +304,7 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$modules_url}>/<{$icms_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form><br />
 <{$forum_jumpbox}>
 </div>

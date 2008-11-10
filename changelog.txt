@@ -22,9 +22,8 @@ Changelog 1.0 RC2
 13 Bugfix: PDF issues
 14 Improved: &newbb_displayTarea (to use icms purifier)
 15 added: smarty modulename (in blocks)
-16 used icms smarty values
-17 issues with RTL
-18 Bugfix: if no editor is allowed, the form will disappear
+16 issues with RTL
+17 Bugfix: if no editor is allowed, the form will disappear
 
 Changelog 1.0 RC
 Nov 6th, 2008 

@@ -1,6 +1,6 @@
 
 <div id="forum_header">
-<div><{$folder_topic}> <a href="<{$modules_url}>/<{$icms_dirname}>/index.php"><{$forum_index_title}></a></div>
+<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a></div>
 <div>&nbsp;&nbsp;<{$folder_topic}><a href="<{$current_link}>"><{$current_type}></a></div>
 </div>
 
@@ -27,15 +27,15 @@
 </select>  
 <input type="hidden" name="forum_id" value="<{$forum_id}>" />
 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 <{elseif $mode eq 1}>
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewall.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewall.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
-<a href="<{$modules_url}>/<{$icms_dirname}>/moderate.php" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewall.php?mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/moderate.php" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
 <{else}>
-<a href="<{$modules_url}>/<{$icms_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 <{/if}>
 </div>
 <br />
@@ -205,7 +205,7 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$modules_url}>/<{$icms_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form><br />
 <{$forum_jumpbox}>
 </div>
