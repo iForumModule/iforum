@@ -183,7 +183,7 @@ class XoopsLocalPortuguesebr
 	// Method 2: echo XoopsLocal::hello("Some greeting words");
 	function hello($text)
 	{
-		$ret = "<div>Hello, ".$text."</div>";
+		$ret = "<div>Olá, ".$text."</div>";
 		return $ret;
 	}
 }

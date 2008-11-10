@@ -530,7 +530,7 @@ define('_PDF_DATE','Data');
 
 //define("_MD_NEWBB_TYPE", "Tipo de Tópico");
 //define("_MD_NEWBB_TAG", "Tag");
-define('_MD_UP','Top');
-define('_MD_POSTTIME','Date');
+define('_MD_UP','Topo'); 
+define('_MD_POSTTIME','Data');
 
 ?>
