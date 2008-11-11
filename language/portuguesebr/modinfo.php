@@ -184,8 +184,8 @@ define("_MI_POST_TIMELIMIT_DESC", "Permite ajustar um tempo máximo, em segundos
 define("_MI_RECORDEDIT_TIMELIMIT", "Ativar limite de tempo para informação de edição");
 define("_MI_RECORDEDIT_TIMELIMIT_DESC", "Permite ajustar um tempo máximo, em segundos, para não incluir informação sobre edição da mensagem");
 
-define("_MI_SHOW_REALNAME", "Exibir nome completo");
-define("_MI_SHOW_REALNAME_DESC", "Use nome completo nas mensagens, em vez do nome do usuário.");
+define("_MI_SUBJECT_PREFIX", "Incluir um Prefixo para o Assunto do Tópico");
+define("_MI_SUBJECT_PREFIX_DESC", "Escolha um Prefixo se for necessário, conforme ex: [resolvido] no início do Assunto. Usar ',' como delimitador para multi-opções, só para não deixar NENHUM no Prefixo.");
 define("_MI_SUBJECT_PREFIX_DEFAULT", '<font color="#00CC00">[Resolvido]</font>,<font color="#00CC00">[Corrigido]</font>,<font color="#FF0000">[Solicitação]</font>,<font color="#FF0000">[Relato de Erro]</font>,<font color="#FF0000">[Não resolvido]</font>');
 
 define("_MI_SUBJECT_PREFIX_LEVEL", "Nível de grupos que podem usar Prefixo");
