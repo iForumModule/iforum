@@ -29,7 +29,7 @@
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
 
-error_reporting(0);
+error_reporting(1);
 include 'header.php';
 
 $forum = isset($_GET['forum']) ? intval($_GET['forum']) : 0;
@@ -88,7 +88,7 @@ $pdf_data['author'] = $post_data['author'];
 $content = '<b><i><u>'._PDF_SUBJECT.': '.$pdf_data['title'].'</u></i></b><br /><b>
 '._PDF_TOPIC.': '.$pdf_data['subsubtitle'].'</b><br />
 '._POSTEDBY.': '.$pdf_data['author'].'<br />
-'._PDF_DATE.': '.formatTimestamp($pdf_data['date'],$dateformat).'<br /><br /><br />'.$pdf_data['content'].'<br />';
+'._PDF_DATE.': '.formatTimestamp($pdf_data['date'],'m').'<br /><br /><br />'.$pdf_data['content'].'<br />';
 $doc_title = $pdf_data['subtitle'];
 $doc_keywords = 'ICMS';
 $contents = Generate_PDF ($content, $doc_title, $doc_keywords);
