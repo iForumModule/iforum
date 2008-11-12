@@ -29,7 +29,7 @@
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
 
-error_reporting(1);
+error_reporting(0);
 include 'header.php';
 
 $forum = isset($_GET['forum']) ? intval($_GET['forum']) : 0;
