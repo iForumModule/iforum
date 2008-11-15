@@ -26,6 +26,7 @@ Changelog 1.0 RC2
 17 Bugfix: if no editor is allowed, the form will disappear
 18 Bugfix: with FCKEDITOR paths
 19 Bugfix: xoopseditor path changed to editors
+19 Bugfix: need for xoops_local
 
 Changelog 1.0 RC
 Nov 6th, 2008 
