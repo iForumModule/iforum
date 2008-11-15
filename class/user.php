@@ -234,7 +234,7 @@ class User extends XoopsObject
 		$userinfo["link"] = "<a href=\"".XOOPS_URL . "/userinfo.php?uid=" . $user->getVar("uid") ."\">".$name."</a>";
 		$userinfo["avatar"] = $user->getVar('user_avatar');
 		$userinfo["from"] = $user->getVar('user_from');
-		$userinfo["regdate"] = newbb_formatTimestamp($user->getVar('user_regdate'), 'reg');
+		$userinfo["regdate"] = formatTimestamp($user->getVar('user_regdate'), 'c');
 		$userinfo["posts"] = $user->getVar('posts');
 		$userinfo["groups_id"] = $user -> getGroups();
 		if(!empty($xoopsModuleConfig['user_level'])){

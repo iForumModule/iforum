@@ -284,7 +284,7 @@ class NewbbTopicHandler extends ArtObjectHandler
     {
         global $xoopsConfig, $xoopsModuleConfig, $viewtopic_users, $myts;
 
-        $postArray['post_time'] = newbb_formatTimestamp($postArray['post_time']);
+        $postArray['post_time'] = formatTimestamp($postArray['post_time']);
 
         if (!empty($postArray['icon'])){
             $postArray['icon'] = '<img src="' . XOOPS_URL . "/images/subject/" . htmlspecialchars($postArray['icon']) . '" alt="" />';

@@ -93,7 +93,7 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 	// There is a "bug" with xoops function formatTimestamp(time(), 'rss')
 	// We have to make a customized function
 	//$rss->channel_lastbuild = formatTimestamp(time(), 'rss');
-	$rss->setVarRss('channel_lastbuild', newbb_formatTimestamp(time(), 'rss'));
+	$rss->setVarRss('channel_lastbuild', formatTimestamp(time(), 'rss'));
 	$rss->channel_webmaster = $xoopsConfig['adminmail'];
 	$rss->channel_editor = $xoopsConfig['adminmail'];
 	$rss->setVarRss('channel_category', $xoopsModule->getVar('name'));
@@ -178,7 +178,7 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 			$description  .= $topic['topic_subject']." ".$topic['topic_title']."<br />\n";
 			$description  .= $myts->displayTarea($topic['post_text'], $topic['dohtml'], $topic['dosmiley'], $topic['doxcode']);
 			$label = _MD_BY." ".$topic['uname'];
-			$time = newbb_formatTimestamp($topic['post_time'], "rss");
+			$time = formatTimestamp($topic['post_time'], "rss");
 	        $link = XOOPS_URL . "/modules/" . $xoopsModule->dirname() . '/viewtopic.php?topic_id=' . $topic['topic_id'] . '&amp;forum=' . $topic['forum_id'];
 			$title = $topic['subject'];
 	     	if(!$rss->addItem($title, $link, $description, $label, $time)) break;

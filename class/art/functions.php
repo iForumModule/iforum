@@ -16,7 +16,6 @@ define("FRAMEWORKS_ART_FUNCTIONS", true);
 defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once (dirname(__FILE__)."/functions.ini.php");
 load_functions("cache");
 load_functions("user");
-load_functions("locale");
 load_functions("admin");
 
 

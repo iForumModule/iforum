@@ -14,7 +14,9 @@
   	<{if $topic_post.poster.uid != 0}>
   	<div class="comUserRankText"><{$topic_post.poster.rank.title}><br /><{$topic_post.poster.rank.image}></div>
   	<{if $topic_post.poster.avatar}>
-  	<img class="comUserImg" src="<{$xoops_upload_url}>/<{$topic_post.poster.avatar}>" alt="" />
+	<div class="comUserImg">
+		<img src="<{$xoops_upload_url}>/<{$topic_post.poster.avatar}>" alt="" />
+	</div>
   	<{/if}>
   	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span><br /><{$topic_post.poster.regdate}></div>
   	<{if $topic_post.poster.from}>

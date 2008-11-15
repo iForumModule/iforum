@@ -5,7 +5,7 @@
 // Module Info
 
 // The name of this module
-define("_MI_NEWBB_NAME","انجمن‌ها (CBB)");
+define("_MI_NEWBB_NAME","انجمن‌ها");
 
 // A brief description of this module
 define("_MI_NEWBB_DESC","ماژول انجمن‌های برنامه مدیریت محتوای زوپس");
@@ -302,6 +302,6 @@ define("_MI_NEWBB_INSTALL_POST_SUBJECT", "انجمن با موفقیت کار م
 define("_MI_NEWBB_INSTALL_POST_TEXT", "
 	به انجمن‌های سایت ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." خوش آمدید.<br />
 	میتوانید ثبت نام کرده و سپس مبادرت به ارسال پیام کنید.<br /><br />
-	اگر هر سوالی راجع به استفاده از CBB دارید, لطفا سایت پشتیبانی را بازدید کنید <a href=\"http://farsixoops.com/modules/newbb/\" target=\"_blank\" title=\"CBB @ farsixoops\">ماژول انجمن ها</a>.
+	اگر هر سوالی راجع به استفاده از انجمن‌ها دارید، لطفاً سایت پشتیبانی را بازدید کنید <a href=\"http://www.impresscms.ir/modules/newbb/\" target=\"_blank\" title=\"سایت رسمی پشتیبانی ایمپرسی سی‌ام‌اس فارسی\">ماژول انجمن‌ها</a>.
 	");
 ?>

@@ -274,7 +274,7 @@ define('_MD_ALLOWEDHTML','HTML مجاز است:');
 define('_MD_OPTIONS','انتخاب‌ها');
 define('_MD_POSTANONLY','ارسال پاسخ به عنوان کاربر مهمان');
 define('_MD_DOSMILEY','فعال کردن Smileys');
-define('_MD_DOXCODE','فعال کردن کد‌های Xoops');
+define('_MD_DOXCODE','فعال کردن کد‌های سیستم');
 define('_MD_DOBR','فعال کردن شکستن خود به خود خط‌ها (پیشنهاد میشود که در حالتی که HTML مجاز است این گزینه را غیر فعال کنید)');
 define('_MD_DOHTML','استفاده از تگ‌های HTML');
 define('_MD_NEWPOSTNOTIFY', 'من را از پیام‌های جدید این انجمن با خبر کن');

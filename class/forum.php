@@ -425,8 +425,8 @@ class NewbbForumHandler extends ArtObjectHandler
                 'topic_poster_uid' => $myrow['topic_poster'],
                 'topic_poster_name' => $myts->htmlSpecialChars( ($myrow['poster_name'])?$myrow['poster_name']:$xoopsConfig['anonymous']),
                 'topic_views' => $myrow['topic_views'],
-                'topic_time' => newbb_formatTimestamp($myrow['topic_time']),
-                'topic_last_posttime' => newbb_formatTimestamp($myrow['last_post_time']),
+                'topic_time' => formatTimestamp($myrow['topic_time']),
+                'topic_last_posttime' => formatTimestamp($myrow['last_post_time']),
                 'topic_last_poster_uid' => $myrow['uid'],
                 'topic_last_poster_name' => $myts->htmlSpecialChars( ($myrow['last_poster_name'])?$myrow['last_poster_name']:$xoopsConfig['anonymous']),
                 'topic_forum_link' => $forum_link,
@@ -790,7 +790,7 @@ class NewbbForumHandler extends ArtObjectHandler
 				$_forum_data["forum_lastpost_user"] = $myts->htmlSpecialChars($GLOBALS["xoopsConfig"]["anonymous"]);
 			}
 			
-		    $_forum_data['forum_lastpost_time'] = newbb_formatTimestamp($post_obj->getVar('post_time'));
+		    $_forum_data['forum_lastpost_time'] = formatTimestamp($post_obj->getVar('post_time'));
 		    $_forum_data['forum_lastpost_icon'] = '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '">'.
 		            '<img src="' . XOOPS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'.
 		        	'</a>';

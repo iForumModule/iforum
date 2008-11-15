@@ -448,7 +448,7 @@ class Post extends ArtObject {
         $post = array(
 	    			'post_id' => $post_id,
 	                'post_parent_id' => $this->getVar('pid'),
-	                'post_date' => newbb_formatTimestamp($this->getVar('post_time')),
+	                'post_date' => formatTimestamp($this->getVar('post_time')),
 	                'post_image' => $post_image,
 	                'post_title' => $post_title,
 	                'post_text' => $post_text,

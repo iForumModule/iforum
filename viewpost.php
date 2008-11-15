@@ -328,7 +328,7 @@ foreach(array_keys($posts) as $id){
     			'post_id' 		=> $post->getVar('post_id'),
     			'topic_id' 		=> $post->getVar('topic_id'),
     			'forum_id' 		=> $post->getVar('forum_id'),
-                'post_date' 	=> newbb_formatTimestamp($post->getVar('post_time')),
+                'post_date' 	=> formatTimestamp($post->getVar('post_time')),
                 'post_image' 	=> $post_image,
                 'post_title' 	=> $post_title,
                 'post_text' 	=> $post_text,

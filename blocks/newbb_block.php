@@ -144,7 +144,7 @@ function b_newbb_show($options)
         $topic['title'] = $title;
         $topic['replies'] = $arr['topic_replies'];
         $topic['views'] = $arr['topic_views'];
-        $topic['time'] = newbb_formatTimestamp($arr['post_time']);
+        $topic['time'] = formatTimestamp($arr['post_time']);
         if (!empty($author_name[$arr['uid']])) {
         	$topic_poster = $author_name[$arr['uid']];
         } else {
@@ -279,7 +279,7 @@ function b_newbb_topic_show($options)
         $topic['title'] = $title;
         $topic['replies'] = $arr['topic_replies'];
         $topic['views'] = $arr['topic_views'];
-        $topic['time'] = newbb_formatTimestamp($arr['topic_time']);
+        $topic['time'] = formatTimestamp($arr['topic_time']);
         if (!empty($author_name[$arr['topic_poster']])) {
         	$topic_poster = $author_name[$arr['topic_poster']];
         } else {
@@ -402,7 +402,7 @@ function b_newbb_post_show($options)
         }
         $topic['title'] = $title;
         $topic['post_id'] = $arr['post_id'];
-        $topic['time'] = newbb_formatTimestamp($arr['post_time']);
+        $topic['time'] = formatTimestamp($arr['post_time']);
         if (!empty($author_name[$arr['uid']])) {
         	$topic_poster = $author_name[$arr['uid']];
         } else {
