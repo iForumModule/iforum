@@ -504,6 +504,8 @@ class User_language extends User
 define('_PDF_SUBJECT','Assunto'); 
 define('_PDF_TOPIC','Tópico'); 
 define('_PDF_DATE','Data'); 
+define('_MD_UP','Topo');
+define('_MD_POSTTIME','Data');
 
 //define("_MD_DIGESTS", "Resumo"); //Mantido até saber se não iremos aproveitar...GibaPhp
 //define('_MD_USER_LASTPOST', 'Último mensagem: %s');
@@ -530,7 +532,4 @@ define('_PDF_DATE','Data');
 
 //define("_MD_NEWBB_TYPE", "Tipo de Tópico");
 //define("_MD_NEWBB_TAG", "Tag");
-define('_MD_UP','Topo'); 
-define('_MD_POSTTIME','Data');
-
 ?>
