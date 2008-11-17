@@ -289,7 +289,7 @@ define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Получить весь т�
 define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение (весь текст)');
 
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFY', 'Дайджест');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Оповестить мня о получении дайджеста.');
+define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Оповестить меня о получении дайджеста.');
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Получить извещение о дайджесте.');
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : получен дайджест');
 
