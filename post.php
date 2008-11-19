@@ -51,9 +51,9 @@ if ( empty($forum) ) {
     exit();
 }
 
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
-$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
+$post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 
 if ( !empty($isedit) && $post_id>0 ) {
     $forumpost =& $post_handler->get($post_id);
@@ -70,7 +70,7 @@ if (!$forum_handler->getPermission($forum_obj)){
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
+	$online_handler =& icms_getmodulehandler('online', basename( dirname( __FILE__ ) ), 'iforum' );
 	$online_handler->init($forum_obj);
 }
 

@@ -42,9 +42,9 @@ foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'act') as $getint
 $viewmode = (isset($_GET['viewmode']) && $_GET['viewmode'] != 'flat') ? 'thread' : 'flat';
 $viewmode = ($viewmode)?$viewmode: (isset($_POST['viewmode'])?$_POST['viewmode'] : 'flat');
 
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
-$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
+$post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 
 if ( !empty($post_id) ) {
     $topic =& $topic_handler->getByPost($post_id);
@@ -83,7 +83,7 @@ if (!$isadmin && !$forumpost->checkTimelimit('delete_timelimit')){
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
+	$online_handler =& icms_getmodulehandler('online', basename( dirname( __FILE__ ) ), 'iforum' );
 	$online_handler->init($forum_obj);
 }
 

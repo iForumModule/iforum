@@ -41,7 +41,7 @@ if (isset($_POST['default'])) $op = 'default';
 if (isset($_GET['forum'])) $forum = $_GET['forum'];
 if (isset($_POST['forum'])) $forum = $_POST['forum'];
 
-$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 /**
  * newForum()
  *
@@ -63,7 +63,7 @@ function editForum($ff, $parent_forum = 0)
 {
     global $myts, $xoopsDB, $xoopsModule, $forum_handler;
 
-    //$forum_handler = &xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+    //$forum_handler = &icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
     if (!is_object($ff)) {
         $ff =& $forum_handler->create();
         $new = true;
@@ -214,7 +214,7 @@ switch ($op) {
 	        $box = '<select name="dest">';
             $box .= '<option value=0 selected>' . _AM_NEWBB_SELECT . '</option>';
 	
-			$category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+			$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		    $categories = $category_handler->getAllCats('', true);
 		    $forums = $forum_handler->getForumsByCategory(array_keys($categories), '', false);
 		
@@ -281,7 +281,7 @@ switch ($op) {
 	        $box = '<select name="dest_forum">';
             $box .= '<option value=0 selected>' . _AM_NEWBB_SELECT . '</option>';
 	
-			//$category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+			//$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		    $forums = $forum_handler->getForumsByCategory(0, '', false);
 		
 			if(count($forums)>0){
@@ -315,7 +315,7 @@ switch ($op) {
         if (isset($_POST['submit'])) {
 			newbb_synchronization();
 			/*
-			$topic_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
+			$topic_handler =& icms_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 			$topic_handler->synchronization();
 			*/
             redirect_header("./index.php", 1, _AM_NEWBB_SYNCHING);
@@ -366,7 +366,7 @@ switch ($op) {
         $ff->setVar('hot_threshold', $_POST['hot_threshold']);
         if ($forum_handler->insert($ff)) {
 	        if(!empty($_POST["perm_template"])){
-			    $groupperm_handler = &xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
+			    $groupperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 			    $perm_template = $groupperm_handler->getTemplate();
 				//$groupperm_handler =& xoops_gethandler('groupperm');
 			    $member_handler =& xoops_gethandler('member');
@@ -434,7 +434,7 @@ switch ($op) {
         $echo .= "<td class='bg3'>" . _AM_NEWBB_MERGE . "</td>";
         $echo .= "</tr>";
 
-		$category_handler = &xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$category_handler = &icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
     	$categories = $category_handler->getAllCats('', true);
 		$forums = $forum_handler->getForumsByCategory(array_keys($categories), '', false);
 		foreach (array_keys($categories) as $c) {

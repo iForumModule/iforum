@@ -40,7 +40,7 @@ function newbb_welcome_create( &$user, $forum_id )
 		return false;
 	}
 	
-	$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
+	$post_handler =& icms_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	$forumpost =& $post_handler->create();
     $forumpost->setVar('poster_ip', newbb_getIP());
     $forumpost->setVar('uid', $user->getVar("uid"));
@@ -67,16 +67,16 @@ function newbb_welcome_create( &$user, $forum_id )
 	if(!defined("_PROFILE_MA_ALLABOUT")) {
 		$mod->loadLanguage();
 	}
-	$groupperm_handler =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
+	$groupperm_handler =& icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	$show_ids = $groupperm_handler->getItemIds('profile_show', $groups, $mod->getVar('mid'));
 	$visible_ids = $groupperm_handler->getItemIds('profile_visible', $groups, $mod->getVar('mid'));
 	unset($mod);
 	$fieldids = array_intersect($show_ids, $visible_ids);
 	$profile_handler =& xoops_gethandler('profile');
 	$fields = $profile_handler->loadFields();
-	$cat_handler =& xoops_getmodulehandler('category', 'profile');
+	$cat_handler =& icms_getmodulehandler('category', 'profile');
 	$categories = $cat_handler->getObjects(null, true, false);
-	$fieldcat_handler =& xoops_getmodulehandler('fieldcategory', 'profile');
+	$fieldcat_handler =& icms_getmodulehandler('fieldcategory', 'profile');
 	$fieldcats = $fieldcat_handler->getObjects(null, true, false);
 	
 	// Add core fields

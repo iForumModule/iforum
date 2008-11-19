@@ -117,7 +117,7 @@ switch ($op) {
         break;
 
     case "senddigest":
-        $digest_handler = &xoops_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ));
+        $digest_handler = &icms_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         $res = $digest_handler->process(true);
         $msg = ($res)?_AM_NEWBB_DIGEST_FAILED:_AM_NEWBB_DIGEST_SENT;
         redirect_header('index.php', 2, $msg);
@@ -194,7 +194,7 @@ switch ($op) {
         echo _AM_NEWBB_TOTALVIEWS . " <strong>" . get_total_views() . "</strong></div>";
         echo "</fieldset><br />";
 
-        $report_handler = &xoops_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ));
+        $report_handler = &icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_REPORT . "</legend>";
         echo "<div style='padding: 12px;'><a href='admin_report.php'>" . _AM_NEWBB_REPORT_PENDING . "</a> <strong>" . $report_handler->getCount(new Criteria("report_result", 0)) . "</strong> | ";
         echo _AM_NEWBB_REPORT_PROCESSED . " <strong>" . $report_handler->getCount(new Criteria("report_result", 1)) . "</strong>";
@@ -202,7 +202,7 @@ switch ($op) {
         echo "</fieldset><br />";
 
         if ($xoopsModuleConfig['email_digest'] > 0) {
-            $digest_handler = &xoops_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ));
+            $digest_handler = &icms_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_DIGEST . "</legend>";
             $due = ($digest_handler->checkStatus()) / 60; // minutes
             $prompt = ($due > 0)? sprintf(_AM_NEWBB_DIGEST_PAST, $due):sprintf(_AM_NEWBB_DIGEST_NEXT, abs($due));
@@ -218,7 +218,7 @@ switch ($op) {
          * Not good but works
          */
 		if (!empty($xoopsModuleConfig['enable_usermoderate'])){
-			$moderate_handler =& xoops_getmodulehandler('moderate', basename(  dirname(  dirname( __FILE__ ) ) ));
+			$moderate_handler =& icms_getmodulehandler('moderate', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 			$moderate_handler->clearGarbage();
 		}
          

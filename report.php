@@ -53,14 +53,14 @@ if ( empty($forum) ) {
 }
 
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
+	$online_handler =& icms_getmodulehandler('online', basename( dirname( __FILE__ ) ), 'iforum' );
 	$online_handler->init($forum);
 }
 
 $myts =& MyTextSanitizer::getInstance();
 
 if ( isset($_POST['submit']) ) {
-	$report_handler =& xoops_getmodulehandler('report', basename( dirname( __FILE__ ) ));
+	$report_handler =& icms_getmodulehandler('report', basename( dirname( __FILE__ ) ), 'iforum' );
 	$report =& $report_handler->create();
 	$report->setVar('report_text', $_POST['report_text']);
 	$report->setVar('post_id', $post_id);
@@ -106,7 +106,7 @@ if ( isset($_POST['submit']) ) {
 
 	$report_form->display();
 
-    $post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+    $post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
     $forumpost =& $post_handler->get($post_id);
     $r_subject=$forumpost->getVar('subject', "E");
     if( $xoopsModuleConfig['enable_karma'] && $forumpost->getVar('post_karma') > 0 ) {

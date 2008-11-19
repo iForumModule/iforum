@@ -65,7 +65,7 @@ class IforumPermissionHandler extends XoopsGroupPermHandler
 	    $uid = is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0;
 		$ip = newbb_getIP(true);
 		if (($type == "forum") && !newbb_isAdmin($id) && !isset($suspension[$uid][$id]) && !empty($GLOBALS["xoopsModuleConfig"]['enable_usermoderate'])){
-			$moderate_handler =& xoops_getmodulehandler('moderate', basename(  dirname(  dirname( __FILE__ ) ) ));
+			$moderate_handler =& icms_getmodulehandler('moderate', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 			if($moderate_handler->verifyUser($uid,"",$id)){
 				$suspension[$uid][$ip][$id] = 1;
 			}else{
@@ -310,13 +310,13 @@ class IforumPermissionHandler extends XoopsGroupPermHandler
     
     function &getTemplate()
     {
-		$perms = mod_loadCacheFile("perm_template", basename(  dirname(  dirname( __FILE__ ) ) ));
+		$perms = mod_loadCacheFile("perm_template", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		return $perms;
     }
     
     function setTemplate($perms)
     {
-		return mod_createCacheFile($perms, "perm_template", basename(  dirname(  dirname( __FILE__ ) ) ));
+		return mod_createCacheFile($perms, "perm_template", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
     }
 }
 

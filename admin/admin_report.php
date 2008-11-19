@@ -37,7 +37,7 @@ $op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"def
 $item = !empty($_GET['op'])? $_GET['item'] : (!empty($_POST['item'])?$_POST['item']:"process");
 
 $start = (isset($_GET['start']))?$_GET['start']:0;
-$report_handler =& xoops_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ));
+$report_handler =& icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 
 xoops_cp_header();
 switch($op){

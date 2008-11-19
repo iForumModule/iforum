@@ -58,10 +58,10 @@ if(!is_object($xoopspoll) || !$xoopspoll->getVar('isactive')){
 
 include XOOPS_ROOT_PATH."/header.php";
 
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 $forumtopic =& $topic_handler->get($topic_id);
 $forum = $forumtopic->getVar('forum_id');
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 $viewtopic_forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum)){
     redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);

@@ -49,7 +49,7 @@ if ( !empty($_POST['forum']) ) {
 	$forum = intval($_GET['forum']);
 }
 
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 $topic_obj =& $topic_handler->get($topic_id);
 if (!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "vote")){
     	redirect_header("javascript:history.go(-1);", 2, _NOPERM);

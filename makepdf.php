@@ -37,43 +37,43 @@ $topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) : 0;
 $post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) : 0;
 
 if (empty($post_id))  {
-    redirect_header(XOOPS_URL.'/modules/newbb/index.php',2,_MD_ERRORTOPIC);
+    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php',2,_MD_ERRORTOPIC);
     exit();
 }
 
 // Not exists
-$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 $post = & $post_handler->get($post_id);
 if ( empty($post) ) {
-    redirect_header(XOOPS_URL.'/modules/newbb/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
 // Not yet approved
-$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 $post = & $post_handler->get($post_id);
 if ( !$approved = $post->getVar('approved') ) {
-    redirect_header(XOOPS_URL.'/modules/newbb/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
 
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 $forumtopic =& $topic_handler->getByPost($post_id);
 $topic_id = $forumtopic->getVar('topic_id');
 if ( !$approved = $forumtopic->getVar('approved') ) {
-    redirect_header(XOOPS_URL.'/modules/newbb/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
 
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 $forum = ($forum)?$forum:$forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
 if ( !$forum_handler->getPermission($viewtopic_forum) ) {
-    redirect_header(XOOPS_URL.'/modules/newbb/index.php', 2, _MD_NORIGHTTOACCESS);
+    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOACCESS);
     exit();
 }
 
 if ( !$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view") ) {
-    redirect_header(XOOPS_URL.'/modules/newbb/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
 require_once XOOPS_ROOT_PATH.'/include/pdf.php';

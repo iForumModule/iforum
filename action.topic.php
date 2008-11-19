@@ -42,13 +42,13 @@ if ( empty($topic_id) || empty($op)) {
 }
 
 $topic_id = array_values($topic_id);
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 /*
 $topicid = is_array($topic_id)?$topic_id[0]:$topic_id;
 $forumtopic =& $topic_handler->get($topicid);
 $forum_id = $forumtopic->getVar('forum_id');
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 $viewtopic_forum =& $forum_handler->get($forum_id);
 */
 
@@ -140,14 +140,14 @@ switch($op){
 			&& $forum_handler->getPermission($_POST["newforum"], 'post')
 		){
         	$criteria = new Criteria('topic_id', "(".implode(",", $topic_id).")", "IN");
-			$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+			$post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
             $post_handler->updateAll("forum_id", intval($_POST["newforum"]), $criteria, true);
             $topic_handler->updateAll("forum_id", intval($_POST["newforum"]), $criteria, true);
             
 			$forum_handler->synchronization($_POST["newforum"]);
 			$forum_handler->synchronization($forum_id);
 		}else{
-			$category_handler =& xoops_getmodulehandler('category', basename( dirname( __FILE__ ) ));
+			$category_handler =& icms_getmodulehandler('category', basename( dirname( __FILE__ ) ), 'iforum' );
 		    $categories = $category_handler->getAllCats('access', true);
 		    $forums = $forum_handler->getForumsByCategory(array_keys($categories), 'post', false);
 		

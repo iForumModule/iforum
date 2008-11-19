@@ -73,7 +73,7 @@ function b_newbb_show($options)
     $newbbConfig = getConfigForBlock();
     			
     if(!isset($access_forums)){
-	    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	    $forum_handler =& icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
     	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
 	    	return null;
     	}
@@ -210,7 +210,7 @@ function b_newbb_topic_show($options)
 	$newbbConfig = getConfigForBlock();
 
     if(!isset($access_forums)){
-	    $forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	    $forum_handler =& icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
     	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
 	    	return null;
     	}
@@ -334,7 +334,7 @@ function b_newbb_post_show($options)
     $newbbConfig = getConfigForBlock();
 
     if(!isset($access_forums)){
-	    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+	    $forum_handler = &icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
     	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
 	    	return null;
     	}
@@ -472,7 +472,7 @@ function b_newbb_author_show($options)
     $newbbConfig = getConfigForBlock();
 
     if(!isset($access_forums)){
-	    $forum_handler = &xoops_getmodulehandler('forum', 'newbb');
+	    $forum_handler = &icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
     	if(!$access_obj =& $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) ){
 	    	return null;
     	}
@@ -573,7 +573,7 @@ function b_newbb_edit($options)
     $form .= ">"._ALL."</option>";
     $form .= newbb_forumSelectBox($options_forum);
     /*
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forum_handler =& icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
@@ -648,7 +648,7 @@ function b_newbb_topic_edit($options)
     $form .= ">"._ALL."</option>";
     $form .= newbb_forumSelectBox($options_forum);
 	/*    
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forum_handler =& icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
@@ -714,7 +714,7 @@ function b_newbb_post_edit($options)
     $form .= ">"._ALL."</option>";
     $form .= newbb_forumSelectBox($options_forum);
     /*
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forum_handler =& icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){
@@ -780,7 +780,7 @@ function b_newbb_author_edit($options)
     $form .= ">"._ALL."</option>";
     $form .= newbb_forumSelectBox($options_forum);
     /*
-	$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
+	$forum_handler =& icms_getmodulehandler('forum', basename( dirname( dirname( __FILE__ ) ) ), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	foreach (array_keys($forums) as $c) {
 		foreach(array_keys($forums[$c]) as $f){

@@ -39,8 +39,8 @@ $xoopsLogger->activated = false;
 	if(isset($_GET["f"])){
 		$forums = array_map("intval", array_map("trim", explode("|",$_GET["f"])));
 	}
-		$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
-		$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+		$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
+		$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 		$access_forums = $forum_handler->getForums(0,'access'); // get all accessible forums
 
 		$available_forums = array();
@@ -56,7 +56,7 @@ $xoopsLogger->activated = false;
 			    $valid_forums[] = $forum;
 		    }
 	    }elseif($category>0){
-			//$category_handler =& xoops_getmodulehandler('category', basename( dirname( __FILE__ ) ));
+			//$category_handler =& icms_getmodulehandler('category', basename( dirname( __FILE__ ) ), 'iforum' );
 			$_forums = $forum_handler->getForumsByCategory($category);
 			$forums = array_keys($_forums);
 			unset($_forums);
@@ -84,7 +84,7 @@ $compile_id = implode(",",$valid_forums);
 $xoopsCachedTemplateId = 'mod_'.$xoopsModule->getVar('dirname').'|'.md5(str_replace(XOOPS_URL, '', $GLOBALS['xoopsRequestUri']));
 if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) {
 
-	$xmlrss_handler =& xoops_getmodulehandler('xmlrss', basename( dirname( __FILE__ ) ));
+	$xmlrss_handler =& icms_getmodulehandler('xmlrss', basename( dirname( __FILE__ ) ), 'iforum' );
 	$rss = $xmlrss_handler->create();
 
 	$rss->setVarRss('channel_title', $xoopsConfig['sitename'].' :: '._MD_FORUM);

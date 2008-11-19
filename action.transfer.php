@@ -62,16 +62,16 @@ if ( empty($post_id) )  {
 	}
 }
 
-$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 $post = & $post_handler->get($post_id);
 if(!$approved = $post->getVar('approved'))    die(_NOPERM);
 
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 $forumtopic =& $topic_handler->getByPost($post_id);
 $topic_id = $forumtopic->getVar('topic_id');
 if(!$approved = $forumtopic->getVar('approved'))    die(_NOPERM);
 
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 $forum = ($forum)?$forum:$forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum))    die(_NOPERM);
@@ -81,7 +81,7 @@ if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_
 $op = empty($_POST["op"])?"":$_POST["op"];
 $op = strtolower(trim($op));
 
-$transfer_handler =& xoops_getmodulehandler("transfer", basename( dirname( __FILE__ ) ));
+$transfer_handler =& icms_getmodulehandler("transfer", basename( dirname( __FILE__ ) ), 'iforum' );
 $op_options	=& $transfer_handler->getList();
 
 // Display option form

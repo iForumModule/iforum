@@ -38,14 +38,14 @@ $post_id = isset($_GET['post_id']) ? intval($_GET['post_id']) : 0;
 
 if(!$post_id||!$attach_id) die(_MD_NO_SUCH_FILE.': post_id:'.$post_id.'; attachid'.$attachid);
 
-$post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+$post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 $forumpost =& $post_handler->get($post_id);
 if(!$approved = $forumpost->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 $forumtopic =& $topic_handler->getByPost($post_id);
 $topic_id = $forumtopic->getVar('topic_id');
 if(!$approved = $forumtopic->getVar('approved'))    die(_MD_NORIGHTTOVIEW);
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 $viewtopic_forum =& $forum_handler->get($forumtopic->getVar('forum_id'));
 if (!$forum_handler->getPermission($viewtopic_forum))    die(_MD_NORIGHTTOACCESS);
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))   die(_MD_NORIGHTTOVIEW);

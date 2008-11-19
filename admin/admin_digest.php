@@ -36,13 +36,13 @@ $op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"def
 $item = !empty($_GET['op'])? $_GET['item'] : (!empty($_POST['item'])?$_POST['item']:"process");
 
 $start = (isset($_GET['start']))?$_GET['start']:0;
-//$report_handler =& xoops_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ));
+//$report_handler =& icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 
 xoops_cp_header();
 switch($op){
 	case "delete":
 		$digest_ids = $_POST['digest_id'];
-		$digest_handler =& xoops_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$digest_handler =& icms_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		foreach($digest_ids as $did => $value){
 			$digest_handler->delete($did);
 		}
@@ -63,7 +63,7 @@ switch($op){
 		echo "<td class='bg3' width='2%'>"._DELETE."</td>";
 		echo "</tr>";
 
-		$digest_handler =& xoops_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$digest_handler =& icms_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$digests =& $digest_handler->getAllDigests($start, $limit);
 		foreach($digests as $digest){
 			echo "<tr class='odd' align='left'>";

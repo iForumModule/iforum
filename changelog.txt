@@ -28,6 +28,7 @@ Changelog 1.0 RC2
 19 Bugfix: xoopseditor path changed to editors
 20 Bugfix: need for xoops_local
 21 added: div class="comUserImg for avatars (Knallkopp_02)
+22 Finished Implementing easy-renaming
 
 Changelog 1.0 RC
 Nov 6th, 2008 

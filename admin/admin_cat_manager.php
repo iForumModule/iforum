@@ -34,7 +34,7 @@ xoops_cp_header();
 $op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"");
 $cat_id = intval( !empty($_GET['cat_id'])? $_GET['cat_id'] : (!empty($_POST['cat_id'])?$_POST['cat_id']:0) );
 
-$category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 
 /**
  * newCategory()
@@ -54,7 +54,7 @@ function newCategory()
  */
 function editCategory($cat_id = 0)
 {
-    $category_handler = &xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+    $category_handler = &icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
     if ($cat_id > 0) {
         $fc =& $category_handler->get($cat_id);
     } else {

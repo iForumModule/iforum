@@ -687,7 +687,7 @@ $modversion['config'][] = array(
 
 $forum_options = array(_NONE => 0);
 if( $isModuleAction && "update_ok" == $_POST["op"] ) {
-	$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ), true);
+	$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum', true);
 	$forums = $forum_handler->getForumsByCategory(0, '', false, array("parent_forum", "cat_id", "forum_name"));
 	if($forums):
 	foreach (array_keys($forums) as $c) {

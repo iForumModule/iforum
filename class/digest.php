@@ -164,7 +164,7 @@ class IforumDigestHandler extends XoopsObjectHandler {
         $sql = "SELECT * FROM " . $this->db->prefix('bb_digest') . " ORDER BY digest_id DESC";
         $result = $this->db->query($sql, $perpage, $start);
         $ret = array();
-        $report_handler = &xoops_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ));
+        $report_handler = &icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         while ($myrow = $this->db->fetchArray($result)) {
             $ret[] = $myrow; // return as array
         }
@@ -242,7 +242,7 @@ class IforumDigestHandler extends XoopsObjectHandler {
 
         if (!defined('SUMMARY_LENGTH')) define('SUMMARY_LENGTH', 100);
 
-        $forum_handler = &xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+        $forum_handler = &icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         $thisUser = $xoopsUser;
         $xoopsUser = null; // To get posts accessible by anonymous
         $access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums

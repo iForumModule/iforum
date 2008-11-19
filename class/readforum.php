@@ -77,7 +77,7 @@ class IforumReadforumHandler extends IforumReadHandler
 	    $cookie_name = "LF";
 		$items = array();
 		if(!empty($status)):
-		$item_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$item_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$items_id = $item_handler->getIds();
 		foreach($items_id as $key){
 			$items[$key] = time();
@@ -101,7 +101,7 @@ class IforumReadforumHandler extends IforumReadHandler
 		    return true;
 	    }
 
-		$item_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$item_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$items_obj =& $item_handler->getAll(null, array("forum_last_post_id"));
 		foreach(array_keys($items_obj) as $key){
 			$this->setRead_db($key, $items_obj[$key]->getVar("forum_last_post_id"), $uid);

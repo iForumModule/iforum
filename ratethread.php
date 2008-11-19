@@ -38,7 +38,7 @@ foreach(array("topic_id", "rate", "forum") as $var){
 	${$var} = isset($_POST[$var]) ? intval($_POST[$var]) : (isset($_GET[$var])?intval($_GET[$var]):0);
 }
 
-$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
+$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 $topic_obj =& $topic_handler->get($topic_id);
 if (!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "post")
 	&&
@@ -51,12 +51,12 @@ if (empty($rate)){
 	redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_NOVOTERATE);
     exit();
 }
-$rate_handler =& xoops_getmodulehandler("rate", $xoopsModule->getVar("dirname"));
+$rate_handler =& icms_getmodulehandler("rate", $xoopsModule->getVar("dirname"));
 if ($ratinguser != 0) {
 	// Check if Topic POSTER is voting (UNLESS Anonymous users allowed to post)
     $crit_post =& New CriteriaCompo(new Criteria("topic_id", $topic_id));
     $crit_post->add(new Criteria("post_uid", $ratinguser));
-    $post_handler =& xoops_getmodulehandler("post", $xoopsModule->getVar("dirname"));
+    $post_handler =& icms_getmodulehandler("post", $xoopsModule->getVar("dirname"));
     if($post_handler->getCount($crit_post)){
         redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_CANTVOTEOWN);
         exit();

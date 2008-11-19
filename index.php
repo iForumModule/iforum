@@ -46,7 +46,7 @@ if (isset($_GET['mark_read'])){
 }
 
 $viewcat = @intval($_GET['cat']);
-$category_handler =& xoops_getmodulehandler('category', basename( dirname( __FILE__ ) ));
+$category_handler =& icms_getmodulehandler('category', basename( dirname( __FILE__ ) ), 'iforum' );
 
 $categories = array();
 if (!$viewcat) {
@@ -82,7 +82,7 @@ $xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
 $xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 $xoopsTpl->assign('forum_index_title', $forum_index_title);
 if ($xoopsModuleConfig['wol_enabled']){
-	$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
+	$online_handler =& icms_getmodulehandler('online', basename( dirname( __FILE__ ) ), 'iforum' );
 	$online_handler->init();
     $xoopsTpl->assign('online', $online_handler->show_online());
 }
@@ -95,7 +95,7 @@ $xoopsTpl->assign(array(
 	"lang_lastvisit" => sprintf(_MD_LASTVISIT,formatTimestamp($last_visit)), 
 	"lang_currenttime" => sprintf(_MD_TIMENOW,formatTimestamp(time(),"m"))));
 
-$forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
+$forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 $forums_obj = $forum_handler->getForumsByCategory(array_keys($categories), "access");
 $forums_array = $forum_handler->display($forums_obj);
 unset($forums_obj);

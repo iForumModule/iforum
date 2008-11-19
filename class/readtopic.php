@@ -100,7 +100,7 @@ class IforumReadtopicHandler extends IforumReadHandler
 	    $cookie_name = "LT";
 	    $cookie_vars = newbb_getcookie($cookie_name, true);
 	    
-		$item_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$item_handler =& icms_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$criteria =& new CriteriaCompo(new Criteria("forum_id", $forum_id));
 		$criteria->setSort("topic_last_post_id");
 		$criteria->setOrder("DESC");
@@ -128,7 +128,7 @@ class IforumReadtopicHandler extends IforumReadHandler
 		    }
 	    }
 	    
-		$item_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$item_handler =& icms_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$criteria_topic =& new CriteriaCompo(new Criteria("forum_id", $forum_id));
 		$criteria_topic->setSort("topic_last_post_id");
 		$criteria_topic->setOrder("DESC");

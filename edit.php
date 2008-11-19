@@ -43,9 +43,9 @@ if ( empty($forum) ) {
     redirect_header("viewforum.php?forum=$forum", 2, _MD_ERRORPOST);
     exit();
 } else {
-    $forum_handler =& xoops_getmodulehandler('forum', basename( dirname( __FILE__ ) ));
-	$topic_handler =& xoops_getmodulehandler('topic', basename( dirname( __FILE__ ) ));
-    $post_handler =& xoops_getmodulehandler('post', basename( dirname( __FILE__ ) ));
+    $forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
+	$topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
+    $post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
     
 
     $forumpost =& $post_handler->get($post_id);
@@ -56,7 +56,7 @@ if ( empty($forum) ) {
 	}
 
 	if ($xoopsModuleConfig['wol_enabled']){
-		$online_handler =& xoops_getmodulehandler('online', basename( dirname( __FILE__ ) ));
+		$online_handler =& icms_getmodulehandler('online', basename( dirname( __FILE__ ) ), 'iforum' );
 		$online_handler->init($forum_obj);
 	}
 	$isadmin = newbb_isAdmin($forum_obj);

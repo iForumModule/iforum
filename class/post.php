@@ -237,7 +237,7 @@ class Post extends ArtObject {
         global $xoopsConfig, $xoopsModuleConfig, $xoopsUser, $myts;
 
         $uid = is_object($xoopsUser)? $xoopsUser->getVar('uid'):0;
-		$karma_handler =& xoops_getmodulehandler('karma', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$karma_handler =& icms_getmodulehandler('karma', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$user_karma = $karma_handler->getUserKarma();
 
 		$post=array();
@@ -360,7 +360,7 @@ class Post extends ArtObject {
         $thread_buttons = array();
         
 		if($GLOBALS["xoopsModuleConfig"]['enable_permcheck']){
-	        $topic_handler = &xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));
+	        $topic_handler = &icms_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	        if ($topic_handler->getPermission($forum_id, $topic_status, "edit")) {
 	            $edit_ok = false;
 	            if ($isadmin) {
@@ -528,7 +528,7 @@ class IforumPostHandler extends ArtObjectHandler
         }
         $post->setVar("approved", 1);
         $this->insert($post, true);
-    	$topic_handler =& xoops_getmodulehandler("topic", basename(  dirname(  dirname( __FILE__ ) ) ));
+    	$topic_handler =& icms_getmodulehandler("topic", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
     	$topic_obj =& $topic_handler->get($post->getVar("topic_id"));
     	if($topic_obj->getVar("topic_last_post_id") < $post->getVar("post_id")){
         	$topic_obj->setVar("topic_last_post_id", $post->getVar("post_id"));
@@ -539,7 +539,7 @@ class IforumPostHandler extends ArtObjectHandler
         	$topic_obj->setVar("topic_replies", $topic_obj->getVar("topic_replies")+1);
         }
         $topic_handler->insert($topic_obj, true);
-    	$forum_handler =& xoops_getmodulehandler("forum", basename(  dirname(  dirname( __FILE__ ) ) ));
+    	$forum_handler =& icms_getmodulehandler("forum", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
     	$forum_obj =& $forum_handler->get($post->getVar("forum_id"));
     	if($forum_obj->getVar("forum_last_post_id") < $post->getVar("post_id")){
         	$forum_obj->setVar("forum_last_post_id", $post->getVar("post_id"));
@@ -579,7 +579,7 @@ class IforumPostHandler extends ArtObjectHandler
     {
         global $xoopsUser, $xoopsConfig;
 
-        $topic_handler =& xoops_getmodulehandler("topic", basename(  dirname(  dirname( __FILE__ ) ) ));
+        $topic_handler =& icms_getmodulehandler("topic", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	    // Verify the topic ID
         if($topic_id = $post->getVar("topic_id")){
 	        $topic_obj =& $topic_handler->get($topic_id);
@@ -596,7 +596,7 @@ class IforumPostHandler extends ArtObjectHandler
 	        $post->setNew();
 	        $topic_obj =& $topic_handler->create();
         }
-        $text_handler =& xoops_getmodulehandler("text", basename(  dirname(  dirname( __FILE__ ) ) ));
+        $text_handler =& icms_getmodulehandler("text", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         $post_text_vars = array("post_text", "post_edit");
         if ($post->isNew()) {
             if (!$topic_id = $post->getVar("topic_id")) {
@@ -734,7 +734,7 @@ class IforumPostHandler extends ArtObjectHandler
         }
 
         if ($post->isTopic()) {
-			$topic_handler =& xoops_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ));			
+			$topic_handler =& icms_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );			
 			$topic_obj =& $topic_handler->get($post->getVar('topic_id'));
         	if(is_object($topic_obj) && $topic_obj->getVar("approved")>0 && empty($force)){
         		$topiccount_toupdate = 1;

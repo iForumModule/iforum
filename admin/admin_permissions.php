@@ -192,7 +192,7 @@ switch($action){
         $member_handler =& xoops_gethandler('member');
         $glist =& $member_handler->getGroupList();
         $elements = array();
-        $newbbperm_handler = &xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
+        $newbbperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         $perm_template = $newbbperm_handler->getTemplate($groupid = 0);
         foreach (array_keys($glist) as $i) {
             $selected = !empty($perm_template[$i]) ? array_keys($perm_template[$i]) : array();
@@ -232,7 +232,7 @@ switch($action){
         break;	
         
 	case "template_save":
-        $newbbperm_handler = &xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
+        $newbbperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         $res = $newbbperm_handler->setTemplate($_POST['perms'], $groupid = 0);
         if($res){
 	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE_CREATED);
@@ -242,7 +242,7 @@ switch($action){
 		break;
 		
 	case "apply":
-        $newbbperm_handler = &xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
+        $newbbperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	    $perm_template = $newbbperm_handler->getTemplate();
 		if($perm_template===null){
 	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE);
@@ -255,10 +255,10 @@ switch($action){
 		$opform->addElement($op_select);
 		$opform->display();
 		
-		$category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$categories = $category_handler->getAllCats("", true);
 		
-		$forum_handler = &xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$forum_handler = &icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$forums = $forum_handler->getForumsByCategory(0, '', false);
 		$fm_options = array();
 		foreach (array_keys($categories) as $c) {
@@ -286,7 +286,7 @@ switch($action){
 		
 	case "apply_save":
 		if(empty($_POST["forums"])) break;
-	    $newbbperm_handler =& xoops_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ));
+	    $newbbperm_handler =& icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		foreach($_POST["forums"] as $forum){
 			if($forum < 1) continue;
 			$newbbperm_handler->applyTemplate($forum, $module_id);
@@ -308,7 +308,7 @@ switch($action){
 		$opform->addElement($op_select);
 		$opform->display();
 		
-		$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$forum_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$forums = $forum_handler->getForumsByCategory(0, '', false);
 		$op_options = array("category"=>_AM_NEWBB_CAT_ACCESS);
 		$fm_options = array("category"=>array("title"=>_AM_NEWBB_CAT_ACCESS, "item"=>"category_access", "desc"=>"", "anonymous"=>true));
@@ -340,7 +340,7 @@ switch($action){
 		
 		$form = new newbb_XoopsGroupPermForm($fm_options[$op]["title"], $module_id, $fm_options[$op]["item"], $fm_options[$op]["desc"], 'admin/admin_permissions.php', $fm_options[$op]["anonymous"]);
 		
-		$category_handler =& xoops_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$categories = $category_handler->getAllCats("", true);
 		if($op=="category"){
 			foreach (array_keys($categories) as $c) {

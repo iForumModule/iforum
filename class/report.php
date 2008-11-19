@@ -104,7 +104,7 @@ class IforumReportHandler extends ArtObjectHandler
         $sql = "SELECT r.*, p.subject, p.topic_id, p.forum_id" . $tables_criteria . $forum_criteria . $result_criteria . $order_criteria;
         $result = $this->db->query($sql, $perpage, $start);
         $ret = array();
-        //$report_handler = &xoops_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ));
+        //$report_handler = &icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         while ($myrow = $this->db->fetchArray($result)) {
             $ret[] = $myrow; // return as array
         }

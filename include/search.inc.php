@@ -41,7 +41,7 @@ function &newbb_search($queryarray, $andor, $limit, $offset, $userid, $forums = 
 	$uid = (is_object($xoopsUser)&&$xoopsUser->isactive())?$xoopsUser->getVar('uid'):0;
 
 	if(!isset($allowedForums[$uid])){
-		$forum_handler =& xoops_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ));
+		$forum_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		if (is_array($forums) && count($forums) > 0) {
 			$forums = array_map('intval', $forums);
 			foreach($forums as $forumid){
