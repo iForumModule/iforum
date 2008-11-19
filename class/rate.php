@@ -49,9 +49,9 @@ class Nrate extends ArtObject {
     }
 }
 
-class NewbbRateHandler extends ArtObjectHandler 
+class IforumRateHandler extends ArtObjectHandler 
 {
-    function NewbbRateHandler(&$db) {
+    function IforumRateHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_votedata', 'Nrate', 'ratingid');
     }
     

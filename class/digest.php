@@ -100,7 +100,7 @@ class Digest extends XoopsObject {
     }
 }
 
-class NewbbDigestHandler extends XoopsObjectHandler {
+class IforumDigestHandler extends XoopsObjectHandler {
     var $last_digest;
 
     function &create($isNew = true)

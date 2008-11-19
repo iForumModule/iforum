@@ -60,9 +60,9 @@ class Moderate extends ArtObject {
     }
 }
 
-class NewbbModerateHandler extends ArtObjectHandler
+class IforumModerateHandler extends ArtObjectHandler
 {
-    function NewbbModerateHandler(&$db) {
+    function IforumModerateHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_moderates', 'Moderate', 'mod_id', 'uid');
     }
 

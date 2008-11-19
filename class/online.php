@@ -32,7 +32,7 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
-class NewbbOnlineHandler
+class IforumOnlineHandler
 {
     var $forum;
     var $forum_object;

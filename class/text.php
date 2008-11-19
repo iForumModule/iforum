@@ -46,9 +46,9 @@ class Ntext extends ArtObject {
     }
 }
 
-class NewbbTextHandler extends ArtObjectHandler 
+class IforumTextHandler extends ArtObjectHandler 
 {
-    function NewbbTextHandler(&$db) {
+    function IforumTextHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_posts_text', 'Ntext', 'post_id');
     }
     

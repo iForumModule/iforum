@@ -74,7 +74,7 @@ function editCategory($cat_id = 0)
         $fc->setVar('cat_order', 0);
         //$fc->setVar('cat_state', 0);
         //$fc->setVar('cat_showdescript', 1);
-        $fc->setVar('cat_url', 'http://www.xoops.org XOOPS');
+        $fc->setVar('cat_url', 'http://www.impresscms.org ImpressCMS');
     }
 
     $sform->addElement(new XoopsFormText(_AM_NEWBB_SETCATEGORYORDER, 'cat_order', 5, 10, $fc->getVar('cat_order')), false);

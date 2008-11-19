@@ -33,11 +33,11 @@ if (!defined("XOOPS_ROOT_PATH")) {
 	exit();
 }
 
-class NewbbTransferHandler
+class IforumTransferHandler
 {
 	var $root_path;
 	
-    function NewbbTransferHandler()
+    function IforumTransferHandler()
     {
 		$current_path = __FILE__;
 		if ( DIRECTORY_SEPARATOR != "/" ) $current_path = str_replace( strpos( $current_path, "\\\\", 2 ) ? "\\\\" : DIRECTORY_SEPARATOR, "/", $current_path);

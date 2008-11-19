@@ -121,9 +121,9 @@ class Forum extends ArtObject {
     }
 }
 
-class NewbbForumHandler extends ArtObjectHandler
+class IforumForumHandler extends ArtObjectHandler
 {
-    function NewbbForumHandler(&$db) {
+    function IforumForumHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
     }
 

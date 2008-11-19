@@ -28,7 +28,7 @@
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
-class NewbbKarmaHandler {
+class IforumKarmaHandler {
     var $user;
 
     function getUserKarma($user = false)

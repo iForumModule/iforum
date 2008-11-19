@@ -69,9 +69,9 @@ class Topic extends ArtObject
     }
 }
 
-class NewbbTopicHandler extends ArtObjectHandler
+class IforumTopicHandler extends ArtObjectHandler
 {
-    function NewbbTopicHandler(&$db) {
+    function IforumTopicHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
     }
     
@@ -98,7 +98,7 @@ class NewbbTopicHandler extends ArtObjectHandler
     {
         $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET approved = 1 WHERE topic_id = $topic_id";
         if (!$result = $this->db->queryF($sql)) {
-            newbb_message("NewbbTopicHandler::approve error:" . $sql);
+            newbb_message("IforumTopicHandler::approve error:" . $sql);
             return false;
         }
 		$post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
@@ -155,7 +155,7 @@ class NewbbTopicHandler extends ArtObjectHandler
                 WHERE t.topic_id = p.topic_id AND p.post_id = " . intval($post_id);
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("NewbbTopicHandler::getByPost error:" . $sql);
+            newbb_message("IforumTopicHandler::getByPost error:" . $sql);
             return $topic;
         }
         $row = $this->db->fetchArray($result);
@@ -195,7 +195,7 @@ class NewbbTopicHandler extends ArtObjectHandler
 
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("NewbbTopicHandler::getTopPost error:" . $sql);
+            newbb_message("IforumTopicHandler::getTopPost error:" . $sql);
             return $post;
         }
         $post_handler =& xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
@@ -210,7 +210,7 @@ class NewbbTopicHandler extends ArtObjectHandler
         $sql = "SELECT MIN(post_id) AS post_id FROM " . $this->db->prefix('bb_posts') . " WHERE topic_id = " . $topic_id . " AND pid = 0";
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("NewbbTopicHandler::getTopPostId error:" . $sql);
+            newbb_message("IforumTopicHandler::getTopPostId error:" . $sql);
             return false;
         }
         list($post_id) = $this->db->fetchRow($result);
@@ -247,7 +247,7 @@ class NewbbTopicHandler extends ArtObjectHandler
             $sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_posts') . " AS p WHERE p.topic_id=" . intval($topic->getVar('topic_id')) . $approve_criteria . " AND p.post_id $operator_for_position $post_id";
             $result = $this->db->query($sql);
 	        if (!$result) {
-	            newbb_message("NewbbTopicHandler::getAllPosts:post-count error:" . $sql);
+	            newbb_message("IforumTopicHandler::getAllPosts:post-count error:" . $sql);
 	            return $ret;
 	        }
             list($position) = $this->db->fetchRow($result);
@@ -257,7 +257,7 @@ class NewbbTopicHandler extends ArtObjectHandler
         $sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p, ' . $this->db->prefix('bb_posts_text') . " t WHERE p.topic_id=" . $topic->getVar('topic_id') . " AND p.post_id = t.post_id" . $approve_criteria . " ORDER BY p.post_id $order";
         $result = $this->db->query($sql, $perpage, $start);
         if (!$result) {
-            newbb_message("NewbbTopicHandler::getAllPosts error:" . $sql);
+            newbb_message("IforumTopicHandler::getAllPosts error:" . $sql);
             return $ret;
         }
         $post_handler = &xoops_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ));
@@ -315,7 +315,7 @@ class NewbbTopicHandler extends ArtObjectHandler
         if($isApproved) $sql .= ' AND approved = 1';
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("NewbbTopicHandler::getAllPosters error:" . $sql);
+            newbb_message("IforumTopicHandler::getAllPosters error:" . $sql);
             return array();
         }
         $ret = array();

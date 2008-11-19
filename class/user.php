@@ -255,7 +255,7 @@ class User extends XoopsObject
     }
 }
 
-class NewbbUserHandler extends XoopsObjectHandler
+class IforumUserHandler extends XoopsObjectHandler
 {
 	var $users = array();
 	var $groups = array();

@@ -53,9 +53,9 @@ class Category extends ArtObject {
     }
 }
 
-class NewbbCategoryHandler extends ArtObjectHandler
+class IforumCategoryHandler extends ArtObjectHandler
 {
-    function NewbbCategoryHandler(&$db) {
+    function IforumCategoryHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
     }
 

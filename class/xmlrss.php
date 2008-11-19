@@ -115,7 +115,7 @@ class Xmlrss {
     }
 }
 
-class NewbbXmlrssHandler
+class IforumXmlrssHandler
 {
     function &create()
     {

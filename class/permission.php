@@ -36,7 +36,7 @@ if (!defined("XOOPS_ROOT_PATH")) {
 
 require_once XOOPS_ROOT_PATH."/kernel/groupperm.php";
 
-class NewbbPermissionHandler extends XoopsGroupPermHandler 
+class IforumPermissionHandler extends XoopsGroupPermHandler 
 {
     /*
 	* Returns permissions for a certain type

@@ -58,7 +58,7 @@ class Read extends ArtObject
     }
 }
 
-class NewbbReadHandler extends ArtObjectHandler
+class IforumReadHandler extends ArtObjectHandler
 {
     /**
      * Object type.
@@ -96,7 +96,7 @@ class NewbbReadHandler extends ArtObjectHandler
      */
 	var $mode;
 	
-    function NewbbReadHandler(&$db, $type) {
+    function IforumReadHandler(&$db, $type) {
 	    $type = ("forum" == $type) ? "forum" : "topic";
         $this->ArtObjectHandler($db, 'bb_reads_'.$type, 'Read'.$type, 'read_id', 'post_id');
         $this->type = $type;

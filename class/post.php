@@ -470,9 +470,9 @@ class Post extends ArtObject {
 
 }
 
-class NewbbPostHandler extends ArtObjectHandler
+class IforumPostHandler extends ArtObjectHandler
 {
-    function NewbbPostHandler(&$db) {
+    function IforumPostHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_posts', 'Post', 'post_id', 'subject');
     }
     
@@ -831,7 +831,7 @@ class NewbbPostHandler extends ArtObjectHandler
         }
         $result = $this->db->query($sql, intval($limit), intval($start));
         if (!$result) {
-            newbb_message( "NewbbPostHandler::getPostsByLimit error:" . $sql);
+            newbb_message( "IforumPostHandler::getPostsByLimit error:" . $sql);
             return $ret;
         }
         while ($myrow = $this->db->fetchArray($result)) {

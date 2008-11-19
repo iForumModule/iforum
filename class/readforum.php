@@ -47,10 +47,10 @@ class Readforum extends Read
     }
 }
 
-class NewbbReadforumHandler extends NewbbReadHandler
+class IforumReadforumHandler extends IforumReadHandler
 {
-    function NewbbReadforumHandler(&$db) {
-        $this->NewbbReadHandler($db, "forum");
+    function IforumReadforumHandler(&$db) {
+        $this->IforumReadHandler($db, "forum");
     }
     
     /**

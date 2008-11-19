@@ -48,7 +48,7 @@ class Readtopic extends Read
     }
 }
 
-class NewbbReadtopicHandler extends NewbbReadHandler
+class IforumReadtopicHandler extends IforumReadHandler
 {
     /**
      * maximum records per forum for one user.
@@ -58,8 +58,8 @@ class NewbbReadtopicHandler extends NewbbReadHandler
      */
 	var $items_per_forum;
 	
-    function NewbbReadtopicHandler(&$db) {
-        $this->NewbbReadHandler($db, "topic");
+    function IforumReadtopicHandler(&$db) {
+        $this->IforumReadHandler($db, "topic");
 	    $newbbConfig = newbb_load_config();
         $this->items_per_forum = isset($newbbConfig["read_items"])?intval($newbbConfig["read_items"]):100;
     }

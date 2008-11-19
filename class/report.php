@@ -51,9 +51,9 @@ class Report extends ArtObject {
     }
 }
 
-class NewbbReportHandler extends ArtObjectHandler 
+class IforumReportHandler extends ArtObjectHandler 
 {
-    function NewbbReportHandler(&$db) {
+    function IforumReportHandler(&$db) {
         $this->ArtObjectHandler($db, 'bb_report', 'Report', 'report_id');
     }
     function &getByPost($posts)
