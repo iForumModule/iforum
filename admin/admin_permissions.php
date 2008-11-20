@@ -169,7 +169,7 @@ class newbb_XoopsGroupFormCheckBox extends XoopsGroupFormCheckBox
 
 xoops_cp_header();
 
-loadModuleAdminMenu(3);
+loadModuleAdminMenu( 3, _AM_NEWBB_PERM_PERMISSIONS );
 
 $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : "";
 $module_id = $xoopsModule->getVar('mid');
