@@ -191,6 +191,7 @@ define("_AM_NEWBB_PERM_TEMPLATEAPP","Berechtigungsvorlage zuweisen");
 define("_AM_NEWBB_PERM_TEMPLATE_APPLIED","Standard Berechtigungsvorlage wurde zugewiesen.");
 define("_AM_NEWBB_PERM_ACTION","Berechtigungsaktionen");
 define("_AM_NEWBB_PERM_SETBYGROUP","Berechtigung je Gruppe festlegen");
+define("_AM_NEWBB_PERM_PERMISSIONS", "Berechtigungen");
 
 // admin_forum_prune.php
 
