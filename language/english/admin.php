@@ -191,6 +191,7 @@ define("_AM_NEWBB_PERM_TEMPLATEAPP","Apply default permission");
 define("_AM_NEWBB_PERM_TEMPLATE_APPLIED","Default permissions have been applied to forums");
 define("_AM_NEWBB_PERM_ACTION","Permission management tools");
 define("_AM_NEWBB_PERM_SETBYGROUP","Set permissions directly by group");
+define("_AM_NEWBB_PERM_PERMISSIONS", "Permissions");
 
 // admin_forum_prune.php
 
