@@ -74,7 +74,6 @@ define('_MD_POST2','Post');
 define('_MD_USERNAME','Benutzername');
 define('_MD_BODY','Beitragstext');
 define('_MD_SINCE','Seit');
-define('_MD_POSTTIME','Datum');
 
 //viewforum.php
 define('_MD_REPLIES','Antworten');
@@ -285,7 +284,6 @@ define('_MD_SUBMIT','Abschicken');
 define('_MD_CANCELPOST','Veröffentlichung abbrechen');
 define('_MD_REMOVE','Löschen');
 define('_MD_UPLOAD','Hochladen');
-define('_MD_UP','nach oben');
 
 // forumuserpost.php
 define('_MD_ADD','Hinzufügen');
@@ -506,4 +504,6 @@ class User_language extends User
 define('_PDF_SUBJECT','Betreff'); 
 define('_PDF_TOPIC','Thema'); 
 define('_PDF_DATE','Datum'); 
+define('_MD_UP','nach Oben');
+define('_MD_POSTTIME','Datum'); 
 ?>
