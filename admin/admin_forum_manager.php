@@ -386,7 +386,7 @@ switch ($op) {
 				    }
 				}
 	        }
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, $message);
+            redirect_header("admin_forum_manager.php?op=manage", 2, $message);
             exit();
         } else {
             redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, _AM_NEWBB_FORUM_ERROR);

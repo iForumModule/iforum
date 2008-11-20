@@ -213,7 +213,7 @@ switch ($op) {
 		        $gperm_handler->addRight("category_access", $cat_id, $group_id, $xoopsModule->getVar("mid"));
 	        }
         }
-        redirect_header("admin_cat_manager.php", 2, $message);
+        redirect_header("admin_cat_manager.php?op=manage", 2, $message);
         exit();
 
     case "default":
