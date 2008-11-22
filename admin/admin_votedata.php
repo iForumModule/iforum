@@ -77,7 +77,8 @@ switch ($op)
 
 
 	echo "
-		<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_VOTE_DISPLAYVOTES . "</legend>\n
+		<fieldset style='border: #e8e8e8 1px solid;'>
+		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_VOTE_DISPLAYVOTES . "</legend>\n
 		<div style='padding: 8px;'>\n
 		<div><strong>" . _AM_NEWBB_VOTE_USERAVG . ": </strong>$useravgrating</div>\n
 		<div><strong>" . _AM_NEWBB_VOTE_TOTALRATE . ": </strong>$uservotes</div>\n

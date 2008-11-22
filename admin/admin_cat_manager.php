@@ -125,7 +125,8 @@ switch ($op) {
         $categories =& $category_handler->getAllCats();
         if (count($categories)==0) {
             loadModuleAdminMenu(1, _AM_NEWBB_CREATENEWCATEGORY);
-            echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
+            echo "	<fieldset style='border: #e8e8e8 1px solid;'>
+					<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
             echo "<br />";
             newCategory();
             echo "</fieldset>";
@@ -134,7 +135,8 @@ switch ($op) {
         }
 
         loadModuleAdminMenu(1, _AM_NEWBB_CATADMIN);
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CATADMIN . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CATADMIN . "</legend>";
         echo"<br />";
         echo "<a style='border: 1px solid #5E5D63; color: #000000; font-family: verdana, tahoma, arial, helvetica, sans-serif; font-size: 1em; padding: 4px 8px; text-align:center;' href='admin_cat_manager.php'>" . _AM_NEWBB_CREATENEWCATEGORY . "</a><br /><br />";
 
@@ -164,7 +166,8 @@ switch ($op) {
     case "mod":
         $fc = &$category_handler->get($cat_id);
         loadModuleAdminMenu(1, _AM_NEWBB_EDITCATEGORY . $fc->getVar('cat_title'));
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITCATEGORY . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITCATEGORY . "</legend>";
         echo"<br />";
 
         editCategory($cat_id);
@@ -219,7 +222,8 @@ switch ($op) {
     case "default":
     default:
         loadModuleAdminMenu(1, _AM_NEWBB_CREATENEWCATEGORY);
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
         echo "<br />";
         newCategory();
         echo "</fieldset>";

@@ -59,7 +59,8 @@ if (!empty($_POST['submit'])) {
 
     xoops_cp_header();
     loadModuleAdminMenu(6, _AM_NEWBB_SETFORUMORDER);
-    echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_SETFORUMORDER . "</legend>";
+    echo "<fieldset style='border: #e8e8e8 1px solid;'>
+		  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_SETFORUMORDER . "</legend>";
     echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'>"
      . "<tr><td class='odd'>";
     $tform = new XoopsThemeForm(_AM_NEWBB_SETFORUMORDER, "", "");

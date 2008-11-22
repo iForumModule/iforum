@@ -29,7 +29,8 @@ include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class
 
 xoops_cp_header();
 loadModuleAdminMenu(7, _AM_NEWBB_PRUNE_TITLE);
-echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_PRUNE_TITLE . "</legend>";
+echo "<fieldset style='border: #e8e8e8 1px solid;'>
+	  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_PRUNE_TITLE . "</legend>";
 echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'>"
  . "<tr><td class='odd'>";
 

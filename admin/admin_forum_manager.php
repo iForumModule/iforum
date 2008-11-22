@@ -322,7 +322,8 @@ switch ($op) {
             exit();
         } else {
             //loadModuleAdminMenu(3, _AM_NEWBB_SYNCFORUM);
-            echo '<fieldset><legend style="font-weight: bold; color: #900;">' . _AM_NEWBB_SYNCFORUM . '</legend>';
+            echo '<fieldset style="border: #e8e8e8 1px solid;">
+				  <legend style="display: inline; font-weight: bold; color: #900;">' . _AM_NEWBB_SYNCFORUM . '</legend>';
             echo '<br /><br /><table width="100%" border="0" cellspacing="1" class="outer"><tr><td class="odd">';
             echo '<table border="0" cellpadding="1" cellspacing="1" width="100%">';
             echo '<tr class="bg3" align="left">';
@@ -396,7 +397,8 @@ switch ($op) {
     case "mod":
         $ff =& $forum_handler->get($forum);
         loadModuleAdminMenu(2, _AM_NEWBB_EDITTHISFORUM . $ff->getVar('forum_name'));
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITTHISFORUM . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITTHISFORUM . "</legend>";
         echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'><tr><td class='odd'>";
 
         editForum($ff);
@@ -421,7 +423,8 @@ switch ($op) {
     case 'manage':
         loadModuleAdminMenu(2, _AM_NEWBB_FORUM_MANAGER);
 
-        $echo = "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_FORUM_MANAGER . "</legend>";
+        $echo = "<fieldset style='border: #e8e8e8 1px solid;'>
+				 <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_FORUM_MANAGER . "</legend>";
         $echo .= "<br />";
 
         $echo .= "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
@@ -512,7 +515,8 @@ switch ($op) {
     case "default":
     default:
         loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
         echo "<br />";
 
         //$parent_forum = isset($_GET['parent_forum']) ? intval($_GET['parent_forum']) : null;

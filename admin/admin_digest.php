@@ -54,7 +54,8 @@ switch($op){
 
 		$limit = 5;
 		loadModuleAdminMenu(9,_AM_NEWBB_DIGESTADMIN);
-		echo "<fieldset><legend style='font-weight: bold; color: #900;'>" .  _AM_NEWBB_DIGESTADMIN . "</legend>";
+		echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" .  _AM_NEWBB_DIGESTADMIN . "</legend>";
 		echo"<br />";
 		echo '<form action="'.xoops_getenv('PHP_SELF').'" method="post">';
 		echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";

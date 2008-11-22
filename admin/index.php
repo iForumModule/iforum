@@ -132,7 +132,8 @@ switch ($op) {
         loadModuleAdminMenu(0, "Index");
 		$imageLibs = newbb_getImageLibs();
 
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_PREFERENCES . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_PREFERENCES . "</legend>";
 
         echo "<div style='padding: 12px;'>" . _AM_NEWBB_POLLMODULE . ": ";
         $module_handler = &xoops_gethandler('module');
@@ -187,7 +188,8 @@ switch ($op) {
 
         echo "</fieldset><br />";
 
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_BOARDSUMMARY . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_BOARDSUMMARY . "</legend>";
         echo "<div style='padding: 12px;'>";
         echo _AM_NEWBB_TOTALTOPICS . " <strong>" . get_total_topics() . "</strong> | ";
         echo _AM_NEWBB_TOTALPOSTS . " <strong>" . get_total_posts() . "</strong> | ";
@@ -195,7 +197,8 @@ switch ($op) {
         echo "</fieldset><br />";
 
         $report_handler = &icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_REPORT . "</legend>";
+        echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_REPORT . "</legend>";
         echo "<div style='padding: 12px;'><a href='admin_report.php'>" . _AM_NEWBB_REPORT_PENDING . "</a> <strong>" . $report_handler->getCount(new Criteria("report_result", 0)) . "</strong> | ";
         echo _AM_NEWBB_REPORT_PROCESSED . " <strong>" . $report_handler->getCount(new Criteria("report_result", 1)) . "</strong>";
         echo "</div>";
@@ -203,7 +206,8 @@ switch ($op) {
 
         if ($xoopsModuleConfig['email_digest'] > 0) {
             $digest_handler = &icms_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
-            echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_DIGEST . "</legend>";
+            echo "<fieldset style='border: #e8e8e8 1px solid;'>
+				  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_DIGEST . "</legend>";
             $due = ($digest_handler->checkStatus()) / 60; // minutes
             $prompt = ($due > 0)? sprintf(_AM_NEWBB_DIGEST_PAST, $due):sprintf(_AM_NEWBB_DIGEST_NEXT, abs($due));
             echo "<div style='padding: 12px;'><a href='index.php?op=senddigest'>" . $prompt . "</a> | ";

@@ -79,7 +79,8 @@ switch($op){
 
 		$limit = 10;
 		loadModuleAdminMenu(8,_AM_NEWBB_REPORTADMIN);
-		echo "<fieldset><legend style='font-weight: bold; color: #900;'>" .  _AM_NEWBB_REPORTADMIN . "</legend>";
+		echo "<fieldset style='border: #e8e8e8 1px solid;'>
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" .  _AM_NEWBB_REPORTADMIN . "</legend>";
 		echo"<br />";
 		echo "<a style='border: 1px solid #5E5D63; color: #000000; font-family: verdana, tahoma, arial, helvetica, sans-serif; font-size: 1em; padding: 4px 8px; text-align:center;' href=\"admin_report.php?item=$item_other\">".$title_other."</a><br /><br />";
 
