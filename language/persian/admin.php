@@ -272,4 +272,5 @@ define("_AM_NEWBB_VOTE_DISPLAYVOTES", "اطلاعات ارزش گذاری");
 define("_AM_NEWBB_VOTE_NOVOTES", "هیچ رایی برای نشان دادن نیست");
 define("_AM_NEWBB_VOTE_DELETE", "هیچ رایی برای نشان دادن نیست");
 define("_AM_NEWBB_VOTE_DELETEDSC", "رای‌های انتخاب شده از پایگاه داده <b>حذف شدند</b>");
+define("_AM_NEWBB_PERM_PERMISSIONS", "دسترسی‌ها");
 ?>
