@@ -303,7 +303,7 @@ define("_MI_NEWBB_INSTALL_POST_TEXT", "
 	Bem-vindo para o ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." forum.
 	Sinta-se livre para fazer o seu registro ou entrar com o seu login para iniciar ou responder tópicos.
 	
-	Se você tiver alguma pergunta sobre como usar o CBB, por favor, faça uma visita no site de suporte: [url=http://xoopsforge.com/modules/newbb/](Site sobre o módulo CBB)[/url].
+	Se você tiver alguma pergunta sobre como usar o CBB, por favor, faça uma visita no site de suporte: [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9](Site sobre o módulo CBB)[/url].
 	");
 
 //define("_MI_NEWBB_BLOCK_TAG_CLOUD", "Tag Cloud"); //<---------------------

@@ -301,6 +301,6 @@ define("_MI_NEWBB_INSTALL_POST_TEXT", "
 	Bienvenue sur le forum de ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES)).".<br />
 	N'h&eacute;sitez pas &agrave; vous enregister et vous connecter pour commencer des sujets de discussion dans ce forum.<br /><br />
 	
-	Si vous avez une quelconque question concernant l'utilisation de CBB, merci de visiter vitre site de support ou <a href=\"http://xoopsforge.com/modules/newbb/\" target=\"_blank\" title=\"CBB @ XoopsForge\">Site du Module CBB</a>.
+	Si vous avez une quelconque question concernant l'utilisation de CBB, merci de visiter vitre site de support ou <a href=\"http://community.impresscms.org/modules/newbb/viewforum.php?forum=9\" target=\"_blank\" title=\"CBB @ XoopsForge\">Site du Module CBB</a>.
 	");
 ?>

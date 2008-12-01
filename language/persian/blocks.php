@@ -1,46 +1,47 @@
 <?php
 // $Id: blocks.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 // Blocks
-if(defined('_MB_NEWBB_DEFINED')) return;
-else define('_MB_NEWBB_DEFINED',true);
+//$constpref = '_MB_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
+$constpref = '_MB_MI_NEWBB';
+define($constpref."_NAME","انجمن‌ها");
 
-define("_MB_NEWBB_FORUM","انجمن");
-define("_MB_NEWBB_TOPIC","عنوان");
-define("_MB_NEWBB_RPLS","پاسخ‌ها");
-define("_MB_NEWBB_VIEWS","تعداد بازدید");
-define("_MB_NEWBB_LPOST","آخرین ارسال");
-define("_MB_NEWBB_VSTFRMS"," بازدید انجمن‌ها");
-define("_MB_NEWBB_DISPLAY","تعداد در بلاک: ");
-define("_MB_NEWBB_DISPLAYMODE","نوع نمایش: ");
-define("_MB_NEWBB_DISPLAYMODE_FULL","کامل");
-define("_MB_NEWBB_DISPLAYMODE_COMPACT","فشرده");
-define("_MB_NEWBB_DISPLAYMODE_LITE","سبک");
-define("_MB_NEWBB_FORUMLIST","لیست انجمن‌های مجاز برای قرار گرفتن در بلاک");
-//define("_MB_NEWBB_FORUMLIST_DESC","شماره (ID) انجمن‌های مجاز برای قرار گرفتن در بلاک. لطفا هر انجمن را با ',' از بقیه جدا کنید. برای قرار دادن همه‌ی انجمن‌ها از 0 استفاده کنید");
-//define("_MB_NEWBB_FORUMLIST_ID","ID");
-//define("_MB_NEWBB_FORUMLIST_NAME","نام انجمن");
-define("_MB_NEWBB_ALLTOPICS","همه‌ی عنوان‌ها");
-define("_MB_NEWBB_ALLPOSTS","همه‌ی پست‌ها");
+define($constpref."_FORUM","انجمن");
+define($constpref."_TOPIC","عنوان");
+define($constpref."_RPLS","پاسخ‌ها");
+define($constpref."_VIEWS","تعداد بازدید");
+define($constpref."_LPOST","آخرین ارسال");
+define($constpref."_VSTFRMS"," بازدید انجمن‌ها");
+define($constpref."_DISPLAY","تعداد در بلاک: ");
+define($constpref."_DISPLAYMODE","نوع نمایش: ");
+define($constpref."_DISPLAYMODE_FULL","کامل");
+define($constpref."_DISPLAYMODE_COMPACT","فشرده");
+define($constpref."_DISPLAYMODE_LITE","سبک");
+define($constpref."_FORUMLIST","لیست انجمن‌های مجاز برای قرار گرفتن در بلاک");
+//define($constpref."_FORUMLIST_DESC","شماره (ID) انجمن‌های مجاز برای قرار گرفتن در بلاک. لطفا هر انجمن را با ',' از بقیه جدا کنید. برای قرار دادن همه‌ی انجمن‌ها از 0 استفاده کنید");
+//define($constpref."_FORUMLIST_ID","ID");
+//define($constpref."_FORUMLIST_NAME","نام انجمن");
+define($constpref."_ALLTOPICS","همه‌ی عنوان‌ها");
+define($constpref."_ALLPOSTS","همه‌ی پست‌ها");
 
-define("_MB_NEWBB_CRITERIA","معیار‌ها برای نمایش");
-define("_MB_NEWBB_CRITERIA_TOPIC","عنوان‌ها");
-define("_MB_NEWBB_CRITERIA_POST","پست‌ها");
-define("_MB_NEWBB_CRITERIA_TIME","جدید ترین‌ها");
-define("_MB_NEWBB_CRITERIA_TITLE","عنوان پست");
-define("_MB_NEWBB_CRITERIA_TEXT","متن پست");
-define("_MB_NEWBB_CRITERIA_VIEWS","پر بیننده");
-define("_MB_NEWBB_CRITERIA_REPLIES","دارای بیشترین پایخ");
-define("_MB_NEWBB_CRITERIA_DIGEST","جدیدترین خلاصه‌ها");
-define("_MB_NEWBB_CRITERIA_STICKY","جدید ترین چسبان‌ها");
-define("_MB_NEWBB_CRITERIA_DIGESTS","دارای بیشترین خلاصه");
-define("_MB_NEWBB_CRITERIA_STICKYS","دارای بیشترین چسبان");
-define("_MB_NEWBB_TIME","بازه زمانی");
-define("_MB_NEWBB_TIME_DESC","عدد‌های مثبت برای روز‌ها و عدد‌های منفی برای ساعت‌ها هستند");
+define($constpref."_CRITERIA","معیار‌ها برای نمایش");
+define($constpref."_CRITERIA_TOPIC","عنوان‌ها");
+define($constpref."_CRITERIA_POST","پست‌ها");
+define($constpref."_CRITERIA_TIME","جدید ترین‌ها");
+define($constpref."_CRITERIA_TITLE","عنوان پست");
+define($constpref."_CRITERIA_TEXT","متن پست");
+define($constpref."_CRITERIA_VIEWS","پر بیننده");
+define($constpref."_CRITERIA_REPLIES","دارای بیشترین پایخ");
+define($constpref."_CRITERIA_DIGEST","جدیدترین خلاصه‌ها");
+define($constpref."_CRITERIA_STICKY","جدید ترین چسبان‌ها");
+define($constpref."_CRITERIA_DIGESTS","دارای بیشترین خلاصه");
+define($constpref."_CRITERIA_STICKYS","دارای بیشترین چسبان");
+define($constpref."_TIME","بازه زمانی");
+define($constpref."_TIME_DESC","عدد‌های مثبت برای روز‌ها و عدد‌های منفی برای ساعت‌ها هستند");
 
-define("_MB_NEWBB_TITLE","عنوان");
-define("_MB_NEWBB_AUTHOR","نویسنده");
-define("_MB_NEWBB_COUNT","تعداد");
-define("_MB_NEWBB_INDEXNAV","هدایت گر را نشان بده");
+define($constpref."_TITLE","عنوان");
+define($constpref."_AUTHOR","نویسنده");
+define($constpref."_COUNT","تعداد");
+define($constpref."_INDEXNAV","هدایت گر را نشان بده");
 
-define("_MB_NEWBB_TITLE_LENGTH","طول  عنوان/پیام");
+define($constpref."_TITLE_LENGTH","طول عنوان/پیام");
 ?>

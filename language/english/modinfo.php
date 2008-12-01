@@ -303,6 +303,6 @@ define("_MI_NEWBB_INSTALL_POST_TEXT", "
 	Welcome to ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." forum.
 	Feel free to register and login to start your topics.
 	
-	If you have any question concerning CBB usage, plz visit your local support site or [url=http://xoopsforge.com/modules/newbb/]CBB Module Site[/url].
+	If you have any question concerning CBB usage, plz visit your local support site or [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9]CBB Module Site[/url].
 	");
 ?>

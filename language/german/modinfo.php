@@ -303,6 +303,6 @@ define("_MI_NEWBB_INSTALL_POST_TEXT", "
 	Willkommen zu ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." Forum.<br />
 	Jetzt Registrieren, Anmelden und mit Themen starten.<br /><br />
 	
-	Für Fragen hinsichtlich des CBB steht die lokale Supportseite oder die <a href=\"http://xoopsforge.com/modules/newbb/\" target=\"_blank\" title=\"CBB @ XoopsForge\">CBB Modul Seite</a> zur Verfügung.
+	Für Fragen hinsichtlich des CBB steht die lokale Supportseite oder die <a href=\"http://community.impresscms.org/modules/newbb/viewforum.php?forum=9\" target=\"_blank\" title=\"CBB @ XoopsForge\">CBB Modul Seite</a> zur Verfügung.
 	");
 ?>
