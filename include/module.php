@@ -38,7 +38,7 @@ define("XOOPS_MODULE_NEWBB_FUCTIONS", 1);
 include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
 
 newbb_load_object();
-/* This will create a function with a name based on the installation directory, if it is not in iforum */
+/* This will create a function with a name based on the installation directory, if it is not in iforum 
 $myInstallDir = basename(dirname(dirname(__FILE__)));
 if (!function_exists('xoops_module_install_'.$myInstallDir)) {
  $myfunc = "function xoops_module_install_".$myInstallDir."(&$module) { return xoops_module_install_iforum(&$module);}";
@@ -59,7 +59,7 @@ if (!function_exists('xoops_module_pre_install_'.$myInstallDir)) {
  $myfunc = "xoops_module_pre_install_".$myInstallDir."(&$module) { return xoops_module_pre_install_iforum(&$module);}";
  eval($myfunc);
 }
-
+*/
 function xoops_module_update_iforum(&$module, $oldversion = null) 
 {
 	$newbbConfig = newbb_load_config();
@@ -97,7 +97,7 @@ function xoops_module_update_iforum(&$module, $oldversion = null)
 	return true;
 }
 
-function xoops_module_pre_update_iforum(&$module) 
+/*function xoops_module_pre_update_iforum(&$module) 
 {
 	return newbb_setModuleConfig($module, true);
 }
@@ -110,7 +110,7 @@ function xoops_module_pre_install_iforum(&$module)
 	}
 	return newbb_setModuleConfig($module);
 }
-
+*/
 function xoops_module_install_iforum(&$module)
 {
 	/* Create a test category */

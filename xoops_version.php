@@ -40,6 +40,7 @@ $modversion['iconsmall'] = "images/imforum_iconsmall.png";
 $modversion['iconbig'] = "images/imforum_iconbig.png";
 $modversion['image'] = "images/imforum_icon.png";
 $modversion['dirname'] = $modulename;
+$modversion['modname'] = 'iforum';
 
 $modversion['author_realname'] = "ImpressCMS iforum Dev Team";
 $modversion['author_website_url'] = "http://community.impresscms.org/modules/newbb/";
@@ -49,7 +50,7 @@ $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "1.00";
 $modversion['status'] = "RC 2";
 
-$modversion['warning'] = "For ImpressCMS 1.1";
+$modversion['warning'] = "For ImpressCMS > 1.1";
 
 $modversion['demo_site_url'] = "http://community.impresscms.org/modules/newbb/";
 $modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
