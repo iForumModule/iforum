@@ -3,43 +3,45 @@
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
+//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
+$constpref = '_MI_NEWBB';
 
 // The name of this module
-define("_MI_NEWBB_NAME","iForum");
+define($constpref."_NAME","iForum");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","Forenmodul für ImpressCMS");
+define($constpref."_DESC","Forenmodul für ImpressCMS");
 
 // Names of blocks for this module (Not all module has blocks)
-define("_MI_NEWBB_BLOCK_TOPIC_POST","Zuletzt beantwortete Themen");
-define("_MI_NEWBB_BLOCK_TOPIC","Aktuelle Themen");
-define("_MI_NEWBB_BLOCK_POST","Aktuelle Beiträge");
-define("_MI_NEWBB_BLOCK_AUTHOR","Autoren");
+define($constpref."_BLOCK_TOPIC_POST","Zuletzt beantwortete Themen");
+define($constpref."_BLOCK_TOPIC","Aktuelle Themen");
+define($constpref."_BLOCK_POST","Aktuelle Beiträge");
+define($constpref."_BLOCK_AUTHOR","Autoren");
 /*
-define("_MI_NEWBB_BNAME2","Meist gelesene Themen");
-define("_MI_NEWBB_BNAME3","Meist aktive Themen");
-define("_MI_NEWBB_BNAME4","Neuste Zusammenfassung");
-define("_MI_NEWBB_BNAME5","Neuste gepinnte Themen");
-define("_MI_NEWBB_BNAME6","Neuste Beiträge");
-define("_MI_NEWBB_BNAME7","Autor mit den meisten Themen");
-define("_MI_NEWBB_BNAME8","Autor mit den meisten Beiträgen");
-define("_MI_NEWBB_BNAME9","Autor mit den meisten Zusammenfassungen");
-define("_MI_NEWBB_BNAME10","Autor mit den meisten gepinnten Themen");
-define("_MI_NEWBB_BNAME11","Letzter Beitrag mit Text");
+define($constpref."_BNAME2","Meist gelesene Themen");
+define($constpref."_BNAME3","Meist aktive Themen");
+define($constpref."_BNAME4","Neuste Zusammenfassung");
+define($constpref."_BNAME5","Neuste gepinnte Themen");
+define($constpref."_BNAME6","Neuste Beiträge");
+define($constpref."_BNAME7","Autor mit den meisten Themen");
+define($constpref."_BNAME8","Autor mit den meisten Beiträgen");
+define($constpref."_BNAME9","Autor mit den meisten Zusammenfassungen");
+define($constpref."_BNAME10","Autor mit den meisten gepinnten Themen");
+define($constpref."_BNAME11","Letzter Beitrag mit Text");
 */
 
 // Names of admin menu items
-define("_MI_NEWBB_ADMENU_INDEX","Index");
-define("_MI_NEWBB_ADMENU_CATEGORY","Kategorien");
-define("_MI_NEWBB_ADMENU_FORUM","Foren");
-define("_MI_NEWBB_ADMENU_PERMISSION","Berechtigungen");
-define("_MI_NEWBB_ADMENU_BLOCK","Blöcke");
-define("_MI_NEWBB_ADMENU_ORDER","Sortierung");
-define("_MI_NEWBB_ADMENU_SYNC","Foren sychronisieren");
-define("_MI_NEWBB_ADMENU_PRUNE","Bereinigen / Aufräumen");
-define("_MI_NEWBB_ADMENU_REPORT","Meldungen");
-define("_MI_NEWBB_ADMENU_DIGEST","Zusammenfassungen");
-define("_MI_NEWBB_ADMENU_VOTE","Abstimmungen");
+define($constpref."_ADMENU_INDEX","Index");
+define($constpref."_ADMENU_CATEGORY","Kategorien");
+define($constpref."_ADMENU_FORUM","Foren");
+define($constpref."_ADMENU_PERMISSION","Berechtigungen");
+define($constpref."_ADMENU_BLOCK","Blöcke");
+define($constpref."_ADMENU_ORDER","Sortierung");
+define($constpref."_ADMENU_SYNC","Foren sychronisieren");
+define($constpref."_ADMENU_PRUNE","Bereinigen / Aufräumen");
+define($constpref."_ADMENU_REPORT","Meldungen");
+define($constpref."_ADMENU_DIGEST","Zusammenfassungen");
+define($constpref."_ADMENU_VOTE","Abstimmungen");
 
 
 
@@ -141,9 +143,9 @@ define("_MI_SHOW_PERMISSIONTABLE_DESC", "Wenn ja ausgewählt wird, wird eine Lis
 
 define("_MI_EMAIL_DIGEST", "Beitragsübersicht per E-Mail");
 define("_MI_EMAIL_DIGEST_DESC", "Zeitspanne festlegen, nach der eine Beitragsübersicht per E-Mail verschickt wird.");
-define("_MI_NEWBB_EMAIL_NONE", "Keine E-Mail");
-define("_MI_NEWBB_EMAIL_DAILY", "Täglich");
-define("_MI_NEWBB_EMAIL_WEEKLY", "Wöchentlich");
+define($constpref."_EMAIL_NONE", "Keine E-Mail");
+define($constpref."_EMAIL_DAILY", "Täglich");
+define($constpref."_EMAIL_WEEKLY", "Wöchentlich");
 
 define("_MI_SHOW_IP", "IP-Adresse des Benutzers anzeigen");
 define("_MI_SHOW_IP_DESC", "Wenn ja ausgewählt wird, wird den Moderatoren die IP-Adresse des Verfassers angezeigt.");
@@ -294,12 +296,12 @@ define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Zusammenfassungen empfangen.');
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Zusammenfassung veröffentlicht');
 
 // FOR installation
-define("_MI_NEWBB_INSTALL_CAT_TITLE", "Kategorie Test");
-define("_MI_NEWBB_INSTALL_CAT_DESC", "Kategorie für Test.");
-define("_MI_NEWBB_INSTALL_FORUM_NAME", "Forum Test");
-define("_MI_NEWBB_INSTALL_FORUM_DESC", "Forum für Test.");
-define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Glückwunsch! Das Forum arbeitet.");
-define("_MI_NEWBB_INSTALL_POST_TEXT", "
+define($constpref."_INSTALL_CAT_TITLE", "Kategorie Test");
+define($constpref."_INSTALL_CAT_DESC", "Kategorie für Test.");
+define($constpref."_INSTALL_FORUM_NAME", "Forum Test");
+define($constpref."_INSTALL_FORUM_DESC", "Forum für Test.");
+define($constpref."_INSTALL_POST_SUBJECT", "Glückwunsch! Das Forum arbeitet.");
+define($constpref."_INSTALL_POST_TEXT", "
 	Willkommen zu ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." Forum.<br />
 	Jetzt Registrieren, Anmelden und mit Themen starten.<br /><br />
 	

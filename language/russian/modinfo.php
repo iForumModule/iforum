@@ -3,43 +3,45 @@
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
+//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
+$constpref = '_MI_NEWBB';
 
 // The name of this module
-define("_MI_NEWBB_NAME","iForum");
+define($constpref."_NAME","iForum");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","Доска объявлений сообщества (форум)");
+define($constpref."_DESC","Доска объявлений сообщества (форум)");
 
 // Names of blocks for this module (Not all module has blocks)
-define("_MI_NEWBB_BLOCK_TOPIC_POST","Последние отклики на темы");
-define("_MI_NEWBB_BLOCK_TOPIC","Последние темы");
-define("_MI_NEWBB_BLOCK_POST","Последние сообщения");
-define("_MI_NEWBB_BLOCK_AUTHOR","Авторы");
+define($constpref."_BLOCK_TOPIC_POST","Последние отклики на темы");
+define($constpref."_BLOCK_TOPIC","Последние темы");
+define($constpref."_BLOCK_POST","Последние сообщения");
+define($constpref."_BLOCK_AUTHOR","Авторы");
 /*
-define("_MI_NEWBB_BNAME2","Most Viewed Topics");
-define("_MI_NEWBB_BNAME3","Most Active Topics");
-define("_MI_NEWBB_BNAME4","Newest Digest");
-define("_MI_NEWBB_BNAME5","Newest Sticky Topics");
-define("_MI_NEWBB_BNAME6","Newest Posts");
-define("_MI_NEWBB_BNAME7","Authors with most topics");
-define("_MI_NEWBB_BNAME8","Authors with most posts");
-define("_MI_NEWBB_BNAME9","Authors with most digests");
-define("_MI_NEWBB_BNAME10","Authors with most sticky topics");
-define("_MI_NEWBB_BNAME11","Recent post with text");
+define($constpref."_BNAME2","Most Viewed Topics");
+define($constpref."_BNAME3","Most Active Topics");
+define($constpref."_BNAME4","Newest Digest");
+define($constpref."_BNAME5","Newest Sticky Topics");
+define($constpref."_BNAME6","Newest Posts");
+define($constpref."_BNAME7","Authors with most topics");
+define($constpref."_BNAME8","Authors with most posts");
+define($constpref."_BNAME9","Authors with most digests");
+define($constpref."_BNAME10","Authors with most sticky topics");
+define($constpref."_BNAME11","Recent post with text");
 */
 
 // Names of admin menu items
-define("_MI_NEWBB_ADMENU_INDEX","Индекс");
-define("_MI_NEWBB_ADMENU_CATEGORY","Категории");
-define("_MI_NEWBB_ADMENU_FORUM","Форумы");
-define("_MI_NEWBB_ADMENU_PERMISSION","Права доступа");
-define("_MI_NEWBB_ADMENU_BLOCK","Блоки");
-define("_MI_NEWBB_ADMENU_ORDER","Упорядочивание");
-define("_MI_NEWBB_ADMENU_SYNC","Синхронизация");
-define("_MI_NEWBB_ADMENU_PRUNE","Очистка");
-define("_MI_NEWBB_ADMENU_REPORT","Отчеты");
-define("_MI_NEWBB_ADMENU_DIGEST","Дайджесты");
-define("_MI_NEWBB_ADMENU_VOTE","Голосование");
+define($constpref."_ADMENU_INDEX","Индекс");
+define($constpref."_ADMENU_CATEGORY","Категории");
+define($constpref."_ADMENU_FORUM","Форумы");
+define($constpref."_ADMENU_PERMISSION","Права доступа");
+define($constpref."_ADMENU_BLOCK","Блоки");
+define($constpref."_ADMENU_ORDER","Упорядочивание");
+define($constpref."_ADMENU_SYNC","Синхронизация");
+define($constpref."_ADMENU_PRUNE","Очистка");
+define($constpref."_ADMENU_REPORT","Отчеты");
+define($constpref."_ADMENU_DIGEST","Дайджесты");
+define($constpref."_ADMENU_VOTE","Голосование");
 
 
 
@@ -141,9 +143,9 @@ define("_MI_SHOW_PERMISSIONTABLE_DESC", "Setting YES will display user's right")
 
 define("_MI_EMAIL_DIGEST", "Email post digest");
 define("_MI_EMAIL_DIGEST_DESC", "Set time period for sending post digest to users");
-define("_MI_NEWBB_EMAIL_NONE", "No email");
-define("_MI_NEWBB_EMAIL_DAILY", "Daily");
-define("_MI_NEWBB_EMAIL_WEEKLY", "Weekly");
+define($constpref."_EMAIL_NONE", "No email");
+define($constpref."_EMAIL_DAILY", "Daily");
+define($constpref."_EMAIL_WEEKLY", "Weekly");
 
 define("_MI_SHOW_IP", "Show user IP");
 define("_MI_SHOW_IP_DESC", "Setting YES will show users IP to moderators");
@@ -294,12 +296,12 @@ define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Получить извещени�
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : получен дайджест');
 
 // FOR installation
-define("_MI_NEWBB_INSTALL_CAT_TITLE", "Тестовая категория");
-define("_MI_NEWBB_INSTALL_CAT_DESC", "Категория для тестирования.");
-define("_MI_NEWBB_INSTALL_FORUM_NAME", "Тестовый форум");
-define("_MI_NEWBB_INSTALL_FORUM_DESC", "Форум для тестирования.");
-define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Поздравляем! Форум работает.");
-define("_MI_NEWBB_INSTALL_POST_TEXT", "
+define($constpref."_INSTALL_CAT_TITLE", "Тестовая категория");
+define($constpref."_INSTALL_CAT_DESC", "Категория для тестирования.");
+define($constpref."_INSTALL_FORUM_NAME", "Тестовый форум");
+define($constpref."_INSTALL_FORUM_DESC", "Форум для тестирования.");
+define($constpref."_INSTALL_POST_SUBJECT", "Поздравляем! Форум работает.");
+define($constpref."_INSTALL_POST_TEXT", "
 	Добро пожаловать на форум ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES)).".
 	Чтобы открыть собственные темы, Вам достаточно просто зарегистрироваться и войти на сайт.
 	

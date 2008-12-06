@@ -3,43 +3,45 @@
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
+//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
+$constpref = '_MI_NEWBB';
 
 // The name of this module
-define("_MI_NEWBB_NAME","Fórum");
+define($constpref."_NAME","Fórum");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","Módulo de Fórum para XOOPS");
+define($constpref."_DESC","Módulo de Fórum para XOOPS");
 
 // Names of blocks for this module (Not all module has blocks)
-define("_MI_NEWBB_BLOCK_TOPIC_POST","Últimas respostas nos fóruns");
-define("_MI_NEWBB_BLOCK_TOPIC","Tópicos recentes nos fóruns");
-define("_MI_NEWBB_BLOCK_POST","Últimas mensagens nos fóruns");
-define("_MI_NEWBB_BLOCK_AUTHOR","Autores dos fóruns");
+define($constpref."_BLOCK_TOPIC_POST","Últimas respostas nos fóruns");
+define($constpref."_BLOCK_TOPIC","Tópicos recentes nos fóruns");
+define($constpref."_BLOCK_POST","Últimas mensagens nos fóruns");
+define($constpref."_BLOCK_AUTHOR","Autores dos fóruns");
 /*
-define("_MI_NEWBB_BNAME2", "Most Viewed Topics");
-define("_MI_NEWBB_BNAME3", "Most Active Topics");
-define("_MI_NEWBB_BNAME4", "Newest Digest");
-define("_MI_NEWBB_BNAME5", "Newest Sticky Topics");
-define("_MI_NEWBB_BNAME6", "Newest Posts");
-define("_MI_NEWBB_BNAME7", "Authors with most topics");
-define("_MI_NEWBB_BNAME8", "Authors with most posts");
-define("_MI_NEWBB_BNAME9", "Authors with most digests");
-define("_MI_NEWBB_BNAME10", "Authors with most sticky topics");
-define("_MI_NEWBB_BNAME11", "Recent post with text");
+define($constpref."_BNAME2", "Most Viewed Topics");
+define($constpref."_BNAME3", "Most Active Topics");
+define($constpref."_BNAME4", "Newest Digest");
+define($constpref."_BNAME5", "Newest Sticky Topics");
+define($constpref."_BNAME6", "Newest Posts");
+define($constpref."_BNAME7", "Authors with most topics");
+define($constpref."_BNAME8", "Authors with most posts");
+define($constpref."_BNAME9", "Authors with most digests");
+define($constpref."_BNAME10", "Authors with most sticky topics");
+define($constpref."_BNAME11", "Recent post with text");
 */
 
 // Names of admin menu items
-define("_MI_NEWBB_ADMENU_INDEX","Índice");
-define("_MI_NEWBB_ADMENU_CATEGORY","Categorias");
-define("_MI_NEWBB_ADMENU_FORUM","Fóruns");
-define("_MI_NEWBB_ADMENU_PERMISSION","Permissões");
-define("_MI_NEWBB_ADMENU_BLOCK","Blocos");
-define("_MI_NEWBB_ADMENU_ORDER","Reordenar");
-define("_MI_NEWBB_ADMENU_SYNC","Sincronizar");
-define("_MI_NEWBB_ADMENU_PRUNE","Exclusões");
-define("_MI_NEWBB_ADMENU_REPORT","Relatórios");
-define("_MI_NEWBB_ADMENU_DIGEST","Informativo");
-define("_MI_NEWBB_ADMENU_VOTE","Enquetes");
+define($constpref."_ADMENU_INDEX","Índice");
+define($constpref."_ADMENU_CATEGORY","Categorias");
+define($constpref."_ADMENU_FORUM","Fóruns");
+define($constpref."_ADMENU_PERMISSION","Permissões");
+define($constpref."_ADMENU_BLOCK","Blocos");
+define($constpref."_ADMENU_ORDER","Reordenar");
+define($constpref."_ADMENU_SYNC","Sincronizar");
+define($constpref."_ADMENU_PRUNE","Exclusões");
+define($constpref."_ADMENU_REPORT","Relatórios");
+define($constpref."_ADMENU_DIGEST","Informativo");
+define($constpref."_ADMENU_VOTE","Enquetes");
 
 
 
@@ -141,9 +143,9 @@ define("_MI_SHOW_PERMISSIONTABLE_DESC", "Acrescenta uma lista de permissões do 
 
 define("_MI_EMAIL_DIGEST", "Informativo as mensages por e-mail");
 define("_MI_EMAIL_DIGEST_DESC", "Configure a periodicidade para envio de envio de resumos do fórum para os usuários");
-define("_MI_NEWBB_EMAIL_NONE", "Nunca");
-define("_MI_NEWBB_EMAIL_DAILY", "Diariamente");
-define("_MI_NEWBB_EMAIL_WEEKLY", "Semanalmente");
+define($constpref."_EMAIL_NONE", "Nunca");
+define($constpref."_EMAIL_DAILY", "Diariamente");
+define($constpref."_EMAIL_WEEKLY", "Semanalmente");
 
 define("_MI_SHOW_IP", "Exibir IP do usuário");
 define("_MI_SHOW_IP_DESC", "Se desativado, o IP dos usuários será mostrado somente aos Moderadores");
@@ -294,20 +296,20 @@ define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Receba resumos do fórum.');
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificação: resumo do fórum');
 
 // FOR installation
-define("_MI_NEWBB_INSTALL_CAT_TITLE", "Categoria de teste");
-define("_MI_NEWBB_INSTALL_CAT_DESC", "Categoria para teste");
-define("_MI_NEWBB_INSTALL_FORUM_NAME", "Fórum de teste");
-define("_MI_NEWBB_INSTALL_FORUM_DESC", "Fórum para teste");
-define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Parabéns! O fórum está funcionando.");
-define("_MI_NEWBB_INSTALL_POST_TEXT", "
+define($constpref."_INSTALL_CAT_TITLE", "Categoria de teste");
+define($constpref."_INSTALL_CAT_DESC", "Categoria para teste");
+define($constpref."_INSTALL_FORUM_NAME", "Fórum de teste");
+define($constpref."_INSTALL_FORUM_DESC", "Fórum para teste");
+define($constpref."_INSTALL_POST_SUBJECT", "Parabéns! O fórum está funcionando.");
+define($constpref."_INSTALL_POST_TEXT", "
 	Bem-vindo para o ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))." forum.
 	Sinta-se livre para fazer o seu registro ou entrar com o seu login para iniciar ou responder tópicos.
 	
 	Se você tiver alguma pergunta sobre como usar o CBB, por favor, faça uma visita no site de suporte: [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9](Site sobre o módulo CBB)[/url].
 	");
 
-//define("_MI_NEWBB_BLOCK_TAG_CLOUD", "Tag Cloud"); //<---------------------
-//define("_MI_NEWBB_BLOCK_TAG_TOP", "Top Tags");   //<---------------------
-//define("_MI_NEWBB_ADMENU_TYPE", "Tipo de tópico");
+//define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud"); //<---------------------
+//define($constpref."_BLOCK_TAG_TOP", "Top Tags");   //<---------------------
+//define($constpref."_ADMENU_TYPE", "Tipo de tópico");
 
 ?>

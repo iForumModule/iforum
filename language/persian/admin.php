@@ -196,31 +196,31 @@ define($constpref."_PERM_SETBYGROUP","اعمال دسترسی برای گروه�
 
 // admin_forum_prune.php
 
-define ("_AM_NEWBB_PRUNE_RESULTS_TITLE","نتیجه‌ی هرس‌کردن");
-define ("_AM_NEWBB_PRUNE_RESULTS_TOPICS","تاپیک‌‌های هرس شده");
-define ("_AM_NEWBB_PRUNE_RESULTS_POSTS","پست‌های هرس شده");
-define ("_AM_NEWBB_PRUNE_RESULTS_FORUMS","انجمن‌های هرس شده");
-define ("_AM_NEWBB_PRUNE_STORE","به جای حذف کردن آن در این انجمن قرارشان بده:");
-define ("_AM_NEWBB_PRUNE_ARCHIVE","یک کپی از پست‌ها در آرشیو نگه دار");
-define ("_AM_NEWBB_PRUNE_FORUMSELERROR","شما فراموش کرده‌اید که انجمنی را برای هرس انتخاب کنید.");
+define($constpref."_PRUNE_RESULTS_TITLE","نتیجه‌ی هرس‌کردن");
+define($constpref."_PRUNE_RESULTS_TOPICS","تاپیک‌‌های هرس شده");
+define($constpref."_PRUNE_RESULTS_POSTS","پست‌های هرس شده");
+define($constpref."_PRUNE_RESULTS_FORUMS","انجمن‌های هرس شده");
+define($constpref."_PRUNE_STORE","به جای حذف کردن آن در این انجمن قرارشان بده:");
+define($constpref."_PRUNE_ARCHIVE","یک کپی از پست‌ها در آرشیو نگه دار");
+define($constpref."_PRUNE_FORUMSELERROR","شما فراموش کرده‌اید که انجمنی را برای هرس انتخاب کنید.");
 
-define ("_AM_NEWBB_PRUNE_DAYS","پاک کردن تاپیک بدون پاسخ در :");
-define ("_AM_NEWBB_PRUNE_FORUMS","انجمن‌هایی که هرس می‌شوند:");
-define ("_AM_NEWBB_PRUNE_STICKY","تاپیک‌های مهم(Sticky) را حفظ کن.");
-define ("_AM_NEWBB_PRUNE_DIGEST","تاپیک‌های خلاصه را حفظ کن");
-define ("_AM_NEWBB_PRUNE_LOCK","تاپیک‌های قفل را حفظ کن");
-define ("_AM_NEWBB_PRUNE_HOT","تاپیک‌هایی که بیشتر از این پاسخ‌ها را دارند نگه دار");
-define ("_AM_NEWBB_PRUNE_SUBMIT","تایید");
-define ("_AM_NEWBB_PRUNE_RESET","تنظیم دوباره");
-define ("_AM_NEWBB_PRUNE_YES","بله");
-define ("_AM_NEWBB_PRUNE_NO","نه");
-define ("_AM_NEWBB_PRUNE_WEEK","یک هفته");
-define ("_AM_NEWBB_PRUNE_2WEEKS","دو هفته");
-define ("_AM_NEWBB_PRUNE_MONTH","یک ماه");
-define ("_AM_NEWBB_PRUNE_2MONTH","دو ماه");
-define ("_AM_NEWBB_PRUNE_4MONTH","چهار ماه");
-define ("_AM_NEWBB_PRUNE_YEAR","یک سال");
-define ("_AM_NEWBB_PRUNE_2YEARS","دو سال");
+define($constpref."_PRUNE_DAYS","پاک کردن تاپیک بدون پاسخ در :");
+define($constpref."_PRUNE_FORUMS","انجمن‌هایی که هرس می‌شوند:");
+define($constpref."_PRUNE_STICKY","تاپیک‌های مهم(Sticky) را حفظ کن.");
+define($constpref."_PRUNE_DIGEST","تاپیک‌های خلاصه را حفظ کن");
+define($constpref."_PRUNE_LOCK","تاپیک‌های قفل را حفظ کن");
+define($constpref."_PRUNE_HOT","تاپیک‌هایی که بیشتر از این پاسخ‌ها را دارند نگه دار");
+define($constpref."_PRUNE_SUBMIT","تایید");
+define($constpref."_PRUNE_RESET","تنظیم دوباره");
+define($constpref."_PRUNE_YES","بله");
+define($constpref."_PRUNE_NO","نه");
+define($constpref."_PRUNE_WEEK","یک هفته");
+define($constpref."_PRUNE_2WEEKS","دو هفته");
+define($constpref."_PRUNE_MONTH","یک ماه");
+define($constpref."_PRUNE_2MONTH","دو ماه");
+define($constpref."_PRUNE_4MONTH","چهار ماه");
+define($constpref."_PRUNE_YEAR","یک سال");
+define($constpref."_PRUNE_2YEARS","دو سال");
 
 // About.php constants
 define($constpref.'_AUTHOR_INFO', "اطلاعات نویسنده:");

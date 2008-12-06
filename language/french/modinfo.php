@@ -3,43 +3,45 @@
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
+//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
+$constpref = '_MI_NEWBB';
 
 // The name of this module
-define("_MI_NEWBB_NAME","Forum CBB");
+define($constpref."_NAME","Forum CBB");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","Module de forums pour la Communaut&eacute; XOOPS");
+define($constpref."_DESC","Module de forums pour la Communaut&eacute; XOOPS");
 
 // Names of blocks for this module (Not all module has blocks)
-define("_MI_NEWBB_BLOCK_TOPIC_POST","Sujets r&eacute;cents avec r&eacute;ponse");
-define("_MI_NEWBB_BLOCK_TOPIC","Sujets r&eacute;cents");
-define("_MI_NEWBB_BLOCK_POST","Posts r&eacute;cents");
-define("_MI_NEWBB_BLOCK_AUTHOR","Auteurs");
+define($constpref."_BLOCK_TOPIC_POST","Sujets r&eacute;cents avec r&eacute;ponse");
+define($constpref."_BLOCK_TOPIC","Sujets r&eacute;cents");
+define($constpref."_BLOCK_POST","Posts r&eacute;cents");
+define($constpref."_BLOCK_AUTHOR","Auteurs");
 /*
-define("_MI_NEWBB_BNAME2","Sujets les plus vus");
-define("_MI_NEWBB_BNAME3","Sujets les plus actifs");
-define("_MI_NEWBB_BNAME4","Nouveaux gros titres");
-define("_MI_NEWBB_BNAME5","Nouveaux sujets agraph&eacute;s");
-define("_MI_NEWBB_BNAME6","Nouveaux posts");
-define("_MI_NEWBB_BNAME7","Auteurs avec le plus de sujets");
-define("_MI_NEWBB_BNAME8","Auteurs avec le plus de posts");
-define("_MI_NEWBB_BNAME9","Auteurs avec le plus sommairis&eacute;s");
-define("_MI_NEWBB_BNAME10","Auteurs avec le plus de sujets attach&eacute;s");&eacute;
-define("_MI_NEWBB_BNAME11","Derni&egrave;re contribution avec du texte");
+define($constpref."_BNAME2","Sujets les plus vus");
+define($constpref."_BNAME3","Sujets les plus actifs");
+define($constpref."_BNAME4","Nouveaux gros titres");
+define($constpref."_BNAME5","Nouveaux sujets agraph&eacute;s");
+define($constpref."_BNAME6","Nouveaux posts");
+define($constpref."_BNAME7","Auteurs avec le plus de sujets");
+define($constpref."_BNAME8","Auteurs avec le plus de posts");
+define($constpref."_BNAME9","Auteurs avec le plus sommairis&eacute;s");
+define($constpref."_BNAME10","Auteurs avec le plus de sujets attach&eacute;s");&eacute;
+define($constpref."_BNAME11","Derni&egrave;re contribution avec du texte");
 */
 
 // Names of admin menu items
-define("_MI_NEWBB_ADMENU_INDEX","Index");
-define("_MI_NEWBB_ADMENU_CATEGORY","Cat&eacute;gories");
-define("_MI_NEWBB_ADMENU_FORUM","Forums");
-define("_MI_NEWBB_ADMENU_PERMISSION","Permissions");
-define("_MI_NEWBB_ADMENU_BLOCK","Blocs");
-define("_MI_NEWBB_ADMENU_SYNC","Synchronisation");
-define("_MI_NEWBB_ADMENU_ORDER","Ordre");
-define("_MI_NEWBB_ADMENU_PRUNE","Purge");
-define("_MI_NEWBB_ADMENU_REPORT","Posts rapport&eacute;s");
-define("_MI_NEWBB_ADMENU_DIGEST","Sommaires");
-define("_MI_NEWBB_ADMENU_VOTE","Votes");
+define($constpref."_ADMENU_INDEX","Index");
+define($constpref."_ADMENU_CATEGORY","Cat&eacute;gories");
+define($constpref."_ADMENU_FORUM","Forums");
+define($constpref."_ADMENU_PERMISSION","Permissions");
+define($constpref."_ADMENU_BLOCK","Blocs");
+define($constpref."_ADMENU_SYNC","Synchronisation");
+define($constpref."_ADMENU_ORDER","Ordre");
+define($constpref."_ADMENU_PRUNE","Purge");
+define($constpref."_ADMENU_REPORT","Posts rapport&eacute;s");
+define($constpref."_ADMENU_DIGEST","Sommaires");
+define($constpref."_ADMENU_VOTE","Votes");
 
 //config options
 
@@ -139,9 +141,9 @@ define("_MI_SHOW_PERMISSIONTABLE_DESC", "Param&egrave;tr&eacute; &agrave; OUI af
 
 define("_MI_EMAIL_DIGEST", "Email des publications en sommaire");
 define("_MI_EMAIL_DIGEST_DESC", "Param&eacute;trer la p&eacute;riode horaire pour envoyer les contributions en sommaire aux utilisateurs");
-define("_MI_NEWBB_EMAIL_NONE", "Pas d'email");
-define("_MI_NEWBB_EMAIL_DAILY", "Journalier");
-define("_MI_NEWBB_EMAIL_WEEKLY", "Hebdomadaire");
+define($constpref."_EMAIL_NONE", "Pas d'email");
+define($constpref."_EMAIL_DAILY", "Journalier");
+define($constpref."_EMAIL_WEEKLY", "Hebdomadaire");
 
 define("_MI_SHOW_IP", "Afficher les adresses IP des utilisateurs");
 define("_MI_SHOW_IP_DESC", "Activ&eacute;e, cette option affiche les adresses IP des utilisateurs aux mod&eacute;rateurs");
@@ -292,12 +294,12 @@ define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Recevoir la notification de contri
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} autonotification : Contributions en Sommaire');
 
 // FOR installation
-define("_MI_NEWBB_INSTALL_CAT_TITLE", "Cat&eacute;gorie-Test");
-define("_MI_NEWBB_INSTALL_CAT_DESC", "Cat&eacute;gorie &agrave; tester.");
-define("_MI_NEWBB_INSTALL_FORUM_NAME", "Forum-Test");
-define("_MI_NEWBB_INSTALL_FORUM_DESC", "Forum de test.");
-define("_MI_NEWBB_INSTALL_POST_SUBJECT", "F&eacute;licitations! Le forum marche correctement.");
-define("_MI_NEWBB_INSTALL_POST_TEXT", "
+define($constpref."_INSTALL_CAT_TITLE", "Cat&eacute;gorie-Test");
+define($constpref."_INSTALL_CAT_DESC", "Cat&eacute;gorie &agrave; tester.");
+define($constpref."_INSTALL_FORUM_NAME", "Forum-Test");
+define($constpref."_INSTALL_FORUM_DESC", "Forum de test.");
+define($constpref."_INSTALL_POST_SUBJECT", "F&eacute;licitations! Le forum marche correctement.");
+define($constpref."_INSTALL_POST_TEXT", "
 	Bienvenue sur le forum de ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES)).".<br />
 	N'h&eacute;sitez pas &agrave; vous enregister et vous connecter pour commencer des sujets de discussion dans ce forum.<br /><br />
 	

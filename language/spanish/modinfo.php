@@ -3,43 +3,45 @@
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 // Module Info
+//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
+$constpref = '_MI_NEWBB';
 
 // The name of this module
-define("_MI_NEWBB_NAME","CBB");
+define($constpref."_NAME","CBB");
 
 // A brief description of this module
-define("_MI_NEWBB_DESC","Módulo de foros para xoops");
+define($constpref."_DESC","Módulo de foros para xoops");
 
 // Names of blocks for this module (Not all module has blocks)
-define("_MI_NEWBB_BLOCK_TOPIC_POST","Temas recientemente contestados");//Recent Replied Topics
-define("_MI_NEWBB_BLOCK_TOPIC","Temas recientes");//Recent Topics
-define("_MI_NEWBB_BLOCK_POST","Mensajes recientes");//Recent Posts
-define("_MI_NEWBB_BLOCK_AUTHOR","Autor");
+define($constpref."_BLOCK_TOPIC_POST","Temas recientemente contestados");//Recent Replied Topics
+define($constpref."_BLOCK_TOPIC","Temas recientes");//Recent Topics
+define($constpref."_BLOCK_POST","Mensajes recientes");//Recent Posts
+define($constpref."_BLOCK_AUTHOR","Autor");
 /*
-define("_MI_NEWBB_BNAME2","Temas más vistos");
-define("_MI_NEWBB_BNAME3","Temas más activos");
-define("_MI_NEWBB_BNAME4","Temas recientemente agregados a la selección");
-define("_MI_NEWBB_BNAME5","Temas recientemente pegados");
-define("_MI_NEWBB_BNAME6","Temas nuevos");
-define("_MI_NEWBB_BNAME7","Usuarios con más temas");
-define("_MI_NEWBB_BNAME8","Usuarios con más mensajes");
-define("_MI_NEWBB_BNAME9","Usuarios con más temas seleccionados");
-define("_MI_NEWBB_BNAME10","Usuarios con más temas pegados");
-define("_MI_NEWBB_BNAME11","Mensaje reciente con texto");
+define($constpref."_BNAME2","Temas más vistos");
+define($constpref."_BNAME3","Temas más activos");
+define($constpref."_BNAME4","Temas recientemente agregados a la selección");
+define($constpref."_BNAME5","Temas recientemente pegados");
+define($constpref."_BNAME6","Temas nuevos");
+define($constpref."_BNAME7","Usuarios con más temas");
+define($constpref."_BNAME8","Usuarios con más mensajes");
+define($constpref."_BNAME9","Usuarios con más temas seleccionados");
+define($constpref."_BNAME10","Usuarios con más temas pegados");
+define($constpref."_BNAME11","Mensaje reciente con texto");
 */
 
 // Names of admin menu items
-define("_MI_NEWBB_ADMENU_INDEX","Inicio");
-define("_MI_NEWBB_ADMENU_CATEGORY","Categorías");
-define("_MI_NEWBB_ADMENU_FORUM","Foros");
-define("_MI_NEWBB_ADMENU_PERMISSION","Permisos");
-define("_MI_NEWBB_ADMENU_BLOCK","Bloques");
-define("_MI_NEWBB_ADMENU_ORDER","Reordenar");
-define("_MI_NEWBB_ADMENU_SYNC","Sincronizar");
-define("_MI_NEWBB_ADMENU_PRUNE","Purgar");
-define("_MI_NEWBB_ADMENU_REPORT","Reportes");
-define("_MI_NEWBB_ADMENU_DIGEST","Digest");
-define("_MI_NEWBB_ADMENU_VOTE","Votos");
+define($constpref."_ADMENU_INDEX","Inicio");
+define($constpref."_ADMENU_CATEGORY","Categorías");
+define($constpref."_ADMENU_FORUM","Foros");
+define($constpref."_ADMENU_PERMISSION","Permisos");
+define($constpref."_ADMENU_BLOCK","Bloques");
+define($constpref."_ADMENU_ORDER","Reordenar");
+define($constpref."_ADMENU_SYNC","Sincronizar");
+define($constpref."_ADMENU_PRUNE","Purgar");
+define($constpref."_ADMENU_REPORT","Reportes");
+define($constpref."_ADMENU_DIGEST","Digest");
+define($constpref."_ADMENU_VOTE","Votos");
 
 
 
@@ -141,9 +143,9 @@ define("_MI_SHOW_PERMISSIONTABLE_DESC", "Si es activado los usuarios verán un pa
 
 define("_MI_EMAIL_DIGEST", "Enviar por e-mail selección de mensajes");
 define("_MI_EMAIL_DIGEST_DESC", "Ajusta el lapso de tiempo con el que se enviarán selecciones de los hilos más activos a los usuarios.");
-define("_MI_NEWBB_EMAIL_NONE", "No enviar");
-define("_MI_NEWBB_EMAIL_DAILY", "Diariamente");
-define("_MI_NEWBB_EMAIL_WEEKLY", "Semanalmente");
+define($constpref."_EMAIL_NONE", "No enviar");
+define($constpref."_EMAIL_DAILY", "Diariamente");
+define($constpref."_EMAIL_WEEKLY", "Semanalmente");
 
 define("_MI_SHOW_IP", "Mostrar IP del usuario");
 define("_MI_SHOW_IP_DESC", "Permite mostrar la IP del usuario que envió el mensaje a los moderadores y administradores del sitio.");
@@ -294,12 +296,12 @@ define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Recibir notificación de selección.
 define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificación : Nueva selección');
 
 // FOR installation
-define("_MI_NEWBB_INSTALL_CAT_TITLE", "Categoría Test");
-define("_MI_NEWBB_INSTALL_CAT_DESC", "Categoría para test.");
-define("_MI_NEWBB_INSTALL_FORUM_NAME", "Foro test");
-define("_MI_NEWBB_INSTALL_FORUM_DESC", "Foro para test.");
-define("_MI_NEWBB_INSTALL_POST_SUBJECT", "Felicitaciones! El foro está trabajando.");
-define("_MI_NEWBB_INSTALL_POST_TEXT", "
+define($constpref."_INSTALL_CAT_TITLE", "Categoría Test");
+define($constpref."_INSTALL_CAT_DESC", "Categoría para test.");
+define($constpref."_INSTALL_FORUM_NAME", "Foro test");
+define($constpref."_INSTALL_FORUM_DESC", "Foro para test.");
+define($constpref."_INSTALL_POST_SUBJECT", "Felicitaciones! El foro está trabajando.");
+define($constpref."_INSTALL_POST_TEXT", "
 	Bienvenido al foro de  ".(htmlspecialchars($GLOBALS["xoopsConfig"]['sitename'], ENT_QUOTES))."
 	Siéntase libre de iniciar sesión y comenzar sus temas en el foro.
 	
