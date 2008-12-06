@@ -40,7 +40,7 @@ function mod_loadConfig($dirname = "")
 		    mod_createCacheFile($moduleConfig, "config", $dirname);
 	    }
     }
-	if ($customConfig = @include(XOOPS_ROOT_PATH."/modules/{$dirname}/include/plugin.php")){
+	if ($customConfig = @include(ICMS_ROOT_PATH."/modules/{$dirname}/include/plugin.php")){
 		$moduleConfig = array_merge($moduleConfig, $customConfig);
 	}
     return $moduleConfig;

@@ -1,36 +1,31 @@
 <?php
-// $Id: admin_forum_manager.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-// ------------------------------------------------------------------------ //
-// XOOPS - PHP Content Management System                      //
-// Copyright (c) 2000 XOOPS.org                           //
-// <http://www.xoops.org/>                             //
-// ------------------------------------------------------------------------ //
-// This program is free software; you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License, or        //
-// (at your option) any later version.                                      //
-// //
-// You may not change or alter any portion of this comment or credits       //
-// of supporting developers from this source code or any supporting         //
-// source code which is considered copyrighted (c) material of the          //
-// original comment or credit authors.                                      //
-// //
-// This program is distributed in the hope that it will be useful,          //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-// GNU General Public License for more details.                             //
-// //
-// You should have received a copy of the GNU General Public License        //
-// along with this program; if not, write to the Free Software              //
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include 'admin_header.php';
-include XOOPS_ROOT_PATH . "/class/xoopstree.php";
-//include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
+include ICMS_ROOT_PATH . "/class/xoopstree.php";
+//include_once ICMS_ROOT_PATH . "/class/pagenav.php";
 
 $op = '';
 $confirm = '';
@@ -78,7 +73,7 @@ function editForum($ff, $parent_forum = 0)
 
     $mytree = new XoopsTree($xoopsDB->prefix("bb_categories"), "cat_id", "0");
 
-	require_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+	require_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
     if ($forum) {
         $sform = new XoopsThemeForm(_AM_NEWBB_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
     } else {
@@ -313,7 +308,7 @@ switch ($op) {
     case 'sync':
         loadModuleAdminMenu(5, _AM_NEWBB_SYNCFORUM);
         if (isset($_POST['submit'])) {
-			newbb_synchronization();
+			iforum_synchronization();
 			/*
 			$topic_handler =& icms_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 			$topic_handler->synchronization();
@@ -443,9 +438,9 @@ switch ($op) {
 		foreach (array_keys($categories) as $c) {
             $category =& $categories[$c];
             $cat_link = "<a href=\"" . $forumUrl['root'] . "/index.php?viewcat=" . $category->getVar('cat_id') . "\">" . $category->getVar('cat_title') . "</a>";
-            $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&amp;cat_id=" . $category->getVar('cat_id') . "\">".newbb_displayImage($forumImage['edit'], _EDIT)."</a>";
-            $cat_del_link = "<a href=\"admin_cat_manager.php?op=del&amp;cat_id=" . $category->getVar('cat_id') . "\">".newbb_displayImage($forumImage['delete'], _DELETE)."</a>";
-            $forum_add_link = "<a href=\"admin_forum_manager.php?op=addforum&amp;cat_id=" . $category->getVar('cat_id') . "\">".newbb_displayImage($forumImage['new_forum'])."</a>";
+            $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&amp;cat_id=" . $category->getVar('cat_id') . "\">".iforum_displayImage($forumImage['edit'], _EDIT)."</a>";
+            $cat_del_link = "<a href=\"admin_cat_manager.php?op=del&amp;cat_id=" . $category->getVar('cat_id') . "\">".iforum_displayImage($forumImage['delete'], _DELETE)."</a>";
+            $forum_add_link = "<a href=\"admin_forum_manager.php?op=addforum&amp;cat_id=" . $category->getVar('cat_id') . "\">".iforum_displayImage($forumImage['new_forum'])."</a>";
 
             $echo .= "<tr class='even' align='left'>";
             $echo .= "<td width='100%' colspan='2'><strong>" . $cat_link . "</strong></td>";
@@ -458,11 +453,11 @@ switch ($op) {
             if(!isset($forums[$c])) continue;
 			foreach(array_keys($forums[$c]) as $f){
                 $f_link = "&nbsp;<a href=\"" . $forumUrl['root'] . "/viewforum.php?forum=" . $f . "\">" . $forums[$c][$f]["title"] . "</a>";
-                $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['edit'])."</a>";
-                $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['delete'])."</a>";
-                $sf_add_link = "<a href=\"admin_forum_manager.php?op=addsubforum&amp;cat_id=" . $c . "&parent_forum=" . $f . "\">".newbb_displayImage($forumImage['new_subforum'])."</a>";
-                $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
-                $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $f . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
+                $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $f . "\">".iforum_displayImage($forumImage['edit'])."</a>";
+                $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $f . "\">".iforum_displayImage($forumImage['delete'])."</a>";
+                $sf_add_link = "<a href=\"admin_forum_manager.php?op=addsubforum&amp;cat_id=" . $c . "&parent_forum=" . $f . "\">".iforum_displayImage($forumImage['new_subforum'])."</a>";
+                $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $f . "\">".iforum_displayImage($forumImage['move_topic'])."</a>";
+                $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $f . "\">".iforum_displayImage($forumImage['move_topic'])."</a>";
 
                 $echo .= "<tr class='odd' align='left'><td></td>";
                 $echo .= "<td><strong>" . $f_link . "</strong></td>";
@@ -475,11 +470,11 @@ switch ($op) {
 		        if(!isset($forums[$c][$f]["sub"])) continue;
 				foreach(array_keys($forums[$c][$f]["sub"]) as $s){
                     $f_link = "&nbsp;<a href=\"" . $forumUrl['root'] . "/viewforum.php?forum=" . $s . "\">-->" . $forums[$c][$f]["sub"][$s]["title"] . "</a>";
-                    $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['edit'])."</a>";
-                    $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['delete'])."</a>";
+                    $f_edit_link = "<a href=\"admin_forum_manager.php?op=mod&amp;forum=" . $s . "\">".iforum_displayImage($forumImage['edit'])."</a>";
+                    $f_del_link = "<a href=\"admin_forum_manager.php?op=del&amp;forum=" . $s . "\">".iforum_displayImage($forumImage['delete'])."</a>";
                     $sf_add_link = "";
-                    $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
-                    $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $s . "\">".newbb_displayImage($forumImage['move_topic'])."</a>";
+                    $f_move_link = "<a href=\"admin_forum_manager.php?op=moveforum&amp;forum=" . $s . "\">".iforum_displayImage($forumImage['move_topic'])."</a>";
+                    $f_merge_link = "<a href=\"admin_forum_manager.php?op=mergeforum&amp;forum=" . $s . "\">".iforum_displayImage($forumImage['move_topic'])."</a>";
                     $echo .= "<tr class='odd' align='left'><td></td>";
                     $echo .= "<td><strong>" . $f_link . "</strong></td>";
                     $echo .= "<td align='center'>" . $f_edit_link . "</td>";

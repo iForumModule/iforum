@@ -1,36 +1,31 @@
 <?php
-// $Id: index.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-// ------------------------------------------------------------------------ //
-// XOOPS - PHP Content Management System                      //
-// Copyright (c) 2000 XOOPS.org                           //
-// <http://www.xoops.org/>                             //
-// ------------------------------------------------------------------------ //
-// This program is free software; you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License, or        //
-// (at your option) any later version.                                      //
-// //
-// You may not change or alter any portion of this comment or credits       //
-// of supporting developers from this source code or any supporting         //
-// source code which is considered copyrighted (c) material of the          //
-// original comment or credit authors.                                      //
-// //
-// This program is distributed in the hope that it will be useful,          //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-// GNU General Public License for more details.                             //
-// //
-// You should have received a copy of the GNU General Public License        //
-// along with this program; if not, write to the Free Software              //
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include('admin_header.php');
 
-function newbb_admin_getPathStatus($path)
+function iforum_admin_getPathStatus($path)
 {
 	if(empty($path)) return false;
 	if(@is_writable($path)){
@@ -43,18 +38,18 @@ function newbb_admin_getPathStatus($path)
 	return $path_status;
 }
 
-function newbb_admin_mkdir($target, $mode=0777)
+function iforum_admin_mkdir($target, $mode=0777)
 {
 	// http://www.php.net/manual/en/function.mkdir.php
-	return is_dir($target) or ( newbb_admin_mkdir(dirname($target), $mode) and mkdir($target, $mode) );
+	return is_dir($target) or ( iforum_admin_mkdir(dirname($target), $mode) and mkdir($target, $mode) );
 }
 
-function newbb_admin_chmod($target, $mode = 0777)
+function iforum_admin_chmod($target, $mode = 0777)
 {
 	return @chmod($target, $mode);
 }
 
-function newbb_getImageLibs()
+function iforum_getImageLibs()
 {
 	global $xoopsModuleConfig;
 
@@ -102,7 +97,7 @@ $op = (isset($_GET['op']))? $_GET['op'] : "";
 switch ($op) {
     case "createdir":
 		if (isset($_GET['path'])) $path = $_GET['path'];
-        $res = newbb_admin_mkdir($path);
+        $res = iforum_admin_mkdir($path);
         $msg = ($res)?_AM_NEWBB_DIRCREATED:_AM_NEWBB_DIRNOTCREATED;
         redirect_header('index.php', 2, $msg . ': ' . $path);
         exit();
@@ -110,7 +105,7 @@ switch ($op) {
 
     case "setperm":
 		if (isset($_GET['path'])) $path = $_GET['path'];
-        $res = newbb_admin_chmod($path, 0777);
+        $res = iforum_admin_chmod($path, 0777);
         $msg = ($res)?_AM_NEWBB_PERMSET:_AM_NEWBB_PERMNOTSET;
         redirect_header('index.php', 2, $msg . ': ' . $path);
         exit();
@@ -130,7 +125,7 @@ switch ($op) {
         xoops_cp_header();
 
         loadModuleAdminMenu(0, "Index");
-		$imageLibs = newbb_getImageLibs();
+		$imageLibs = iforum_getImageLibs();
 
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
 			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_PREFERENCES . "</legend>";
@@ -175,13 +170,13 @@ switch ($op) {
       
 
         echo "<div style='padding: 8px;'>" . _AM_NEWBB_ATTACHPATH . ": ";
-        $attach_path = XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/';
-        $path_status = newbb_admin_getPathStatus($attach_path);
+        $attach_path = ICMS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/';
+        $path_status = iforum_admin_getPathStatus($attach_path);
         echo $attach_path . ' ( ' . $path_status . ' )';
 
         echo "<br />" . _AM_NEWBB_THUMBPATH . ": ";
         $thumb_path = $attach_path . 'thumbs/'; // be careful
-        $path_status = newbb_admin_getPathStatus($thumb_path);
+        $path_status = iforum_admin_getPathStatus($thumb_path);
         echo $thumb_path . ' ( ' . $path_status . ' )';
 
         echo "</div>";

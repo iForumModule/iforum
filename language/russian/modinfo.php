@@ -55,7 +55,7 @@ define("_MI_THEMESET", "Установка темы");
 define("_MI_THEMESET_DESC", "Действует в пределах модуля, выберите '"._NONE."', если желаете использовать тему сайта");
 
 define("_MI_DIR_ATTACHMENT","Физический путь для сохранения вложений.");
-define("_MI_DIR_ATTACHMENT_DESC","Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'");
+define("_MI_DIR_ATTACHMENT_DESC","Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/iforum the path entered would then be '/uploads/iforum' never include a trailing slash '/' the thumbnails path becomes '/uploads/iforum/thumbs'");
 define("_MI_PATH_MAGICK","Путь к ImageMagick");
 define("_MI_PATH_MAGICK_DESC","Обычно, это '/usr/bin/X11'. Оставьте пустым, если Вы не установили ImageMagicK или он не определился автоматически.");
 

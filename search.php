@@ -1,47 +1,42 @@
 <?php
-// $Id: search.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include 'header.php';
-newbb_load_lang_file("search");
+iforum_load_lang_file("search");
 $config_handler =& xoops_gethandler('config');
 $xoopsConfigSearch =& $config_handler->getConfigsByCat(XOOPS_CONF_SEARCH);
 if ($xoopsConfigSearch['enable_search'] != 1) {
-    header('Location: '.XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php');
+    header('Location: '.ICMS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php');
     exit();
 }
 
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0;
-$xoopsOption['template_main']= 'newbb_search.html';
-include XOOPS_ROOT_PATH.'/header.php';
+$xoopsOption['template_main']= 'iforum_search.html';
+include ICMS_ROOT_PATH.'/header.php';
 
-include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( __FILE__ ) ).'/include/search.inc.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( __FILE__ ) ).'/include/search.inc.php';
 $limit = $xoopsModuleConfig['topics_per_page'];
 
 $queries = array();
@@ -64,7 +59,7 @@ if ($xoopsModuleConfig['wol_enabled']){
 }
 
 $xoopsTpl->assign("forumindex", sprintf(_MD_FORUMINDEX, htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
-$xoopsTpl->assign("img_folder", newbb_displayImage($forumImage['folder_topic']));
+$xoopsTpl->assign("img_folder", iforum_displayImage($forumImage['folder_topic']));
 
 if ( !empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !empty($term)) {
     $start = isset($_GET['start']) ? $_GET['start'] : 0;
@@ -141,11 +136,11 @@ if ( !empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !e
     $searchin = isset($_POST['searchin']) ? $_POST['searchin'] : (isset($_GET['searchin']) ? $_GET['searchin'] : 'both');
     $next_search['searchin'] = $searchin;
 	if (!empty($since)) {
-		$subquery = ' AND p.post_time >= ' . (time() - newbb_getSinceTime($since));
+		$subquery = ' AND p.post_time >= ' . (time() - iforum_getSinceTime($since));
 	}
 
 	if($uname_required&&(!$uid||count($uid)<1)) $result = false;
-    else $results =& newbb_search($queries, $andor, $limit, $start, $uid, $forum, $sortby, $searchin, $subquery);
+    else $results =& iforum_search($queries, $andor, $limit, $start, $uid, $forum, $sortby, $searchin, $subquery);
 
     if ( count($results) < 1 ) {
         $xoopsTpl->assign("lang_nomatch", _SR_NOMATCH);
@@ -165,9 +160,9 @@ if ( !empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !e
 	        unset($next_search);
 	        unset($items);
         }
-      	$search_url = XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname')."/search.php?".$paras;
+      	$search_url = ICMS_URL.'/modules/'.$xoopsModule->getVar('dirname')."/search.php?".$paras;
 
-       	$next_results = newbb_search($queries, $andor, 1, $start + $limit, $uid, $forum, $sortby, $searchin, $subquery);
+       	$next_results = iforum_search($queries, $andor, 1, $start + $limit, $uid, $forum, $sortby, $searchin, $subquery);
         $next_count = count($next_results);
         $has_next = false;
         if (is_array($next_results) && $next_count >0) {
@@ -211,12 +206,12 @@ foreach ($forum_array as $key => $forum) {
 }
 $select_forum .= '</select>';
 $xoopsTpl->assign_by_ref("forum_selection_box", $select_forum);
-$select_since = newbb_sinceSelectBox($xoopsModuleConfig['since_default']);
+$select_since = iforum_sinceSelectBox($xoopsModuleConfig['since_default']);
 $xoopsTpl->assign_by_ref("since_selection_box", $select_since);
 
 if ($xoopsConfigSearch['keyword_min'] > 0) {
 	$xoopsTpl->assign("search_rule", sprintf(_SR_KEYIGNORE, $xoopsConfigSearch['keyword_min']));
 }
 
-include XOOPS_ROOT_PATH.'/footer.php';
+include ICMS_ROOT_PATH.'/footer.php';
 ?>

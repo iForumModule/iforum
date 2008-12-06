@@ -1,33 +1,28 @@
 <?php
-// $Id: admin_votedata.php,v 1.1.1.1 2005/10/19 15:58:12 phppp Exp $
-// ------------------------------------------------------------------------ //
-// XOOPS - PHP Content Management System                      //
-// Copyright (c) 2000 XOOPS.org                           //
-// <http://www.xoops.org/>                             //
-// ------------------------------------------------------------------------ //
-// This program is free software; you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License, or        //
-// (at your option) any later version.                                      //
-// //
-// You may not change or alter any portion of this comment or credits       //
-// of supporting developers from this source code or any supporting         //
-// source code which is considered copyrighted (c) material of the          //
-// original comment or credit authors.                                      //
-// //
-// This program is distributed in the hope that it will be useful,          //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-// GNU General Public License for more details.                             //
-// //
-// You should have received a copy of the GNU General Public License        //
-// along with this program; if not, write to the Free Software              //
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include 'admin_header.php';
 
 $op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"");
@@ -40,7 +35,7 @@ switch ($op)
         $topic_id = intval($_GET['topic_id']);
         $sql = $xoopsDB->queryF("DELETE FROM " . $xoopsDB->prefix('bb_votedata') . " WHERE ratingid = $rid");
         $xoopsDB->query($sql);
-        newbb_updaterating($topic_id);
+        iforum_updaterating($topic_id);
         redirect_header("admin_votedata.php", 1, _AM_NEWBB_VOTEDELETED);
         break;
 
@@ -83,7 +78,7 @@ switch ($op)
 		<div><strong>" . _AM_NEWBB_VOTE_USERAVG . ": </strong>$useravgrating</div>\n
 		<div><strong>" . _AM_NEWBB_VOTE_TOTALRATE . ": </strong>$uservotes</div>\n
 		<div style='padding: 8px;'>\n
-		<ul><li>".newbb_displayImage($forumImage['delete'], _DELETE)." " . _AM_NEWBB_VOTE_DELETEDSC . "</li></ul>
+		<ul><li>".iforum_displayImage($forumImage['delete'], _DELETE)." " . _AM_NEWBB_VOTE_DELETEDSC . "</li></ul>
 		<div>\n
 		</fieldset>\n
 		<br />\n
@@ -108,21 +103,21 @@ switch ($op)
             $down_array = $xoopsDB->fetchArray($xoopsDB->query($sql));
 
             $formatted_date = formatTimestamp($ratingtimestamp, _DATESTRING);
-            $ratinguname = newbb_getUnameFromId($ratinguser, $xoopsModuleConfig['show_realname']);
+            $ratinguname = iforum_getUnameFromId($ratinguser, $xoopsModuleConfig['show_realname']);
 	echo "
 		<tr>\n
 		<td class='head' align='center'>$ratingid</td>\n
 		<td class='even' align='center'>$ratinguname</td>\n
 		<td class='even' align='center' >$ratinghostname</td>\n
-		<td class='even' align='left'><a href='".XOOPS_URL."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=".$topic_id."' target='topic'>".$myts->htmlSpecialChars($down_array['topic_title'])."</a></td>\n
+		<td class='even' align='left'><a href='".ICMS_URL."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=".$topic_id."' target='topic'>".$myts->htmlSpecialChars($down_array['topic_title'])."</a></td>\n
 		<td class='even' align='center'>$rating</td>\n
 		<td class='even' align='center'>$formatted_date</td>\n
-		<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;topic_id=$topic_id&amp;rid=$ratingid'>".newbb_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n
+		<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;topic_id=$topic_id&amp;rid=$ratingid'>".iforum_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n
 		</tr>\n";
         }
         echo "</table>";
 		//Include page navigation
-		include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+		include_once ICMS_ROOT_PATH . '/class/pagenav.php';
         $page = ($votes > 20) ? _AM_NEWBB_MINDEX_PAGE : '';
         $pagenav = new XoopsPageNav($page, 20, $start, 'start');
         echo '<div align="right" style="padding: 8px;">' . $page . '' . $pagenav->renderImageNav(4) . '</div>';

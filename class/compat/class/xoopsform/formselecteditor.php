@@ -9,11 +9,11 @@
  * @version		$Id$
  * @package		xoopseditor
  */
-if (!defined('XOOPS_ROOT_PATH')) {
+if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
 
-require_once XOOPS_ROOT_PATH."/class/xoopseditor.php";
+require_once ICMS_ROOT_PATH."/class/xoopseditor.php";
 
 /**
  * A select box with available editors

@@ -41,7 +41,7 @@ function mod_loadFilters(&$object, $method)
     }
     $class = is_object($object) ? get_class($object) : $object;
     foreach ($modules_active as $f) {
-        if (!@include_once XOOPS_ROOT_PATH."/modules/{$f}/filter/{$class}.{$method}.php") continue;
+        if (!@include_once ICMS_ROOT_PATH."/modules/{$f}/filter/{$class}.{$method}.php") continue;
         if (function_exists("{$class}_{$method}")) call_user_func_array("{$class}_{$method}", array(&$object));
     }
 }

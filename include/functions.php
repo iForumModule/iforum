@@ -1,33 +1,27 @@
 <?php
-// $Id: functions.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 if(!defined("NEWBB_FUNCTIONS")):
 define("NEWBB_FUNCTIONS", true);
@@ -37,18 +31,18 @@ if(!defined("_GLOBAL_LEFT")){
 define('_GLOBAL_LEFT', (( defined('_ADM_USE_RTL') && _ADM_USE_RTL )?"right":"left"));} // type here right in rtl languages
 if(!defined("_GLOBAL_RIGHT")){
 define('_GLOBAL_RIGHT', (( defined('_ADM_USE_RTL') && _ADM_USE_RTL )?"left":"right"));} // type here left in rtl languages
-function &newbb_getUnameFromIds( $userid, $usereal = 0, $linked = false )
+function &iforum_getUnameFromIds( $userid, $usereal = 0, $linked = false )
 {
 	$users = mod_getUnameFromIds( $userid, $usereal, $linked);
 	return $users;
 }
 
-function newbb_getUnameFromId( $userid, $usereal = 0, $linked = false)
+function iforum_getUnameFromId( $userid, $usereal = 0, $linked = false)
 {
 	return mod_getUnameFromId( $userid, $usereal, $linked);
 }
 
-function newbb_is_dir($dir){
+function iforum_is_dir($dir){
     $openBasedir = ini_get('open_basedir');
     if (empty($openBasedir)) {
 	    return @is_dir($dir);
@@ -60,12 +54,12 @@ function newbb_is_dir($dir){
 /*
  * Sorry, we have to use the stupid solution unless there is an option in MyTextSanitizer:: htmlspecialchars();
  */
-function newbb_htmlSpecialChars($text)
+function iforum_htmlSpecialChars($text)
 {
 	return preg_replace(array("/&amp;/i", "/&nbsp;/i"), array('&', '&amp;nbsp;'), htmlspecialchars($text));
 }
 
-	function &newbb_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $config = 'display')
+	function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $config = 'display')
 	{
 		// ################# Preload Trigger beforeDisplayTarea ##############
 		global $icmsPreloadHandler, $myts;
@@ -118,7 +112,7 @@ function newbb_htmlSpecialChars($text)
  * @param bool		$force 	flag indicating to force filtering
  * @return string 	filtered text
  */
-function &newbb_textFilter($text, $force = false)
+function &iforum_textFilter($text, $force = false)
 {
 	global $xoopsUser, $xoopsConfig;
 	
@@ -147,20 +141,20 @@ function &newbb_textFilter($text, $force = false)
 	return $text;
 }
 
-function newbb_html2text($document)
+function iforum_html2text($document)
 {
 	$text = strip_tags($document);
 	return $text;
 }
 
 /*
- * Currently the newbb session/cookie handlers are limited to:
+ * Currently the iforum session/cookie handlers are limited to:
  * -- one dimension
  * -- "," and "|" are preserved
  *
  */
 
-function newbb_setsession($name, $string = '')
+function iforum_setsession($name, $string = '')
 {
 	if(is_array($string)) {
 		$value = array();
@@ -169,12 +163,12 @@ function newbb_setsession($name, $string = '')
 		}
 		$string = implode(",", $value);
 	}
-	$_SESSION['newbb_'.$name] = $string;
+	$_SESSION['iforum_'.$name] = $string;
 }
 
-function newbb_getsession($name, $isArray = false)
+function iforum_getsession($name, $isArray = false)
 {
-	$value = !empty($_SESSION['newbb_'.$name]) ? $_SESSION['newbb_'.$name] : false;
+	$value = !empty($_SESSION['iforum_'.$name]) ? $_SESSION['iforum_'.$name] : false;
 	if($isArray) {
 		$_value = ($value)?explode(",", $value):array();
 		$value = array();
@@ -188,7 +182,7 @@ function newbb_getsession($name, $isArray = false)
 	return $value;
 }
 
-function newbb_setcookie($name, $string = '', $expire = 0)
+function iforum_setcookie($name, $string = '', $expire = 0)
 {
 	global $forumCookie;
 	if(is_array($string)) {
@@ -201,7 +195,7 @@ function newbb_setcookie($name, $string = '', $expire = 0)
 	setcookie($forumCookie['prefix'].$name, $string, intval($expire), $forumCookie['path'], $forumCookie['domain'], $forumCookie['secure']);
 }
 
-function newbb_getcookie($name, $isArray = false)
+function iforum_getcookie($name, $isArray = false)
 {
 	global $forumCookie;
 	$value = !empty($_COOKIE[$forumCookie['prefix'].$name]) ? $_COOKIE[$forumCookie['prefix'].$name] : null;
@@ -223,7 +217,7 @@ function newbb_getcookie($name, $isArray = false)
 	return $value;
 }
 
-function newbb_checkTimelimit($action_last, $action_tag, $inMinute = true)
+function iforum_checkTimelimit($action_last, $action_tag, $inMinute = true)
 {
 	global $xoopsModuleConfig;
 	if(!isset($xoopsModuleConfig[$action_tag]) or $xoopsModuleConfig[$action_tag]==0) return true;
@@ -254,7 +248,7 @@ function &getModuleAdministrators($mid=0)
 }
 
 /* use hardcoded DB query to save queries */
-function newbb_isModuleAdministrator($uid = 0, $mid = 0)
+function iforum_isModuleAdministrator($uid = 0, $mid = 0)
 {
 	global $xoopsDB;
 	static $module_administrators=array();
@@ -274,7 +268,7 @@ function newbb_isModuleAdministrator($uid = 0, $mid = 0)
 }
 
 /* use hardcoded DB query to save queries */
-function newbb_isModuleAdministrators($uid = array(), $mid = 0)
+function iforum_isModuleAdministrators($uid = array(), $mid = 0)
 {
 	global $xoopsDB;
 	$module_administrators=array();
@@ -293,7 +287,7 @@ function newbb_isModuleAdministrators($uid = array(), $mid = 0)
     return $module_administrators;
 }
 
-function newbb_isAdministrator($user=-1, $mid=0)
+function iforum_isAdministrator($user=-1, $mid=0)
 {
 	global $xoopsUser, $xoopsModule;
 	static $administrators, $newBB_mid;
@@ -316,10 +310,10 @@ function newbb_isAdministrator($user=-1, $mid=0)
 		$mid = $newBB_mid;
 	}
 	
-	return newbb_isModuleAdministrator($uid, $mid);
+	return iforum_isModuleAdministrator($uid, $mid);
 }
 
-function newbb_isAdmin($forum = 0, $user=-1)
+function iforum_isAdmin($forum = 0, $user=-1)
 {
 	global $xoopsUser;
 	static $_cachedModerators;
@@ -327,7 +321,7 @@ function newbb_isAdmin($forum = 0, $user=-1)
 	if(is_numeric($user) && $user == -1) $user =& $xoopsUser;
 	if(!is_object($user) && intval($user)<1) return false;
 	$uid = (is_object($user))?$user->getVar('uid'):intval($user);
-	if(newbb_isAdministrator($uid)) return true;
+	if(iforum_isAdministrator($uid)) return true;
 
 	$cache_id = (is_object($forum))?$forum->getVar('forum_id'):intval($forum);
 	if(!isset($_cachedModerators[$cache_id])){
@@ -338,7 +332,7 @@ function newbb_isAdmin($forum = 0, $user=-1)
 	return in_array($uid,$_cachedModerators[$cache_id]);
 }
 
-function newbb_isModerator($forum = 0, $user=-1)
+function iforum_isModerator($forum = 0, $user=-1)
 {
 	global $xoopsUser;
 	static $_cachedModerators;
@@ -358,7 +352,7 @@ function newbb_isModerator($forum = 0, $user=-1)
 	return in_array($uid,$_cachedModerators[$cache_id]);
 }
 
-function newbb_checkSubjectPrefixPermission($forum = 0, $user=-1)
+function iforum_checkSubjectPrefixPermission($forum = 0, $user=-1)
 {
 	global $xoopsUser, $xoopsModuleConfig;
 
@@ -375,11 +369,11 @@ function newbb_checkSubjectPrefixPermission($forum = 0, $user=-1)
 		return true;
 	}
 	if($xoopsModuleConfig['subject_prefix_level']==3){
-		if(newbb_isAdmin($forum, $user)) return true;
+		if(iforum_isAdmin($forum, $user)) return true;
 		else return false;
 	}
 	if($xoopsModuleConfig['subject_prefix_level']==4){
-		if(newbb_isAdministrator($user)) return true;
+		if(iforum_isAdministrator($user)) return true;
 	}
 	return false;
 }
@@ -429,7 +423,7 @@ function get_total_views()
     return $total;
 }
 
-function newbb_forumSelectBox($value = null, $permission = "access", $delimitor_category = true)
+function iforum_forumSelectBox($value = null, $permission = "access", $delimitor_category = true)
 {
 	$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	$forum_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
@@ -437,8 +431,8 @@ function newbb_forumSelectBox($value = null, $permission = "access", $delimitor_
     $forums = $forum_handler->getForumsByCategory(array_keys($categories), $permission, false);
 
     if(!defined("_MD_SELFORUM")) {
-		if ( !( $ret = @include_once( XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/language/".$GLOBALS['xoopsConfig']['language']."/main.php" ) ) ) {
-			include_once( XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/language/english/main.php" );
+		if ( !( $ret = @include_once( ICMS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/language/".$GLOBALS['xoopsConfig']['language']."/main.php" ) ) ) {
+			include_once( ICMS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/language/english/main.php" );
 		}
     }
     $value = is_array($value)?$value:array($value);
@@ -465,17 +459,17 @@ function newbb_forumSelectBox($value = null, $permission = "access", $delimitor_
     return $box;   
 }
 	
-function newbb_make_jumpbox($forum_id = 0)
+function iforum_make_jumpbox($forum_id = 0)
 {
 	$box = '<form name="forum_jumpbox" method="get" action="viewforum.php" onsubmit="javascript: if(document.forum_jumpbox.forum.value &lt; 1){return false;}">';
 	$box .= '<select class="select" name="forum" onchange="javascript: if(this.options[this.selectedIndex].value >0 ){ document.forms.forum_jumpbox.submit();}">';
-    $box .= newbb_forumSelectBox($forum_id);
+    $box .= iforum_forumSelectBox($forum_id);
     $box .= "</select> <input type='submit' class='button' value='"._GO."' /></form>";
     unset($forums, $categories);
     return $box;
 }
 
-function newbb_isIE5()
+function iforum_isIE5()
 {
 	static $user_agent_is_IE5;
 
@@ -491,17 +485,17 @@ function newbb_isIE5()
     return $user_agent_is_IE5;
 }
 
-function newbb_displayImage($image, $alt = "", $width = 0, $height =0, $style ="margin: 0px;", $sizeMeth='scale')
+function iforum_displayImage($image, $alt = "", $width = 0, $height =0, $style ="margin: 0px;", $sizeMeth='scale')
 {
 	global $xoopsModuleConfig, $forumImage;
 	static $image_type;
 
-	$user_agent_is_IE5 = newbb_isIE5();
+	$user_agent_is_IE5 = iforum_isIE5();
 	if(!isset($image_type)) $image_type = ($xoopsModuleConfig['image_type'] == 'auto')?(($user_agent_is_IE5)?'gif':'png'):$xoopsModuleConfig['image_type'];
 	$image .= '.'.$image_type;
-	$imageuri=preg_replace("/^".preg_quote(XOOPS_URL,"/")."/",XOOPS_ROOT_PATH,$image);
-	if(!preg_match("/^".preg_quote(XOOPS_ROOT_PATH,"/")."/",$imageuri)){
-		$imageuri = XOOPS_ROOT_PATH."/".$image;
+	$imageuri=preg_replace("/^".preg_quote(ICMS_URL,"/")."/",ICMS_ROOT_PATH,$image);
+	if(!preg_match("/^".preg_quote(ICMS_ROOT_PATH,"/")."/",$imageuri)){
+		$imageuri = ICMS_ROOT_PATH."/".$image;
 	}
 	if(file_exists($imageuri)){
 	    $size=@getimagesize($imageuri);
@@ -522,12 +516,12 @@ function newbb_displayImage($image, $alt = "", $width = 0, $height =0, $style ="
 }
 
 /**
- * newbb_updaterating()
+ * iforum_updaterating()
  *
  * @param $sel_id
  * @return updates rating data in itemtable for a given item
  **/
-function newbb_updaterating($sel_id)
+function iforum_updaterating($sel_id)
 {
     global $xoopsDB;
     $query = "select rating FROM " . $xoopsDB -> prefix('bb_votedata') . " WHERE topic_id = " . $sel_id . "";
@@ -544,7 +538,7 @@ function newbb_updaterating($sel_id)
     $xoopsDB -> queryF($sql);
 }
 
-function newbb_sinceSelectBox($selected = 100)
+function iforum_sinceSelectBox($selected = 100)
 {
 	global $xoopsModuleConfig;
 
@@ -568,14 +562,14 @@ function newbb_sinceSelectBox($selected = 100)
 	return $forum_selection_since;
 }
 
-function newbb_getSinceTime($since = 100)
+function iforum_getSinceTime($since = 100)
 {
 	if($since==1000) return 0;
 	if($since>0) return intval($since) * 24 * 3600;
 	else return intval(abs($since)) * 3600;
 }
 
-function newbb_welcome( $user = -1 )
+function iforum_welcome( $user = -1 )
 {
 	global $xoopsModuleConfig, $xoopsUser;
 
@@ -593,10 +587,10 @@ function newbb_welcome( $user = -1 )
 	}
 	unset($forum);
 	include_once dirname(__FILE__)."/functions.welcome.php";
-	return newbb_welcome_create($user, $xoopsModuleConfig["welcome_forum"]);
+	return iforum_welcome_create($user, $xoopsModuleConfig["welcome_forum"]);
 }
 
-function newbb_synchronization($type = "")
+function iforum_synchronization($type = "")
 {
 	switch($type){
 	case "rate":
@@ -620,15 +614,15 @@ function newbb_synchronization($type = "")
 		$handler->cleanOrphan();
 		unset($handler);
 	}
-    $newbbConfig = newbb_load_config();
+    $iforumConfig = iforum_load_config();
 	if(empty($type) || in_array("post", $type)):
 		$post_handler =& icms_getmodulehandler("post", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
-        $expires = isset($newbbConfig["pending_expire"])?intval($newbbConfig["pending_expire"]):7;
+        $expires = isset($iforumConfig["pending_expire"])?intval($iforumConfig["pending_expire"]):7;
 		$post_handler->cleanExpires($expires*24*3600);
 	endif;
 	if(empty($type) || in_array("topic", $type)):
 		$topic_handler =& icms_getmodulehandler("topic", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
-        $expires = isset($newbbConfig["pending_expire"])?intval($newbbConfig["pending_expire"]):7;
+        $expires = isset($iforumConfig["pending_expire"])?intval($iforumConfig["pending_expire"]):7;
 		$topic_handler->cleanExpires($expires*24*3600);
 		$topic_handler->synchronization();
 	endif;
@@ -651,31 +645,31 @@ function newbb_synchronization($type = "")
 	return true;
 }
 
-function newbb_setRead($type, $item_id, $post_id, $uid = null)
+function iforum_setRead($type, $item_id, $post_id, $uid = null)
 {
 	$read_handler =& icms_getmodulehandler("read".$type, basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	return $read_handler->setRead($item_id, $post_id, $uid);
 }
 
-function newbb_getRead($type, $item_id, $uid = null)
+function iforum_getRead($type, $item_id, $uid = null)
 {
 	$read_handler =& icms_getmodulehandler("read".$type, basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	return $read_handler->getRead($item_id, $uid);
 }
 
-function newbb_setRead_forum($status = 0, $uid = null)
+function iforum_setRead_forum($status = 0, $uid = null)
 {
 	$read_handler =& icms_getmodulehandler("readforum", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	return $read_handler->setRead_items($status, $uid);
 }
 
-function newbb_setRead_topic($status = 0, $forum_id = 0, $uid = null)
+function iforum_setRead_topic($status = 0, $forum_id = 0, $uid = null)
 {
 	$read_handler =& icms_getmodulehandler("readtopic", basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	return $read_handler->setRead_items($status, $forum_id, $uid);
 }
 
-function newbb_isRead($type, &$items, $uid = null)
+function iforum_isRead($type, &$items, $uid = null)
 {
 	$read_handler =& icms_getmodulehandler("read".$type, basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	return $read_handler->isRead_items($items, $uid);

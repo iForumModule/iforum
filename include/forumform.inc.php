@@ -1,39 +1,33 @@
 <?php
-// $Id: forumform.inc.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
-if (!defined('XOOPS_ROOT_PATH')) {
+if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
 
-include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/compat/class/xoopsformloader.php";
+include_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/compat/class/xoopsformloader.php";
 
 if(empty($forum_obj)){
     $forum_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
@@ -56,7 +50,7 @@ foreach (array(
 		'order',
 		'viewmode',
 		'hidden',
-		'newbb_form',
+		'iforum_form',
 		'icon',
 		'op'
 		) as $getstr) {
@@ -71,7 +65,7 @@ $forum_form_action = (empty($admin_form_action))?"post.php":$admin_form_action; 
 $forum_form = new XoopsThemeForm('', 'forumform', $forum_form_action, 'post', true);
 $forum_form->setExtra('enctype="multipart/form-data"');
 
-if (newbb_checkSubjectPrefixPermission($forum)) {
+if (iforum_checkSubjectPrefixPermission($forum)) {
 	if ($forum_obj->getVar('allow_subject_prefix')) {
 		$subject_add = new XoopsFormElementTray(_MD_TOPIC_SUBJECTC,'');
 		$subjectpres = explode(',',$xoopsModuleConfig['subject_prefix']);
@@ -99,16 +93,16 @@ if (!is_object($xoopsUser) && empty($admin_form_action)) {
 $icons_radio = new XoopsFormRadio(_MD_MESSAGEICON, 'icon', $icon);
 $subject_icons = XoopsLists::getSubjectsList();
 foreach ($subject_icons as $iconfile) {
-	$icons_radio->addOption($iconfile, '<img src="'.XOOPS_URL.'/images/subject/'.$iconfile.'" alt="" />');
+	$icons_radio->addOption($iconfile, '<img src="'.ICMS_URL.'/images/subject/'.$iconfile.'" alt="" />');
 }
 $forum_form->addElement($icons_radio);
 
 $nohtml = ($forum_obj->getVar('allow_html'))?false:true;
 
 if(!empty($editor)){
-	newbb_setcookie("editor",$editor);
-}elseif(!$editor = newbb_getcookie("editor")){
-	//$editor = newbb_getcookie("editor");
+	iforum_setcookie("editor",$editor);
+}elseif(!$editor = iforum_getcookie("editor")){
+	//$editor = iforum_getcookie("editor");
 	if(is_object($xoopsUser)){
 		$editor =@ $xoopsUser->getVar("editor"); // Need set through user profile
 	}
@@ -201,7 +195,7 @@ if ($topic_handler->getPermission($forum_obj, $topic_status, 'attach')) {
 if (!empty($attachments) && is_array($attachments) && count($attachments)){
 	$delete_attach_checkbox = new XoopsFormCheckBox(_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST, 'delete_attach[]');
 	foreach($attachments as $key => $attachment){
-		$attach = _DELETE.' <a href='.XOOPS_URL.'/'.$xoopsModuleConfig['dir_attachments'].'/'.$attachment['name_saved'].' targe="_blank" >'.$attachment['name_display'].'</a>';
+		$attach = _DELETE.' <a href='.ICMS_URL.'/'.$xoopsModuleConfig['dir_attachments'].'/'.$attachment['name_saved'].' targe="_blank" >'.$attachment['name_display'].'</a>';
 		$delete_attach_checkbox->addOption($key, $attach);
 	}
 	$forum_form->addElement($delete_attach_checkbox);
@@ -210,7 +204,7 @@ if (!empty($attachments) && is_array($attachments) && count($attachments)){
 
 if (!empty($attachments_tmp) && is_array($attachments_tmp) && count($attachments_tmp)){
 	$delete_attach_checkbox = new XoopsFormCheckBox(_MD_REMOVE, 'delete_tmp[]');
-	$url_prefix = str_replace(XOOPS_ROOT_PATH, XOOPS_URL, XOOPS_CACHE_PATH);
+	$url_prefix = str_replace(ICMS_ROOT_PATH, ICMS_URL, XOOPS_CACHE_PATH);
 	foreach($attachments_tmp as $key => $attachment){
 		$attach = ' <a href="'.$url_prefix.'/'.$attachment[0].'" targe="_blank" >'.$attachment[1].'</a>';
 		$delete_attach_checkbox->addOption($key, $attach);

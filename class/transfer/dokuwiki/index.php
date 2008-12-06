@@ -1,29 +1,27 @@
 <?php
-// $Id: index.php,v 1.1.1.1 2005/10/19 16:23:35 phppp Exp $
-// ------------------------------------------------------------------------ //
-// This program is free software; you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License, or        //
-// (at your option) any later version.                                      //
-//                                                                          //
-// You may not change or alter any portion of this comment or credits       //
-// of supporting developers from this source code or any supporting         //
-// source code which is considered copyrighted (c) material of the          //
-// original comment or credit authors.                                      //
-//                                                                          //
-// This program is distributed in the hope that it will be useful,          //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-// GNU General Public License for more details.                             //
-//                                                                          //
-// You should have received a copy of the GNU General Public License        //
-// along with this program; if not, write to the Free Software              //
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------ //
-// Author: phppp (D.J., infomax@gmail.com)                                  //
-// URL: http://xoopsforge.com, http://xoops.org.cn                          //
-// Project: Article Project                                                 //
-// ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 function transfer_dokuwiki(&$data)
 {
@@ -40,7 +38,7 @@ function transfer_dokuwiki(&$data)
 	$content = str_replace("<br>", "\\\\ ", $content);
 	$content = preg_replace_callback("/<a[\s]+href=(['\"]?)([^\"'<>]*)\\1[^>]*>([^<]*)<\/a>/imu", "transfer_parse_html_to_wiki", $content);
 	$content = preg_replace_callback("/<img[\s]+src=(['\"]?)([^\"'<>]*)\\1[\s]+(alt=(['\"]?)([^\"'<>]*)\\3)?[^>]*>/imu", "transfer_parse_img_to_wiki", $content);
-	$content  = newbb_html2text($content);
+	$content  = iforum_html2text($content);
 	// Comment close;
 	
 	$hiddens["wikitext"] = "=====".$data["title"]."===== \n".
@@ -48,16 +46,16 @@ function transfer_dokuwiki(&$data)
 	$hiddens["summary"] = $data["title"];
 	$hiddens["do"] = "preview";
 	
-	include XOOPS_ROOT_PATH."/header.php";
+	include ICMS_ROOT_PATH."/header.php";
 	
-	require_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
-	$form_dokuwiki = new XoopsThemeForm(_MD_TRANSFER_DOKUWIKI, "formdokuwiki", XOOPS_URL."/modules/".$_config["module"]."/doku.php");
+	require_once(ICMS_ROOT_PATH . "/class/xoopsformloader.php");
+	$form_dokuwiki = new XoopsThemeForm(_MD_TRANSFER_DOKUWIKI, "formdokuwiki", ICMS_URL."/modules/".$_config["module"]."/doku.php");
 	foreach(array_keys($hiddens) as $key){
 		$form_dokuwiki->addElement(new XoopsFormHidden($key, str_replace("'", "&#039;",$hiddens[$key])));
 	}
 	
 	$namespace_option_tray = new XoopsFormElementTray(_MD_TRANSFER_DOKUWIKI_NAMESPACE, "<br />");
-	require XOOPS_ROOT_PATH."/modules/".$_config["module"]."/inc/init.php";
+	require ICMS_ROOT_PATH."/modules/".$_config["module"]."/inc/init.php";
 	$dir_array =& transfer_getDirListAsArray($conf["datadir"], $_config["namespace_skip"]);
 	
 	$dir_array = array_merge(array(0=>_NONE), $dir_array);
@@ -107,7 +105,7 @@ function transfer_dokuwiki(&$data)
 	$form_dokuwiki->display();
 	
 	$GLOBALS["xoopsOption"]['output_type'] = "plain";
-	include XOOPS_ROOT_PATH."/footer.php";
+	include ICMS_ROOT_PATH."/footer.php";
 	exit();
 }
 

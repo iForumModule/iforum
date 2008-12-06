@@ -1,37 +1,28 @@
 <?php
-// $Id: online.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-// ------------------------------------------------------------------------ //
-// XOOPS - PHP Content Management System                      //
-// Copyright (c) 2000 XOOPS.org                           //
-// <http://www.xoops.org/>                             //
-// ------------------------------------------------------------------------ //
-// This program is free software; you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License, or        //
-// (at your option) any later version.                                      //
-// //
-// You may not change or alter any portion of this comment or credits       //
-// of supporting developers from this source code or any supporting         //
-// source code which is considered copyrighted (c) material of the          //
-// original comment or credit authors.                                      //
-// //
-// This program is distributed in the hope that it will be useful,          //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-// GNU General Public License for more details.                             //
-// //
-// You should have received a copy of the GNU General Public License        //
-// along with this program; if not, write to the Free Software              //
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 class IforumOnlineHandler
 {
     var $forum;
@@ -80,7 +71,7 @@ class IforumOnlineHandler
         $xoops_online_handler =& xoops_gethandler('online');
 		$xoopsupdate = $xoops_online_handler->write($uid, $uname, time(), $xoopsModule->getVar('mid'), $_SERVER['REMOTE_ADDR']);
 		if(!$xoopsupdate){
-			newbb_message("newbb online upate error");
+			iforum_message("iforum online upate error");
 		}
 
 		$uname = (empty($xoopsModuleConfig['show_realname'])||empty($name))?$uname:$name;
@@ -108,23 +99,23 @@ class IforumOnlineHandler
 	        if(empty($users[$i]['online_uid'])) continue;
 	        $users_id[] = $users[$i]['online_uid'];
 	        $users_online[$users[$i]['online_uid']] = array(
-	        	"link" => XOOPS_URL . "/userinfo.php?uid=" . $users[$i]['online_uid'],
+	        	"link" => ICMS_URL . "/userinfo.php?uid=" . $users[$i]['online_uid'],
 	        	"uname" => $users[$i]['online_uname'],
 	        );
 	        $num_user ++;
         }
         $num_anonymous = $num_total - $num_user;
         $online = array();
-        $online['image'] = newbb_displayImage($forumImage['whosonline']);
+        $online['image'] = iforum_displayImage($forumImage['whosonline']);
 		$online['num_total'] = $num_total;
 		$online['num_user'] = $num_user;
 		$online['num_anonymous'] = $num_anonymous;
-        $administrator_list = newbb_isModuleAdministrators($users_id, $GLOBALS["xoopsModule"]->getVar("mid"));
+        $administrator_list = iforum_isModuleAdministrators($users_id, $GLOBALS["xoopsModule"]->getVar("mid"));
         foreach ($users_online as $uid=>$user) {
             if(!empty($administrator_list[$uid])){
                 $user['level']= 2;
             }
-            elseif(newbb_isModerator($this->forum_object, $uid)){
+            elseif(iforum_isModerator($this->forum_object, $uid)){
                 $user['level']= 1;
             }
             else{
@@ -166,7 +157,7 @@ class IforumOnlineHandler
             $sql = sprintf("INSERT INTO %s (online_uid, online_uname, online_updated, online_ip, online_forum, online_topic) VALUES (%u, %s, %u, %s, %u, %u)", $GLOBALS["xoopsDB"]->prefix('bb_online'), $uid, $GLOBALS["xoopsDB"]->quoteString($uname), $time, $GLOBALS["xoopsDB"]->quoteString($ip), $forum, $forumtopic);
         }
         if (!$GLOBALS["xoopsDB"]->queryF($sql)) {
-	        newbb_message("can not update online info: ".$sql);
+	        iforum_message("can not update online info: ".$sql);
             return false;
         }
         
@@ -182,7 +173,7 @@ class IforumOnlineHandler
 		if($result = $GLOBALS["xoopsDB"]->queryF($sql)){
 	        return true;
         }else{
-	        newbb_message("clean xoops online error: ".$sql);
+	        iforum_message("clean xoops online error: ".$sql);
 	        return false;
         }
 

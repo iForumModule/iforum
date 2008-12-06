@@ -1,36 +1,30 @@
 <?php
-// $Id: rss.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: phppp (D.J., infomax@gmail.com)                                  //
-// URL: http://xoopsforge.com, http://xoops.org.cn                          //
-// Project: Article Project                                                 //
-// ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 include_once("header.php");
-include_once XOOPS_ROOT_PATH.'/class/template.php';
+include_once ICMS_ROOT_PATH.'/class/template.php';
 error_reporting(0);
 $xoopsLogger->activated = false;
 
@@ -81,14 +75,14 @@ $tpl->xoops_setCaching(1);
 $tpl->xoops_setCacheTime($xoopsModuleConfig['rss_cachetime']*60);
 
 $compile_id = implode(",",$valid_forums);
-$xoopsCachedTemplateId = 'mod_'.$xoopsModule->getVar('dirname').'|'.md5(str_replace(XOOPS_URL, '', $GLOBALS['xoopsRequestUri']));
-if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) {
+$xoopsCachedTemplateId = 'mod_'.$xoopsModule->getVar('dirname').'|'.md5(str_replace(ICMS_URL, '', $GLOBALS['xoopsRequestUri']));
+if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id)) {
 
 	$xmlrss_handler =& icms_getmodulehandler('xmlrss', basename( dirname( __FILE__ ) ), 'iforum' );
 	$rss = $xmlrss_handler->create();
 
 	$rss->setVarRss('channel_title', $xoopsConfig['sitename'].' :: '._MD_FORUM);
-	$rss->channel_link = XOOPS_URL.'/';
+	$rss->channel_link = ICMS_URL.'/';
 	$rss->setVarRss('channel_desc', $xoopsConfig['slogan'].' :: '.$xoopsModule->getInfo('description'));
 	// There is a "bug" with xoops function formatTimestamp(time(), 'rss')
 	// We have to make a customized function
@@ -100,9 +94,9 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 	$rss->channel_generator = "CBB ".$xoopsModule->getInfo('version');
 	$rss->channel_language = _LANGCODE;
     $rss->xml_encoding = empty($xoopsModuleConfig['rss_utf8'])?_CHARSET:'UTF-8';
-	$rss->image_url = XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/'.$xoopsModule->getInfo('image');
+	$rss->image_url = ICMS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/'.$xoopsModule->getInfo('image');
 
-	$dimention = getimagesize(XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->getVar('dirname').'/'.$xoopsModule->getInfo('image'));
+	$dimention = getimagesize(ICMS_ROOT_PATH.'/modules/'.$xoopsModule->getVar('dirname').'/'.$xoopsModule->getInfo('image'));
 	if (empty($dimention[0])) {
 		$width = 88;
 	} else {
@@ -141,7 +135,7 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 	    $limit = intval($xoopsModuleConfig['rss_maxitems'] * 1.5);
 
 	    if (!$result = $xoopsDB->query($query,$limit)) {
-		    newbb_message("query for rss builder error: ".$query);
+		    iforum_message("query for rss builder error: ".$query);
 			return $xmlrss_handler->get($rss);
 	    }
 	    $rows = array();
@@ -152,7 +146,7 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 		if(count($rows)<1) {
 			return $xmlrss_handler->get($rss);
 		}
-		$users =& newbb_getUnameFromIds(array_keys($users), $xoopsModuleConfig['show_realname']);
+		$users =& iforum_getUnameFromIds(array_keys($users), $xoopsModuleConfig['show_realname']);
 
 		foreach($rows as $topic){
 	        if( $xoopsModuleConfig['enable_karma'] && $topic['post_karma'] > 0 ) continue;
@@ -179,7 +173,7 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 			$description  .= $myts->displayTarea($topic['post_text'], $topic['dohtml'], $topic['dosmiley'], $topic['doxcode']);
 			$label = _MD_BY." ".$topic['uname'];
 			$time = formatTimestamp($topic['post_time'], "rss");
-	        $link = XOOPS_URL . "/modules/" . $xoopsModule->dirname() . '/viewtopic.php?topic_id=' . $topic['topic_id'] . '&amp;forum=' . $topic['forum_id'];
+	        $link = ICMS_URL . "/modules/" . $xoopsModule->dirname() . '/viewtopic.php?topic_id=' . $topic['topic_id'] . '&amp;forum=' . $topic['forum_id'];
 			$title = $topic['subject'];
 	     	if(!$rss->addItem($title, $link, $description, $label, $time)) break;
 		}
@@ -188,5 +182,5 @@ if (!$tpl->is_cached('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id)) 
 	$tpl->assign('rss', $rss_feed);
 	unset($rss);
 }
-$tpl->display('db:newbb_rss.html', $xoopsCachedTemplateId, $compile_id);
+$tpl->display('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id);
 ?>

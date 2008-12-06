@@ -1,37 +1,32 @@
 <?php
-// $Id: vars.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
-if (!defined('XOOPS_ROOT_PATH')) {
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
+if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
-include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
 
 $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
@@ -60,21 +55,21 @@ $valid_menumodes = array(
 	2 => _MD_MENU_HOVER		// for "mouse hover to expand"
 	);
 
-include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
 
 // You shouldn't have to change any of these
-$forumUrl['root'] = XOOPS_URL."/modules/" . $xoopsModule->dirname();
+$forumUrl['root'] = ICMS_URL."/modules/" . $xoopsModule->dirname();
 $forumUrl['images_root'] = $forumUrl['root']."/images";
 
-//$handle = opendir(XOOPS_ROOT_PATH.'/modules/' . $xoopsModule->dirname() . '/images/imagesets/');
+//$handle = opendir(ICMS_ROOT_PATH.'/modules/' . $xoopsModule->dirname() . '/images/imagesets/');
 $setdir = $xoopsModuleConfig['image_set'];
-//if (empty($setdir) || !is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/')) {
+//if (empty($setdir) || !is_dir(ICMS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/')) {
 if (empty($setdir)) {
 	$setdir = "default";
 }
 
 $forumUrl['images_set']= $forumUrl['images_root']."/imagesets/".$setdir;
-if (is_dir(XOOPS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/'.$xoopsConfig['language'])) {
+if (is_dir(ICMS_ROOT_PATH.'/modules/'. $xoopsModule->dirname() .'/images/imagesets/'.$setdir.'/'.$xoopsConfig['language'])) {
 	$forumUrl['images_lang']=$forumUrl['images_set']."/".$xoopsConfig['language'];
 }else{
 	$forumUrl['images_lang']=$forumUrl['images_set']."/english";
@@ -161,7 +156,7 @@ $forumImage['down'] = $forumUrl['images_set']."/down-a";
 $forumImage['up'] = $forumUrl['images_set']."/up-a";
 $forumImage['printer'] = $forumUrl['images_set']."/printer-a";
 
-$forumImage['pm'] = XOOPS_URL."/images/icons/pm_small.gif";
+$forumImage['pm'] = ICMS_URL."/images/icons/pm_small.gif";
 
 $forumImage['rate1'] = $forumUrl['images_set'].'/rate1-a';
 $forumImage['rate2'] = $forumUrl['images_set'].'/rate2-a';
@@ -179,23 +174,23 @@ $forumCookie['prefix'] = '';
 
 // set cookie name to avoid subsites confusion such as: domain.com, sub1.domain.com, sub2.domain.com, domain.com/xoopss, domain.com/xoops2
 if(empty($forumCookie['prefix'])){
-	$cookie_prefix = preg_replace("/[^a-z_0-9]+/i", "_", preg_replace("/(http(s)?:\/\/)?(www.)?/i","",XOOPS_URL));
+	$cookie_prefix = preg_replace("/[^a-z_0-9]+/i", "_", preg_replace("/(http(s)?:\/\/)?(www.)?/i","",ICMS_URL));
 	$cookie_userid = (is_object($xoopsUser))?$xoopsUser->getVar('uid'):0;
 	$forumCookie['prefix'] = $cookie_prefix."_".$xoopsModule->dirname().$cookie_userid."_";
 }
 
 // set LastVisitTemp cookie, which only gets the time from the LastVisit cookie if it does not exist yet
 // otherwise, it gets the time from the LastVisitTemp cookie
-//$last_visit = newbb_getcookie("LVT");
-$last_visit = newbb_getsession("LV");
-$last_visit = ($last_visit)?$last_visit:newbb_getcookie("LV");
+//$last_visit = iforum_getcookie("LVT");
+$last_visit = iforum_getsession("LV");
+$last_visit = ($last_visit)?$last_visit:iforum_getcookie("LV");
 $last_visit = ($last_visit)?$last_visit:time();
 
 
 // update LastVisit cookie.
-newbb_setcookie("LV", time(), $forumCookie['expire']); // set cookie life time to one month
-//newbb_setcookie("LVT", $last_visit);
-newbb_setsession("LV", $last_visit);
+iforum_setcookie("LV", time(), $forumCookie['expire']); // set cookie life time to one month
+//iforum_setcookie("LVT", $last_visit);
+iforum_setsession("LV", $last_visit);
 
 /* NewBB cookie storage
 	Long term cookie: (configurable, generally one month)
@@ -213,10 +208,10 @@ newbb_setsession("LV", $last_visit);
 
 // include customized variables
 if( is_object($GLOBALS["xoopsModule"]) && basename(  dirname(  dirname( __FILE__ ) ) ) == $GLOBALS["xoopsModule"]->getVar("dirname", "n") ) {
-	$GLOBALS["xoopsModuleConfig"] = newbb_load_config();
+	$GLOBALS["xoopsModuleConfig"] = iforum_load_config();
 }
 
-newbb_load_object();
+iforum_load_object();
 
 error_reporting($ori_error_level);
 ?>

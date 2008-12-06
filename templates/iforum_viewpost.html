@@ -130,9 +130,9 @@
 
 <{foreach item=post from=$posts}>
 <{if $viewmode_compact}>
-<{include file="$newbb_template_path/newbb_item.html" topic_post=$post}>
+<{include file="$iforum_template_path/iforum_item.html" topic_post=$post}>
 <{else}>
-<{include file="$newbb_template_path/newbb_thread.html" topic_post=$post mode=$mode}>
+<{include file="$iforum_template_path/iforum_thread.html" topic_post=$post mode=$mode}>
 <{/if}>
 <div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
 <a href="viewtopic.php?topic_id=<{$post.topic_id}>"><strong><{$smarty.const._MD_VIEWTOPIC}></strong></a>
@@ -207,5 +207,5 @@
 <br />
 <br />
 
-<{if $online}><{include file="db:newbb_online.html"}><{/if}>
+<{if $online}><{include file="db:iforum_online.html"}><{/if}>
 <!-- end module contents -->

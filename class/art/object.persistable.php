@@ -38,7 +38,7 @@ class _XoopsPersistableObject extends XoopsObject
     */
     function getVar($key, $format = 's')
     {
-		defined("MYTEXTSANITIZER_EXTENDED") || include_once XOOPS_ROOT_PATH."/class/module.textsanitizer.php";
+		defined("MYTEXTSANITIZER_EXTENDED") || include_once ICMS_ROOT_PATH."/class/module.textsanitizer.php";
       	$ts =& MyTextSanitizer::getInstance();
 		$ret = null;
 		if ( !isset($this->vars[$key]) ) return $ret ;

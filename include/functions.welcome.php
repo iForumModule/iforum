@@ -1,38 +1,32 @@
 <?php
-// $Id: functions.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 if(!defined("NEWBB_FUNCTIONS_WELCOME")):
 define("NEWBB_FUNCTIONS_WELCOME", true);
 
-function newbb_welcome_create( &$user, $forum_id )
+function iforum_welcome_create( &$user, $forum_id )
 {
 	global $xoopsModule, $xoopsModuleConfig, $myts;
 
@@ -42,7 +36,7 @@ function newbb_welcome_create( &$user, $forum_id )
 	
 	$post_handler =& icms_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	$forumpost =& $post_handler->create();
-    $forumpost->setVar('poster_ip', newbb_getIP());
+    $forumpost->setVar('poster_ip', iforum_getIP());
     $forumpost->setVar('uid', $user->getVar("uid"));
 	$forumpost->setVar('approved', 1);
     $forumpost->setVar('forum_id', $forum_id);
@@ -116,8 +110,8 @@ function newbb_welcome_create( &$user, $forum_id )
     endif;
     
 	$message = sprintf(_MD_WELCOME_MESSAGE, $user->getVar('uname'))."\n\n";
-	$message .= _PROFILE.": <a href='".XOOPS_URL . "/userinfo.php?uid=" . $user->getVar('uid')."'><strong>".$user->getVar('uname')."</strong></a> ";
-	$message .= " | <a href='".XOOPS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $user->getVar('uid')."'>"._MD_PM."</a>\n";
+	$message .= _PROFILE.": <a href='".ICMS_URL . "/userinfo.php?uid=" . $user->getVar('uid')."'><strong>".$user->getVar('uname')."</strong></a> ";
+	$message .= " | <a href='".ICMS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $user->getVar('uid')."'>"._MD_PM."</a>\n";
 	foreach($categories as $category){
 		if(isset($category["fields"])){
 			$message .= "\n\n".$category["cat_title"].":\n\n";
@@ -133,10 +127,10 @@ function newbb_welcome_create( &$user, $forum_id )
     if(!empty($xoopsModuleConfig['notification_enabled'])){
 	    $tags = array();
 	    $tags['THREAD_NAME'] = $subject;
-	    $tags['THREAD_URL'] = XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/viewtopic.php?post_id='.$postid.'&amp;topic_id=' . $forumpost->getVar('topic_id').'&amp;forum=' . $forum_id;
+	    $tags['THREAD_URL'] = ICMS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/viewtopic.php?post_id='.$postid.'&amp;topic_id=' . $forumpost->getVar('topic_id').'&amp;forum=' . $forum_id;
 	    $tags['POST_URL'] = $tags['THREAD_URL'] . '#forumpost' . $postid;
 	    include_once 'include/notification.inc.php';
-	    $forum_info = newbb_notify_iteminfo ('forum', $forum_id);
+	    $forum_info = iforum_notify_iteminfo ('forum', $forum_id);
 	    $tags['FORUM_NAME'] = $forum_info['name'];
 	    $tags['FORUM_URL'] = $forum_info['url'];
 	    $notification_handler =& xoops_gethandler('notification');

@@ -1,33 +1,28 @@
 <?php
-// $Id: reply.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include 'header.php';
 foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'start') as $getint) {
     ${$getint} = isset($_GET[$getint]) ? intval($_GET[$getint]) : 0;
@@ -77,14 +72,14 @@ if ($xoopsModuleConfig['wol_enabled']){
  
 	// Disable cache
 	$xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;
-    include XOOPS_ROOT_PATH.'/header.php';
+    include ICMS_ROOT_PATH.'/header.php';
 
 	$myts =& MyTextSanitizer::getInstance();
-	$isadmin = newbb_isAdmin($forum_obj);
+	$isadmin = iforum_isAdmin($forum_obj);
     $forumpostshow =& $post_handler->getByLimit($topic_id,5);
 
     if($forumpost->getVar('uid')) {
-	    $r_name =newbb_getUnameFromId( $forumpost->getVar('uid'), $xoopsModuleConfig['show_realname'] );
+	    $r_name =iforum_getUnameFromId( $forumpost->getVar('uid'), $xoopsModuleConfig['show_realname'] );
     }else{
 	    $poster_name = $forumpost->getVar('poster_name');
     	$r_name = (empty($poster_name))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($poster_name);
@@ -157,8 +152,8 @@ if ($xoopsModuleConfig['wol_enabled']){
 
     	$isadmin = 0;
     	if($eachpost->getVar('uid')) {
-	    	$p_name =newbb_getUnameFromId( $eachpost->getVar('uid'), $xoopsModuleConfig['show_realname'] );
-			if (newbb_isAdmin($forum_obj, $eachpost->getVar('uid'))) $isadmin = 1;
+	    	$p_name =iforum_getUnameFromId( $eachpost->getVar('uid'), $xoopsModuleConfig['show_realname'] );
+			if (iforum_isAdmin($forum_obj, $eachpost->getVar('uid'))) $isadmin = 1;
     	}else{
 	    	$poster_name = $eachpost->getVar('poster_name');
     		$p_name = (empty($poster_name))?$xoopsConfig['anonymous']:$myts->htmlSpecialChars($poster_name);
@@ -179,5 +174,5 @@ if ($xoopsModuleConfig['wol_enabled']){
 	    echo "<tr><td><br />".$p_content."<br /></td></tr></table>";
 	}
 
-    include XOOPS_ROOT_PATH.'/footer.php';
+    include ICMS_ROOT_PATH.'/footer.php';
 ?>

@@ -1,40 +1,34 @@
 <?php
-// $Id: forum.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
- 
-if (!defined("XOOPS_ROOT_PATH")) {
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
+if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.ini.php';
-newbb_load_object();
+defined("NEWBB_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.ini.php';
+iforum_load_object();
 
 class Forum extends ArtObject {
 
@@ -87,8 +81,8 @@ class Forum extends ArtObject {
 	        else $moderators_new[]=$id;
         }
         if(count($moderators_new)>0){
-			include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
-	        $moderators_new = newbb_getUnameFromIds($moderators_new);
+			include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
+	        $moderators_new = iforum_getUnameFromIds($moderators_new);
 	        foreach($moderators_new as $id => $name){
 				$_cachedModerators[$id] = $name;
 				$moderators_return[$id] = $name;
@@ -114,8 +108,8 @@ class Forum extends ArtObject {
         if (empty($valid_moderators) || !is_array($valid_moderators)) {
             return $ret;
         }
-		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
-        $moderators = newbb_getUnameFromIds($valid_moderators, !empty($xoopsModuleConfig['show_realname']), true);
+		include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
+        $moderators = iforum_getUnameFromIds($valid_moderators, !empty($xoopsModuleConfig['show_realname']), true);
 		$ret = implode(", ", $moderators);
 		return $ret;
     }
@@ -228,11 +222,11 @@ class IforumForumHandler extends ArtObjectHandler
     function getAllTopics(&$forum, $startdate, $start, $sortname, $sortorder, $type = '', $excerpt = 0)
     {
         global $xoopsModule, $xoopsConfig, $xoopsModuleConfig, $forumImage, $forumUrl, $myts, $xoopsUser, $viewall_forums;
-		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
+		include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 		
         $UserUid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : null;
 
-        $topic_lastread = newbb_getcookie('LT', true);
+        $topic_lastread = iforum_getcookie('LT', true);
 
         if (is_object($forum)) {
             $criteria_forum = ' AND t.forum_id = ' . $forum->getVar('forum_id');
@@ -272,7 +266,7 @@ class IforumForumHandler extends ArtObjectHandler
 	                $criteria_post .= ' AND (r.read_id IS NULL OR r.post_id < t.topic_last_post_id)';
                 }elseif($xoopsModuleConfig["read_mode"] == 1){
 	        		$topics = array();
-	    			$topic_lastread = newbb_getcookie('LT', true);
+	    			$topic_lastread = iforum_getcookie('LT', true);
 	        		if(count($topic_lastread)>0) foreach($topic_lastread as $id=>$time){
 		        		if($time > $time_criterion) $topics[] = $id;
 			        }
@@ -353,21 +347,21 @@ class IforumForumHandler extends ArtObjectHandler
             
             if ($myrow['topic_haspoll']) {
 	            if ($myrow['topic_sticky']) {
-	                $topic_icon = newbb_displayImage($forumImage['folder_sticky'], _MD_TOPICSTICKY) . '<br />' . newbb_displayImage($forumImage['poll'], _MD_TOPICHASPOLL);
+	                $topic_icon = iforum_displayImage($forumImage['folder_sticky'], _MD_TOPICSTICKY) . '<br />' . iforum_displayImage($forumImage['poll'], _MD_TOPICHASPOLL);
 	            }else{
-                	$topic_icon = newbb_displayImage($forumImage['poll'], _MD_TOPICHASPOLL);
+                	$topic_icon = iforum_displayImage($forumImage['poll'], _MD_TOPICHASPOLL);
 	            }
             }elseif($myrow['topic_sticky']) {
-                $topic_icon = newbb_displayImage($forumImage['folder_sticky'], _MD_TOPICSTICKY);
+                $topic_icon = iforum_displayImage($forumImage['folder_sticky'], _MD_TOPICSTICKY);
             }elseif (!empty($myrow['icon'])) {
-                $topic_icon = '<img src="' . XOOPS_URL . '/images/subject/' . htmlspecialchars($myrow['icon']) . '" alt="" />';
+                $topic_icon = '<img src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($myrow['icon']) . '" alt="" />';
             } else {
-                $topic_icon = '<img src="' . XOOPS_URL . '/images/icons/no_posticon.gif" alt="" />';
+                $topic_icon = '<img src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" />';
             }
             // ------------------------------------------------------
             // rating_img
             $rating = number_format($myrow['rating'] / 2, 0);
-            $rating_img = newbb_displayImage($forumImage[($rating < 1)?'blank':'rate' . $rating]);
+            $rating_img = iforum_displayImage($forumImage[($rating < 1)?'blank':'rate' . $rating]);
             // ------------------------------------------------------
             // topic_page_jump
             $topic_page_jump = '';
@@ -384,17 +378,17 @@ class IforumForumHandler extends ArtObjectHandler
                     	}
                     } else {
                         $topic_page_jump .= '[<a href="viewtopic.php?topic_id=' . $myrow['topic_id'] . '&amp;start=' . (($i - 1) * $xoopsModuleConfig['posts_per_page']) . '">' . $i . '</a>]';
-                        $topic_page_jump_icon = "<a href='" . XOOPS_URL . "/modules/".basename( dirname(  dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * $xoopsModuleConfig['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . newbb_displayImage($forumImage['docicon']) . "</a>";
+                        $topic_page_jump_icon = "<a href='" . ICMS_URL . "/modules/".basename( dirname(  dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * $xoopsModuleConfig['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
                     }
                 }
             }
             else {
-            	$topic_page_jump_icon = "<a href='" . XOOPS_URL . "/modules/".basename( dirname(  dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>" . newbb_displayImage($forumImage['docicon']) . "</a>";
+            	$topic_page_jump_icon = "<a href='" . ICMS_URL . "/modules/".basename( dirname(  dirname( __FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
         	}
             // ------------------------------------------------------
             // => topic array
             if (is_object($viewall_forums[$myrow['forum_id']])){
-                $forum_link = '<a href="' . XOOPS_URL . '/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/viewforum.php?forum=' . $myrow['forum_id'] . '">' . $viewall_forums[$myrow['forum_id']]->getVar('forum_name') . '</a>';
+                $forum_link = '<a href="' . ICMS_URL . '/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/viewforum.php?forum=' . $myrow['forum_id'] . '">' . $viewall_forums[$myrow['forum_id']]->getVar('forum_name') . '</a>';
             }else {
 	            $forum_link = '';
             }
@@ -404,10 +398,10 @@ class IforumForumHandler extends ArtObjectHandler
 
             if( $excerpt == 0 ){
 	            $topic_excerpt = "";
-            }elseif( ($myrow['post_karma']>0 || $myrow['require_reply']>0) && !newbb_isAdmin($forum) ){
+            }elseif( ($myrow['post_karma']>0 || $myrow['require_reply']>0) && !iforum_isAdmin($forum) ){
 	            $topic_excerpt = "";
             }else{
-	            $topic_excerpt = xoops_substr(newbb_html2text($myts->displayTarea($myrow['post_text'])), 0, $excerpt);
+	            $topic_excerpt = xoops_substr(iforum_html2text($myts->displayTarea($myrow['post_text'])), 0, $excerpt);
 	            $topic_excerpt = str_replace("[", "&#91;", $myts->htmlSpecialChars($topic_excerpt));
             }
 
@@ -415,7 +409,7 @@ class IforumForumHandler extends ArtObjectHandler
             $topics[$myrow['topic_id']] = array(
             	'topic_id' => $myrow['topic_id'],
             	'topic_icon' => $topic_icon,
-                //'topic_folder' => newbb_displayImage($topic_folder),
+                //'topic_folder' => iforum_displayImage($topic_folder),
                 'topic_title' => $topic_subject.$topic_title,
                 'topic_link' => 'viewtopic.php?topic_id=' . $myrow['topic_id'] . '&amp;forum=' . $myrow['forum_id'],
                 'rating_img' => $rating_img,
@@ -443,8 +437,8 @@ class IforumForumHandler extends ArtObjectHandler
             	$reads[$myrow['topic_id']] = ($xoopsModuleConfig["read_mode"] == 1)?$myrow['last_post_time']:$myrow["topic_last_post_id"];
         	}
         }
-		$posters_name =& newbb_getUnameFromIds(array_keys($posters), $xoopsModuleConfig['show_realname'], true);
-        $topic_isRead = newbb_isRead("topic", $reads);
+		$posters_name =& iforum_getUnameFromIds(array_keys($posters), $xoopsModuleConfig['show_realname'], true);
+        $topic_isRead = iforum_isRead("topic", $reads);
         
         foreach(array_keys($topics) as $id){
             $topics[$id]["topic_poster"] = !empty($posters_name[$topics[$id]["topic_poster_uid"]])?
@@ -474,7 +468,7 @@ class IforumForumHandler extends ArtObjectHandler
                     }
                 }
             }
-			$topics[$id]['topic_folder'] = newbb_displayImage($topic_folder);
+			$topics[$id]['topic_folder'] = iforum_displayImage($topic_folder);
             								
             unset($topics[$id]["topic_poster_name"], $topics[$id]["topic_last_poster_name"], $topics[$id]["stats"]);
         }
@@ -485,7 +479,7 @@ class IforumForumHandler extends ArtObjectHandler
 	    	 		" AND topic_id IN (" . implode(',', array_keys($topics)) . ")";
             if($result = $this->db->query($sql)) {
                 while (list($topic_id) = $this->db->fetchRow($result)) {
-                    $topics[$topic_id]['attachment'] = '&nbsp;' . newbb_displayImage($forumImage['clip'], _MD_TOPICSHASATT);
+                    $topics[$topic_id]['attachment'] = '&nbsp;' . iforum_displayImage($forumImage['clip'], _MD_TOPICSHASATT);
                 }
             }
         }
@@ -495,7 +489,7 @@ class IforumForumHandler extends ArtObjectHandler
     function getTopicCount(&$forum, $startdate, $type)
     {
 	    global $xoopsModuleConfig;
-		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
+		include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 	    
         $criteria_extra = '';
         $criteria_approve = ' AND t.approved = 1'; // any others?
@@ -516,7 +510,7 @@ class IforumForumHandler extends ArtObjectHandler
                 }elseif($xoopsModuleConfig["read_mode"] == 1){
                 	$criteria_post = ' p.post_time > ' . max($GLOBALS['last_visit'], $startdate);
 	        		$topics = array();
-	    			$topic_lastread = newbb_getcookie('LT', true);
+	    			$topic_lastread = iforum_getcookie('LT', true);
 	        		if(count($topic_lastread)>0) foreach($topic_lastread as $id=>$time){
 		        		if($time > $time_criterion) $topics[] = $id;
 			        }
@@ -563,10 +557,10 @@ class IforumForumHandler extends ArtObjectHandler
     {
         global $xoopsUser, $xoopsModule;
         static $_cachedPerms;
-		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
+		include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 
         if($type == "all") return true;
-        if (newbb_isAdministrator()) return true;
+        if (iforum_isAdministrator()) return true;
         if (!is_object($forum)) $forum =& $this->get($forum);
         if ($forum->getVar('forum_type')) return false;// if forum inactive, all has no access except admin
 
@@ -578,7 +572,7 @@ class IforumForumHandler extends ArtObjectHandler
 
         $type = strtolower($type);
         if ("moderate" == $type) {
-            $permission = (newbb_isModerator($forum))?1:0;
+            $permission = (iforum_isModerator($forum))?1:0;
         } else {
 			$perms = array_map("trim",explode(',', FORUM_PERM_ITEMS));
            	$perm_type = 'forum';
@@ -726,7 +720,7 @@ class IforumForumHandler extends ArtObjectHandler
     function &display(&$forums_obj)
     {
         global $xoopsModule, $xoopsConfig, $xoopsModuleConfig, $forumImage, $myts;
-		include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
+		include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname(  dirname( __FILE__ ) ) ).'/include/functions.php';
 	    
 		$posts = array();
 		$posts_obj = array();
@@ -756,8 +750,8 @@ class IforumForumHandler extends ArtObjectHandler
 		    	$reads[$id] = ($xoopsModuleConfig["read_mode"] == 1)?$post_obj->getVar('post_time'):$post_obj->getVar('post_id');
 			}
 		}
-		$forum_isread = newbb_isRead("forum", $reads);
-		$users_linked = newbb_getUnameFromIds(array_unique($users), !empty($xoopsModuleConfig['show_realname']), true);
+		$forum_isread = iforum_isRead("forum", $reads);
+		$users_linked = iforum_getUnameFromIds(array_unique($users), !empty($xoopsModuleConfig['show_realname']), true);
 		
 		$forums_array = array();
 		foreach (array_keys($forums_obj) as $id) {
@@ -791,8 +785,8 @@ class IforumForumHandler extends ArtObjectHandler
 			}
 			
 		    $_forum_data['forum_lastpost_time'] = formatTimestamp($post_obj->getVar('post_time'));
-		    $_forum_data['forum_lastpost_icon'] = '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '">'.
-		            '<img src="' . XOOPS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'.
+		    $_forum_data['forum_lastpost_icon'] = '<a href="' . ICMS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '">'.
+		            '<img src="' . ICMS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'.
 		        	'</a>';
 			endif;
 			
@@ -801,7 +795,7 @@ class IforumForumHandler extends ArtObjectHandler
 		    } else {
 		        $forum_folder = ($forum_obj->getVar('forum_type') == 1) ? $forumImage['locked_forum'] : $forumImage['folder_forum'];
 		    }
-		    $_forum_data['forum_folder'] = newbb_displayImage($forum_folder);
+		    $_forum_data['forum_folder'] = iforum_displayImage($forum_folder);
 			
 		    $forums_array[$forum_obj->getVar('parent_forum')][] = $_forum_data;
 		}

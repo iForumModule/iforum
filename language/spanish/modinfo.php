@@ -55,7 +55,7 @@ define("_MI_THEMESET", "Juego de Plantillas");//Theme set
 define("_MI_THEMESET_DESC", "Module-wide, seleccionar '"._NONE."' el cual se utilizará como tema del sitio");// :?
 
 define("_MI_DIR_ATTACHMENT","Directorio para archivos adjuntos");
-define("_MI_DIR_ATTACHMENT_DESC","El path final debe ser 'XOOPS_ROOT_PATH/nombre del directorio'. Sin barras diagonales '/' antes y después. <br /> El path para las miniaturas deberá ser 'nombre del directorio/thumbs', también sin '/' al principio y final.");
+define("_MI_DIR_ATTACHMENT_DESC","El path final debe ser 'ICMS_ROOT_PATH/nombre del directorio'. Sin barras diagonales '/' antes y después. <br /> El path para las miniaturas deberá ser 'nombre del directorio/thumbs', también sin '/' al principio y final.");
 define("_MI_PATH_MAGICK","Path de ImageMagick");
 define("_MI_PATH_MAGICK_DESC","Por lo general es '/usr/bin/X11'. Déjelo en blanco si no tiene ImageMagicK instalado.");
 

@@ -1,45 +1,38 @@
 <?php
-// $Id: polls.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
-
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 include_once("header.php");
 
-include XOOPS_ROOT_PATH."/modules/xoopspoll/include/constants.php";
-include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
-include_once XOOPS_ROOT_PATH."/class/xoopslists.php";
-include_once XOOPS_ROOT_PATH."/class/xoopsblock.php";
-include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
-include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
-include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
-include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
+include ICMS_ROOT_PATH."/modules/xoopspoll/include/constants.php";
+include_once ICMS_ROOT_PATH."/class/xoopsformloader.php";
+include_once ICMS_ROOT_PATH."/class/xoopslists.php";
+include_once ICMS_ROOT_PATH."/class/xoopsblock.php";
+include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
+include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
+include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
+include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
 
 $op = "add";
 if (isset($_GET['op'])) $op = $_GET['op'];
@@ -56,7 +49,7 @@ if(!is_object($xoopspoll) || !$xoopspoll->getVar('isactive')){
 	exit();
 }
 
-include XOOPS_ROOT_PATH."/header.php";
+include ICMS_ROOT_PATH."/header.php";
 
 $topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
 $forumtopic =& $topic_handler->get($topic_id);
@@ -72,7 +65,7 @@ if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_
     exit();
 }
 
-$isadmin = newbb_isAdmin($viewtopic_forum);
+$isadmin = iforum_isAdmin($viewtopic_forum);
 $perm = false;
 if($isadmin){
 	$perm = true;
@@ -118,15 +111,15 @@ if ( $op == "add" ) {
 	$poll_form->addElement($notify_yn);
 
 	$option_tray = new XoopsFormElementTray(_MD_POLL_POLLOPTIONS, "");
-	$barcolor_array = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH."/modules/xoopspoll/images/colorbars/");
+	$barcolor_array = XoopsLists::getImgListAsArray(ICMS_ROOT_PATH."/modules/xoopspoll/images/colorbars/");
 	for($i = 0; $i < 10; $i++){
 		$current_bar = (current($barcolor_array) != "blank.gif") ? current($barcolor_array) : next($barcolor_array);
 		$option_text = new XoopsFormText("", "option_text[]", 50, 255);
 		$option_tray->addElement($option_text);
 		$color_select = new XoopsFormSelect("", "option_color[".$i."]", $current_bar);
 		$color_select->addOptionArray($barcolor_array);
-		$color_select->setExtra("onchange='showImgSelected(\"option_color_image[".$i."]\", \"option_color[".$i."]\", \"modules/xoopspoll/images/colorbars\", \"\", \"".XOOPS_URL."\")'");
-		$color_label = new XoopsFormLabel("", "<img src='".XOOPS_URL."/modules/xoopspoll/images/colorbars/".$current_bar."' name='option_color_image[".$i."]' id='option_color_image[".$i."]' width='30' align='bottom' height='15' alt='' /><br />");
+		$color_select->setExtra("onchange='showImgSelected(\"option_color_image[".$i."]\", \"option_color[".$i."]\", \"modules/xoopspoll/images/colorbars\", \"\", \"".ICMS_URL."\")'");
+		$color_label = new XoopsFormLabel("", "<img src='".ICMS_URL."/modules/xoopspoll/images/colorbars/".$current_bar."' name='option_color_image[".$i."]' id='option_color_image[".$i."]' width='30' align='bottom' height='15' alt='' /><br />");
 		$option_tray->addElement($color_select);
 		$option_tray->addElement($color_label);
 		if ( !next($barcolor_array) ) {
@@ -142,10 +135,10 @@ if ( $op == "add" ) {
 	$poll_form->addElement($op_hidden);
 	$poll_topic_id_hidden = new XoopsFormHidden("topic_id", $topic_id);
 	$poll_form->addElement($poll_topic_id_hidden);
-	//include XOOPS_ROOT_PATH."/header.php";
+	//include ICMS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	//include XOOPS_ROOT_PATH."/footer.php";
+	//include ICMS_ROOT_PATH."/footer.php";
 	//exit();
 }
 
@@ -209,12 +202,12 @@ if ( $op == "save" ) {
 		}
 		$sql = "UPDATE ".$xoopsDB->prefix("bb_topics")." SET topic_haspoll = 1, poll_id = $new_poll_id WHERE topic_id = $topic_id";
         if ( !$result = $xoopsDB->query($sql) ) {
-        	newbb_message("poll adding to topic error: ".$sql);
+        	iforum_message("poll adding to topic error: ".$sql);
         }
-		include_once XOOPS_ROOT_PATH.'/class/template.php';
+		include_once ICMS_ROOT_PATH.'/class/template.php';
 		xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
 	} else {
-		newbb_message($poll->getHtmlErrors());
+		iforum_message($poll->getHtmlErrors());
 		//exit();
 	}
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
@@ -224,7 +217,7 @@ if ( $op == "save" ) {
 if ( $op == "edit" ) {
 	$poll = new XoopsPoll($_GET['poll_id']);
 	$poll_form = new XoopsThemeForm(_MD_POLL_EDITPOLL, "poll_form", "polls.php");
-	$author_label = new XoopsFormLabel(_MD_POLL_AUTHOR, "<a href='".XOOPS_URL."/userinfo.php?uid=".$poll->getVar("user_id")."'>".newbb_getUnameFromId($poll->getVar("user_id"), $xoopsModuleConfig['show_realname'])."</a>");
+	$author_label = new XoopsFormLabel(_MD_POLL_AUTHOR, "<a href='".ICMS_URL."/userinfo.php?uid=".$poll->getVar("user_id")."'>".iforum_getUnameFromId($poll->getVar("user_id"), $xoopsModuleConfig['show_realname'])."</a>");
 	$poll_form->addElement($author_label);
 	$question_text = new XoopsFormText(_MD_POLL_POLLQUESTION, "question", 50, 255, $poll->getVar("question", "E"));
 	$poll_form->addElement($question_text);
@@ -250,7 +243,7 @@ if ( $op == "edit" ) {
 	$notify_yn = new XoopsFormRadioYN(_MD_POLL_NOTIFY, "notify", $notify_value);
 	$poll_form->addElement($notify_yn);
 	$option_tray = new XoopsFormElementTray(_MD_POLL_POLLOPTIONS, "");
-	$barcolor_array =& XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH."/modules/xoopspoll/images/colorbars/");
+	$barcolor_array =& XoopsLists::getImgListAsArray(ICMS_ROOT_PATH."/modules/xoopspoll/images/colorbars/");
 	$i = 0;
 	foreach($options_arr as $option){
 		$option_text = new XoopsFormText("", "option_text[]", 50, 255, $option->getVar("option_text"));
@@ -259,8 +252,8 @@ if ( $op == "edit" ) {
 		$option_tray->addElement($option_id_hidden);
 		$color_select = new XoopsFormSelect("", "option_color[".$i."]", $option->getVar("option_color"));
 		$color_select->addOptionArray($barcolor_array);
-		$color_select->setExtra("onchange='showImgSelected(\"option_color_image[".$i."]\", \"option_color[".$i."]\", \"modules/xoopspoll/images/colorbars\", \"\", \"".XOOPS_URL."\")'");
-		$color_label = new XoopsFormLabel("", "<img src='".XOOPS_URL."/modules/xoopspoll/images/colorbars/".$option->getVar("option_color", "E")."' name='option_color_image[".$i."]' id='option_color_image[".$i."]' width='30' align='bottom' height='15' alt='' /><br />");
+		$color_select->setExtra("onchange='showImgSelected(\"option_color_image[".$i."]\", \"option_color[".$i."]\", \"modules/xoopspoll/images/colorbars\", \"\", \"".ICMS_URL."\")'");
+		$color_label = new XoopsFormLabel("", "<img src='".ICMS_URL."/modules/xoopspoll/images/colorbars/".$option->getVar("option_color", "E")."' name='option_color_image[".$i."]' id='option_color_image[".$i."]' width='30' align='bottom' height='15' alt='' /><br />");
 		$option_tray->addElement($color_select);
 		$option_tray->addElement($color_label);
 		unset($color_select, $color_label, $option_id_hidden, $option_text);
@@ -277,10 +270,10 @@ if ( $op == "edit" ) {
 	$poll_form->addElement($poll_id_hidden);
 	$submit_button = new XoopsFormButton("", "poll_submit", _SUBMIT, "submit");
 	$poll_form->addElement($submit_button);
-	//include XOOPS_ROOT_PATH."/header.php";
+	//include ICMS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	//include XOOPS_ROOT_PATH."/footer.php";
+	//include ICMS_ROOT_PATH."/footer.php";
 	//exit();
 }
 
@@ -321,7 +314,7 @@ if ( $op == "update" ) {
 		$poll->setVar("mail_status", POLL_MAILED);
 	}
 	if ( !$poll->store() ) {
-		newbb_message($poll->getHtmlErrors());
+		iforum_message($poll->getHtmlErrors());
 		exit();
 	}
 	$i = 0;
@@ -342,7 +335,7 @@ if ( $op == "update" ) {
 		$i++;
 	}
 	$poll->updateCount();
-	include_once XOOPS_ROOT_PATH.'/class/template.php';
+	include_once ICMS_ROOT_PATH.'/class/template.php';
 	xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
 	//exit();
@@ -354,15 +347,15 @@ if ( $op == "addmore" ) {
 	$question_label = new XoopsFormLabel(_MD_POLL_POLLQUESTION, $poll->getVar("question"));
 	$poll_form->addElement($question_label);
 	$option_tray = new XoopsFormElementTray(_MD_POLL_POLLOPTIONS, "");
-	$barcolor_array =& XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH."/modules/xoopspoll/images/colorbars/");
+	$barcolor_array =& XoopsLists::getImgListAsArray(ICMS_ROOT_PATH."/modules/xoopspoll/images/colorbars/");
 	for($i = 0; $i < 10; $i++){
 		$current_bar = (current($barcolor_array) != "blank.gif") ? current($barcolor_array) : next($barcolor_array);
 		$option_text = new XoopsFormText("", "option_text[]", 50, 255);
 		$option_tray->addElement($option_text);
 		$color_select = new XoopsFormSelect("", "option_color[".$i."]", $current_bar);
 		$color_select->addOptionArray($barcolor_array);
-		$color_select->setExtra("onchange='showImgSelected(\"option_color_image[".$i."]\", \"option_color[".$i."]\", \"modules/xoopspoll/images/colorbars\", \"\", \"".XOOPS_URL."\")'");
-		$color_label = new XoopsFormLabel("", "<img src='".XOOPS_URL."/modules/xoopspoll/images/colorbars/".$current_bar."' name='option_color_image[".$i."]' id='option_color_image[".$i."]' width='30' align='bottom' height='15' alt='' /><br />");
+		$color_select->setExtra("onchange='showImgSelected(\"option_color_image[".$i."]\", \"option_color[".$i."]\", \"modules/xoopspoll/images/colorbars\", \"\", \"".ICMS_URL."\")'");
+		$color_label = new XoopsFormLabel("", "<img src='".ICMS_URL."/modules/xoopspoll/images/colorbars/".$current_bar."' name='option_color_image[".$i."]' id='option_color_image[".$i."]' width='30' align='bottom' height='15' alt='' /><br />");
 		$option_tray->addElement($color_select);
 		$option_tray->addElement($color_label);
 		unset($color_select, $color_label, $option_text);
@@ -379,10 +372,10 @@ if ( $op == "addmore" ) {
 	$poll_form->addElement($poll_topic_id_hidden);
 	$poll_id_hidden = new XoopsFormHidden("poll_id", $poll->getVar("poll_id"));
 	$poll_form->addElement($poll_id_hidden);
-	//include XOOPS_ROOT_PATH."/header.php";
+	//include ICMS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	//include XOOPS_ROOT_PATH."/footer.php";
+	//include ICMS_ROOT_PATH."/footer.php";
 	//exit();
 }
 
@@ -414,18 +407,18 @@ if ( $op == "savemore" ) {
 		}
 		$i++;
 	}
-	include_once XOOPS_ROOT_PATH.'/class/template.php';
+	include_once ICMS_ROOT_PATH.'/class/template.php';
 	xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
 	redirect_header("polls.php?op=edit&amp;poll_id=".$poll->getVar("poll_id")."&amp;topic_id=".$topic_id,1,_MD_POLL_DBUPDATED);
 	//exit();
 }
 
 if ( $op == "delete" ) {
-	//include XOOPS_ROOT_PATH."/header.php";
+	//include ICMS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll = new XoopsPoll($_GET['poll_id']);
 	xoops_confirm(array('op' => 'delete_ok', 'topic_id' => $topic_id, 'poll_id' => $poll->getVar('poll_id')), 'polls.php', sprintf(_MD_POLL_RUSUREDEL,$poll->getVar("question")));
-	//include XOOPS_ROOT_PATH."/footer.php";
+	//include ICMS_ROOT_PATH."/footer.php";
 	//exit();
 }
 
@@ -434,13 +427,13 @@ if ( $op == "delete_ok" ) {
 	if ( $poll->delete() != false ) {
 		XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
 		XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
-		include_once XOOPS_ROOT_PATH.'/class/template.php';
+		include_once ICMS_ROOT_PATH.'/class/template.php';
 		xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
 		// delete comments for this poll
 		xoops_comment_delete($xoopsModule->getVar('mid'), $poll->getVar('poll_id'));
 		$sql = "UPDATE ".$xoopsDB->prefix("bb_topics")." SET votes = 0, topic_haspoll = 0, poll_id = 0 WHERE topic_id = $topic_id";
         if ( !$result = $xoopsDB->query($sql) ) {
-        	newbb_message("poll removal from topic error: ".$sql);
+        	iforum_message("poll removal from topic error: ".$sql);
         }
 	}
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
@@ -464,10 +457,10 @@ if ( $op == "restart" ) {
 	$poll_form->addElement($poll_id_hidden);
 	$submit_button = new XoopsFormButton("", "poll_submit", _MD_POLL_RESTART, "submit");
 	$poll_form->addElement($submit_button);
-	//include XOOPS_ROOT_PATH."/header.php";
+	//include ICMS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	$poll_form->display();
-	//include XOOPS_ROOT_PATH."/footer.php";
+	//include ICMS_ROOT_PATH."/footer.php";
 	//exit();
 }
 
@@ -493,23 +486,23 @@ if ( $op == "restart_ok" ) {
 		XoopsPollOption::resetCountByPollId($poll->getVar("poll_id"));
 	}
 	if (!$poll->store()) {
-		newbb_message($poll->getHtmlErrors());
+		iforum_message($poll->getHtmlErrors());
 		exit();
 	}
 	$poll->updateCount();
-	include_once XOOPS_ROOT_PATH.'/class/template.php';
+	include_once ICMS_ROOT_PATH.'/class/template.php';
 	xoops_template_clear_module_cache($xoopsModule->getVar('mid'));
 	redirect_header("viewtopic.php?topic_id=$topic_id",1,_MD_POLL_DBUPDATED);
 	//exit();
 }
 
 if ( $op == "log" ) {
-	//include XOOPS_ROOT_PATH."/header.php";
+	//include ICMS_ROOT_PATH."/header.php";
 	echo "<h4>"._MD_POLL_POLLCONF."</h4>";
 	echo "<br />View Log<br /> Sorry, not yet. ;-)";
-	//include XOOPS_ROOT_PATH."/footer.php";
+	//include ICMS_ROOT_PATH."/footer.php";
 	//exit();
 }
 
-include XOOPS_ROOT_PATH."/footer.php";
+include ICMS_ROOT_PATH."/footer.php";
 ?>

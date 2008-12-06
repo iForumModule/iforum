@@ -1,32 +1,30 @@
 <?php
-// $Id: action.transfer.php,v 1.1.1.1 2005/10/19 16:23:24 phppp Exp $
-// ------------------------------------------------------------------------ //
-// This program is free software; you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License, or        //
-// (at your option) any later version.                                      //
-//                                                                          //
-// You may not change or alter any portion of this comment or credits       //
-// of supporting developers from this source code or any supporting         //
-// source code which is considered copyrighted (c) material of the          //
-// original comment or credit authors.                                      //
-//                                                                          //
-// This program is distributed in the hope that it will be useful,          //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-// GNU General Public License for more details.                             //
-//                                                                          //
-// You should have received a copy of the GNU General Public License        //
-// along with this program; if not, write to the Free Software              //
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------ //
-// Author: phppp (D.J., infomax@gmail.com)                                  //
-// URL: http://xoopsforge.com, http://xoops.org.cn                          //
-// Project: Article Project                                                 //
-// ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 include "header.php";
-require_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
+require_once(ICMS_ROOT_PATH . "/class/xoopsformloader.php");
 
 $forum = intval( empty($_GET["forum"])?(empty($_POST["forum"])?0:$_POST["forum"]):$_GET["forum"] );
 $topic_id = intval( empty($_GET["topic_id"])?(empty($_POST["topic_id"])?0:$_POST["topic_id"]):$_GET["topic_id"] );
@@ -34,10 +32,10 @@ $post_id = intval( empty($_GET["post_id"])?(empty($_POST["post_id"])?0:$_POST["p
 
 if ( empty($post_id) )  {	
 	if(empty($_SERVER['HTTP_REFERER'])){
-		include XOOPS_ROOT_PATH."/header.php";
+		include ICMS_ROOT_PATH."/header.php";
 		xoops_error(_NOPERM);
 		$xoopsOption['output_type'] = "plain";
-		include XOOPS_ROOT_PATH."/footer.php";
+		include ICMS_ROOT_PATH."/footer.php";
 		exit();
 	}else{
 		$ref_parser = parse_url($_SERVER['HTTP_REFERER']);
@@ -47,16 +45,16 @@ if ( empty($post_id) )  {
 			|| 
 			($ref_parser["path"] != $uri_parser["path"])
 		){
-			include XOOPS_ROOT_PATH."/header.php";
+			include ICMS_ROOT_PATH."/header.php";
 			xoops_confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE,""), _CLOSE, $_SERVER['HTTP_REFERER']);
 			$xoopsOption['output_type'] = "plain";
-			include XOOPS_ROOT_PATH."/footer.php";
+			include ICMS_ROOT_PATH."/footer.php";
 			exit();
 		}else{
-			include XOOPS_ROOT_PATH."/header.php";
+			include ICMS_ROOT_PATH."/header.php";
 			xoops_error(_NOPERM);
 			$xoopsOption['output_type'] = "plain";
-			include XOOPS_ROOT_PATH."/footer.php";
+			include ICMS_ROOT_PATH."/footer.php";
 			exit();
 		}
 	}
@@ -86,7 +84,7 @@ $op_options	=& $transfer_handler->getList();
 
 // Display option form
 if(empty($_POST["op"])){
-	include XOOPS_ROOT_PATH."/header.php";
+	include ICMS_ROOT_PATH."/header.php";
 	echo "<div class=\"confirmMsg\" style=\"width: 80%; padding:20px;margin:10px auto; text-align:left !important;\"><h2>"._MD_TRANSFER_DESC."</h2><br />";
 	echo "<form name=\"opform\" id=\"opform\" action=\"".xoops_getenv("PHP_SELF")."\" method=\"post\"><ul>\n";
 	foreach($op_options as $value=>$title){
@@ -98,13 +96,13 @@ if(empty($_POST["op"])){
 	echo "<input type=\"hidden\" name=\"op\" id=\"op\" value=\"\">";
 	echo "</url></form></div>";
 	$xoopsOption['output_type'] = "plain";
-	include XOOPS_ROOT_PATH."/footer.php";
+	include ICMS_ROOT_PATH."/footer.php";
 	exit();
 }else{
 	$data = array();
     $data["id"] = $post_id;
     $data["uid"] = $post->getVar("uid");
-	$data["url"] = XOOPS_URL."/modules/".basename( dirname( __FILE__ ) )."/viewtopic.php?topic_id=".$topic_id."&post_id=".$post_id;
+	$data["url"] = ICMS_URL."/modules/".basename( dirname( __FILE__ ) )."/viewtopic.php?topic_id=".$topic_id."&post_id=".$post_id;
 	$post_data =& $post->getPostBody();
 	$data["author"] = $post_data["author"];
 	$data["title"] = $post_data["subject"];
@@ -123,9 +121,9 @@ if(empty($_POST["op"])){
 	
 	$ret = $transfer_handler->do_transfer($_POST["op"], $data);
 	
-	include XOOPS_ROOT_PATH."/header.php";
+	include ICMS_ROOT_PATH."/header.php";
 	$ret = empty($ret)?"javascript: window.close();":$ret;
 	xoops_confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE,$op_options[$op]), _CLOSE, $ret);
-	include XOOPS_ROOT_PATH."/footer.php";
+	include ICMS_ROOT_PATH."/footer.php";
 }
 ?>

@@ -1,45 +1,39 @@
 <?php
-// $Id: moderate.php,v 1.1.1.1 2005/10/19 16:23:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
- 
-if (!defined("XOOPS_ROOT_PATH")) {
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
+if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
-newbb_load_object();
+defined("NEWBB_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
+iforum_load_object();
 
 /**
  * A handler for User moderation management
  * 
- * @package     newbb/cbb
+ * @package     iforum/cbb
  * 
  * @author	    D.J. (phppp, http://xoopsforge.com)
  * @copyright	copyright (c) 2005 XOOPS.org
@@ -93,7 +87,7 @@ class IforumModerateHandler extends ArtObjectHandler
 		}
 	    $uid = ($uid<0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):$uid;
 	    $uid_criteria = empty($uid)?"1=1":"uid=".intval($uid);
-	    $ip = empty($ip)?newbb_getIP(true):$ip;
+	    $ip = empty($ip)?iforum_getIP(true):$ip;
 	    if(!empty($ip)){
 		    $ip_segs = explode(".", $ip);
 		    for($i=1; $i<=4; $i++){
@@ -124,12 +118,12 @@ class IforumModerateHandler extends ArtObjectHandler
     function forumList($uid=-1, $ip=""){
 	    static $forums = array();
 	    $uid = ($uid<0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):$uid;
-	    $ip = empty($ip)?newbb_getIP(true):$ip;
+	    $ip = empty($ip)?iforum_getIP(true):$ip;
 	    if(isset($forums[$uid][$ip])){
 		    return $forums[$uid][$ip];
 	    }
 		if(!empty($GLOBALS["xoopsModuleConfig"]['cache_enabled'])){
-			$forums[$uid][$ip] = newbb_getsession("sf".$uid."_".ip2long($ip), true);
+			$forums[$uid][$ip] = iforum_getsession("sf".$uid."_".ip2long($ip), true);
 			if(is_array($forums[$uid][$ip]) && count($forums[$uid][$ip])){
 		    	return $forums[$uid][$ip];
 			}
@@ -157,7 +151,7 @@ class IforumModerateHandler extends ArtObjectHandler
         }
         $forums[$uid][$ip] = count($_forums)?array_keys($_forums):array(-1);
 		if(!empty($GLOBALS["xoopsModuleConfig"]['cache_enabled'])){
-			newbb_setsession("sf".$uid."_".ip2long($ip), $forums[$uid][$ip]);
+			iforum_setsession("sf".$uid."_".ip2long($ip), $forums[$uid][$ip]);
 		}
         
 		return $forums[$uid][$ip];
@@ -214,7 +208,7 @@ class IforumModerateHandler extends ArtObjectHandler
         */
 		endif;
         if (!$result = $this->db->queryF($sql)) {
-	        newbb_message("cleanOrphan:". $sql);
+	        iforum_message("cleanOrphan:". $sql);
             return false;
         }
         return true;

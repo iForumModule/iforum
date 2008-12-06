@@ -78,7 +78,7 @@ function &mod_getUnameFromIds( $uid, $usereal = false, $linked = false )
 				$users[$uid] = $myts->htmlSpecialChars($row["uname"]);
 			}
 			if ($linked){
-				$users[$uid] = '<a href="' . XOOPS_URL . '/userinfo.php?uid='.$uid.'" title="'.$users[$uid].'">'.$users[$uid].'</a>';
+				$users[$uid] = '<a href="' . ICMS_URL . '/userinfo.php?uid='.$uid.'" title="'.$users[$uid].'">'.$users[$uid].'</a>';
 			}
         }
 	}
@@ -102,7 +102,7 @@ function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
 				$username = $user->getVar('uname');
 			}
 	        if (!empty($linked)){
-				$username = '<a href="' . XOOPS_URL . '/userinfo.php?uid='.$userid.'" title="'.$username.'">'.$username.'</a>';
+				$username = '<a href="' . ICMS_URL . '/userinfo.php?uid='.$userid.'" title="'.$username.'">'.$username.'</a>';
 	        }
         }
     }

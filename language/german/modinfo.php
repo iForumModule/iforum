@@ -55,7 +55,7 @@ define("_MI_THEMESET", "Theme set");
 define("_MI_THEMESET_DESC", "Module-wide, select '"._NONE."' will use site-wide theme");
 
 define("_MI_DIR_ATTACHMENT","Physischer Pfad für die Dateianhänge.");
-define("_MI_DIR_ATTACHMENT_DESC","Der physische Pfad muss nur vom ImpressCMS-Hauptverzeichnis aus angegeben werden, nicht davor. Wenn z. B. die Dateianhänge in www.ihredomain.de/uploads/newbb hochgeladen werden sollen, müsste der einzugebende Pfad '/uploads/newbb' sein. Auf jeden Fall den abschließenden '/' (slash) weglassen. Das Verzeichnis für die Bildvorschauen wäre dann '/uploads/newbb/thumbs'");
+define("_MI_DIR_ATTACHMENT_DESC","Der physische Pfad muss nur vom ImpressCMS-Hauptverzeichnis aus angegeben werden, nicht davor. Wenn z. B. die Dateianhänge in www.ihredomain.de/uploads/iforum hochgeladen werden sollen, müsste der einzugebende Pfad '/uploads/iforum' sein. Auf jeden Fall den abschließenden '/' (slash) weglassen. Das Verzeichnis für die Bildvorschauen wäre dann '/uploads/iforum/thumbs'");
 define("_MI_PATH_MAGICK","Pfad zu ImageMagick");
 define("_MI_PATH_MAGICK_DESC","Normalerweise ist dies '/usr/bin/X11'. Diese Angabe weg lassen (leer), wenn ImageMagick nicht installiert ist oder die Autoerkennung aktiviert werden soll.");
 

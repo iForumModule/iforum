@@ -1,33 +1,28 @@
 <?php
-// $Id: topicmanager.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include "header.php";
 
 if ( isset($_POST['submit']) ) {
@@ -81,7 +76,7 @@ $action['digest']['sql'] = 'topic_digest = 1, digest_time = '.time();
 
 // Disable cache
 $xoopsConfig["module_cache"][$xoopsModule->getVar("mid")] = 0;
-include XOOPS_ROOT_PATH.'/header.php';
+include ICMS_ROOT_PATH.'/header.php';
 
 if ( isset($_POST['submit']) ) {
 	$mode = $_POST['mode'];
@@ -117,11 +112,11 @@ if ( isset($_POST['submit']) ) {
         
 		$poll_id = $topic_handler->get($topic_id, "poll_id");
 		if($poll_id>0){
-			if (is_dir(XOOPS_ROOT_PATH."/modules/xoopspoll/")){
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
-				include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
+			if (is_dir(ICMS_ROOT_PATH."/modules/xoopspoll/")){
+				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
+				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
+				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
+				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
 			
 				$poll = new XoopsPoll($poll_id);
 				if ( $poll->delete() != false ) {
@@ -217,5 +212,5 @@ if ( isset($_POST['submit']) ) {
     echo "<input type='submit' name='submit' value='". $action[$mode]['submit']."' />";
     echo "</td></tr></form></table></td></tr></table>";
 }
-include XOOPS_ROOT_PATH.'/footer.php';
+include ICMS_ROOT_PATH.'/footer.php';
 ?>

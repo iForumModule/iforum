@@ -55,7 +55,7 @@ define("_MI_THEMESET", "Theme set");
 define("_MI_THEMESET_DESC", "Module-wide, select '"._NONE."' will use site-wide theme");
 
 define("_MI_DIR_ATTACHMENT","Attachments physical path.");
-define("_MI_DIR_ATTACHMENT_DESC","Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'");
+define("_MI_DIR_ATTACHMENT_DESC","Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/iforum the path entered would then be '/uploads/iforum' never include a trailing slash '/' the thumbnails path becomes '/uploads/iforum/thumbs'");
 define("_MI_PATH_MAGICK","Path for ImageMagick");
 define("_MI_PATH_MAGICK_DESC","Usually it is '/usr/bin/X11'. Leave it BLANK if you do not have ImageMagicK installed or for autodetecting.");
 

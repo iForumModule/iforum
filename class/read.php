@@ -1,45 +1,39 @@
 <?php
-// $Id: moderate.php,v 1.1.1.1 2005/10/19 16:23:33 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
- 
-if (!defined("XOOPS_ROOT_PATH")) {
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
+if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
-newbb_load_object();
+defined("NEWBB_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
+iforum_load_object();
 
 /**
  * A handler for read/unread handling
  * 
- * @package     newbb/cbb
+ * @package     iforum/cbb
  * 
  * @author	    D.J. (phppp, http://xoopsforge.com)
  * @copyright	copyright (c) 2005 XOOPS.org
@@ -100,9 +94,9 @@ class IforumReadHandler extends ArtObjectHandler
 	    $type = ("forum" == $type) ? "forum" : "topic";
         $this->ArtObjectHandler($db, 'bb_reads_'.$type, 'Read'.$type, 'read_id', 'post_id');
         $this->type = $type;
-	    $newbbConfig = newbb_load_config();
-        $this->lifetime = !empty($newbbConfig["read_expire"]) ? $newbbConfig["read_expire"] *24*3600 : 30*24*3600;
-        $this->mode = isset($newbbConfig["read_mode"]) ? $newbbConfig["read_mode"] : 2;
+	    $iforumConfig = iforum_load_config();
+        $this->lifetime = !empty($iforumConfig["read_expire"]) ? $iforumConfig["read_expire"] *24*3600 : 30*24*3600;
+        $this->mode = isset($iforumConfig["read_mode"]) ? $iforumConfig["read_mode"] : 2;
     }
 
     /**
@@ -144,7 +138,7 @@ class IforumReadHandler extends ArtObjectHandler
     {
 	    $cookie_name = ($this->type == "forum")?"LF":"LT";
 	    $cookie_var = $item_id;
-		$lastview = newbb_getcookie($cookie_name);
+		$lastview = iforum_getcookie($cookie_name);
 		return @$lastview[$cookie_var];
     }
     
@@ -178,9 +172,9 @@ class IforumReadHandler extends ArtObjectHandler
     function setRead_cookie($read_item, $post_id)
     {
 	    $cookie_name = ($this->type == "forum") ? "LF" : "LT";
-		$lastview = newbb_getcookie($cookie_name, true);
+		$lastview = iforum_getcookie($cookie_name, true);
 		$lastview[$read_item] = time();
-		newbb_setcookie($cookie_name, $lastview);
+		iforum_setcookie($cookie_name, $lastview);
     }
     
     function setRead_db($read_item, $post_id, $uid)
@@ -222,7 +216,7 @@ class IforumReadHandler extends ArtObjectHandler
     function isRead_items_cookie(&$items)
     {
 	    $cookie_name = ($this->type == "forum")?"LF":"LT";
-	    $cookie_vars = newbb_getcookie($cookie_name, true);
+	    $cookie_vars = iforum_getcookie($cookie_name, true);
 	    
 	    $ret = array();
 	    foreach($items as $key => $last_update){

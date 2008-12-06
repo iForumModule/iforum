@@ -1,33 +1,27 @@
 <?php
-// $Id: print.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-// ------------------------------------------------------------------------- //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 /* 
  * Print contents of a post or a topic
@@ -60,7 +54,7 @@ if(!empty($post_id)){
 	$topic_id = $post->getVar("topic_id");
 	$post_data = $post_handler->getPostForPrint($post);
 	$isPost = 1;
-	$post_data["url"] = XOOPS_URL."/".basename( dirname( __FILE__ ) )."/viewtopic.php?topic_id=".$post->getVar("topic_id")."&amp;post_id=".$post_id;
+	$post_data["url"] = ICMS_URL."/".basename( dirname( __FILE__ ) )."/viewtopic.php?topic_id=".$post->getVar("topic_id")."&amp;post_id=".$post_id;
 }
 
 $topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
@@ -71,7 +65,7 @@ if(!$approved = $forumtopic->getVar('approved'))    {
 	die(_MD_NORIGHTTOVIEW);
 }
 
-$isadmin = newbb_isAdmin($viewtopic_forum);
+$isadmin = iforum_isAdmin($viewtopic_forum);
 if(!$isadmin && $forumtopic->getVar('approved')<0 ){
     die(_MD_NORIGHTTOVIEW);
 }
@@ -107,7 +101,7 @@ if(empty($isPost)){
     echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
 	 	  <div style='width: 750px; border: 1px solid #000; padding: 20px;'>
 	 	  <div style='text-align: center; display: block; margin: 0 0 6px 0;'>
-		  <img src='" . XOOPS_URL . "/modules/".basename( dirname( __FILE__ ) )."/images/xoopsbb_slogo.png' border='0' alt='' />
+		  <img src='" . ICMS_URL . "/modules/".basename( dirname( __FILE__ ) )."/images/xoopsbb_slogo.png' border='0' alt='' />
 		  <br />
 		  <br />
 		  ";
@@ -122,7 +116,7 @@ if(empty($isPost)){
 		      <div style='text-align: left'>".$post_data['text']."</div>
 		      <div style='padding-top: 12px; border-top: 2px solid #ccc;'></div><br />";
     }
-	echo "<p>"._MD_COMEFROM . "&nbsp;".XOOPS_URL."/".basename( dirname( __FILE__ ) )."/viewtopic.php?forum=".$forum_id."&amp;topic_id=".$topic_id."</p>";
+	echo "<p>"._MD_COMEFROM . "&nbsp;".ICMS_URL."/".basename( dirname( __FILE__ ) )."/viewtopic.php?forum=".$forum_id."&amp;topic_id=".$topic_id."</p>";
 	echo "</div></div>";
 	echo "</body></html>";
 	
@@ -140,7 +134,7 @@ if(empty($isPost)){
     echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
  		  <div style='width: 750px; border: 1px solid #000; padding: 20px;'>
  		  <div style='text-align: center; display: block; margin: 0 0 6px 0;'>
-	      <img src='" . XOOPS_URL . "/modules/".basename( dirname( __FILE__ ) )."/images/xoopsbb_slogo.png' border='0' alt='' />
+	      <img src='" . ICMS_URL . "/modules/".basename( dirname( __FILE__ ) )."/images/xoopsbb_slogo.png' border='0' alt='' />
 	      <h2 style='margin: 0;'>".$post_data['subject']."</h2></div>
  	      <div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".$post_data['date']."</div>
 		  <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>

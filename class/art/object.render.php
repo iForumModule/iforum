@@ -10,7 +10,7 @@
  * @package		Frameworks::art
  */
  
-if (!defined("XOOPS_ROOT_PATH")) {
+if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 

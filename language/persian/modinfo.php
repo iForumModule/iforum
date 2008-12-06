@@ -57,7 +57,7 @@ define("_MI_THEMESET", "تنظیم ثیم");
 define("_MI_THEMESET_DESC", "عرض ماژول,اگر '"._NONE."' را انتخاب کنید عرض ثیم سایت مورد استفاده قرار می‌گیرد");
 
 define("_MI_DIR_ATTACHMENT","آدرس برای قرار گرفتن فایل‌های پیوست");
-define("_MI_DIR_ATTACHMENT_DESC","مسیر فیزیکی فقط از ریشه ایمپرس سی‌ام‌اس به بعد نوشته می‌شود و نه قبل از آن، به عنوان مثال الان فایل‌های شما در شاخه  www.yoururl.com/uploads/newbb بارگذاری می‌شوند و چیزی که باید اینجا وارد شود عبارت است از '/uploads/newbb' بدون گذاشتن '/' در آخر مسیر و تصاویر تمبری شکل در شاخه '/uploads/newbb/thumbs' ذخیره خواهند شد");
+define("_MI_DIR_ATTACHMENT_DESC","مسیر فیزیکی فقط از ریشه ایمپرس سی‌ام‌اس به بعد نوشته می‌شود و نه قبل از آن، به عنوان مثال الان فایل‌های شما در شاخه  www.yoururl.com/uploads/iforum بارگذاری می‌شوند و چیزی که باید اینجا وارد شود عبارت است از '/uploads/iforum' بدون گذاشتن '/' در آخر مسیر و تصاویر تمبری شکل در شاخه '/uploads/iforum/thumbs' ذخیره خواهند شد");
 define("_MI_PATH_MAGICK","مسیر برای ImageMagick");
 define("_MI_PATH_MAGICK_DESC","معمولا '/usr/bin/X11' است. اگر ImageMagicK را نصب نکرده اید این قسمت را خالی بگذارید.");
 

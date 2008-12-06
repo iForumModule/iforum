@@ -9,11 +9,11 @@
  * @version		$Id$
  * @package		module::article
  */
-if (!defined('XOOPS_ROOT_PATH')) {
+if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
 
-if(!@include_once XOOPS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/compat/class/xoopsformloader.php"){
-	require_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
+if(!@include_once ICMS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/compat/class/xoopsformloader.php"){
+	require_once ICMS_ROOT_PATH."/class/xoopsformloader.php";
 }
 ?>

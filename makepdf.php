@@ -1,33 +1,27 @@
 <?php
-// $Id: makepdf.php,v 1.1.1.1 2005/10/19 15:58:07 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 error_reporting(0);
 include 'header.php';
@@ -37,7 +31,7 @@ $topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) : 0;
 $post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) : 0;
 
 if (empty($post_id))  {
-    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php',2,_MD_ERRORTOPIC);
+    redirect_header(ICMS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php',2,_MD_ERRORTOPIC);
     exit();
 }
 
@@ -45,14 +39,14 @@ if (empty($post_id))  {
 $post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 $post = & $post_handler->get($post_id);
 if ( empty($post) ) {
-    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(ICMS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
 // Not yet approved
 $post_handler =& icms_getmodulehandler('post', basename( dirname( __FILE__ ) ), 'iforum' );
 $post = & $post_handler->get($post_id);
 if ( !$approved = $post->getVar('approved') ) {
-    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(ICMS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
 
@@ -60,7 +54,7 @@ $topic_handler =& icms_getmodulehandler('topic', basename( dirname( __FILE__ ) )
 $forumtopic =& $topic_handler->getByPost($post_id);
 $topic_id = $forumtopic->getVar('topic_id');
 if ( !$approved = $forumtopic->getVar('approved') ) {
-    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(ICMS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
 
@@ -68,15 +62,15 @@ $forum_handler =& icms_getmodulehandler('forum', basename( dirname( __FILE__ ) )
 $forum = ($forum)?$forum:$forumtopic->getVar('forum_id');
 $viewtopic_forum =& $forum_handler->get($forum);
 if ( !$forum_handler->getPermission($viewtopic_forum) ) {
-    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOACCESS);
+    redirect_header(ICMS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOACCESS);
     exit();
 }
 
 if ( !$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view") ) {
-    redirect_header(XOOPS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+    redirect_header(ICMS_URL.'/modules/'.basename( dirname( __FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
     exit();
 }
-require_once XOOPS_ROOT_PATH.'/include/pdf.php';
+require_once ICMS_ROOT_PATH.'/include/pdf.php';
 $post_data = $post_handler->getPostForPDF($post);
 $pdf_data['title'] = $viewtopic_forum->getVar("forum_name");
 $pdf_data['subtitle'] = $forumtopic->getVar('topic_title');

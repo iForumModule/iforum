@@ -13,7 +13,7 @@
 if (!defined("FRAMEWORKS_ART_FUNCTIONS_INI")):
 define("FRAMEWORKS_ART_FUNCTIONS_INI", true);
 
-define("FRAMEWORKS_ROOT_PATH", XOOPS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class");
+define("FRAMEWORKS_ROOT_PATH", ICMS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class");
 
 global $xoops;
 if (!is_object($xoops) || "xos_kernel_Xoops2" != get_class($xoops)):
@@ -34,9 +34,9 @@ class xos_kernel_Xoops2 {
 	
 	function xos_kernel_Xoops2()
 	{
-		$this->paths['www'] = array( XOOPS_ROOT_PATH, XOOPS_URL );
-		$this->paths['modules'] = array( XOOPS_ROOT_PATH . '/modules', XOOPS_URL . '/modules' );
-		$this->paths['themes'] = array( XOOPS_ROOT_PATH . '/themes', XOOPS_URL . '/themes' );
+		$this->paths['www'] = array( ICMS_ROOT_PATH, ICMS_URL );
+		$this->paths['modules'] = array( ICMS_ROOT_PATH . '/modules', ICMS_URL . '/modules' );
+		$this->paths['themes'] = array( ICMS_ROOT_PATH . '/themes', ICMS_URL . '/themes' );
 	}
 	/**
 	 * Convert a XOOPS path to a physical one
@@ -150,7 +150,7 @@ function mod_loadFunctions($group = "", $dirname = "")
 	$dirname = !empty($dirname) ? $dirname : $GLOBALS["xoopsModule"]->getVar("dirname", "n");
 	$constant = strtoupper( "{$dirname}_functions" . ( ($group) ? "_{$group}" : "" ) . "_loaded" );
 	if (defined($constant)) return true;
-	$filename = XOOPS_ROOT_PATH."/modules/{$dirname}/include/functions.{$group}" . (empty($group) ? "" : "." ) . "php";
+	$filename = ICMS_ROOT_PATH."/modules/{$dirname}/include/functions.{$group}" . (empty($group) ? "" : "." ) . "php";
 	return include_once $filename;
 }
 
@@ -169,7 +169,7 @@ function mod_loadRenderer($class, $dirname = "")
 	$dirname = !empty($dirname) ? $dirname : $GLOBALS["xoopsModule"]->getVar("dirname", "n");
 	$renderer = ucfirst($dirname).ucfirst($class)."Renderer";
 	if (!class_exists($renderer)) {
-		require_once XOOPS_ROOT_PATH."/modules/{$dirname}/class/{$class}.renderer.php";
+		require_once ICMS_ROOT_PATH."/modules/{$dirname}/class/{$class}.renderer.php";
 	}
 	$instance = eval("{$renderer}::instance()");
 	return $instance;

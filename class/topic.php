@@ -1,40 +1,34 @@
 <?php
-// $Id: topic.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
- 
-if (!defined("XOOPS_ROOT_PATH")) {
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
+if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
-newbb_load_object();
+defined("NEWBB_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
+iforum_load_object();
 
 class Topic extends ArtObject 
 {
@@ -98,7 +92,7 @@ class IforumTopicHandler extends ArtObjectHandler
     {
         $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET approved = 1 WHERE topic_id = $topic_id";
         if (!$result = $this->db->queryF($sql)) {
-            newbb_message("IforumTopicHandler::approve error:" . $sql);
+            iforum_message("IforumTopicHandler::approve error:" . $sql);
             return false;
         }
 		$post_handler =& icms_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
@@ -155,7 +149,7 @@ class IforumTopicHandler extends ArtObjectHandler
                 WHERE t.topic_id = p.topic_id AND p.post_id = " . intval($post_id);
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("IforumTopicHandler::getByPost error:" . $sql);
+            iforum_message("IforumTopicHandler::getByPost error:" . $sql);
             return $topic;
         }
         $row = $this->db->fetchArray($result);
@@ -195,7 +189,7 @@ class IforumTopicHandler extends ArtObjectHandler
 
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("IforumTopicHandler::getTopPost error:" . $sql);
+            iforum_message("IforumTopicHandler::getTopPost error:" . $sql);
             return $post;
         }
         $post_handler =& icms_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
@@ -210,7 +204,7 @@ class IforumTopicHandler extends ArtObjectHandler
         $sql = "SELECT MIN(post_id) AS post_id FROM " . $this->db->prefix('bb_posts') . " WHERE topic_id = " . $topic_id . " AND pid = 0";
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("IforumTopicHandler::getTopPostId error:" . $sql);
+            iforum_message("IforumTopicHandler::getTopPostId error:" . $sql);
             return false;
         }
         list($post_id) = $this->db->fetchRow($result);
@@ -247,7 +241,7 @@ class IforumTopicHandler extends ArtObjectHandler
             $sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_posts') . " AS p WHERE p.topic_id=" . intval($topic->getVar('topic_id')) . $approve_criteria . " AND p.post_id $operator_for_position $post_id";
             $result = $this->db->query($sql);
 	        if (!$result) {
-	            newbb_message("IforumTopicHandler::getAllPosts:post-count error:" . $sql);
+	            iforum_message("IforumTopicHandler::getAllPosts:post-count error:" . $sql);
 	            return $ret;
 	        }
             list($position) = $this->db->fetchRow($result);
@@ -257,7 +251,7 @@ class IforumTopicHandler extends ArtObjectHandler
         $sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p, ' . $this->db->prefix('bb_posts_text') . " t WHERE p.topic_id=" . $topic->getVar('topic_id') . " AND p.post_id = t.post_id" . $approve_criteria . " ORDER BY p.post_id $order";
         $result = $this->db->query($sql, $perpage, $start);
         if (!$result) {
-            newbb_message("IforumTopicHandler::getAllPosts error:" . $sql);
+            iforum_message("IforumTopicHandler::getAllPosts error:" . $sql);
             return $ret;
         }
         $post_handler = &icms_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
@@ -272,7 +266,7 @@ class IforumTopicHandler extends ArtObjectHandler
 
     function &getPostTree(&$postArray, $pid=0)
     {
-		include_once XOOPS_ROOT_PATH . "/modules/".basename( dirname( dirname( __FILE__ ) ) )."/class/newbbtree.php";
+		include_once ICMS_ROOT_PATH . "/modules/".basename( dirname( dirname( __FILE__ ) ) )."/class/iforumtree.php";
         $NewBBTree = new NewBBTree('bb_posts');
         $NewBBTree->setPrefix('&nbsp;&nbsp;');
         $NewBBTree->setPostArray($postArray);
@@ -287,9 +281,9 @@ class IforumTopicHandler extends ArtObjectHandler
         $postArray['post_time'] = formatTimestamp($postArray['post_time']);
 
         if (!empty($postArray['icon'])){
-            $postArray['icon'] = '<img src="' . XOOPS_URL . "/images/subject/" . htmlspecialchars($postArray['icon']) . '" alt="" />';
+            $postArray['icon'] = '<img src="' . ICMS_URL . "/images/subject/" . htmlspecialchars($postArray['icon']) . '" alt="" />';
         }else{
-            $postArray['icon'] = '<a name="' . $postArray['post_id'] . '"><img src="' . XOOPS_URL . '/images/icons/no_posticon.gif" alt="" /></a>';
+            $postArray['icon'] = '<a name="' . $postArray['post_id'] . '"><img src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" /></a>';
         }
 
         if (isset($viewtopic_users[$postArray['uid']]['is_forumadmin'])){
@@ -301,7 +295,7 @@ class IforumTopicHandler extends ArtObjectHandler
         if (isset($viewtopic_users[$postArray['uid']]['name'])) {
 	        $postArray['poster'] = $viewtopic_users[$postArray['uid']]['name'];
 	        if($postArray['uid']>0)
-	        $postArray['poster'] = "<a href=\"".XOOPS_URL . "/userinfo.php?uid=" . $postArray['uid'] ."\">".$viewtopic_users[$postArray['uid']]['name']."</a>";
+	        $postArray['poster'] = "<a href=\"".ICMS_URL . "/userinfo.php?uid=" . $postArray['uid'] ."\">".$viewtopic_users[$postArray['uid']]['name']."</a>";
         }else{
             $postArray['poster'] = (empty($postArray['poster_name']))?$myts->HtmlSpecialChars($xoopsConfig['anonymous']):$postArray['poster_name'];
         }
@@ -315,7 +309,7 @@ class IforumTopicHandler extends ArtObjectHandler
         if($isApproved) $sql .= ' AND approved = 1';
         $result = $this->db->query($sql);
         if (!$result) {
-            newbb_message("IforumTopicHandler::getAllPosters error:" . $sql);
+            iforum_message("IforumTopicHandler::getAllPosters error:" . $sql);
             return array();
         }
         $ret = array();
@@ -344,7 +338,7 @@ class IforumTopicHandler extends ArtObjectHandler
         global $xoopsUser, $xoopsModule;
         static $_cachedTopicPerms;
 
-        if(newbb_isAdmin($forum)) return 1;
+        if(iforum_isAdmin($forum)) return 1;
 
         $forum = is_object($forum)?$forum->getVar('forum_id'):intval($forum);
 	    if($forum<1) return false;
@@ -478,7 +472,7 @@ class IforumTopicHandler extends ArtObjectHandler
 	        		" WHERE post_id = ".$top_post.
 	        		" AND pid <> 0";
 	        if ( !$result = $xoopsDB->queryF($sql) ) {
-	            //newbb_message("Could not set top post $top_post for topic: ".$sql);
+	            //iforum_message("Could not set top post $top_post for topic: ".$sql);
 	            //return false;
 	        }
 	        $sql = 	"UPDATE ".$xoopsDB->prefix("bb_posts").
@@ -488,7 +482,7 @@ class IforumTopicHandler extends ArtObjectHandler
 	        		" 	AND post_id <> ".$top_post.
 	        		" 	AND pid = 0";
 	        if ( !$result = $xoopsDB->queryF($sql) ) {
-	            //newbb_message("Could not set post parent ID for topic: ".$sql);
+	            //iforum_message("Could not set post parent ID for topic: ".$sql);
 	            //return false;
 	        }
 	        
@@ -503,7 +497,7 @@ class IforumTopicHandler extends ArtObjectHandler
 	        		" 	AND ".$xoopsDB->prefix("bb_posts"). ".post_id <> ".$top_post.
 	        		" 	AND bb.topic_id <>".$object->getVar("topic_id");
 	        if ( !$result = $xoopsDB->queryF($sql) ) {
-	            //newbb_message("Could not concile posts for topic: ".$sql);
+	            //iforum_message("Could not concile posts for topic: ".$sql);
 	            //return false;
 	        }
 	        */

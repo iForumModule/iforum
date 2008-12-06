@@ -1,40 +1,34 @@
 <?php
-// $Id: xoops_version.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 $modulename = basename( dirname( __FILE__ ) );
 $modversion['name'] = _MI_NEWBB_NAME;
 $modversion['version'] = 1.00;
 $modversion['description'] = _MI_NEWBB_DESC;
-$modversion['credits'] = "NewBB 2 developed by Marko Schmuck (predator) and D.J. (phppp)";
-$modversion['author'] = "D.J. (phppp)";
+$modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
+$modversion['author'] = "stranger";
 $modversion['license'] = "GNU General Public License (GPL) see LICENSE";
 $modversion['iconsmall'] = "images/imforum_iconsmall.png";
 $modversion['iconbig'] = "images/imforum_iconbig.png";
@@ -42,14 +36,14 @@ $modversion['image'] = "images/imforum_icon.png";
 $modversion['dirname'] = $modulename;
 $modversion['modname'] = 'iforum';
 
-$modversion['author_realname'] = "ImpressCMS iforum Dev Team";
+$modversion['author_realname'] = "Sina Asghari";
 $modversion['author_website_url'] = "http://community.impresscms.org/modules/newbb/";
 $modversion['author_website_name'] = _IMPRESSCMS_COMMUNITY;
 $modversion['author_email'] = "pesian_stranger@users.sourceforge.net";
 $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "1.00";
 $modversion['status'] = "RC 2";
-$modversion['warning'] = "For ImpressCMS > 1.2 <br /><br /><br />". _CO_ICMS_WARNING_RC;
+$modversion['warning'] = "For ImpressCMS >= 1.2 <br /><br /><br />". _CO_ICMS_WARNING_RC;
 
 $modversion['demo_site_url'] = "http://community.impresscms.org/modules/newbb/";
 $modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
@@ -58,7 +52,7 @@ $modversion['support_site_name'] = "ImpressCMS community website";
 $modversion['submit_feature'] = "http://community.impresscms.org/modules/newbb/";
 $modversion['submit_bug'] = "http://community.impresscms.org/modules/newbb/";
 
-include_once(XOOPS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
+include_once(ICMS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
 // Is performing module install/update?
 $isModuleAction = mod_isModuleAction($modversion['dirname']);
 
@@ -66,12 +60,12 @@ $isModuleAction = mod_isModuleAction($modversion['dirname']);
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 
 // create folder
-if (!file_exists(XOOPS_ROOT_PATH."/uploads/".$modulename)) {
-  $chemin=XOOPS_ROOT_PATH.'/uploads/'.$modulename;
+if (!file_exists(ICMS_ROOT_PATH."/uploads/".$modulename)) {
+  $chemin=ICMS_ROOT_PATH.'/uploads/'.$modulename;
   mkdir("$chemin",0777);
 }
-if (!file_exists(XOOPS_ROOT_PATH."/uploads/".$modulename."/thumbs")) {
-  $chemin=XOOPS_ROOT_PATH.'/uploads/'.$modulename.'/thumbs';
+if (!file_exists(ICMS_ROOT_PATH."/uploads/".$modulename."/thumbs")) {
+  $chemin=ICMS_ROOT_PATH.'/uploads/'.$modulename.'/thumbs';
   mkdir("$chemin",0777);
 }
 
@@ -106,38 +100,38 @@ $modversion['onInstall'] = 'include/module.php';
 $modversion['onUpdate'] = 'include/module.php';
 
 //module css
-//$modversion['css'] = 'templates/newbb.css';
+//$modversion['css'] = 'templates/iforum.css';
 
 // Templates
-$modversion['templates'][0]['file'] = 'newbb_poll_results.html';
+$modversion['templates'][0]['file'] = 'iforum_poll_results.html';
 $modversion['templates'][0]['description'] = '';
-$modversion['templates'][1]['file'] = 'newbb_index.html';
+$modversion['templates'][1]['file'] = 'iforum_index.html';
 $modversion['templates'][1]['description'] = '';
-$modversion['templates'][2]['file'] = 'newbb_searchresults.html';
+$modversion['templates'][2]['file'] = 'iforum_searchresults.html';
 $modversion['templates'][2]['description'] = '';
-$modversion['templates'][3]['file'] = 'newbb_search.html';
+$modversion['templates'][3]['file'] = 'iforum_search.html';
 $modversion['templates'][3]['description'] = '';
-$modversion['templates'][4]['file'] = 'newbb_thread.html';
+$modversion['templates'][4]['file'] = 'iforum_thread.html';
 $modversion['templates'][4]['description'] = '';
-$modversion['templates'][5]['file'] = 'newbb_viewforum.html';
+$modversion['templates'][5]['file'] = 'iforum_viewforum.html';
 $modversion['templates'][5]['description'] = '';
-$modversion['templates'][6]['file'] = 'newbb_viewtopic_flat.html';
+$modversion['templates'][6]['file'] = 'iforum_viewtopic_flat.html';
 $modversion['templates'][6]['description'] = '';
-$modversion['templates'][7]['file'] = 'newbb_viewtopic_thread.html';
+$modversion['templates'][7]['file'] = 'iforum_viewtopic_thread.html';
 $modversion['templates'][7]['description'] = '';
-$modversion['templates'][8]['file'] = 'newbb_rss.html';
+$modversion['templates'][8]['file'] = 'iforum_rss.html';
 $modversion['templates'][8]['description'] = '';
-$modversion['templates'][9]['file'] = 'newbb_viewall.html';
+$modversion['templates'][9]['file'] = 'iforum_viewall.html';
 $modversion['templates'][9]['description'] = '';
-$modversion['templates'][10]['file'] = 'newbb_poll_view.html';
+$modversion['templates'][10]['file'] = 'iforum_poll_view.html';
 $modversion['templates'][10]['description'] = '';
-$modversion['templates'][11]['file'] = 'newbb_online.html';
+$modversion['templates'][11]['file'] = 'iforum_online.html';
 $modversion['templates'][11]['description'] = '';
-$modversion['templates'][12]['file'] = 'newbb_viewpost.html';
+$modversion['templates'][12]['file'] = 'iforum_viewpost.html';
 $modversion['templates'][12]['description'] = '';
-$modversion['templates'][13]['file'] = 'newbb_item.html';
+$modversion['templates'][13]['file'] = 'iforum_item.html';
 $modversion['templates'][13]['description'] = '';
-//$modversion['templates'][14]['file'] = 'newbb_viewpost_list.html';
+//$modversion['templates'][14]['file'] = 'iforum_viewpost_list.html';
 //$modversion['templates'][14]['description'] = '';
 
 
@@ -151,13 +145,13 @@ $modversion['templates'][13]['description'] = '';
 // options[5] - SelectedForumIDs: null for all
 
 $modversion['blocks'][1] = array(
-	'file' => "newbb_block.php",
+	'file' => "iforum_block.php",
 	'name' => _MI_NEWBB_BLOCK_TOPIC_POST,
 	'description' => "Shows recent replied topics",
-	'show_func' => "b_newbb_show",
+	'show_func' => "b_iforum_show",
 	'options' => "time|5|360|0|1|0",
-	'edit_func' => "b_newbb_edit",
-	'template' => 'newbb_block.html');
+	'edit_func' => "b_iforum_edit",
+	'template' => 'iforum_block.html');
 
 // options[0] - Citeria valid: time(by default), views, replies, digest, sticky
 // options[1] - NumberToDisplay: any positive integer
@@ -168,13 +162,13 @@ $modversion['blocks'][1] = array(
 // options[6] - SelectedForumIDs: null for all
 
 $modversion['blocks'][] = array(
-	'file' => "newbb_block.php",
+	'file' => "iforum_block.php",
 	'name' => _MI_NEWBB_BLOCK_TOPIC,
 	'description' => "Shows recent topics in the forums",
-	'show_func' => "b_newbb_topic_show",
+	'show_func' => "b_iforum_topic_show",
 	'options' => "time|5|360|0|1|0|0",
-	'edit_func' => "b_newbb_topic_edit",
-	'template' => 'newbb_block_topic.html');
+	'edit_func' => "b_iforum_topic_edit",
+	'template' => 'iforum_block_topic.html');
 
 
 // options[0] - Citeria valid: title(by default), text
@@ -186,13 +180,13 @@ $modversion['blocks'][] = array(
 // options[6] - SelectedForumIDs: null for all
 
 $modversion['blocks'][] = array(
-	'file' => "newbb_block.php",
+	'file' => "iforum_block.php",
 	'name' => _MI_NEWBB_BLOCK_POST,
 	'description' => "Shows recent posts in the forums",
-	'show_func' => "b_newbb_post_show",
+	'show_func' => "b_iforum_post_show",
 	'options' => "title|10|360|0|1|0|0",
-	'edit_func' => "b_newbb_post_edit",
-	'template' => 'newbb_block_post.html');
+	'edit_func' => "b_iforum_post_edit",
+	'template' => 'iforum_block_post.html');
 
 // options[0] - Citeria valid: post(by default), topic, digest, sticky
 // options[1] - NumberToDisplay: any positive integer
@@ -202,18 +196,18 @@ $modversion['blocks'][] = array(
 // options[5] - SelectedForumIDs: null for all
 
 $modversion['blocks'][] = array(
-	'file' => "newbb_block.php",
+	'file' => "iforum_block.php",
 	'name' => _MI_NEWBB_BLOCK_AUTHOR,
 	'description' => "Shows authors stats",
-	'show_func' => "b_newbb_author_show",
+	'show_func' => "b_iforum_author_show",
 	'options' => "topic|5|360|0|1|0",
-	'edit_func' => "b_newbb_author_edit",
-	'template' => 'newbb_block_author.html');	
+	'edit_func' => "b_iforum_author_edit",
+	'template' => 'iforum_block_author.html');	
 
 // Search
 $modversion['hasSearch'] = 1;
 $modversion['search']['file'] = "include/search.inc.php";
-$modversion['search']['func'] = "newbb_search";
+$modversion['search']['func'] = "iforum_search";
 
 // Smarty
 $modversion['use_smarty'] = 1;
@@ -228,8 +222,8 @@ $modversion['config'][] = array(
 
 $imagesets = array("default"=>"Default", "hsyong"=>"hsyong");
 if($isModuleAction){
-	require_once(XOOPS_ROOT_PATH.'/class/xoopslists.php');
-	$imagesets =& XoopsLists::getDirListAsArray(XOOPS_ROOT_PATH.'/modules/'.$modulename.'/images/imagesets/');
+	require_once(ICMS_ROOT_PATH.'/class/xoopslists.php');
+	$imagesets =& XoopsLists::getDirListAsArray(ICMS_ROOT_PATH.'/modules/'.$modulename.'/images/imagesets/');
 }
 $modversion['config'][] = array(
 	'name' 			=> 'image_set',
@@ -715,7 +709,7 @@ $modversion['config'][] = array(
 $modversion["notification"] = array();
 $modversion['hasNotification'] = 1;
 $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
-$modversion['notification']['lookup_func'] = 'newbb_notify_iteminfo';
+$modversion['notification']['lookup_func'] = 'iforum_notify_iteminfo';
 
 $modversion['notification']['category'][1]['name'] = 'thread';
 $modversion['notification']['category'][1]['title'] = _MI_NEWBB_THREAD_NOTIFY;

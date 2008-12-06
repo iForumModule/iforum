@@ -53,7 +53,7 @@ define("_MI_THEMESET", "Set de Th&egrave;me");
 define("_MI_THEMESET_DESC", "Th&egrave;me Global du Module, la s&eacute;lection de '"._NONE."' utilisera le th&egrave;me global du site");
 
 define("_MI_DIR_ATTACHMENT","Chemin physique des fichiers attach&eacute;s");
-define("_MI_DIR_ATTACHMENT_DESC","Le chemin physique doit &ecirc;tre param&egrave;tr&eacute; &agrave; la racine de xoops et pas avant, par exemple vous pouvez avoir des attachements t&eacute;l&eacute;charg&eacute;s sur www.votresite.com/uploads/newbb le chemin ent&eacute;rin&eacute; devra &ecirc;tre alors '/upload/newbb' sans jamais inclure le '/' final. Le chemin des thumbmails deviendra '/uploads/newbb/thumbs'.");
+define("_MI_DIR_ATTACHMENT_DESC","Le chemin physique doit &ecirc;tre param&egrave;tr&eacute; &agrave; la racine de xoops et pas avant, par exemple vous pouvez avoir des attachements t&eacute;l&eacute;charg&eacute;s sur www.votresite.com/uploads/iforum le chemin ent&eacute;rin&eacute; devra &ecirc;tre alors '/upload/iforum' sans jamais inclure le '/' final. Le chemin des thumbmails deviendra '/uploads/iforum/thumbs'.");
 define("_MI_PATH_MAGICK","Chemin pour ImageMagick");
 define("_MI_PATH_MAGICK_DESC","Usuellement il s'agit de '/usr/bin/X11'. Laissez le vide si ImageMAgick n'est pas install&eacute;");
 

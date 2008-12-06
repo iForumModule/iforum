@@ -5,14 +5,14 @@
 <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
 </div>
 
+
 <{if $parent_forum}>
 <div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
 <div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
-<div>&nbsp;&nbsp; <{$post_content}> <strong><{$topic_title}></strong></div>
 <{else}>
 <div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
-<div>&nbsp;&nbsp;<{$post_content}> <strong><{$topic_title}></strong></div>
 <{/if}>
+<div>&nbsp;&nbsp;<{$post_content}> <strong><{$topic_title}></strong> <{if $topictype}><{$topictype}><{/if}></div>
 </div>
 <div class="clear"></div>
 
@@ -23,11 +23,13 @@
 <{$smarty.const._MD_BROWSING}>&nbsp;
 <{foreach item=user from=$online.users}>
 	<a href="<{$user.link}>">
-		<{if $user.color}>
-		<span style="color:<{$user.color}>"><{$user.uname}></span>
+		<{if $user.level eq 2}>
+			<span class="online_admin"><{$user.uname}></span>
+		<{elseif $user.level eq 1}>
+			<span class="online_moderator"><{$user.uname}></span>
 		<{else}>
-		<{$user.uname}>
-		<{/if}>
+			<{$user.uname}>
+		<{/if}>	
 	</a>&nbsp;
 <{/foreach}>
 <{if $online.num_anonymous}>&nbsp;<{$online.num_anonymous}> <{$smarty.const._MD_ANONYMOUS_USERS}>
@@ -35,23 +37,22 @@
 </div>
 <br />
 <{/if}>
-<div class="clear"></div>
 
 <{if $topic_poll}>
-<{if $topic_pollresult}> <{include file="db:newbb_poll_results.html" poll=$poll}>
-<{else}> <{include file="db:newbb_poll_view.html" poll=$poll}> <{/if}>
+<{if $topic_pollresult}> <{include file="db:iforum_poll_results.html" poll=$poll}>
+<{else}> <{include file="db:iforum_poll_view.html" poll=$poll}> <{/if}>
 <{/if}>
 <div class="clear"></div>
 
 <br />
 
-<div>
-<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<div style="padding: 5px;">
+<span style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
 <a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEXTTOPIC}></a>
-</div>
-<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
-<{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}>
-</div>
+</span>
+<span style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{$forum_reply}><{$forum_addpoll}>&nbsp;<{$forum_post_or_register}>
+</span>
 </div>
 <div class="clear"></div>
 
@@ -106,15 +107,13 @@
 
 	<select
 		name="viewmode" id="viewmode"
-		class="menu" 
-		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.location=this.options[this.selectedIndex].value;}"
+		class="menu"	onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.location=this.options[this.selectedIndex].value;}"
 	>
 		<option value=""><{$smarty.const._MD_VIEWMODE}></option>
 		<{foreach item=act from=$viewmode_options}>
 		<option value="<{$act.link}>"><{$act.title}></option>
 		<{/foreach}>
 	</select>
-
 
 <{elseif $menumode eq 1}>
 
@@ -127,7 +126,6 @@
 		<div class="separator"></div>
 		<{/if}>
 		<{if count($adminpoll_actions)>0 }>
-		<div class="separator"></div>
 		<{foreach item=actpoll from=$adminpoll_actions}>
 		<a class="item" href="<{$actpoll.link}>"><{$actpoll.name}></a>
 		<{/foreach}>
@@ -206,14 +204,13 @@
 				<div class="item"><strong><{$smarty.const._MD_TOPICOPTION}></strong></div>
 				<ul>
 				<li><table><tr><td>
-					<div class="item"><a href="<{$topic_print_link}>" target="_blank" ><{$smarty.const._MD_PRINTTOPICS}></a></div>
 					<{if $viewer_level gt 1}>
 					<{foreach item=act from=$admin_actions}>
                     <div class="item"><a href="<{$act.link}>"><{$act.image}> <{$act.name}></a></div>
 					<{/foreach}>
+					<div class="separator"></div>
 					<{/if}>
 					<{if count($adminpoll_actions)>0 }>
-					<div class="separator"></div>
 					<{foreach item=actpoll from=$adminpoll_actions}>
 					<div class="item"><a href="<{$actpoll.link}>"><{$actpoll.image}> <{$actpoll.name}></a></div>
 					<{/foreach}>
@@ -229,6 +226,7 @@
 			</li>
 		</ul>
 	</div>
+
 <{/if}>
 </div>
 <div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
@@ -239,38 +237,60 @@
 <br />
 <br />
 
+<{if $mode gt 1}>
+<form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="javascript: if(window.document.forum_posts_admin.op.value &lt; 1){return false;}">
+<{/if}>
+
 <{foreach item=topic_post from=$topic_posts}>
 <{if $viewmode_compact}>
-<{include file="$newbb_template_path/newbb_item.html" topic_post=$topic_post}>
+<{include file="$iforum_template_path/iforum_item.html" topic_post=$topic_post}>
 <{else}>
-<{include file="$newbb_template_path/newbb_thread.html" topic_post=$topic_post}>
+<{*include file="db:iforum_thread.html" topic_post=$topic_post mode=$mode*}>
+<{include file="$iforum_template_path/iforum_thread.html" topic_post=$topic_post mode=$mode}>
 <{/if}>
 <br />
+<br />
 <{/foreach}>
+
+<{if $viewer_level gt 1}>
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;" id="admin">
+<{if $mode gt 1}>
+<{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');" /> 
+<select name="op">
+	<option value="0"><{$smarty.const._SELECT}></option>
+	<option value="delete"><{$smarty.const._DELETE}></option>
+	<{if $type eq "pending"}>
+		<option value="approve"><{$smarty.const._MD_APPROVE}></option>
+	<{elseif $type eq "deleted"}>
+		<option value="restore"><{$smarty.const._MD_RESTORE}></option>
+	<{/if}>
+</select>
+<input type="hidden" name="topic_id" value="<{$topic_id}>" /> 
+<input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+</form>
+<{elseif $mode eq 1}>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a>
+<{else}>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<{/if}>
+</div>
+<br />
+<{/if}>
 <div class="clear"></div>
 
-<!-- start topic tree -->
-<table class="outer" cellspacing="1" width="100%">
-  <tr align="<{$smarty.const._GLOBAL_LEFT}>">
-    <th width="50%"><{$smarty.const._MD_SUBJECT}></th>
-    <th width="20%"><{$smarty.const._MD_POSTER}></th>
-    <th><{$smarty.const._MD_DATE}></th>
-  </tr>
-<{foreach item=topic_tree from=$topic_trees}>
-  <tr class="<{cycle values="even,odd"}>">
-    <td><{$topic_tree.post_prefix}> <{$topic_tree.post_image}> <{$topic_tree.post_title}></td>
-    <td><{$topic_tree.poster}></td>
-    <td><{$topic_tree.post_time}></td>
-  </tr>
-<{/foreach}>
-</table>
-<!-- end topic tree -->
-
 <br />
-
-<div><a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=threaded&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=threaded&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_NEXTTOPIC}></a></div>
-
-
+<div>
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+	<a id="threadbottom"></a><{$up}>&nbsp;<a href="#threadtop"><{$smarty.const._MD_TOP}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEXTTOPIC}></a>
+</div>
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{$forum_page_nav}>
+</div>
+</div>
 <div class="clear"></div>
 
 <div style="clear: both; padding: 5px; float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
@@ -281,14 +301,14 @@
 <{if $quickreply.show}>
 <div style="clear: both;">
 <a href="#threadbottom" onclick="ToggleBlock('qr', this)"> <{$quickreply.icon}></a>
-</div><br />
+</div>
+<br />
 <div id="qr" style="display: <{$quickreply.display}>">
 <div><{$quickreply.form}></div>
 </div>
 <br />
 <br />
 <{/if}>
-
 <div>
 <div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
 <{foreach item=perm from=$permission_table}>

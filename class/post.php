@@ -1,40 +1,34 @@
 <?php
-// $Id: post.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
- 
-if (!defined("XOOPS_ROOT_PATH")) {
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
+if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
-newbb_load_object();
+defined("NEWBB_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
+iforum_load_object();
 
 class Post extends ArtObject {
     var $attachment_array = array();
@@ -91,7 +85,7 @@ class Post extends ArtObject {
         $this->setVar('attachment', $attachment_save);
         $sql = "UPDATE " . $GLOBALS["xoopsDB"]->prefix("bb_posts") . " SET attachment=" . $GLOBALS["xoopsDB"]->quoteString($attachment_save) . " WHERE post_id = " . $this->getVar('post_id');
         if (!$result = $GLOBALS["xoopsDB"]->queryF($sql)) {
-            newbb_message("save attachment error: ". $sql);
+            iforum_message("save attachment error: ". $sql);
             return false;
         }
         return true;
@@ -110,8 +104,8 @@ class Post extends ArtObject {
 
         foreach($attach_old as $key => $attach) {
             if (in_array($key, $attach_array)) {
-                @unlink(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attach['name_saved']);
-                @unlink(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/thumbs/' . $attach['name_saved']); // delete thumbnails
+                @unlink(ICMS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attach['name_saved']);
+                @unlink(ICMS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/thumbs/' . $attach['name_saved']); // delete thumbnails
                 continue;
             }
             $this->attachment_array[$key] = $attach;
@@ -151,26 +145,26 @@ class Post extends ArtObject {
         $post_attachment = '';
         $attachments = $this->getAttachment();
         if (is_array($attachments) && count($attachments) > 0) {
-            include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/include/functions.image.php';
+            include_once ICMS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/include/functions.image.php';
         	$image_extensions = array("jpg", "jpeg", "gif", "png", "bmp"); // need improve !!!
 	        $post_attachment .= '<br /><strong>' . _MD_ATTACHMENT . '</strong>:';
 	        $post_attachment .= '<br /><hr size="1" noshade="noshade" /><br />';
             foreach($attachments as $key => $att) {
                 $file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
                 $filetype = $file_extension;
-                if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif')){
-                    $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif';
+                if (file_exists(ICMS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif')){
+                    $icon_filetype = ICMS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif';
                 }else{
-                    $icon_filetype = XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/unknown.gif';
+                    $icon_filetype = ICMS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/images/filetypes/unknown.gif';
                 }
-                $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
+                $file_size = @filesize(ICMS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
                 $file_size = number_format ($file_size / 1024, 2)." KB";
                 if (in_array(strtolower($file_extension), $image_extensions) && $xoopsModuleConfig['media_allowed']) {
 	                    $post_attachment .= '<br /><img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>('.$file_size.')</small>';
-	                    $post_attachment .= '<br />' . newbb_attachmentImage($att['name_saved'], $asSource);
+	                    $post_attachment .= '<br />' . iforum_attachmentImage($att['name_saved'], $asSource);
                 		$isDisplayed = true;
                 }else{
-                    $post_attachment .= '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
+                    $post_attachment .= '<a href="' . ICMS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
                 }
             	$post_attachment .= '<br />';
             }
@@ -242,8 +236,8 @@ class Post extends ArtObject {
 
 		$post=array();
 		$post['attachment'] = false;
-		$post_text = newbb_displayTarea($this->vars['post_text']['value'], $this->getVar('dohtml'), $this->getVar('dosmiley'), $this->getVar('doxcode'), $this->getVar('doimage'), $this->getVar('dobr'));
-        if (newbb_isAdmin($this->getVar('forum_id')) or $this->checkIdentity()) {
+		$post_text = iforum_displayTarea($this->vars['post_text']['value'], $this->getVar('dohtml'), $this->getVar('dosmiley'), $this->getVar('doxcode'), $this->getVar('doimage'), $this->getVar('dobr'));
+        if (iforum_isAdmin($this->getVar('forum_id')) or $this->checkIdentity()) {
             $post['text'] = $post_text. '<br />' .$this->displayAttachment($imageAsSource);
         } elseif ($xoopsModuleConfig['enable_karma'] && $this->getVar('post_karma') > $user_karma) {
             $post['text'] = sprintf(_MD_KARMA_REQUIREMENT, $user_karma, $this->getVar('post_karma'));
@@ -265,7 +259,7 @@ class Post extends ArtObject {
            	$post['author'] = $this->getVar('poster_name')?$this->getVar('poster_name'):$xoopsConfig['anonymous'];
         }
 
-        $post['subject'] = newbb_htmlSpecialChars($this->vars['subject']['value']);
+        $post['subject'] = iforum_htmlSpecialChars($this->vars['subject']['value']);
 
         $post['date'] = $this->getVar('post_time');
 
@@ -279,7 +273,7 @@ class Post extends ArtObject {
 
     function checkTimelimit($action_tag = 'edit_timelimit')
     {
-        return newbb_checkTimelimit($this->getVar('post_time'), $action_tag);
+        return iforum_checkTimelimit($this->getVar('post_time'), $action_tag);
     }
 
     function checkIdentity($uid = -1)
@@ -292,7 +286,7 @@ class Post extends ArtObject {
         } else {
             static $user_ip;
             if (!isset($user_ip)) {
-                $user_ip = newbb_getIP();
+                $user_ip = iforum_getIP();
             }
             $user_ok = ($user_ip == $this->getVar('poster_ip'))?true:false;
         }
@@ -350,9 +344,9 @@ class Post extends ArtObject {
 
         $posticon = $this->getVar('icon');
         if (!empty($posticon)){
-            $post_image = '<a name="' . $post_id . '"><img src="' . XOOPS_URL . '/images/subject/' . $posticon . '" alt="" /></a>';
+            $post_image = '<a name="' . $post_id . '"><img src="' . ICMS_URL . '/images/subject/' . $posticon . '" alt="" /></a>';
         }else{
-            $post_image = '<a name="' . $post_id . '"><img src="' . XOOPS_URL . '/images/icons/posticon.gif" alt="" /></a>';
+            $post_image = '<a name="' . $post_id . '"><img src="' . ICMS_URL . '/images/icons/posticon.gif" alt="" /></a>';
         }
 
         $post_title = $this->getVar('subject');
@@ -369,7 +363,7 @@ class Post extends ArtObject {
 	                $edit_ok = true;
 	            }
 	            if ($edit_ok) {
-	                $thread_buttons['edit']['image'] = newbb_displayImage($forumImage['p_edit'], _EDIT);
+	                $thread_buttons['edit']['image'] = iforum_displayImage($forumImage['p_edit'], _EDIT);
 	                $thread_buttons['edit']['link'] = "edit.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 	                $thread_buttons['edit']['name'] = _EDIT;
 	            }
@@ -384,17 +378,17 @@ class Post extends ArtObject {
 	            }
 	
 	            if ($delete_ok) {
-	                $thread_buttons['delete']['image'] = newbb_displayImage($forumImage['p_delete'], _DELETE);
+	                $thread_buttons['delete']['image'] = iforum_displayImage($forumImage['p_delete'], _DELETE);
 	                $thread_buttons['delete']['link'] = "delete.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 	                $thread_buttons['delete']['name'] = _DELETE;
 	            }
 	        }
 	        if ($topic_handler->getPermission($forum_id, $topic_status, "reply")) {
-	            $thread_buttons['reply']['image'] = newbb_displayImage($forumImage['p_reply'], _MD_REPLY);
+	            $thread_buttons['reply']['image'] = iforum_displayImage($forumImage['p_reply'], _MD_REPLY);
 	            $thread_buttons['reply']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
 	            $thread_buttons['reply']['name'] = _MD_REPLY;
 	            /*
-	            $thread_buttons['quote']['image'] = newbb_displayImage($forumImage['p_quote'], _MD_QUOTE);
+	            $thread_buttons['quote']['image'] = iforum_displayImage($forumImage['p_quote'], _MD_QUOTE);
 	            $thread_buttons['quote']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start&amp;quotedac=1";
 	            $thread_buttons['quote']['name'] = _MD_QUOTE;
 	            */
@@ -402,22 +396,22 @@ class Post extends ArtObject {
         
     	}else{
     	
-			$thread_buttons['edit']['image'] = newbb_displayImage($forumImage['p_edit'], _EDIT);
+			$thread_buttons['edit']['image'] = iforum_displayImage($forumImage['p_edit'], _EDIT);
 			$thread_buttons['edit']['link'] = "edit.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 			$thread_buttons['edit']['name'] = _EDIT;
 			
-			$thread_buttons['delete']['image'] = newbb_displayImage($forumImage['p_delete'], _DELETE);
+			$thread_buttons['delete']['image'] = iforum_displayImage($forumImage['p_delete'], _DELETE);
 			$thread_buttons['delete']['link'] = "delete.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 			$thread_buttons['delete']['name'] = _DELETE;
 			
-			$thread_buttons['reply']['image'] = newbb_displayImage($forumImage['p_reply'], _MD_REPLY);
+			$thread_buttons['reply']['image'] = iforum_displayImage($forumImage['p_reply'], _MD_REPLY);
 			$thread_buttons['reply']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
 			$thread_buttons['reply']['name'] = _MD_REPLY;
     	
 		}
 		
         if (!$isadmin && $xoopsModuleConfig['reportmod_enabled']) {
-            $thread_buttons['report']['image'] = newbb_displayImage($forumImage['p_report'], _MD_REPORT);
+            $thread_buttons['report']['image'] = iforum_displayImage($forumImage['p_report'], _MD_REPORT);
             $thread_buttons['report']['link'] = "report.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
             $thread_buttons['report']['name'] = _MD_REPORT;
         }
@@ -425,16 +419,16 @@ class Post extends ArtObject {
         $thread_action = array();
         /*
         if ($isadmin) {
-        	$thread_action['news']['image'] = newbb_displayImage($forumImage['news'], _MD_POSTTONEWS);
+        	$thread_action['news']['image'] = iforum_displayImage($forumImage['news'], _MD_POSTTONEWS);
         	$thread_action['news']['link'] = "posttonews.php?topic_id=" . $topic_id;
         	$thread_action['news']['name'] = _MD_POSTTONEWS;
         }
 
-        $thread_action['pdf']['image'] = newbb_displayImage($forumImage['pdf'], _MD_PDF);
+        $thread_action['pdf']['image'] = iforum_displayImage($forumImage['pdf'], _MD_PDF);
         $thread_action['pdf']['link'] = "makepdf.php?type=post&amp;pageid=0&amp;scale=0.66";
         $thread_action['pdf']['name'] = _MD_PDF;
 
-        $thread_action['print']['image'] = newbb_displayImage($forumImage['printer'], _MD_PRINT);
+        $thread_action['print']['image'] = iforum_displayImage($forumImage['printer'], _MD_PRINT);
         $thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forum_id."&amp;topic_id=" . $topic_id;
         $thread_action['print']['name'] = _MD_PRINT;
 
@@ -569,7 +563,7 @@ class IforumPostHandler extends ArtObjectHandler
         $sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_subject = " . intval($subject) . " WHERE topic_id = $topic_id";
         $result = $this->db->queryF($sql);
         if (!$result) {
-            newbb_message("update topic subject error:" . $sql);
+            iforum_message("update topic subject error:" . $sql);
             return false;
         }
         return true;
@@ -688,7 +682,7 @@ class IforumPostHandler extends ArtObjectHandler
 	        return $this->_delete($post, $force);
         }
         else {
-	        include_once(XOOPS_ROOT_PATH . "/class/xoopstree.php");
+	        include_once(ICMS_ROOT_PATH . "/class/xoopstree.php");
 	        $mytree = new XoopsTree($this->db->prefix("bb_posts"), "post_id", "pid");
             $arr = $mytree->getAllChild($post->getVar('post_id'));
             for ($i = 0; $i < count($arr); $i++) {
@@ -749,11 +743,11 @@ class IforumPostHandler extends ArtObjectHandler
 	        
 				$poll_id = $topic_obj->getVar("poll_id");
 				if($poll_id>0){
-					if (is_dir(XOOPS_ROOT_PATH."/modules/xoopspoll/")){
-						include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
-						include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
-						include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
-						include_once XOOPS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
+					if (is_dir(ICMS_ROOT_PATH."/modules/xoopspoll/")){
+						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
+						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
+						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
+						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
 					
 						$poll = new XoopsPoll($poll_id);
 						if ( $poll->delete() != false ) {
@@ -767,11 +761,11 @@ class IforumPostHandler extends ArtObjectHandler
 				
 	        	$sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post->getVar('topic_id'));
 	            if (!$result = $this->db->queryF($sql)) {
-	                newbb_message("Could not delete topic: ". $sql);
+	                iforum_message("Could not delete topic: ". $sql);
 	            }
 		        $sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_votedata"), $post->getVar('topic_id'));
 		        if (!$result = $this->db->queryF($sql)) {
-	                newbb_message("Could not delete votedata: " .$sql);
+	                iforum_message("Could not delete votedata: " .$sql);
 		        }
 	        }
         }else{
@@ -831,7 +825,7 @@ class IforumPostHandler extends ArtObjectHandler
         }
         $result = $this->db->query($sql, intval($limit), intval($start));
         if (!$result) {
-            newbb_message( "IforumPostHandler::getPostsByLimit error:" . $sql);
+            iforum_message( "IforumPostHandler::getPostsByLimit error:" . $sql);
             return $ret;
         }
         while ($myrow = $this->db->fetchArray($result)) {
@@ -872,7 +866,7 @@ class IforumPostHandler extends ArtObjectHandler
         */
 		endif;
         if (!$result = $this->db->queryF($sql)) {
-	        newbb_message("cleanOrphan:". $sql);
+	        iforum_message("cleanOrphan:". $sql);
             return false;
         }
         return true;

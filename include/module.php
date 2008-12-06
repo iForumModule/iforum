@@ -1,46 +1,41 @@
 <?php
-// $Id: module.php,v 1.1.1.2 2005/10/19 16:23:50 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
-if (!defined('XOOPS_ROOT_PATH')) {
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
+if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
 if(defined("XOOPS_MODULE_NEWBB_FUCTIONS")) exit();
 define("XOOPS_MODULE_NEWBB_FUCTIONS", 1);
 
-@include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/plugin.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
+@include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/plugin.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
 
-newbb_load_object();
+iforum_load_object();
 function icms_module_update_iforum(&$module, $oldversion = null) 
 {
-	$newbbConfig = newbb_load_config();
+	$iforumConfig = iforum_load_config();
 	/*
     //$oldversion = $module->getVar('version');
     //$oldconfig = $module->getVar('hasconfig');
@@ -48,7 +43,7 @@ function icms_module_update_iforum(&$module, $oldversion = null)
     //if (empty($oldconfig)) {
     if ($oldversion == 100) {
 	    include_once dirname(__FILE__)."/module.v100.php";
-	    icms_module_update_newbb_v100($module);
+	    icms_module_update_iforum_v100($module);
     }
     
     // NewBB 2.* and CBB 1.*
@@ -56,20 +51,20 @@ function icms_module_update_iforum(&$module, $oldversion = null)
     // change forum moderators
     if ($oldversion < 220) {
 	    include_once dirname(__FILE__)."/module.v220.php";
-	    icms_module_update_newbb_v220($module);
+	    icms_module_update_iforum_v220($module);
     }
     
     if ($oldversion < 230) {
-        $GLOBALS['xoopsDB']->queryFromFile(XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/sql/upgrade_230.sql");
+        $GLOBALS['xoopsDB']->queryFromFile(ICMS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/sql/upgrade_230.sql");
 		//$module->setErrors("bb_moderates table inserted");
     }
 
     if ($oldversion < 304) {
-        $GLOBALS['xoopsDB']->queryFromFile(XOOPS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/sql/mysql.304.sql");
+        $GLOBALS['xoopsDB']->queryFromFile(ICMS_ROOT_PATH."/modules/".basename( dirname( dirname( __FILE__ ) ) )."/sql/mysql.304.sql");
     }
     */
-	if(!empty($newbbConfig["syncOnUpdate"])){
-		newbb_synchronization();
+	if(!empty($iforumConfig["syncOnUpdate"])){
+		iforum_synchronization();
 	}
 	
 	return true;
@@ -77,7 +72,7 @@ function icms_module_update_iforum(&$module, $oldversion = null)
 
 /*function icms_module_pre_update_iforum(&$module) 
 {
-	return newbb_setModuleConfig($module, true);
+	return iforum_setModuleConfig($module, true);
 }
 
 function icms_module_pre_install_iforum(&$module)
@@ -86,7 +81,7 @@ function icms_module_pre_install_iforum(&$module)
 	foreach($mod_tables as $table){
 		$GLOBALS["xoopsDB"]->queryF("DROP TABLE IF EXISTS ".$GLOBALS["xoopsDB"]->prefix($table).";");
 	}
-	return newbb_setModuleConfig($module);
+	return iforum_setModuleConfig($module);
 }
 */
 function icms_module_install_iforum(&$module)
@@ -143,7 +138,7 @@ function icms_module_install_iforum(&$module)
     /* Create a test post */
 	$post_handler =& icms_getmodulehandler('post', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	$forumpost =& $post_handler->create();
-    $forumpost->setVar('poster_ip', newbb_getIP());
+    $forumpost->setVar('poster_ip', iforum_getIP());
     $forumpost->setVar('uid', $GLOBALS["xoopsUser"]->getVar("uid"));
 	$forumpost->setVar('approved', 1);
     $forumpost->setVar('forum_id', $forum_id);
@@ -161,7 +156,7 @@ function icms_module_install_iforum(&$module)
     return true;
 }
  
-function newbb_setModuleConfig(&$module, $isUpdate = false) 
+function iforum_setModuleConfig(&$module, $isUpdate = false) 
 {
 	return true;
 }

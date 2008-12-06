@@ -1,36 +1,31 @@
 <?php
-// $Id: admin_permissions.php,v 1.1.1.1 2005/10/19 15:58:12 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: XOOPS Foundation                                                  //
-// URL: http://www.xoops.org/                                                //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include 'admin_header.php';
-include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
-include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
+include_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+include_once ICMS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 /**
  * Add category navigation to forum casscade structure
@@ -42,9 +37,9 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
  * Note: this is a __patchy__ solution. We should have a more extensible and flexible group permission management: not only for data architecture but also for management interface
  */
   
-class newbb_XoopsGroupPermForm extends XoopsGroupPermForm
+class iforum_XoopsGroupPermForm extends XoopsGroupPermForm
 {
-    function newbb_XoopsGroupPermForm($title, $modid, $permname, $permdesc, $url = "")
+    function iforum_XoopsGroupPermForm($title, $modid, $permname, $permdesc, $url = "")
     {
 	    $this->XoopsGroupPermForm($title, $modid, $permname, $permdesc, $url);
     } 
@@ -62,7 +57,7 @@ class newbb_XoopsGroupPermForm extends XoopsGroupPermForm
         foreach (array_keys($glist) as $i) {
             // get selected item id(s) for each group
             $selected = $gperm_handler->getItemIds($this->_permName, $i, $this->_modid);
-            $ele = new newbb_XoopsGroupFormCheckBox($glist[$i], 'perms[' . $this->_permName . ']', $i, $selected);
+            $ele = new iforum_XoopsGroupFormCheckBox($glist[$i], 'perms[' . $this->_permName . ']', $i, $selected);
             $ele->setOptionTree($this->_itemTree);
             $this->addElement($ele);
             unset($ele);
@@ -94,9 +89,9 @@ class newbb_XoopsGroupPermForm extends XoopsGroupPermForm
     }
 }
 
-class newbb_XoopsGroupFormCheckBox extends XoopsGroupFormCheckBox
+class iforum_XoopsGroupFormCheckBox extends XoopsGroupFormCheckBox
 {
-    function newbb_XoopsGroupFormCheckBox($caption, $name, $groupId, $values = null)
+    function iforum_XoopsGroupFormCheckBox($caption, $name, $groupId, $values = null)
     {
 	    $this->XoopsGroupFormCheckBox($caption, $name, $groupId, $values);
     }
@@ -192,8 +187,8 @@ switch($action){
         $member_handler =& xoops_gethandler('member');
         $glist =& $member_handler->getGroupList();
         $elements = array();
-        $newbbperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
-        $perm_template = $newbbperm_handler->getTemplate($groupid = 0);
+        $iforumperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
+        $perm_template = $iforumperm_handler->getTemplate($groupid = 0);
         foreach (array_keys($glist) as $i) {
             $selected = !empty($perm_template[$i]) ? array_keys($perm_template[$i]) : array();
             $ret_ele  = '<tr align="left" valign="top"><td class="head">'.$glist[$i].'</td>';
@@ -232,8 +227,8 @@ switch($action){
         break;	
         
 	case "template_save":
-        $newbbperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
-        $res = $newbbperm_handler->setTemplate($_POST['perms'], $groupid = 0);
+        $iforumperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
+        $res = $iforumperm_handler->setTemplate($_POST['perms'], $groupid = 0);
         if($res){
 	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE_CREATED);
         }else{
@@ -242,8 +237,8 @@ switch($action){
 		break;
 		
 	case "apply":
-        $newbbperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
-	    $perm_template = $newbbperm_handler->getTemplate();
+        $iforumperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
+	    $perm_template = $iforumperm_handler->getTemplate();
 		if($perm_template===null){
 	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE);
 		}
@@ -286,10 +281,10 @@ switch($action){
 		
 	case "apply_save":
 		if(empty($_POST["forums"])) break;
-	    $newbbperm_handler =& icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
+	    $iforumperm_handler =& icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		foreach($_POST["forums"] as $forum){
 			if($forum < 1) continue;
-			$newbbperm_handler->applyTemplate($forum, $module_id);
+			$iforumperm_handler->applyTemplate($forum, $module_id);
 		}
 	    redirect_header("admin_permissions.php", 2, _AM_NEWBB_PERM_TEMPLATE_APPLIED);
 		break;
@@ -338,7 +333,7 @@ switch($action){
 		
 		$perm_desc = "";
 		
-		$form = new newbb_XoopsGroupPermForm($fm_options[$op]["title"], $module_id, $fm_options[$op]["item"], $fm_options[$op]["desc"], 'admin/admin_permissions.php', $fm_options[$op]["anonymous"]);
+		$form = new iforum_XoopsGroupPermForm($fm_options[$op]["title"], $module_id, $fm_options[$op]["item"], $fm_options[$op]["desc"], 'admin/admin_permissions.php', $fm_options[$op]["anonymous"]);
 		
 		$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$categories = $category_handler->getAllCats("", true);

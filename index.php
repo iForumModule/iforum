@@ -1,33 +1,27 @@
 <?php
-// $Id: index.php,v 1.3 2005/10/19 17:20:28 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 include "header.php";
 
@@ -40,8 +34,8 @@ if (isset($_GET['mark_read'])){
 	    $markvalue = 0;
 	    $markresult = _MD_MARK_UNREAD;
     }
-	newbb_setRead_forum($markvalue);
-    $url=XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/index.php';
+	iforum_setRead_forum($markvalue);
+    $url=ICMS_URL . '/modules/' . $xoopsModule->getVar("dirname") . '/index.php';
     redirect_header($url, 2, _MD_ALL_FORUM_MARKED.' '.$markresult);
 }
 
@@ -62,21 +56,21 @@ if (!$viewcat) {
 	$xoops_pagetitle = $category_obj->getVar('cat_title') . " [" .$xoopsModule->getVar('name')."]";
 }
 if(count($categories) == 0){
-    redirect_header(XOOPS_URL, 2, _MD_NORIGHTTOACCESS);
+    redirect_header(ICMS_URL, 2, _MD_NORIGHTTOACCESS);
     exit();
 }
 
 /* rss feed */
 if(!empty($xoopsModuleConfig['rss_enable'])){
 	$xoops_module_header .= '
-	<link rel="alternate" type="application/rss+xml" title="'.$xoopsModule->getVar('name').'" href="'.XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />
+	<link rel="alternate" type="application/rss+xml" title="'.$xoopsModule->getVar('name').'" href="'.ICMS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/rss.php" />
 	';
 }
 
-$xoopsOption['template_main']= 'newbb_index.html';
+$xoopsOption['template_main']= 'iforum_index.html';
 $xoopsOption['xoops_pagetitle']= $xoops_pagetitle;
 $xoopsOption['xoops_module_header']= $xoops_module_header;
-include XOOPS_ROOT_PATH."/header.php";
+include ICMS_ROOT_PATH."/header.php";
 
 $xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
 $xoopsTpl->assign('xoops_module_header', $xoops_module_header);
@@ -111,7 +105,7 @@ if(count($forums_array)>0){
 
 $category_array = array();
 $cat_order = array();
-$toggles = newbb_getcookie('G', true);
+$toggles = iforum_getcookie('G', true);
 foreach(array_keys($categories) as $id){
     $forums = array();
 
@@ -135,7 +129,7 @@ foreach(array_keys($categories) as $id){
     $title = $myts->htmlSpecialChars($title);
 	if(!empty($url)) $cat_sponsor = array("title"=>$title, "link"=>formatURL($url));
 	if($onecat->getVar('cat_image') &&	$onecat->getVar('cat_image') != "blank.gif"){
-		$cat_image = XOOPS_URL."/modules/" . $xoopsModule->getVar("dirname") . "/images/category/" . $onecat->getVar('cat_image');
+		$cat_image = ICMS_URL."/modules/" . $xoopsModule->getVar("dirname") . "/images/category/" . $onecat->getVar('cat_image');
 	}else{
 		$cat_image = "";
 	}
@@ -165,11 +159,11 @@ $xoopsTpl->assign('newpost_link', "viewpost.php?type=new");
 $xoopsTpl->assign('digest_link', "viewall.php?type=digest");
 $xoopsTpl->assign('unreplied_link', "viewall.php?type=unreplied");
 $xoopsTpl->assign('unread_link', "viewall.php?type=unread");
-$xoopsTpl->assign('down',newbb_displayImage($forumImage['doubledown']));
+$xoopsTpl->assign('down',iforum_displayImage($forumImage['doubledown']));
 $xoopsTpl->assign('menumode',$menumode);
 $xoopsTpl->assign('menumode_other',$menumode_other);
 
-$isadmin = newbb_isAdmin();
+$isadmin = iforum_isAdmin();
 $xoopsTpl->assign('viewer_level', ($isadmin)?2:(is_object($xoopsUser)?1:0) );
 $mode = (!empty($_GET['mode'])) ? intval($_GET['mode']) : 0;
 $xoopsTpl->assign('mode', $mode );
@@ -184,13 +178,13 @@ if ( $isadmin ) {
 
 if ($xoopsModuleConfig['rss_enable'] == 1) {
     $xoopsTpl->assign("rss_enable",1);
-    $xoopsTpl->assign("rss_button", newbb_displayImage($forumImage['rss'], 'RSS feed'));
+    $xoopsTpl->assign("rss_button", iforum_displayImage($forumImage['rss'], 'RSS feed'));
 }
 $xoopsTpl->assign(array(
-	"img_hotfolder" => newbb_displayImage($forumImage['newposts_forum']),
-	"img_folder" => newbb_displayImage($forumImage['folder_forum']),
-	"img_locked_nonewposts" => newbb_displayImage($forumImage['locked_forum']),
-	"img_locked_newposts" => newbb_displayImage($forumImage['locked_forum_newposts']),
-	'img_subforum' => newbb_displayImage($forumImage['subforum'])));
-include_once XOOPS_ROOT_PATH.'/footer.php';
+	"img_hotfolder" => iforum_displayImage($forumImage['newposts_forum']),
+	"img_folder" => iforum_displayImage($forumImage['folder_forum']),
+	"img_locked_nonewposts" => iforum_displayImage($forumImage['locked_forum']),
+	"img_locked_newposts" => iforum_displayImage($forumImage['locked_forum_newposts']),
+	'img_subforum' => iforum_displayImage($forumImage['subforum'])));
+include_once ICMS_ROOT_PATH.'/footer.php';
 ?>

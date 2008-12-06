@@ -1,33 +1,28 @@
 <?php
-// $Id: admin_cat_manager.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-// ------------------------------------------------------------------------ //
-// XOOPS - PHP Content Management System                      //
-// Copyright (c) 2000 XOOPS.org                           //
-// <http://www.xoops.org/>                             //
-// ------------------------------------------------------------------------ //
-// This program is free software; you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License, or        //
-// (at your option) any later version.                                      //
-// //
-// You may not change or alter any portion of this comment or credits       //
-// of supporting developers from this source code or any supporting         //
-// source code which is considered copyrighted (c) material of the          //
-// original comment or credit authors.                                      //
-// //
-// This program is distributed in the hope that it will be useful,          //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-// GNU General Public License for more details.                             //
-// //
-// You should have received a copy of the GNU General Public License        //
-// along with this program; if not, write to the Free Software              //
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
+
 include('admin_header.php');
 xoops_cp_header();
 
@@ -62,7 +57,7 @@ function editCategory($cat_id = 0)
     }
     $groups_cat_access = null;
     global $xoopsModule;
-	include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+	include_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
     if ($cat_id) {
         $sform = new XoopsThemeForm(_AM_NEWBB_EDITCATEGORY . " " . $fc->getVar('cat_title'), "op", xoops_getenv('PHP_SELF'));
@@ -92,14 +87,14 @@ function editCategory($cat_id = 0)
 
     $imgdir = "/modules/" . $xoopsModule->dirname() . "/images/category";
     if (!$fc->getVar("cat_image")) $fc->setVar('cat_image', 'blank.gif');
-    $graph_array = &XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $imgdir."/");
+    $graph_array = &XoopsLists::getImgListAsArray(ICMS_ROOT_PATH . $imgdir."/");
 	array_unshift($graph_array, _NONE);
     $indeximage_select = new XoopsFormSelect('', 'indeximage', $fc->getVar('cat_image'));
     $indeximage_select->addOptionArray($graph_array);
-	$indeximage_select->setExtra("onchange=\"showImgSelected('img', 'indeximage', '/".$imgdir."/', '', '" . XOOPS_URL . "')\"");
+	$indeximage_select->setExtra("onchange=\"showImgSelected('img', 'indeximage', '/".$imgdir."/', '', '" . ICMS_URL . "')\"");
     $indeximage_tray = new XoopsFormElementTray(_AM_NEWBB_IMAGE, '&nbsp;');
     $indeximage_tray->addElement($indeximage_select);
-    $indeximage_tray->addElement(new XoopsFormLabel('', "<br /><img src='" . XOOPS_URL . $imgdir . "/" . $fc->getVar('cat_image') . " 'name='img' id='img' alt='' />"));
+    $indeximage_tray->addElement(new XoopsFormLabel('', "<br /><img src='" . ICMS_URL . $imgdir . "/" . $fc->getVar('cat_image') . " 'name='img' id='img' alt='' />"));
     $sform->addElement($indeximage_tray);
 
     $sform->addElement(new XoopsFormText(_AM_NEWBB_SPONSORLINK, 'sponurl', 50, 80, $fc->getVar('cat_url', 'E')), false);
@@ -149,9 +144,9 @@ switch ($op) {
         echo "</tr>";
 
         foreach($categories as $key => $onecat) {
-            $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&cat_id=" . $onecat->getVar('cat_id') . "\">".newbb_displayImage($forumImage['edit'], _EDIT)."</a>";
-            $cat_del_link = "<a href=\"admin_cat_manager.php?op=del&cat_id=" . $onecat->getVar('cat_id') . "\">".newbb_displayImage($forumImage['delete'], _DELETE)."</a>";
-            $cat_title_link = "<a href=\"".XOOPS_URL."/modules/".$xoopsModule->getVar("dirname")."/index.php?cat=" . $onecat->getVar('cat_id') . "\">".$onecat->getVar('cat_title')."</a>";
+            $cat_edit_link = "<a href=\"admin_cat_manager.php?op=mod&cat_id=" . $onecat->getVar('cat_id') . "\">".iforum_displayImage($forumImage['edit'], _EDIT)."</a>";
+            $cat_del_link = "<a href=\"admin_cat_manager.php?op=del&cat_id=" . $onecat->getVar('cat_id') . "\">".iforum_displayImage($forumImage['delete'], _DELETE)."</a>";
+            $cat_title_link = "<a href=\"".ICMS_URL."/modules/".$xoopsModule->getVar("dirname")."/index.php?cat=" . $onecat->getVar('cat_id') . "\">".$onecat->getVar('cat_title')."</a>";
 
             echo "<tr class='odd' align='left'>";
             echo "<td>" . $cat_title_link . "</td>";

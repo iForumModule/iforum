@@ -1,36 +1,30 @@
 <?php
-// $Id: admin_report.php,v 1.3 2005/10/19 17:20:32 phppp Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+/**
+* iForum - a bulletin Board (Forum) for ImpressCMS
+*
+* Based upon CBB 3.08
+*
+* @copyright		http://www.xoops.org/ The XOOPS Project
+* @copyright		http://xoopsforge.com The XOOPS FORGE Project
+* @copyright		http://xoops.org.cn The XOOPS CHINESE Project
+* @copyright		XOOPS_copyrights.txt
+* @copyright		readme.txt
+* @copyright		http://www.impresscms.org/ The ImpressCMS Project
+* @license			GNU General Public License (GPL)
+*					a copy of the GNU license is enclosed.
+* ----------------------------------------------------------------------------------------------------------
+* @package		CBB - XOOPS Community Bulletin Board
+* @since			3.08
+* @author		phppp
+* ----------------------------------------------------------------------------------------------------------
+* 				iForum - a bulletin Board (Forum) for ImpressCMS
+* @since			1.00
+* @author		modified by stranger
+* @version		$Id$
+*/
 
 include('admin_header.php');
-include_once XOOPS_ROOT_PATH."/class/pagenav.php";
+include_once ICMS_ROOT_PATH."/class/pagenav.php";
 
 
 $op = !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"default");
@@ -63,7 +57,7 @@ switch($op){
 
 	case "process":
 	default:
-		include_once XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
+		include_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 		if($item == 'process'){
 			$process_result = 0;
@@ -93,7 +87,7 @@ switch($op){
 
 		$reports = $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
 		foreach($reports as $report){
-			$post_link = "<a href=\"".XOOPS_URL."/modules/".$xoopsModule->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".$myts->htmlSpecialChars($report['subject'])."</a>";
+			$post_link = "<a href=\"".ICMS_URL."/modules/".$xoopsModule->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".$myts->htmlSpecialChars($report['subject'])."</a>";
 			$checkbox = '<input type="checkbox" name="report_id['.$report['report_id'].']" value="1" checked="checked" />';
 			if($item == 'process'){
 				$memo = '<input type="text" name="report_memo['.$report['report_id'].']" maxlength="255" size="80" />';
@@ -108,8 +102,8 @@ switch($op){
 			echo "<tr class='odd' align='left'>";
 			echo "<td>"._AM_NEWBB_REPORTTEXT.': '. $myts->htmlSpecialChars($report['report_text']) . "</td>";
 			$uid = intval($report['reporter_uid']);
-			$reporter_name = newbb_getUnameFromId( $uid, $xoopsModuleConfig['show_realname']);
-			$reporter = (!empty($uid))? "<a href='" . XOOPS_URL . "/userinfo.php?uid=".$uid."'>".$reporter_name."</a><br />":"";
+			$reporter_name = iforum_getUnameFromId( $uid, $xoopsModuleConfig['show_realname']);
+			$reporter = (!empty($uid))? "<a href='" . ICMS_URL . "/userinfo.php?uid=".$uid."'>".$reporter_name."</a><br />":"";
 
 			echo "<td align='center'>" . $reporter.long2ip($report['reporter_ip']) . "</td>";
 			echo "</tr>";
