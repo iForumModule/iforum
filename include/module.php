@@ -38,29 +38,7 @@ define("XOOPS_MODULE_NEWBB_FUCTIONS", 1);
 include_once XOOPS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
 
 newbb_load_object();
-/* This will create a function with a name based on the installation directory, if it is not in iforum 
-$myInstallDir = basename(dirname(dirname(__FILE__)));
-if (!function_exists('xoops_module_install_'.$myInstallDir)) {
- $myfunc = "function xoops_module_install_".$myInstallDir."(&$module) { return xoops_module_install_iforum(&$module);}";
- eval($myfunc);
-}
-
-if (!function_exists('xoops_module_update_'.$myInstallDir)) {
- $myfunc = "function xoops_module_update_".$myInstallDir."(&$module) { return xoops_module_update_iforum(&$module);}";
- eval($myfunc);
-}
-
-if (!function_exists('xoops_module_pre_update_'.$myInstallDir)) {
- $myfunc = "function xoops_module_pre_update_".$myInstallDir."(&$module) { return xoops_module_pre_update_iforum(&$module);}";
- eval($myfunc);
-}
-
-if (!function_exists('xoops_module_pre_install_'.$myInstallDir)) {
- $myfunc = "xoops_module_pre_install_".$myInstallDir."(&$module) { return xoops_module_pre_install_iforum(&$module);}";
- eval($myfunc);
-}
-*/
-function xoops_module_update_iforum(&$module, $oldversion = null) 
+function icms_module_update_iforum(&$module, $oldversion = null) 
 {
 	$newbbConfig = newbb_load_config();
 	/*
@@ -70,7 +48,7 @@ function xoops_module_update_iforum(&$module, $oldversion = null)
     //if (empty($oldconfig)) {
     if ($oldversion == 100) {
 	    include_once dirname(__FILE__)."/module.v100.php";
-	    xoops_module_update_newbb_v100($module);
+	    icms_module_update_newbb_v100($module);
     }
     
     // NewBB 2.* and CBB 1.*
@@ -78,7 +56,7 @@ function xoops_module_update_iforum(&$module, $oldversion = null)
     // change forum moderators
     if ($oldversion < 220) {
 	    include_once dirname(__FILE__)."/module.v220.php";
-	    xoops_module_update_newbb_v220($module);
+	    icms_module_update_newbb_v220($module);
     }
     
     if ($oldversion < 230) {
@@ -97,12 +75,12 @@ function xoops_module_update_iforum(&$module, $oldversion = null)
 	return true;
 }
 
-/*function xoops_module_pre_update_iforum(&$module) 
+/*function icms_module_pre_update_iforum(&$module) 
 {
 	return newbb_setModuleConfig($module, true);
 }
 
-function xoops_module_pre_install_iforum(&$module)
+function icms_module_pre_install_iforum(&$module)
 {
 	$mod_tables = $module->getInfo("tables");
 	foreach($mod_tables as $table){
@@ -111,7 +89,7 @@ function xoops_module_pre_install_iforum(&$module)
 	return newbb_setModuleConfig($module);
 }
 */
-function xoops_module_install_iforum(&$module)
+function icms_module_install_iforum(&$module)
 {
 	/* Create a test category */
 	$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );

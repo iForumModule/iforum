@@ -49,8 +49,7 @@ $modversion['author_email'] = "pesian_stranger@users.sourceforge.net";
 $modversion['author_email'] = "php_pp@hotmail.com";
 $modversion['status_version'] = "1.00";
 $modversion['status'] = "RC 2";
-
-$modversion['warning'] = "For ImpressCMS > 1.1";
+$modversion['warning'] = "For ImpressCMS > 1.2 <br /><br /><br />". _CO_ICMS_WARNING_RC;
 
 $modversion['demo_site_url'] = "http://community.impresscms.org/modules/newbb/";
 $modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
