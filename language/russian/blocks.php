@@ -4,7 +4,7 @@
 if(defined('_MB_NEWBB_DEFINED')) return;
 else define('_MB_NEWBB_DEFINED',true);
 //$constpref = '_MB_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_MB_MI_NEWBB';
+$constpref = '_MB_NEWBB';
 
 define($constpref."_FORUM","Форум");
 define($constpref."_TOPIC","Тема");
