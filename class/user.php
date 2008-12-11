@@ -218,6 +218,8 @@ class User extends XoopsObject
     function getInfo()
     {
 	    global $xoopsModuleConfig, $myts;
+		$config_handler =& xoops_gethandler('config');
+		$xoopsConfigUser =& $config_handler->getConfigsByCat(XOOPS_CONF_USER);
 	    $userinfo=array();
 	    $user =& $this->user;
 		if ( !(is_object($user)) || !($user->isActive()) )	 return array("name"=>$myts->HtmlSpecialChars($GLOBALS["xoopsConfig"]['anonymous']), "link"=>$myts->HtmlSpecialChars($GLOBALS["xoopsConfig"]['anonymous']));
@@ -226,7 +228,11 @@ class User extends XoopsObject
 	    $name = (empty($xoopsModuleConfig['show_realname'])||empty($name))?$user->getVar('uname'):$name;
 		$userinfo["name"] = $name;
 		$userinfo["link"] = "<a href=\"".ICMS_URL . "/userinfo.php?uid=" . $user->getVar("uid") ."\">".$name."</a>";
-		$userinfo["avatar"] = $user->getVar('user_avatar');
+		$userinfo_avatar = ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/anonymous.gif';
+		if ($xoopsConfigUser['avatar_allow_gravatar']) {
+		$userinfo_avatar = $user->gravatar('G', $xoopsConfigUser['avatar_width']);
+		}
+		$userinfo["avatar"] = $userinfo_avatar;
 		$userinfo["from"] = $user->getVar('user_from');
 		$userinfo["regdate"] = formatTimestamp($user->getVar('user_regdate'), 'c');
 		$userinfo["posts"] = $user->getVar('posts');
