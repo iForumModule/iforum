@@ -22,6 +22,13 @@
 			<img src="<{$topic_post.poster.avatar}>" alt="" />
 			</center>
 			</div>
+				<center>
+				<{foreach item=bar from=$topic_post.poster.userbar}>
+				<{if $bar}>
+				<a class="item" href="<{$bar.link}>"><img scr="<{$bar.image}>" alt="<{$bar.name}>"></a>
+				<{/if}>
+				<{/foreach}>
+				</center>
 			</div>
 			
 			<div class="Userrow_center">
@@ -37,8 +44,7 @@
 				<{$topic_post.poster.regdate}>
 
   				<{if $topic_post.poster.from}>
-  				| <span class="comUserStatCaption"><{$smarty.const._MD_FROM}>:</span> <a href="http://<{$icms_langcode}>.wikipedia.org/wiki/<{$topic_post.poster.from}>" rel="external"><{$topic_post.poster.from}></a>
-  				<{/if}>	
+                               	| <span class="comUserStatCaption"><{$smarty.const._MD_FROM}>:</span> <a href="http://<{$icms_langcode}>.wikipedia.org/wiki/<{$topic_post.poster.from}>" rel="external"><{$topic_post.poster.from}></a>  				<{/if}>	
 
   				| <span class="comUserStatCaption"><{$smarty.const._MD_POSTS}>:</span> 
   				<{if $topic_post.poster.posts gt 0}>
@@ -53,7 +59,7 @@
   			<{foreach item=group from=$topic_post.poster.groups}><{$group}> <{/foreach}>
   			</div>
 			<{/if}>
-  		
+
 			<{if $topic_post.poster.level}>
   			<div class="comUserStat"><{$topic_post.poster.level}></div>
   			<{/if}>
@@ -62,6 +68,7 @@
 			</div>
 			<{/if}>
 			</div>
+
 		</td>
 	</tr>
 	<tr>
