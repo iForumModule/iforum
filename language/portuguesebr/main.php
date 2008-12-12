@@ -532,4 +532,5 @@ define('_MD_POSTTIME','Data');
 
 //define("_MD_NEWBB_TYPE", "Tipo de Tópico");
 //define("_MD_NEWBB_TAG", "Tag");
+define('_MD_EXTRAS','extras');
 ?>

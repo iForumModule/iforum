@@ -506,4 +506,5 @@ define('_PDF_TOPIC','مبحث');
 define('_PDF_DATE','تاریخ'); 
 define('_MD_UP',_MD_TOP);
 define('_MD_POSTTIME',_PDF_DATE);
+define('_MD_EXTRAS','extras');
 ?>

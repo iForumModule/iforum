@@ -288,6 +288,7 @@ define('_MD_UPLOAD','Upload');
 // forumuserpost.php
 define('_MD_ADD','Add');
 define('_MD_REPLY','Reply');
+define('_MD_EXTRAS','extras');
 
 // topicmanager.php
 define('_MD_VIEWTHETOPIC','View the topic');

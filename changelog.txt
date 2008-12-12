@@ -1,6 +1,6 @@
 IFORUM
 
-ImpressCMS bulletin Board, for ImpressCMS >= 1.2
+ImpressCMS bulletin Board, for ImpressCMS >= 1.1.2
 
 iforum, is fork of newbb (aka CBB), at this stage it just has some minor changes to work efficient with ImpressCMS >= 1.1 
 We will have a total code re-writing at a later stage!
@@ -29,6 +29,7 @@ Changelog 1.0 RC2
 20 Bugfix: need for xoops_local
 21 added: div class="comUserImg for avatars (Knallkopp_02)
 22 Finished Implementing easy-renaming
+23 New template set (MrTheme)
 
 Changelog 1.0 RC
 Nov 6th, 2008 

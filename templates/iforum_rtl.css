@@ -210,11 +210,18 @@ div.dropdown .userbar{
 }
 /* direction fix end */
 
+
 /* Forum Footer */
-.transfer {width: 20%; float: left;}
-.foot_buttons {width : 80%; float: right;}
+.transfer {float: right;}
+.foot_buttons {float: left;}
 
 /* Userrow Style */
-.Userrow_left { width: 200px; float: left; vertical-align: middle;}
-.Userrow_center {float: left; }
-.Userrow_right { width: 300px; float: right; }
+.Userrow_left { width: 200px; float: right; vertical-align: middle;}
+.Userrow_center {float: right; }
+.Userrow_right { width: 300px; float: left; }
+
+/* For hiding extras*/
+div#extras {
+	margin: 0px 20px 0px 20px;
+	display: none;
+}

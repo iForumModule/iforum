@@ -503,4 +503,5 @@ class User_language extends User
 }
 define('_MD_UP','En haut');
 define('_MD_POSTTIME','Date');
+define('_MD_EXTRAS','extras');
 ?>

@@ -506,4 +506,5 @@ define('_PDF_TOPIC','Thema');
 define('_PDF_DATE','Datum'); 
 define('_MD_UP','nach Oben');
 define('_MD_POSTTIME','Datum'); 
+define('_MD_EXTRAS','extras');
 ?>

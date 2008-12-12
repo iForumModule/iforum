@@ -506,4 +506,5 @@ define('_PDF_TOPIC','Тема форума');
 define('_PDF_DATE','Дата'); 
 define('_MD_UP','Топ');
 define('_MD_POSTTIME','Дата');
+define('_MD_EXTRAS','extras');
 ?>

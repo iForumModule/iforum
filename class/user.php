@@ -20,7 +20,7 @@
 * 				iForum - a bulletin Board (Forum) for ImpressCMS
 * @since			1.00
 * @author		modified by stranger
-* @version		$Id$
+* @version		$Id $
 */
 
 if (!defined("ICMS_ROOT_PATH")) {

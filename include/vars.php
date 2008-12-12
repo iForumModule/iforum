@@ -151,8 +151,8 @@ $forumImage['post_content'] = $forumUrl['images_set']."/post_content-a";
 
 $forumImage['threaded'] = $forumUrl['images_set']."/threaded-a";
 $forumImage['flat'] = $forumUrl['images_set']."/flat-a";
-$forumImage['left'] = $forumUrl['images_set']."/left-a";
-$forumImage['right'] = $forumUrl['images_set']."/right-a";
+$forumImage['left'] = $forumUrl['images_set']."/"._GLOBAL_LEFT."-a";
+$forumImage['right'] = $forumUrl['images_set']."/"._GLOBAL_RIGHT."-a";
 $forumImage['doubledown'] = $forumUrl['images_set']."/doubledown-a";
 $forumImage['down'] = $forumUrl['images_set']."/down-a";
 $forumImage['up'] = $forumUrl['images_set']."/up-a";
