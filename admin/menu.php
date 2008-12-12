@@ -68,7 +68,7 @@ if ( isset( $xoopsModule ) ) {
 	
 	$i++;
 	$headermenu[$i]['title'] = $xoopsModule -> getVar( 'name' );
-	$headermenu[$i]['link']  = ICMS_URL . '/modules/' . $admin_dirname;
+	$headermenu[$i]['link']  = ICMS_URL . '/modules/' . $admin_dirname .'/index.php';
 	
 	$i++;
 	$headermenu[$i]['title'] = _PREFERENCES;
