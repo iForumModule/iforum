@@ -170,26 +170,26 @@ class User extends XoopsObject
 
     function &getUserbar()
     {
-	    global $xoopsUser, $isadmin;
+	    global $xoopsUser, $isadmin, $forumImage;
 	    
     	$user =& $this->user;
     	$userbar = array();
-        $userbar[] = array("link"=>ICMS_URL . "/userinfo.php?uid=" . $user->getVar("uid"), "name" =>_PROFILE, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        $userbar[] = array("link"=>ICMS_URL . "/userinfo.php?uid=" . $user->getVar("uid"), "name" =>_PROFILE, "image" =>iforum_displayImage($forumImage['personal'], _PROFILE));
 		if (is_object($xoopsUser)){
-        	$userbar[]= array("link"=>"javascript:void openWithSelfMain('" . ICMS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $user->getVar("uid") . "', 'pmlite', 450, 380);", "name"=>_MD_PM, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        	$userbar[]= array("link"=>"javascript:void openWithSelfMain('" . ICMS_URL . "/pmlite.php?send2=1&amp;to_userid=" . $user->getVar("uid") . "', 'pmlite', 450, 380);", "name"=>_MD_PM, "image" =>iforum_displayImage($forumImage['pm'], _MD_PM));
     	}
         if($user->getVar('user_viewemail') || (is_object($xoopsUser) && $xoopsUser->isAdmin()) )
-        $userbar[]= array("link"=>"javascript:void window.open('mailto:" . $user->getVar('email') . "', 'new');", "name"=>_MD_EMAIL, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        $userbar[]= array("link"=>"javascript:void window.open('mailto:" . $user->getVar('email') . "', 'new');", "name"=>_MD_EMAIL, "image" =>iforum_displayImage($forumImage['email'], _MD_EMAIL));
         if($user->getVar('url'))
-        $userbar[]= array("link"=>"javascript:void window.open('" . $user->getVar('url') . "', 'new');", "name"=>_MD_WWW, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        $userbar[]= array("link"=>"javascript:void window.open('" . $user->getVar('url') . "', 'new');", "name"=>_MD_WWW, "image" =>iforum_displayImage($forumImage['yahoo'], _MD_YIM));
         if($user->getVar('user_icq'))
-        $userbar[]= array("link"=>"javascript:void window.open('http://wwp.icq.com/scripts/search.dll?to=" . $user->getVar('user_icq')."', 'new');", "name" => _MD_ICQ, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        $userbar[]= array("link"=>"javascript:void window.open('http://wwp.icq.com/scripts/search.dll?to=" . $user->getVar('user_icq')."', 'new');", "name" => _MD_ICQ, "image" =>iforum_displayImage($forumImage['icq'], _MD_ICQ));
         if($user->getVar('user_aim'))
-        $userbar[]= array("link"=>"javascript:void window.open('aim:goim?screenname=" . $user->getVar('user_aim') . "&amp;message=Hi+" . $user->getVar('user_aim') . "+Are+you+there?" . "', 'new');", "name"=>_MD_AIM, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        $userbar[]= array("link"=>"javascript:void window.open('aim:goim?screenname=" . $user->getVar('user_aim') . "&amp;message=Hi+" . $user->getVar('user_aim') . "+Are+you+there?" . "', 'new');", "name"=>_MD_AIM, "image" =>iforum_displayImage($forumImage['aim'], _MD_AIM));
         if($user->getVar('user_yim'))
-        $userbar[]= array("link"=>"javascript:void window.open('http://edit.yahoo.com/config/send_webmesg?.target=" . $user->getVar('user_yim') . "&.src=pg" . "', 'new');", "name"=> _MD_YIM, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        $userbar[]= array("link"=>"javascript:void window.open('http://edit.yahoo.com/config/send_webmesg?.target=" . $user->getVar('user_yim') . "&.src=pg" . "', 'new');", "name"=> _MD_YIM, "image" =>iforum_displayImage($forumImage['yahoo'], _MD_YIM));
         if($user->getVar('user_msnm'))
-        $userbar[]= array("link"=>"javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM, "image" =>ICMS_URL.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/images/blank.gif');
+        $userbar[]= array("link"=>"javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM, "image" =>iforum_displayImage($forumImage['msnm'], _MD_MSN));
 		return $userbar;
     }
 

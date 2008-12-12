@@ -25,7 +25,7 @@
 				<center>
 				<{foreach item=bar from=$topic_post.poster.userbar}>
 				<{if $bar}>
-				<a class="item" href="<{$bar.link}>" title="<{$bar.name}>"><img src="<{$bar.image}>" alt="<{$bar.name}>" /></a>
+				<a class="item" href="<{$bar.link}>" title="<{$bar.name}>"><{$bar.image}></a>
 				<{/if}>
 				<{/foreach}>
 				</center>
