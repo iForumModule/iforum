@@ -181,7 +181,7 @@ class User extends XoopsObject
         if($user->getVar('user_viewemail') || (is_object($xoopsUser) && $xoopsUser->isAdmin()) )
         $userbar[]= array("link"=>"javascript:void window.open('mailto:" . $user->getVar('email') . "', 'new');", "name"=>_MD_EMAIL, "image" =>iforum_displayImage($forumImage['email'], _MD_EMAIL));
         if($user->getVar('url'))
-        $userbar[]= array("link"=>"javascript:void window.open('" . $user->getVar('url') . "', 'new');", "name"=>_MD_WWW, "image" =>iforum_displayImage($forumImage['yahoo'], _MD_YIM));
+        $userbar[]= array("link"=>"javascript:void window.open('" . $user->getVar('url') . "', 'new');", "name"=>_MD_WWW, "image" =>iforum_displayImage($forumImage['home'], _MD_WWW));
         if($user->getVar('user_icq'))
         $userbar[]= array("link"=>"javascript:void window.open('http://wwp.icq.com/scripts/search.dll?to=" . $user->getVar('user_icq')."', 'new');", "name" => _MD_ICQ, "image" =>iforum_displayImage($forumImage['icq'], _MD_ICQ));
         if($user->getVar('user_aim'))
@@ -189,7 +189,7 @@ class User extends XoopsObject
         if($user->getVar('user_yim'))
         $userbar[]= array("link"=>"javascript:void window.open('http://edit.yahoo.com/config/send_webmesg?.target=" . $user->getVar('user_yim') . "&.src=pg" . "', 'new');", "name"=> _MD_YIM, "image" =>iforum_displayImage($forumImage['yahoo'], _MD_YIM));
         if($user->getVar('user_msnm'))
-        $userbar[]= array("link"=>"javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM, "image" =>iforum_displayImage($forumImage['msnm'], _MD_MSN));
+        $userbar[]= array("link"=>"javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM, "image" =>iforum_displayImage($forumImage['msnm'], _MD_MSNM));
 		return $userbar;
     }
 
