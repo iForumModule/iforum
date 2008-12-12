@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // $Id: admin.php,v 1.6 2005/05/25 01:01:43 phppp Exp $
 //%%%%%%	File Name  index.php   	%%%%%
 //$constpref = '_AM_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;

@@ -387,11 +387,11 @@ class Post extends ArtObject {
 	            $thread_buttons['reply']['image'] = iforum_displayImage($forumImage['p_reply'], _MD_REPLY);
 	            $thread_buttons['reply']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
 	            $thread_buttons['reply']['name'] = _MD_REPLY;
-	            /*
+	            
 	            $thread_buttons['quote']['image'] = iforum_displayImage($forumImage['p_quote'], _MD_QUOTE);
 	            $thread_buttons['quote']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start&amp;quotedac=1";
 	            $thread_buttons['quote']['name'] = _MD_QUOTE;
-	            */
+	            
 	        }
         
     	}else{

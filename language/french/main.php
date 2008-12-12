@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // $Id: main.php,v 1.6 2005/05/19 12:21:45 phppp Exp $
 if(defined('MAIN_DEFINED')) return;
 define('MAIN_DEFINED',true);

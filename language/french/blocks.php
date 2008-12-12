@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // $Id: blocks.php,v 1.5 2005/05/15 12:25:54 phppp Exp $
 // Blocks
 if(defined('_MB_NEWBB_DEFINED')) return;

@@ -199,6 +199,8 @@ if ($order == 'DESC') {
 
 $t_new = iforum_displayImage($forumImage['t_new'],_MD_POSTNEW);
 $t_reply = iforum_displayImage($forumImage['t_reply'],_MD_REPLY);
+$t_extras = iforum_displayImage($forumImage['t_extras'],_MD_EXTRAS);
+$t_signup = iforum_displayImage($forumImage['t_signup'],_MD_EXTRAS);
 
 if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "post")){
     $xoopsTpl->assign('forum_post_or_register', "<a href=\"newtopic.php?forum=".$forum_id."\">".$t_new."</a>");
@@ -206,7 +208,7 @@ if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_s
     if($forumtopic->getVar('topic_status')){
     	$xoopsTpl->assign('forum_post_or_register', _MD_TOPICLOCKED);
     }elseif ( !is_object($xoopsUser)) {
-    	$xoopsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.htmlspecialchars($xoopsRequestUri).'">'._MD_REGTOPOST.'</a>');
+    	$xoopsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.htmlspecialchars($xoopsRequestUri).'">'.$t_signup.'</a>');
 	}
 } else {
     $xoopsTpl->assign('forum_post_or_register', '');
@@ -214,6 +216,7 @@ if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_s
 if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "reply")){
     $xoopsTpl->assign('forum_reply', "<a href=\"reply.php?forum=".$forum_id."&amp;topic_id=".$topic_id."\">".$t_reply."</a>");
 }
+    $xoopsTpl->assign('forum_extras', $t_extras);
 
 $poster_array = array();
 $require_reply = false;

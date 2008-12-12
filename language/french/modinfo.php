@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // $Id: modinfo.php,v 1.7 2005/06/03 01:36:14 phppp Exp $
 // Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 

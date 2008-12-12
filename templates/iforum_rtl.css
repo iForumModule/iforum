@@ -90,13 +90,13 @@ div#forum_header{
 	margin: 5px;
 }
 #forum_header div{
-	padding-top: 5px;
+	padding: 1px;
 }
 
 /* -- dropdown menu -- */
 
 div.dropdown{
-	float: right;
+	float: left;
 }
 
 div.dropdown .menu, div.dropdown .userbar{
@@ -209,3 +209,12 @@ div.dropdown .userbar{
 	float: right !important;  /* need a more formal solution, any help would be appreciated */
 }
 /* direction fix end */
+
+/* Forum Footer */
+.transfer {width: 20%; float: left;}
+.foot_buttons {width : 80%; float: right;}
+
+/* Userrow Style */
+.Userrow_left { width: 200px; float: left; vertical-align: middle;}
+.Userrow_center {float: left; }
+.Userrow_right { width: 300px; float: right; }

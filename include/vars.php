@@ -139,6 +139,8 @@ $forumImage['t_new'] = $forumUrl['images_lang']."/t_new-a";
 $forumImage['t_poll'] = $forumUrl['images_lang']."/t_poll-a";
 $forumImage['t_qr'] = $forumUrl['images_lang']."/t_qr-a";
 $forumImage['t_reply'] = $forumUrl['images_lang']."/t_reply-a";
+$forumImage['t_extras'] = $forumUrl['images_lang']."/t_extras-a";
+$forumImage['t_signup'] = $forumUrl['images_lang']."/t_signup-a";
 
 $forumImage['online'] = $forumUrl['images_lang']."/online-a";
 $forumImage['offline'] = $forumUrl['images_lang']."/offline-a";
