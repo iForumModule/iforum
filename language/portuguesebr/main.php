@@ -469,7 +469,7 @@ define("_MD_YEARMONTHDAY", "Y/n/j G:i");
 
 // For user info
 // If you have customized userbar, define here.
-require_once(ICMS_ROOT_PATH."/modules/".basename(  dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/user.php");
+/*require_once(ICMS_ROOT_PATH."/modules/".basename(  dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/user.php");
 class User_language extends User
 {
     function User_language(&$user)
@@ -500,7 +500,7 @@ class User_language extends User
         $userbar[]= array("link"=>"javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM);
 		return $userbar;
     }
-}
+}*/
 define('_PDF_SUBJECT','Assunto'); 
 define('_PDF_TOPIC','Tópico'); 
 define('_PDF_DATE','Data'); 
