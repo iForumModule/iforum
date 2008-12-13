@@ -22,13 +22,15 @@
 			<img src="<{$topic_post.poster.avatar}>" alt="" />
 			</center>
 			</div>
+			<div class="Userbar">
 				<center>
 				<{foreach item=bar from=$topic_post.poster.userbar}>
 				<{if $bar}>
-				<a class="item" href="<{$bar.link}>" title="<{$bar.name}>"><{$bar.image}></a>
+				<a class="UserLink" href="<{$bar.link}>" title="<{$bar.name}>"><{$bar.image}></a>
 				<{/if}>
 				<{/foreach}>
 				</center>
+			</div>
 			</div>
 			
 			<div class="Userrow_center">

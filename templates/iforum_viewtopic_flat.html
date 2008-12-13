@@ -135,7 +135,6 @@
 <{elseif $menumode eq 1}>
 
 	<div id="topicoption" class="menu">
-	<table><tr><td>
 		<{if $viewer_level gt 1}>
 		<{foreach item=act from=$admin_actions}>
 		<a class="item" href="<{$act.link}>"><{$act.name}></a>
@@ -153,7 +152,6 @@
 		<{/foreach}>
 		<div class="separator"></div>
 		<a class="item" href="<{$topic_print_link}>"><{$smarty.const._MD_PRINTTOPICS}></a>
-	</td></tr></table>
 	</div>
 	<script type="text/javascript">document.getElementById("topicoption").onmouseout = closeMenu;</script>
 	<div class="menubar"><a href="" onclick="openMenu(event, 'topicoption');return false;"><{$smarty.const._MD_TOPICOPTION}></a></div>
@@ -280,6 +278,7 @@
 <{if $quickreply.show}>
 <div class="clear"></div>
 <br />
+<!--[if gte IE 7]> <br /><br /> <![endif]-->
 <div id="qr" style="display: <{$quickreply.display}>">
 <div><{$quickreply.form}></div>
 </div>
@@ -335,6 +334,8 @@
 [<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
 </form><br />
 <{$forum_jumpbox}>
+</div>
+<!--[if IE]> <br /><br /> <br /><br /><![endif]-->
 </div>
 </div>
 <div class="clear"></div>

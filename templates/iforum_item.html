@@ -1,21 +1,25 @@
-<div style="padding: 5px;">
+<div class="outer">
 
 <a id="forumpost<{$topic_post.post_id}>"></a>
 
-<div class="head" style="padding:5px;">
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a> 
-<{$topic_post.post_title}>
-</div>
-
-<div class="even">
-<{$topic_post.poster.link}>
-<{if $topic_post.poster_ip}>
-IP: <a href="http://www.whois.sc/<{$topic_post.poster_ip}>" target="_blank"><{$topic_post.poster_ip}></a>
-<{/if}> 
+<div class="odd" style="padding:5px;">
+<span style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{$topic_post.poster.link}> | 
 <{$smarty.const._MD_POSTEDON}> <{$topic_post.post_date}>
+</span>
+
+<span style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{if $topic_post.poster_ip}>
+IP: <a href="http://www.whois.sc/<{$topic_post.poster_ip}>" target="_blank"><{$topic_post.poster_ip}></a> | 
+<{/if}> 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a> 
+</span>
+<div class="clear"></div>
 </div>
 
-<div class="odd" style="padding:5px;"><{$topic_post.post_text}></div>
+<div class="clear"></div>
+
+<div class="even" style="padding:5px;"><{$topic_post.post_text}></div>
 <{if $topic_post.post_attachment}>
 <div class="odd" style="padding:5px;"><{$topic_post.post_attachment}>
 </div>

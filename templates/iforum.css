@@ -179,11 +179,15 @@ span.online_moderator{
 /* color -- dropdown menu for Forum */
 div.dropdown a, div.dropdown .menubar a{
     color:#FFF;
+
 }
 
 div.dropdown .menu, div.dropdown .menubar, div.dropdown .item, div.dropdown .separator{
     background-color: #436792; /* same color set as in your theme/style.ss .th{} is recommended */
     color:#FFF;
+	position: relative;
+	top: 0;
+	left: 0;
 }
 
 div.dropdown .separator{
@@ -209,3 +213,5 @@ div#extras {
 	margin: 0px 20px 0px 20px;
 	display: none;
 }
+
+.forum_controls {width: 100%;}
