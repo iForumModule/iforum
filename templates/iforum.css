@@ -109,7 +109,7 @@ div.dropdown .menu, div.dropdown .userbar{
 
 div.dropdown .item{
 	font-weight: bold;
-	padding: 2px 5px;
+	padding: 2px 4px;
   	white-space: nowrap;
   	border: 0px !important;
 }
@@ -212,6 +212,7 @@ div.dropdown .menu a:hover, div.dropdown .userbar a:hover{
 div#extras {
 	margin: 0px 20px 0px 20px;
 	display: none;
+	width: 99%;
 }
 
 .forum_controls {width: 100%;}
