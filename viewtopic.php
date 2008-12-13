@@ -86,7 +86,7 @@ if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_
 $karma_handler =& icms_getmodulehandler('karma', basename( dirname( __FILE__ ) ), 'iforum' );
 $user_karma = $karma_handler->getUserKarma();
 
-$valid_modes = array("flat", "thread", "compact");
+$valid_modes = array("flat", "thread", "compact", "left", "right");
 $viewmode_cookie = iforum_getcookie("V");
 if(isset($_GET['viewmode']) && in_array($_GET['viewmode'], $valid_modes)) {
 	iforum_setcookie("V", $_GET['viewmode'], $forumCookie['expire']);
@@ -508,17 +508,43 @@ $viewmode_options = array();
 if($viewmode=="thread"){
 	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=flat&amp;topic_id=".$topic_id."&amp;forum=".$forum_id, "title"=>_FLAT);
 	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=compact&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_COMPACT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=left&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_LEFT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=right&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_RIGHT);
 }elseif($viewmode=="compact"){
 	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=thread&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_THREADED);
 	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=flat&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_FLAT);
-	if ($order == 'DESC') {
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=left&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_LEFT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=right&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_RIGHT);
+		if ($order == 'DESC') {
 		$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=compact&amp;order=ASC&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_OLDESTFIRST);
 	} else {
 		$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=compact&amp;order=DESC&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_NEWESTFIRST);
 	}
+}elseif($viewmode=="left"){
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=thread&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_THREADED);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=compact&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_COMPACT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=flat&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_FLAT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=right&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_RIGHT);
+		if ($order == 'DESC') {
+		$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=left&amp;order=ASC&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_OLDESTFIRST);
+	} else {
+		$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=left&amp;order=DESC&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_NEWESTFIRST);
+	}
+}elseif($viewmode=="right"){
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=thread&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_THREADED);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=compact&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_COMPACT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=flat&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_FLAT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=left&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,	"title"=>_MD_LEFT);
+		if ($order == 'DESC') {
+		$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=right&amp;order=ASC&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_OLDESTFIRST);
+	} else {
+		$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=right&amp;order=DESC&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_NEWESTFIRST);
+	}
 }else{
 	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=thread&amp;topic_id=".$topic_id."&amp;forum=".$forum_id,"title"=>_THREADED);
 	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=compact&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id, "title"=>_MD_COMPACT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=left&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id, "title"=>_MD_LEFT);
+	$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=right&amp;order=".$order_current."&amp;topic_id=".$topic_id."&amp;forum=".$forum_id, "title"=>_MD_RIGHT);
 	if ($order == 'DESC') {
 		$viewmode_options[]= array("link"=>$forumUrl['root']."/viewtopic.php?viewmode=flat&amp;order=ASC&amp;type=$type&amp;topic_id=".$topic_id."&amp;forum=".$forum_id, "title"=>_OLDESTFIRST);
 	} else {
