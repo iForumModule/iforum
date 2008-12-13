@@ -113,7 +113,7 @@ $criteria_post->add($criteria_type_post);
 $karma_handler =& icms_getmodulehandler('karma', basename( dirname( __FILE__ ) ), 'iforum' );
 $user_karma = $karma_handler->getUserKarma();
 
-$valid_modes = array("flat", "compact");
+$valid_modes = array("flat", "compact", "left", "right");
 $viewmode_cookie = iforum_getcookie("V");
 if(isset($_GET['viewmode'])&&$_GET['viewmode']=="compact") iforum_setcookie("V", "compact", $forumCookie['expire']);
 $viewmode = isset($_GET['viewmode'])?
@@ -406,13 +406,35 @@ $xoopsTpl->assign('unread_link', $unread_link);
 $viewmode_options = array();
 if($viewmode=="compact"){
 	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=flat&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_FLAT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=left&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_LEFT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=right&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_RIGHT);
 	if ($order == 'DESC') {
 		$viewmode_options[]= array("link"=>"viewpost.php?viewmode=compact&amp;order=ASC&amp;forum=".$forum_id,"title"=>_OLDESTFIRST);
 	} else {
 		$viewmode_options[]= array("link"=>"viewpost.php?viewmode=compact&amp;order=DESC&amp;forum=".$forum_id,"title"=>_NEWESTFIRST);
 	}
+}elseif($viewmode=="left"){
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=flat&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_FLAT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=compact&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_COMPACT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=right&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_RIGHT);
+	if ($order == 'DESC') {
+		$viewmode_options[]= array("link"=>"viewpost.php?viewmode=left&amp;order=ASC&amp;forum=".$forum_id,"title"=>_OLDESTFIRST);
+	} else {
+		$viewmode_options[]= array("link"=>"viewpost.php?viewmode=left&amp;order=DESC&amp;forum=".$forum_id,"title"=>_NEWESTFIRST);
+	}
+}elseif($viewmode=="right"){
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=flat&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_FLAT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=compact&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_COMPACT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=left&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_LEFT);
+	if ($order == 'DESC') {
+		$viewmode_options[]= array("link"=>"viewpost.php?viewmode=right&amp;order=ASC&amp;forum=".$forum_id,"title"=>_OLDESTFIRST);
+	} else {
+		$viewmode_options[]= array("link"=>"viewpost.php?viewmode=rightt&amp;order=DESC&amp;forum=".$forum_id,"title"=>_NEWESTFIRST);
+	}
 }else{
 	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=compact&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_COMPACT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=left&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_LEFT);
+	$viewmode_options[]= array("link"=>"viewpost.php?viewmode=right&amp;order=".$order."&amp;forum=".$forum_id,	"title"=>_MD_RIGHT);
 	if ($order == 'DESC') {
 		$viewmode_options[]= array("link"=>"viewpost.php?viewmode=flat&amp;order=ASC&amp;forum=".$forum_id,"title"=>_OLDESTFIRST);
 	} else {
@@ -421,6 +443,8 @@ if($viewmode=="compact"){
 }
 
 $xoopsTpl->assign('viewmode_compact', ($viewmode=="compact")?1:0);
+$xoopsTpl->assign('viewmode_left', ($viewmode=="left")?1:0);
+$xoopsTpl->assign('viewmode_right', ($viewmode=="right")?1:0);
 $xoopsTpl->assign_by_ref('viewmode_options', $viewmode_options);
 $xoopsTpl->assign('menumode',$menumode);
 $xoopsTpl->assign('menumode_other',$menumode_other);

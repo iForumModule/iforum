@@ -121,6 +121,12 @@ if ($viewmode == "thread") {
 	    exit();
     }
 	$postsArray = $topic_handler->getAllPosts($forumtopic, $order, $total_posts, $start, 0, $type);
+}elseif ($viewmode == "left") {
+    $xoopsOption['template_main'] =  'iforum_viewtopic_left.html';
+    $postsArray = $topic_handler->getAllPosts($forumtopic, $order, $xoopsModuleConfig['posts_per_page'], $start, $post_id, $type);
+}elseif ($viewmode == "right") {
+    $xoopsOption['template_main'] =  'iforum_viewtopic_right.html';
+    $postsArray = $topic_handler->getAllPosts($forumtopic, $order, $xoopsModuleConfig['posts_per_page'], $start, $post_id, $type);
 } else {
     $xoopsOption['template_main'] =  'iforum_viewtopic_flat.html';
     $postsArray = $topic_handler->getAllPosts($forumtopic, $order, $xoopsModuleConfig['posts_per_page'], $start, $post_id, $type);
@@ -570,6 +576,8 @@ $xoopsTpl->assign('topictype', $current_type);
 $xoopsTpl->assign('mode', $mode);
 $xoopsTpl->assign('type', $type);
 $xoopsTpl->assign('viewmode_compact', ($viewmode=="compact")?1:0);
+$xoopsTpl->assign('viewmode_left', ($viewmode=="left")?1:0);
+$xoopsTpl->assign('viewmode_right', ($viewmode=="right")?1:0);
 $xoopsTpl->assign_by_ref('viewmode_options', $viewmode_options);
 unset($viewmode_options);
 $xoopsTpl->assign('menumode',$menumode);
