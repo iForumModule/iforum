@@ -187,7 +187,7 @@ class User extends XoopsObject
         if($user->getVar('user_aim'))
         $userbar[]= array("link"=>"javascript:void window.open('aim:goim?screenname=" . $user->getVar('user_aim') . "&amp;message=Hi+" . $user->getVar('user_aim') . "+Are+you+there?" . "', 'new');", "name"=>_MD_AIM, "image" =>iforum_displayImage($forumImage['aim'], _MD_AIM));
         if($user->getVar('user_yim'))
-        $userbar[]= array("link"=>"javascript:void window.open('http://edit.yahoo.com/config/send_webmesg?.target=" . $user->getVar('user_yim') . "&.src=pg" . "', 'new');", "name"=> _MD_YIM, "image" =>iforum_displayImage($forumImage['yahoo'], _MD_YIM));
+        $userbar[]= array("link"=>"javascript:void window.open('http://edit.yahoo.com/config/send_webmesg?.target=" . $user->getVar('user_yim') . "&amp;.src=pg" . "', 'new');", "name"=> _MD_YIM, "image" =>iforum_displayImage($forumImage['yahoo'], _MD_YIM));
         if($user->getVar('user_msnm'))
         $userbar[]= array("link"=>"javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM, "image" =>iforum_displayImage($forumImage['msnm'], _MD_MSNM));
 		return $userbar;
