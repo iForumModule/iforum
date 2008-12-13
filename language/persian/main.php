@@ -507,4 +507,6 @@ define('_PDF_DATE','تاریخ');
 define('_MD_UP',_MD_TOP);
 define('_MD_POSTTIME',_PDF_DATE);
 define('_MD_EXTRAS','extras');
+define('_MD_RIGHT','right');
+define('_MD_LEFT','left');
 ?>

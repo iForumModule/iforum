@@ -507,4 +507,6 @@ define('_PDF_DATE','Дата');
 define('_MD_UP','Топ');
 define('_MD_POSTTIME','Дата');
 define('_MD_EXTRAS','extras');
+define('_MD_RIGHT','right');
+define('_MD_LEFT','left');
 ?>
