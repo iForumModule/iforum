@@ -84,6 +84,7 @@ $modversion['tables'][10] = "bb_attachments"; // reserved table for next version
 $modversion['tables'][11] = "bb_moderates"; // For suspension
 $modversion['tables'][12] = "bb_reads_forum";
 $modversion['tables'][13] = "bb_reads_topic";
+//$modversion['tables'][14] = "iforum_mimetypes"; // mime types controller, feature to be added very soon!
 
 // Admin things
 $modversion['hasAdmin'] = 1;
