@@ -97,7 +97,7 @@ define($constpref."_SET_FORUMORDER","Forumsposition angeben:");
 define($constpref."_ALLOWPOLLS","Umfragen zulassen?");
 define($constpref."_ATTACHMENT_SIZE" ,"Max. Größe in KB:");
 define($constpref."_ALLOWED_EXTENSIONS", "Zugelassene Erweiterungen:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*' bedeutet keine Einschränkungen.<br /> Erweiterungen werden durch '|' getrennt.</span>");
-define($constpref."_ALLOW_ATTACHMENTS", "Anhänge zulassen?");
+//define($constpref."_ALLOW_ATTACHMENTS", "Anhänge zulassen?");
 define($constpref."_ALLOWHTML","HTML zulassen?");
 define($constpref."_YES","Ja");
 define($constpref."_NO","Nein");

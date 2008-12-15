@@ -288,6 +288,7 @@ define('_MD_UPLOAD','Hochladen');
 // forumuserpost.php
 define('_MD_ADD','Hinzufügen');
 define('_MD_REPLY','Antworten');
+define('_MD_EXTRAS','Extras');
 
 // topicmanager.php
 define('_MD_VIEWTHETOPIC','Thema anschauen');
@@ -505,8 +506,7 @@ define('_PDF_SUBJECT','Betreff');
 define('_PDF_TOPIC','Thema'); 
 define('_PDF_DATE','Datum'); 
 define('_MD_UP','nach Oben');
-define('_MD_POSTTIME','Datum'); 
-define('_MD_EXTRAS','extras');
+define('_MD_POSTTIME','Datum');
 define('_MD_RIGHT','right');
 define('_MD_LEFT','left');
 ?>
