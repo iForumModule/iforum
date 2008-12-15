@@ -309,7 +309,7 @@ CREATE TABLE `bb_votedata` (
   KEY `ratinghostname` (`ratinghostname`),
   KEY `topic_id` (`topic_id`)
 ) TYPE=MyISAM;
-
+/*
 --#
 --# Table structure for table `iforum_mimetypes`
 --#
@@ -453,3 +453,4 @@ CREATE TABLE `bb_votedata` (
 --INSERT INTO iforum_mimetypes VALUES (121, 'wmx', 'video/x-ms-wmx', 'Windows Media Player A/V Shortcut', 0, 0);
 --INSERT INTO iforum_mimetypes VALUES (122, 'ice', 'x-conference-xcooltalk', 'Cooltalk Audio', 0, 0);
 --INSERT INTO iforum_mimetypes VALUES (123, 'rar', 'application/octet-stream', 'WinRAR Compressed Archive', 0, 0);
+*/
