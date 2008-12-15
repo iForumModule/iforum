@@ -224,6 +224,7 @@ div.dropdown .userbar{
 div#extras {
 	margin: 0px 20px 0px 20px;
 	display: none;
+	width: 99%;
 }
 
 .forum_controls {width: 100%;}
