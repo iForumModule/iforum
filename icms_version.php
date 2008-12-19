@@ -136,8 +136,12 @@ $modversion['templates'][14]['file'] = 'iforum_left.html';
 $modversion['templates'][14]['description'] = '';
 $modversion['templates'][15]['file'] = 'iforum_right.html';
 $modversion['templates'][15]['description'] = '';
-//$modversion['templates'][16]['file'] = 'iforum_viewpost_list.html';
-//$modversion['templates'][16]['description'] = '';
+$modversion['templates'][16]['file'] = 'iforum_viewtopic_left.html';
+$modversion['templates'][16]['description'] = '';
+$modversion['templates'][17]['file'] = 'iforum_viewtopic_right.html';
+$modversion['templates'][17]['description'] = '';
+//$modversion['templates'][18]['file'] = 'iforum_viewpost_list.html';
+//$modversion['templates'][18]['description'] = '';
 
 
 // Blocks
