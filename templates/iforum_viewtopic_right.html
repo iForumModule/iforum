@@ -47,24 +47,6 @@
 
 <div style="padding: 5px;">
 <a id="threadtop"></a>
-<span style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
-<{if $online}>
-<{$smarty.const._MD_BROWSING}>&nbsp;
-<{foreach item=user from=$online.users}>
-	<a href="<{$user.link}>">
-		<{if $user.level eq 2}>
-			<span class="online_admin"><{$user.uname}></span>
-		<{elseif $user.level eq 1}>
-			<span class="online_moderator"><{$user.uname}></span>
-		<{else}>
-			<{$user.uname}>
-		<{/if}>	
-	</a>&nbsp;
-<{/foreach}>
-<{if $online.num_anonymous}>&nbsp;<{$online.num_anonymous}> <{$smarty.const._MD_ANONYMOUS_USERS}>
-<{/if}>
-<{/if}>
-</span>
 <span style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
 <{$forum_reply}><{$forum_addpoll}>&nbsp;<{$forum_post_or_register}>
 </span>
@@ -320,7 +302,7 @@
 <{/foreach}>
 </div>
 <div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
-<form action="search.php" method="get">
+<form action="search.php" method="get"><div>
 <input name="term" id="term" type="text" size="15" />
 <input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
 <input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
@@ -328,7 +310,7 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
 </form><br />
 <{$forum_jumpbox}>
 </div>
@@ -336,5 +318,5 @@
 <div class="clear"></div>
 
 <br />
-
+<{if $online}><{include file="db:iforum_online.html"}><{/if}>
 <{include file='db:system_notification_select.html'}>

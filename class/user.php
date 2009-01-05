@@ -280,8 +280,8 @@ class IforumUserHandler extends XoopsObjectHandler
 		}
 	    if ($xoopsModuleConfig['wol_enabled']) {
 	        $userinfo["status"] = isset($this->status[$uid]) ?
-	        	iforum_displayImage($forumImage['online'], _MD_ONLINE) :
-	        	iforum_displayImage($forumImage['offline'],_MD_OFFLINE);
+	        	 _MD_ONLINE :
+	        	 _MD_OFFLINE;
 	    }
 		return $userinfo;
     }

@@ -170,7 +170,7 @@ span.online_moderator{
     clear: both; 
     visibility: hidden;
 }
-.clear {display: inline-table;}
+.clear {}
 /* Hides from IE-mac \*/
 * html .clear {height: 1%;}
 .clear {display: block;}
@@ -216,3 +216,5 @@ div#extras {
 }
 
 .forum_controls {width: 100%;}
+ .online {color:green;}
+ .offline {color:red;}

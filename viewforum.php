@@ -90,6 +90,9 @@ $getpermission =& icms_getmodulehandler('permission', basename( dirname( __FILE_
 $permission_set = $getpermission->getPermissions("forum", $forum_obj->getVar('forum_id'));
 
 $t_new = iforum_displayImage($forumImage['t_new'],_MD_POSTNEW);
+$t_extras = iforum_displayImage($forumImage['t_extras'],_MD_EXTRAS);
+$t_signup = iforum_displayImage($forumImage['t_signup'],_MD_EXTRAS);
+
 if ($forum_handler->getPermission($forum_obj, "post")){
 	$xoopsTpl->assign('forum_post_or_register', "<a href=\"newtopic.php?forum=".$forum_obj->getVar('forum_id')."\">".$t_new."</a>");
 	if ($forum_handler->getPermission($forum_obj, "addpoll") && $forum_obj->getVar('allow_polls') == 1){
@@ -99,13 +102,14 @@ if ($forum_handler->getPermission($forum_obj, "post")){
 } else {
     if ( !empty($GLOBALS["xoopsModuleConfig"]["show_reg"]) && !is_object($xoopsUser)) {
 	    $redirect = preg_replace("|(.*)\/modules\/".basename( dirname( __FILE__ ) )."\/(.*)|", "\\1/modules/".basename( dirname( __FILE__ ) )."/newtopic.php?forum=".$forum_obj->getVar('forum_id'), htmlspecialchars($xoopsRequestUri));
-		$xoopsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.$redirect.'">'._MD_REGTOPOST.'</a>');
+		$xoopsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.$redirect.'">'.$t_signup.'</a>');
 		$xoopsTpl->assign('forum_addpoll', "");
 	} else {
 		$xoopsTpl->assign('forum_post_or_register', "");
 		$xoopsTpl->assign('forum_addpoll', "");
 	}
 }
+    $xoopsTpl->assign('forum_extras', $t_extras);
 
 if($forum_obj->getVar('parent_forum')){
 	$parent_forum_obj =& $forum_handler->get($forum_obj->getVar('parent_forum'), array("forum_name"));
@@ -245,7 +249,7 @@ if($xoopsModuleConfig['show_permissiontable']){
 }
 
 if ($xoopsModuleConfig['rss_enable'] == 1) {
-	$xoopsTpl->assign("rss_button","<div align='right'><a href='".ICMS_URL . "/modules/" . $xoopsModule->dirname() . "/rss.php?f=".$forum_obj->getVar('forum_id')."' title='RSS feed' target='_blank'>".iforum_displayImage($forumImage['rss'], 'RSS feed')."</a></div>");
+	$xoopsTpl->assign("rss_button","<div><a href='".ICMS_URL . "/modules/" . $xoopsModule->dirname() . "/rss.php?f=".$forum_obj->getVar('forum_id')."' title='RSS feed' target='_blank'>".iforum_displayImage($forumImage['rss'], 'RSS feed')."</a></div>");
 }
 
 include ICMS_ROOT_PATH."/footer.php";

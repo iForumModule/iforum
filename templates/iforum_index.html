@@ -1,10 +1,30 @@
+    	<!-- Remove Later!!! This is for hiding extras -->
+		<script type="text/javascript">
+		function toggleLayer(whichLayer)
+			{
+			if (document.getElementById)
+			{
+			// this is the way the standards work
+			var style2 = document.getElementById(whichLayer).style;
+			style2.display = style2.display? "":"block";
+			}
+			else if (document.all)
+			{
+			// this is the way old msie versions work
+			var style2 = document.all[whichLayer].style;
+			style2.display = style2.display? "":"block";
+			}
+			else if (document.layers)
+			{
+			// this is the way nn4 works
+			var style2 = document.layers[whichLayer].style;
+			style2.display = style2.display? "":"block";
+			}
+			}
+		</script>
 <div id="index_welcome">
 	<div class="title"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/"><{$lang_welcomemsg}></a></div>
 	<div class="desc"><{$smarty.const._MD_TOSTART}></div>
-	<div class="visit"><{$lang_currenttime}>
-		<br /><{$lang_lastvisit}>
-		<br /><{$smarty.const._MD_TOTALTOPICSC}><strong><{$total_topics}></strong> | <{$smarty.const._MD_TOTALPOSTSC}><strong><{$total_posts}></strong>
-	</div>
 </div>
 <div class="clear"></div>
 
@@ -30,7 +50,12 @@
 	<br />
 	<div class="clear"></div>
 <{/if}>
-
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>;" class="visit"><{$smarty.const._MD_TOTALTOPICSC}><strong><{$total_topics}></strong> | <{$smarty.const._MD_TOTALPOSTSC}><strong><{$total_posts}></strong></div>
+<div class="clear"></div>
+<div class="forum_controls">
+<div id="forum_pagenav_top" style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{$forum_pagenav}>
+</div>
 <div class="dropdown">
 <{if $menumode eq 0}>
 
@@ -117,22 +142,23 @@
 <{/if}>
 </div>
 <div class="clear"></div>
-<br /><br />
+</div>
 
 <!-- start forum categories -->
+<div class="outer">
 <{foreach item=category from=$categories}>
-<table class="index_category" cellspacing="0" width="100%">
+<table width="100%">
     <tr class="head">
-		<td width="3%" valign="middle" align="center"><img onclick="ToggleBlock2('cat_<{$category.cat_id}>', this)" src="<{$category.cat_display_icon}>" alt="" /></td>
+		<td style="width: 3%;" valign="middle" align="center"><img onclick="ToggleBlock2('cat_<{$category.cat_id}>', this)" src="<{$category.cat_display_icon}>" alt="" /></td>
 		<{if $category.cat_image}>
-		<td width="8%"><img src="<{$category.cat_image}>" alt="<{$category.cat_title}>" /></td>
+		<td style="width: 8%;"><img src="<{$category.cat_image}>" alt="<{$category.cat_title}>" /></td>
 		<{/if}>
 		<td align="<{$smarty.const._GLOBAL_LEFT}>">
 			<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a>
 			<{if $category.cat_description}><p class="desc"><{$category.cat_description}></p><{/if}>
 		</td>
 		<{if $category.cat_sponsor}>
-		<td width="15%" nowrap="nowrap" align="<{$smarty.const._GLOBAL_RIGHT}>">
+		<td style="width: 15%" class="nowrap" align="<{$smarty.const._GLOBAL_RIGHT}>">
 		<p class="desc"><a href="<{$category.cat_sponsor.link}>" title="<{$category.cat_sponsor.title}>" target="_blank"><{$category.cat_sponsor.title}></a></p>
 		</td>
 		<{/if}>
@@ -140,18 +166,18 @@
 </table>
 
 <div id="cat_<{$category.cat_id}>" style="display: <{$category.cat_display}>">
-<table cellspacing="1" width="100%">
+<table width="100%">
 <{if $category.forums}>
     <tr class="head" align="center">
-		<td width="5%">&nbsp;</td>
+		<td style="width: 5%;">&nbsp;</td>
 		<{if $subforum_display == "expand"}>
-		<td colspan="2" width="57%" nowrap="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_FORUM}></td>
+		<td colspan="2" style="width: 57%;" class="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_FORUM}></td>
 		<{else}>
-		<td width="57%" nowrap="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_FORUM}></td>
+		<td style="width: 57%;" class="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_FORUM}></td>
 		<{/if}>
-		<td width="9%" nowrap="nowrap"><{$smarty.const._MD_TOPICS}></td>
-		<td width="9%" nowrap="nowrap"><{$smarty.const._MD_POSTS}></td>
-		<td width="20%" nowrap="nowrap"><{$smarty.const._MD_LASTPOST}></td>
+		<td style="width: 9%;" class="nowrap"><{$smarty.const._MD_TOPICS}></td>
+		<td style="width: 9%;" class="nowrap"><{$smarty.const._MD_POSTS}></td>
+		<td style="width: 20%;" class="nowrap"><{$smarty.const._MD_LASTPOST}></td>
     </tr>
 <{/if}>
 
@@ -163,7 +189,7 @@
     <tr>
       <td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
       <td colspan="2" class="odd">
-		<div id="index_forum">
+		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
 			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
@@ -186,16 +212,14 @@
     </tr>
 <{if $forum.subforum}>
     <tr class="head" >
-      <td width="5%">&nbsp;</td>
-      <td width="5%" align="center"><{$img_subforum}>&nbsp;</td>
-      <td colspan="4" nowrap="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_SUBFORUMS}></td>
+      <td style="width: 5%;" align="center"><{$img_subforum}>&nbsp;</td>
+      <td colspan="5" class="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_SUBFORUMS}></td>
     </tr>
 <{foreach item=subforum from=$forum.subforum}>
     <tr>
-      <td class="odd" width="5%">&nbsp;</td>
-      <td class="even" align="center" valign="middle" width="5%"><{$subforum.forum_folder}></td>
-      <td width="52%" class="odd">
-		<div id="index_forum">
+      <td class="even" align="center" valign="middle" style="width: 5%;"><{$subforum.forum_folder}></td>
+      <td colspan="2" style="width: 57%;" class="odd">
+		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$subforum.forum_id}>"><strong><{$subforum.forum_name}></strong></a>
 	      	<{if $rss_enable}>
 			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$subforum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
@@ -209,9 +233,9 @@
         	<{/if}>
         </div>
 	  </td>
-      <td class="even" width="9%" align="center" valign="middle"><{$subforum.forum_topics}> </td>
-      <td class="odd" width="9%" align="center" valign="middle"><{$subforum.forum_posts}> </td>
-      <td class="even" width="20%" align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$subforum.forum_lastpost_time}> <br />
+      <td class="even" style="width: 9%;" align="center" valign="middle"><{$subforum.forum_topics}> </td>
+      <td class="odd" style="width: 9%;" align="center" valign="middle"><{$subforum.forum_posts}> </td>
+      <td class="even" style="width: 20%;" align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$subforum.forum_lastpost_time}> <br />
 		<{$subforum.forum_lastpost_icon}> <br />
 		<{$subforum.forum_lastpost_user}>
 	  </td>
@@ -230,12 +254,18 @@
       	<td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
 		<{/if}>
       	<td class="odd">
-		<div id="index_forum">
+		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
 			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$forum.forum_desc}>
+		<{if $forum.subforum}>
+		<br /><{$smarty.const._MD_SUBFORUMS}>&nbsp;<{$img_subforum}>&nbsp;
+			<{foreach item=subforum from=$forum.subforum}>
+			&nbsp;[<a href="viewforum.php?forum=<{$subforum.forum_id}>"><{$subforum.forum_name}></a>]
+			<{/foreach}>
+		<{/if}>
 	      	</span>
 			<{if $forum.forum_moderators}>
 			<span class="extra">
@@ -250,15 +280,6 @@
 			<{$forum.forum_lastpost_icon}> <br />
 			<{$forum.forum_lastpost_user}>  </td>
     </tr>
-	<{if $forum.subforum}>
-    <tr>
-     	<td class="odd" colspan="4" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_SUBFORUMS}>&nbsp;<{$img_subforum}>&nbsp;
-			<{foreach item=subforum from=$forum.subforum}>
-			&nbsp;[<a href="viewforum.php?forum=<{$subforum.forum_id}>"><{$subforum.forum_name}></a>]
-			<{/foreach}>
-		</td>
-	</tr>
-	<{/if}>
 <{/foreach}>
 
 <{else}>
@@ -267,7 +288,7 @@
 	<tr>
       	<td class="even" align="center" valign="middle"><{$forum.forum_folder}></td>
       	<td class="odd">
-		<div id="index_forum">
+		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
 			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
@@ -296,6 +317,7 @@
 </div>
 <{/foreach}>
 <!-- end forum categories -->
+</div>
 
 <br />
 <div>
@@ -306,14 +328,14 @@
 	<{$img_locked_nonewposts}> = <{$smarty.const._MD_INACTIVEFORUM_NONEWPOSTS}>
 </div>
 <div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
-	<form action="search.php" method="post" name="search" id="search">
+	<form action="search.php" method="post" class="search" id="search"><div>
         <input name="term" id="term" type="text" size="20" />
         <input type="hidden" name="forum" id="forum" value="all" />
         <input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
         <input type="hidden" name="searchin" id="searchin" value="both" />
         <input type="submit" name="submit" id="submit" value="<{$smarty.const._MD_SEARCH}>" />
         <br />
-        [ <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a> ]
+        [ <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a> ]</div>
 	</form>
 </div>
 </div>
@@ -332,12 +354,10 @@
 	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?c=<{$viewcat}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
 	<br />
 	<{/if}>
-	<a href="http://community.impresscms.org" target="_blank" title="Powered by iForum v<{$version}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/images/cbb.png" alt="Powered by CBB v<{$version}>" title="Powered by CBB v<{$version}>" /></a>
 </div>
 <div class="clear"></div>
 
-<br />
-<br />
+
 <{if $online}><{include file="db:iforum_online.html"}><{/if}>
 <{include file='db:system_notification_select.html'}>
 <!-- end module contents -->

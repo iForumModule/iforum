@@ -1,5 +1,6 @@
 <a id="forumpost<{$topic_post.post_id}>"></a>
-<table class="outer" cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+<div class="outer">
+<table width="100%">
   	<tr>
        		<th>
        		<div class="postedon" style="float: <{$smarty.const._GLOBAL_LEFT}>;"> <{$smarty.const._MD_POSTEDON}><{$topic_post.post_date}></div>
@@ -14,22 +15,18 @@
   	</tr>
 
   	<tr>
-  		<td width="100%" class="odd" valign="top">
+  		<td class="odd" valign="top">
   			<{if $topic_post.poster.uid != 0}>
 			<div class="Userrow_left">
-			<div class="comUserImg">
-			<center>
+			<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserImg">
 			<img src="<{$topic_post.poster.avatar}>" alt="" />
-			</center>
 			</div>
-			<div class="Userbar">
-				<center>
+			<div style="margin-left: auto; margin-right: auto; text-align: center;" class="Userbar">
 				<{foreach item=bar from=$topic_post.poster.userbar}>
 				<{if $bar}>
 				<a class="UserLink" href="<{$bar.link}>" title="<{$bar.name}>"><{$bar.image}></a>
 				<{/if}>
 				<{/foreach}>
-				</center>
 			</div>
 			</div>
 			
@@ -74,7 +71,7 @@
 		</td>
 	</tr>
 	<tr>
-  		<td width="100%" class="even" valign="top">
+  		<td class="even" valign="top">
     			<div class="comText"><{$topic_post.post_text}></div>
 			<{if $topic_post.post_attachment}>
 			<div class="comText"><{$topic_post.post_attachment}></div>
@@ -89,7 +86,7 @@
 		</td>
   	</tr>
 	<tr>
-  		<td width="100%" class="even" valign="bottom">
+  		<td class="even" valign="bottom">
 			<{if $topic_post.post_signature}>
     			<div class="signature">
 			_________________<br />
@@ -99,11 +96,11 @@
 		</td>
   	</tr>
 	<tr>
-    		<td width="100%" class="foot">
-			<div class="transfer" align="<{$smarty.const._GLOBAL_LEFT}>">
+    		<td class="foot">
+			<div style="float: <{$smarty.const._GLOBAL_LEFT}>;" class="transfer">
 			<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.transfer.php?post_id=<{$topic_post.post_id}>" target="_blank" title="<{$smarty.const._MD_TRANSFER_DESC}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/images/external.png" alt="<{$smarty.const._MD_TRANSFER_DESC}>" /> <{$smarty.const._MD_TRANSFER}></a>
 			</div>
-			<div class="foot_buttons" align="<{$smarty.const._GLOBAL_RIGHT}>">
+			<div style="float: <{$smarty.const._GLOBAL_RIGHT}>;" class="foot_buttons">
     			<{if $mode gt 1}>
 			<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=1" target="_self" title="<{$smarty.const._MD_SPLIT_ONE}>"><{$smarty.const._MD_SPLIT_ONE}></a> | 
 			<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=2" target="_self" title="<{$smarty.const._MD_SPLIT_TREE}>"><{$smarty.const._MD_SPLIT_TREE}></a> | 
@@ -117,3 +114,4 @@
     		</td>
   	</tr>
 </table>
+</div>

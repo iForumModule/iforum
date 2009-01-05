@@ -1,34 +1,30 @@
 <a id="forumpost<{$topic_post.post_id}>"></a>
-<table class="outer" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0px;">
+<div class="outer">
+<table width="100%">
   <tr>
-       <th width="20%" align="<{$smarty.const._GLOBAL_LEFT}>">
-     <center><div class="comUserName"><{$topic_post.poster.link}></div></center>
+       <th style="width: 20%;" align="<{$smarty.const._GLOBAL_LEFT}>">
+  	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserName"><{$topic_post.poster.link}></div>
    	</th>
-    <th width="75%" align="<{$smarty.const._GLOBAL_LEFT}>"><div class="comTitle"><{$topic_post.post_title}></div></th>
+    <th style="width: 75%;" align="<{$smarty.const._GLOBAL_LEFT}>"><div class="comTitle"><{$topic_post.post_title}></div></th>
     <th align="<{$smarty.const._GLOBAL_RIGHT}>"><div class="comTitle" style="float: <{$smarty.const._GLOBAL_RIGHT}>;"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a></div></th>
   </tr>
 
   <tr>
-  	<td width="20%" class="odd" rowspan="2" valign="top">
+  	<td style="width: 20%;" class="odd" rowspan="2" valign="top">
   	<{if $topic_post.poster.uid != 0}>
-	<div class="comUserImg">
-			<center>
+	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserImg">
 			<img src="<{$topic_post.poster.avatar}>" alt="" />
-			</center>
 	</div>
-  	<div class="comUserRankText"><center><{$topic_post.poster.rank.title}><br /><{$topic_post.poster.rank.image}></center></div>
-	<div class="Userbar">
-				<center>
+  	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserRankText"><{$topic_post.poster.rank.title}><br /><{$topic_post.poster.rank.image}></div>
+	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="Userbar">
 				<{foreach item=bar from=$topic_post.poster.userbar}>
 				<{if $bar}>
 				<a class="UserLink" href="<{$bar.link}>" title="<{$bar.name}>"><{$bar.image}></a>
 				<{/if}>
 				<{/foreach}>
-				</center>
 	</div>
 	  	<{if $topic_post.poster.status}>
-<!--Can you maybe ask stranger for a function that returns online or offline rather than a full graphic so this would be possible without ghettofying it?-->
-  	<div class="comUserStat"><center><{if $topic_post.poster.status == '<img src="http://mrtheme.com/forum/modules/trunk/images/imagesets/default/english/online-a.png" style="width: 65px; height:15px; margin: 0px;" alt="Online" align="middle" />'}><span class="comUserStatCaption" style="color:green;font-weight:700;font-size:1.1em;"><{$topic_post.poster.name}>&nbsp;is&nbsp;online!<{else}><span class="comUserStatCaption"><{$topic_post.poster.name}>&nbsp;is&nbsp;offline<{/if}></span></center></div>
+  	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserStat"><{$topic_post.poster.status}></div>
   	<{/if}>
   	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span> <{$topic_post.poster.regdate}></div>
 	<{if $topic_post.poster.from}>
@@ -80,10 +76,10 @@
   </tr>
 
   <tr>
-    <td width="20%" class="foot">
+    <td style="width: 20%;" class="foot">
 	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.transfer.php?post_id=<{$topic_post.post_id}>" target="_blank" title="<{$smarty.const._MD_TRANSFER_DESC}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/images/external.png" alt="<{$smarty.const._MD_TRANSFER_DESC}>" /> <{$smarty.const._MD_TRANSFER}></a>
 	</td>
-    <td colspan="2" class="foot"><div align="<{$smarty.const._GLOBAL_RIGHT}>">
+    <td colspan="2" class="foot"><div style="float: <{$smarty.const._GLOBAL_RIGHT}>">
     <{if $mode gt 1}>
 		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=1" target="_self" title="<{$smarty.const._MD_SPLIT_ONE}>"><{$smarty.const._MD_SPLIT_ONE}></a> | 
 		<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=2" target="_self" title="<{$smarty.const._MD_SPLIT_TREE}>"><{$smarty.const._MD_SPLIT_TREE}></a> | 
@@ -97,3 +93,4 @@
     </td>
   </tr>
 </table>
+</div>

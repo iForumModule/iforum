@@ -165,13 +165,13 @@ switch($op){
 	    	unset($forums, $categories);
 	          
 		    echo "<form action='".$_SERVER['PHP_SELF']."' method='post'>";
-		    echo "<table border='0' cellpadding='1' cellspacing='0' align='center' width='95%'>";
+		    echo "<table border='0' cellpadding='1' cellspacing='0' width='95%'>";
 		    echo "<tr><td class='bg2'>";
 		    echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'>";
 	        echo '<tr><td class="bg3">'._MD_MOVETOPICTO.'</td><td class="bg1">';
 	    	echo $box;      
 	        echo '</td></tr>';
-		    echo '<tr class="bg3"><td colspan="2" align="center">';
+		    echo '<tr class="bg3"><td colspan="2">';
 		    echo "<input type='hidden' name='op' value='move' />";
 		    echo "<input type='hidden' name='forum_id' value='{$forum_id}' />";
 		    foreach($topic_id as $id){

@@ -461,10 +461,10 @@ function iforum_forumSelectBox($value = null, $permission = "access", $delimitor
 	
 function iforum_make_jumpbox($forum_id = 0)
 {
-	$box = '<form name="forum_jumpbox" method="get" action="viewforum.php" onsubmit="javascript: if(document.forum_jumpbox.forum.value &lt; 1){return false;}">';
-	$box .= '<select class="select" name="forum" onchange="javascript: if(this.options[this.selectedIndex].value >0 ){ document.forms.forum_jumpbox.submit();}">';
+	$box = '<form class="forum_jumpbox" method="get" action="viewforum.php" onsubmit="javascript: if(document.forum_jumpbox.forum.value &lt; 1){return false;}">';
+	$box .= '<div><select class="select" name="forum" onchange="javascript: if(this.options[this.selectedIndex].value >0 ){ document.forms.forum_jumpbox.submit();}">';
     $box .= iforum_forumSelectBox($forum_id);
-    $box .= "</select> <input type='submit' class='button' value='"._GO."' /></form>";
+    $box .= "</select> <input type='submit' class='button' value='"._GO."' /></div></form>";
     unset($forums, $categories);
     return $box;
 }
@@ -510,7 +510,7 @@ function iforum_displayImage($image, $alt = "", $width = 0, $height =0, $style =
     $height .='px';
 
     $img_style = "width: $width; height:$height; $style";
-    $image_url = "<img src=\"".$image."\" style=\"".$img_style."\" alt=\"".$alt."\" align=\"middle\" />";
+    $image_url = "<img src=\"".$image."\" style=\"".$img_style."\" alt=\"".$alt."\" />";
 
     return $image_url;
 }

@@ -344,9 +344,9 @@ class Post extends ArtObject {
 
         $posticon = $this->getVar('icon');
         if (!empty($posticon)){
-            $post_image = '<a name="' . $post_id . '"><img src="' . ICMS_URL . '/images/subject/' . $posticon . '" alt="" /></a>';
+            $post_image = '<img src="' . ICMS_URL . '/images/subject/' . $posticon . '" alt="" />';
         }else{
-            $post_image = '<a name="' . $post_id . '"><img src="' . ICMS_URL . '/images/icons/posticon.gif" alt="" /></a>';
+            $post_image = '<img src="' . ICMS_URL . '/images/icons/posticon.gif" alt="" />';
         }
 
         $post_title = $this->getVar('subject');
@@ -433,7 +433,7 @@ class Post extends ArtObject {
         $thread_action['print']['name'] = _MD_PRINT;
 
         if(is_object($xoopsUser) && $this->getVar('uid') > 0 && isset($viewtopic_users[$this->getVar('uid')])){
-	        $thread_action['pm']['image'] = $image_url = "<img src=\"".$forumImage['pm']."\" alt=\""._MD_PM."\" align=\"middle\" />";
+	        $thread_action['pm']['image'] = $image_url = "<img src=\"".$forumImage['pm']."\" alt=\""._MD_PM."\" />";
 	        $thread_action['pm']['link'] = "posttopm.php?";
 	        $thread_action['pm']['name'] = _MD_PM;
         }

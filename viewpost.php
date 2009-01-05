@@ -235,9 +235,9 @@ foreach(array_keys($posts) as $id){
     $post_title = $post->getVar('subject');
 
     if ( $posticon = $post->getVar('icon') ){
-        $post_image = '<a name="' . $post->getVar('post_id') . '"><img src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($posticon) . '" alt="" /></a>';
+        $post_image = '<img src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($posticon) . '" alt="" />';
     }else{
-        $post_image = '<a name="' . $post->getVar('post_id') . '"><img src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" /></a>';
+        $post_image = '<img src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" />';
     }
     if($post->getVar('uid')>0 && isset($viewtopic_users[$post->getVar('uid')])) {
 	    $poster = $viewtopic_users[$post->getVar('uid')];
