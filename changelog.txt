@@ -30,6 +30,7 @@ Changelog 1.0 RC2
 21 added: div class="comUserImg for avatars (Knallkopp_02)
 22 Finished Implementing easy-renaming
 23 New template set (MrTheme)
+24 Added icons instead of transfer text
 
 Changelog 1.0 RC
 Nov 6th, 2008 

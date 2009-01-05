@@ -28,7 +28,7 @@
  * phppp
  */
 
-die("Sorry, we are not ready yet!<br />If you have any suggestion, plz contact php_pp@hotmail.com");
+die('Sorry, this feature is not ready yet!<br />');
 
 include_once("header.php");
 include ICMS_ROOT_PATH."/header.php";

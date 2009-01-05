@@ -22,6 +22,7 @@
 * @author		modified by stranger
 * @version		$Id$
 */
+die('Sorry, this feature is not ready yet!<br />');
 
 function transfer_email(&$data)
 {

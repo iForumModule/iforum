@@ -417,27 +417,27 @@ class Post extends ArtObject {
         }
                 
         $thread_action = array();
-        /*
-        if ($isadmin) {
-        	$thread_action['news']['image'] = iforum_displayImage($forumImage['news'], _MD_POSTTONEWS);
-        	$thread_action['news']['link'] = "posttonews.php?topic_id=" . $topic_id;
-        	$thread_action['news']['name'] = _MD_POSTTONEWS;
-        }
-
+        
         $thread_action['pdf']['image'] = iforum_displayImage($forumImage['pdf'], _MD_PDF);
-        $thread_action['pdf']['link'] = "makepdf.php?type=post&amp;pageid=0&amp;scale=0.66";
+        $thread_action['pdf']['link'] = "makepdf.php?post_id=".$post_id;
         $thread_action['pdf']['name'] = _MD_PDF;
 
         $thread_action['print']['image'] = iforum_displayImage($forumImage['printer'], _MD_PRINT);
-        $thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forum_id."&amp;topic_id=" . $topic_id;
+        $thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forum_id."&amp;topic_id=" . $topic_id . "&amp;post_id=".$post_id;
         $thread_action['print']['name'] = _MD_PRINT;
 
-        if(is_object($xoopsUser) && $this->getVar('uid') > 0 && isset($viewtopic_users[$this->getVar('uid')])){
+        /*if(is_object($xoopsUser) && $this->getVar('uid') > 0 && isset($viewtopic_users[$this->getVar('uid')])){
 	        $thread_action['pm']['image'] = $image_url = "<img src=\"".$forumImage['pm']."\" alt=\""._MD_PM."\" />";
 	        $thread_action['pm']['link'] = "posttopm.php?";
 	        $thread_action['pm']['name'] = _MD_PM;
         }
+        if ($isadmin) {
+        	$thread_action['news']['image'] = iforum_displayImage($forumImage['news'], _MD_POSTTONEWS);
+        	$thread_action['news']['link'] = "posttonews.php?topic_id=" . $topic_id . "&amp;post_id=".$post_id;
+        	$thread_action['news']['name'] = _MD_POSTTONEWS;
+        }
         */
+        
 
         $post = array(
 	    			'post_id' => $post_id,
@@ -456,6 +456,7 @@ class Post extends ArtObject {
 	                'poster' => $poster
 	       	);
 
+        unset($thread_action);
         unset($thread_buttons);
         unset($eachposter);
         

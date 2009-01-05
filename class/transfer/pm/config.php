@@ -31,6 +31,7 @@
  * @package		module::article
  *
  */
+die('Sorry, this feature is not ready yet!<br />');
 global $xoopsConfig;
 
 $current_path = __FILE__;

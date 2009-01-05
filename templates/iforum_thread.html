@@ -98,7 +98,7 @@
 	<tr>
     		<td class="foot">
 			<div style="float: <{$smarty.const._GLOBAL_LEFT}>;" class="transfer">
-			<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.transfer.php?post_id=<{$topic_post.post_id}>" target="_blank" title="<{$smarty.const._MD_TRANSFER_DESC}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/images/external.png" alt="<{$smarty.const._MD_TRANSFER_DESC}>" /> <{$smarty.const._MD_TRANSFER}></a>
+    	<{foreach item=act from=$topic_post.thread_action}> <a href="<{$act.link}>" title="<{$act.name}>"> <{$act.image}></a> <{/foreach}>
 			</div>
 			<div style="float: <{$smarty.const._GLOBAL_RIGHT}>;" class="foot_buttons">
     			<{if $mode gt 1}>

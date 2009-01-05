@@ -23,6 +23,7 @@
 * @version		$Id$
 */
 
+die('Sorry, this feature is not ready yet!<br />');
 include '../../../../../mainfile.php';
 require_once("config.php");
 
