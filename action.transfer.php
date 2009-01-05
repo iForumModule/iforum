@@ -23,6 +23,7 @@
 * @version		$Id$
 */
 
+die('Sorry, this feature is not ready yet!<br />');
 include "header.php";
 require_once(ICMS_ROOT_PATH . "/class/xoopsformloader.php");
 

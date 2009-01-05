@@ -418,6 +418,12 @@ class Post extends ArtObject {
                 
         $thread_action = array();
         
+        if(is_object($xoopsUser) && $this->getVar('uid') > 0 && isset($viewtopic_users[$this->getVar('uid')])){
+	        $thread_action['pm']['image'] = $image_url = "<img src=\"".$forumImage['pm']."\" alt=\""._MD_PM."\" />";
+	        $thread_action['pm']['link'] = ICMS_URL . '/pmlite.php?send2=1&to_userid='.$poster['uid'];
+	        $thread_action['pm']['name'] = _MD_PM;
+        }
+
         $thread_action['pdf']['image'] = iforum_displayImage($forumImage['pdf'], _MD_PDF);
         $thread_action['pdf']['link'] = "makepdf.php?post_id=".$post_id;
         $thread_action['pdf']['name'] = _MD_PDF;
@@ -426,12 +432,7 @@ class Post extends ArtObject {
         $thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forum_id."&amp;topic_id=" . $topic_id . "&amp;post_id=".$post_id;
         $thread_action['print']['name'] = _MD_PRINT;
 
-        /*if(is_object($xoopsUser) && $this->getVar('uid') > 0 && isset($viewtopic_users[$this->getVar('uid')])){
-	        $thread_action['pm']['image'] = $image_url = "<img src=\"".$forumImage['pm']."\" alt=\""._MD_PM."\" />";
-	        $thread_action['pm']['link'] = "posttopm.php?";
-	        $thread_action['pm']['name'] = _MD_PM;
-        }
-        if ($isadmin) {
+        /*if ($isadmin) {
         	$thread_action['news']['image'] = iforum_displayImage($forumImage['news'], _MD_POSTTONEWS);
         	$thread_action['news']['link'] = "posttonews.php?topic_id=" . $topic_id . "&amp;post_id=".$post_id;
         	$thread_action['news']['name'] = _MD_POSTTONEWS;
