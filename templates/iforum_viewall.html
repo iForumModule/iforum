@@ -1,8 +1,4 @@
-
-<div id="forum_header">
-<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a></div>
-<div>&nbsp;&nbsp;<{$folder_topic}><a href="<{$current_link}>"><{$current_type}></a></div>
-</div>
+<div><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a> > &nbsp;<a href="<{$current_link}>"><{$current_type}></a></div>
 
 
 <{if $mode gt 1}>
@@ -44,7 +40,10 @@
 <{/if}>
 <div class="clear"></div>
 
-<div>
+<div class="forum_controls">
+<div id="forum_pagenav_top" style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{$forum_pagenav}>
+</div>
 <div class="dropdown">
 <{if $menumode eq 0}>
 
@@ -109,18 +108,13 @@
 
 <{/if}>
 </div>
-<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
-<{$forum_pagenav}>
-</div>
-</div>
 <div class="clear"></div>
-<br />
-<br />
+</div>
 
-<table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
-
-    <tr class="head" align="<{$smarty.const._GLOBAL_LEFT}>">
-	      <td  width="5%" colspan="2">
+<div class="outer">
+<table width="100%">
+<tr class="head" align="<{$smarty.const._GLOBAL_LEFT}>">
+	      <td style="width: 5%;" colspan="2">
 	      <{if $mode gt 1}>
 			<{$smarty.const._ALL}>: <input type="checkbox" name="topic_check" id="topic_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check');" /> 
 	      <{else}>
@@ -128,35 +122,35 @@
 	      <{/if}>
 	      </td>
 		<td>&nbsp;<strong><a href="<{$h_topic_link}>"><{$smarty.const._MD_TOPICS}></a></strong></td>
-		<td width="15%" align="center" nowrap="nowrap"><strong><a href="<{$h_forum_link}>"><{$smarty.const._MD_FORUM}></a></strong></td>
-		<td width="5%" align="center" nowrap="nowrap"><strong><a href="<{$h_reply_link}>"><{$smarty.const._MD_REPLIES}></a></strong></td>
-		<td width="10%" align="center" nowrap="nowrap"><strong><a href="<{$h_poster_link}>"><{$smarty.const._MD_POSTER}></a></strong></td>
-		<td width="5%" align="center" nowrap="nowrap"><strong><a href="<{$h_views_link}>"><{$smarty.const._MD_VIEWS}></a></strong></td>
-		<td width="15%" align="center" nowrap="nowrap"><strong><a href="<{$h_date_link}>"><{$smarty.const._MD_DATE}></a></strong></td>
+		<td style="width: 15%; text-align: center;" class="nowrap"><strong><a href="<{$h_forum_link}>"><{$smarty.const._MD_FORUM}></a></strong></td>
+		<td style="width: 5%; text-align: center;" class="nowrap"><strong><a href="<{$h_reply_link}>"><{$smarty.const._MD_REPLIES}></a></strong></td>
+		<td style="width: 10%; text-align: center;" class="nowrap"><strong><a href="<{$h_poster_link}>"><{$smarty.const._MD_POSTER}></a></strong></td>
+		<td style="width: 5%; text-align: center;" class="nowrap"><strong><a href="<{$h_views_link}>"><{$smarty.const._MD_VIEWS}></a></strong></td>
+		<td style="width: 15%; text-align: center;" class="nowrap"><strong><a href="<{$h_date_link}>"><{$smarty.const._MD_DATE}></a></strong></td>
 	</tr>
 
   <!-- start forum topic -->
 <{foreach name=loop item=topic from=$topics}>
   <tr class="<{cycle values="even,odd"}>">
-    <td width="4%" align="center">
+    <td style="width: 4%; text-align: center;">
 	      <{if $mode gt 1}>
 			<input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>" />
 	      <{else}>
 			<{$topic.topic_folder}>
 	      <{/if}>
     </td>
-    <td width="4%" align="center"><{$topic.topic_icon}></td>
+    <td style="width: 4%; text-align: center;"><{$topic.topic_icon}></td>
     <td>&nbsp;<a href="<{$topic.topic_link}>">
 		<{if $topic.allow_prefix AND $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
 		<{$topic.topic_title}></a><{$topic.attachment}> <{$topic.topic_page_jump}>
 	</td>
-    <td align="<{$smarty.const._GLOBAL_LEFT}>" valign="middle"><{$topic.topic_forum_link}></td>
-    <td align="center" valign="middle"><{$topic.topic_replies}></td>
-    <td align="center" valign="middle"><{$topic.topic_poster}></td>
-    <td align="center" valign="middle"><{$topic.topic_views}></td>
-    <td align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$topic.topic_last_posttime}><br />
+    <td style="text-align: center;" valign="middle"><{$topic.topic_forum_link}></td>
+    <td style="text-align: center;" valign="middle"><{$topic.topic_replies}></td>
+    <td style="text-align: center;" valign="middle"><{$topic.topic_poster}></td>
+    <td style="text-align: center;" valign="middle"><{$topic.topic_views}></td>
+    <td valign="middle"><{$topic.topic_last_posttime}><br />
 		<{$smarty.const._MD_BY}> <{$topic.topic_last_poster}>
 	</td>
   </tr>
@@ -168,22 +162,22 @@
 	<{/if}>
 
   <tr class="foot">
-    <td colspan="8" align="center"> <{strip}>
-      <form method="get" action="viewall.php">
+    <td colspan="8" style="text-align: center;"> <{strip}>
+      <form method="get" action="viewall.php"><div>
         <strong><{$smarty.const._MD_SORTEDBY}></strong>&nbsp;<{$forum_selection_sort}>&nbsp;<{$forum_selection_order}>&nbsp;<{$forum_selection_since}>&nbsp;
         <input type="hidden" name="forum" value="<{$forum_id}>" />
         <input type="hidden" name="type" value="<{$type}>" />
-        <input type="submit" name="refresh" value="<{$smarty.const._MD_GO}>" />
+        <input type="submit" name="refresh" value="<{$smarty.const._MD_GO}>" /></div>
       </form>
 	<{/strip}>
 	</td>
   </tr>
 </table>
+</div>
 <!-- end forum main table -->
 
 <{if $forum_pagenav}>
 <div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;"><{$forum_pagenav}></div>
-<br />
 <{/if}>
 <div class="clear"></div>
 
@@ -197,7 +191,7 @@
 	<{$img_poll}> = <{$smarty.const._MD_TOPICHASPOLL}>
 </div>
 <div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
-<form action="search.php" method="get">
+<form action="search.php" method="get"><div>
 <input name="term" id="term" type="text" size="15" />
 <input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
 <input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
@@ -205,7 +199,7 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
 </form><br />
 <{$forum_jumpbox}>
 </div>
