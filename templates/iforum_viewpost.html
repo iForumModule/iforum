@@ -1,26 +1,22 @@
-
-<div id="forum_header">
-<div><{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a></div>
-
+<div><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a> >
 <{if $parent_forum}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a> >
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> >
 <{elseif $forum_name}>
-<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> >
 <{/if}>
-<div>&nbsp;&nbsp; <{$post_content}> <strong><{$lang_title}></strong></div>
-</div>
+<{$lang_title}></div>
 <div class="clear"></div>
+<br /><br />
 
-<br />
+<a id="threadtop"></a>
 
-<div style="padding: 5px;">
-    <a id="threadtop"></a><{$down2}>&nbsp;<a href="#threadbottom"><{$smarty.const._MD_BOTTOM}></a>&nbsp;&nbsp;<{$left}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<{$right}>&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next&amp;topic_time=<{$topic_time}>"><{$smarty.const._MD_NEXTTOPIC}></a>
+<div class="forum_controls">
+<div id="forum_pagenav_top" style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{$forum_pagenav}>
 </div>
-
-<br />
-<div>
 <div class="dropdown">
+
 <{if $menumode eq 0}>
 
 	<select
@@ -116,13 +112,8 @@
 
 <{/if}>
 </div>
-<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
-<{$pagenav}>
-</div>
-</div>
 <div class="clear"></div>
-<br />
-<br />
+</div>
 
 <{if $mode gt 1}>
 <form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="javascript: if(window.document.forum_posts_admin.op.value &lt; 1){return false;}">
@@ -131,6 +122,10 @@
 <{foreach item=post from=$posts}>
 <{if $viewmode_compact}>
 <{include file="$iforum_template_path/iforum_item.html" topic_post=$post}>
+<{elseif $viewmode_left}>
+<{include file="$iforum_template_path/iforum_left.html" topic_post=$post}>
+<{elseif $viewmode_right}>
+<{include file="$iforum_template_path/iforum_right.html" topic_post=$post}>
 <{else}>
 <{include file="$iforum_template_path/iforum_thread.html" topic_post=$post mode=$mode}>
 <{/if}>
@@ -189,13 +184,13 @@
 <br />
 <div>
 <div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
-<form action="search.php" method="get">
+<form action="search.php" method="get"><div>
 <input name="term" id="term" type="text" size="15" />
 <input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
 </form>
 </div>
 <div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">

@@ -33,8 +33,7 @@
 				<{/foreach}>
 	</div>
 	  	<{if $topic_post.poster.status}>
-<!--Can you maybe ask stranger for a function that returns online or offline rather than a full graphic so this would be possible without ghettofying it?-->
-  	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserStat"><{if $topic_post.poster.status == '<img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/images/imagesets/default/<{$xoops_dirname}>/online-a.png" style="width: 65px; height:15px; margin: 0px;" alt="Online" align="middle" />'}><span class="comUserStatCaption" style="color:green;font-weight:700;font-size:1.1em;"><{$topic_post.poster.name}>&nbsp;is&nbsp;online!<{else}><span class="comUserStatCaption"><{$topic_post.poster.name}>&nbsp;is&nbsp;offline<{/if}></span></div>
+  	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserStat"><{$topic_post.poster.status}></div>
   	<{/if}>
   	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span> <{$topic_post.poster.regdate}></div>
 	<{if $topic_post.poster.from}>
