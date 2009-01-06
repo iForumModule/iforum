@@ -1,27 +1,3 @@
-    	<!-- Remove Later!!! This is for hiding extras -->
-		<script type="text/javascript">
-		function toggleLayer(whichLayer)
-			{
-			if (document.getElementById)
-			{
-			// this is the way the standards work
-			var style2 = document.getElementById(whichLayer).style;
-			style2.display = style2.display? "":"block";
-			}
-			else if (document.all)
-			{
-			// this is the way old msie versions work
-			var style2 = document.all[whichLayer].style;
-			style2.display = style2.display? "":"block";
-			}
-			else if (document.layers)
-			{
-			// this is the way nn4 works
-			var style2 = document.layers[whichLayer].style;
-			style2.display = style2.display? "":"block";
-			}
-			}
-		</script>
 <div id="index_welcome">
 	<div class="title"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/"><{$lang_welcomemsg}></a></div>
 	<div class="desc"><{$smarty.const._MD_TOSTART}></div>
@@ -86,7 +62,7 @@
 
 <{elseif $menumode eq 1}>
 	<div id="mainoption" class="menu">
-	<table><tr><td>
+	<table summary=""><tr><td>
 		<a class="item" href="<{$mark_read}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_READ}></a>
 		<a class="item" href="<{$mark_unread}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_UNREAD}></a>
 		<div class="separator"></div>
@@ -116,7 +92,7 @@
 			<li>
 				<div class="item"><strong><{$smarty.const._MD_MAINFORUMOPT}></strong></div>
 				<ul>
-				<li><table><tr><td>
+				<li><table summary=""><tr><td>
 					<div class="item"><a href="<{$mark_read}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_READ}></a></div>
 					<div class="item"><a href="<{$mark_unread}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_UNREAD}></a></div>
 					<div class="separator"></div>
@@ -147,7 +123,7 @@
 <!-- start forum categories -->
 <div class="outer">
 <{foreach item=category from=$categories}>
-<table width="100%">
+<table summary="" width="100%">
     <tr class="head">
 		<td style="width: 3%;" valign="middle" align="center"><img onclick="ToggleBlock2('cat_<{$category.cat_id}>', this)" src="<{$category.cat_display_icon}>" alt="" /></td>
 		<{if $category.cat_image}>
@@ -159,14 +135,14 @@
 		</td>
 		<{if $category.cat_sponsor}>
 		<td style="width: 15%" class="nowrap" align="<{$smarty.const._GLOBAL_RIGHT}>">
-		<p class="desc"><a href="<{$category.cat_sponsor.link}>" title="<{$category.cat_sponsor.title}>" target="_blank"><{$category.cat_sponsor.title}></a></p>
+		<p class="desc"><a href="<{$category.cat_sponsor.link}>" title="<{$category.cat_sponsor.title}>" rel="external"><{$category.cat_sponsor.title}></a></p>
 		</td>
 		<{/if}>
     </tr>
 </table>
 
 <div id="cat_<{$category.cat_id}>" style="display: <{$category.cat_display}>">
-<table width="100%">
+<table summary="" width="100%">
 <{if $category.forums}>
     <tr class="head" align="center">
 		<td style="width: 5%;">&nbsp;</td>
@@ -192,7 +168,7 @@
 		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$forum.forum_desc}>
 	      	</span>
@@ -222,7 +198,7 @@
 		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$subforum.forum_id}>"><strong><{$subforum.forum_name}></strong></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$subforum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$subforum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$subforum.forum_desc}>
 	      	</span>
@@ -257,7 +233,7 @@
 		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$forum.forum_desc}>
 		<{if $forum.subforum}>
@@ -291,7 +267,7 @@
 		<div class="index_forum">
 	      	<span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
 	      	<{if $rss_enable}>
-			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" target="_blank" title="RSS feed">RSS</a>)
+			(<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?f=<{$forum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
 			<{/if}>
 	      	<br /><{$forum.forum_desc}>
 	      	</span>
@@ -351,7 +327,7 @@
 		<{/if}> 
 	<{/if}>
 	<{if $rss_button}>
-	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?c=<{$viewcat}>" target="_blank" title="RSS FEED"><{$rss_button}></a>
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/rss.php?c=<{$viewcat}>" rel="external" title="RSS FEED"><{$rss_button}></a>
 	<br />
 	<{/if}>
 </div>

@@ -1,27 +1,4 @@
-    	<!-- Remove Later!!! This is for hiding extras -->
-		<script type="text/javascript">
-		function toggleLayer(whichLayer)
-			{
-			if (document.getElementById)
-			{
-			// this is the way the standards work
-			var style2 = document.getElementById(whichLayer).style;
-			style2.display = style2.display? "":"block";
-			}
-			else if (document.all)
-			{
-			// this is the way old msie versions work
-			var style2 = document.all[whichLayer].style;
-			style2.display = style2.display? "":"block";
-			}
-			else if (document.layers)
-			{
-			// this is the way nn4 works
-			var style2 = document.layers[whichLayer].style;
-			style2.display = style2.display? "":"block";
-			}
-			}
-		</script>
+<script type="text/javascript" src="<{$xoops_url}>/modules/<{$xoops_dirname}>/templates/collapse.js"></script>
 
 <div id="forum_header">
 	<div><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a>
