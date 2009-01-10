@@ -631,7 +631,10 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 	$forum_form->addElement(new XoopsFormHidden('viewmode', $viewmode));
 	$forum_form->addElement(new XoopsFormHidden('order', $order));
 	$forum_form->addElement(new XoopsFormHidden('start', $start));
-
+	
+		if( !empty($xoopsModuleConfig['captcha_enabled']) ){
+		$forum_form->addElement( new IcmsFormCaptcha("", "topic_{$topic_id}_{$start}") );
+		}
 	// backward compatible
 	if(!class_exists("XoopsSecurity")){
 		$post_valid = 1;

@@ -307,4 +307,6 @@ define($constpref."_INSTALL_POST_TEXT", "
 	
 	If you have any question concerning CBB usage, plz visit your local support site or [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9]CBB Module Site[/url].
 	");
+define("_MI_CAPTCHA_ENABLE", "Enable Captcha");
+define("_MI_CAPTCHA_ENABLE_DESC", "Enable or disable Captcha for users, while posting");
 ?>

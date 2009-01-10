@@ -79,6 +79,7 @@ if ( !empty($_POST['contents_submit']) ) {
 		$_SESSION['submit_token'] = null;
 	}
 
+	$captcha_invalid = false;
 	if(!is_object($xoopsUser)){
 		$uname = !isset($_POST['uname']) ? '' : trim($_POST['uname']);
 		$pass = !isset($_POST['pass']) ? '' : trim($_POST['pass']);
@@ -103,6 +104,15 @@ if ( !empty($_POST['contents_submit']) ) {
 			$xoopsUser =& $user;
 		}
 	}
+		if( !empty($xoopsModuleConfig['captcha_enabled']) ){
+			include_once ICMS_ROOT_PATH.'/class/captcha/captcha.php';
+	    $icmsCaptcha = IcmsCaptcha::instance();
+	    if (! $icmsCaptcha->verify() ) {
+		    $captcha_invalid = true;
+		    $error_message[] = $icmsCaptcha->getMessage();
+	    }
+    }
+
 
 	$isadmin = iforum_isAdmin($forum_obj);
 
@@ -114,7 +124,7 @@ if ( !empty($_POST['contents_submit']) ) {
 		}
 	}
 
-	if(!$token_valid || !$time_valid){
+	if($captcha_invalid || !$token_valid || !$time_valid){
 		$_POST['contents_preview'] = 1;
 		$_POST['contents_submit'] = null;
 		$_POST['contents_upload'] = null;

@@ -306,4 +306,6 @@ define($constpref."_INSTALL_POST_TEXT", "
 	میتوانید ثبت نام کرده و سپس مبادرت به ارسال پیام کنید.<br /><br />
 	اگر هر سوالی راجع به استفاده از انجمن‌ها دارید، لطفاً سایت پشتیبانی را بازدید کنید <a href=\"http://www.impresscms.ir/modules/newbb/\" target=\"_blank\" title=\"سایت رسمی پشتیبانی ایمپرسی سی‌ام‌اس فارسی\">ماژول انجمن‌ها</a>.
 	");
+define("_MI_CAPTCHA_ENABLE", "Enable Captcha");
+define("_MI_CAPTCHA_ENABLE_DESC", "Enable or disable Captcha for users, while posting");
 ?>

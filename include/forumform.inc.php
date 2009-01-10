@@ -236,6 +236,10 @@ if($xoopsModuleConfig['enable_karma'] || $xoopsModuleConfig['allow_require_reply
 }
 $forum_form->addElement( $radiobox );
 
+if( !empty($xoopsModuleConfig['captcha_enabled']) ){
+	$forum_form->addElement( new IcmsFormCaptcha() );
+}
+
 if(!empty($admin_form_action)){
     $approved_radio = new XoopsFormRadioYN(_AM_NEWBB_APPROVE, 'approved', 1, '' . _YES . '', ' ' . _NO . '');
 	$forum_form->addElement($approved_radio);

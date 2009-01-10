@@ -305,4 +305,6 @@ define($constpref."_INSTALL_POST_TEXT", "
 	
 	Si vous avez une quelconque question concernant l'utilisation de CBB, merci de visiter vitre site de support ou <a href=\"http://community.impresscms.org/modules/newbb/viewforum.php?forum=9\" target=\"_blank\" title=\"CBB @ XoopsForge\">Site du Module CBB</a>.
 	");
+define("_MI_CAPTCHA_ENABLE", "Enable Captcha");
+define("_MI_CAPTCHA_ENABLE_DESC", "Enable or disable Captcha for users, while posting");
 ?>

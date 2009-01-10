@@ -639,6 +639,14 @@ $modversion['config'][] = array(
 	'default' => 30);
 
 $modversion['config'][] = array(
+	'name' => 'captcha_enabled',
+	'title' => '_MI_CAPTCHA_ENABLE',
+	'description' => '_MI_CAPTCHA_ENABLE_DESC',
+	'formtype' => 'yesno',
+	'valuetype' => 'int',
+	'default' => 1);
+
+$modversion['config'][] = array(
 	'name' => 'enable_permcheck',
 	'title' => '_MI_PERMCHECK_ONDISPLAY',
 	'description' => '_MI_PERMCHECK_ONDISPLAY_DESC',

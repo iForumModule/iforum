@@ -312,4 +312,6 @@ define($constpref."_INSTALL_POST_TEXT", "
 //define($constpref."_BLOCK_TAG_TOP", "Top Tags");   //<---------------------
 //define($constpref."_ADMENU_TYPE", "Tipo de tópico");
 
+define("_MI_CAPTCHA_ENABLE", "Enable Captcha");
+define("_MI_CAPTCHA_ENABLE_DESC", "Enable or disable Captcha for users, while posting");
 ?>

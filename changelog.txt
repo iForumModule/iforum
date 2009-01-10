@@ -31,6 +31,8 @@ Changelog 1.0 RC2
 22 Finished Implementing easy-renaming
 23 New template set (MrTheme)
 24 Added icons instead of transfer text
+25 Added Captcha Control option
+26 Added Captcha Control for posts
 
 Changelog 1.0 RC
 Nov 6th, 2008 

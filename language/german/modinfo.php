@@ -307,4 +307,6 @@ define($constpref."_INSTALL_POST_TEXT", "
 	
 	Für Fragen hinsichtlich des CBB steht die lokale Supportseite oder die <a href=\"http://community.impresscms.org/modules/newbb/viewforum.php?forum=9\" target=\"_blank\" title=\"CBB @ XoopsForge\">CBB Modul Seite</a> zur Verfügung.
 	");
+define("_MI_CAPTCHA_ENABLE", "Enable Captcha");
+define("_MI_CAPTCHA_ENABLE_DESC", "Enable or disable Captcha for users, while posting");
 ?>
