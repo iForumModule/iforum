@@ -27,8 +27,8 @@ if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
 require_once(ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php');
-if ( !defined('NEWBB_NOTIFY_ITEMINFO') ) {
-define('NEWBB_NOTIFY_ITEMINFO', 1);
+if ( !defined('IFORUM_NOTIFY_ITEMINFO') ) {
+define('IFORUM_NOTIFY_ITEMINFO', 1);
 
 function iforum_notify_iteminfo($category, $item_id)
 {

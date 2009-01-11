@@ -29,11 +29,11 @@ function iforum_admin_getPathStatus($path)
 {
 	if(empty($path)) return false;
 	if(@is_writable($path)){
-		$path_status = _AM_NEWBB_AVAILABLE;
+		$path_status = _AM_IFORUM_AVAILABLE;
 	}elseif(!@is_dir($path)){
-		$path_status = _AM_NEWBB_NOTAVAILABLE." <a href=index.php?op=createdir&amp;path=$path>"._AM_NEWBB_CREATETHEDIR.'</a>';
+		$path_status = _AM_IFORUM_NOTAVAILABLE." <a href=index.php?op=createdir&amp;path=$path>"._AM_IFORUM_CREATETHEDIR.'</a>';
 	}else{
-		$path_status = _AM_NEWBB_NOTWRITABLE." <a href=index.php?op=setperm&amp;path=$path>"._AM_NEWBB_SETMPERM.'</a>';
+		$path_status = _AM_IFORUM_NOTWRITABLE." <a href=index.php?op=setperm&amp;path=$path>"._AM_IFORUM_SETMPERM.'</a>';
 	}
 	return $path_status;
 }
@@ -98,7 +98,7 @@ switch ($op) {
     case "createdir":
 		if (isset($_GET['path'])) $path = $_GET['path'];
         $res = iforum_admin_mkdir($path);
-        $msg = ($res)?_AM_NEWBB_DIRCREATED:_AM_NEWBB_DIRNOTCREATED;
+        $msg = ($res)?_AM_IFORUM_DIRCREATED:_AM_IFORUM_DIRNOTCREATED;
         redirect_header('index.php', 2, $msg . ': ' . $path);
         exit();
         break;
@@ -106,7 +106,7 @@ switch ($op) {
     case "setperm":
 		if (isset($_GET['path'])) $path = $_GET['path'];
         $res = iforum_admin_chmod($path, 0777);
-        $msg = ($res)?_AM_NEWBB_PERMSET:_AM_NEWBB_PERMNOTSET;
+        $msg = ($res)?_AM_IFORUM_PERMSET:_AM_IFORUM_PERMNOTSET;
         redirect_header('index.php', 2, $msg . ': ' . $path);
         exit();
         break;
@@ -114,7 +114,7 @@ switch ($op) {
     case "senddigest":
         $digest_handler = &icms_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         $res = $digest_handler->process(true);
-        $msg = ($res)?_AM_NEWBB_DIGEST_FAILED:_AM_NEWBB_DIGEST_SENT;
+        $msg = ($res)?_AM_IFORUM_DIGEST_FAILED:_AM_IFORUM_DIGEST_SENT;
         redirect_header('index.php', 2, $msg);
         exit();
         break;
@@ -128,53 +128,53 @@ switch ($op) {
 		$imageLibs = iforum_getImageLibs();
 
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_PREFERENCES . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_PREFERENCES . "</legend>";
 
-        echo "<div style='padding: 12px;'>" . _AM_NEWBB_POLLMODULE . ": ";
+        echo "<div style='padding: 12px;'>" . _AM_IFORUM_POLLMODULE . ": ";
         $module_handler = &xoops_gethandler('module');
         $xoopspoll = &$module_handler->getByDirname('xoopspoll');
         if (is_object($xoopspoll)) $isOK = $xoopspoll->getVar('isactive');
         else $isOK = false;
-        echo ($isOK)?_AM_NEWBB_AVAILABLE:_AM_NEWBB_NOTAVAILABLE;
+        echo ($isOK)?_AM_IFORUM_AVAILABLE:_AM_IFORUM_NOTAVAILABLE;
         echo "</div>";
         echo "<div style='padding: 8px;'>";
-	    echo "<a href='http://www.imagemagick.org' target='_blank'>"._AM_NEWBB_IMAGEMAGICK."&nbsp;</a>";
+	    echo "<a href='http://www.imagemagick.org' target='_blank'>"._AM_IFORUM_IMAGEMAGICK."&nbsp;</a>";
 	    if(array_key_exists('imagemagick',$imageLibs)) {
-	    	echo "<strong><font color='green'>"._AM_NEWBB_AUTODETECTED.$imageLibs['imagemagick']."</font></strong>";
+	    	echo "<strong><font color='green'>"._AM_IFORUM_AUTODETECTED.$imageLibs['imagemagick']."</font></strong>";
 	    }
-	    else { echo _AM_NEWBB_NOTAVAILABLE;
+	    else { echo _AM_IFORUM_NOTAVAILABLE;
 		}
 	    echo "<br />";
 		echo "<a href='http://sourceforge.net/projects/netpbm' target='_blank'>NetPBM:&nbsp;</a>";
 		if(array_key_exists('netpbm',$imageLibs)) {
-			echo "<strong><font color='green'>"._AM_NEWBB_AUTODETECTED.$imageLibs['netpbm']."</font></strong>";
+			echo "<strong><font color='green'>"._AM_IFORUM_AUTODETECTED.$imageLibs['netpbm']."</font></strong>";
 		}
-		else { echo _AM_NEWBB_NOTAVAILABLE;
+		else { echo _AM_IFORUM_NOTAVAILABLE;
 		}
 		echo "<br />";
-		echo _AM_NEWBB_GDLIB1."&nbsp;";
+		echo _AM_IFORUM_GDLIB1."&nbsp;";
 		if(array_key_exists('gd1',$imageLibs)) {
-			echo "<strong><font color='green'>"._AM_NEWBB_AUTODETECTED.$imageLibs['gd1']."</font></strong>";
+			echo "<strong><font color='green'>"._AM_IFORUM_AUTODETECTED.$imageLibs['gd1']."</font></strong>";
 		}
-		else { echo _AM_NEWBB_NOTAVAILABLE;
+		else { echo _AM_IFORUM_NOTAVAILABLE;
 		}
 			
 		echo "<br />";
-		echo _AM_NEWBB_GDLIB2."&nbsp;";
+		echo _AM_IFORUM_GDLIB2."&nbsp;";
 		if(array_key_exists('gd2',$imageLibs)) {
-			echo "<strong><font color='green'>"._AM_NEWBB_AUTODETECTED.$imageLibs['gd2']."</font></strong>";
+			echo "<strong><font color='green'>"._AM_IFORUM_AUTODETECTED.$imageLibs['gd2']."</font></strong>";
 		}
-		else { echo _AM_NEWBB_NOTAVAILABLE;
+		else { echo _AM_IFORUM_NOTAVAILABLE;
 		}
 		echo "</div>";
       
 
-        echo "<div style='padding: 8px;'>" . _AM_NEWBB_ATTACHPATH . ": ";
+        echo "<div style='padding: 8px;'>" . _AM_IFORUM_ATTACHPATH . ": ";
         $attach_path = ICMS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/';
         $path_status = iforum_admin_getPathStatus($attach_path);
         echo $attach_path . ' ( ' . $path_status . ' )';
 
-        echo "<br />" . _AM_NEWBB_THUMBPATH . ": ";
+        echo "<br />" . _AM_IFORUM_THUMBPATH . ": ";
         $thumb_path = $attach_path . 'thumbs/'; // be careful
         $path_status = iforum_admin_getPathStatus($thumb_path);
         echo $thumb_path . ' ( ' . $path_status . ' )';
@@ -184,29 +184,29 @@ switch ($op) {
         echo "</fieldset><br />";
 
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_BOARDSUMMARY . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_BOARDSUMMARY . "</legend>";
         echo "<div style='padding: 12px;'>";
-        echo _AM_NEWBB_TOTALTOPICS . " <strong>" . get_total_topics() . "</strong> | ";
-        echo _AM_NEWBB_TOTALPOSTS . " <strong>" . get_total_posts() . "</strong> | ";
-        echo _AM_NEWBB_TOTALVIEWS . " <strong>" . get_total_views() . "</strong></div>";
+        echo _AM_IFORUM_TOTALTOPICS . " <strong>" . get_total_topics() . "</strong> | ";
+        echo _AM_IFORUM_TOTALPOSTS . " <strong>" . get_total_posts() . "</strong> | ";
+        echo _AM_IFORUM_TOTALVIEWS . " <strong>" . get_total_views() . "</strong></div>";
         echo "</fieldset><br />";
 
         $report_handler = &icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_REPORT . "</legend>";
-        echo "<div style='padding: 12px;'><a href='admin_report.php'>" . _AM_NEWBB_REPORT_PENDING . "</a> <strong>" . $report_handler->getCount(new Criteria("report_result", 0)) . "</strong> | ";
-        echo _AM_NEWBB_REPORT_PROCESSED . " <strong>" . $report_handler->getCount(new Criteria("report_result", 1)) . "</strong>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_REPORT . "</legend>";
+        echo "<div style='padding: 12px;'><a href='admin_report.php'>" . _AM_IFORUM_REPORT_PENDING . "</a> <strong>" . $report_handler->getCount(new Criteria("report_result", 0)) . "</strong> | ";
+        echo _AM_IFORUM_REPORT_PROCESSED . " <strong>" . $report_handler->getCount(new Criteria("report_result", 1)) . "</strong>";
         echo "</div>";
         echo "</fieldset><br />";
 
         if ($xoopsModuleConfig['email_digest'] > 0) {
             $digest_handler = &icms_getmodulehandler('digest', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
             echo "<fieldset style='border: #e8e8e8 1px solid;'>
-				  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_DIGEST . "</legend>";
+				  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_DIGEST . "</legend>";
             $due = ($digest_handler->checkStatus()) / 60; // minutes
-            $prompt = ($due > 0)? sprintf(_AM_NEWBB_DIGEST_PAST, $due):sprintf(_AM_NEWBB_DIGEST_NEXT, abs($due));
+            $prompt = ($due > 0)? sprintf(_AM_IFORUM_DIGEST_PAST, $due):sprintf(_AM_IFORUM_DIGEST_NEXT, abs($due));
             echo "<div style='padding: 12px;'><a href='index.php?op=senddigest'>" . $prompt . "</a> | ";
-            echo "<a href='admin_digest.php'>" . _AM_NEWBB_DIGEST_ARCHIVE . "</a> <strong>" . $digest_handler->getDigestCount() . "</strong>";
+            echo "<a href='admin_digest.php'>" . _AM_IFORUM_DIGEST_ARCHIVE . "</a> <strong>" . $digest_handler->getDigestCount() . "</strong>";
             echo "</div>";
             echo "</fieldset><br />";
         }

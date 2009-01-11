@@ -60,9 +60,9 @@ function editCategory($cat_id = 0)
 	include_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
     if ($cat_id) {
-        $sform = new XoopsThemeForm(_AM_NEWBB_EDITCATEGORY . " " . $fc->getVar('cat_title'), "op", xoops_getenv('PHP_SELF'));
+        $sform = new XoopsThemeForm(_AM_IFORUM_EDITCATEGORY . " " . $fc->getVar('cat_title'), "op", xoops_getenv('PHP_SELF'));
     } else {
-        $sform = new XoopsThemeForm(_AM_NEWBB_CREATENEWCATEGORY, "op", xoops_getenv('PHP_SELF'));
+        $sform = new XoopsThemeForm(_AM_IFORUM_CREATENEWCATEGORY, "op", xoops_getenv('PHP_SELF'));
         $fc->setVar('cat_title', '');
         $fc->setVar('cat_image', 'blank.gif');
         $fc->setVar('cat_description', '');
@@ -72,16 +72,16 @@ function editCategory($cat_id = 0)
         $fc->setVar('cat_url', 'http://www.impresscms.org ImpressCMS');
     }
 
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_SETCATEGORYORDER, 'cat_order', 5, 10, $fc->getVar('cat_order')), false);
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_CATEGORY, 'title', 50, 80, $fc->getVar('cat_title', 'E')), true);
-    $sform->addElement(new XoopsFormDhtmlTextArea(_AM_NEWBB_CATEGORYDESC, 'catdescript', $fc->getVar('cat_description', 'E'), 10, 60), false);
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_SETCATEGORYORDER, 'cat_order', 5, 10, $fc->getVar('cat_order')), false);
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_CATEGORY, 'title', 50, 80, $fc->getVar('cat_title', 'E')), true);
+    $sform->addElement(new XoopsFormDhtmlTextArea(_AM_IFORUM_CATEGORYDESC, 'catdescript', $fc->getVar('cat_description', 'E'), 10, 60), false);
 
-    //$displaydescription_radio = new XoopsFormRadioYN(_AM_NEWBB_SHOWDESC, 'show', $fc->getVar('cat_showdescript'), '' . _YES . '', ' ' . _NO . '');
+    //$displaydescription_radio = new XoopsFormRadioYN(_AM_IFORUM_SHOWDESC, 'show', $fc->getVar('cat_showdescript'), '' . _YES . '', ' ' . _NO . '');
     //$sform->addElement($displaydescription_radio);
 
     /*
-    $status_select = new XoopsFormSelect(_AM_NEWBB_STATE, "state", $fc->getVar('cat_state'));
-    $status_select->addOptionArray(array('0' => _AM_NEWBB_ACTIVE, '1' => _AM_NEWBB_INACTIVE));
+    $status_select = new XoopsFormSelect(_AM_IFORUM_STATE, "state", $fc->getVar('cat_state'));
+    $status_select->addOptionArray(array('0' => _AM_IFORUM_ACTIVE, '1' => _AM_IFORUM_INACTIVE));
     $sform->addElement($status_select);
     */
 
@@ -92,12 +92,12 @@ function editCategory($cat_id = 0)
     $indeximage_select = new XoopsFormSelect('', 'indeximage', $fc->getVar('cat_image'));
     $indeximage_select->addOptionArray($graph_array);
 	$indeximage_select->setExtra("onchange=\"showImgSelected('img', 'indeximage', '/".$imgdir."/', '', '" . ICMS_URL . "')\"");
-    $indeximage_tray = new XoopsFormElementTray(_AM_NEWBB_IMAGE, '&nbsp;');
+    $indeximage_tray = new XoopsFormElementTray(_AM_IFORUM_IMAGE, '&nbsp;');
     $indeximage_tray->addElement($indeximage_select);
     $indeximage_tray->addElement(new XoopsFormLabel('', "<br /><img src='" . ICMS_URL . $imgdir . "/" . $fc->getVar('cat_image') . " 'name='img' id='img' alt='' />"));
     $sform->addElement($indeximage_tray);
 
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_SPONSORLINK, 'sponurl', 50, 80, $fc->getVar('cat_url', 'E')), false);
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_SPONSORLINK, 'sponurl', 50, 80, $fc->getVar('cat_url', 'E')), false);
     $sform->addElement(new XoopsFormHidden('cat_id', $cat_id));
 
     $button_tray = new XoopsFormElementTray('', '');
@@ -119,9 +119,9 @@ switch ($op) {
     case "manage":
         $categories =& $category_handler->getAllCats();
         if (count($categories)==0) {
-            loadModuleAdminMenu(1, _AM_NEWBB_CREATENEWCATEGORY);
+            loadModuleAdminMenu(1, _AM_IFORUM_CREATENEWCATEGORY);
             echo "	<fieldset style='border: #e8e8e8 1px solid;'>
-					<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
+					<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_CREATENEWCATEGORY . "</legend>";
             echo "<br />";
             newCategory();
             echo "</fieldset>";
@@ -129,18 +129,18 @@ switch ($op) {
             break;
         }
 
-        loadModuleAdminMenu(1, _AM_NEWBB_CATADMIN);
+        loadModuleAdminMenu(1, _AM_IFORUM_CATADMIN);
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CATADMIN . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_CATADMIN . "</legend>";
         echo"<br />";
-        echo "<a style='border: 1px solid #5E5D63; color: #000000; font-family: verdana, tahoma, arial, helvetica, sans-serif; font-size: 1em; padding: 4px 8px; text-align:center;' href='admin_cat_manager.php'>" . _AM_NEWBB_CREATENEWCATEGORY . "</a><br /><br />";
+        echo "<a style='border: 1px solid #5E5D63; color: #000000; font-family: verdana, tahoma, arial, helvetica, sans-serif; font-size: 1em; padding: 4px 8px; text-align:center;' href='admin_cat_manager.php'>" . _AM_IFORUM_CREATENEWCATEGORY . "</a><br /><br />";
 
         echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
         echo "<tr align='center'>";
-        echo "<td class='bg3'>" . _AM_NEWBB_CATEGORY1 . "</td>";
-        //echo "<td class='bg3' width='10%'>" . _AM_NEWBB_STATE . "</td>";
-        echo "<td class='bg3' width='10%'>" . _AM_NEWBB_EDIT . "</td>";
-        echo "<td class='bg3' width='10%'>" . _AM_NEWBB_DELETE . "</td>";
+        echo "<td class='bg3'>" . _AM_IFORUM_CATEGORY1 . "</td>";
+        //echo "<td class='bg3' width='10%'>" . _AM_IFORUM_STATE . "</td>";
+        echo "<td class='bg3' width='10%'>" . _AM_IFORUM_EDIT . "</td>";
+        echo "<td class='bg3' width='10%'>" . _AM_IFORUM_DELETE . "</td>";
         echo "</tr>";
 
         foreach($categories as $key => $onecat) {
@@ -160,9 +160,9 @@ switch ($op) {
 
     case "mod":
         $fc = &$category_handler->get($cat_id);
-        loadModuleAdminMenu(1, _AM_NEWBB_EDITCATEGORY . $fc->getVar('cat_title'));
+        loadModuleAdminMenu(1, _AM_IFORUM_EDITCATEGORY . $fc->getVar('cat_title'));
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITCATEGORY . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_EDITCATEGORY . "</legend>";
         echo"<br />";
 
         editCategory($cat_id);
@@ -172,14 +172,14 @@ switch ($op) {
 
     case "del":
         if (empty($_POST['confirm'])) {
-            xoops_confirm(array('op' => 'del', 'cat_id' => intval($_GET['cat_id']), 'confirm' => 1), 'admin_cat_manager.php', _AM_NEWBB_WAYSYWTDTTAL);
+            xoops_confirm(array('op' => 'del', 'cat_id' => intval($_GET['cat_id']), 'confirm' => 1), 'admin_cat_manager.php', _AM_IFORUM_WAYSYWTDTTAL);
             break;
         } else {
             $fc = &$category_handler->create(false);
             $fc->setVar('cat_id', $_POST['cat_id']);
             $category_handler->delete($fc);
 
-            redirect_header("admin_cat_manager.php", 2, _AM_NEWBB_CATEGORYDELETED);
+            redirect_header("admin_cat_manager.php", 2, _AM_IFORUM_CATEGORYDELETED);
         }
         break;
 
@@ -187,10 +187,10 @@ switch ($op) {
 
         if ($cat_id) {
             $fc = &$category_handler->get($cat_id);
-            $message = _AM_NEWBB_CATEGORYUPDATED;
+            $message = _AM_IFORUM_CATEGORYUPDATED;
         } else {
             $fc = &$category_handler->create();
-            $message = _AM_NEWBB_CATEGORYCREATED;
+            $message = _AM_IFORUM_CATEGORYCREATED;
         }
 
         $fc->setVar('cat_title', @$_POST['title']);
@@ -202,7 +202,7 @@ switch ($op) {
         //$fc->setVar('cat_showdescript', @$_POST['show']);
 
         if (!$category_handler->insert($fc)) {
-            $message = _AM_NEWBB_DATABASEERROR;
+            $message = _AM_IFORUM_DATABASEERROR;
         }
         if($cat_id=$fc->getVar("cat_id") && $fc->isNew()){
 		    $gperm_handler =& xoops_gethandler("groupperm");
@@ -216,9 +216,9 @@ switch ($op) {
 
     case "default":
     default:
-        loadModuleAdminMenu(1, _AM_NEWBB_CREATENEWCATEGORY);
+        loadModuleAdminMenu(1, _AM_IFORUM_CREATENEWCATEGORY);
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWCATEGORY . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_CREATENEWCATEGORY . "</legend>";
         echo "<br />";
         newCategory();
         echo "</fieldset>";

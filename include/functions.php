@@ -23,8 +23,8 @@
 * @version		$Id$
 */
 
-if(!defined("NEWBB_FUNCTIONS")):
-define("NEWBB_FUNCTIONS", true);
+if(!defined("IFORUM_FUNCTIONS")):
+define("IFORUM_FUNCTIONS", true);
 
 include_once dirname(__FILE__)."/functions.ini.php";
 if(!defined("_GLOBAL_LEFT")){
@@ -290,24 +290,24 @@ function iforum_isModuleAdministrators($uid = array(), $mid = 0)
 function iforum_isAdministrator($user=-1, $mid=0)
 {
 	global $xoopsUser, $xoopsModule;
-	static $administrators, $newBB_mid;
+	static $administrators, $iforum_mid;
 
 	if(is_numeric($user) && $user == -1) $user =& $xoopsUser;
 	if(!is_object($user) && intval($user)<1) return false;
 	$uid = (is_object($user))?$user->getVar('uid'):intval($user);
 
 	if(!$mid){
-		if (!isset($newBB_mid)) {
+		if (!isset($iforum_mid)) {
 		    if(is_object($xoopsModule)&& basename(  dirname(  dirname( __FILE__ ) ) ) == $xoopsModule->dirname()){
-		    	$newBB_mid = $xoopsModule->getVar('mid');
+		    	$iforum_mid = $xoopsModule->getVar('mid');
 		    }else{
 		        $modhandler =& xoops_gethandler('module');
-		        $newBB =& $modhandler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
-			    $newBB_mid = $newBB->getVar('mid');
-			    unset($newBB);
+		        $iforum =& $modhandler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
+			    $iforum_mid = $iforum->getVar('mid');
+			    unset($iforum);
 		    }
 		}
-		$mid = $newBB_mid;
+		$mid = $iforum_mid;
 	}
 	
 	return iforum_isModuleAdministrator($uid, $mid);

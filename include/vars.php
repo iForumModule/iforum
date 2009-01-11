@@ -32,16 +32,16 @@ $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
 
 /**#@+
- * NewBB constant
+ * iForum constant
  *
  **/
-define('NEWBB_CONSTANTS',1);
-define('NEWBB_READ', 1);
-define('NEWBB_UNREAD', 2);
-define('NEWBB_UNREPLIED', 3);
-define('NEWBB_DIGEST', 4);
-define('NEWBB_DELETEONE', 1);
-define('NEWBB_DELETEALL', 2);
+define('IFORUM_CONSTANTS',1);
+define('IFORUM_READ', 1);
+define('IFORUM_UNREAD', 2);
+define('IFORUM_UNREPLIED', 3);
+define('IFORUM_DIGEST', 4);
+define('IFORUM_DELETEONE', 1);
+define('IFORUM_DELETEALL', 2);
 if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
 
 /* some static xoopsModuleConfig */
@@ -166,7 +166,7 @@ $forumImage['rate3'] = $forumUrl['images_set'].'/rate3-a';
 $forumImage['rate4'] = $forumUrl['images_set'].'/rate4-a';
 $forumImage['rate5'] = $forumUrl['images_set'].'/rate5-a';
 
-// NewBB cookie structure
+// iForum cookie structure
 /* -- Cookie settings -- */
 $forumCookie['domain'] = "";
 $forumCookie['path'] = "/";
@@ -194,7 +194,7 @@ iforum_setcookie("LV", time(), $forumCookie['expire']); // set cookie life time 
 //iforum_setcookie("LVT", $last_visit);
 iforum_setsession("LV", $last_visit);
 
-/* NewBB cookie storage
+/* iForum cookie storage
 	Long term cookie: (configurable, generally one month)
 		LV - Last Visit
 		M - Menu mode

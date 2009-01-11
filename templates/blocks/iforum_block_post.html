@@ -2,9 +2,9 @@
 
   <{if $block.disp_mode == 0}>
   <tr>
-    <th class="head"><{$smarty.const._MB_NEWBB_FORUM}></th>
-    <th class="head"><{$smarty.const._MB_NEWBB_TITLE}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_FORUM}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_TITLE}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_AUTHOR}></th>
   </tr>
 
   <{foreach item=topic from=$block.topics}>
@@ -18,8 +18,8 @@
   <{elseif $block.disp_mode == 1}>
 
   <tr>
-    <th class="head"><{$smarty.const._MB_NEWBB_TOPIC}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_TOPIC}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_AUTHOR}></th>
   </tr>
 
   <{foreach item=topic from=$block.topics}>
@@ -54,7 +54,7 @@
 
 <{if $block.indexNav}>
 <div style="text-align:<{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewpost.php"><{$smarty.const._MB_NEWBB_ALLPOSTS}></a> |
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_NEWBB_VSTFRMS}></a>
+<a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewpost.php"><{$smarty.const._MB_IFORUM_ALLPOSTS}></a> |
+<a href="<{$xoops_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_IFORUM_VSTFRMS}></a>
 </div>
 <{/if}>

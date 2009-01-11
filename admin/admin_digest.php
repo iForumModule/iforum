@@ -47,14 +47,14 @@ switch($op){
 		include_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 		$limit = 5;
-		loadModuleAdminMenu(9,_AM_NEWBB_DIGESTADMIN);
+		loadModuleAdminMenu(9,_AM_IFORUM_DIGESTADMIN);
 		echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" .  _AM_NEWBB_DIGESTADMIN . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" .  _AM_IFORUM_DIGESTADMIN . "</legend>";
 		echo"<br />";
 		echo '<form action="'.xoops_getenv('PHP_SELF').'" method="post">';
 		echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
 		echo "<tr align='center'>";
-		echo "<td class='bg3'>"._AM_NEWBB_DIGESTCONTENT."</td>";
+		echo "<td class='bg3'>"._AM_IFORUM_DIGESTCONTENT."</td>";
 		echo "<td class='bg3' width='2%'>"._DELETE."</td>";
 		echo "</tr>";
 

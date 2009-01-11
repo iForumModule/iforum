@@ -52,9 +52,9 @@ class IforumPermissionHandler extends XoopsGroupPermHandler
         	$modid = $GLOBALS["xoopsModule"]->getVar("mid");
 	    }else{
     		$module_handler =& xoops_gethandler('module');
-			$xoopsNewBB =& $module_handler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
-			$modid = $xoopsNewBB->getVar("mid");
-			unset($xoopsNewBB);
+			$xoopsIForum =& $module_handler->getByDirname(basename(  dirname(  dirname( __FILE__ ) ) ));
+			$modid = $xoopsIForum->getVar("mid");
+			unset($xoopsIForum);
 	    }
         
 	    $uid = is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0;

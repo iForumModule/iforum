@@ -164,7 +164,7 @@ class iforum_XoopsGroupFormCheckBox extends XoopsGroupFormCheckBox
 
 xoops_cp_header();
 
-loadModuleAdminMenu( 3, _AM_NEWBB_PERM_PERMISSIONS );
+loadModuleAdminMenu( 3, _AM_IFORUM_PERM_PERMISSIONS );
 
 $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : "";
 $module_id = $xoopsModule->getVar('mid');
@@ -172,14 +172,14 @@ $perms = array_map("trim",explode(',', FORUM_PERM_ITEMS));
 
 switch($action){
 	case "template":
-		$opform = new XoopsSimpleForm(_AM_NEWBB_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
+		$opform = new XoopsSimpleForm(_AM_IFORUM_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
 		$op_select = new XoopsFormSelect("", 'action');
 		$op_select->setExtra('onchange="document.forms.actionform.submit()"');
 		$op_select->addOptionArray(array(
 			"no"=>_SELECT, 
-			"template"=>_AM_NEWBB_PERM_TEMPLATE, 
-			"apply"=>_AM_NEWBB_PERM_TEMPLATEAPP,
-			"default"=>_AM_NEWBB_PERM_SETBYGROUP
+			"template"=>_AM_IFORUM_PERM_TEMPLATE, 
+			"apply"=>_AM_IFORUM_PERM_TEMPLATEAPP,
+			"default"=>_AM_IFORUM_PERM_SETBYGROUP
 			));
 		$opform->addElement($op_select);
 		$opform->display();
@@ -204,7 +204,7 @@ switch($action){
 				$checked = in_array("forum_".$perm, $selected)?" checked='checked'":"";
 				$option_id = $perm.'_'.$i;
 				$option_ids[] = $option_id;
-				$ret_ele .='<td><input name="perms['.$i.']['."forum_".$perm.']" id="'.$option_id.'" onclick="" value="1" type="checkbox"'.$checked.'>'.CONSTANT("_AM_NEWBB_CAN_".strtoupper($perm)).'<br></td>';
+				$ret_ele .='<td><input name="perms['.$i.']['."forum_".$perm.']" id="'.$option_id.'" onclick="" value="1" type="checkbox"'.$checked.'>'.CONSTANT("_AM_IFORUM_CAN_".strtoupper($perm)).'<br></td>';
 			}
 			$ret_ele .= '</tr></table></td><td class="even">';
 			$ret_ele .= _ALL.' <input id="checkall['.$i.']" type="checkbox" value="" onclick="var optionids = new Array('.implode(", ", $option_ids).'); xoopsCheckAllElements(optionids, \'checkall['.$i.']\')" />';
@@ -216,7 +216,7 @@ switch($action){
         $tray->addElement(new XoopsFormHidden('action', 'template_save'));
         $tray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $tray->addElement(new XoopsFormButton('', 'reset', _CANCEL, 'reset'));
-     	$ret = '<h4>' . _AM_NEWBB_PERM_TEMPLATE . '</h4>' . _AM_NEWBB_PERM_TEMPLATE_DESC . '<br /><br /><br />';
+     	$ret = '<h4>' . _AM_IFORUM_PERM_TEMPLATE . '</h4>' . _AM_IFORUM_PERM_TEMPLATE_DESC . '<br /><br /><br />';
         $ret .= "<form name='template' id='template' method='post'>\n<table width='100%' class='outer' cellspacing='1'>\n";
         $ret .= implode("\n",$elements);
 		$ret .= '<tr align="left" valign="top"><td class="head"></td><td class="even">';
@@ -230,9 +230,9 @@ switch($action){
         $iforumperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
         $res = $iforumperm_handler->setTemplate($_POST['perms'], $groupid = 0);
         if($res){
-	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE_CREATED);
+	    	redirect_header("admin_permissions.php?action=template", 2, _AM_IFORUM_PERM_TEMPLATE_CREATED);
         }else{
-	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE_ERROR);
+	    	redirect_header("admin_permissions.php?action=template", 2, _AM_IFORUM_PERM_TEMPLATE_ERROR);
         }
 		break;
 		
@@ -240,13 +240,13 @@ switch($action){
         $iforumperm_handler = &icms_getmodulehandler('permission', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	    $perm_template = $iforumperm_handler->getTemplate();
 		if($perm_template===null){
-	    	redirect_header("admin_permissions.php?action=template", 2, _AM_NEWBB_PERM_TEMPLATE);
+	    	redirect_header("admin_permissions.php?action=template", 2, _AM_IFORUM_PERM_TEMPLATE);
 		}
 		
-		$opform = new XoopsSimpleForm(_AM_NEWBB_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
+		$opform = new XoopsSimpleForm(_AM_IFORUM_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
 		$op_select = new XoopsFormSelect("", 'action');
 		$op_select->setExtra('onchange="document.forms.actionform.submit()"');
-		$op_select->addOptionArray(array("no"=>_SELECT, "template"=>_AM_NEWBB_PERM_TEMPLATE, "apply"=>_AM_NEWBB_PERM_TEMPLATEAPP));
+		$op_select->addOptionArray(array("no"=>_SELECT, "template"=>_AM_IFORUM_PERM_TEMPLATE, "apply"=>_AM_IFORUM_PERM_TEMPLATEAPP));
 		$opform->addElement($op_select);
 		$opform->display();
 		
@@ -267,8 +267,8 @@ switch($action){
 			}
 		}
 		unset($forums, $categories);		
-		$fmform = new XoopsThemeForm(_AM_NEWBB_PERM_TEMPLATEAPP, 'fmform', 'admin_permissions.php', "post");
-		$fm_select = new XoopsFormSelect(_AM_NEWBB_PERM_FORUMS, 'forums', null, 10, true);
+		$fmform = new XoopsThemeForm(_AM_IFORUM_PERM_TEMPLATEAPP, 'fmform', 'admin_permissions.php', "post");
+		$fm_select = new XoopsFormSelect(_AM_IFORUM_PERM_FORUMS, 'forums', null, 10, true);
 		$fm_select->addOptionArray($fm_options);
 		$fmform->addElement($fm_select);
         $tray = new XoopsFormElementTray('');
@@ -286,30 +286,30 @@ switch($action){
 			if($forum < 1) continue;
 			$iforumperm_handler->applyTemplate($forum, $module_id);
 		}
-	    redirect_header("admin_permissions.php", 2, _AM_NEWBB_PERM_TEMPLATE_APPLIED);
+	    redirect_header("admin_permissions.php", 2, _AM_IFORUM_PERM_TEMPLATE_APPLIED);
 		break;
 		
 	default:
 		
-		$opform = new XoopsSimpleForm(_AM_NEWBB_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
+		$opform = new XoopsSimpleForm(_AM_IFORUM_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
 		$op_select = new XoopsFormSelect("", 'action');
 		$op_select->setExtra('onchange="document.forms.actionform.submit()"');
 		$op_select->addOptionArray(array(
 			"no"=>_SELECT, 
-			"template"=>_AM_NEWBB_PERM_TEMPLATE, 
-			"apply"=>_AM_NEWBB_PERM_TEMPLATEAPP,
-			"default"=>_AM_NEWBB_PERM_SETBYGROUP
+			"template"=>_AM_IFORUM_PERM_TEMPLATE, 
+			"apply"=>_AM_IFORUM_PERM_TEMPLATEAPP,
+			"default"=>_AM_IFORUM_PERM_SETBYGROUP
 			));
 		$opform->addElement($op_select);
 		$opform->display();
 		
 		$forum_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		$forums = $forum_handler->getForumsByCategory(0, '', false);
-		$op_options = array("category"=>_AM_NEWBB_CAT_ACCESS);
-		$fm_options = array("category"=>array("title"=>_AM_NEWBB_CAT_ACCESS, "item"=>"category_access", "desc"=>"", "anonymous"=>true));
+		$op_options = array("category"=>_AM_IFORUM_CAT_ACCESS);
+		$fm_options = array("category"=>array("title"=>_AM_IFORUM_CAT_ACCESS, "item"=>"category_access", "desc"=>"", "anonymous"=>true));
 		foreach($perms as $perm){
-			$op_options[$perm] = CONSTANT("_AM_NEWBB_CAN_".strtoupper($perm));
-			$fm_options[$perm] = array("title"=>CONSTANT("_AM_NEWBB_CAN_".strtoupper($perm)), "item"=>"forum_".$perm, "desc"=>"", "anonymous"=>true);
+			$op_options[$perm] = CONSTANT("_AM_IFORUM_CAN_".strtoupper($perm));
+			$fm_options[$perm] = array("title"=>CONSTANT("_AM_IFORUM_CAN_".strtoupper($perm)), "item"=>"forum_".$perm, "desc"=>"", "anonymous"=>true);
 		}
 		
 		$op_keys = array_keys($op_options);

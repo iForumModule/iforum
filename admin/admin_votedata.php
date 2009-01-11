@@ -36,7 +36,7 @@ switch ($op)
         $sql = $xoopsDB->queryF("DELETE FROM " . $xoopsDB->prefix('bb_votedata') . " WHERE ratingid = $rid");
         $xoopsDB->query($sql);
         iforum_updaterating($topic_id);
-        redirect_header("admin_votedata.php", 1, _AM_NEWBB_VOTEDELETED);
+        redirect_header("admin_votedata.php", 1, _AM_IFORUM_VOTEDELETED);
         break;
 
     case 'main':
@@ -68,34 +68,34 @@ switch ($op)
         }
 
         xoops_cp_header();
-        loadModuleAdminMenu(10, _AM_NEWBB_VOTE_RATINGINFOMATION);
+        loadModuleAdminMenu(10, _AM_IFORUM_VOTE_RATINGINFOMATION);
 
 
 	echo "
 		<fieldset style='border: #e8e8e8 1px solid;'>
-		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_VOTE_DISPLAYVOTES . "</legend>\n
+		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_VOTE_DISPLAYVOTES . "</legend>\n
 		<div style='padding: 8px;'>\n
-		<div><strong>" . _AM_NEWBB_VOTE_USERAVG . ": </strong>$useravgrating</div>\n
-		<div><strong>" . _AM_NEWBB_VOTE_TOTALRATE . ": </strong>$uservotes</div>\n
+		<div><strong>" . _AM_IFORUM_VOTE_USERAVG . ": </strong>$useravgrating</div>\n
+		<div><strong>" . _AM_IFORUM_VOTE_TOTALRATE . ": </strong>$uservotes</div>\n
 		<div style='padding: 8px;'>\n
-		<ul><li>".iforum_displayImage($forumImage['delete'], _DELETE)." " . _AM_NEWBB_VOTE_DELETEDSC . "</li></ul>
+		<ul><li>".iforum_displayImage($forumImage['delete'], _DELETE)." " . _AM_IFORUM_VOTE_DELETEDSC . "</li></ul>
 		<div>\n
 		</fieldset>\n
 		<br />\n
 
 		<table width='100%' cellspacing='1' cellpadding='2' class='outer'>\n
 		<tr>\n
-		<th align='center'>" . _AM_NEWBB_VOTE_ID . "</th>\n
-		<th align='center'>" . _AM_NEWBB_VOTE_USER . "</th>\n
-		<th align='center'>" . _AM_NEWBB_VOTE_IP . "</th>\n
-		<th align='center'>" . _AM_NEWBB_VOTE_FILETITLE . "</th>\n
-		<th align='center'>" . _AM_NEWBB_VOTE_RATING . "</th>\n
-		<th align='center'>" . _AM_NEWBB_VOTE_DATE . "</th>\n
-		<th align='center'>" . _AM_NEWBB_ACTION . "</th></tr>\n";
+		<th align='center'>" . _AM_IFORUM_VOTE_ID . "</th>\n
+		<th align='center'>" . _AM_IFORUM_VOTE_USER . "</th>\n
+		<th align='center'>" . _AM_IFORUM_VOTE_IP . "</th>\n
+		<th align='center'>" . _AM_IFORUM_VOTE_FILETITLE . "</th>\n
+		<th align='center'>" . _AM_IFORUM_VOTE_RATING . "</th>\n
+		<th align='center'>" . _AM_IFORUM_VOTE_DATE . "</th>\n
+		<th align='center'>" . _AM_IFORUM_ACTION . "</th></tr>\n";
 
         if ($votes == 0)
         {
-            echo "<tr><td align='center' colspan='7' class='head'>" . _AM_NEWBB_VOTE_NOVOTES . "</td></tr>";
+            echo "<tr><td align='center' colspan='7' class='head'>" . _AM_IFORUM_VOTE_NOVOTES . "</td></tr>";
         }
         while (list($ratingid, $topic_id, $ratinguser, $rating, $ratinghostname, $ratingtimestamp) = $xoopsDB->fetchRow($results))
         {
@@ -118,7 +118,7 @@ switch ($op)
         echo "</table>";
 		//Include page navigation
 		include_once ICMS_ROOT_PATH . '/class/pagenav.php';
-        $page = ($votes > 20) ? _AM_NEWBB_MINDEX_PAGE : '';
+        $page = ($votes > 20) ? _AM_IFORUM_MINDEX_PAGE : '';
         $pagenav = new XoopsPageNav($page, 20, $start, 'start');
         echo '<div align="right" style="padding: 8px;">' . $page . '' . $pagenav->renderImageNav(4) . '</div>';
         break;

@@ -25,7 +25,7 @@
 
 if (!defined('ICMS_ROOT_PATH')){ exit(); }
 
-if(defined("NEWBB_FUNCTIONS_INI")) return; define("NEWBB_FUNCTIONS_INI",1);
+if(defined("IFORUM_FUNCTIONS_INI")) return; define("IFORUM_FUNCTIONS_INI",1);
 
 include_once(ICMS_ROOT_PATH."/modules/".basename(  dirname(  dirname( __FILE__ ) ) )."/class/art/functions.php");
 

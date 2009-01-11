@@ -4,7 +4,7 @@
 
 // Module Info
 //$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_MI_NEWBB';
+$constpref = '_MI_IFORUM';
 
 // The name of this module
 define($constpref."_NAME","iForum");
@@ -17,6 +17,8 @@ define($constpref."_BLOCK_TOPIC_POST","Zuletzt beantwortete Themen");
 define($constpref."_BLOCK_TOPIC","Aktuelle Themen");
 define($constpref."_BLOCK_POST","Aktuelle Beiträge");
 define($constpref."_BLOCK_AUTHOR","Autoren");
+define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
+define($constpref."_BLOCK_TAG_TOP", "Top Tags");
 /*
 define($constpref."_BNAME2","Meist gelesene Themen");
 define($constpref."_BNAME3","Meist aktive Themen");
@@ -251,49 +253,49 @@ define("_MI_USERMODERATE_DESC","");
 // RMV-NOTIFY
 // Notification event descriptions and mail templates
 
-define ('_MI_NEWBB_THREAD_NOTIFY', 'Diskussion');
-define ('_MI_NEWBB_THREAD_NOTIFYDSC', 'Benachrichtigungsoptionen die die aktuelle Diskussion betreffen.');
+define ('_MI_IFORUM_THREAD_NOTIFY', 'Diskussion');
+define ('_MI_IFORUM_THREAD_NOTIFYDSC', 'Benachrichtigungsoptionen die die aktuelle Diskussion betreffen.');
 
-define ('_MI_NEWBB_FORUM_NOTIFY', 'Forum');
-define ('_MI_NEWBB_FORUM_NOTIFYDSC', 'Benachrichtigungsoptionen die das aktuelle Forum betreffen.');
+define ('_MI_IFORUM_FORUM_NOTIFY', 'Forum');
+define ('_MI_IFORUM_FORUM_NOTIFYDSC', 'Benachrichtigungsoptionen die das aktuelle Forum betreffen.');
 
-define ('_MI_NEWBB_GLOBAL_NOTIFY', 'Allgemein');
-define ('_MI_NEWBB_GLOBAL_NOTIFYDSC', 'Allgemeine Forum-Benachrichtigungsoptionen.');
+define ('_MI_IFORUM_GLOBAL_NOTIFY', 'Allgemein');
+define ('_MI_IFORUM_GLOBAL_NOTIFYDSC', 'Allgemeine Forum-Benachrichtigungsoptionen.');
 
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFY', 'Neuer Beitrag');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen in der aktuellen Diskussion.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen in der aktuellen Diskussion.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag in Diskussion');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFY', 'Neuer Beitrag');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen in der aktuellen Diskussion.');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen in der aktuellen Diskussion.');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag in Diskussion');
 
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFY', 'Neues Thema');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYCAP', 'Benachrichtigen bei neuen Themen im aktuellen Forum.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYDSC', 'Benachrichtigung bei neuen Themen im aktuellen Forum.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neues Thema in Forum');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFY', 'Neues Thema');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYCAP', 'Benachrichtigen bei neuen Themen im aktuellen Forum.');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYDSC', 'Benachrichtigung bei neuen Themen im aktuellen Forum.');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neues Thema in Forum');
 
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY', 'Neues Forum');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYCAP', 'Benachrichtigen wenn ein neues Forum angelegt worden ist.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYDSC', 'Benachrichtigung wenn ein neues Forum angelegt worden ist.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neues Forum');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFY', 'Neues Forum');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYCAP', 'Benachrichtigen wenn ein neues Forum angelegt worden ist.');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYDSC', 'Benachrichtigung wenn ein neues Forum angelegt worden ist.');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neues Forum');
 
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFY', 'Neuer Beitrag');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFY', 'Neuer Beitrag');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen.');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen.');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag');
 
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFY', 'Neuer Beitrag');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen im aktuellen Forum.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen im aktuellen Forum.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag im aktuellen Forum');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFY', 'Neuer Beitrag');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen im aktuellen Forum.');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen im aktuellen Forum.');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag im aktuellen Forum');
 
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFY', 'Neuer Beitrag (Kompletter Text)');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen (Kompletten Text in Benachrichtigung anzeigen).');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen (Kompletten Text in Benachrichtigung anzeigen).');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag (Kompletter Text)');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFY', 'Neuer Beitrag (Kompletter Text)');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Benachrichtigen bei neuen Beiträgen (Kompletten Text in Benachrichtigung anzeigen).');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Benachrichtigung bei neuen Beiträgen (Kompletten Text in Benachrichtigung anzeigen).');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Neuer Beitrag (Kompletter Text)');
 
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFY', 'Zusammenfassung');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Benachrichtigen bei Zusammenfassungen.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Zusammenfassungen empfangen.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Zusammenfassung veröffentlicht');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFY', 'Zusammenfassung');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYCAP', 'Benachrichtigen bei Zusammenfassungen.');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYDSC', 'Zusammenfassungen empfangen.');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} Automatische Benachrichtigung: Zusammenfassung veröffentlicht');
 
 // FOR installation
 define($constpref."_INSTALL_CAT_TITLE", "Kategorie Test");

@@ -2,7 +2,7 @@
 // $Id: admin.php,v 1.6 2005/05/25 01:01:43 phppp Exp $
 //%%%%%%	File Name  index.php   	%%%%%
 //$constpref = '_AM_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_AM_NEWBB';
+$constpref = '_AM_IFORUM';
 define($constpref."_FORUMCONF", "Configuration des forums");
 define($constpref."_ADDAFORUM", "Ajouter un forum");
 define($constpref."_SYNCFORUM", "Synchronisation");

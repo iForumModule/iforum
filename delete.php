@@ -82,7 +82,7 @@ if ($xoopsModuleConfig['wol_enabled']){
 }
 
 if ( $ok ) {
-    $isDeleteOne = (NEWBB_DELETEONE == $ok)? true : false;
+    $isDeleteOne = (IFORUM_DELETEONE == $ok)? true : false;
     /*
     if($forumpost->isTopic() && $topic->getVar("topic_replies")==0) $isDeleteOne=false;
     if($isDeleteOne && $forumpost->isTopic() && $topic->getVar("topic_replies")>0){
@@ -103,9 +103,9 @@ if ( $ok ) {
 
 } else {
     include ICMS_ROOT_PATH."/header.php";
-	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => NEWBB_DELETEONE), 'delete.php', _MD_DEL_ONE);
+	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => IFORUM_DELETEONE), 'delete.php', _MD_DEL_ONE);
 	if($isadmin){
-    	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => NEWBB_DELETEALL), 'delete.php', _MD_DEL_RELATED);
+    	xoops_confirm(array('post_id' => $post_id, 'viewmode' => $viewmode, 'order' => $order, 'forum' => $forum, 'topic_id' => $topic_id, 'ok' => IFORUM_DELETEALL), 'delete.php', _MD_DEL_RELATED);
 	}
 	include ICMS_ROOT_PATH.'/footer.php';
 }

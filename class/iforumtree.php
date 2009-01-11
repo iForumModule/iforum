@@ -28,12 +28,12 @@ if (!defined("ICMS_ROOT_PATH")) {
 }
 include_once ICMS_ROOT_PATH . "/class/xoopstree.php";
 
-class NewBBTree extends XoopsTree {
+class IForumTree extends XoopsTree {
     var $prefix = '&nbsp;&nbsp;';
     var $increment = '&nbsp;&nbsp;';
     var $postArray = '';
 
-    function NewBBTree($table_name, $id_name = "post_id", $pid_name = "pid")
+    function IForumTree($table_name, $id_name = "post_id", $pid_name = "pid")
     {
         $this->XoopsTree($table_name, $id_name, $pid_name);
     } 

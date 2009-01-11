@@ -2,8 +2,8 @@
 
   <{if $block.disp_mode == 0}>
   <tr>
-    <th class="head"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_COUNT}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_AUTHOR}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_COUNT}></th>
   </tr>
 
   <{foreach item=author key=uid from=$block.authors}>
@@ -26,6 +26,6 @@
 </table>
 <{if $block.indexNav}>
 <div style="text-align:<{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_NEWBB_VSTFRMS}></a>
+<a href="<{$xoops_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_IFORUM_VSTFRMS}></a>
 </div>
 <{/if}>

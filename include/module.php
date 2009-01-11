@@ -26,8 +26,8 @@
 if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
-if(defined("XOOPS_MODULE_NEWBB_FUCTIONS")) exit();
-define("XOOPS_MODULE_NEWBB_FUCTIONS", 1);
+if(defined("XOOPS_MODULE_IFORUM_FUCTIONS")) exit();
+define("XOOPS_MODULE_IFORUM_FUCTIONS", 1);
 
 @include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/plugin.php';
 include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
@@ -45,14 +45,14 @@ function icms_module_update_iforum(&$module, $oldversion = null)
 	/*
     //$oldversion = $module->getVar('version');
     //$oldconfig = $module->getVar('hasconfig');
-    // NewBB 1.0 -- no config
+    // iForum 1.0 -- no config
     //if (empty($oldconfig)) {
     if ($oldversion == 100) {
 	    include_once dirname(__FILE__)."/module.v100.php";
 	    icms_module_update_iforum_v100($module);
     }
     
-    // NewBB 2.* and CBB 1.*
+    // iForum 2.* and CBB 1.*
     // change group permission name
     // change forum moderators
     if ($oldversion < 220) {
@@ -95,10 +95,10 @@ function icms_module_install_iforum(&$module)
 	/* Create a test category */
 	$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	$category =& $category_handler->create();
-    $category->setVar('cat_title', _MI_NEWBB_INSTALL_CAT_TITLE, true);
+    $category->setVar('cat_title', _MI_IFORUM_INSTALL_CAT_TITLE, true);
     $category->setVar('cat_image', "", true);
     $category->setVar('cat_order', 1);
-    $category->setVar('cat_description', _MI_NEWBB_INSTALL_CAT_DESC, true);
+    $category->setVar('cat_description', _MI_IFORUM_INSTALL_CAT_DESC, true);
     $category->setVar('cat_url', "http://www.impresscms.org ImpressCMS", true);
     if (!$cat_id = $category_handler->insert($category)) {
         return true;
@@ -107,8 +107,8 @@ function icms_module_install_iforum(&$module)
     /* Create a forum for test */
 	$forum_handler =& icms_getmodulehandler('forum', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
     $forum =& $forum_handler->create();
-    $forum->setVar('forum_name', _MI_NEWBB_INSTALL_FORUM_NAME, true);
-    $forum->setVar('forum_desc', _MI_NEWBB_INSTALL_FORUM_DESC, true);
+    $forum->setVar('forum_name', _MI_IFORUM_INSTALL_FORUM_NAME, true);
+    $forum->setVar('forum_desc', _MI_IFORUM_INSTALL_FORUM_DESC, true);
     $forum->setVar('forum_order', 1);
     $forum->setVar('forum_moderator', array());
     $forum->setVar('parent_forum', 0);
@@ -148,7 +148,7 @@ function icms_module_install_iforum(&$module)
     $forumpost->setVar('uid', $GLOBALS["xoopsUser"]->getVar("uid"));
 	$forumpost->setVar('approved', 1);
     $forumpost->setVar('forum_id', $forum_id);
-    $forumpost->setVar('subject', _MI_NEWBB_INSTALL_POST_SUBJECT, true);
+    $forumpost->setVar('subject', _MI_IFORUM_INSTALL_POST_SUBJECT, true);
     $forumpost->setVar('dohtml', 1);
     $forumpost->setVar('dosmiley', 1);
     $forumpost->setVar('doxcode', 1);
@@ -156,7 +156,7 @@ function icms_module_install_iforum(&$module)
     $forumpost->setVar('icon', "", true);
     $forumpost->setVar('attachsig', 1);
     $forumpost->setVar('post_time', time());
-    $forumpost->setVar('post_text', _MI_NEWBB_INSTALL_POST_TEXT, true);
+    $forumpost->setVar('post_text', _MI_IFORUM_INSTALL_POST_TEXT, true);
     $postid = $post_handler->insert($forumpost);
         
     return true;

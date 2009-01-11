@@ -24,9 +24,9 @@
 */
 
 $modulename = basename( dirname( __FILE__ ) );
-$modversion['name'] = _MI_NEWBB_NAME;
+$modversion['name'] = _MI_IFORUM_NAME;
 $modversion['version'] = 1.01;
-$modversion['description'] = _MI_NEWBB_DESC;
+$modversion['description'] = _MI_IFORUM_DESC;
 $modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
 $modversion['author'] = "stranger";
 $modversion['license'] = "GNU General Public License (GPL) see LICENSE";
@@ -53,6 +53,7 @@ $modversion['submit_feature'] = "http://community.impresscms.org/modules/newbb/"
 $modversion['submit_bug'] = "http://community.impresscms.org/modules/newbb/";
 
 include_once(ICMS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
+include_once(ICMS_ROOT_PATH."/modules/".$modulename."/include/functions.php");
 // Is performing module install/update?
 $isModuleAction = mod_isModuleAction($modversion['dirname']);
 
@@ -155,7 +156,7 @@ $modversion['templates'][17]['description'] = '';
 
 $modversion['blocks'][1] = array(
 	'file' => "iforum_block.php",
-	'name' => _MI_NEWBB_BLOCK_TOPIC_POST,
+	'name' => _MI_IFORUM_BLOCK_TOPIC_POST,
 	'description' => "Shows recent replied topics",
 	'show_func' => "b_iforum_show",
 	'options' => "time|5|360|0|1|0",
@@ -172,7 +173,7 @@ $modversion['blocks'][1] = array(
 
 $modversion['blocks'][] = array(
 	'file' => "iforum_block.php",
-	'name' => _MI_NEWBB_BLOCK_TOPIC,
+	'name' => _MI_IFORUM_BLOCK_TOPIC,
 	'description' => "Shows recent topics in the forums",
 	'show_func' => "b_iforum_topic_show",
 	'options' => "time|5|360|0|1|0|0",
@@ -190,7 +191,7 @@ $modversion['blocks'][] = array(
 
 $modversion['blocks'][] = array(
 	'file' => "iforum_block.php",
-	'name' => _MI_NEWBB_BLOCK_POST,
+	'name' => _MI_IFORUM_BLOCK_POST,
 	'description' => "Shows recent posts in the forums",
 	'show_func' => "b_iforum_post_show",
 	'options' => "title|10|360|0|1|0|0",
@@ -206,14 +207,14 @@ $modversion['blocks'][] = array(
 
 $modversion['blocks'][] = array(
 	'file' => "iforum_block.php",
-	'name' => _MI_NEWBB_BLOCK_AUTHOR,
+	'name' => _MI_IFORUM_BLOCK_AUTHOR,
 	'description' => "Shows authors stats",
 	'show_func' => "b_iforum_author_show",
 	'options' => "topic|5|360|0|1|0",
 	'edit_func' => "b_iforum_author_edit",
 	'template' => 'iforum_block_author.html');	
 
-if(iforum_tag_module_included){
+if(iforum_tag_module_included()){
 /*
  * $options:  
  *					$options[0] - number of tags to display
@@ -223,7 +224,7 @@ if(iforum_tag_module_included){
  */
 $modversion["blocks"][]	= array(
 	"file"			=> "iforum_block_tag.php",
-	"name"			=> _MI_NEWBB_BLOCK_TAG_CLOUD,
+	"name"			=> _MI_IFORUM_BLOCK_TAG_CLOUD,
 	"description"	=> "Show tag cloud",
 	"show_func"		=> "iforum_tag_block_cloud_show",
 	"edit_func"		=> "iforum_tag_block_cloud_edit",
@@ -239,7 +240,7 @@ $modversion["blocks"][]	= array(
  */
 $modversion["blocks"][]	= array(
 	"file"			=> "iforum_block_tag.php",
-	"name"			=> _MI_NEWBB_BLOCK_TAG_TOP,
+	"name"			=> _MI_IFORUM_BLOCK_TAG_TOP,
 	"description"	=> "Show top tags",
 	"show_func"		=> "iforum_tag_block_top_show",
 	"edit_func"		=> "iforum_tag_block_top_edit",
@@ -575,7 +576,7 @@ $modversion['config'][] = array(
 	'formtype' => 'select',
 	'valuetype' => 'int',
 	'default' => 0,
-	'options' => array( _MI_NEWBB_EMAIL_NONE => 0, _MI_NEWBB_EMAIL_DAILY => 1, _MI_NEWBB_EMAIL_WEEKLY => 2));
+	'options' => array( _MI_IFORUM_EMAIL_NONE => 0, _MI_IFORUM_EMAIL_DAILY => 1, _MI_IFORUM_EMAIL_WEEKLY => 2));
 
 $modversion['config'][] = array(
 	'name' => 'show_ip',
@@ -764,87 +765,87 @@ $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 $modversion['notification']['lookup_func'] = 'iforum_notify_iteminfo';
 
 $modversion['notification']['category'][1]['name'] = 'thread';
-$modversion['notification']['category'][1]['title'] = _MI_NEWBB_THREAD_NOTIFY;
-$modversion['notification']['category'][1]['description'] = _MI_NEWBB_THREAD_NOTIFYDSC;
+$modversion['notification']['category'][1]['title'] = _MI_IFORUM_THREAD_NOTIFY;
+$modversion['notification']['category'][1]['description'] = _MI_IFORUM_THREAD_NOTIFYDSC;
 $modversion['notification']['category'][1]['subscribe_from'] = 'viewtopic.php';
 $modversion['notification']['category'][1]['item_name'] = 'topic_id';
 $modversion['notification']['category'][1]['allow_bookmark'] = 1;
 
 $modversion['notification']['category'][2]['name'] = 'forum';
-$modversion['notification']['category'][2]['title'] = _MI_NEWBB_FORUM_NOTIFY;
-$modversion['notification']['category'][2]['description'] = _MI_NEWBB_FORUM_NOTIFYDSC;
+$modversion['notification']['category'][2]['title'] = _MI_IFORUM_FORUM_NOTIFY;
+$modversion['notification']['category'][2]['description'] = _MI_IFORUM_FORUM_NOTIFYDSC;
 $modversion['notification']['category'][2]['subscribe_from'] = 'viewforum.php';
 $modversion['notification']['category'][2]['item_name'] = 'forum';
 $modversion['notification']['category'][2]['allow_bookmark'] = 1;
 
 $modversion['notification']['category'][3]['name'] = 'global';
-$modversion['notification']['category'][3]['title'] = _MI_NEWBB_GLOBAL_NOTIFY;
-$modversion['notification']['category'][3]['description'] = _MI_NEWBB_GLOBAL_NOTIFYDSC;
+$modversion['notification']['category'][3]['title'] = _MI_IFORUM_GLOBAL_NOTIFY;
+$modversion['notification']['category'][3]['description'] = _MI_IFORUM_GLOBAL_NOTIFYDSC;
 $modversion['notification']['category'][3]['subscribe_from'] = 'index.php';
 
 $modversion['notification']['event'][1]['name'] = 'new_post';
 $modversion['notification']['event'][1]['category'] = 'thread';
-$modversion['notification']['event'][1]['title'] = _MI_NEWBB_THREAD_NEWPOST_NOTIFY;
-$modversion['notification']['event'][1]['caption'] = _MI_NEWBB_THREAD_NEWPOST_NOTIFYCAP;
-$modversion['notification']['event'][1]['description'] = _MI_NEWBB_THREAD_NEWPOST_NOTIFYDSC;
+$modversion['notification']['event'][1]['title'] = _MI_IFORUM_THREAD_NEWPOST_NOTIFY;
+$modversion['notification']['event'][1]['caption'] = _MI_IFORUM_THREAD_NEWPOST_NOTIFYCAP;
+$modversion['notification']['event'][1]['description'] = _MI_IFORUM_THREAD_NEWPOST_NOTIFYDSC;
 $modversion['notification']['event'][1]['mail_template'] = 'thread_newpost_notify';
-$modversion['notification']['event'][1]['mail_subject'] = _MI_NEWBB_THREAD_NEWPOST_NOTIFYSBJ;
+$modversion['notification']['event'][1]['mail_subject'] = _MI_IFORUM_THREAD_NEWPOST_NOTIFYSBJ;
 
 $modversion['notification']['event'][2]['name'] = 'new_thread';
 $modversion['notification']['event'][2]['category'] = 'forum';
-$modversion['notification']['event'][2]['title'] = _MI_NEWBB_FORUM_NEWTHREAD_NOTIFY;
-$modversion['notification']['event'][2]['caption'] = _MI_NEWBB_FORUM_NEWTHREAD_NOTIFYCAP;
-$modversion['notification']['event'][2]['description'] = _MI_NEWBB_FORUM_NEWTHREAD_NOTIFYDSC;
+$modversion['notification']['event'][2]['title'] = _MI_IFORUM_FORUM_NEWTHREAD_NOTIFY;
+$modversion['notification']['event'][2]['caption'] = _MI_IFORUM_FORUM_NEWTHREAD_NOTIFYCAP;
+$modversion['notification']['event'][2]['description'] = _MI_IFORUM_FORUM_NEWTHREAD_NOTIFYDSC;
 $modversion['notification']['event'][2]['mail_template'] = 'forum_newthread_notify';
-$modversion['notification']['event'][2]['mail_subject'] = _MI_NEWBB_FORUM_NEWTHREAD_NOTIFYSBJ;
+$modversion['notification']['event'][2]['mail_subject'] = _MI_IFORUM_FORUM_NEWTHREAD_NOTIFYSBJ;
 
 $modversion['notification']['event'][3]['name'] = 'new_forum';
 $modversion['notification']['event'][3]['category'] = 'global';
-$modversion['notification']['event'][3]['title'] = _MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY;
-$modversion['notification']['event'][3]['caption'] = _MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYCAP;
-$modversion['notification']['event'][3]['description'] = _MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYDSC;
+$modversion['notification']['event'][3]['title'] = _MI_IFORUM_GLOBAL_NEWFORUM_NOTIFY;
+$modversion['notification']['event'][3]['caption'] = _MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYCAP;
+$modversion['notification']['event'][3]['description'] = _MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYDSC;
 $modversion['notification']['event'][3]['mail_template'] = 'global_newforum_notify';
-$modversion['notification']['event'][3]['mail_subject'] = _MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYSBJ;
+$modversion['notification']['event'][3]['mail_subject'] = _MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYSBJ;
 
 $modversion['notification']['event'][4]['name'] = 'new_post';
 $modversion['notification']['event'][4]['category'] = 'global';
-$modversion['notification']['event'][4]['title'] = _MI_NEWBB_GLOBAL_NEWPOST_NOTIFY;
-$modversion['notification']['event'][4]['caption'] = _MI_NEWBB_GLOBAL_NEWPOST_NOTIFYCAP;
-$modversion['notification']['event'][4]['description'] = _MI_NEWBB_GLOBAL_NEWPOST_NOTIFYDSC;
+$modversion['notification']['event'][4]['title'] = _MI_IFORUM_GLOBAL_NEWPOST_NOTIFY;
+$modversion['notification']['event'][4]['caption'] = _MI_IFORUM_GLOBAL_NEWPOST_NOTIFYCAP;
+$modversion['notification']['event'][4]['description'] = _MI_IFORUM_GLOBAL_NEWPOST_NOTIFYDSC;
 $modversion['notification']['event'][4]['mail_template'] = 'global_newpost_notify';
-$modversion['notification']['event'][4]['mail_subject'] = _MI_NEWBB_GLOBAL_NEWPOST_NOTIFYSBJ;
+$modversion['notification']['event'][4]['mail_subject'] = _MI_IFORUM_GLOBAL_NEWPOST_NOTIFYSBJ;
 
 $modversion['notification']['event'][5]['name'] = 'new_post';
 $modversion['notification']['event'][5]['category'] = 'forum';
-$modversion['notification']['event'][5]['title'] = _MI_NEWBB_FORUM_NEWPOST_NOTIFY;
-$modversion['notification']['event'][5]['caption'] = _MI_NEWBB_FORUM_NEWPOST_NOTIFYCAP;
-$modversion['notification']['event'][5]['description'] = _MI_NEWBB_FORUM_NEWPOST_NOTIFYDSC;
+$modversion['notification']['event'][5]['title'] = _MI_IFORUM_FORUM_NEWPOST_NOTIFY;
+$modversion['notification']['event'][5]['caption'] = _MI_IFORUM_FORUM_NEWPOST_NOTIFYCAP;
+$modversion['notification']['event'][5]['description'] = _MI_IFORUM_FORUM_NEWPOST_NOTIFYDSC;
 $modversion['notification']['event'][5]['mail_template'] = 'forum_newpost_notify';
-$modversion['notification']['event'][5]['mail_subject'] = _MI_NEWBB_FORUM_NEWPOST_NOTIFYSBJ;
+$modversion['notification']['event'][5]['mail_subject'] = _MI_IFORUM_FORUM_NEWPOST_NOTIFYSBJ;
 
 $modversion['notification']['event'][6]['name'] = 'new_fullpost';
 $modversion['notification']['event'][6]['category'] = 'global';
 $modversion['notification']['event'][6]['admin_only'] = 1;
-$modversion['notification']['event'][6]['title'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFY;
-$modversion['notification']['event'][6]['caption'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYCAP;
-$modversion['notification']['event'][6]['description'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC;
+$modversion['notification']['event'][6]['title'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFY;
+$modversion['notification']['event'][6]['caption'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYCAP;
+$modversion['notification']['event'][6]['description'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYDSC;
 $modversion['notification']['event'][6]['mail_template'] = 'global_newfullpost_notify';
-$modversion['notification']['event'][6]['mail_subject'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ;
+$modversion['notification']['event'][6]['mail_subject'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYSBJ;
 
 $modversion['notification']['event'][7]['name'] = 'digest';
 $modversion['notification']['event'][7]['category'] = 'global';
-$modversion['notification']['event'][7]['title'] = _MI_NEWBB_GLOBAL_DIGEST_NOTIFY;
-$modversion['notification']['event'][7]['caption'] = _MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP;
-$modversion['notification']['event'][7]['description'] = _MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC;
+$modversion['notification']['event'][7]['title'] = _MI_IFORUM_GLOBAL_DIGEST_NOTIFY;
+$modversion['notification']['event'][7]['caption'] = _MI_IFORUM_GLOBAL_DIGEST_NOTIFYCAP;
+$modversion['notification']['event'][7]['description'] = _MI_IFORUM_GLOBAL_DIGEST_NOTIFYDSC;
 $modversion['notification']['event'][7]['mail_template'] = 'global_digest_notify';
-$modversion['notification']['event'][7]['mail_subject'] = _MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ;
+$modversion['notification']['event'][7]['mail_subject'] = _MI_IFORUM_GLOBAL_DIGEST_NOTIFYSBJ;
 
 $modversion['notification']['event'][8]['name'] = 'new_fullpost';
 $modversion['notification']['event'][8]['category'] = 'forum';
 $modversion['notification']['event'][8]['admin_only'] = 1;
-$modversion['notification']['event'][8]['title'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFY;
-$modversion['notification']['event'][8]['caption'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYCAP;
-$modversion['notification']['event'][8]['description'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC;
+$modversion['notification']['event'][8]['title'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFY;
+$modversion['notification']['event'][8]['caption'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYCAP;
+$modversion['notification']['event'][8]['description'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYDSC;
 $modversion['notification']['event'][8]['mail_template'] = 'global_newfullpost_notify';
-$modversion['notification']['event'][8]['mail_subject'] = _MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ;
+$modversion['notification']['event'][8]['mail_subject'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYSBJ;
 ?>

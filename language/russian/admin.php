@@ -2,7 +2,7 @@
 // $Id$ Russian translation. Charset: utf-8 (without BOM)
 //%%%%%%	File Name  index.php   	%%%%%
 //$constpref = '_AM_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_AM_NEWBB';
+$constpref = '_AM_IFORUM';
 define($constpref."_FORUMCONF","Настройки форума");
 define($constpref."_ADDAFORUM","Добавить форум");
 define($constpref."_SYNCFORUM","Синхронизация форумов");

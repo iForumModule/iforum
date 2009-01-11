@@ -23,8 +23,8 @@
 * @version		$Id$
 */
 
-if(!defined("NEWBB_FUNCTIONS_WELCOME")):
-define("NEWBB_FUNCTIONS_WELCOME", true);
+if(!defined("IFORUM_FUNCTIONS_WELCOME")):
+define("IFORUM_FUNCTIONS_WELCOME", true);
 
 function iforum_welcome_create( &$user, $forum_id )
 {

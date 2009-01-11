@@ -2,11 +2,11 @@
 
   <{if $block.disp_mode == 0}>
   <tr>
-    <th class="head"><{$smarty.const._MB_NEWBB_FORUM}></th>
-    <th class="head"><{$smarty.const._MB_NEWBB_TOPIC}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_RPLS}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_VIEWS}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_LPOST}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_FORUM}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_TOPIC}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_RPLS}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_VIEWS}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_LPOST}></th>
   </tr>
 
   <{foreach item=topic from=$block.topics}>
@@ -26,9 +26,9 @@
   <{elseif $block.disp_mode == 1}>
 
   <tr>
-    <th class="head"><{$smarty.const._MB_NEWBB_TOPIC}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_RPLS}></th>
-    <th class="head" align="center"><{$smarty.const._MB_NEWBB_LPOST}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_TOPIC}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_RPLS}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_LPOST}></th>
   </tr>
 
   <{foreach item=topic from=$block.topics}>
@@ -53,8 +53,8 @@
 
 <{if $block.indexNav}>
 <div style="text-align:<{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewpost.php"><{$smarty.const._MB_NEWBB_ALLPOSTS}></a> |
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewall.php"><{$smarty.const._MB_NEWBB_ALLTOPICS}></a> |
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_NEWBB_VSTFRMS}></a>
+<a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewpost.php"><{$smarty.const._MB_IFORUM_ALLPOSTS}></a> |
+<a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewall.php"><{$smarty.const._MB_IFORUM_ALLTOPICS}></a> |
+<a href="<{$xoops_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_IFORUM_VSTFRMS}></a>
 </div>
 <{/if}>

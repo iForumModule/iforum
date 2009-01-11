@@ -530,8 +530,8 @@ define('_MD_POSTTIME','Data');
 //define("_MD_CAN_SIGNATURE", "Você <strong>pode</strong> usar assinatura.<br />");
 //define("_MD_CANNOT_SIGNATURE", "Você <strong>não pode</strong> usar assinatura.<br />");
 
-//define("_MD_NEWBB_TYPE", "Tipo de Tópico");
-//define("_MD_NEWBB_TAG", "Tag");
+//define("_MD_IFORUM_TYPE", "Tipo de Tópico");
+//define("_MD_IFORUM_TAG", "Tag");
 define('_MD_EXTRAS','extras');
 define('_MD_RIGHT','right');
 define('_MD_LEFT','left');

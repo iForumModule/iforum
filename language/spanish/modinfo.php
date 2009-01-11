@@ -4,7 +4,7 @@
 
 // Module Info
 //$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_MI_NEWBB';
+$constpref = '_MI_IFORUM';
 
 // The name of this module
 define($constpref."_NAME","CBB");
@@ -17,6 +17,8 @@ define($constpref."_BLOCK_TOPIC_POST","Temas recientemente contestados");//Recen
 define($constpref."_BLOCK_TOPIC","Temas recientes");//Recent Topics
 define($constpref."_BLOCK_POST","Mensajes recientes");//Recent Posts
 define($constpref."_BLOCK_AUTHOR","Autor");
+define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
+define($constpref."_BLOCK_TAG_TOP", "Top Tags");
 /*
 define($constpref."_BNAME2","Temas ms vistos");
 define($constpref."_BNAME3","Temas ms activos");
@@ -251,49 +253,49 @@ define("_MI_USERMODERATE_DESC","");
 // RMV-NOTIFY
 // Notification event descriptions and mail templates
 
-define ('_MI_NEWBB_THREAD_NOTIFY', 'Hilo');
-define ('_MI_NEWBB_THREAD_NOTIFYDSC', 'Opciones de Notificacin que se aplican al hilo actual.');
+define ('_MI_IFORUM_THREAD_NOTIFY', 'Hilo');
+define ('_MI_IFORUM_THREAD_NOTIFYDSC', 'Opciones de Notificacin que se aplican al hilo actual.');
 
-define ('_MI_NEWBB_FORUM_NOTIFY', 'Foro');
-define ('_MI_NEWBB_FORUM_NOTIFYDSC', 'Opciones de Notificacin que se aplican al foro actual.');
+define ('_MI_IFORUM_FORUM_NOTIFY', 'Foro');
+define ('_MI_IFORUM_FORUM_NOTIFYDSC', 'Opciones de Notificacin que se aplican al foro actual.');
 
-define ('_MI_NEWBB_GLOBAL_NOTIFY', 'Global');
-define ('_MI_NEWBB_GLOBAL_NOTIFYDSC', 'Opciones de Notificacin Globales del foro.');
+define ('_MI_IFORUM_GLOBAL_NOTIFY', 'Global');
+define ('_MI_IFORUM_GLOBAL_NOTIFYDSC', 'Opciones de Notificacin Globales del foro.');
 
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFY', 'Nuevo Envo');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYCAP', 'Notificarme de nuevos envios en el hilo actual.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYDSC', 'Recibir notificacin cuando un nuevo mensaje es escrito en el hilo actual.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo en el hilo');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFY', 'Nuevo Envo');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYCAP', 'Notificarme de nuevos envios en el hilo actual.');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYDSC', 'Recibir notificacin cuando un nuevo mensaje es escrito en el hilo actual.');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo en el hilo');
 
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFY', 'Nuevo Hilo');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYCAP', 'Notificarme cuando un nuevo hilo es empezado en este foro.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYDSC', 'Recibir notificacin cuando un nuevo hilo es comenzado el el foro actual.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo hilo en el foro.');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFY', 'Nuevo Hilo');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYCAP', 'Notificarme cuando un nuevo hilo es empezado en este foro.');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYDSC', 'Recibir notificacin cuando un nuevo hilo es comenzado el el foro actual.');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo hilo en el foro.');
 
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY', 'Nuevo Foro');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYCAP', 'Notificarme cuando un nuevo foro es creado.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYDSC', 'Recibir notificacin cuando un nuevo foro es creado.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo Foro');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFY', 'Nuevo Foro');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYCAP', 'Notificarme cuando un nuevo foro es creado.');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYDSC', 'Recibir notificacin cuando un nuevo foro es creado.');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo Foro');
 
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFY', 'Nuevo envo');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYCAP', 'Notificarme de cualquier nuevo envo.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYDSC', 'Recibir notificacin cuando cualquier nuevo mensaje es enviado.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFY', 'Nuevo envo');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYCAP', 'Notificarme de cualquier nuevo envo.');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYDSC', 'Recibir notificacin cuando cualquier nuevo mensaje es enviado.');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo');
 
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFY', 'Nuevo envo');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYCAP', 'Notificarme de cualquier nuevo envo en el foro actual.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYDSC', 'Recibir notificacin cuando cualquier nuevo mensaje es enviado en el foro actual.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo en foro');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFY', 'Nuevo envo');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYCAP', 'Notificarme de cualquier nuevo envo en el foro actual.');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYDSC', 'Recibir notificacin cuando cualquier nuevo mensaje es enviado en el foro actual.');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo en foro');
 
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFY', 'Nuevo envo (Texto completo)');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Notificarme de cualquier nuevo envo (incluir el texto del mensaje).');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Recibir notificacin con texto completo cuando cualquier nuevo mensaje es enviado.');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo (texto completo)');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFY', 'Nuevo envo (Texto completo)');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Notificarme de cualquier nuevo envo (incluir el texto del mensaje).');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Recibir notificacin con texto completo cuando cualquier nuevo mensaje es enviado.');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nuevo envo (texto completo)');
 
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFY', 'Seleccin');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Notificarme de cualquier nueva seleccin.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Recibir notificacin de seleccin.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nueva seleccin');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFY', 'Seleccin');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYCAP', 'Notificarme de cualquier nueva seleccin.');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYDSC', 'Recibir notificacin de seleccin.');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notificacin : Nueva seleccin');
 
 // FOR installation
 define($constpref."_INSTALL_CAT_TITLE", "Categora Test");

@@ -1,10 +1,10 @@
 <?php
 // $Id: blocks.php,v 1.3 2005/10/19 17:20:33 phppp Exp $
 // Blocks
-if(defined('_MB_NEWBB_DEFINED')) return;
-else define('_MB_NEWBB_DEFINED',true);
+if(defined('_MB_IFORUM_DEFINED')) return;
+else define('_MB_IFORUM_DEFINED',true);
 //$constpref = '_MB_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_MB_NEWBB';
+$constpref = '_MB_IFORUM';
 
 define($constpref."_FORUM","Forum");
 define($constpref."_TOPIC","Topic");

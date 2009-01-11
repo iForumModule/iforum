@@ -75,9 +75,9 @@ function editForum($ff, $parent_forum = 0)
 
 	require_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
     if ($forum) {
-        $sform = new XoopsThemeForm(_AM_NEWBB_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
+        $sform = new XoopsThemeForm(_AM_IFORUM_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
     } else {
-        $sform = new XoopsThemeForm(_AM_NEWBB_CREATENEWFORUM, "op", xoops_getenv('PHP_SELF'));
+        $sform = new XoopsThemeForm(_AM_IFORUM_CREATENEWFORUM, "op", xoops_getenv('PHP_SELF'));
 
         $ff->setVar('parent_forum', $parent_forum);
         $ff->setVar('forum_order', 0);
@@ -96,8 +96,8 @@ function editForum($ff, $parent_forum = 0)
         $ff->setVar('attach_ext', 'zip|gif|jpg');
     }
 
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_FORUMNAME, 'forum_name', 50, 80, $ff->getVar('forum_name', 'E')), true);
-    $sform->addElement(new XoopsFormDhtmlTextArea(_AM_NEWBB_FORUMDESCRIPTION, 'forum_desc', $ff->getVar('forum_desc', 'E'), 10, 60), false);
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_FORUMNAME, 'forum_name', 50, 80, $ff->getVar('forum_name', 'E')), true);
+    $sform->addElement(new XoopsFormDhtmlTextArea(_AM_IFORUM_FORUMDESCRIPTION, 'forum_desc', $ff->getVar('forum_desc', 'E'), 10, 60), false);
 
     $sform->addElement(new XoopsFormHidden('parent_forum', $ff->getVar('parent_forum')));
     if ($parent_forum == 0) {
@@ -107,46 +107,46 @@ function editForum($ff, $parent_forum = 0)
         } else {
         	$mytree->makeMySelBox("cat_title", "cat_id", $ff->getVar('cat_id'));
         }
-        $sform->addElement(new XoopsFormLabel(_AM_NEWBB_CATEGORY, ob_get_contents()));
+        $sform->addElement(new XoopsFormLabel(_AM_IFORUM_CATEGORY, ob_get_contents()));
         ob_end_clean();
     } else {
         $sform->addElement(new XoopsFormHidden('cat_id', $pf->getVar('cat_id')));
     }
 
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_SET_FORUMORDER, 'forum_order', 5, 10, $ff->getVar('forum_order')), false);
-    $status_select = new XoopsFormSelect(_AM_NEWBB_STATE, "forum_type", $ff->getVar('forum_type'));
-    $status_select->addOptionArray(array('0' => _AM_NEWBB_ACTIVE, '1' => _AM_NEWBB_INACTIVE));
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_SET_FORUMORDER, 'forum_order', 5, 10, $ff->getVar('forum_order')), false);
+    $status_select = new XoopsFormSelect(_AM_IFORUM_STATE, "forum_type", $ff->getVar('forum_type'));
+    $status_select->addOptionArray(array('0' => _AM_IFORUM_ACTIVE, '1' => _AM_IFORUM_INACTIVE));
     $sform->addElement($status_select);
 
-    $allowhtml_radio = new XoopsFormRadioYN(_AM_NEWBB_ALLOWHTML, 'allow_html', $ff->getVar('allow_html'), '' . _YES . '', ' ' . _NO . '');
+    $allowhtml_radio = new XoopsFormRadioYN(_AM_IFORUM_ALLOWHTML, 'allow_html', $ff->getVar('allow_html'), '' . _YES . '', ' ' . _NO . '');
     $sform->addElement($allowhtml_radio);
 
-    $allowsig_radio = new XoopsFormRadioYN(_AM_NEWBB_ALLOWSIGNATURES, 'allow_sig', $ff->getVar('allow_sig'), '' . _YES . '', ' ' . _NO . '');
+    $allowsig_radio = new XoopsFormRadioYN(_AM_IFORUM_ALLOWSIGNATURES, 'allow_sig', $ff->getVar('allow_sig'), '' . _YES . '', ' ' . _NO . '');
     $sform->addElement($allowsig_radio);
 
-    $allowpolls_radio = new XoopsFormRadioYN(_AM_NEWBB_ALLOWPOLLS, 'allow_polls', $ff->getVar('allow_polls'), '' . _YES . '', ' ' . _NO . '');
+    $allowpolls_radio = new XoopsFormRadioYN(_AM_IFORUM_ALLOWPOLLS, 'allow_polls', $ff->getVar('allow_polls'), '' . _YES . '', ' ' . _NO . '');
     $sform->addElement($allowpolls_radio);
 
-    $allowprefix_radio = new XoopsFormRadioYN(_AM_NEWBB_ALLOW_SUBJECT_PREFIX, 'allow_subject_prefix', $ff->getVar('allow_subject_prefix'), '' . _YES . '', ' ' . _NO . '');
+    $allowprefix_radio = new XoopsFormRadioYN(_AM_IFORUM_ALLOW_SUBJECT_PREFIX, 'allow_subject_prefix', $ff->getVar('allow_subject_prefix'), '' . _YES . '', ' ' . _NO . '');
     $sform->addElement($allowprefix_radio);
 
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_HOTTOPICTHRESHOLD, 'hot_threshold', 5, 10, $ff->getVar('hot_threshold')), true);
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_HOTTOPICTHRESHOLD, 'hot_threshold', 5, 10, $ff->getVar('hot_threshold')), true);
 
     /*
-    $allowattach_radio = new XoopsFormRadioYN(_AM_NEWBB_ALLOW_ATTACHMENTS, 'allow_attachments', $ff->getVar('allow_attachments'), '' . _YES . '', ' ' . _NO . '');
+    $allowattach_radio = new XoopsFormRadioYN(_AM_IFORUM_ALLOW_ATTACHMENTS, 'allow_attachments', $ff->getVar('allow_attachments'), '' . _YES . '', ' ' . _NO . '');
     $sform->addElement($allowattach_radio);
     */
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_ATTACHMENT_SIZE, 'attach_maxkb', 5, 10, $ff->getVar('attach_maxkb')), true);
-    //$sform->addElement(new XoopsFormText(_AM_NEWBB_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ff->getVar('attach_ext')), true);
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_ATTACHMENT_SIZE, 'attach_maxkb', 5, 10, $ff->getVar('attach_maxkb')), true);
+    //$sform->addElement(new XoopsFormText(_AM_IFORUM_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ff->getVar('attach_ext')), true);
     $ext = $ff->getVar('attach_ext');
-    $sform->addElement(new XoopsFormText(_AM_NEWBB_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ext), true);
-   	$sform->addElement(new XoopsFormSelectUser(_AM_NEWBB_MODERATOR, 'forum_moderator', false, $ff->getVar("forum_moderator"), 5, true));
+    $sform->addElement(new XoopsFormText(_AM_IFORUM_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ext), true);
+   	$sform->addElement(new XoopsFormSelectUser(_AM_IFORUM_MODERATOR, 'forum_moderator', false, $ff->getVar("forum_moderator"), 5, true));
 
-    $perm_tray = new XoopsFormElementTray(_AM_NEWBB_PERMISSIONS_TO_THIS_FORUM, '');
+    $perm_tray = new XoopsFormElementTray(_AM_IFORUM_PERMISSIONS_TO_THIS_FORUM, '');
 	$perm_checkbox = new XoopsFormCheckBox('', 'perm_template', $ff->isNew());
-	$perm_checkbox->addOption(1, _AM_NEWBB_PERM_TEMPLATEAPP);
+	$perm_checkbox->addOption(1, _AM_IFORUM_PERM_TEMPLATEAPP);
 	$perm_tray->addElement($perm_checkbox);
-	$perm_tray->addElement(new XoopsFormLabel('', '<a href="admin_permissions.php?action=template" target="_blank">'._AM_NEWBB_PERM_TEMPLATE.'</a>'));
+	$perm_tray->addElement(new XoopsFormLabel('', '<a href="admin_permissions.php?action=template" target="_blank">'._AM_IFORUM_PERM_TEMPLATE.'</a>'));
     $sform->addElement($perm_tray);
    	
     $sform->addElement(new XoopsFormHidden('forum', $forum));
@@ -155,7 +155,7 @@ function editForum($ff, $parent_forum = 0)
     $button_tray = new XoopsFormElementTray('', '');
     $button_tray->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
 
-    $button_tray->addElement(new XoopsFormButton('', '', _AM_NEWBB_CLEAR, 'reset'));
+    $button_tray->addElement(new XoopsFormButton('', '', _AM_IFORUM_CLEAR, 'reset'));
 
     $butt_cancel = new XoopsFormButton('', '', _CANCEL, 'button');
     $butt_cancel->setExtra('onclick="history.go(-1)"');
@@ -194,9 +194,9 @@ switch ($op) {
             }
 
             if (!$bMoved) {
-                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_ERR_FORUM_MOVED);
+                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_IFORUM_MSG_ERR_FORUM_MOVED);
             } else {
-                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_FORUM_MOVED);
+                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_IFORUM_MSG_FORUM_MOVED);
             }
             exit();
         } else {
@@ -207,7 +207,7 @@ switch ($op) {
             //$forum = &$forum_handler->get($forum_id);
            
 	        $box = '<select name="dest">';
-            $box .= '<option value=0 selected>' . _AM_NEWBB_SELECT . '</option>';
+            $box .= '<option value=0 selected>' . _AM_IFORUM_SELECT . '</option>';
 	
 			$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		    $categories = $category_handler->getAllCats('', true);
@@ -228,7 +228,7 @@ switch ($op) {
             echo '<input type="hidden" name="op" value="moveforum" />';
             echo '<input type="hidden" name="forum" value=' . $forum_id . ' />';
             echo '<table border="0" cellpadding="1" cellspacing="0" align="center" valign="top" width="95%"><tr>';
-            echo '<td class="bg2" align="center"><strong>' . _AM_NEWBB_MOVETHISFORUM . '</strong></td>';
+            echo '<td class="bg2" align="center"><strong>' . _AM_IFORUM_MOVETHISFORUM . '</strong></td>';
             echo '</tr>';
             echo '<tr><td class="bg1" align="center">' . $box . '</td></tr>';
             echo '<tr><td align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
@@ -261,9 +261,9 @@ switch ($op) {
             $forum_handler->delete($forum);
 
             if ($post_count || $topic_count) {
-                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_ERR_FORUM_MERGED);
+                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_IFORUM_MSG_ERR_FORUM_MERGED);
             } else {
-                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_NEWBB_MSG_FORUM_MERGED);
+                redirect_header('./admin_forum_manager.php?op=manage', 2, _AM_IFORUM_MSG_FORUM_MERGED);
             }
             exit();
         } else {
@@ -274,7 +274,7 @@ switch ($op) {
             //$forum = &$forum_handler->get($forum_id);
 			
 	        $box = '<select name="dest_forum">';
-            $box .= '<option value=0 selected>' . _AM_NEWBB_SELECT . '</option>';
+            $box .= '<option value=0 selected>' . _AM_IFORUM_SELECT . '</option>';
 	
 			//$category_handler =& icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		    $forums = $forum_handler->getForumsByCategory(0, '', false);
@@ -296,9 +296,9 @@ switch ($op) {
             echo '<input type="hidden" name="op" value="mergeforum" />';
             echo '<input type="hidden" name="forum" value=' . $forum_id . ' />';
             echo '<table border="0" cellpadding="1" cellspacing="0" align="center" valign="top" width="95%"><tr>';
-            echo '<td class="bg2" align="center"><strong>' . _AM_NEWBB_MERGETHISFORUM . '</strong></td>';
+            echo '<td class="bg2" align="center"><strong>' . _AM_IFORUM_MERGETHISFORUM . '</strong></td>';
             echo '</tr>';
-            echo '<tr><td class="bg1" align="center">' . _AM_NEWBB_MERGETO_FORUM . '</td></tr>';
+            echo '<tr><td class="bg1" align="center">' . _AM_IFORUM_MERGETO_FORUM . '</td></tr>';
             echo '<tr><td class="bg1" align="center">' . $box . '</td></tr>';
             echo '<tr><td align="center"><input type="submit" name="save" value=' . _GO . ' class="button" /></td></tr>';
             echo '</form></table>';
@@ -306,27 +306,27 @@ switch ($op) {
         break;
 
     case 'sync':
-        loadModuleAdminMenu(5, _AM_NEWBB_SYNCFORUM);
+        loadModuleAdminMenu(5, _AM_IFORUM_SYNCFORUM);
         if (isset($_POST['submit'])) {
 			iforum_synchronization();
 			/*
 			$topic_handler =& icms_getmodulehandler('topic', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 			$topic_handler->synchronization();
 			*/
-            redirect_header("./index.php", 1, _AM_NEWBB_SYNCHING);
+            redirect_header("./index.php", 1, _AM_IFORUM_SYNCHING);
             exit();
         } else {
-            //loadModuleAdminMenu(3, _AM_NEWBB_SYNCFORUM);
+            //loadModuleAdminMenu(3, _AM_IFORUM_SYNCFORUM);
             echo '<fieldset style="border: #e8e8e8 1px solid;">
-				  <legend style="display: inline; font-weight: bold; color: #900;">' . _AM_NEWBB_SYNCFORUM . '</legend>';
+				  <legend style="display: inline; font-weight: bold; color: #900;">' . _AM_IFORUM_SYNCFORUM . '</legend>';
             echo '<br /><br /><table width="100%" border="0" cellspacing="1" class="outer"><tr><td class="odd">';
             echo '<table border="0" cellpadding="1" cellspacing="1" width="100%">';
             echo '<tr class="bg3" align="left">';
-            echo '<td>' . _AM_NEWBB_CLICKBELOWSYNC . '</td>';
+            echo '<td>' . _AM_IFORUM_CLICKBELOWSYNC . '</td>';
             echo '</tr>';
             echo '<tr class="bg1" align="center">';
             echo '<td><form action="admin_forum_manager.php" method="post">';
-            echo '<input type="hidden" name="op" value="sync"><input type="submit" name="submit" value=' . _AM_NEWBB_SYNCFORUM . ' /></form></td>';
+            echo '<input type="hidden" name="op" value="sync"><input type="submit" name="submit" value=' . _AM_IFORUM_SYNCFORUM . ' /></form></td>';
             echo '</td>';
             echo '</tr>';
             echo '</table></td></tr></table>';
@@ -339,10 +339,10 @@ switch ($op) {
 
         if ($forum) {
             $ff = &$forum_handler->get($forum);
-            $message = _AM_NEWBB_FORUMUPDATE;
+            $message = _AM_IFORUM_FORUMUPDATE;
         } else {
             $ff = &$forum_handler->create();
-            $message = _AM_NEWBB_FORUMCREATED;
+            $message = _AM_IFORUM_FORUMCREATED;
         }
 
         $ff->setVar('forum_name', $_POST['forum_name']);
@@ -385,15 +385,15 @@ switch ($op) {
             redirect_header("admin_forum_manager.php?op=manage", 2, $message);
             exit();
         } else {
-            redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, _AM_NEWBB_FORUM_ERROR);
+            redirect_header("admin_forum_manager.php?op=mod&amp;forum=" . $ff->getVar('forum_id') . "", 2, _AM_IFORUM_FORUM_ERROR);
             exit();
         }
 
     case "mod":
         $ff =& $forum_handler->get($forum);
-        loadModuleAdminMenu(2, _AM_NEWBB_EDITTHISFORUM . $ff->getVar('forum_name'));
+        loadModuleAdminMenu(2, _AM_IFORUM_EDITTHISFORUM . $ff->getVar('forum_name'));
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_EDITTHISFORUM . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_EDITTHISFORUM . "</legend>";
         echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'><tr><td class='odd'>";
 
         editForum($ff);
@@ -405,31 +405,31 @@ switch ($op) {
     case "del":
 
         if (isset($_POST['confirm']) != 1) {
-            xoops_confirm(array('op' => 'del', 'forum' => intval($_GET['forum']), 'confirm' => 1), 'admin_forum_manager.php', _AM_NEWBB_TWDAFAP);
+            xoops_confirm(array('op' => 'del', 'forum' => intval($_GET['forum']), 'confirm' => 1), 'admin_forum_manager.php', _AM_IFORUM_TWDAFAP);
             break;
         } else {
             $ff = &$forum_handler->get($_POST['forum']);
             $forum_handler->delete($ff);
-            redirect_header("admin_forum_manager.php?op=manage", 1, _AM_NEWBB_FORUMREMOVED);
+            redirect_header("admin_forum_manager.php?op=manage", 1, _AM_IFORUM_FORUMREMOVED);
             exit();
         }
         break;
 
     case 'manage':
-        loadModuleAdminMenu(2, _AM_NEWBB_FORUM_MANAGER);
+        loadModuleAdminMenu(2, _AM_IFORUM_FORUM_MANAGER);
 
         $echo = "<fieldset style='border: #e8e8e8 1px solid;'>
-				 <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_FORUM_MANAGER . "</legend>";
+				 <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_FORUM_MANAGER . "</legend>";
         $echo .= "<br />";
 
         $echo .= "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
         $echo .= "<tr align='center'>";
-        $echo .= "<td class='bg3' colspan='2'>" . _AM_NEWBB_NAME . "</td>";
-        $echo .= "<td class='bg3'>" . _AM_NEWBB_EDIT . "</td>";
-        $echo .= "<td class='bg3'>" . _AM_NEWBB_DELETE . "</td>";
-        $echo .= "<td class='bg3'>" . _AM_NEWBB_ADD . "</td>";
-        $echo .= "<td class='bg3'>" . _AM_NEWBB_MOVE . "</td>";
-        $echo .= "<td class='bg3'>" . _AM_NEWBB_MERGE . "</td>";
+        $echo .= "<td class='bg3' colspan='2'>" . _AM_IFORUM_NAME . "</td>";
+        $echo .= "<td class='bg3'>" . _AM_IFORUM_EDIT . "</td>";
+        $echo .= "<td class='bg3'>" . _AM_IFORUM_DELETE . "</td>";
+        $echo .= "<td class='bg3'>" . _AM_IFORUM_ADD . "</td>";
+        $echo .= "<td class='bg3'>" . _AM_IFORUM_MOVE . "</td>";
+        $echo .= "<td class='bg3'>" . _AM_IFORUM_MERGE . "</td>";
         $echo .= "</tr>";
 
 		$category_handler = &icms_getmodulehandler('category', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
@@ -495,8 +495,8 @@ switch ($op) {
 
     case "addsubforum":
     /*
-        loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
-        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
+        loadModuleAdminMenu(2, _AM_IFORUM_CREATENEWFORUM);
+        echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_IFORUM_CREATENEWFORUM . "</legend>";
         echo "<br />";
         $parent_forum = isset($_GET['parent_forum']) ? intval($_GET['parent_forum']) : null;
 
@@ -509,9 +509,9 @@ switch ($op) {
 	
     case "default":
     default:
-        loadModuleAdminMenu(2, _AM_NEWBB_CREATENEWFORUM);
+        loadModuleAdminMenu(2, _AM_IFORUM_CREATENEWFORUM);
         echo "<fieldset style='border: #e8e8e8 1px solid;'>
-			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_CREATENEWFORUM . "</legend>";
+			  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_CREATENEWFORUM . "</legend>";
         echo "<br />";
 
         //$parent_forum = isset($_GET['parent_forum']) ? intval($_GET['parent_forum']) : null;

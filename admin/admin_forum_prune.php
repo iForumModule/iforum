@@ -27,9 +27,9 @@ include("admin_header.php");
 include_once ICMS_ROOT_PATH."/modules/".$xoopsModule->getVar("dirname")."/class/xoopsformloader.php";
 
 xoops_cp_header();
-loadModuleAdminMenu(7, _AM_NEWBB_PRUNE_TITLE);
+loadModuleAdminMenu(7, _AM_IFORUM_PRUNE_TITLE);
 echo "<fieldset style='border: #e8e8e8 1px solid;'>
-	  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_NEWBB_PRUNE_TITLE . "</legend>";
+	  <legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_PRUNE_TITLE . "</legend>";
 echo"<br /><br /><table width='100%' border='0' cellspacing='1' class='outer'>"
  . "<tr><td class='odd'>";
 
@@ -39,7 +39,7 @@ if (!empty($_POST['submit'])) {
     $topics_number = 0;
     $posts_number = 0;
 
-    if (empty($_POST["forums"]))redirect_header("./admin_forum_prune.php", 1, _AM_NEWBB_PRUNE_FORUMSELERROR);
+    if (empty($_POST["forums"]))redirect_header("./admin_forum_prune.php", 1, _AM_IFORUM_PRUNE_FORUMSELERROR);
     elseif (is_array($_POST["forums"]))$selected_forums = implode(",", $_POST["forums"]);
     $prune_days = $myts->addSlashes($_POST["days"]);
     $prune_ddays = time() - $prune_days;
@@ -93,7 +93,7 @@ if (!empty($_POST['submit'])) {
         if ($store != null) {
             $sql = "UPDATE " . $xoopsDB->prefix("bb_posts") . " SET forum_id=$store WHERE topic_id IN ($topic_list)";
             if (!$result = $xoopsDB->query($sql)) {
-                return _AM_NEWBB_ERROR;
+                return _AM_IFORUM_ERROR;
             }
 
             $sql = "UPDATE " . $xoopsDB->prefix("bb_topics") . " SET forum_id=$store WHERE topic_id IN ($topic_list)";
@@ -129,27 +129,27 @@ if (!empty($_POST['submit'])) {
         }
     }
 
-    $tform = new XoopsThemeForm(_AM_NEWBB_PRUNE_RESULTS_TITLE, "prune_results", xoops_getenv('PHP_SELF'));
-    $tform->addElement(new XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_FORUMS, $selected_forums));
-    $tform->addElement(new XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_TOPICS, $topics_number));
-    $tform->addElement(new XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_POSTS, $posts_number));
+    $tform = new XoopsThemeForm(_AM_IFORUM_PRUNE_RESULTS_TITLE, "prune_results", xoops_getenv('PHP_SELF'));
+    $tform->addElement(new XoopsFormLabel(_AM_IFORUM_PRUNE_RESULTS_FORUMS, $selected_forums));
+    $tform->addElement(new XoopsFormLabel(_AM_IFORUM_PRUNE_RESULTS_TOPICS, $topics_number));
+    $tform->addElement(new XoopsFormLabel(_AM_IFORUM_PRUNE_RESULTS_POSTS, $posts_number));
     $tform->display();
 } else {
-    $sform = new XoopsThemeForm(_AM_NEWBB_PRUNE_TITLE, "prune", xoops_getenv('PHP_SELF'));
+    $sform = new XoopsThemeForm(_AM_IFORUM_PRUNE_TITLE, "prune", xoops_getenv('PHP_SELF'));
     $sform->setExtra('enctype="multipart/form-data"');
 
     /* Let User select the number of days
-	$sform->addElement( new XoopsFormText(_AM_NEWBB_PRUNE_DAYS , 'days', 5, 10,100 ), true );
+	$sform->addElement( new XoopsFormText(_AM_IFORUM_PRUNE_DAYS , 'days', 5, 10,100 ), true );
 	*/
     // $sql="SELECT p.topic_id, p.post_id t.post_text FROM ".$xoopsDB->prefix("bb_posts")." p, ".$xoopsDB->prefix("bb_posts_text")." t WHERE p.post_id IN ($post_list) AND p.post_id=t.post_id";
     // $result = $xoopsDB->query();
     // Days selected by selbox (better error control :lol:)
-    $days = new XoopsFormSelect(_AM_NEWBB_PRUNE_DAYS, 'days', null , 1, false);
-    $days->addOptionArray(array(604800 => _AM_NEWBB_PRUNE_WEEK, 1209600 => _AM_NEWBB_PRUNE_2WEEKS, 2592000 => _AM_NEWBB_PRUNE_MONTH, 5184000 => _AM_NEWBB_PRUNE_2MONTH, 10368000 => _AM_NEWBB_PRUNE_4MONTH, 31536000 => _AM_NEWBB_PRUNE_YEAR , 63072000 => _AM_NEWBB_PRUNE_2YEARS));
+    $days = new XoopsFormSelect(_AM_IFORUM_PRUNE_DAYS, 'days', null , 1, false);
+    $days->addOptionArray(array(604800 => _AM_IFORUM_PRUNE_WEEK, 1209600 => _AM_IFORUM_PRUNE_2WEEKS, 2592000 => _AM_IFORUM_PRUNE_MONTH, 5184000 => _AM_IFORUM_PRUNE_2MONTH, 10368000 => _AM_IFORUM_PRUNE_4MONTH, 31536000 => _AM_IFORUM_PRUNE_YEAR , 63072000 => _AM_IFORUM_PRUNE_2YEARS));
     $sform->addElement($days);
 
-    $checkbox = new XoopsFormCheckBox(_AM_NEWBB_PRUNE_FORUMS, 'forums');
-    $radiobox = new XoopsFormRadio(_AM_NEWBB_PRUNE_STORE, 'store');
+    $checkbox = new XoopsFormCheckBox(_AM_IFORUM_PRUNE_FORUMS, 'forums');
+    $radiobox = new XoopsFormRadio(_AM_IFORUM_PRUNE_STORE, 'store');
     // PUAJJ I HATE IT, please tidy up
     $sql = "SELECT forum_name, forum_id FROM " . $xoopsDB->prefix("bb_forums") . " ORDER BY forum_id";
     if ($result = $xoopsDB->query($sql)) {
@@ -167,35 +167,35 @@ if (!empty($_POST['submit'])) {
 
     $sform->addElement($checkbox);
 
-    $sticky_confirmation = new XoopsFormRadio(_AM_NEWBB_PRUNE_STICKY, 'sticky', 1);
-    $sticky_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $sticky_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $sticky_confirmation = new XoopsFormRadio(_AM_IFORUM_PRUNE_STICKY, 'sticky', 1);
+    $sticky_confirmation->addOption(1, _AM_IFORUM_PRUNE_YES);
+    $sticky_confirmation->addOption(0, _AM_IFORUM_PRUNE_NO);
     $sform->addElement($sticky_confirmation);
 
-    $digest_confirmation = new XoopsFormRadio(_AM_NEWBB_PRUNE_DIGEST, 'digest', 1);
-    $digest_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $digest_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $digest_confirmation = new XoopsFormRadio(_AM_IFORUM_PRUNE_DIGEST, 'digest', 1);
+    $digest_confirmation->addOption(1, _AM_IFORUM_PRUNE_YES);
+    $digest_confirmation->addOption(0, _AM_IFORUM_PRUNE_NO);
     $sform->addElement($digest_confirmation);
 
-    $lock_confirmation = new XoopsFormRadio(_AM_NEWBB_PRUNE_LOCK, 'lock', 0);
-    $lock_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $lock_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $lock_confirmation = new XoopsFormRadio(_AM_IFORUM_PRUNE_LOCK, 'lock', 0);
+    $lock_confirmation->addOption(1, _AM_IFORUM_PRUNE_YES);
+    $lock_confirmation->addOption(0, _AM_IFORUM_PRUNE_NO);
     $sform->addElement($lock_confirmation);
 
-    $hot_confirmation = new XoopsFormSelect(_AM_NEWBB_PRUNE_HOT, 'hot', null , 1, false);
+    $hot_confirmation = new XoopsFormSelect(_AM_IFORUM_PRUNE_HOT, 'hot', null , 1, false);
     $hot_confirmation->addOptionArray(array('0' => 0, '5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30));
     $sform->addElement($hot_confirmation);
 
     $sform->addElement($radiobox);
 
-    $archive_confirmation = new XoopsFormRadio(_AM_NEWBB_PRUNE_ARCHIVE, 'archive', 1);
-    $archive_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $archive_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $archive_confirmation = new XoopsFormRadio(_AM_IFORUM_PRUNE_ARCHIVE, 'archive', 1);
+    $archive_confirmation->addOption(1, _AM_IFORUM_PRUNE_YES);
+    $archive_confirmation->addOption(0, _AM_IFORUM_PRUNE_NO);
     $sform->addElement($archive_confirmation);
 
     $button_tray = new XoopsFormElementTray('', '');
-    $button_tray->addElement(new XoopsFormButton('', 'submit', _AM_NEWBB_PRUNE_SUBMIT, 'submit'));
-    $button_tray->addElement(new XoopsFormButton('', 'reset', _AM_NEWBB_PRUNE_RESET, 'reset'));
+    $button_tray->addElement(new XoopsFormButton('', 'submit', _AM_IFORUM_PRUNE_SUBMIT, 'submit'));
+    $button_tray->addElement(new XoopsFormButton('', 'reset', _AM_IFORUM_PRUNE_RESET, 'reset'));
     $sform->addElement($button_tray);
 
     $sform->display();

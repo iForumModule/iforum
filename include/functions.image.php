@@ -23,8 +23,8 @@
 * @version		$Id$
 */
 
-if(!defined("NEWBB_FUNCTIONS_IMAGE")):
-define("NEWBB_FUNCTIONS_IMAGE", true);
+if(!defined("IFORUM_FUNCTIONS_IMAGE")):
+define("IFORUM_FUNCTIONS_IMAGE", true);
 
 function iforum_attachmentImage($source)
 {

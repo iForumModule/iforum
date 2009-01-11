@@ -1,10 +1,10 @@
 <?php
 // $Id$ Russian translation. Charset: utf-8 (without BOM)
 // Blocks
-if(defined('_MB_NEWBB_DEFINED')) return;
-else define('_MB_NEWBB_DEFINED',true);
+if(defined('_MB_IFORUM_DEFINED')) return;
+else define('_MB_IFORUM_DEFINED',true);
 //$constpref = '_MB_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_MB_NEWBB';
+$constpref = '_MB_IFORUM';
 
 define($constpref."_FORUM","Форум");
 define($constpref."_TOPIC","Тема");

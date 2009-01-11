@@ -27,8 +27,8 @@ if (!defined('ICMS_ROOT_PATH')) {
 	exit();
 }
 require_once(ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php');
-if(defined('NEWBB_BLOCK_DEFINED')) return;
-define('NEWBB_BLOCK_DEFINED',true);
+if(defined('IFORUM_BLOCK_DEFINED')) return;
+define('IFORUM_BLOCK_DEFINED',true);
 
 function b_iforum_array_filter($var){
 	return $var > 0;
@@ -528,37 +528,37 @@ function b_iforum_author_show($options)
 function b_iforum_edit($options)
 {
 	$modulename = basename( dirname( dirname( __FILE__ ) ) );
-    $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
+    $form  = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='time'";
     if($options[0]=="time") $form .= " selected='selected' ";
-    $form .= ">"._MB_NEWBB_CRITERIA_TIME."</option>";
+    $form .= ">"._MB_IFORUM_CRITERIA_TIME."</option>";
     $form .= "</select>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
-    $form .= "<br />" . _MB_NEWBB_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
-    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_NEWBB_TIME_DESC. "</small>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
+    $form .= "<br />" . _MB_IFORUM_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
+    $form .= "<br />" . _MB_IFORUM_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
+    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_IFORUM_TIME_DESC. "</small>";
+    $form .= "<br />" . _MB_IFORUM_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
     if ($options[3] == 0) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_FULL . "<input type='radio' name='options[3]' value='1'";
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_FULL . "<input type='radio' name='options[3]' value='1'";
     if ($options[3] == 1) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='2'";
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='2'";
     if ($options[3] == 2) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_LITE;
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
 
-    $form .= "<br />" . _MB_NEWBB_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
+    $form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
     if ($options[4] == 1) $form .= " checked=\"checked\"";
     $form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
     if ($options[4] == 0) $form .= " checked=\"checked\"";
     $form .= " />"._NO;
 
-    $form .= "<br />" . _MB_NEWBB_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
+    $form .= "<br />" . _MB_IFORUM_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
 
-    $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
+    $form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
 
     $options_forum = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
@@ -591,49 +591,49 @@ function b_iforum_edit($options)
 function b_iforum_topic_edit($options)
 {
 	$modulename = basename( dirname( dirname( __FILE__ ) ) );
-    $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
+    $form  = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='time'";
 	    if($options[0]=="time") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_TIME."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_TIME."</option>";
     $form .= "<option value='views'";
 	    if($options[0]=="views") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_VIEWS."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_VIEWS."</option>";
     $form .= "<option value='replies'";
 	    if($options[0]=="replies") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_REPLIES."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_REPLIES."</option>";
     $form .= "<option value='digest'";
 	    if($options[0]=="digest") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_DIGEST."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_DIGEST."</option>";
     $form .= "<option value='sticky'";
 	    if($options[0]=="sticky") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_STICKY."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_STICKY."</option>";
     $form .= "</select>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
-    $form .= "<br />" . _MB_NEWBB_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
-    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_NEWBB_TIME_DESC. "</small>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
+    $form .= "<br />" . _MB_IFORUM_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
+    $form .= "<br />" . _MB_IFORUM_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
+    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_IFORUM_TIME_DESC. "</small>";
+    $form .= "<br />" . _MB_IFORUM_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
     if ($options[3] == 0) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_FULL . "<input type='radio' name='options[3]' value='1'";
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_FULL . "<input type='radio' name='options[3]' value='1'";
     if ($options[3] == 1) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='2'";
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='2'";
     if ($options[3] == 2) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_LITE;
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
 
-    $form .= "<br />" . _MB_NEWBB_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
+    $form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
     if ($options[4] == 1) $form .= " checked=\"checked\"";
     $form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
     if ($options[4] == 0) $form .= " checked=\"checked\"";
     $form .= " />"._NO;
 
-    $form .= "<br />" . _MB_NEWBB_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
+    $form .= "<br />" . _MB_IFORUM_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
 
-    $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
+    $form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
 
     $options_forum = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
@@ -666,40 +666,40 @@ function b_iforum_topic_edit($options)
 function b_iforum_post_edit($options)
 {
 	$modulename = basename( dirname( dirname( __FILE__ ) ) );
-    $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
+    $form  = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='title'";
 	    if($options[0]=="title") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_TITLE."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_TITLE."</option>";
     $form .= "<option value='text'";
 	    if($options[0]=="text") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_TEXT."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_TEXT."</option>";
     $form  .= "</select>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
-    $form .= "<br />" . _MB_NEWBB_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
-    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_NEWBB_TIME_DESC. "</small>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
+    $form .= "<br />" . _MB_IFORUM_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
+    $form .= "<br />" . _MB_IFORUM_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
+    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_IFORUM_TIME_DESC. "</small>";
+    $form .= "<br />" . _MB_IFORUM_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
     if ($options[3] == 0) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_FULL . "<input type='radio' name='options[3]' value='1'";
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_FULL . "<input type='radio' name='options[3]' value='1'";
     if ($options[3] == 1) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='2'";
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='2'";
     if ($options[3] == 2) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_LITE;
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
 
-    $form .= "<br />" . _MB_NEWBB_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
+    $form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
     if ($options[4] == 1) $form .= " checked=\"checked\"";
     $form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
     if ($options[4] == 0) $form .= " checked=\"checked\"";
     $form .= " />"._NO;
 
-    $form .= "<br />" . _MB_NEWBB_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
+    $form .= "<br />" . _MB_IFORUM_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
 
-    $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
+    $form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
 
     $options_forum = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;
@@ -732,40 +732,40 @@ function b_iforum_post_edit($options)
 function b_iforum_author_edit($options)
 {
 	$modulename = basename( dirname( dirname( __FILE__ ) ) );
-    $form  = _MB_NEWBB_CRITERIA."<select name='options[0]'>";
+    $form  = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
     $form .= "<option value='post'";
 	    if($options[0]=="post") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_POST."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_POST."</option>";
     $form .= "<option value='topic'";
 	    if($options[0]=="topic") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_TOPIC."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_TOPIC."</option>";
     $form .= "<option value='digest'";
 	    if($options[0]=="digest") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_DIGESTS."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_DIGESTS."</option>";
     $form .= "<option value='sticky'";
 	    if($options[0]=="sticky") $form .= " selected='selected' ";
-	    $form .= ">"._MB_NEWBB_CRITERIA_STICKYS."</option>";
+	    $form .= ">"._MB_IFORUM_CRITERIA_STICKYS."</option>";
     $form .= "</select>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
-    $form .= "<br />" . _MB_NEWBB_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
-    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_NEWBB_TIME_DESC. "</small>";
-    $form .= "<br />" . _MB_NEWBB_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
+    $form .= "<br />" . _MB_IFORUM_DISPLAY."<input type='text' name='options[1]' value='" . $options[1] . "' />";
+    $form .= "<br />" . _MB_IFORUM_TIME."<input type='text' name='options[2]' value='" . $options[2] . "' />";
+    $form .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;<small>" . _MB_IFORUM_TIME_DESC. "</small>";
+    $form .= "<br />" . _MB_IFORUM_DISPLAYMODE. "<input type='radio' name='options[3]' value='0'";
     if ($options[3] == 0) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='1'";
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_COMPACT . "<input type='radio' name='options[3]' value='1'";
     if ($options[3] == 1) {
         $form .= " checked='checked'";
     }
-    $form .= " />&nbsp;" . _MB_NEWBB_DISPLAYMODE_LITE;
+    $form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
 
-    $form .= "<br />" . _MB_NEWBB_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
+    $form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
     if ($options[4] == 1) $form .= " checked=\"checked\"";
     $form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
     if ($options[4] == 0) $form .= " checked=\"checked\"";
     $form .= " />"._NO;
 
-    $form .= "<br /><br />" . _MB_NEWBB_FORUMLIST;
+    $form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
 
     $options_forum = array_filter(array_slice($options, 5), "b_iforum_array_filter"); // get allowed forums
     $isAll = (count($options_forum)==0||empty($options_forum[0]))?true:false;

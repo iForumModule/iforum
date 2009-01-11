@@ -6,7 +6,7 @@
 
 // The name of this module
 //$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_MI_NEWBB';
+$constpref = '_MI_IFORUM';
 define($constpref."_NAME","انجمن‌ها");
 
 // A brief description of this module
@@ -17,6 +17,8 @@ define($constpref."_BLOCK_TOPIC_POST","پاسخ‌های جدید در عنوا�
 define($constpref."_BLOCK_TOPIC","عنوان‌های دارای جدید ترین پاسخ");
 define($constpref."_BLOCK_POST","پاسخ‌های جدید");
 define($constpref."_BLOCK_AUTHOR","پیام دهندگان");
+define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
+define($constpref."_BLOCK_TAG_TOP", "Top Tags");
 /*
 define($constpref."_BNAME2","تاپیک‌های پر بیننده");
 define($constpref."_BNAME3","تاپیک‌های دارای بیشترین پاسخ");

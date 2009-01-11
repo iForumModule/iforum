@@ -125,7 +125,7 @@ $editor_configs["width"] = empty($xoopsModuleConfig["editor_width"])? "100%" : $
 $editor_configs["height"] = empty($xoopsModuleConfig["editor_height"])? "400px" : $xoopsModuleConfig["editor_height"];
 $forum_form->addElement(new XoopsFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure=null));
 
-if (iforum_tag_module_included && !empty($xoopsModuleConfig['allow_tagging']) && (empty($forumpost) || !empty($topicisnew))) {
+if (iforum_tag_module_included() && !empty($xoopsModuleConfig['allow_tagging']) && (empty($forumpost) || !empty($topicisnew))) {
 	$topic_tags = "";
 	if (!empty($_POST["topic_tags"])) {
 		$topic_tags = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST["topic_tags"]));
@@ -256,7 +256,7 @@ if( !empty($xoopsModuleConfig['captcha_enabled']) ){
 }
 
 if(!empty($admin_form_action)){
-    $approved_radio = new XoopsFormRadioYN(_AM_NEWBB_APPROVE, 'approved', 1, '' . _YES . '', ' ' . _NO . '');
+    $approved_radio = new XoopsFormRadioYN(_AM_IFORUM_APPROVE, 'approved', 1, '' . _YES . '', ' ' . _NO . '');
 	$forum_form->addElement($approved_radio);
 }
 

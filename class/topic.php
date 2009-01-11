@@ -27,7 +27,7 @@ if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
-defined("NEWBB_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.ini.php';
 iforum_load_object();
 
 class Topic extends ArtObject 
@@ -267,10 +267,10 @@ class IforumTopicHandler extends ArtObjectHandler
     function &getPostTree(&$postArray, $pid=0)
     {
 		include_once ICMS_ROOT_PATH . "/modules/".basename( dirname( dirname( __FILE__ ) ) )."/class/iforumtree.php";
-        $NewBBTree = new NewBBTree('bb_posts');
-        $NewBBTree->setPrefix('&nbsp;&nbsp;');
-        $NewBBTree->setPostArray($postArray);
-        $NewBBTree->getPostTree($postsArray, $pid);
+        $IForumTree = new IForumTree('bb_posts');
+        $IForumTree->setPrefix('&nbsp;&nbsp;');
+        $IForumTree->setPostArray($postArray);
+        $IForumTree->getPostTree($postsArray, $pid);
         return $postsArray;
     }
 

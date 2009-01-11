@@ -4,7 +4,7 @@
 
 // Module Info
 //$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-$constpref = '_MI_NEWBB';
+$constpref = '_MI_IFORUM';
 
 // The name of this module
 define($constpref."_NAME","iForum");
@@ -17,6 +17,8 @@ define($constpref."_BLOCK_TOPIC_POST","Последние отклики на т
 define($constpref."_BLOCK_TOPIC","Последние темы");
 define($constpref."_BLOCK_POST","Последние сообщения");
 define($constpref."_BLOCK_AUTHOR","Авторы");
+define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
+define($constpref."_BLOCK_TAG_TOP", "Top Tags");
 /*
 define($constpref."_BNAME2","Most Viewed Topics");
 define($constpref."_BNAME3","Most Active Topics");
@@ -251,49 +253,49 @@ define("_MI_USERMODERATE_DESC","");
 // RMV-NOTIFY
 // Notification event descriptions and mail templates
 
-define ('_MI_NEWBB_THREAD_NOTIFY', 'Поток');
-define ('_MI_NEWBB_THREAD_NOTIFYDSC', 'Опции оповещений, которые добавляются к текущему потоку.');
+define ('_MI_IFORUM_THREAD_NOTIFY', 'Поток');
+define ('_MI_IFORUM_THREAD_NOTIFYDSC', 'Опции оповещений, которые добавляются к текущему потоку.');
 
-define ('_MI_NEWBB_FORUM_NOTIFY', 'Форум');
-define ('_MI_NEWBB_FORUM_NOTIFYDSC', 'Опции оповещений, которые добавляются к текущему форуму.');
+define ('_MI_IFORUM_FORUM_NOTIFY', 'Форум');
+define ('_MI_IFORUM_FORUM_NOTIFYDSC', 'Опции оповещений, которые добавляются к текущему форуму.');
 
-define ('_MI_NEWBB_GLOBAL_NOTIFY', 'Общие');
-define ('_MI_NEWBB_GLOBAL_NOTIFYDSC', 'Опции общих оповещений форума.');
+define ('_MI_IFORUM_GLOBAL_NOTIFY', 'Общие');
+define ('_MI_IFORUM_GLOBAL_NOTIFYDSC', 'Опции общих оповещений форума.');
 
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFY', 'Новое сообщение');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYCAP', 'Оповестить меня о новом сообщении в этом потоке.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено новое сообщение в этом потоке.');
-define ('_MI_NEWBB_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение в потоке');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFY', 'Новое сообщение');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYCAP', 'Оповестить меня о новом сообщении в этом потоке.');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено новое сообщение в этом потоке.');
+define ('_MI_IFORUM_THREAD_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение в потоке');
 
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFY', 'Новый поток');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYCAP', 'Оповестить меня о новом сообщении в этом потоке на этом форуме.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYDSC', 'Получить извещение, когда будет создан новый поток на этом форуме.');
-define ('_MI_NEWBB_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новый поток на форуме');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFY', 'Новый поток');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYCAP', 'Оповестить меня о новом сообщении в этом потоке на этом форуме.');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYDSC', 'Получить извещение, когда будет создан новый поток на этом форуме.');
+define ('_MI_IFORUM_FORUM_NEWTHREAD_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новый поток на форуме');
 
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFY', 'Новый форум');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYCAP', 'Оповестить меня, когда будет создан новый форум.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYDSC', 'Получить извещение, когда будет создан новый форум.');
-define ('_MI_NEWBB_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новый форум');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFY', 'Новый форум');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYCAP', 'Оповестить меня, когда будет создан новый форум.');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYDSC', 'Получить извещение, когда будет создан новый форум.');
+define ('_MI_IFORUM_GLOBAL_NEWFORUM_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новый форум');
 
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFY', 'Новое сообщение');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено любое новое сообщение.');
-define ('_MI_NEWBB_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFY', 'Новое сообщение');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение.');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено любое новое сообщение.');
+define ('_MI_IFORUM_GLOBAL_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение');
 
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFY', 'Новое сообщение');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение на этом форуме.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено любое новое сообщение на этом форуме.');
-define ('_MI_NEWBB_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение на форуме');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFY', 'Новое сообщение');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение на этом форуме.');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYDSC', 'Получить извещение, когда будет получено любое новое сообщение на этом форуме.');
+define ('_MI_IFORUM_FORUM_NEWPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение на форуме');
 
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFY', 'Новое сообщение (весь текст)');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение (включая весь текст сообщения).');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Получить весь текст сообщения, когда когда будет получено любое новое сообщение.');
-define ('_MI_NEWBB_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение (весь текст)');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFY', 'Новое сообщение (весь текст)');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYCAP', 'Оповестить меня, когда будет получено любое новое сообщение (включая весь текст сообщения).');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYDSC', 'Получить весь текст сообщения, когда когда будет получено любое новое сообщение.');
+define ('_MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : Новое сообщение (весь текст)');
 
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFY', 'Дайджест');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYCAP', 'Оповестить меня о получении дайджеста.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYDSC', 'Получить извещение о дайджесте.');
-define ('_MI_NEWBB_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : получен дайджест');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFY', 'Дайджест');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYCAP', 'Оповестить меня о получении дайджеста.');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYDSC', 'Получить извещение о дайджесте.');
+define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : получен дайджест');
 
 // FOR installation
 define($constpref."_INSTALL_CAT_TITLE", "Тестовая категория");
