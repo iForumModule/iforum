@@ -54,6 +54,7 @@ class Topic extends ArtObject
         $this->initVar('votes', XOBJ_DTYPE_INT);
         $this->initVar('topic_haspoll', XOBJ_DTYPE_INT);
         $this->initVar('poll_id', XOBJ_DTYPE_INT);
+        $this->initVar('topic_tags', XOBJ_DTYPE_SOURCE);
     }
     
     function incrementCounter()

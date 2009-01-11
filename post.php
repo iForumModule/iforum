@@ -172,7 +172,6 @@ if ( !empty($_POST['contents_submit']) ) {
 
         $isreply = 0;
         $isnew = 1;
-        $topicisnew = $forumpost->isTopic();
         if ( !is_object($xoopsUser) || ( !empty($_POST['noname']) && !empty($xoopsModuleConfig['allow_user_anonymous']) ) ) {
             $uid = 0;
         }
@@ -300,7 +299,7 @@ if ( !empty($_POST['contents_submit']) ) {
 		$sbj_res = $post_handler->insertnewsubject($forumpost->getVar('topic_id'), $subject_pre);
     }
 
-	if (iforum_tag_module_included() && !empty($xoopsModuleConfig['allow_tagging']) && !empty($topicisnew) && @include_once XOOPS_ROOT_PATH."/modules/tag/include/functions.php") {
+	if (iforum_tag_module_included() && !empty($xoopsModuleConfig['allow_tagging']) && $forumpost->isTopic() && @include_once XOOPS_ROOT_PATH."/modules/tag/include/functions.php") {
 		$topic->setVar("topic_tags", @$_POST["topic_tags"]);
 			if ( $tag_handler = tag_getTagHandler() ) {
 				$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'), $xoopsModule->dirname(), 0);
