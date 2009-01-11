@@ -41,9 +41,9 @@ $modversion['author_website_url'] = "http://community.impresscms.org/modules/new
 $modversion['author_website_name'] = _IMPRESSCMS_COMMUNITY;
 $modversion['author_email'] = "pesian_stranger@users.sourceforge.net";
 $modversion['author_email'] = "php_pp@hotmail.com";
-$modversion['status_version'] = "1.00";
-$modversion['status'] = "RC 2";
-$modversion['warning'] = "For ImpressCMS >= 1.1.2 <br /><br /><br />". _CO_ICMS_WARNING_RC;
+$modversion['status_version'] = "1.01";
+$modversion['status'] = "RC";
+$modversion['warning'] = "For ImpressCMS >= 1.1.3 <br /><br /><br />". _CO_ICMS_WARNING_RC;
 
 $modversion['demo_site_url'] = "http://community.impresscms.org/modules/newbb/";
 $modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
@@ -213,6 +213,41 @@ $modversion['blocks'][] = array(
 	'edit_func' => "b_iforum_author_edit",
 	'template' => 'iforum_block_author.html');	
 
+if(iforum_tag_module_included){
+/*
+ * $options:  
+ *					$options[0] - number of tags to display
+ *					$options[1] - time duration, in days, 0 for all the time
+ *					$options[2] - max font size (px or %)
+ *					$options[3] - min font size (px or %)
+ */
+$modversion["blocks"][]	= array(
+	"file"			=> "iforum_block_tag.php",
+	"name"			=> _MI_NEWBB_BLOCK_TAG_CLOUD,
+	"description"	=> "Show tag cloud",
+	"show_func"		=> "iforum_tag_block_cloud_show",
+	"edit_func"		=> "iforum_tag_block_cloud_edit",
+	"options"		=> "100|0|150|80",
+	"template"		=> "iforum_tag_block_cloud.html",
+	);
+
+/*
+ * $options:  
+ *					$options[0] - number of tags to display
+ *					$options[1] - time duration, in days, 0 for all the time
+ *					$options[2] - sort: a - alphabet; c - count; t - time
+ */
+$modversion["blocks"][]	= array(
+	"file"			=> "iforum_block_tag.php",
+	"name"			=> _MI_NEWBB_BLOCK_TAG_TOP,
+	"description"	=> "Show top tags",
+	"show_func"		=> "iforum_tag_block_top_show",
+	"edit_func"		=> "iforum_tag_block_top_edit",
+	"options"		=> "50|0|c",
+	"template"		=> "iforum_tag_block_top.html",
+	);
+	
+}
 // Search
 $modversion['hasSearch'] = 1;
 $modversion['search']['file'] = "include/search.inc.php";

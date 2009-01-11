@@ -125,13 +125,13 @@ $editor_configs["width"] = empty($xoopsModuleConfig["editor_width"])? "100%" : $
 $editor_configs["height"] = empty($xoopsModuleConfig["editor_height"])? "400px" : $xoopsModuleConfig["editor_height"];
 $forum_form->addElement(new XoopsFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure=null));
 
-if (!empty($xoopsModuleConfig['allow_tagging']) && (empty($forumpost) || !empty($topicisnew))) {
+if (iforum_tag_module_included && !empty($xoopsModuleConfig['allow_tagging']) && (empty($forumpost) || !empty($topicisnew))) {
 	$topic_tags = "";
 	if (!empty($_POST["topic_tags"])) {
 		$topic_tags = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST["topic_tags"]));
-	}/* elseif (!empty($topic_id)) {
+	} elseif (!empty($topic_id)) {
 		$topic_tags = $topic_handler->get($topic_id,'topic_tags');
-	}*/
+	}
 	if (@include_once XOOPS_ROOT_PATH."/modules/tag/include/formtag.php") {
 		$forum_form->addElement(new XoopsFormTag("topic_tags", 60, 255, $topic_tags));
 	}

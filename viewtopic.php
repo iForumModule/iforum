@@ -664,6 +664,9 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 }else{
 	$xoopsTpl->assign('quickreply', array( 'show' => 0));
 }
-
+/*if (iforum_tag_module_included && $xoopsModuleConfig["allow_tagging"] && @include_once XOOPS_ROOT_PATH."/modules/tag/include/tagbar.php") {
+	$xoopsTpl->assign('tagbar', tagBar($forumtopic->getVar("topic_tags", "n")));
+}
+*/
 include ICMS_ROOT_PATH.'/footer.php';
 ?>
