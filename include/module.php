@@ -36,6 +36,12 @@ iforum_load_object();
 function icms_module_update_iforum(&$module, $oldversion = null) 
 {
 	$iforumConfig = iforum_load_config();
+    if ($oldversion < 101) {
+	$query = $GLOBALS['xoopsDB']->queryF("ALTER TABLE ".$GLOBALS['xoopsDB']->prefix("bb_topics")." ADD `topic_tags` varchar(255) NOT NULL default '' AFTER `poll_id`");
+	if (!$query) {
+		$module->setErrors("Could not add field in bb_topics");
+	}
+	}
 	/*
     //$oldversion = $module->getVar('version');
     //$oldconfig = $module->getVar('hasconfig');

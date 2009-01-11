@@ -33,6 +33,8 @@ Changelog 1.0 RC2
 24 Added icons instead of transfer text
 25 Added Captcha Control option
 26 Added Captcha Control for posts
+27 Added Control for wysiwyg editors
+28 Added Tagging options (not ready yet)
 
 Changelog 1.0 RC
 Nov 6th, 2008 

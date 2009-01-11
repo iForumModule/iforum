@@ -104,8 +104,7 @@ if ( !empty($_POST['contents_submit']) ) {
 			$xoopsUser =& $user;
 		}
 	}
-		if( !empty($xoopsModuleConfig['captcha_enabled']) ){
-			include_once ICMS_ROOT_PATH.'/class/captcha/captcha.php';
+		if( !empty($xoopsModuleConfig['captcha_enabled']) && @include_once ICMS_ROOT_PATH."/class/captcha/captcha.php"){
 	    $icmsCaptcha = IcmsCaptcha::instance();
 	    if (! $icmsCaptcha->verify() ) {
 		    $captcha_invalid = true;
@@ -173,6 +172,7 @@ if ( !empty($_POST['contents_submit']) ) {
 
         $isreply = 0;
         $isnew = 1;
+        $topicisnew = $forumpost->isTopic();
         if ( !is_object($xoopsUser) || ( !empty($_POST['noname']) && !empty($xoopsModuleConfig['allow_user_anonymous']) ) ) {
             $uid = 0;
         }
@@ -299,6 +299,31 @@ if ( !empty($_POST['contents_submit']) ) {
 		$subject_pre = intval($_POST['subject_pre']);
 		$sbj_res = $post_handler->insertnewsubject($forumpost->getVar('topic_id'), $subject_pre);
     }
+
+	if (!empty($xoopsModuleConfig['allow_tagging']) && !empty($topicisnew) && @include_once XOOPS_ROOT_PATH."/modules/tag/include/functions.php") {
+		$topic->setVar("topic_tags", @$_POST["topic_tags"]);
+			if ( $tag_handler = tag_getTagHandler() ) {
+				$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'), $xoopsModule->dirname(), 0);
+			}
+		$topic_handler->updateAll("topic_tags", @$_POST["topic_tags"], new Criteria("topic_id", $forumpost->getVar('topic_id')));
+		
+		if ($tag_handler = @xoops_getmodulehandler('tag', 'tag', true)) {
+			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'));
+		}
+		
+	}
+/*	if (!empty($xoopsModuleConfig['allow_tagging']) && $forumpost->isTopic() && @include_once XOOPS_ROOT_PATH."/modules/tag/include/functions.php" ) {
+		$topic->setVar("topic_tags", @$_POST["topic_tags"]);
+			if ( $tag_handler = tag_getTagHandler() ) {
+				$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'), $xoopsModule->dirname(), 0);
+			}
+		//$topic_handler->updateAll("topic_tags", @$_POST["topic_tags"], new Criteria("topic_id", $forumpost->getVar('topic_id')));
+		/*
+		if ($tag_handler = @xoops_getmodulehandler('tag', 'tag', true)) {
+			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'));
+		}
+	}
+	*/
 
     // RMV-NOTIFY
     // Define tags for notification message

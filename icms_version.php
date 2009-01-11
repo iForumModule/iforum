@@ -25,7 +25,7 @@
 
 $modulename = basename( dirname( __FILE__ ) );
 $modversion['name'] = _MI_NEWBB_NAME;
-$modversion['version'] = 1.00;
+$modversion['version'] = 1.01;
 $modversion['description'] = _MI_NEWBB_DESC;
 $modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
 $modversion['author'] = "stranger";

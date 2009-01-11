@@ -674,6 +674,31 @@ function iforum_isRead($type, &$items, $uid = null)
 	$read_handler =& icms_getmodulehandler("read".$type, basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 	return $read_handler->isRead_items($items, $uid);
 }
+// Check if Tag module is installed
+function iforum_tag_module_included() {
+	static 	$iforum_tag_module_included;
+	if (!isset($iforum_tag_module_included)) {
+		$modules_handler = xoops_gethandler('module');
+		$tag_mod = $modules_handler -> getByDirName('tag');
+		if (!$tag_mod) {
+			$tag_mod = false;
+		} else {
+			$iforum_tag_module_included = $tag_mod -> getVar('isactive') == 1;
+		}
+	}
+	return $iforum_tag_module_included;
+}
+
+// Add item_tag to Tag-module
+function iforum_tagupdate($topic_id, $item_tag) {
+	global $xoopsModule;
+    if (iforum_tag_module_included()){
+	  include_once XOOPS_ROOT_PATH . '/modules/tag/include/formtag.php';
+	  $tag_handler = xoops_getmodulehandler('tag', 'tag');
+	  $tag_handler -> updateByItem($item_tag, $topic_id, $xoopsModule -> getVar( 'dirname' ), 0);
+	}
+}
+
 
 endif;
 ?>

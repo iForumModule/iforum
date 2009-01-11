@@ -54,7 +54,9 @@ $customConfig["download_direct"] = false;
 $customConfig["editor_allowed"] = array(); 
 
 // Set the default editor
-$customConfig["editor_default"] = ""; 
+$config_handler =& xoops_gethandler('config');
+$xoopsConfig =& $config_handler->getConfigsByCat(XOOPS_CONF);
+$customConfig["editor_default"] = $xoopsConfig["editor_default"]; 
 
 // storage method for reading records: 0 - none; 1 - cookie; 2 - db
 $customConfig["read_mode"] = 2;
@@ -72,6 +74,9 @@ $customConfig["editor_cols"] = 60;
 // default value for editor width, height (string)
 $customConfig["editor_width"] = "100%";
 $customConfig["editor_height"] = "400px";
+
+// Enable tag system
+$customConfig["allow_tagging"] = 1;
 
 // MENU handler
 /* You could remove anyone by commenting out in order to disable it */

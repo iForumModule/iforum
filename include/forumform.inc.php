@@ -125,6 +125,18 @@ $editor_configs["width"] = empty($xoopsModuleConfig["editor_width"])? "100%" : $
 $editor_configs["height"] = empty($xoopsModuleConfig["editor_height"])? "400px" : $xoopsModuleConfig["editor_height"];
 $forum_form->addElement(new XoopsFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure=null));
 
+if (!empty($xoopsModuleConfig['allow_tagging']) && (empty($forumpost) || !empty($topicisnew))) {
+	$topic_tags = "";
+	if (!empty($_POST["topic_tags"])) {
+		$topic_tags = $myts->htmlSpecialChars($myts->stripSlashesGPC($_POST["topic_tags"]));
+	}/* elseif (!empty($topic_id)) {
+		$topic_tags = $topic_handler->get($topic_id,'topic_tags');
+	}*/
+	if (@include_once XOOPS_ROOT_PATH."/modules/tag/include/formtag.php") {
+		$forum_form->addElement(new XoopsFormTag("topic_tags", 60, 255, $topic_tags));
+	}
+}
+
 $options_tray = new XoopsFormElementTray(_MD_OPTIONS, '<br />');
 if (is_object($xoopsUser) && $xoopsModuleConfig['allow_user_anonymous'] == 1) {
     $noname = (!empty($isedit) && is_object($forumpost) && $forumpost->getVar('uid') == 0) ? 1 : 0;
@@ -132,14 +144,19 @@ if (is_object($xoopsUser) && $xoopsModuleConfig['allow_user_anonymous'] == 1) {
     $noname_checkbox->addOption(1, _MD_POSTANONLY);
     $options_tray->addElement($noname_checkbox);
 }
-
-if ($forum_obj->getVar('allow_html')) {
+	$groups   = (is_object($xoopsUser)) ? $xoopsUser->getGroups() : ICMS_GROUP_ANONYMOUS;
+	$gperm_handler =& xoops_gethandler('groupperm');
+	if ($xoopsConfig ['editor_default'] != 'dhtmltextarea' && $gperm_handler->checkRight('use_wysiwygeditor', 1, $groups, $xoopsModule->getVar('mid'), false) && $forum_obj->getVar('allow_html')) {
     $html_checkbox = new XoopsFormCheckBox('', 'dohtml', $dohtml);
     $html_checkbox->addOption(1, _MD_DOHTML);
     $options_tray->addElement($html_checkbox);
-}else {
+	$forum_form->addElement(new XoopsFormHidden('dobr', 0));
+	}else{
     $forum_form->addElement(new XoopsFormHidden('dohtml', 0));
-}
+	$br_checkbox = new XoopsFormCheckBox('', 'dobr', $dobr);
+	$br_checkbox->addOption(1, _MD_DOBR);
+	$options_tray->addElement($br_checkbox);
+	}
 
 $smiley_checkbox = new XoopsFormCheckBox('', 'dosmiley', $dosmiley);
 $smiley_checkbox->addOption(1, _MD_DOSMILEY);
@@ -149,9 +166,6 @@ $xcode_checkbox = new XoopsFormCheckBox('', 'doxcode', $doxcode);
 $xcode_checkbox->addOption(1, _MD_DOXCODE);
 $options_tray->addElement($xcode_checkbox);
 
-$br_checkbox = new XoopsFormCheckBox('', 'dobr', $dobr);
-$br_checkbox->addOption(1, _MD_DOBR);
-$options_tray->addElement($br_checkbox);
 
 if ($forum_obj->getVar('allow_sig') && is_object($xoopsUser)) {
     $attachsig_checkbox = new XoopsFormCheckBox('', 'attachsig', $attachsig);
@@ -237,6 +251,7 @@ if($xoopsModuleConfig['enable_karma'] || $xoopsModuleConfig['allow_require_reply
 $forum_form->addElement( $radiobox );
 
 if( !empty($xoopsModuleConfig['captcha_enabled']) ){
+	include_once ICMS_ROOT_PATH."/class/captcha/formcaptcha.php";
 	$forum_form->addElement( new IcmsFormCaptcha() );
 }
 

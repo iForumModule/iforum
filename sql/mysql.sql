@@ -281,6 +281,7 @@ CREATE TABLE `bb_topics` (
   `votes` int(11) unsigned NOT NULL default '0',
   `topic_haspoll` tinyint(1) unsigned NOT NULL default '0',
   `poll_id` mediumint(8) unsigned NOT NULL default '0',
+  `topic_tags` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`topic_id`),
   KEY `forum_id` (`forum_id`),
   KEY `topic_last_post_id` (`topic_last_post_id`),

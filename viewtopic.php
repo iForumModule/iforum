@@ -601,7 +601,7 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 		$forum_form->addElement($user_tray, '');
 	}
 
-	$quickform = "dhtmltextarea";
+	$quickform = $xoopsModuleConfig['editor_default'];
 	$editor_configs = array();
 	$editor_configs["caption"] = _MD_MESSAGEC;
 	$editor_configs["name"] ="message";
@@ -615,11 +615,17 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 	}
 	$editor_object = & $editor_handler->get($quickform, $editor_configs,"",1);
 	$forum_form->addElement($editor_object, true);
-
+	$groups   = (is_object($xoopsUser)) ? $xoopsUser->getGroups() : ICMS_GROUP_ANONYMOUS;
+	$gperm_handler =& xoops_gethandler('groupperm');
+	if ($xoopsConfig ['editor_default'] != 'dhtmltextarea' && $gperm_handler->checkRight('use_wysiwygeditor', 1, $groups, $xoopsModule->getVar('mid'), false) && $viewtopic_forum->getVar('allow_html')) {
+	$forum_form->addElement(new XoopsFormHidden('dohtml', 1));
+	$forum_form->addElement(new XoopsFormHidden('dobr', 0));
+	}else{
 	$forum_form->addElement(new XoopsFormHidden('dohtml', 0));
+	$forum_form->addElement(new XoopsFormHidden('dobr', 1));
+	}
 	$forum_form->addElement(new XoopsFormHidden('dosmiley', 1));
 	$forum_form->addElement(new XoopsFormHidden('doxcode', 1));
-	$forum_form->addElement(new XoopsFormHidden('dobr', 1));
 	$forum_form->addElement(new XoopsFormHidden('attachsig', 1));
 
 	$forum_form->addElement(new XoopsFormHidden('isreply', 1));
@@ -633,6 +639,7 @@ if( !empty($xoopsModuleConfig['quickreply_enabled'])
 	$forum_form->addElement(new XoopsFormHidden('start', $start));
 	
 		if( !empty($xoopsModuleConfig['captcha_enabled']) ){
+		include_once ICMS_ROOT_PATH."/class/captcha/formcaptcha.php";
 		$forum_form->addElement( new IcmsFormCaptcha("", "topic_{$topic_id}_{$start}") );
 		}
 	// backward compatible
