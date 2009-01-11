@@ -33,11 +33,24 @@ define("XOOPS_MODULE_IFORUM_FUCTIONS", 1);
 include_once ICMS_ROOT_PATH.'/modules/'.basename( dirname( dirname( __FILE__ ) ) ).'/include/functions.php';
 
 iforum_load_object();
-function icms_module_update_iforum(&$module, $oldversion = null) 
+function icms_module_update_iforum(&$module, $oldversion = null, $olddbversion = null) 
 {
+    $icmsDatabaseUpdater = XoopsDatabaseFactory::getDatabaseUpdater();
 	$iforumConfig = iforum_load_config();
-    if ($oldversion < 101) {
-	$query = $GLOBALS['xoopsDB']->queryF("ALTER TABLE ".$GLOBALS['xoopsDB']->prefix("bb_topics")." ADD `topic_tags` varchar(255) NOT NULL default '' AFTER `poll_id`");
+
+    $newDbVersion = 1;
+    if ($olddbversion < $newDbVersion) {
+    	echo "Database migrate to version " . $newDbVersion . "<br />";
+     		$table = new IcmsDatabasetable('bb_topics');
+ 		if (!$table->fieldExists('topic_tags')) {
+ 			$table->addNewField('topic_tags', "varchar(255) NOT NULL default ''");
+ 				    if (!$icmsDatabaseUpdater->updateTable($table)) {
+					$module->setErrors("Could not add field in bb_topics");
+	         		}
+ 		}
+	}
+/*    if ($oldversion < 101) {
+	$query = $GLOBALS['xoopsDB']->queryF("ALTER TABLE ".$GLOBALS['xoopsDB']->prefix("bb_topics")." ADD `topic_tags`  AFTER `poll_id`");
 	if (!$query) {
 		$module->setErrors("Could not add field in bb_topics");
 	}
@@ -72,6 +85,7 @@ function icms_module_update_iforum(&$module, $oldversion = null)
 	if(!empty($iforumConfig["syncOnUpdate"])){
 		iforum_synchronization();
 	}
+    $icmsDatabaseUpdater->updateModuleDBVersion($newDbVersion, basename( dirname( dirname( __FILE__ ) ) ));
 	
 	return true;
 }
