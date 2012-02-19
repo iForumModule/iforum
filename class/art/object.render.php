@@ -41,7 +41,7 @@ class ArtObjectRenderHandler
      *
      * For performance consideration, getAll() is recommended
      * 
-     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param object $criteria {@link icms_db_criteria_Element} conditions to be met
      * @param bool $id_as_key use the ID as key for the array?
      * @param bool $as_object return an array of objects?
      *
@@ -52,7 +52,7 @@ class ArtObjectRenderHandler
         $ret = array();
         $limit = $start = 0;
         $sql = 'SELECT * FROM '.$this->_handler->table;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'icms_db_criteria_Element')) {
             $sql .= ' '.$criteria->renderWhere();
             if ($criteria->getSort() != '') {
                 $sql .= ' ORDER BY '.$criteria->getSort().' '.$criteria->getOrder();
@@ -60,7 +60,7 @@ class ArtObjectRenderHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        $result = $this->_handler->db->query($sql, $limit, $start);
+        $result = icms::$xoopsDB->query($sql, $limit, $start);
         if (!$result) {
             return $ret;
         }
@@ -80,8 +80,8 @@ class ArtObjectRenderHandler
      */
     function convertResultSet($result, $id_as_key = false, $as_object = true) {
         $ret = array();
-        while ($myrow = $this->_handler->db->fetchArray($result)) {
-            $obj =& $this->_handler->create(false);
+        while ($myrow = icms::$xoopsDB->fetchArray($result)) {
+            $obj = $this->_handler->create(false);
             $obj->assignVars($myrow);
             if (!$id_as_key) {
                 if ($as_object) {
@@ -117,7 +117,7 @@ class ArtObjectRenderHandler
     /**
     * Retrieve a list of objects as arrays - Try to repair a misuse of setSort in parent::object
     *
-    * @param object $criteria {@link CriteriaElement} conditions to be met
+    * @param object $criteria {@link icms_db_criteria_Element} conditions to be met
     * @param int   $limit      Max number of objects to fetch
     * @param int   $start      Which record to start at
     *
@@ -128,7 +128,7 @@ class ArtObjectRenderHandler
     {
         $ret = array();
         if ($criteria == null) {
-            $criteria = new CriteriaCompo();
+            $criteria = new icms_db_criteria_Compo();
         }
             
         $sql = 'SELECT '.$this->_handler->keyName;
@@ -136,7 +136,7 @@ class ArtObjectRenderHandler
 	        $sql .= ', '.$this->_handler->identifierName;
         }
         $sql .= ' FROM '.$this->_handler->table;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'icms_db_criteria_Element')) {
             $sql .= ' '.$criteria->renderWhere();
             if ($criteria->getSort() != '') {
                 $sql .= ' ORDER BY '.$criteria->getSort().' '.$criteria->getOrder();
@@ -144,15 +144,15 @@ class ArtObjectRenderHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        $result = $this->_handler->db->query($sql, $limit, $start);
+        $result = icms::$xoopsDB->query($sql, $limit, $start);
         if (!$result) {
             return $ret;
         }
 
-        $myts =& MyTextSanitizer::getInstance();
-        while ($myrow = $this->_handler->db->fetchArray($result)) {
+        $myts = MyTextSanitizer::getInstance();
+        while ($myrow = icms::$xoopsDB->fetchArray($result)) {
             //identifiers should be textboxes, so sanitize them like that
-            $ret[$myrow[$this->_handler->keyName]] = empty($this->_handler->identifierName) ? 1 : $myts->htmlSpecialChars($myrow[$this->_handler->identifierName]);
+            $ret[$myrow[$this->_handler->keyName]] = empty($this->_handler->identifierName) ? 1 : icms_core_DataFilter::htmlSpecialchars($myrow[$this->_handler->identifierName]);
         }
         return $ret;
     }
@@ -160,7 +160,7 @@ class ArtObjectRenderHandler
     /**
      * get IDs of objects matching a condition
      * 
-     * @param 	object	$criteria {@link CriteriaElement} to match
+     * @param 	object	$criteria {@link icms_db_criteria_Element} to match
      * @return 	array of object IDs
      */
     function &getIds($criteria = null)
@@ -168,16 +168,16 @@ class ArtObjectRenderHandler
         $ret = array();
         $sql = "SELECT ".$this->_handler->keyName." FROM " . $this->_handler->table;
         $limit = $start = null;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql .= " ".$criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        if(!$result = $this->_handler->db->query($sql, $limit, $start)){
-	        //xoops_error($this->_handler->db->error());
+        if(!$result = icms::$xoopsDB->query($sql, $limit, $start)){
+	        //icms_core_Message::error(icms::$xoopsDB->error());
 	        return $ret;
         }
-        while ($myrow = $this->_handler->db->fetchArray($result)) {
+        while ($myrow = icms::$xoopsDB->fetchArray($result)) {
 	        $ret[] = $myrow[$this->_handler->keyName];
         }
         return $ret;
@@ -190,22 +190,22 @@ class ArtObjectRenderHandler
 	 *
 	 * @param int   	$limit      Max number of objects to fetch
 	 * @param int   	$start      Which record to start at
-     * @param object	$criteria 	{@link CriteriaElement} to match
+     * @param object	$criteria 	{@link icms_db_criteria_Element} to match
      * @param array		$tags 		variables to fetch
      * @param bool		$asObject 	flag indicating as object, otherwise as array
      * @return array of objects 	{@link ArtObject}
      */
    	function &getByLimit($limit=0, $start = 0, $criteria = null, $tags = null, $asObject=true)
    	{
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
 	        $criteria->setLimit($limit);
 	        $criteria->setStart($start);
         } elseif(!empty($limit)) {
-			$criteria = new CriteriaCompo();
+			$criteria = new icms_db_criteria_Compo();
 	        $criteria->setLimit($limit);
 	        $criteria->setStart($start);
         }
-        $ret =& $this->_handler->getAll($criteria, $tags, $asObject);
+        $ret = $this->_handler->getAll($criteria, $tags, $asObject);
         return $ret;
    	}	
 }

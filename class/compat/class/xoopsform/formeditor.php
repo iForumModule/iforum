@@ -9,7 +9,7 @@
  * @version		$Id$
  * @package		xoopseditor
  */
-class XoopsFormEditor extends XoopsFormTextArea
+class IforumFormEditor extends icms_form_elements_Textarea
 {
 	var $editor;
 	
@@ -23,12 +23,12 @@ class XoopsFormEditor extends XoopsFormTextArea
      * @param	bool  	$noHtml		use non-WYSIWYG eitor onfailure
      * @param	string  $OnFailure	editor to be used if current one failed
 	 */
-	function XoopsFormEditor($caption, $name, $editor_configs = null, $nohtml = false, $OnFailure = "")
+	function IforumFormEditor($caption, $name, $editor_configs = null, $nohtml = false, $OnFailure = "")
 	{
-		$this->XoopsFormTextArea($caption, $editor_configs["name"]);
+		parent::__construct($caption, $editor_configs["name"]);
 		require_once ICMS_ROOT_PATH."/class/xoopseditor.php";
 		$editor_handler = XoopsEditorHandler::getInstance();
-		$this->editor =& $editor_handler->get($name, $editor_configs, $nohtml, $OnFailure);
+		$this->editor = $editor_handler->get($name, $editor_configs, $nohtml, $OnFailure);
 	}
 	
 	function render()

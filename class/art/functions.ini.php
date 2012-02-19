@@ -15,82 +15,6 @@ define("FRAMEWORKS_ART_FUNCTIONS_INI", true);
 
 define("FRAMEWORKS_ROOT_PATH", ICMS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class");
 
-global $xoops;
-if (!is_object($xoops) || "xos_kernel_Xoops2" != get_class($xoops)):
-
-if (!class_exists("xos_kernel_Xoops2")):
-/**
- * Extremely reduced kernel class
- * This class should not really be defined in this file, but it wasn't worth including an entire
- * file for those two functions.
- * Few notes:
- * - modules should use this class methods to generate physical paths/URIs (the ones which do not conform
- * will perform badly when true URL rewriting is implemented)
- */
-class xos_kernel_Xoops2 {
-	var $paths = array(
-		'www' => array(), 'modules' => array(), 'themes' => array(),
-	);
-	
-	function xos_kernel_Xoops2()
-	{
-		$this->paths['www'] = array( ICMS_ROOT_PATH, ICMS_URL );
-		$this->paths['modules'] = array( ICMS_ROOT_PATH . '/modules', ICMS_URL . '/modules' );
-		$this->paths['themes'] = array( ICMS_ROOT_PATH . '/themes', ICMS_URL . '/themes' );
-	}
-	/**
-	 * Convert a XOOPS path to a physical one
-	 */
-	function path( $url, $virtual = false )
-	{
-		$path = '';
-		@list( $root, $path ) = explode( '/', $url, 2 );
-		if ( !isset( $this->paths[$root] ) ) {
-			list( $root, $path ) = array( 'www', $url );
-		}
-		if ( !$virtual ) {		// Returns a physical path
-			return $this->paths[$root][0] . '/' . $path;
-		}
-		return !isset( $this->paths[$root][1] ) ? '' : ( $this->paths[$root][1] . '/' . $path );
-	}
-	
-	/**
-	* Convert a XOOPS path to an URL
-	*/
-	function url( $url )
-	{
-		return ( false !== strpos( $url, '://' ) ? $url : $this->path( $url, true ) );
-	}
-	
-	/**
-	* Build an URL with the specified request params
-	*/
-	function buildUrl( $url, $params = array() )
-	{
-		if ( $url == '.' ) {
-			$url = $_SERVER['REQUEST_URI'];
-		}
-		$split = explode( '?', $url );
-		if ( count($split) > 1 ) {
-			list( $url, $query ) = $split;
-			parse_str( $query, $query );
-			$params = array_merge( $query, $params );
-		}
-		if ( !empty( $params ) ) {
-			foreach ( $params as $k => $v ) {
-				$params[$k] = $k . '=' . rawurlencode($v);
-			}
-			$url .= '?' . implode( '&', $params );
-		}
-		return $url;
-	}
-}
-endif;
-/* Be careful not to use reference for $xoops, otherwise the $xoops won't be kept alive for XOOPS 2.2 */
-$GLOBALS["xoops"] =& new xos_kernel_Xoops2();
-
-endif;
-
 /**
  * Load declaration of an object handler
  *
@@ -147,7 +71,7 @@ function load_functions($group = "", $dirname = "art")
  */
 function mod_loadFunctions($group = "", $dirname = "")
 {
-	$dirname = !empty($dirname) ? $dirname : $GLOBALS["xoopsModule"]->getVar("dirname", "n");
+	$dirname = !empty($dirname) ? $dirname : $GLOBALS["icmsModule"]->getVar("dirname", "n");
 	$constant = strtoupper( "{$dirname}_functions" . ( ($group) ? "_{$group}" : "" ) . "_loaded" );
 	if (defined($constant)) return true;
 	$filename = ICMS_ROOT_PATH."/modules/{$dirname}/include/functions.{$group}" . (empty($group) ? "" : "." ) . "php";
@@ -166,7 +90,7 @@ function mod_loadFunctions($group = "", $dirname = "")
  */
 function mod_loadRenderer($class, $dirname = "")
 {
-	$dirname = !empty($dirname) ? $dirname : $GLOBALS["xoopsModule"]->getVar("dirname", "n");
+	$dirname = !empty($dirname) ? $dirname : $GLOBALS["icmsModule"]->getVar("dirname", "n");
 	$renderer = ucfirst($dirname).ucfirst($class)."Renderer";
 	if (!class_exists($renderer)) {
 		require_once ICMS_ROOT_PATH."/modules/{$dirname}/class/{$class}.renderer.php";
@@ -174,27 +98,6 @@ function mod_loadRenderer($class, $dirname = "")
 	$instance = eval("{$renderer}::instance()");
 	return $instance;
 }
-
-/**
- * Get localized string if it is defined 
- *
- * @param	string	$name	string to be localized
- */
-if (!function_exists("mod_constant")) {
-function mod_constant($name)
-{
-	if (!empty($GLOBALS["VAR_PREFIXU"]) && @defined($GLOBALS["VAR_PREFIXU"]."_".strtoupper($name))) {
-		return CONSTANT($GLOBALS["VAR_PREFIXU"]."_".strtoupper($name));
-	} elseif (!empty($GLOBALS["xoopsModule"]) && @defined(strtoupper($GLOBALS["xoopsModule"]->getVar("dirname", "n")."_".$name))) {
-		return CONSTANT(strtoupper($GLOBALS["xoopsModule"]->getVar("dirname", "n")."_".$name));
-	} elseif (defined(strtoupper($name))) {
-		return CONSTANT(strtoupper($name));
-	} else {
-		return str_replace("_", " ", strtolower($name));
-	}
-}
-}
-
 /**
  * Get completed DB prefix if it is defined 
  *
@@ -218,10 +121,9 @@ function mod_DB_prefix($name, $isRel = false)
 if (!function_exists("xoops_message")):
 function xoops_message( $message, $userlevel = 0)
 {
-	global $xoopsUser;
 	
-	if (!$xoopsUser) $level = 0;
-	elseif ($xoopsUser->isAdmin()) $level = 99;
+	if (!icms::$user) $level = 0;
+	elseif (icms::$user->isAdmin()) $level = 99;
 	else $level = 1;
 	if ($userlevel > $level) return;
 	
@@ -236,8 +138,7 @@ function xoops_message( $message, $userlevel = 0)
 endif;
 function mod_message( $message )
 {
-	global $xoopsModuleConfig;
-	if (!empty($xoopsModuleConfig["do_debug"])){
+	if (!empty(icms::$module->config["do_debug"])){
 		if (is_array($message) || is_object($message)){
 			echo "<div><pre>";print_r($message);echo "</pre></div>";
 		}else{
@@ -258,33 +159,6 @@ function mod_getDirname($current_path= null)
 	if ( DIRECTORY_SEPARATOR != '/' ) $current_path = str_replace( strpos( $current_path, '\\\\', 2 ) ? '\\\\' : DIRECTORY_SEPARATOR, '/', $current_path);
 	$url_arr = explode('/', strstr($current_path, '/modules/'));
 	return $url_arr[2];
-}
-
-/**
- * Is a module being installed, updated or uninstalled
- * Used for setting module configuration default values or options
- *
- * The function should be in functions.admin.php, however it requires extra inclusion in xoops_version.php if so
- *
- * @param	string	$dirname	dirname of current module
- * @return	bool
- */
-function mod_isModuleAction($dirname = "system")
-{
-	$ret = @(
-		// action module "system"
-		!empty($GLOBALS["xoopsModule"]) && "system" == $GLOBALS["xoopsModule"]->getVar("dirname", "n")
-		&&
-		// current dirname
-		($dirname == $_POST["dirname"] || $dirname == $_POST["module"])
-		&&
-		// current op 
-		("update_ok" == $_POST["op"] || "install_ok" == $_POST["op"] || "uninstall_ok" == $_POST["op"])
-		&&
-		// current action
-		"modulesadmin" == $_POST["fct"]
-		);
-	return $ret;
 }
 
 endif;

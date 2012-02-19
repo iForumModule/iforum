@@ -39,37 +39,37 @@ class ArtObjectStatsHandler
     /**
      * count objects matching a condition
      * 
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param object $criteria {@link icms_db_criteria_Element} to match
      * @return int count of objects
      */
     function getCount($criteria = null)
     {
         $field = "";
         $groupby = false;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'icms_db_criteria_Element')) {
             if ($criteria->groupby != "") {
                 $groupby = true;
                 $field = $criteria->groupby.", "; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
         }
         $sql = 'SELECT '.$field.'COUNT(*) FROM '.$this->_handler->table;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'icms_db_criteria_Element')) {
             $sql .= ' '.$criteria->renderWhere();
             if ($criteria->groupby != "") {
                 $sql .= $criteria->getGroupby();
             }
         }
-        $result = $this->_handler->db->query($sql);
+        $result = icms::$xoopsDB->query($sql);
         if (!$result) {
             return 0;
         }
         if ($groupby == false) {
-            list($count) = $this->_handler->db->fetchRow($result);
+            list($count) = icms::$xoopsDB->fetchRow($result);
             return $count;
         }
         else {
             $ret = array();
-            while (list($id, $count) = $this->_handler->db->fetchRow($result)) {
+            while (list($id, $count) = icms::$xoopsDB->fetchRow($result)) {
                 $ret[$id] = $count;
             }
             return $ret;
@@ -79,7 +79,7 @@ class ArtObjectStatsHandler
     /**
      * get counts matching a condition
      * 
-     * @param object	$criteria {@link CriteriaElement} to match
+     * @param object	$criteria {@link icms_db_criteria_Element} to match
      * @return array of conunts
      */
    	function getCounts($criteria = null)
@@ -90,7 +90,7 @@ class ArtObjectStatsHandler
 	    $limit = null;
 	    $start = null;
 	    $groupby_key = $this->_handler->keyName;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql_where = $criteria->renderWhere();
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
@@ -104,12 +104,12 @@ class ArtObjectStatsHandler
         		" GROUP BY ".$groupby_key
         		//." ORDER BY count DESC"
         		;
-        if(!$result = $this->_handler->db->query($sql, $limit, $start)) {
-	        //xoops_error("get object counts error: ".$sql);
+        if(!$result = icms::$xoopsDB->query($sql, $limit, $start)) {
+	        //icms_core_Message::error("get object counts error: ".$sql);
             return $ret;
         }
         $ret = array();
-        while (list($id, $count) = $this->_handler->db->fetchRow($result)) {
+        while (list($id, $count) = icms::$xoopsDB->fetchRow($result)) {
             $ret[$id] = $count;
         }
         return $ret;

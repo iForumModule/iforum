@@ -12,8 +12,8 @@
  */
 
 function loadModuleAdminMenu ($currentoption = 0, $breadcrumb = '')  {
-	global $xoopsModule;
-	$xoopsModule -> displayAdminMenu( $currentoption, $xoopsModule -> name() . ' | ' . $breadcrumb );
+	global $icmsModule;
+	$icmsModule -> displayAdminMenu( $currentoption, $icmsModule -> getVar('name') . ' | ' . $breadcrumb );
 }
 
 ?>

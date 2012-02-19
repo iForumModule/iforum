@@ -73,7 +73,7 @@ class ArtObjectReconHandler
         		" WHERE (aa.".$field_link." IS NULL)";
         */
 		endif;
-        if (!$result = $this->_handler->db->queryF($sql)) {
+        if (!$result = icms::$xoopsDB->queryF($sql)) {
 	        //mod_message("cleanOrphan:". $sql);
             return false;
         }

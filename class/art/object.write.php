@@ -40,7 +40,7 @@ class ArtObjectWriteHandler
     {
 	    $object->cleanVars();
 	    $changedVars = array();
-        $ts =& MyTextSanitizer::getInstance();
+        $ts = MyTextSanitizer::getInstance();
         foreach ($object->vars as $k => $v) {
 	        if(!$v["changed"]) continue;
             $cleanv = $object->cleanVars[$k];
@@ -55,7 +55,7 @@ class ArtObjectWriteHandler
                 case XOBJ_DTYPE_URL:
                 case XOBJ_DTYPE_EMAIL:
                 case XOBJ_DTYPE_OTHER:
-                    $cleanv = $this->_handler->db->quoteString($cleanv);
+                    $cleanv = icms::$xoopsDB->quoteString($cleanv);
                     break;
                 case XOBJ_DTYPE_INT:
                 	break;
@@ -105,12 +105,12 @@ class ArtObjectWriteHandler
 	        $keys = array_keys($changedVars);
 	        $vals = array_values($changedVars);
             $sql = "INSERT INTO " . $this->_handler->table . " (".implode(",", $keys).") VALUES (".implode(",", $vals).")";
-            if (!$result = $this->_handler->db->{$queryFunc}($sql)) {
+            if (!$result = icms::$xoopsDB->{$queryFunc}($sql)) {
                 $object->setErrors("Insert object error ($queryFunc):" . $sql);
                 return false;
             }
             $object->unsetNew();
-	        if(!$object->getVar($this->_handler->keyName) && $object_id = $this->_handler->db->getInsertId()){
+	        if(!$object->getVar($this->_handler->keyName) && $object_id = icms::$xoopsDB->getInsertId()){
 	            $object->assignVar($this->_handler->keyName, $object_id);
         	}
         } else {
@@ -118,8 +118,8 @@ class ArtObjectWriteHandler
 	        foreach ($changedVars as $k => $v) {
 	            $keys[] = " {$k} = {$v}";
 	        }
-            $sql = "UPDATE " . $this->_handler->table . " SET ".implode(",",$keys)." WHERE ".$this->_handler->keyName." = " . $this->_handler->db->quoteString($object->getVar($this->_handler->keyName));
-            if (!$result = $this->_handler->db->{$queryFunc}($sql)) {
+            $sql = "UPDATE " . $this->_handler->table . " SET ".implode(",",$keys)." WHERE ".$this->_handler->keyName." = " . icms::$xoopsDB->quoteString($object->getVar($this->_handler->keyName));
+            if (!$result = icms::$xoopsDB->{$queryFunc}($sql)) {
                 $object->setErrors("update object error:" . $sql);
                 return false;
             }
@@ -140,18 +140,18 @@ class ArtObjectWriteHandler
         if (is_array($this->_handler->keyName)) {
             $clause = array();
             for ($i = 0; $i < count($this->_handler->keyName); $i++) {
-	            $clause[] = $this->_handler->keyName[$i]." = ".$this->_handler->db->quoteString($obj->getVar($this->_handler->keyName[$i]));
+	            $clause[] = $this->_handler->keyName[$i]." = ".icms::$xoopsDB->quoteString($obj->getVar($this->_handler->keyName[$i]));
             }
             $whereclause = implode(" AND ", $clause);
         }
         else {
-            $whereclause = $this->_handler->keyName." = ".$this->_handler->db->quoteString($obj->getVar($this->_handler->keyName));
+            $whereclause = $this->_handler->keyName." = ".icms::$xoopsDB->quoteString($obj->getVar($this->_handler->keyName));
         }
         $sql = "DELETE FROM ".$this->_handler->table." WHERE ".$whereclause;
         if (false != $force) {
-            $result = $this->_handler->db->queryF($sql);
+            $result = icms::$xoopsDB->queryF($sql);
         } else {
-            $result = $this->_handler->db->query($sql);
+            $result = icms::$xoopsDB->query($sql);
         }
         if (!$result) {
             return false;
@@ -162,13 +162,13 @@ class ArtObjectWriteHandler
     /**
      * delete all objects meeting the conditions
      * 
-     * @param object $criteria {@link CriteriaElement} with conditions to meet
+     * @param object $criteria {@link icms_db_criteria_Element} with conditions to meet
      * @return bool
      */
     function deleteAll($criteria = null, $force = true, $asObject = false)
     {
         if ($asObject) {
-	        $objects =& $this->_handler->getAll($criteria);
+	        $objects = $this->_handler->getAll($criteria);
 	        foreach (array_keys($objects) as $key) {
 		        $this->delete($objects[$key], $force);
 	        }
@@ -178,16 +178,16 @@ class ArtObjectWriteHandler
         $queryFunc = empty($force) ? "query" : "queryF";
         $sql = 'DELETE FROM '.$this->_handler->table;
         if (!empty($criteria)) {
-	        if (is_subclass_of($criteria, 'criteriaelement')) {
+	        if (is_subclass_of($criteria, 'icms_db_criteria_Element')) {
 	            $sql .= ' '.$criteria->renderWhere();
             } else {
 	            return false; 
             }
         }
-        if (!$this->_handler->db->{$queryFunc}($sql)) {
+        if (!icms::$xoopsDB->{$queryFunc}($sql)) {
             return false;
         }
-        $rows = $this->_handler->db->getAffectedRows();
+        $rows = icms::$xoopsDB->getAffectedRows();
         return $rows > 0 ? $rows : true;
     }
 
@@ -196,7 +196,7 @@ class ArtObjectWriteHandler
      * 
      * @param   string  $fieldname  Name of the field
      * @param   string  $fieldvalue Value to write
-     * @param   object  $criteria   {@link CriteriaElement} 
+     * @param   object  $criteria   {@link icms_db_criteria_Element} 
      * 
      * @return  bool
      **/
@@ -206,18 +206,18 @@ class ArtObjectWriteHandler
     	if ( is_numeric( $fieldvalue ) ) {
     		$set_clause .=  $fieldvalue;
     	} elseif ( is_array( $fieldvalue ) ) {
-    		$set_clause .= $this->_handler->db->quoteString( implode( ',', $fieldvalue ) );
+    		$set_clause .= icms::$xoopsDB->quoteString( implode( ',', $fieldvalue ) );
     	} else {
-    		$set_clause .= $this->_handler->db->quoteString( $fieldvalue );
+    		$set_clause .= icms::$xoopsDB->quoteString( $fieldvalue );
     	}
         $sql = 'UPDATE '.$this->_handler->table.' SET '.$set_clause;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'icms_db_criteria_Element')) {
             $sql .= ' '.$criteria->renderWhere();
         }
         if (false != $force) {
-            $result = $this->_handler->db->queryF($sql);
+            $result = icms::$xoopsDB->queryF($sql);
         } else {
-            $result = $this->_handler->db->query($sql);
+            $result = icms::$xoopsDB->query($sql);
         }
         if (!$result) {
             return false;

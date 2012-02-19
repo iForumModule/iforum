@@ -1,8 +1,8 @@
-<div><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forumindex}></a> > 
-<a href="search.php"><{$smarty.const._SR_SEARCH}></a>
-<div class="clear"></div>
-<br />
+<div style="margin-bottom:15px;">
+	<div style="background:url('images/forum-navi-start.gif') no-repeat scroll left center transparent;display:inline;font-weight:normal;height:18px;line-height:18px;padding:1px 3px 1px 22px;"><a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php"><{$forumindex}></a></div>
+	<div style="background:url('images/forum-navi-sub.gif') no-repeat scroll left center transparent;height:18px;line-height:18px;padding:1px 5px 1px 37px;"><a href="search.php"><{$smarty.const._SR_SEARCH}></a></div>
 </div>
+<div class="clear"></div>
 
 <{if $search_info}>
 <{include file="db:iforum_searchresults.html" results=$results}>

@@ -142,7 +142,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	    if ( !isset($this->_handler[$name]) ) {
 		    load_objectHandler($name);
 		    $className = "ArtObject".ucfirst($name)."Handler";
-	        $this->_handler[$name] =& new $className($this);
+	        $this->_handler[$name] = new $className($this);
         }
     }
     
@@ -175,7 +175,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
      * retrieve objects from the database
      * 
-     * @param object $criteria {@link CriteriaElement} conditions to be met
+     * @param object $criteria {@link icms_db_criteria_Element} conditions to be met
      * @param bool $id_as_key use the ID as key for the array?
      * @param bool $as_object return an array of objects?
      *
@@ -191,7 +191,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
     * Retrieve a list of objects as arrays - Try to repair a misuse of setSort in parent::object
     *
-    * @param object $criteria {@link CriteriaElement} conditions to be met
+    * @param object $criteria {@link icms_db_criteria_Element} conditions to be met
     * @param int   $limit      Max number of objects to fetch
     * @param int   $start      Which record to start at
     *
@@ -207,7 +207,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
      * get IDs of objects matching a condition
      * 
-     * @param 	object	$criteria {@link CriteriaElement} to match
+     * @param 	object	$criteria {@link icms_db_criteria_Element} to match
      * @return 	array of object IDs
      */
     function &getIds($criteria = null)
@@ -224,7 +224,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	 *
 	 * @param int   	$limit      Max number of objects to fetch
 	 * @param int   	$start      Which record to start at
-     * @param object	$criteria 	{@link CriteriaElement} to match
+     * @param object	$criteria 	{@link icms_db_criteria_Element} to match
      * @param array		$tags 		variables to fetch
      * @param bool		$asObject 	flag indicating as object, otherwise as array
      * @return array of objects 	{@link ArtObject}
@@ -239,7 +239,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
      * count objects matching a condition
      * 
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param object $criteria {@link icms_db_criteria_Element} to match
      * @return int count of objects
      */
     function getCount($criteria = null)
@@ -252,7 +252,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
      * get counts matching a condition
      * 
-     * @param object	$criteria {@link CriteriaElement} to match
+     * @param object	$criteria {@link icms_db_criteria_Element} to match
      * @return array of conunts
      */
    	function getCounts($criteria = null)
@@ -265,7 +265,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
      * delete all objects meeting the conditions
      * 
-     * @param	object	$criteria {@link CriteriaElement} with conditions to meet
+     * @param	object	$criteria {@link icms_db_criteria_Element} with conditions to meet
      * @param 	bool	$force	force to delete
      * @param 	bool	$asObject	delete in object way	
      * @return bool
@@ -282,7 +282,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
      * 
      * @param   string  $fieldname  Name of the field
      * @param   string  $fieldvalue Value to write
-     * @param   object  $criteria   {@link CriteriaElement} 
+     * @param   object  $criteria   {@link icms_db_criteria_Element} 
      * 
      * @return  bool
      **/
@@ -295,7 +295,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
      * get a list of objects matching a condition with another related object
      * 
-     * @param 	object	$criteria 	{@link CriteriaElement} to match
+     * @param 	object	$criteria 	{@link icms_db_criteria_Element} to match
      * @param 	array	$tags 		variables to fetch
      * @param 	bool	$asObject 	flag indicating as object, otherwise as array
      * @return 	array of articles {@link ArtObject}
@@ -310,7 +310,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     /**
      * count objects matching a condition of a category (categories)
      * 
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param object $criteria {@link icms_db_criteria_Element} to match
      * @return int count of objects
      */
    	function getCountByLink($criteria = null)

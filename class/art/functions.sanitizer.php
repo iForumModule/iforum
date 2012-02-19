@@ -22,20 +22,20 @@ define("FRAMEWORKS_ART_FUNCTIONS_SANITIZER", true);
  */
 function text_filter(&$text, $force = false)
 {
-	global $xoopsUser, $xoopsConfig, $xoopsUserIsAdmin;
+	global $icmsConfig;
 	
-	if (empty($force) && $xoopsUserIsAdmin) {
+	if (empty($force) && icms::$user->isAdmin()) {
 		return $text;
 	}
 	
 	if (@include_once dirname(dirname(__FILE__))."/PEAR/HTML/Safe.php") {
-		 $safehtml =& new HTML_Safe();
+		 $safehtml = new HTML_Safe();
 		 $text = $safehtml->parse($text);
 		 return $text;
 	}
 	
 	// For future applications
-	$tags = empty($xoopsConfig["filter_tags"]) ? array() : explode(",", $xoopsConfig["filter_tags"]);
+	$tags = empty($icmsConfig["filter_tags"]) ? array() : explode(",", $icmsConfig["filter_tags"]);
 	$tags = array_map("trim", $tags);
 	
 	// Set embedded tags

@@ -22,14 +22,14 @@ define("FRAMEWORKS_ART_FUNCTIONS_CONFIG", true);
  */
 function mod_loadConfig($dirname = "")
 {
-	if (empty($dirname) && empty($GLOBALS["xoopsModule"])) {
+	if (empty($dirname) && empty($GLOBALS["icmsModule"])) {
 		return null;
 	}
-	$dirname = !empty($dirname) ? $dirname : $GLOBALS["xoopsModule"]->getVar("dirname");
+	$dirname = !empty($dirname) ? $dirname : $GLOBALS["icmsModule"]->getVar("dirname");
 	
-    if (isset($GLOBALS["xoopsModule"]) && is_object($GLOBALS["xoopsModule"]) && $GLOBALS["xoopsModule"]->getVar("dirname", "n") == $dirname){
-	    if (isset($GLOBALS["xoopsModuleConfig"])) {
-		    $moduleConfig =& $GLOBALS["xoopsModuleConfig"];
+    if (isset($GLOBALS["icmsModule"]) && is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname", "n") == $dirname){
+	    if (isset($GLOBALS["icmsModuleConfig"])) {
+		    $moduleConfig =& $GLOBALS["icmsModuleConfig"];
 	    } else {
 		    return null;
 	    }
@@ -64,12 +64,11 @@ function mod_fetchConfig($dirname = "")
 		return null;
 	}
 	
-	$module_handler =& xoops_gethandler('module');
+	$module_handler = icms::handler('icms_module');
 	$module = $module_handler->getByDirname($dirname);
 
-    $config_handler =& xoops_gethandler('config');
-    $criteria = new CriteriaCompo(new Criteria('conf_modid', $module->getVar('mid')));
-    $configs = $config_handler->getConfigs($criteria);
+    $criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item('conf_modid', $module->getVar('mid')));
+    $configs = icms::$config->getConfigs($criteria);
     foreach(array_keys($configs) as $i){
 	    $moduleConfig[$configs[$i]->getVar('conf_name')] = $configs[$i]->getConfValueForOutput();
     }

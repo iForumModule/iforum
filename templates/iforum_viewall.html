@@ -1,4 +1,4 @@
-<div><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a> > &nbsp;<a href="<{$current_link}>"><{$current_type}></a></div>
+<div><a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php"><{$forum_index_title}></a> > &nbsp;<a href="<{$current_link}>"><{$current_type}></a></div>
 
 
 <{if $mode gt 1}>
@@ -23,15 +23,15 @@
 </select>  
 <input type="hidden" name="forum_id" value="<{$forum_id}>" />
 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 <{elseif $mode eq 1}>
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/moderate.php" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/moderate.php" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?mode=0" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
 <{else}>
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 <{/if}>
 </div>
 <br />
@@ -45,13 +45,9 @@
 <{$forum_pagenav}>
 </div>
 <div class="dropdown">
-<{if $menumode eq 0}>
-
 	<select
 		name="topicoption" id="topicoption"
-		class="menu"
-		onchange="javascript: if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
-	>
+		onchange="javascript: if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}">
 		<option value=""><{$smarty.const._MD_TOPICOPTION}></option>
 		<option value="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></option>
 		<option value="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></option>
@@ -59,54 +55,7 @@
 		<option value="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></option>
 		<option value="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></option>
 		<option value="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></option>
-		<option value="">--------</option>
-		<{foreach item=menu from=$menumode_other}>
-		<option value="<{$menu.link}>"><{$menu.title}></option>
-		<{/foreach}>
 	</select>
-
-<{elseif $menumode eq 1}>
-	<div id="topicoption" class="menu">
-	<table><tr><td>
-		<a class="item" href="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></a>
-		<a class="item" href="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></a>
-		<a class="item" href="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></a>
-		<a class="item" href="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></a>
-		<a class="item" href="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></a>
-		<a class="item" href="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></a>
-		<div class="separator"></div>
-		<{foreach item=menu from=$menumode_other}>
-		<a class="item" href="<{$menu.link}>"><{$menu.title}></a>
-		<{/foreach}>
-	</td></tr></table>
-	</div>
-	<script type="text/javascript">document.getElementById("topicoption").onmouseout = closeMenu;</script>
-	<div class="menubar"><a href="" onclick="openMenu(event, 'topicoption');return false;"><{$smarty.const._MD_TOPICOPTION}></a></div>
-
-<{elseif $menumode eq 2}>
-	<div class="menu">
-		<ul>
-			<li>
-				<div class="item"><strong><{$smarty.const._MD_TOPICOPTION}></strong></div>
-				<ul>
-				<li><table><tr><td>
-	                <div class="item"><a href="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></a></div>
-	                <div class="item"><a href="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></a></div>
-	                <div class="item"><a href="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></a></div>
-	                <div class="item"><a href="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></a></div>
-	                <div class="item"><a href="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></a></div>
-	                <div class="item"><a href="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></a></div>
-					<div class="separator"></div>
-					<{foreach item=menu from=$menumode_other}>
-					<div class="item"><a href="<{$menu.link}>"><{$menu.title}></a></div>
-					<{/foreach}>
-				</td></tr></table></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-
-<{/if}>
 </div>
 <div class="clear"></div>
 </div>
@@ -199,7 +148,7 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
+[<a href="<{$icms_url}>/modules/<{$icms_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
 </form><br />
 <{$forum_jumpbox}>
 </div>

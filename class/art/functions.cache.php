@@ -14,17 +14,15 @@ if (!defined("FRAMEWORKS_ART_FUNCTIONS_CACHE")):
 define("FRAMEWORKS_ART_FUNCTIONS_CACHE", true);
 
 function mod_generateCacheId_byGroup($groups = null) {
-	global $xoopsUser;
-	
 	if (!empty($groups) && is_array($groups)) {
-	} elseif (is_object( $xoopsUser )) {
-		$groups = $xoopsUser->getGroups();
+	} elseif (is_object( icms::$user )) {
+		$groups = icms::$user->getGroups();
 	}
 	if (!empty($groups) && is_array($groups)) {
 		sort($groups);
 		$contentCacheId = substr( md5(implode(",", $groups).XOOPS_DB_PASS.XOOPS_DB_NAME), 0, strlen(XOOPS_DB_USER) * 2 );
 	} else {
-		$contentCacheId = XOOPS_GROUP_ANONYMOUS;
+		$contentCacheId = ICMS_GROUP_ANONYMOUS;
 	}
 	
 	return $contentCacheId;
@@ -36,10 +34,10 @@ function mod_generateCacheId($groups = null) {
 
 function mod_createFile($data, $name = null, $dirname = null, $root_path = XOOPS_CACHE_PATH)
 {
-    global $xoopsModule;
+    global $icmsModule;
 
     $name = ($name) ? $name : strval(time());
-    $dirname = ($dirname) ? $dirname : (is_object($xoopsModule) ? $xoopsModule->getVar("dirname", "n") : "system");
+    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? $icmsModule->getVar("dirname", "n") : "system");
 
 	$file_name = $dirname."_".$name.".php";
 	$file = $root_path."/".$file_name;
@@ -47,7 +45,7 @@ function mod_createFile($data, $name = null, $dirname = null, $root_path = XOOPS
 		fwrite( $fp, "<?php\nreturn " . var_export( $data, true ) . ";\n?>" );
 		fclose( $fp );
 	} else {
-		xoops_error( "Cannot create file: ".$file_name );
+		icms_core_Message::error( "Cannot create file: ".$file_name );
 	}
     return $file_name;
 	
@@ -66,12 +64,12 @@ function mod_createCacheFile_byGroup($data, $name = null, $dirname = null, $grou
 
 function &mod_loadFile($name, $dirname = null, $root_path = XOOPS_CACHE_PATH)
 {
-    global $xoopsModule;
+    global $icmsModule;
 
     $data = null;
     
     if (empty($name)) return $data;
-    $dirname = ($dirname) ? $dirname : (is_object($xoopsModule) ? $xoopsModule->getVar("dirname", "n") : "system");
+    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? $icmsModule->getVar("dirname", "n") : "system");
 	$file_name = $dirname."_".$name.".php";
 	$file = $root_path."/".$file_name;
 
@@ -96,7 +94,7 @@ function &mod_loadCacheFile_byGroup($name, $dirname = null, $groups = null)
 
 function mod_clearFile($name = "", $dirname = null, $root_path = XOOPS_CACHE_PATH)
 {
-    global $xoopsModule;
+    global $icmsModule;
     
     $pattern = ($dirname) ? "{$dirname}_{$name}.*\.php" : "[^_]+_{$name}.*\.php";
 	if ($handle = opendir($root_path)) {
@@ -117,10 +115,10 @@ function mod_clearCacheFile($name = "", $dirname = null)
 
 function mod_clearSmartyCache($pattern = "")
 {
-    global $xoopsModule;
+    global $icmsModule;
     
     if (empty($pattern)) {
-	    $dirname = (is_object($xoopsModule) ? $xoopsModule->getVar("dirname", "n") : "system");
+	    $dirname = (is_object($icmsModule) ? $icmsModule->getVar("dirname", "n") : "system");
 	    $pattern = "/(^{$dirname}\^.*\.html$|blk_{$dirname}_.*[^\.]*\.html$)/";
     }
 	if ($handle = opendir(XOOPS_CACHE_PATH)) {

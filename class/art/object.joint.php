@@ -39,7 +39,7 @@ class ArtObjectJointHandler
     /**
      * get a list of objects matching a condition with another related object
      * 
-     * @param 	object	$criteria 	{@link CriteriaElement} to match
+     * @param 	object	$criteria 	{@link icms_db_criteria_Element} to match
      * @param 	array	$tags 		variables to fetch
      * @param 	bool	$asObject 	flag indicating as object, otherwise as array
      * @return 	array of objects {@link ArtObject}
@@ -62,7 +62,7 @@ class ArtObjectJointHandler
         $sql = "SELECT $select".
         		" FROM " . $this->_handler->table." AS o ".
         		" LEFT JOIN ".$this->_handler->table_link." AS l ON o.".$field_object." = l.".$field_link;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql .= " ".$criteria->renderWhere();
             if ($sort = $criteria->getSort()) {
                 $sql .= " ORDER BY ".$sort." ".$criteria->getOrder();
@@ -72,18 +72,18 @@ class ArtObjectJointHandler
             $start = $criteria->getStart();
         }
         if(empty($orderSet)) $sql .= " ORDER BY o.".$this->_handler->keyName." DESC";
-        $result = $this->_handler->db->query($sql, $limit, $start);
+        $result = icms::$xoopsDB->query($sql, $limit, $start);
         $ret = array();
 		if($asObject) {        
-	        while ($myrow = $this->_handler->db->fetchArray($result)) {
-	            $object =& $this->_handler->create(false);
+	        while ($myrow = icms::$xoopsDB->fetchArray($result)) {
+	            $object = $this->_handler->create(false);
 	            $object->assignVars($myrow);
 	            $ret[$myrow[$this->_handler->keyName]] = $object;
 	            unset($object);
 	        }
         }else{
-	    	$object =& $this->_handler->create(false);
-	        while ($myrow = $this->_handler->db->fetchArray($result)) {
+	    	$object = $this->_handler->create(false);
+	        while ($myrow = icms::$xoopsDB->fetchArray($result)) {
 	            $object->assignVars($myrow);
 		        $ret[$myrow[$this->keyName]] = $object->getValues(array_keys($myrow));
 	        }
@@ -96,7 +96,7 @@ class ArtObjectJointHandler
     /**
      * count objects matching a condition
      * 
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param object $criteria {@link icms_db_criteria_Element} to match
      * @return int count of articles
      */
    	function getCountByLink($criteria = null)
@@ -104,13 +104,13 @@ class ArtObjectJointHandler
         $sql = "SELECT COUNT(DISTINCT ".$this->_handler->keyName.") AS count".
         		" FROM " . $this->_handler->table." AS o ".
         		" LEFT JOIN ".$this->_handler->table_link." AS l ON o.".$this->_handler->field_object." = l.".$this->_handler->field_link;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql .= " ".$criteria->renderWhere();
         }
-        if (!$result = $this->_handler->db->query($sql)) {
+        if (!$result = icms::$xoopsDB->query($sql)) {
             return false;
         }
-        $myrow = $this->_handler->db->fetchArray($result);
+        $myrow = icms::$xoopsDB->fetchArray($result);
         return intval($myrow["count"]);
     }
     
@@ -119,15 +119,15 @@ class ArtObjectJointHandler
         $sql = "SELECT l.".$this->_handler->keyName_link.", COUNT(*)".
         		" FROM " . $this->_handler->table." AS o ".
         		" LEFT JOIN ".$this->_handler->table_link." AS l ON o.".$this->_handler->field_object." = l.".$this->_handler->field_link;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql .= " ".$criteria->renderWhere();
         }
         $sql .=" GROUP BY l.".$this->_handler->keyName_link."";
-        if (!$result = $this->_handler->db->query($sql)) {
+        if (!$result = icms::$xoopsDB->query($sql)) {
             return false;
         }
         $ret = array();
-        while (list($id, $count) = $this->_handler->db->fetchRow($result)) {
+        while (list($id, $count) = icms::$xoopsDB->fetchRow($result)) {
             $ret[$id] = $count;
         }
         return $ret;
@@ -137,15 +137,15 @@ class ArtObjectJointHandler
     {
 	    $set = array();
 	    foreach($data as $key=>$val){
-		    $set[] = "o.".$key. "=".$this->_handler->db->quoteString($val);
+		    $set[] = "o.".$key. "=".icms::$xoopsDB->quoteString($val);
 	    }
         $sql = "UPDATE " . $this->_handler->table." AS o ".
         		" SET ".implode(", ", $set).
         		" LEFT JOIN ".$this->_handler->table_link." AS l ON o.".$this->_handler->field_object." = l.".$this->_handler->field_link;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql .= " ".$criteria->renderWhere();
         }
-        return $this->_handler->db->query($sql);
+        return icms::$xoopsDB->query($sql);
     }
     
    	function deleteByLink($criteria = null)
@@ -153,10 +153,10 @@ class ArtObjectJointHandler
         $sql = "DELETE".
         		" FROM " . $this->_handler->table." AS o ".
         		" LEFT JOIN ".$this->_handler->table_link." AS l ON o.".$this->_handler->field_object." = l.".$this->_handler->field_link;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql .= " ".$criteria->renderWhere();
         }
-        return $this->_handler->db->query($sql);
+        return icms::$xoopsDB->query($sql);
     }
 }
 ?>

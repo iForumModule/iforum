@@ -9,11 +9,8 @@
  * @version		$Id$
  * @package		xoopseditor
  */
-if (!defined('ICMS_ROOT_PATH')) {
-	exit();
-}
 
-require_once ICMS_ROOT_PATH."/class/xoopseditor.php";
+defined('ICMS_ROOT_PATH') or exit();
 
 /**
  * A select box with available editors
@@ -24,8 +21,7 @@ require_once ICMS_ROOT_PATH."/class/xoopseditor.php";
  * @author	    phppp (D.J.)
  * @copyright	The XOOPS Project
  */
-class XoopsFormSelectEditor extends XoopsFormElementTray
-{	
+class IforumFormSelectEditor extends icms_form_elements_Tray {	
 	var $allowed_editors = array();
 	var $form;
 	var $value;
@@ -40,9 +36,8 @@ class XoopsFormSelectEditor extends XoopsFormElementTray
 	 * @param	string	$value	Pre-selected text value
      * @param	bool	$noHtml	dohtml disabled
 	 */
-	function XoopsFormSelectEditor(&$form, $name = "editor", $value = null, $nohtml = false, $allowed_editors = array())
-	{
-		$this->XoopsFormElementTray(_SELECT);
+	function IforumFormSelectEditor(&$form, $name = "editor", $value = null, $nohtml = false, $allowed_editors = array()) {
+		parent::__construct(_SELECT);
 		$this->allowed_editors = $allowed_editors;
 		$this->form		=& $form;
 		$this->name		= $name;
@@ -50,11 +45,10 @@ class XoopsFormSelectEditor extends XoopsFormElementTray
 		$this->nohtml	= $nohtml;
 	}
 	
-	function render()
-	{
-		$editor_handler = XoopsEditorHandler::getInstance();
+	function render() {
+		$editor_handler = icms_plugins_EditorHandler::getInstance();
 		$editor_handler->allowed_editors = $this->allowed_editors;
-		$option_select = new XoopsFormSelect("", $this->name, $this->value);
+		$option_select = new icms_form_elements_Select("", $this->name, $this->value);
 		$extra = 'onchange="if(this.options[this.selectedIndex].value.length > 0 ){
 			window.document.forms.'.$this->form->getName().'.submit();
 			}"';
@@ -66,4 +60,3 @@ class XoopsFormSelectEditor extends XoopsFormElementTray
 		return parent::render();
 	}
 }
-?>

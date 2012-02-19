@@ -11,8 +11,8 @@
 
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
-    <td><a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
-    <td><a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
 		<{if $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
@@ -33,7 +33,7 @@
 
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
-    <td><a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
 		<{if $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
@@ -47,7 +47,7 @@
 
   <{foreach item=topic from=$block.topics}>
   <tr class="<{cycle values="even,odd"}>">
-    <td><a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>">
 		<{if $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
@@ -62,7 +62,7 @@
 
 <{if $block.indexNav}>
 <div style="text-align:<{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/viewall.php"><{$smarty.const._MB_IFORUM_ALLTOPICS}></a> |
-<a href="<{$xoops_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_IFORUM_VSTFRMS}></a>
+<a href="<{$icms_url}>/modules/<{$block.modulename}>/viewall.php"><{$smarty.const._MB_IFORUM_ALLTOPICS}></a> |
+<a href="<{$icms_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_IFORUM_VSTFRMS}></a>
 </div>
 <{/if}>

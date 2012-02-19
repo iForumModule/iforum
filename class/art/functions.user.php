@@ -62,20 +62,20 @@ function &mod_getUnameFromIds( $uid, $usereal = false, $linked = false )
 	if (!is_array($uid))  $uid = array($uid);
 	$userid = array_map("intval", array_filter($uid));
 
-	$myts =& MyTextSanitizer::getInstance();
+	$myts = MyTextSanitizer::getInstance();
 	$users = array();
 	if (count($userid) > 0) {
         $sql = 'SELECT uid, uname, name FROM ' . $GLOBALS['xoopsDB']->prefix('users'). ' WHERE level>0 AND uid IN('.implode(",", array_unique($userid)).')';
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
-	        //xoops_error("user query error: ".$sql);
+	        //icms_core_Message::error("user query error: ".$sql);
             return $users;
         }
         while ($row = $GLOBALS['xoopsDB']->fetchArray($result)) {
 	        $uid = $row["uid"];
             if ( $usereal && $row["name"] ) {
-				$users[$uid] = $myts->htmlSpecialChars($row["name"]);
+				$users[$uid] = icms_core_DataFilter::htmlSpecialchars($row["name"]);
         	} else {
-				$users[$uid] = $myts->htmlSpecialChars($row["uname"]);
+				$users[$uid] = icms_core_DataFilter::htmlSpecialchars($row["uname"]);
 			}
 			if ($linked){
 				$users[$uid] = '<a href="' . ICMS_URL . '/userinfo.php?uid='.$uid.'" title="'.$users[$uid].'">'.$users[$uid].'</a>';
@@ -83,18 +83,18 @@ function &mod_getUnameFromIds( $uid, $usereal = false, $linked = false )
         }
 	}
 	if (in_array(0, $users, true)) {
-		$users[0] = $myts->htmlSpecialChars($GLOBALS['xoopsConfig']['anonymous']);
+		$users[0] = icms_core_DataFilter::htmlSpecialchars($GLOBALS['icmsConfig']['anonymous']);
 	}
     return $users;
 }
 
 function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
 {
-	$myts =& MyTextSanitizer::getInstance();
+	$myts = MyTextSanitizer::getInstance();
 	$userid = intval($userid);
 	if ($userid > 0) {
-        $member_handler =& xoops_gethandler('member');
-        $user =& $member_handler->getUser($userid);
+        $member_handler = icms::handler('icms_member');
+        $user = $member_handler->getUser($userid);
         if (is_object($user)) {
             if ( $usereal && $user->getVar('name') ) {
 				$username = $user->getVar('name');
@@ -107,7 +107,7 @@ function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
         }
     }
     if (empty($username)){
-		$username = $myts->htmlSpecialChars($GLOBALS['xoopsConfig']['anonymous']);
+		$username = icms_core_DataFilter::htmlSpecialchars($GLOBALS['icmsConfig']['anonymous']);
     }
     return $username;
 }

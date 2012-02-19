@@ -35,22 +35,22 @@ function xoops_local($func)
 }
 endif;
 if (!class_exists("XoopsLocal")) {
-	$GLOBALS["xoopsConfig"]["language"] = preg_replace("/[^a-z0-9_\-]/i", "", $GLOBALS["xoopsConfig"]["language"]);
-	if (!@include_once ICMS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/language/".$GLOBALS["xoopsConfig"]["language"]."/local.php") {
+	$GLOBALS["icmsConfig"]["language"] = preg_replace("/[^a-z0-9_\-]/i", "", $GLOBALS["icmsConfig"]["language"]);
+	if (!@include_once ICMS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/language/".$GLOBALS["icmsConfig"]["language"]."/local.php") {
 		require_once ICMS_ROOT_PATH."/modules/".basename( dirname(  dirname(  dirname( __FILE__ ) ) ) )."/language/english/local.php";
 	}
 } else {
 	$methods = get_class_methods("XoopsLocal");
 	if (!in_array("getTimeFormatDesc", $methods) && !in_array("gettimeformatdesc", $methods)) {
 		$msg = "<strong>The locale version is too old.</strong> Please copy <br />XOOPS/Frameworks/compat/language/english/<strong>local.php, local.class.php</strong> to XOOPS/language/english/";
-		if ($GLOBALS["xoopsConfig"]["language"] != "english") {
-			if (is_dir(ICMS_ROOT_PATH."/Frameworks/compat/language/".$GLOBALS["xoopsConfig"]["language"]."/")) {
-				$msg .= "<br />XOOPS/Frameworks/compat/language/".$GLOBALS["xoopsConfig"]["language"]."/<strong>local.php</strong> to XOOPS/language/".$GLOBALS["xoopsConfig"]["language"]."/";
+		if ($GLOBALS["icmsConfig"]["language"] != "english") {
+			if (is_dir(ICMS_ROOT_PATH."/Frameworks/compat/language/".$GLOBALS["icmsConfig"]["language"]."/")) {
+				$msg .= "<br />XOOPS/Frameworks/compat/language/".$GLOBALS["icmsConfig"]["language"]."/<strong>local.php</strong> to XOOPS/language/".$GLOBALS["icmsConfig"]["language"]."/";
 			} else {
-				$msg .= "<br />And modify XOOPS/language/".$GLOBALS["xoopsConfig"]["language"]."/<strong>local.php</strong> according to XOOPS/language/english/local.php";
+				$msg .= "<br />And modify XOOPS/language/".$GLOBALS["icmsConfig"]["language"]."/<strong>local.php</strong> according to XOOPS/language/english/local.php";
 			}
 		}
-		xoops_error($msg);
+		icms_core_Message::error($msg);
 		die();
 	}
 }

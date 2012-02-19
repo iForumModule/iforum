@@ -1,19 +1,18 @@
-<script type="text/javascript" src="<{$xoops_url}>/modules/<{$xoops_dirname}>/templates/collapse.js"></script>
+<script type="text/javascript" src="<{$icms_url}>/modules/<{$icms_dirname}>/templates/collapse.js"></script>
 
-<div><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a> 
-> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
+<div id="index_welcome">
+<div class="title"><a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php"><{$lang_forum_index}></a> 
+> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
 
 <{if $parent_forum}>
-> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a> 
-> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a> 
+> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> 
 <{else}>
-> <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a>
+> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a>
 <{/if}>
-> <strong><{$topic_title}></strong> <{if $topictype}><{$topictype}><{/if}>
 </div>
-<div class="clear"></div>
-<div class="clear"></div>
-<div class="clear"></div>
+<div class="desc"><strong><{$topic_title}></strong> <{if $topictype}><{$topictype}><{/if}></div>
+</div>
 <div class="clear"></div>
 
 <{if $topic_poll}>
@@ -36,13 +35,9 @@
 <{$forum_page_nav}>
 </div>
 <div class="dropdown">
-<{if $menumode eq 0}>
-
 	<select
 		name="topicoption" id="topicoption"
-		class="menu"
-		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
-	>
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}">
 		<option value=""><{$smarty.const._MD_TOPICOPTION}></option>
 		<{if $viewer_level gt 1}>
 		<{foreach item=act from=$admin_actions}>
@@ -57,9 +52,6 @@
 		<{/foreach}>
 		<option value=""> </option>
 		<{/if}>
-		<{foreach item=menu from=$menumode_other}>
-		<option value="<{$menu.link}>"><{$menu.title}></option>
-		<{/foreach}>
 		<!--
 		<option value=""> </option>
 		<option value="<{$topic_print_link}>"><{$smarty.const._MD_PRINTTOPICS}></option>
@@ -69,9 +61,7 @@
 	<{if $rating_enable}>
 	<select
 		name="rate" id="rate"
-		class="menu"
-		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
-	>
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}">
 		<option value=""><{$smarty.const._MD_RATE}></option>
 		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_RATE5}></option>
 		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_RATE4}></option>
@@ -83,125 +73,12 @@
 
 	<select
 		name="viewmode" id="viewmode"
-		class="menu"	onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.location=this.options[this.selectedIndex].value;}"
-	>
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.location=this.options[this.selectedIndex].value;}">
 		<option value=""><{$smarty.const._MD_VIEWMODE}></option>
 		<{foreach item=act from=$viewmode_options}>
 		<option value="<{$act.link}>"><{$act.title}></option>
 		<{/foreach}>
 	</select>
-
-<{elseif $menumode eq 1}>
-
-	<div id="topicoption" class="menu">
-		<{if $viewer_level gt 1}>
-		<{foreach item=act from=$admin_actions}>
-		<a class="item" href="<{$act.link}>"><{$act.name}></a>
-		<{/foreach}>
-		<div class="separator"></div>
-		<{/if}>
-		<{if count($adminpoll_actions)>0 }>
-		<{foreach item=actpoll from=$adminpoll_actions}>
-		<a class="item" href="<{$actpoll.link}>"><{$actpoll.name}></a>
-		<{/foreach}>
-		<div class="separator"></div>
-		<{/if}>
-		<{foreach item=menu from=$menumode_other}>
-		<a class="item" href="<{$menu.link}>"><{$menu.title}></a>
-		<{/foreach}>
-		<div class="separator"></div>
-		<a class="item" href="<{$topic_print_link}>"><{$smarty.const._MD_PRINTTOPICS}></a>
-	</div>
-	<script type="text/javascript">document.getElementById("topicoption").onmouseout = closeMenu;</script>
-	<div class="menubar"><a href="" onclick="openMenu(event, 'topicoption');return false;"><{$smarty.const._MD_TOPICOPTION}></a></div>
-
-	<{if $rating_enable}>
-	<div id="rate" class="menu">
-	<table><tr><td>
-		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_RATE5}></a>
-		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_RATE4}></a>
-		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=3"><{$smarty.const._MD_RATE3}></a>
-		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=2"><{$smarty.const._MD_RATE2}></a>
-		<a class="item" href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=1"><{$smarty.const._MD_RATE1}></a>
-	</td></tr></table>
-	</div>
-	<script type="text/javascript">document.getElementById("rate").onmouseout = closeMenu;</script>
-	<div class="menubar"><a href="" onclick="openMenu(event, 'rate');return false;"><{$smarty.const._MD_RATE}></a></div>
-	<{/if}>
-
-	<div id="view_mode" class="menu">
-	<table><tr><td>
-		<{foreach item=act from=$viewmode_options}>
-		<a class="item" href="<{$act.link}>"><{$act.title}></a>
-		<{/foreach}>
-	</td></tr></table>
-	</div>
-	<script type="text/javascript">document.getElementById("view_mode").onmouseout = closeMenu;</script>
-	<div class="menubar"><a href="" onclick="openMenu(event, 'view_mode');return false;"><{$smarty.const._MD_VIEWMODE}></a></div>
-
-<{elseif $menumode eq 2}>
-	<div class="menu">
-		<ul>
-			<li>
-				<div class="item"><strong><{$smarty.const._MD_VIEWMODE}></strong></div>
-				<ul>
-				<li><table><tr><td>
-					<{foreach item=act from=$viewmode_options}>
-					<div class="item"><a href="<{$act.link}>"><{$act.title}></a></div>
-					<{/foreach}>
-				</td></tr></table></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-	<{if $rating_enable}>
-	<div class="menu">
-		<ul>
-			<li>
-				<div class="item"><strong><{$smarty.const._MD_RATE}></strong></div>
-				<ul>
-				<li><table><tr><td>
-					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_RATE5}></a></div>
-					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_RATE4}></a></div>
-					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=3"><{$smarty.const._MD_RATE3}></a></div>
-					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=2"><{$smarty.const._MD_RATE2}></a></div>
-					<div class="item"><a href="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=1"><{$smarty.const._MD_RATE1}></a></div>
-				</td></tr></table></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-	<{/if}>
-	<div class="menu">
-		<ul>
-			<li>
-				<div class="item"><strong><{$smarty.const._MD_TOPICOPTION}></strong></div>
-				<ul>
-				<li><table><tr><td>
-					<{if $viewer_level gt 1}>
-					<{foreach item=act from=$admin_actions}>
-                    <div class="item"><a href="<{$act.link}>"><{$act.image}> <{$act.name}></a></div>
-					<{/foreach}>
-					<div class="separator"></div>
-					<{/if}>
-					<{if count($adminpoll_actions)>0 }>
-					<{foreach item=actpoll from=$adminpoll_actions}>
-					<div class="item"><a href="<{$actpoll.link}>"><{$actpoll.image}> <{$actpoll.name}></a></div>
-					<{/foreach}>
-					<div class="separator"></div>
-					<{/if}>
-					<{foreach item=menu from=$menumode_other}>
-					<div class="item"><a href="<{$menu.link}>"><{$menu.title}></a></div>
-					<{/foreach}>
-					<div class="separator"></div>
-					<div class="item"><a href="<{$topic_print_link}>" target="_blank" ><{$smarty.const._MD_PRINTTOPICS}></a></div>
-				</td></tr></table></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-
-<{/if}>
 </div>
 <div class="clear"></div>
 
@@ -280,15 +157,15 @@
 </select>
 <input type="hidden" name="topic_id" value="<{$topic_id}>" /> 
 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 </form>
 <{elseif $mode eq 1}>
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a>
 <{else}>
-<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
 <{/if}>
 </div>
 <br />
@@ -311,7 +188,7 @@
 <input type="hidden" name="action" id="action" value="yes" />
 <input type="hidden" name="searchin" id="searchin" value="both" />
 <input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
-[<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
+[<a href="<{$icms_url}>/modules/<{$icms_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
 </form><br />
 <{$forum_jumpbox}>
 </div>

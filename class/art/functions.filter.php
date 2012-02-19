@@ -30,8 +30,8 @@ function mod_loadFilters(&$object, $method)
 {
 	load_functions("cache");
     if (!$modules_active = mod_loadCacheFile("modules_active", "system")) {
-	    $module_handler =& xoops_gethandler('module');
-	    $modules_obj = $module_handler->getObjects(new Criteria('isactive', 1));
+	    $module_handler = icms::handler('icms_module');
+	    $modules_obj = $module_handler->getObjects(new icms_db_criteria_Item('isactive', 1));
 	    $modules_active = array();
 	    foreach (array_keys($modules_obj) as $key) {
 		    $modules_active[] = $modules_obj[$key]->getVar("dirname");

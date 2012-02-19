@@ -15,7 +15,7 @@
  * 
  * @author		Taiwen Jiang
  **/
-class _XoopsPersistableObject extends XoopsObject
+class _XoopsPersistableObject extends icms_core_Object
 {
     /**
      * @var string
@@ -39,7 +39,7 @@ class _XoopsPersistableObject extends XoopsObject
     function getVar($key, $format = 's')
     {
 		defined("MYTEXTSANITIZER_EXTENDED") || include_once ICMS_ROOT_PATH."/class/module.textsanitizer.php";
-      	$ts =& MyTextSanitizer::getInstance();
+		$ts = MyTextSanitizer::getInstance();
 		$ret = null;
 		if ( !isset($this->vars[$key]) ) return $ret ;
 		$ret = $this->vars[$key]['value'];
@@ -52,13 +52,13 @@ class _XoopsPersistableObject extends XoopsObject
             case 'show':
             case 'e':
             case 'edit':
-                return $ts->htmlSpecialChars($ret);
+                return icms_core_DataFilter::htmlSpecialchars($ret);
                 break 1;
             case 'p':
             case 'preview':
             case 'f':
             case 'formpreview':
-                return $ts->htmlSpecialChars($ts->stripSlashesGPC($ret));
+                return icms_core_DataFilter::htmlSpecialchars(icms_core_DataFilter::stripSlashesGPC($ret));
                 break 1;
             case 'n':
             case 'none':
@@ -210,7 +210,7 @@ class _XoopsPersistableObject extends XoopsObject
     	$class = get_class($this);
     	foreach ( $keys as $key ) {
     		if ( isset( $this->vars[$key] ) ) {
-    			if ( is_object( $this->vars[$key] ) && is_a( $this->vars[$key], $class/*'XoopsObject'*/ ) ) {
+    			if ( is_object( $this->vars[$key] ) && is_a( $this->vars[$key], $class ) ) {
 					if ( $maxDepth ) {
     					$vars[$key] = $this->vars[$key]->getValues( null, $format, $maxDepth - 1 );
 					}
@@ -229,7 +229,7 @@ class _XoopsPersistableObject extends XoopsObject
 * @author	Taiwen Jiang, derived from Jan Keller Pedersen's class for XOOPS 2.2
 */
 
-class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
+class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
 
     /**#@+
     * Information about the class, the handler is managing
@@ -252,7 +252,7 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
     * @return void
     */
     function _XoopsPersistableObjectHandler(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
-        $this->XoopsObjectHandler($db);
+        parent::__construct($db);
         $this->table = $table;
         $this->keyName = $keyName;
         $this->className = $className;
@@ -269,7 +269,7 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
      * @return object
      */
     function &create($isNew = true) {
-        $obj =& new $this->className();
+        $obj = new $this->className();
         if ($isNew === true) {
             $obj->setNew();
         }
@@ -283,10 +283,13 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
      * @param   array	$tags	variables to fetch
      * @return  object  {@link _XoopsPersistableObject}, a new {@link _XoopsPersistableObject} on fail
      **/
-    function &get($id = null, $tags = null)
-    {
+    function &get($id) {
+		$tags = null;
+		$args = func_get_args();
+		if (isset($args[1])) $tags = $args[1];
+		
 	    if (empty($id)) {
-	    	$object =& $this->create();
+	    	$object = $this->create();
 		    return $object;
 	    }
 	    
@@ -308,7 +311,7 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
 	        return $ret;
         }
         
-    	$object =& $this->create(false);
+    	$object = $this->create(false);
 		$object->assignVars($this->db->fetchArray($result));
         
         return $object;
@@ -317,7 +320,7 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
     /**
      * get objects matching a condition
      * 
-     * @param object	$criteria {@link CriteriaElement} to match
+     * @param object	$criteria {@link icms_db_criteria_Element} to match
      * @param array		$tags 	variables to fetch
      * @param bool		$asObject 	flag indicating as object, otherwise as array
      * @return array of objects/array {@link _XoopsPersistableObject}
@@ -332,7 +335,7 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
 	    $limit = null;
 	    $start = null;
         $sql = "SELECT $select FROM " . $this->table;
-        if (isset($criteria) && is_subclass_of($criteria, "criteriaelement")) {
+        if (isset($criteria) && is_subclass_of($criteria, "icms_db_criteria_Element")) {
             $sql .= " ".$criteria->renderWhere();
             if ($sort = $criteria->getSort()) {
                 $sql .= " ORDER BY ".$sort." ".$criteria->getOrder();
@@ -346,13 +349,13 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
         $ret = array();
 		if ($asObject) {        
 	        while ($myrow = $this->db->fetchArray($result)) {
-	            $object =& $this->create(false);
+	            $object = $this->create(false);
 	            $object->assignVars($myrow);
 	            $ret[$myrow[$this->keyName]] = $object;
 	            unset($object);
 	        }
         } else {
-	    	$object =& $this->create(false);
+	    	$object = $this->create(false);
 	        while ($myrow = $this->db->fetchArray($result)) {
 	            $object->assignVars($myrow);
 		        $ret[$myrow[$this->keyName]] = $object->getValues(array_keys($myrow));
@@ -389,5 +392,8 @@ class _XoopsPersistableObjectHandler extends XoopsObjectHandler {
 	    else $mysql_version = 3;
 	    return $mysql_version;
     }
+	
+	function insert(&$object) {}
+	function delete(&$object) {}
 }
 ?>
