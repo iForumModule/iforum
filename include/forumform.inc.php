@@ -140,10 +140,13 @@ elseif(!$editor = iforum_getcookie("editor"))
 }
 $icmsConfig = icms::$config->getConfigsByCat(ICMS_CONF);
 $icms_allowed_editors = str_replace('default', $icmsConfig["editor_default"], $icmsConfig["editor_enabled_list"]);
-if ($icms_allowed_editors != array ('')) {
-	include_once ICMS_ROOT_PATH . "/modules/" . basename(dirname(dirname(__FILE__))) . "/class/compat/class/xoopsform/formselecteditor.php";
-	$forum_form->addElement(new IforumFormSelectEditor($forum_form, "editor", $editor, $nohtml, $icms_allowed_editors));
-}
+
+// The user should not select an editor, the admin has to manage
+// WYSIWYG editors will not display within this list
+//if ($icms_allowed_editors != array ('')) {
+//	include_once ICMS_ROOT_PATH . "/modules/" . basename(dirname(dirname(__FILE__))) . "/class/compat/class/xoopsform/formselecteditor.php";
+//	$forum_form->addElement(new IforumFormSelectEditor($forum_form, "editor", $editor, $nohtml, $icms_allowed_editors));
+//}
 $editor_configs = array();
 $editor_configs["name"] = "message";
 $editor_configs["value"] = $message;
