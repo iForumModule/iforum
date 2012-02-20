@@ -71,13 +71,13 @@ function iforum_attachmentImage($source)
 	 
 	if (file_exists($thumb))
 	{
-		$attachmentImage = '<a href="'.$image_url.'" title="'.$source.' '.$img_info.'" target="iforum_image">';
+		$attachmentImage = '<a rel="lightbox" href="'.$image_url.'" title="'.$source.' '.$img_info.'" target="iforum_image">';
 		$attachmentImage .= '<img src="'.$thumb_url.'" alt="'.$source.' '.$img_info.'" />';
 		$attachmentImage .= '</a>';
 	}
 	elseif(!empty($pseudo_size))
 	{
-		$attachmentImage = '<a href="'.$image_url.'" title="'.$source.' '.$img_info.'" target="iforum_image">';
+		$attachmentImage = '<a rel="lightbox" href="'.$image_url.'" title="'.$source.' '.$img_info.'" target="iforum_image">';
 		$attachmentImage .= '<img src="'.$image_url.'" '.$pseudo_size.' alt="'.$source.' '.$img_info.'" />';
 		$attachmentImage .= '</a>';
 	}
