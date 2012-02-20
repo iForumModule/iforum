@@ -403,11 +403,11 @@ class IforumForumHandler extends ArtObjectHandler {
 			}
 			elseif (!empty($myrow['icon']))
 			{
-				$topic_icon = '<img src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($myrow['icon']) . '" alt="" />';
+				$topic_icon = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($myrow['icon']) . '" alt="" />';
 			}
 			else
 			{
-				$topic_icon = '<img src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" />';
+				$topic_icon = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" />';
 			}
 			// ------------------------------------------------------
 			// rating_img
@@ -435,13 +435,13 @@ class IforumForumHandler extends ArtObjectHandler {
 					else
 					{
 						$topic_page_jump .= '[<a href="viewtopic.php?topic_id=' . $myrow['topic_id'] . '&amp;start=' . (($i - 1) * icms::$module->config['posts_per_page']) . '">' . $i . '</a>]';
-						$topic_page_jump_icon = "<a href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * icms::$module->config['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
+						$topic_page_jump_icon = "<a class='doicon' href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * icms::$module->config['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
 					}
 				}
 			}
 			else
 			{
-				$topic_page_jump_icon = "<a href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
+				$topic_page_jump_icon = "<a class='doicon' href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
 			}
 			// ------------------------------------------------------
 			// => topic array

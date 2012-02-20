@@ -270,11 +270,11 @@ foreach(array_keys($posts) as $id)
 	 
 	if ($posticon = $post->getVar('icon') )
 		{
-		$post_image = '<img src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($posticon) . '" alt="" />';
+		$post_image = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($posticon) . '" alt="" />';
 	}
 	else
 	{
-		$post_image = '<img src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" />';
+		$post_image = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" />';
 	}
 	if ($post->getVar('uid') > 0 && isset($viewtopic_users[$post->getVar('uid')]))
 	{

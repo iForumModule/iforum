@@ -410,11 +410,11 @@ function b_iforum_post_show($options)
 		//if ($arr['icon'] && is_file(ICMS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
 		if (!empty($arr['icon']))
 		{
-			$last_post_icon = '<img src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($arr['icon']) . '" alt="" />';
+			$last_post_icon = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($arr['icon']) . '" alt="" />';
 		}
 		else
 		{
-			$last_post_icon = '<img src="' . ICMS_URL . '/images/subject/icon1.gif" alt="" />';
+			$last_post_icon = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/subject/icon1.gif" alt="" />';
 		}
 		//$topic['jump_post'] = "<a href='" . ICMS_URL . "/modules/iforum/viewtopic.php?post_id=" . $arr['post_id'] ."#forumpost" . $arr['post_id'] . "'>" . $last_post_icon . "</a>";
 		$topic['forum_id'] = $arr['forum_id'];

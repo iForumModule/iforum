@@ -115,7 +115,7 @@ $icons_radio = new icms_form_elements_Radio(_MD_MESSAGEICON, 'icon', $icon);
 $subject_icons = icms_core_Filesystem::getFileList(ICMS_ROOT_PATH . "/images/subject/", '', array('gif', 'jpg', 'png'));
 foreach ($subject_icons as $iconfile)
 {
-	$icons_radio->addOption($iconfile, '<img src="'.ICMS_URL.'/images/subject/'.$iconfile.'" alt="" />');
+	$icons_radio->addOption($iconfile, '<img style="vertical-align:middle;" src="'.ICMS_URL.'/images/subject/'.$iconfile.'" alt="" />');
 }
 $forum_form->addElement($icons_radio);
  

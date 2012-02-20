@@ -173,13 +173,13 @@ class Post extends ArtObject {
 				$file_size = number_format ($file_size / 1024, 2)." KB";
 				if (in_array(strtolower($file_extension), $image_extensions) && icms::$module->config['media_allowed'])
 				{
-					$post_attachment .= '<br /><img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>('.$file_size.')</small>';
+					$post_attachment .= '<br /><img style="vertical-align:middle;" src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>('.$file_size.')</small>';
 					$post_attachment .= '<br />' . iforum_attachmentImage($att['name_saved'], $asSource);
 					$isDisplayed = true;
 				}
 				else
 				{
-					$post_attachment .= '<a href="' . ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
+					$post_attachment .= '<a href="' . ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img style="vertical-align:middle;" src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
 				}
 				$post_attachment .= '<br />';
 			}
@@ -392,11 +392,11 @@ class Post extends ArtObject {
 		$posticon = $this->getVar('icon');
 		if (!empty($posticon))
 			{
-			$post_image = '<img src="' . ICMS_URL . '/images/subject/' . $posticon . '" alt="" />';
+			$post_image = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/subject/' . $posticon . '" alt="" />';
 		}
 		else
 		{
-			$post_image = '<img src="' . ICMS_URL . '/images/icons/posticon.gif" alt="" />';
+			$post_image = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/icons/posticon.gif" alt="" />';
 		}
 		 
 		$post_title = $this->getVar('subject');

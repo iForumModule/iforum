@@ -300,11 +300,11 @@ class IforumTopicHandler extends ArtObjectHandler {
 		 
 		if (!empty($postArray['icon']))
 			{
-			$postArray['icon'] = '<img src="' . ICMS_URL . "/images/subject/" . htmlspecialchars($postArray['icon']) . '" alt="" />';
+			$postArray['icon'] = '<img style="vertical-align:middle;" src="' . ICMS_URL . "/images/subject/" . htmlspecialchars($postArray['icon']) . '" alt="" />';
 		}
 		else
 		{
-			$postArray['icon'] = '<a><img src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" /></a>';
+			$postArray['icon'] = '<a><img style="vertical-align:middle;" src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" /></a>';
 		}
 		 
 		if (isset($viewtopic_users[$postArray['uid']]['is_forumadmin']))
