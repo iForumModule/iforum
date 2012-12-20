@@ -89,7 +89,7 @@
 	      <{/if}>
     </td>
     <td style="width: 4%; text-align: center;"><{$topic.topic_icon}></td>
-    <td>&nbsp;<a href="<{$topic.topic_link}>">
+    <td><a href="<{$topic.topic_link}>">
 		<{if $topic.allow_prefix AND $topic.topic_subject}>
 		<{$topic.topic_subject}>
 		<{/if}>
@@ -111,14 +111,26 @@
 	<{/if}>
 
   <tr class="foot">
-    <td colspan="8" style="text-align: center;"> <{strip}>
-      <form method="get" action="viewall.php"><div>
-        <strong><{$smarty.const._MD_SORTEDBY}></strong>&nbsp;<{$forum_selection_sort}>&nbsp;<{$forum_selection_order}>&nbsp;<{$forum_selection_since}>&nbsp;
-        <input type="hidden" name="forum" value="<{$forum_id}>" />
-        <input type="hidden" name="type" value="<{$type}>" />
-        <input type="submit" name="refresh" value="<{$smarty.const._MD_GO}>" /></div>
-      </form>
-	<{/strip}>
+	<td colspan="8" style="text-align: center;">
+		<{strip}>
+			<form method="get" action="viewall.php"><div>
+				<a class="sortme" href="#"><{$smarty.const._MD_SORTEDBY}></a><br />
+				<div class="sortme" style="display: none">
+				<{$forum_selection_sort}><br />
+				<{$forum_selection_order}><br />
+				<{$forum_selection_since}><br />
+				<input type="hidden" name="forum" value="<{$forum_id}>" />
+				<input type="hidden" name="type" value="<{$type}>" />
+				<input type="submit" name="refresh" value="<{$smarty.const._MD_GO}>" />
+				</div>
+				<script>
+				$("a.sortme").click(function () {
+				$("div.sortme").toggle("slow");
+				});    
+				</script>
+			</form>
+		<{/strip}>
+
 	</td>
   </tr>
 </table>

@@ -505,4 +505,7 @@
 	define('_MD_POSTTIME', 'Datum');
 	define('_MD_RIGHT', 'Rechts');
 	define('_MD_LEFT', 'Links');
+
+	//new since 1.00
+	define('_MD_CHANGE_THE_FORUM', 'Forum wechseln');
 ?>

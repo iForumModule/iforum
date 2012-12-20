@@ -3,7 +3,7 @@
 <table width="100%">
   	<tr>
        		<th>
-       		<div class="postedon" style="float: <{$smarty.const._GLOBAL_LEFT}>;"> <{$smarty.const._MD_POSTEDON}><{$topic_post.post_date}></div>
+       		<div class="postedon" style="float: <{$smarty.const._GLOBAL_LEFT}>;"><{$topic_post.post_date}></div>
 
 		<div class="comTitle" style="float: <{$smarty.const._GLOBAL_RIGHT}>;">
 		<{if $topic_post.poster_ip}>
@@ -72,6 +72,7 @@
 	</tr>
 	<tr>
   		<td class="even" valign="top">
+			<div class="comTitle"><h3><{$topic_post.post_title}></h3></div>
     			<div class="comText"><{$topic_post.post_text}></div>
 			<{if $topic_post.post_attachment}>
 			<div class="comText"><{$topic_post.post_attachment}></div>

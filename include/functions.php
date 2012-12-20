@@ -515,7 +515,7 @@ function iforum_make_jumpbox($forum_id = 0)
 	$box = '<form class="forum_jumpbox" name="forum_jumpbox" method="get" action="viewforum.php" onsubmit="javascript: if(document.forum_jumpbox.forum.value &lt; 1){return false;}">';
 	$box .= '<div><select class="select" name="forum" onchange="javascript: if(this.options[this.selectedIndex].value >0 ){ document.forms.forum_jumpbox.submit();}">';
 	$box .= iforum_forumSelectBox($forum_id);
-	$box .= "</select> <input type='submit' class='button' value='"._GO."' /></div></form>";
+	$box .= "</select> <input type='submit' value='"._MD_CHANGE_THE_FORUM."' /></div></form>";
 	unset($forums, $categories);
 	return $box;
 }

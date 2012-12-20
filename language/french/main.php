@@ -502,4 +502,7 @@
 	define('_MD_EXTRAS', 'extras');
 	define('_MD_RIGHT', 'right');
 	define('_MD_LEFT', 'left');
+
+	//new since 1.00
+	define('_MD_CHANGE_THE_FORUM', 'Change the forum');
 ?>

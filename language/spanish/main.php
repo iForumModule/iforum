@@ -507,4 +507,7 @@
 	define('_MD_POSTTIME', 'Fecha');
 	define('_MD_RIGHT', 'Derecho');
 	define('_MD_LEFT', 'Izquierdo');
+
+	//new since 1.00
+	define('_MD_CHANGE_THE_FORUM', 'Change the forum');
 ?>
