@@ -84,7 +84,7 @@
 		<{if $category.cat_sponsor}>
 		<a href="<{$category.cat_sponsor.link}>" title="<{$category.cat_sponsor.title}>" rel="external"><{$category.cat_sponsor.title}></a>
 		<{/if}>
-		<img onclick="ToggleBlock2('cat_<{$category.cat_id}>', this)" src="<{$category.cat_display_icon}>" alt="" />
+		<img style="cursor: pointer;" onclick="ToggleBlock2('cat_<{$category.cat_id}>', this)" src="<{$category.cat_display_icon}>" alt="" />
 		</span>
 		
 		<h2 class="h2_forum"><span><a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a></span></h2>
