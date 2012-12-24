@@ -508,4 +508,9 @@
 
 	//new since 1.00
 	define('_MD_CHANGE_THE_FORUM', 'Change forum');
+	define('_MD_USERSTAT', 'User Forum Statistic');
+	define('_MD_LEVEL_MOD_LEVEL', ' Activity level: This level is specified by the number of your own messages. A nice mathematical formula has been used to calculate the certain level.');
+	define("_MD_LEVEL_MOD_EXP", "Experience: This bar shows how far you are away from the next user level. As soon as this bar reaches 100%, your next message will upgrade you to the next user level. ");
+	define("_MD_LEVEL_MOD_HP", "Activity: This bar goes up or down depending to your activity within the community. Simplified this value of every user is oriented to a defined number of messages per day.");
+	define("_MD_LEVEL_MOD_MP", "Answer-waiting-time: This bar shows the permanence of your activity since you are registered and i.e. how fast you answered to articles. A high value means you reacting rarely or very, very slow to a article… [Bad boy ^^] ");
 ?>

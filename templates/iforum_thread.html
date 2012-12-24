@@ -22,6 +22,8 @@
 			<img src="<{$topic_post.poster.avatar}>" alt="" class="comUserImg" />
 			</div>
 			<div style="margin-left: auto; margin-right: auto; text-align: center;padding-top: 5px;" class="Userbar">
+				<a onclick="jQuery('div.Userrow_right').toggle(400);" style="line-height:auto;" name="Userrow_right" href="#postedon" title="<{$smarty.const._MD_USERSTAT}>">
+				<img src="<{$icms_url}>/modules/<{$icms_dirname}>/images/userrow_right.png" /></a>
 				<{foreach item=bar from=$topic_post.poster.userbar}>
 				<{if $bar}>
 				<a class="UserLink" href="<{$bar.link}>" title="<{$bar.name}>"<{if $bar.pm}> rel="lightbox"<{/if}>><{$bar.image}></a>
@@ -35,9 +37,10 @@
 			<{if $topic_post.poster.status}><div class="comUserStatus"><{$topic_post.poster.status}></div><{/if}>
 			<div class="clear"></div>
   			<div class="comUserRankText"><{$topic_post.poster.rank.title}><br /><{$topic_post.poster.rank.image}></div>
+			<div class="clear"></div>
 			</div>
 
-			<div class="Userrow_right">
+			<div class="Userrow_right" style="display: none">
   			<div class="comUserStat">
 				<span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span>
 				<{$topic_post.poster.regdate}>

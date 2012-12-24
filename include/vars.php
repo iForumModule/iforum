@@ -105,6 +105,7 @@ $forumImage['icq'] = $forumUrl['images_root'] . "/icq-a";
 $forumImage['email'] = $forumUrl['images_root'] . "/email-a";
 $forumImage['aim'] = $forumUrl['images_root'] . "/aim-a";
 $forumImage['home'] = $forumUrl['images_root'] . "/home-a";
+$forumImage['homepage'] = $forumUrl['images_root'] . "/homepage-a";
 $forumImage['yahoo'] = $forumUrl['images_root'] . "/yahoo-a";
 $forumImage['msnm'] = $forumUrl['images_root'] . "/msnm-a";
 $forumImage['pdf'] = $forumUrl['images_root']."/pdf-a";

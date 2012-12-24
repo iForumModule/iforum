@@ -508,4 +508,9 @@
 
 	//new since 1.00
 	define('_MD_CHANGE_THE_FORUM', 'Forum wechseln');
+	define('_MD_USERSTAT', 'Benutzer Statistik im Forum');
+	define("_MD_LEVEL_MOD_LEVEL", "Aktivitätslevel: Der Level wird durch die Anzahl der eigenen Post bestimmt. Eine hübsche mathematische Formel wird verwand, um daraus einen entsprechenden Level zu generieren.");
+	define("_MD_LEVEL_MOD_EXP", "Erfahrungen: Dieser Balken zeigt an, wie nahe Du am Erreichen des nächsten Levels bist. Sobald der Erfahrungsbalken die 100% Marke erreicht,steigst Du mit dem nächsten Post ein Level auf. ");
+	define("_MD_LEVEL_MOD_HP", "Aktivität: Dieser Balken steigt oder fällt, je nachdem wie aktiv Du in der Community bist. Vereinfacht gesagt, orientiert sich dieser Wert für jeden User an einer definierten Anzahl von Posts pro Tag. ");
+	define("_MD_LEVEL_MOD_MP", "Antwort-Warte-Zeiten: Dieser Balken zeigt an mit welcher Konstanz Du seit dem Zeitpunkt Deiner Registrierung im Forum unterwegs warst, und wie schnell Du zum Beispiel auf Beiträge geantwortet hast. Ein hoher AWZ-Wert sagt aus, dass Du selten oder nur sehr lange nach einer Antwort auf einen Beitrag reagierst. [Hoch ist also schlecht ^^] ");
 ?>

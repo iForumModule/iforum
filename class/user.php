@@ -174,7 +174,7 @@ class User extends XoopsObject {
 		$userbar[] = array(
 			"link" => "javascript:void window.open('" . $user->getVar('url') . "', 'new');",
 			"name" => _MD_WWW,
-			"image" => iforum_displayImage($forumImage['home'], _MD_WWW)
+			"image" => iforum_displayImage($forumImage['homepage'], _MD_WWW)
 		);
 		if ($user->getVar('user_icq'))
 		$userbar[] = array("link" => "javascript:void window.open('http://www.icq.com/people/?searched=1&tos=friend&f=TypeOfSearch&donline_only=on&uin=" . $user->getVar('user_icq')."', 'new');", "name" => _MD_ICQ, "image" => iforum_displayImage($forumImage['icq'], _MD_ICQ));
@@ -202,9 +202,12 @@ class User extends XoopsObject {
 		}
 		else
 		{
-			$info = _MD_LEVEL . " " . $level['level'] . "; ". _MD_EXP . " " . $level['exp'] . "<br />";
-			$info .= _MD_HP . " " . $level['hp'] . " / " . $level['hp_max'] . "<br />";
-			$info .= _MD_MP . " " . $level['mp'] . " / " . $level['mp_max'];
+			$info = "<div class='comUserLevel'>";
+			$info .= "<span><a href='#' title=' ". _MD_LEVEL_MOD_LEVEL ." '>" . _MD_LEVEL . "</a> " . $level['level'] . "</span>";
+			$info .= "<span><a href='#' title=' ". _MD_LEVEL_MOD_EXP ." '>" . _MD_EXP . "</a> " . $level['exp'] . "</span>";
+			$info .= "<span><a href='#' title=' ". _MD_LEVEL_MOD_HP ." '>" . _MD_HP . "</a> " . $level['hp'] . " / " . $level['hp_max'] . "</span>";
+			$info .= "<span><a href='#' title=' ". _MD_LEVEL_MOD_MP ." '>" . _MD_MP . "</a> " . $level['mp'] . " / " . $level['mp_max'] . "</span>";
+			$info .= "</div>";
 		}
 		return $info;
 	}
