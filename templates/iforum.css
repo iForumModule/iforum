@@ -190,6 +190,7 @@ div.dropdown .userbar a:hover{
 .Userrow_left { width: 200px; float: left; vertical-align: middle;}
 .Userrow_center {float: left; }
 .Userrow_right { width: 300px; float: right; }
+.comUserLevel span {display: block;}
 
 /* For hiding extras*/
 div#extras {
