@@ -187,11 +187,11 @@
 		<{/if}>
         </div>
         </td>
-      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$forum.forum_topics}></p><{$smarty.const._MD_TOPICS}></td>
-      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$forum.forum_posts}></p><{$smarty.const._MD_POSTS}></td>
-      	<td style="width:25%;vertical-align:middle;text-align:<{$smarty.const._GLOBAL_RIGHT}>;"><{$smarty.const._MD_LASTPOST}> <{$forum.forum_lastpost_icon}><br />
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{if $forum.subforum}><{else}><{$forum.forum_topics}></p><{$smarty.const._MD_TOPICS}><{/if}></td>
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{if $forum.subforum}><{else}><{$forum.forum_posts}></p><{$smarty.const._MD_POSTS}><{/if}></td>
+      	<td style="width:25%;vertical-align:middle;text-align:<{$smarty.const._GLOBAL_RIGHT}>;"><{if $forum.subforum}><{else}><{$smarty.const._MD_LASTPOST}> <{$forum.forum_lastpost_icon}><br />
       		<{$forum.forum_lastpost_time}><br />
-			<{$forum.forum_lastpost_user}>
+			<{$forum.forum_lastpost_user}><{/if}>
 		</td>
     </tr>
 <{/foreach}>
