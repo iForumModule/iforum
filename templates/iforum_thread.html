@@ -26,7 +26,7 @@
 				<img src="<{$icms_url}>/modules/<{$icms_dirname}>/images/userrow_right.png" /></a>
 				<{foreach item=bar from=$topic_post.poster.userbar}>
 				<{if $bar}>
-				<a class="UserLink" href="<{$bar.link}>" title="<{$bar.name}>"<{if $bar.pm}> rel="lightbox"<{/if}>><{$bar.image}></a>
+				<a class="UserLink" href="javascript:openWithSelfMain('<{$bar.link}>','pmlite',800,680);" title="<{$bar.name}>"><{$bar.image}></a>
 				<{/if}>
 				<{/foreach}>
 			</div>
