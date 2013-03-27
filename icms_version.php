@@ -25,7 +25,7 @@
  
 $modulename = basename(dirname(__FILE__ ) );
 $modversion['name'] = _MI_IFORUM_NAME;
-$modversion['version'] = 1.00;
+$modversion['version'] = 2.00;
 $modversion['description'] = _MI_IFORUM_DESC;
 $modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
 $modversion['author'] = "stranger";
@@ -41,8 +41,9 @@ $modversion['author_website_url'] = "http://community.impresscms.org/modules/new
 $modversion['author_website_name'] = _IMPRESSCMS_COMMUNITY;
 $modversion['author_email'] = "pesian_stranger@users.sourceforge.net";
 $modversion['author_email'] = "php_pp@hotmail.com";
-$modversion['status_version'] = "Final";
-$modversion['status'] = "Final";
+$modversion['status_version'] = "RC";
+$modversion['status'] = "RC";
+$modversion['date'] = "Mar. 27th 2013";
 $modversion['warning'] = _CO_ICMS_WARNING_FINAL;
  
 $modversion['demo_site_url'] = "http://community.impresscms.org/modules/newbb/";
