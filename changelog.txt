@@ -2,8 +2,24 @@ IFORUM
 
 ImpressCMS bulletin Board, for ImpressCMS >= 1.2
 
-iforum, is fork of newbb (aka CBB), at this stage it just has some minor changes to work efficient with ImpressCMS >= 1.1 
-We will have a total code re-writing at a later stage!
+
+Changelog 2.0 Final
+27 March 2012
+=============
+1 Bugfix: Link for ICQ fixed (sato-san)
+2 Bugfix: Position from "document icons" and "post icon" optimized for a better view (sato-san)
+3 Bugfix: Editor selection dissabled, because the admin has to setup this function (sato-san)
+4 added: Lightbox for images within the postings added (sato-san)
+5 Bugfix: Replace all all TYPE=MyISAM to ENGINE=MyISAM (sato-san)
+6 Improved: Some parts of templates redesigned (sato-san)
+7 Improved: Mousepointer for the category icons for a better usability (sato-san)
+8 Bugfix: If a forum has subforum, the numbers for topics and posts are not longer dispalyed, since the summery of numbers are not available (sato-san)
+9 Bugfix: The navigation on top in the search template is available now (sato-san)
+10 Improved: Made the usebar lighter. Uniform icons (sato-san)
+11 Improved: Userbar in Text version with better design (sato-san)
+12 added: Japanese translation files (sato-san)
+13 Bugfix: Error in PM fixed (sato-san)
+
 
 Changelog 1.0 Final
 18 Sept 2011
