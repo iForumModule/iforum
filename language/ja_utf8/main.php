@@ -36,20 +36,20 @@
 	define('_MD_MODERATOR', '司会');
 	define('_MD_NEWPOSTS', '新しい記事');
 	define('_MD_NONEWPOSTS', '新しい投稿はありません');
-	define('_MD_PRIVATEFORUM', 'Inactiv Forum');
+	define('_MD_PRIVATEFORUM', '非アクティブフォーラム');
 	define('_MD_BY', 'by'); // Posted by
-	define('_MD_TOSTART', 'To start viewing messages, select the forum that you want to visit from the list below.');
+	define('_MD_TOSTART', 'メッセージの表示を開始するには、下のリストから訪問したいフォーラムを選択してください。');
 	define('_MD_TOTALTOPICSC', '総トピック: ');
 	define('_MD_TOTALPOSTSC', '合計投稿数: ');
-	define('_MD_TOTALUSER', 'Total Users: ');
+	define('_MD_TOTALUSER', '合計ユーザー: ');
 	define('_MD_TIMENOW', 'The time now is %s');
 	define('_MD_LASTVISIT', 'You last visited: %s');
 	define('_MD_ADVSEARCH', '高度な検索');
 	define('_MD_POSTEDON', '投稿日時: ');
 	define('_MD_SUBJECT', 'Subject');
-	define('_MD_INACTIVEFORUM_NEWPOSTS', 'Inactive forum with new posts');
-	define('_MD_INACTIVEFORUM_NONEWPOSTS', 'Inactive forum without new posts');
-	define('_MD_SUBFORUMS', 'Subforums');
+	define('_MD_INACTIVEFORUM_NEWPOSTS', '新しい記事で非アクティブフォーラム');
+	define('_MD_INACTIVEFORUM_NONEWPOSTS', '新しい投稿せずに非アクティブフォーラム');
+	define('_MD_SUBFORUMS', 'サブフォーラム');
 	define('_MD_MAINFORUMOPT', '主なオプション');
 	define("_MD_PENDING_POSTS_FOR_AUTH", "Posts pending approval:");
 	 
