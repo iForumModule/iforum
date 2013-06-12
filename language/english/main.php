@@ -36,7 +36,7 @@
 	define('_MD_MODERATOR', 'Moderator');
 	define('_MD_NEWPOSTS', 'New posts');
 	define('_MD_NONEWPOSTS', 'No new posts');
-	define('_MD_PRIVATEFORUM', 'Inactiv Forum');
+	define('_MD_PRIVATEFORUM', 'Inactive Forum');
 	define('_MD_BY', 'by'); // Posted by
 	define('_MD_TOSTART', 'To start viewing messages, select the forum that you want to visit from the list below.');
 	define('_MD_TOTALTOPICSC', 'Total Topics: ');
