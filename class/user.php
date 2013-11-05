@@ -22,12 +22,12 @@
 * @author  modified by stranger
 * @version  $Id $
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
 function iforum_getGroupsByUser($uid)
 {
@@ -49,16 +49,16 @@ function iforum_getGroupsByUser($uid)
 	{
 		$ret[$uid] = array_unique($groups);
 	}
-	 
+
 	return $ret;
 }
- 
+
 function get_user_level(& $user)
 {
-	 
+
 	$RPG = $user->getVar('posts');
 	$RPGDIFF = $user->getVar('user_regdate');
-	 
+
 	$today = time();
 	$diff = $today - $RPGDIFF;
 	$exp = round($diff / 86400, 0);
@@ -129,7 +129,7 @@ function get_user_level(& $user)
 	{
 		$mpf = $mpf - 2;
 	}
-	 
+
 	$level = array();
 	$level['level'] = $showlevel ;
 	$level['exp'] = $ep;
@@ -140,10 +140,10 @@ function get_user_level(& $user)
 	$level['mp'] = $mp;
 	$level['mp_max'] = $maxmp;
 	$level['mp_width'] = $mpf.'%';
-	 
+
 	return $level;
 }
- 
+
 class User extends XoopsObject {
 	var $user = null;
 	function User(&$user)
@@ -151,11 +151,11 @@ class User extends XoopsObject {
 		if (!is_object($user)) return null;
 		$this->user = &$user;
 	}
-	 
+
 	function &getUserbar()
 	{
 		global $isadmin, $forumImage;
-		 
+
 		$user = & $this->user;
 		$userbar = array();
 		$userbar[] = array("link" => ICMS_URL . "/userinfo.php?uid=" . $user->getVar("uid"), "name" => _PROFILE, "image" => iforum_displayImage($forumImage['personal'], _PROFILE));
@@ -186,7 +186,7 @@ class User extends XoopsObject {
 		$userbar[] = array("link" => "javascript:void window.open('http://members.msn.com?mem=" . $user->getVar('user_msnm') . "', 'new');", "name" => _MD_MSNM, "image" => iforum_displayImage($forumImage['msnm'], _MD_MSNM));
 		return $userbar;
 	}
-	 
+
 	function getLevel()
 	{
 		global $forumUrl;
@@ -195,7 +195,7 @@ class User extends XoopsObject {
 		if (icms::$module->config['user_level'] == 2)
 		{
 			$table = "<table class='userlevel'><tr><td class='end'><img src='" . $forumUrl['images_set'] . "/rpg/img_"._GLOBAL_LEFT.".gif' alt='' /></td><td class='center' background='" . $forumUrl['images_set'] . "/rpg/img_backing.gif'><img src='" . $forumUrl['images_set'] . "/rpg/%s.gif' width='%d' alt='' /></td><td><img src='" . $forumUrl['images_set'] . "/rpg/img_"._GLOBAL_RIGHT.".gif' alt='' /></td></tr></table>";
-			 
+
 			$info = _MD_LEVEL . " " . $level['level'] . "<br />" . _MD_HP . " " . $level['hp'] . " / " . $level['hp_max'] . "<br />". sprintf($table, "orange", $level['hp_width']);
 			$info .= _MD_MP . " " . $level['mp'] . " / " . $level['mp_max'] . "<br />". sprintf($table, "green", $level['mp_width']);
 			$info .= _MD_EXP . " " . $level['exp'] . "<br />". sprintf($table, "blue", $level['exp_width']);
@@ -211,7 +211,7 @@ class User extends XoopsObject {
 		}
 		return $info;
 	}
-	 
+
 	function getInfo()
 	{
 		global $myts;
@@ -230,6 +230,10 @@ class User extends XoopsObject {
 		{
 			$userinfo_avatar = $user->gravatar('G', $icmsConfigUser['avatar_width']);
 		}
+        else
+        {
+            $userinfo_avatar = ICMS_UPLOAD_URL . '/' . $user->getVar('user_avatar');
+        }
 		$userinfo["avatar"] = $userinfo_avatar;
 		$userinfo["from"] = $user->getVar('user_from');
 		$userinfo["regdate"] = formatTimestamp($user->getVar('user_regdate'), 'c');
@@ -243,7 +247,7 @@ class User extends XoopsObject {
 		{
 			$userinfo["userbar"] = $this->getUserbar();
 		}
-		 
+
 		$rank = $user->rank();
 		$userinfo['rank']["title"] = $rank['title'];
 		if (!empty($rank['image'])) {
@@ -254,17 +258,17 @@ class User extends XoopsObject {
 		return $userinfo;
 	}
 }
- 
+
 class IforumUserHandler extends icms_core_ObjectHandler {
 	var $users = array();
 	var $groups = array();
 	var $status = array();
-	 
+
 	function &get($uid)
 	{
 		global $forumImage;
 		$userinfo = array();
-		 
+
 		if (!isset($this->users[$uid])) return $userinfo;
 		if (class_exists("User_language"))
 		{
@@ -289,7 +293,7 @@ class IforumUserHandler extends icms_core_ObjectHandler {
 		}
 		return $userinfo;
 	}
-	 
+
 	function setUsers(&$users)
 	{
 		$groups = iforum_getGroupsByUser(array_keys($users));
@@ -299,17 +303,17 @@ class IforumUserHandler extends icms_core_ObjectHandler {
 		}
 		$this->users = &$users;
 	}
-	 
+
 	function setGroups(&$groups)
 	{
 		$this->groups = &$groups;
 	}
-	 
+
 	function setStatus(&$status)
 	{
 		$this->status = &$status;
 	}
-	
+
 	function &create() {}
 	function insert(&$object) {}
 	function delete(&$object) {}
