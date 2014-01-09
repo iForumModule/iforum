@@ -435,13 +435,13 @@ class IforumForumHandler extends ArtObjectHandler {
 					else
 					{
 						$topic_page_jump .= '[<a href="viewtopic.php?topic_id=' . $myrow['topic_id'] . '&amp;start=' . (($i - 1) * icms::$module->config['posts_per_page']) . '">' . $i . '</a>]';
-						$topic_page_jump_icon = "<a class='doicon' href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * icms::$module->config['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
+						$topic_page_jump_icon = "<a class='doicon' href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "&amp;start=" . (($i - 1) * icms::$module->config['posts_per_page']) . "#forumpost" . $myrow['post_id'] . "'>" . _MD_LASTPOST . "&nbsp;" . iforum_displayImage($forumImage['docicon']) . "</a>";
 					}
 				}
 			}
 			else
 			{
-				$topic_page_jump_icon = "<a class='doicon' href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>" . iforum_displayImage($forumImage['docicon']) . "</a>";
+				$topic_page_jump_icon = "<a class='doicon' href='" . ICMS_URL . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=" . $myrow['topic_id'] . "#forumpost" . $myrow['post_id'] . "'>"  . _MD_LASTPOST . "&nbsp;" . iforum_displayImage($forumImage['docicon']) . "</a>";
 			}
 			// ------------------------------------------------------
 			// => topic array
@@ -896,7 +896,7 @@ class IforumForumHandler extends ArtObjectHandler {
 			}
 			 
 			$_forum_data['forum_lastpost_time'] = formatTimestamp($post_obj->getVar('post_time'));
-			$_forum_data['forum_lastpost_icon'] = '<a href="' . ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '">'. '<img src="' . ICMS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'. '</a>';
+			$_forum_data['forum_lastpost_icon'] = '<a href="' . ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '"> ' . _MD_LASTPOST . ' <img src="' . ICMS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'. '</a>';
 			endif;
 			 
 			if (empty($forum_isread[$id]))
