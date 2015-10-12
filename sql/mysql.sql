@@ -23,7 +23,7 @@ CREATE TABLE `bb_archive` (
   `topic_id` int(8) unsigned NOT NULL default '0',
   `post_id` int(10) unsigned NOT NULL default '0',
   `post_text` text NOT NULL
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `bb_attachments` (
   `download` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`attach_id`),
   KEY `post_id` (`post_id`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,7 @@ CREATE TABLE `bb_categories` (
   `cat_url` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`cat_id`),
   KEY `cat_order` (`cat_order`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,7 @@ CREATE TABLE `bb_digest` (
   `digest_content` text,
   PRIMARY KEY  (`digest_id`),
   KEY `digest_time` (`digest_time`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE `bb_forums` (
   KEY `cat_forum` (`cat_id`,`forum_order`),
   KEY `forum_order` (`forum_order`),
   KEY `cat_id` (`cat_id`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -126,7 +126,7 @@ CREATE TABLE `bb_moderates` (
   KEY `uid` (`uid`),
   KEY `mod_end` (`mod_end`),
   KEY `forum_id` (`forum_id`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ CREATE TABLE `bb_online` (
   KEY `online_forum` (`online_forum`),
   KEY `online_topic` (`online_topic`),
   KEY `online_updated` (`online_updated`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -184,7 +184,7 @@ CREATE TABLE `bb_posts` (
   KEY `post_time` (`post_time`),
   KEY `topicid_postid_pid` (`topic_id`,`post_id`,`pid`),
   FULLTEXT KEY `search` (`subject`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -198,7 +198,7 @@ CREATE TABLE `bb_posts_text` (
   `post_edit` text,
   PRIMARY KEY  (`post_id`),
   FULLTEXT KEY `search` (`post_text`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -216,7 +216,7 @@ CREATE TABLE `bb_reads_forum` (
   KEY `uid` (`uid`),
   KEY `read_item` (`read_item`),
   KEY `post_id` (`post_id`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -234,7 +234,7 @@ CREATE TABLE `bb_reads_topic` (
   KEY `uid` (`uid`),
   KEY `read_item` (`read_item`),
   KEY `post_id` (`post_id`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -253,7 +253,7 @@ CREATE TABLE `bb_report` (
   `report_memo` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`report_id`),
   KEY `post_id` (`post_id`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -290,7 +290,7 @@ CREATE TABLE `bb_topics` (
   KEY `topic_sticky` (`topic_sticky`),
   KEY `topic_digest` (`topic_digest`),
   KEY `digest_time` (`digest_time`)
-) ENGINE=MyISAM;
+);
 
 -- --------------------------------------------------------
 
@@ -309,4 +309,4 @@ CREATE TABLE `bb_votedata` (
   KEY `ratinguser` (`ratinguser`),
   KEY `ratinghostname` (`ratinghostname`),
   KEY `topic_id` (`topic_id`)
-) ENGINE=MyISAM;
+);
