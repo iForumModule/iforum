@@ -1,4 +1,4 @@
-//  ------------------------------------------------------------------------ //
+<pre>//  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
 //                       <http://www.xoops.org/>                             //
@@ -25,7 +25,7 @@
 //  Author: phppp (D.J., infomax@gmail.com)                                  //
 //  URL: http://xoopsforge.com, http://xoops.org.cn                          //
 //  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+//  ------------------------------------------------------------------------ //</pre>
 
 iForum is now being developed by Sina Asghari (stranger), this module has earlier been developed by
 Marko Schmuck (predator) and D.J. (phppp) under the name of newbb (CBB).
