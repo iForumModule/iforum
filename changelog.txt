@@ -4,7 +4,7 @@ ImpressCMS bulletin Board, for ImpressCMS >= 1.2
 
 
 Changelog 2.0 Final
-27 March 2012
+29 November 2017
 =============
 1 Bugfix: Link for ICQ fixed (sato-san)
 2 Bugfix: Position from "document icons" and "post icon" optimized for a better view (sato-san)
@@ -19,6 +19,7 @@ Changelog 2.0 Final
 11 Improved: Userbar in Text version with better design (sato-san)
 12 added: Japanese translation files (sato-san)
 13 Bugfix: Error in PM fixed (sato-san)
+14 Improved: updated version number format to string and corrected several URLs in icms_version
 
 
 Changelog 1.0 Final
