@@ -25,10 +25,10 @@
  
 $modulename = basename(dirname(__FILE__ ) );
 $modversion['name'] = _MI_IFORUM_NAME;
-$modversion['version'] = 2.00;
+$modversion['version'] = "2.00";
 $modversion['description'] = _MI_IFORUM_DESC;
 $modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
-$modversion['author'] = "stranger";
+$modversion['author'] = "fiammybe";
 $modversion['license'] = "GNU General Public License (GPL) see LICENSE";
 $modversion['iconsmall'] = "images/imforum_iconsmall.png";
 $modversion['iconbig'] = "images/imforum_iconbig.png";
@@ -36,22 +36,21 @@ $modversion['image'] = "images/imforum_icon.png";
 $modversion['dirname'] = $modulename;
 $modversion['modname'] = 'iforum';
  
-$modversion['author_realname'] = "Sina Asghari";
-$modversion['author_website_url'] = "http://community.impresscms.org/modules/newbb/";
-$modversion['author_website_name'] = _IMPRESSCMS_COMMUNITY;
-$modversion['author_email'] = "pesian_stranger@users.sourceforge.net";
-$modversion['author_email'] = "php_pp@hotmail.com";
-$modversion['status_version'] = "trunk";
-$modversion['status'] = "trunk";
-$modversion['date'] = "Mar. 27th 2013";
+$modversion['author_realname'] = "David Janssens";
+$modversion['author_website_url'] = "http://www.davidjanssens.be";
+$modversion['author_website_name'] = "David Home";
+$modversion['author_email'] = "david.j@impresscms.org";
+$modversion['status_version'] = "Final";
+$modversion['status'] = "Final";
+$modversion['date'] = "Nov 27th 2017";
 $modversion['warning'] = _CO_ICMS_WARNING_FINAL;
  
-$modversion['demo_site_url'] = "http://community.impresscms.org/modules/newbb/";
+$modversion['demo_site_url'] = "https://www.impresscms.org/modules/iforum/";
 $modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
-$modversion['support_site_url'] = "http://community.impresscms.org/modules/newbb/";
-$modversion['support_site_name'] = "ImpressCMS community website";
-$modversion['submit_feature'] = "http://community.impresscms.org/modules/newbb/";
-$modversion['submit_bug'] = "http://community.impresscms.org/modules/newbb/";
+$modversion['support_site_url'] = "https://www.impresscms.org/modules/iforum/";
+$modversion['support_site_name'] = "ImpressCMS Community Forum";
+$modversion['submit_feature'] = "https://www.impresscms.org/modules/iforum/";
+$modversion['submit_bug'] = "https://www.impresscms.org/modules/iforum/";
  
 include_once(ICMS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
 include_once(ICMS_ROOT_PATH."/modules/".$modulename."/include/functions.php");
