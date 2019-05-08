@@ -1,1 +1,3 @@
-This is a first attempt at a github page
+iForum is a full-featured discussion forum for ImpressCMS.
+
+[Templates](templates.md)
