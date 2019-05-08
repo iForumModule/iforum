@@ -27,6 +27,8 @@
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //</pre>
 
+Documentation for the iForum module is available on https://iforummodule.github.io/iforum/ 
+
 iForum is now being developed by Sina Asghari (stranger), this module has earlier been developed by
 Marko Schmuck (predator) and D.J. (phppp) under the name of newbb (CBB).
 ==========================================================
