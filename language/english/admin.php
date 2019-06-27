@@ -1,5 +1,4 @@
 <?php
-	$constpref = '_AM_IFORUM';
 	define("_AM_IFORUM_FORUMCONF", "Forum Configuration");
 	define("_AM_IFORUM_ADDAFORUM", "Add a Forum");
 	define("_AM_IFORUM_SYNCFORUM", "Sync forum");
