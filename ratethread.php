@@ -33,8 +33,8 @@ foreach(array("topic_id", "rate", "forum") as $var)
 {
 	$ {
 		$var }
-	 = isset($_POST[$var]) ? intval($_POST[$var]) :
-	 (isset($_GET[$var])?intval($_GET[$var]):0);
+	 = isset($_POST[$var]) ? (int)$_POST[$var] :
+	 (isset($_GET[$var])?(int)$_GET[$var]:0);
 }
  
 $topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );

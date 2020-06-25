@@ -26,11 +26,11 @@
 error_reporting(0);
 include 'header.php';
  
-$forum = isset($_GET['forum']) ? intval($_GET['forum']) :
+$forum = isset($_GET['forum']) ? (int)$_GET['forum'] :
  0;
-$topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) :
+$topic_id = isset($_GET['topic_id']) ? (int)$_GET['topic_id'] :
  0;
-$post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) :
+$post_id = !empty($_GET['post_id']) ? (int)$_GET['post_id'] :
  0;
  
 if (empty($post_id))

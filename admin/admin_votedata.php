@@ -31,8 +31,8 @@ $op = !empty($_GET['op'])? $_GET['op'] :
 switch ($op) {
 	case "delvotes":
 	global $_GET;
-	$rid = intval($_GET['rid']);
-	$topic_id = intval($_GET['topic_id']);
+	$rid = (int)$_GET['rid'];
+	$topic_id = (int)$_GET['topic_id'];
 	$sql = icms::$xoopsDB->queryF("DELETE FROM " . icms::$xoopsDB->prefix('bb_votedata') . " WHERE ratingid = $rid");
 	icms::$xoopsDB->query($sql);
 	iforum_updaterating($topic_id);
@@ -41,7 +41,7 @@ switch ($op) {
 	 
 	case 'main':
 	default:
-	$start = isset($_GET['start']) ? intval($_GET['start']) :
+	$start = isset($_GET['start']) ? (int)$_GET['start'] :
 	 0;
 	$useravgrating = '0';
 	$uservotes = '0';

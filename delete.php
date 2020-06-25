@@ -44,7 +44,7 @@ foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'act') as $getint
 	)?$ {
 		$getint }
 	:
-	(isset($_GET[$getint]) ? intval($_GET[$getint]) : 0);
+	(isset($_GET[$getint]) ? (int)$_GET[$getint] : 0);
 }
 $viewmode = (isset($_GET['viewmode']) && $_GET['viewmode'] != 'flat') ? 'thread' :
  'flat';

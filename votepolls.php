@@ -33,27 +33,27 @@ include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
  
 if (!empty($_POST['poll_id']) )
 {
-	$poll_id = intval($_POST['poll_id']);
+	$poll_id = (int)$_POST['poll_id'];
 }
 elseif (!empty($_GET['poll_id']))
 {
-	$poll_id = intval($_GET['poll_id']);
+	$poll_id = (int)$_GET['poll_id'];
 }
 if (!empty($_POST['topic_id']) )
 {
-	$topic_id = intval($_POST['topic_id']);
+	$topic_id = (int)$_POST['topic_id'];
 }
 elseif (!empty($_GET['topic_id']))
 {
-	$topic_id = intval($_GET['topic_id']);
+	$topic_id = (int)$_GET['topic_id'];
 }
 if (!empty($_POST['forum']) )
 {
-	$forum = intval($_POST['forum']);
+	$forum = (int)$_POST['forum'];
 }
 elseif (!empty($_GET['forum']))
 {
-	$forum = intval($_GET['forum']);
+	$forum = (int)$_GET['forum'];
 }
  
 $topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );

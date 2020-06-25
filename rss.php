@@ -30,7 +30,7 @@ icms::$logger->activated = FALSE;
  
 $forums = null;
 $category = empty($_GET["c"])?null:
-intval($_GET["c"]);
+(int)$_GET["c"];
 if (isset($_GET["f"]))
 {
 	$forums = array_map("intval", array_map("trim", explode("|", $_GET["f"])));

@@ -28,7 +28,7 @@ foreach (array('forum', 'order') as $getint)
 {
 	$ {
 		$getint }
-	 = isset($_GET[$getint]) ? intval($_GET[$getint]) :
+	 = isset($_GET[$getint]) ? (int)$_GET[$getint] :
 	 0;
 }
 if (isset($_GET['op'])) $op = $_GET['op'];

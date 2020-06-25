@@ -27,18 +27,18 @@ include 'header.php';
 // To enable image auto-resize by js
 $icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
  
-$start = !empty($_GET['start']) ? intval($_GET['start']) :
+$start = !empty($_GET['start']) ? (int)$_GET['start'] :
  0;
-$forum_id = !empty($_GET['forum']) ? intval($_GET['forum']) :
+$forum_id = !empty($_GET['forum']) ? (int)$_GET['forum'] :
  0;
 $order = isset($_GET['order'])?$_GET['order']:
 "DESC";
  
-$uid = !empty($_GET['uid']) ? intval($_GET['uid']) :
+$uid = !empty($_GET['uid']) ? (int)$_GET['uid'] :
  0;
 $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "new")))? $_GET['type'] :
  "";
-$mode = !empty($_GET['mode']) ? intval($_GET['mode']) :
+$mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")) )?2:$mode;
  

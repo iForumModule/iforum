@@ -174,7 +174,7 @@ switch ($op)
 	 
 	if (!empty($_POST['dest']))
 	{
-		if (!empty($_GET['forum'])) $forum_id = intval($_GET['forum']);
+		if (!empty($_GET['forum'])) $forum_id = (int)$_GET['forum'];
 			if (!empty($_POST['forum'])) $forum_id = intval($_POST['forum']);
 			 
 		$dest = $_POST['dest'];
@@ -217,14 +217,14 @@ switch ($op)
 	{
 		//loadModuleAdminMenu(2, "");
 		 
-		if (!empty($_POST['forum'])) $forum_id = intval($_POST['forum']);
-			if (!empty($_GET['forum'])) $forum_id = intval($_GET['forum']);
+		if (!empty($_POST['forum'])) $forum_id = (int)$_POST['forum'];
+			if (!empty($_GET['forum'])) $forum_id = (int)$_GET['forum'];
 			//$forum =$forum_handler->get($forum_id);
 		 
 		$box = '<select name="dest">';
 		$box .= '<option value=0 selected>' . _AM_IFORUM_SELECT . '</option>';
 		 
-		$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$category_handler = icms_getmodulehandler('category', basename(dirname(__DIR__) ), 'iforum' );
 		$categories = $category_handler->getAllCats('', true);
 		$forums = $forum_handler->getForumsByCategory(array_keys($categories), '', false);
 		 
@@ -259,8 +259,8 @@ switch ($op)
 	 
 	if (!empty($_POST['dest_forum']))
 	{
-		if (isset($_GET['forum'])) $forum_id = intval($_GET['forum']);
-			if (isset($_POST['forum'])) $forum_id = intval($_POST['forum']);
+		if (isset($_GET['forum'])) $forum_id = (int)$_GET['forum'];
+			if (isset($_POST['forum'])) $forum_id = (int)$_POST['forum'];
 			 
 		$sql = "UPDATE " . icms::$xoopsDB->prefix('bb_posts') . " SET forum_id=" . $_POST['dest_forum'] . " WHERE forum_id=$forum";
 		$result = icms::$xoopsDB->queryF($sql);
@@ -293,8 +293,8 @@ switch ($op)
 	{
 		//loadModuleAdminMenu(2, "");
 		 
-		if (isset($_GET['forum'])) $forum_id = intval($_GET['forum']);
-			if (isset($_POST['forum'])) $forum_id = intval($_POST['forum']);
+		if (isset($_GET['forum'])) $forum_id = (int)$_GET['forum'];
+			if (isset($_POST['forum'])) $forum_id = (int)$_POST['forum'];
 			//$forum =$forum_handler->get($forum_id);
 		 
 		$box = '<select name="dest_forum">';
@@ -449,7 +449,7 @@ switch ($op)
 	 
 	if (isset($_POST['confirm']) != 1)
 	{
-		xoops_confirm(array('op' => 'del', 'forum' => intval($_GET['forum']), 'confirm' => 1), 'admin_forum_manager.php', _AM_IFORUM_TWDAFAP);
+		xoops_confirm(array('op' => 'del', 'forum' => (int)$_GET['forum'], 'confirm' => 1), 'admin_forum_manager.php', _AM_IFORUM_TWDAFAP);
 		break;
 	}
 	else
@@ -547,7 +547,7 @@ switch ($op)
 	loadModuleAdminMenu(2, _AM_IFORUM_CREATENEWFORUM);
 	echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_IFORUM_CREATENEWFORUM . "</legend>";
 	echo "<br />";
-	$parent_forum = isset($_GET['parent_forum']) ? intval($_GET['parent_forum']) : null;
+	$parent_forum = isset($_GET['parent_forum']) ? (int)$_GET['parent_forum'] : null;
 	 
 	newForum($parent_forum);
 	 
@@ -563,8 +563,8 @@ switch ($op)
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_CREATENEWFORUM . "</legend>";
 	echo "<br />";
 	 
-	//$parent_forum = isset($_GET['parent_forum']) ? intval($_GET['parent_forum']) : null;
-	newForum(@intval($_GET['parent_forum']));
+	//$parent_forum = isset($_GET['parent_forum']) ? (int)$_GET['parent_forum'] : null;
+	newForum(@(int)$_GET['parent_forum']);
 	 
 	echo "</fieldset>";
 	break;

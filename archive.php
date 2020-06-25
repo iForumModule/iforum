@@ -32,9 +32,9 @@ die('Sorry, this feature is not ready yet!<br />');
  
 include_once("header.php");
 include ICMS_ROOT_PATH."/header.php";
-$forum = isset($_GET['forum']) ? intval($_GET['forum']) :
+$forum = isset($_GET['forum']) ? (int)$_GET['forum'] :
  0;
-$topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) :
+$topic_id = isset($_GET['topic_id']) ? (int)$_GET['topic_id'] :
  0;
  
 if ($forum == 0)

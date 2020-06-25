@@ -28,7 +28,7 @@ foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'start') as $geti
 {
 	$ {
 		$getint }
-	 = isset($_GET[$getint]) ? intval($_GET[$getint]) :
+	 = isset($_GET[$getint]) ? (int)$_GET[$getint] :
 	 0;
 }
 $viewmode = (isset($_GET['viewmode']) && $_GET['viewmode'] != 'flat') ? 'thread' :

@@ -33,7 +33,7 @@ if (empty($_GET['forum']) )
  
 if (isset($_GET['mark_read']))
 	{
-	if (1 == intval($_GET['mark_read']))
+	if (1 == (int)$_GET['mark_read'])
 	{
 		// marked as read
 		$markvalue = 1;
@@ -50,10 +50,10 @@ if (isset($_GET['mark_read']))
 	redirect_header($url, 2, $markresult);
 }
  
-$forum_id = intval($_GET['forum']);
+$forum_id = (int)$_GET['forum'];
 $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "digest", "unreplied", "unread")))? $_GET['type'] :
  "";
-$mode = !empty($_GET['mode']) ? intval($_GET['mode']) :
+$mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?2:
 $mode;
@@ -183,7 +183,7 @@ $forum_selection_order .= '</select>';
  
 $icmsTpl->assign_by_ref('forum_selection_order', $forum_selection_order);
  
-$since = isset($_GET['since']) ? intval($_GET['since']) :
+$since = isset($_GET['since']) ? (int)$_GET['since'] :
  icms::$module->config["since_default"];
 $forum_selection_since = iforum_sinceSelectBox($since);
  
@@ -199,7 +199,7 @@ $icmsTpl->assign('forum_since', $since); // For $since in search.php
  
 $startdate = empty($since)?0:
 (time() - iforum_getSinceTime($since));
-$start = !empty($_GET['start']) ? intval($_GET['start']) :
+$start = !empty($_GET['start']) ? (int)$_GET['start'] :
  0;
  
 list($allTopics, $sticky) = $forum_handler->getAllTopics($forum_obj, $startdate, $start, $sortname, $sortorder, $type, icms::$module->config['post_excerpt']);

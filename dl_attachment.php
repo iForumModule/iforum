@@ -29,7 +29,7 @@ include ICMS_ROOT_PATH.'/header.php';
  
 $attach_id = isset($_GET['attachid']) ? strval($_GET['attachid']) :
  '';
-$post_id = isset($_GET['post_id']) ? intval($_GET['post_id']) :
+$post_id = isset($_GET['post_id']) ? (int)$_GET['post_id'] :
  0;
  
 if (!$post_id || !$attach_id) die(_MD_NO_SUCH_FILE.': post_id:'.$post_id.'; attachid'.$attachid);

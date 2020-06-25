@@ -30,9 +30,9 @@ if (!defined('ICMS_ROOT_PATH'))
  
 if (empty($forum_obj))
 {
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
-	$forum = isset($_GET['forum']) ? intval($_GET['forum']) :
-	 (isset($forum) ? intval($forum) : 0);
+	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__DIR__) ), 'iforum' );
+	$forum = isset($_GET['forum']) ? (int)$_GET['forum'] :
+	 (isset($forum) ? (int)$forum : 0);
 	$forum_obj = $forum_handler->get($forum);
 }
  
@@ -47,7 +47,7 @@ foreach (array(
 {
 	$ {
 		$getint }
-	 = isset($_GET[$getint]) ? intval($_GET[$getint]) :
+	 = isset($_GET[$getint]) ? (int)$_GET[$getint] :
 	((!empty($ {
 		$getint }
 	))?$ {

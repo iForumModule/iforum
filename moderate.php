@@ -25,9 +25,9 @@
  
 include 'header.php';
  
-$forum_id = isset($_POST['forum']) ? intval($_POST['forum']) :
+$forum_id = isset($_POST['forum']) ? (int)$_POST['forum'] :
  0;
-$forum_id = isset($_GET['forum']) ? intval($_GET['forum']) :
+$forum_id = isset($_GET['forum']) ? (int)$_GET['forum'] :
  $forum_id;
  
 $isadmin = iforum_isAdmin($forum_id);
@@ -111,7 +111,7 @@ elseif(!empty($_GET["del"]))
 	}
 }
  
-$start = isset($_GET['start']) ? intval($_GET['start']) :
+$start = isset($_GET['start']) ? (int)$_GET['start'] :
  0;
 $sortname = isset($_GET['sort']) ? $_GET['sort'] :
  "";

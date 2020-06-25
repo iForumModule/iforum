@@ -28,7 +28,7 @@ include "header.php";
 /* deal with marks */
 if (isset($_GET['mark_read']))
 	{
-	if (1 == intval($_GET['mark_read']))
+	if (1 == (int)$_GET['mark_read'])
 	{
 		// marked as read
 		$markvalue = 1;
@@ -45,7 +45,7 @@ if (isset($_GET['mark_read']))
 	redirect_header($url, 2, _MD_ALL_FORUM_MARKED.' '.$markresult);
 }
  
-$viewcat = @intval($_GET['cat']);
+$viewcat = @(int)$_GET['cat'];
 $category_handler = icms_getmodulehandler('category', basename(__DIR__), 'iforum' );
  
 $categories = array();
@@ -186,7 +186,7 @@ $icmsTpl->assign('down', iforum_displayImage($forumImage['doubledown']));
  
 $isadmin = iforum_isAdmin();
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
-$mode = (!empty($_GET['mode'])) ? intval($_GET['mode']) :
+$mode = (!empty($_GET['mode'])) ? (int)$_GET['mode'] :
  0;
 $icmsTpl->assign('mode', $mode );
  

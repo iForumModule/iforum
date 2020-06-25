@@ -27,19 +27,19 @@ include 'header.php';
 // To enable image auto-resize by js
 $icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
  
-$topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) :
+$topic_id = isset($_GET['topic_id']) ? (int)$_GET['topic_id'] :
  0;
-$post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) :
+$post_id = !empty($_GET['post_id']) ? (int)$_GET['post_id'] :
  0;
-$forum_id = !empty($_GET['forum']) ? intval($_GET['forum']) :
+$forum_id = !empty($_GET['forum']) ? (int)$_GET['forum']:
  0;
 $move = isset($_GET['move'])? strtolower($_GET['move']) :
  '';
-$start = !empty($_GET['start']) ? intval($_GET['start']) :
+$start = !empty($_GET['start']) ? (int)$_GET['start'] :
  0;
 $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted")))? $_GET['type'] :
  "";
-$mode = !empty($_GET['mode']) ? intval($_GET['mode']) :
+$mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  (!empty($type)?2:0);
  
 if (!$topic_id && !$post_id )

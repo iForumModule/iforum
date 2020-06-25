@@ -41,7 +41,7 @@ else
 	{
 		$ {
 			$getint }
-		 = isset($_GET[$getint]) ? intval($_GET[$getint]) :
+		 = isset($_GET[$getint]) ? (int)$_GET[$getint] :
 		 0;
 	}
 }
