@@ -188,7 +188,7 @@ class IforumOnlineHandler {
 			return false;
 		}
 		 
-		$mysql_version = substr(trim(mysql_get_server_info()), 0, 3);
+		$mysql_version = "5.0";
 		/* for MySQL 4.1+ */
 		if ($mysql_version >= "4.1"):
 		 
