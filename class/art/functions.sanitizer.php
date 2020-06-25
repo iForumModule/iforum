@@ -65,4 +65,3 @@ function text_filter(&$text, $force = false)
 }
 
 endif;
-?>

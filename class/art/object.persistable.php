@@ -396,4 +396,3 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
 	function insert(&$object) {}
 	function delete(&$object) {}
 }
-?>

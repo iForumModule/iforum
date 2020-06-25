@@ -32,7 +32,7 @@ class ArtObjectWriteHandler
      */
     var $_handler;
     
-    function ArtObjectWriteHandler(&$handler) {
+    function __construct(&$handler) {
 	    $this->_handler =& $handler; 
     }
 
@@ -225,4 +225,3 @@ class ArtObjectWriteHandler
         return true;
     }
 }
-?>

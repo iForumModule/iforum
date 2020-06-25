@@ -113,4 +113,3 @@ function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
 }
 
 endif;
-?>

@@ -28,15 +28,15 @@ load_functions("admin");
  */
 function mod_getMysqlVersion($conn = null)
 {
-    static $mysql_version;
+/*    static $mysql_version;
     if (isset($mysql_version)) return $mysql_version;
     if (!is_null($conn)) {
 	    $version = mysql_get_server_info($conn);
     } else {
 	    $version = mysql_get_server_info();
     }
-    return $mysql_version;
+    return $mysql_version;*/
+return 11;
 }
 
 endif;
-?>

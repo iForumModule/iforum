@@ -162,4 +162,3 @@ function mod_getDirname($current_path= null)
 }
 
 endif;
-?>

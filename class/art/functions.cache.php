@@ -133,4 +133,3 @@ function mod_clearSmartyCache($pattern = "")
 }
 
 endif;
-?>

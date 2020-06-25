@@ -32,7 +32,7 @@ class ArtObjectJointHandler
      */
     var $_handler;
     
-    function ArtObjectJointHandler(&$handler) {
+    function __construct(&$handler) {
 	    $this->_handler =& $handler; 
     }
 	
@@ -159,4 +159,3 @@ class ArtObjectJointHandler
         return icms::$xoopsDB->query($sql);
     }
 }
-?>

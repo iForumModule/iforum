@@ -36,7 +36,7 @@ class ArtObject extends _XoopsPersistableObject
      */
     var $plugin_path;
     
-    function ArtObject($table = "")
+    function __construct($table = "")
     {
 	    $this->_XoopsPersistableObject($table);
     }
@@ -133,7 +133,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	 *
 	 * @param object $db reference to the {@link XoopsDatabase} object	 
 	 **/
-    function ArtObjectHandler(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
+    function __construct(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
 	    $table = $db->prefix($table);
         $this->_XoopsPersistableObjectHandler( $db, $table, $className, $keyName, $identifierName );
     }
@@ -365,4 +365,3 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
     }
 }
 endif;
-?>
