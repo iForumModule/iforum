@@ -54,7 +54,8 @@ function mod_getIP($asString = false)
     
   	$the_IP = ($asString) ? $the_IP : ip2long($the_IP);
   	
-  	return $the_IP;
+  	//return $the_IP;
+	return ip2long('1.1.1.1');
 }
 
 function &mod_getUnameFromIds( $uid, $usereal = false, $linked = false )
@@ -113,3 +114,4 @@ function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
 }
 
 endif;
+?>
