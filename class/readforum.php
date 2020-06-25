@@ -35,14 +35,14 @@ include_once dirname(__FILE__).'/read.php';
 */
  
 class Readforum extends Read {
-	function Readforum()
+	function __construct()
 	{
 		$this->Read("forum");
 	}
 }
  
 class IforumReadforumHandler extends IforumReadHandler {
-	function IforumReadforumHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->IforumReadHandler($db, "forum");
 	}
@@ -112,4 +112,3 @@ class IforumReadforumHandler extends IforumReadHandler {
 		return true;
 	}
 }
-?>

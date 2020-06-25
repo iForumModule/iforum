@@ -379,4 +379,3 @@ $button_tray->addElement($cancel_button);
 $forum_form->addElement($button_tray);
  
 $forum_form->display();
-?>

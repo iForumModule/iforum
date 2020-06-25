@@ -79,4 +79,3 @@ $customConfig["editor_height"] = "400px";
 $customConfig["allow_tagging"] = 1;
  
 return $customConfig;
-?>

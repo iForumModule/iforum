@@ -96,5 +96,3 @@ $content = '<b><i><u>'._PDF_SUBJECT.': '.$pdf_data['title'].'</u></i></b><br /><
 $doc_title = $pdf_data['subtitle'];
 $doc_keywords = 'ICMS';
 $contents = Generate_PDF ($content, $doc_title, $doc_keywords);
- 
-?>

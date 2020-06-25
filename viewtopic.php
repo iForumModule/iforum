@@ -801,4 +801,3 @@ $icmsTpl->assign('tagbar', tagBar($forumtopic->getVar("topic_tags", "n")));
 }
 */
 include ICMS_ROOT_PATH.'/footer.php';
-?>

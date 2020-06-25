@@ -584,4 +584,3 @@ if ($op == "log" )
 }
  
 include ICMS_ROOT_PATH."/footer.php";
-?>

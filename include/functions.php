@@ -778,4 +778,3 @@ function iforum_poll_module_active() {
 }
  
 endif;
-?>

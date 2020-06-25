@@ -75,4 +75,3 @@ $customConfig["editor_width"] = "100%";
 $customConfig["editor_height"] = "400px";
  
 return $customConfig;
-?>

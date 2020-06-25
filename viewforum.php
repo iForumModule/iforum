@@ -285,4 +285,3 @@ if (icms::$module->config['rss_enable'] == 1)
 }
  
 include ICMS_ROOT_PATH."/footer.php";
-?>

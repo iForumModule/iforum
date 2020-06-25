@@ -257,4 +257,3 @@ if ($icmsConfigSearch['keyword_min'] > 0)
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

@@ -197,4 +197,3 @@ $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
 $icmsTpl->assign('xoops_pagetitle', $icmsModule->getVar('name'). ' - ' .$current_type);
  
 include ICMS_ROOT_PATH."/footer.php";
-?>

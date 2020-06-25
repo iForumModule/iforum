@@ -206,4 +206,3 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 	unset($rss);
 }
 $tpl->display('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id);
-?>

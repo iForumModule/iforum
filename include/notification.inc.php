@@ -91,4 +91,3 @@ if (!defined('IFORUM_NOTIFY_ITEMINFO') )
 		}
 	}
 }
-?>

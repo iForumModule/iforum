@@ -364,5 +364,3 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		return mod_createCacheFile($perms, "perm_template", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	}
 }
- 
-?>

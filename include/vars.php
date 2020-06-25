@@ -198,4 +198,3 @@ if (is_object($GLOBALS["icmsModule"]) && basename(dirname(dirname(__FILE__ ) ) )
 iforum_load_object();
  
 error_reporting($ori_error_level);
-?>

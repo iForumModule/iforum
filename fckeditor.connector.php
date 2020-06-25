@@ -13,4 +13,3 @@ include "header.php";
  
 define("XOOPS_FCK_FOLDER", $icmsModule->getVar("dirname"));
 include ICMS_ROOT_PATH."/editors/FCKeditor/editor/filemanager/browser/default/connectors/php/connector.php";
-?>

@@ -531,4 +531,3 @@ $icmsTpl->assign('mode', $mode);
 $icmsTpl->assign('type', $type);
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

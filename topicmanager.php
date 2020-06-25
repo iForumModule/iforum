@@ -256,4 +256,3 @@ else
 	echo "</td></tr></form></table></td></tr></table>";
 }
 include ICMS_ROOT_PATH.'/footer.php';
-?>

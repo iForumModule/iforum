@@ -33,7 +33,7 @@ class IForumTree extends icms_view_Tree {
 	var $increment = '&nbsp;&nbsp;';
 	var $postArray = '';
 	 
-	function IForumTree($table_name, $id_name = "post_id", $pid_name = "pid")
+	function __construct($table_name, $id_name = "post_id", $pid_name = "pid")
 	{
 		parent::__construct($table_name, $id_name, $pid_name);
 	}
@@ -86,5 +86,3 @@ class IForumTree extends icms_view_Tree {
 		return true;
 	}
 }
- 
-?>

@@ -33,7 +33,7 @@ iforum_load_object();
  
 class Category extends ArtObject {
 	 
-	function Category()
+	function __construct()
 	{
 		$this->ArtObject("bb_categories");
 		$this->initVar('cat_id', XOBJ_DTYPE_INT);
@@ -49,7 +49,7 @@ class Category extends ArtObject {
 }
  
 class IforumCategoryHandler extends ArtObjectHandler {
-	function IforumCategoryHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
 	}
@@ -146,5 +146,3 @@ class IforumCategoryHandler extends ArtObjectHandler {
 		return $perm_handler->setCategoryPermission($category->getVar("cat_id"));
 	}
 }
- 
-?>

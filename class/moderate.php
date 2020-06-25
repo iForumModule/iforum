@@ -42,7 +42,7 @@ iforum_load_object();
  
 class Moderate extends ArtObject {
 	 
-	function Moderate()
+	function __construct()
 	{
 		$this->ArtObject("bb_moderates");
 		$this->initVar('mod_id', XOBJ_DTYPE_INT);
@@ -56,7 +56,7 @@ class Moderate extends ArtObject {
 }
  
 class IforumModerateHandler extends ArtObjectHandler {
-	function IforumModerateHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_moderates', 'Moderate', 'mod_id', 'uid');
 	}
@@ -247,4 +247,3 @@ class IforumModerateHandler extends ArtObjectHandler {
 		return true;
 	}
 }
-?>

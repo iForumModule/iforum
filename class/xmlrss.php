@@ -57,7 +57,7 @@ class Xmlrss {
 	var $max_item_description;
 	var $items = array();
 	 
-	function Xmlrss()
+	function __construct()
 	{
 		$this->xml_version = '1.0';
 		$this->xml_encoding = empty(icms::$module->config['rss_utf8'])?_CHARSET:
@@ -148,5 +148,3 @@ class IforumXmlrssHandler {
 	}
 	 
 }
- 
-?>

@@ -573,4 +573,3 @@ if (!empty($_POST['contents_upload']) || !empty($_POST['contents_preview']) || !
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

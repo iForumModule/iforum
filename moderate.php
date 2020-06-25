@@ -259,4 +259,3 @@ $forum_form->addElement(new icms_form_elements_Hidden('forum', $forum_id));
 $forum_form->addElement(new icms_form_elements_Button('', 'submit', _SUBMIT, "submit"));
 $forum_form->display();
 include ICMS_ROOT_PATH.'/footer.php';
-?>

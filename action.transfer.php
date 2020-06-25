@@ -140,4 +140,3 @@ else
 	xoops_confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE, $op_options[$op]), _CLOSE, $ret);
 	include ICMS_ROOT_PATH."/footer.php";
 }
-?>

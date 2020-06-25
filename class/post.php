@@ -34,7 +34,7 @@ iforum_load_object();
 class Post extends ArtObject {
 	var $attachment_array = array();
 	 
-	function Post()
+	function __construct()
 	{
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
@@ -517,7 +517,7 @@ class Post extends ArtObject {
 }
  
 class IforumPostHandler extends ArtObjectHandler {
-	function IforumPostHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_posts', 'Post', 'post_id', 'subject');
 	}
@@ -1003,5 +1003,3 @@ class IforumPostHandler extends ArtObjectHandler {
 		return $this->deleteAll($crit_expire, true/*, true*/);
 	}
 }
- 
-?>

@@ -36,7 +36,7 @@ if (!defined("ICMS_ROOT_PATH"))
 class IforumTransferHandler {
 	var $root_path;
 	 
-	function IforumTransferHandler()
+	function __construct()
 	{
 		$current_path = __FILE__;
 		if (DIRECTORY_SEPARATOR != "/" ) $current_path = str_replace(strpos($current_path, "\\\\", 2 ) ? "\\\\" : DIRECTORY_SEPARATOR, "/", $current_path);
@@ -84,4 +84,3 @@ class IforumTransferHandler {
 		return $ret;
 	}
 }
-?>

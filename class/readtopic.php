@@ -35,7 +35,7 @@ include_once dirname(__FILE__).'/read.php';
 */
  
 class Readtopic extends Read {
-	function Readtopic()
+	function __construct()
 	{
 		$this->Read("topic");
 		//$this->initVar('forum_id', XOBJ_DTYPE_INT);
@@ -51,7 +51,7 @@ class IforumReadtopicHandler extends IforumReadHandler {
 	*/
 	var $items_per_forum;
 	 
-	function IforumReadtopicHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->IforumReadHandler($db, "topic");
 		$iforumConfig = iforum_load_config();
@@ -167,4 +167,3 @@ class IforumReadtopicHandler extends IforumReadHandler {
 		return true;
 	}
 }
-?>

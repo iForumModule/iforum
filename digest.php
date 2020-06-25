@@ -37,4 +37,3 @@ $msg = $digest_handler->process();
 $msg .= ob_get_contents();
 ob_end_clean();
 echo "<br />".$msg;
-?>

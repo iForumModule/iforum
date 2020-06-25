@@ -848,4 +848,3 @@ $modversion['notification']['event'][8]['caption'] = _MI_IFORUM_GLOBAL_NEWFULLPO
 $modversion['notification']['event'][8]['description'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYDSC;
 $modversion['notification']['event'][8]['mail_template'] = 'global_newfullpost_notify';
 $modversion['notification']['event'][8]['mail_subject'] = _MI_IFORUM_GLOBAL_NEWFULLPOST_NOTIFYSBJ;
-?>

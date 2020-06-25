@@ -218,4 +218,3 @@ function &iforum_search($queryarray, $andor, $limit, $offset, $userid, $forums =
 	 
 	return $ret;
 }
-?>

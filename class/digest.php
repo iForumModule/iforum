@@ -32,7 +32,7 @@ class Digest extends icms_core_Object {
 	var $isHtml = false;
 	var $isSummary = true;
 	 
-	function Digest()
+	function __construct()
 	{
 		$this->initVar('digest_id', XOBJ_DTYPE_INT);
 		$this->initVar('digest_time', XOBJ_DTYPE_INT);

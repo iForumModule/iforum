@@ -211,4 +211,3 @@ $icmsTpl->assign(array(
 	"img_locked_newposts" => iforum_displayImage($forumImage['locked_forum_newposts']),
 	'img_subforum' => iforum_displayImage($forumImage['subforum'])));
 include_once ICMS_ROOT_PATH.'/footer.php';
-?>

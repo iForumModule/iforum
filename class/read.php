@@ -41,7 +41,7 @@ iforum_load_object();
 */
  
 class Read extends ArtObject {
-	function Read($type)
+	function __construct($type)
 	{
 		$this->ArtObject("bb_reads_".$type);
 		$this->initVar('read_id', XOBJ_DTYPE_INT);
@@ -89,7 +89,7 @@ class IforumReadHandler extends ArtObjectHandler {
 	*/
 	var $mode;
 	 
-	function IforumReadHandler(&$db, $type)
+	function __construct(&$db, $type)
 	{
 		$type = ("forum" == $type) ? "forum" :
 		 "topic";
@@ -269,4 +269,3 @@ class IforumReadHandler extends ArtObjectHandler {
 	}
 	 
 }
-?>

@@ -99,4 +99,3 @@ redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 2, 
 exit();
  
 include 'footer.php';
-?>

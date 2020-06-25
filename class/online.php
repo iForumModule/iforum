@@ -322,5 +322,3 @@ class IforumOnlineHandler {
 		return $ret;
 	}
 }
- 
-?>

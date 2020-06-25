@@ -103,4 +103,3 @@ if (!empty($_POST['option_id']) )
 	exit();
 }
 redirect_header("viewtopic.php?topic_id=$topic_id&amp;forum=$forum", 1, "You must choose an option !!");
-?>

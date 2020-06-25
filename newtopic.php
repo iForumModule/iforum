@@ -90,4 +90,3 @@ if (icms::$module->config['disc_show'] == 1 or icms::$module->config['disc_show'
  
 include 'include/forumform.inc.php';
 include ICMS_ROOT_PATH.'/footer.php';
-?>

@@ -213,4 +213,3 @@ foreach ($forumpostshow as $eachpost)
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>
