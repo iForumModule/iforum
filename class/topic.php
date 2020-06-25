@@ -28,13 +28,13 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
  
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
 iforum_load_object();
  
 class Topic extends ArtObject {
 	function __construct()
 	{
-		$this->ArtObject("bb_topics");
+		parent::__construct("bb_topics");
 		$this->initVar('topic_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_title', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('topic_poster', XOBJ_DTYPE_INT);
@@ -67,7 +67,7 @@ class Topic extends ArtObject {
 class IforumTopicHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$this->ArtObjectHandler($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
+		parent::__construct($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
 	}
 	 
 	function &get($id, $var = null)

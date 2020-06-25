@@ -22,7 +22,7 @@ class _XoopsPersistableObject extends icms_core_Object
      */
     var $table;
     
-    function _XoopsPersistableObject($table = null) {
+    function __construct($table = null) {
 	    if (!empty($table)) {
 	    	$this->table = $GLOBALS["xoopsDB"]->prefix($table);
     	}
@@ -251,7 +251,7 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
     *
     * @return void
     */
-    function _XoopsPersistableObjectHandler(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
+    function __construct(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
         parent::__construct($db);
         $this->table = $table;
         $this->keyName = $keyName;
@@ -372,11 +372,14 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
      */
     function mysql_server_version($conn = null)
     {
+	    /*
 	    if (!is_null($conn)) {
 		    return mysql_get_server_info($conn);
 	    } else {
 		    return mysql_get_server_info();
 	    }
+	    */
+	    return "6.0.0";
     }
     
     /**

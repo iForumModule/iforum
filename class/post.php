@@ -519,7 +519,7 @@ class Post extends ArtObject {
 class IforumPostHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$this->ArtObjectHandler($db, 'bb_posts', 'Post', 'post_id', 'subject');
+		parent::__construct($db, 'bb_posts', 'Post', 'post_id', 'subject');
 	}
 	 
 	function &get($id)

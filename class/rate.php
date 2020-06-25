@@ -34,7 +34,7 @@ iforum_load_object();
 class Nrate extends ArtObject {
 	function __construct()
 	{
-		$this->ArtObject("bb_votedata");
+		parent::__construct("bb_votedata");
 		$this->initVar('ratingid', XOBJ_DTYPE_INT);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT);
 		$this->initVar('ratinguser', XOBJ_DTYPE_INT);
@@ -47,7 +47,7 @@ class Nrate extends ArtObject {
 class IforumRateHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$this->ArtObjectHandler($db, 'bb_votedata', 'Nrate', 'ratingid');
+        parent::__construct($db, 'bb_votedata', 'Nrate', 'ratingid');
 	}
 	 
 	/**
