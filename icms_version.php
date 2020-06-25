@@ -22,40 +22,67 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
-$modulename = basename(dirname(__FILE__ ) );
-$modversion['name'] = _MI_IFORUM_NAME;
-$modversion['version'] = "2.00";
-$modversion['description'] = _MI_IFORUM_DESC;
-$modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
-$modversion['author'] = "fiammybe";
-$modversion['license'] = "GNU General Public License (GPL) see LICENSE";
-$modversion['iconsmall'] = "images/imforum_iconsmall.png";
-$modversion['iconbig'] = "images/imforum_iconbig.png";
-$modversion['image'] = "images/imforum_icon.png";
-$modversion['dirname'] = $modulename;
-$modversion['modname'] = 'iforum';
- 
-$modversion['author_realname'] = "David Janssens";
-$modversion['author_website_url'] = "http://www.davidjanssens.be";
-$modversion['author_website_name'] = "David Home";
-$modversion['author_email'] = "david.j@impresscms.org";
-$modversion['status_version'] = "Final";
-$modversion['status'] = "Final";
-$modversion['date'] = "Nov 27th 2017";
-$modversion['warning'] = _CO_ICMS_WARNING_FINAL;
- 
-$modversion['demo_site_url'] = "https://www.impresscms.org/modules/iforum/";
-$modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
-$modversion['support_site_url'] = "https://www.impresscms.org/modules/iforum/";
-$modversion['support_site_name'] = "ImpressCMS Community Forum";
-$modversion['submit_feature'] = "https://www.impresscms.org/modules/iforum/";
-$modversion['submit_bug'] = "https://www.impresscms.org/modules/iforum/";
- 
-include_once(ICMS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
-include_once(ICMS_ROOT_PATH."/modules/".$modulename."/include/functions.php");
+
+$modulename = basename(__DIR__);
+$modversion = array(
+
+	'name' => _MI_IFORUM_NAME,
+	'version' => 'v3.00',
+	'description' => _MI_IFORUM_DESC,
+	'credits' => "All other previous iForum/CBB/newbb developers",
+	'author' => "fiammybe",
+	'license' => "GNU General Public License (GPL) see LICENSE",
+	'iconsmall' => "images/imforum_iconsmall.png",
+	'iconbig' => "images/imforum_iconbig.png",
+	'image' => "images/imforum_icon.png",
+	'dirname' => $modulename,
+	'modname' => 'iforum',
+
+	'author_realname' => "David Janssens",
+	'author_website_url' => "http://www.davidjanssens.be",
+	'author_website_name' => "David Home",
+	'author_email' => "david.j@impresscms.org",
+	'status_version' => "Alpha",
+	'status' => "Alpha",
+	'date' => "14 May 2020",
+	'warning' => _CO_ICMS_WARNING_ALPHA,
+
+	'demo_site_url' => "https://www.impresscms.org/modules/iforum/",
+	'demo_site_name' => _IMPRESSCMS_COMMUNITY,
+	'support_site_url' => "https://www.impresscms.org/modules/iforum/",
+	'support_site_name' => "ImpressCMS Community Forum",
+	'submit_feature' => "https://www.impresscms.org/modules/iforum/",
+	'submit_bug' => "https://www.impresscms.org/modules/iforum/",
+
+/** Administrative information */
+	'hasAdmin'					=> 1,
+	'adminindex'				=> "admin/index.php",
+	'adminmenu'					=> "admin/menu.php",
+
+/** Install and update informations */
+	'onInstall'					=> "include/oninstall.php",
+	'onUpdate'					=> "include/onupdate.php",
+
+/** Search information */
+	'hasSearch'					=> 1,
+	'search'					=> array('file' => "include/search.inc.php", 'func' => "forum_search"),
+
+/** Comments information */
+	'hasComments'				=> 0,
+
+/** Menu information */
+	'hasMain'					=> 1,
+
+/** Database information */
+	'object_items'				=> array('bb_archive','bb_categories','bb_votedata','bb_forums','bb_posts',
+										 'bb_posts_text','bb_topics', 'bb_online', 'bb_digest', 'bb_report',
+									     'bb_attachments', 'bb_moderates', 'bb_reads_forum', 'bb_reads_topic'),
+'tables' => icms_getTablesArray($modversion['dirname'], $modversion['object_items']));
+
+//include_once(ICMS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
+//include_once(ICMS_ROOT_PATH."/modules/".$modulename."/include/functions.php");
 // Is performing module install/update?
-$isModuleAction = icms_moduleAction($modversion['dirname']);
+//$isModuleAction = icms_moduleAction($modversion['dirname']);
  
 // Sql file
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";

@@ -32,7 +32,7 @@ defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(d
 iforum_load_object();
  
 class Topic extends ArtObject {
-	function Topic()
+	function __construct()
 	{
 		$this->ArtObject("bb_topics");
 		$this->initVar('topic_id', XOBJ_DTYPE_INT);
@@ -65,7 +65,7 @@ class Topic extends ArtObject {
 }
  
 class IforumTopicHandler extends ArtObjectHandler {
-	function IforumTopicHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
 	}
@@ -525,5 +525,3 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return true;
 	}
 }
- 
-?>
