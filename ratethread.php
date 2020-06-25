@@ -37,7 +37,7 @@ foreach(array("topic_id", "rate", "forum") as $var)
 	 (isset($_GET[$var])?intval($_GET[$var]):0);
 }
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $topic_obj = $topic_handler->get($topic_id);
 if (!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "post")
 	&& !$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "reply")

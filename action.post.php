@@ -46,9 +46,9 @@ if (empty($post_id) || empty($op))
 	exit();
 }
  
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 if (empty($topic_id))
 {
 	$viewtopic_forum = null;

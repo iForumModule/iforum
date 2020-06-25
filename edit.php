@@ -48,9 +48,9 @@ elseif (empty($post_id) )
 }
 else
 {
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
-	$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
-	$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+	$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
+	$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+	$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 	 
 	 
 	$forumpost = $post_handler->get($post_id);
@@ -63,7 +63,7 @@ else
 	 
 	if (icms::$module->config['wol_enabled'])
 		{
-		$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+		$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 		$online_handler->init($forum_obj);
 	}
 	$isadmin = iforum_isAdmin($forum_obj);

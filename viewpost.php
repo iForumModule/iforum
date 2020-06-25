@@ -42,8 +42,8 @@ $mode = !empty($_GET['mode']) ? intval($_GET['mode']) :
  0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")) )?2:$mode;
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
  
 $isadmin = iforum_isAdmin($forum_id);
 /* Only admin has access to admin mode */
@@ -124,7 +124,7 @@ switch($type)
 $criteria_count->add($criteria_type_count);
 $criteria_post->add($criteria_type_post);
  
-$karma_handler = icms_getmodulehandler('karma', basename(dirname(__FILE__ ) ), 'iforum' );
+$karma_handler = icms_getmodulehandler('karma', basename(__DIR__), 'iforum' );
 $user_karma = $karma_handler->getUserKarma();
  
 $valid_modes = array("flat", "compact", "left", "right");
@@ -217,7 +217,7 @@ if (icms::$module->config['wol_enabled'])
 	$online = array();
 	if (!empty($user_criteria))
 	{
-		$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum');
+		$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum');
 		$online_handler->init($forum_id);
 		$online_full = $online_handler->getAll(new icms_db_criteria_Item('online_uid', $user_criteria, 'IN'));
 		if (is_array($online_full) && count($online_full) > 0)
@@ -246,7 +246,7 @@ $viewtopic_users = array();
  
 if (count($userid_array) > 0)
 {
-	$user_handler = icms_getmodulehandler('user', basename(dirname(__FILE__ ) ), 'iforum' );
+	$user_handler = icms_getmodulehandler('user', basename(__DIR__), 'iforum' );
 	$user_handler->setUsers($users);
 	$user_handler->setGroups($groups_disp);
 	$user_handler->setStatus($online);
@@ -259,7 +259,7 @@ unset($users);
 unset($groups_disp);
  
 $pn = 0;
-$topic_handler =icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler =icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 static $suspension = array();
 foreach(array_keys($posts) as $id)
 {
@@ -317,7 +317,7 @@ foreach(array_keys($posts) as $id)
 		 
 		if (!isset($suspension[$post->getVar('forum_id')]))
 		{
-			$moderate_handler = icms_getmodulehandler('moderate', basename(dirname(__FILE__ ) ), 'iforum' );
+			$moderate_handler = icms_getmodulehandler('moderate', basename(__DIR__), 'iforum' );
 			$suspension[$post->getVar('forum_id')] = $moderate_handler->verifyUser(-1, "", $post->getVar('forum_id'));
 		}
 		 

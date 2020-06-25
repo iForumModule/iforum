@@ -39,7 +39,7 @@ if (empty($forum) )
 	redirect_header("index.php", 2, _MD_ERRORFORUM);
 	exit();
 }
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $forum_obj = $forum_handler->get($forum);
 if (!$forum_handler->getPermission($forum_obj))
 	{
@@ -47,7 +47,7 @@ if (!$forum_handler->getPermission($forum_obj))
 	exit();
 }
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 if (!$topic_handler->getPermission($forum_obj, 0, 'post'))
 {
 	redirect_header("viewforum.php?order=$order&amp;viewmode=$viewmode&amp;forum=".$forum_obj->getVar('forum_id'), 2, _MD_NORIGHTTOPOST);
@@ -56,7 +56,7 @@ if (!$topic_handler->getPermission($forum_obj, 0, 'post'))
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($forum_obj);
 }
  

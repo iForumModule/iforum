@@ -38,7 +38,7 @@ if (!$isadmin)
 }
 $is_administrator = iforum_isAdmin();
  
-$moderate_handler = icms_getmodulehandler('moderate', basename(dirname(__FILE__ ) ), 'iforum' );
+$moderate_handler = icms_getmodulehandler('moderate', basename(__DIR__), 'iforum' );
  
 if (!empty($_POST["submit"]) && !empty($_POST["expire"]))
 {
@@ -62,7 +62,7 @@ if (!empty($_POST["submit"]) && !empty($_POST["expire"]))
 		if ($res = $moderate_handler->insert($moderate_obj) && !empty($forum_id) && !empty($_POST["uid"]) )
 		{
 			$uname = XoopsUser::getUnameFromID($_POST["uid"]);
-			$post_handler = icms_getmodulehandler("post", basename(dirname(__FILE__ ) ), 'iforum' );
+			$post_handler = icms_getmodulehandler("post", basename(__DIR__), 'iforum' );
 			$forumpost = $post_handler->create();
 			$forumpost->setVar("poster_ip", iforum_getIP());
 			$forumpost->setVar("uid", empty($GLOBALS["xoopsUser"])?0:$GLOBALS["xoopsUser"]->getVar("uid"));

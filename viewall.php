@@ -50,12 +50,12 @@ $xoopsOption['template_main'] = 'iforum_viewall.html';
 include ICMS_ROOT_PATH."/header.php";
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $viewall_forums = $forum_handler->getForums(0, 'access', array("forum_id", "cat_id", "forum_name")); // get all accessible forums
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init();
 	$icmsTpl->assign('online', $online_handler->show_online());
 }

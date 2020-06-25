@@ -50,10 +50,10 @@ if (!is_object($xoopspoll) || !$xoopspoll->getVar('isactive'))
  
 include ICMS_ROOT_PATH."/header.php";
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $forumtopic = $topic_handler->get($topic_id);
 $forum = $forumtopic->getVar('forum_id');
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $viewtopic_forum = $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum))
 {

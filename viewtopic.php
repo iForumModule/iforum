@@ -49,7 +49,7 @@ if (!$topic_id && !$post_id )
 	redirect_header($redirect, 2, _MD_ERRORTOPIC);
 }
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 if (!empty($post_id) )
 {
 	$forumtopic = $topic_handler->getByPost($post_id);
@@ -68,7 +68,7 @@ if (!is_object($forumtopic) || !$topic_id = $forumtopic->getVar('topic_id') )
 	redirect_header('viewforum.php?forum='.$forum_id, 2, _MD_ERRORTOPIC);
 }
 $forum_id = $forumtopic->getVar('forum_id');
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $viewtopic_forum = $forum_handler->get($forum_id);
  
 $isadmin = iforum_isAdmin($viewtopic_forum);
@@ -94,7 +94,7 @@ if ($mode)
 	$_GET['viewmode'] = "flat";
 }
  
-$perm = icms_getmodulehandler('permission', basename(dirname(__FILE__ ) ), 'iforum' );
+$perm = icms_getmodulehandler('permission', basename(__DIR__), 'iforum' );
 $permission_set = $perm->getPermissions('forum', $forum_id);
  
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))
@@ -103,7 +103,7 @@ if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_
 	exit();
 }
  
-$karma_handler = icms_getmodulehandler('karma', basename(dirname(__FILE__ ) ), 'iforum' );
+$karma_handler = icms_getmodulehandler('karma', basename(__DIR__), 'iforum' );
 $user_karma = $karma_handler->getUserKarma();
  
 $valid_modes = array("flat", "thread", "compact", "left", "right");
@@ -194,7 +194,7 @@ $icmsTpl->assign('xoops_module_header', $icms_module_header);
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($viewtopic_forum, $forumtopic);
 	$icmsTpl->assign('online', $online_handler->show_online());
 }
@@ -221,7 +221,7 @@ $icmsTpl->assign(array(
 	'lang_nexttopic' => _MD_NEXTTOPIC,
 	'lang_prevtopic' => _MD_PREVTOPIC ));
  
-$category_handler = icms_getmodulehandler("category", basename(dirname(__FILE__ ) ), 'iforum' );
+$category_handler = icms_getmodulehandler("category", basename(__DIR__), 'iforum' );
 $category_obj = $category_handler->get($viewtopic_forum->getVar("cat_id"), array("cat_title"));
 $icmsTpl->assign('category', array("id" => $viewtopic_forum->getVar("cat_id"), "title" => $category_obj->getVar('cat_title')));
  
@@ -313,7 +313,7 @@ if (icms::$module->config['groupbar_enabled'])
 $viewtopic_users = array();
 if (count($userid_array) > 0)
 {
-	$user_handler = icms_getmodulehandler('user', basename(dirname(__FILE__ ) ), 'iforum' );
+	$user_handler = icms_getmodulehandler('user', basename(__DIR__), 'iforum' );
 	$user_handler->setUsers($users);
 	$user_handler->setGroups($groups_disp);
 	$user_handler->setStatus($online);
@@ -354,7 +354,7 @@ if ($viewmode == "thread")
 {
 	if (!empty($post_id))
 	{
-		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 		$currentPost = $post_handler->get($post_id);
 		 
 		if (!$isadmin && $currentPost->getVar('approved') < 0 )
@@ -733,7 +733,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	{
 		if (!@include_once ICMS_ROOT_PATH."/class/xoopseditor.php")
 		{
-			require_once ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__ ) )."/class/compat/xoopseditor/xoopseditor.php";
+			require_once ICMS_ROOT_PATH."/modules/".basename(__DIR__)."/class/compat/xoopseditor/xoopseditor.php";
 		}
 		$editor_handler = new XoopsEditorHandler();
 	}
