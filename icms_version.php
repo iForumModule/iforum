@@ -23,9 +23,9 @@
 * @version  $Id$
 */
  
-$modulename = basename(dirname(__FILE__ ) );
+$modulename = basename(__DIR__);
 $modversion['name'] = _MI_IFORUM_NAME;
-$modversion['version'] = "2.00";
+$modversion['version'] = "2.1 beta";
 $modversion['description'] = _MI_IFORUM_DESC;
 $modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
 $modversion['author'] = "fiammybe";
@@ -41,9 +41,9 @@ $modversion['author_website_url'] = "http://www.davidjanssens.be";
 $modversion['author_website_name'] = "David Home";
 $modversion['author_email'] = "david.j@impresscms.org";
 $modversion['status_version'] = "Final";
-$modversion['status'] = "Final";
-$modversion['date'] = "Nov 27th 2017";
-$modversion['warning'] = _CO_ICMS_WARNING_FINAL;
+$modversion['status'] = "Beta";
+$modversion['date'] = "Jun 26, 2020";
+$modversion['warning'] = _CO_ICMS_WARNING_BETA;
  
 $modversion['demo_site_url'] = "https://www.impresscms.org/modules/iforum/";
 $modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
@@ -731,7 +731,7 @@ $modversion['config'][] = array(
 $forum_options = array(_NONE => 0);
 if ($isModuleAction && "update_ok" == $_POST["op"] )
 {
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum', true);
+	$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum', true);
 	$forums = $forum_handler->getForumsByCategory(0, '', false, array("parent_forum", "cat_id", "forum_name"));
 	if ($forums):
 	foreach (array_keys($forums) as $c)
