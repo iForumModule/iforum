@@ -37,7 +37,7 @@ include_once dirname(__FILE__).'/read.php';
 class Readforum extends Read {
 	function __construct()
 	{
-		$this->Read("forum");
+        parent::__construct("forum");
 	}
 }
  
