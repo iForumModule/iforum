@@ -372,11 +372,12 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
      */
     function mysql_server_version($conn = null)
     {
-	    if (!is_null($conn)) {
-		    return mysql_get_server_info($conn);
-	    } else {
-		    return mysql_get_server_info();
-	    }
+        /*if (!is_null($conn)) {
+            return mysql_get_server_info($conn);
+        } else {
+            return mysql_get_server_info();
+        }*/
+        return "6.0.0";
     }
     
     /**
