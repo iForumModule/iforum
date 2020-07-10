@@ -44,7 +44,7 @@ class Moderate extends ArtObject {
 	 
 	function Moderate()
 	{
-		$parent::__construct("bb_moderates");
+		parent::__construct("bb_moderates");
 		$this->initVar('mod_id', XOBJ_DTYPE_INT);
 		$this->initVar('mod_start', XOBJ_DTYPE_INT);
 		$this->initVar('mod_end', XOBJ_DTYPE_INT);

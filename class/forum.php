@@ -35,7 +35,7 @@ class Forum extends ArtObject {
 	 
 	function __construct()
 	{
-		$parent::__construct("bb_forums");
+		parent::__construct("bb_forums");
 		$this->initVar('forum_id', XOBJ_DTYPE_INT);
 		$this->initVar('forum_name', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('forum_desc', XOBJ_DTYPE_TXTAREA);
@@ -124,7 +124,7 @@ class Forum extends ArtObject {
 class IforumForumHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$parent::__construct($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
+		parent::__construct($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
 	}
 	 
 	function insert(&$forum, $force = true)

@@ -34,7 +34,7 @@ iforum_load_object();
 class Ntext extends ArtObject {
 	function __construct()
 	{
-		$parent::__construct("bb_posts_text");
+		parent::__construct("bb_posts_text");
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('post_text', XOBJ_DTYPE_TXTAREA);
 		$this->initVar('post_edit', XOBJ_DTYPE_TXTAREA);
@@ -44,7 +44,7 @@ class Ntext extends ArtObject {
 class IforumTextHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$parent::__construct($db, 'bb_posts_text', 'Ntext', 'post_id');
+		parent::__construct($db, 'bb_posts_text', 'Ntext', 'post_id');
 	}
 	 
 	/**

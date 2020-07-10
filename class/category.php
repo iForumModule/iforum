@@ -35,7 +35,7 @@ class Category extends ArtObject {
 	 
 	function __construct()
 	{
-		$parent::__construct("bb_categories");
+		parent::__construct("bb_categories");
 		$this->initVar('cat_id', XOBJ_DTYPE_INT);
 		$this->initVar('pid', XOBJ_DTYPE_INT, 0);
 		$this->initVar('cat_title', XOBJ_DTYPE_TXTBOX);
