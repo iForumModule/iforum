@@ -44,7 +44,7 @@ class Readforum extends Read {
 class IforumReadforumHandler extends IforumReadHandler {
 	function __construct(&$db)
 	{
-		$this->IforumReadHandler($db, "forum");
+        parent::__construct($db, "forum");
 	}
 	 
 	/**

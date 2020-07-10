@@ -53,7 +53,7 @@ class IforumReadtopicHandler extends IforumReadHandler {
 	 
 	function __construct(&$db)
 	{
-		$this->IforumReadHandler($db, "topic");
+        parent::__construct($db, "topic");
 		$iforumConfig = iforum_load_config();
 		$this->items_per_forum = isset($iforumConfig["read_items"])?intval($iforumConfig["read_items"]):
 		100;
