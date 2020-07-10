@@ -28,7 +28,7 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
  
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
 iforum_load_object();
  
 class Report extends ArtObject {
@@ -49,7 +49,9 @@ class Report extends ArtObject {
 class IforumReportHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-        parent::__construct($db, 'bb_report', 'Report', 'report_id');
+
+    parent::__construct($db, 'bb_report', 'Report', 'report_id');
+
 	}
 	function &getByPost($posts)
 	{

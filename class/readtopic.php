@@ -23,7 +23,7 @@
 * @version  $Id$
 */
  
-include_once dirname(__FILE__).'/read.php';
+include_once __DIR__ .'/read.php';
  
 /**
 * A handler for read/unread handling

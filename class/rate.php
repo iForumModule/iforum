@@ -47,7 +47,7 @@ class Nrate extends ArtObject {
 class IforumRateHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-        parent::__construct($db, 'bb_votedata', 'Nrate', 'ratingid');
+		parent::__construct($db, 'bb_votedata', 'Nrate', 'ratingid');
 	}
 	 
 	/**

@@ -127,7 +127,7 @@ class IforumForumHandler extends ArtObjectHandler {
 		parent::__construct($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
 	}
 	 
-	function insert(&$forum,$force=true)
+	function insert(&$forum, $force = true)
 	{
 		if (!parent::insert($forum, true))
 		{
@@ -143,7 +143,7 @@ class IforumForumHandler extends ArtObjectHandler {
 		return $forum->getVar('forum_id');
 	}
 	 
-	function delete(&$forum,$force=true)
+	function delete(&$forum, $force = true)
 	{
 		global $icmsModule;
 		// RMV-NOTIFY

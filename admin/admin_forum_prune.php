@@ -244,5 +244,3 @@ else
 echo"</td></tr></table>";
 echo "</fieldset>";
 icms_cp_footer();
- 
-?>

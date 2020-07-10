@@ -111,7 +111,7 @@ class ArtObjectJointHandler
             return false;
         }
         $myrow = icms::$xoopsDB->fetchArray($result);
-        return intval($myrow["count"]);
+        return (int)$myrow["count"];
     }
     
    	function getCountsByLink($criteria = null)
