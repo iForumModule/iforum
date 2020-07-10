@@ -32,7 +32,7 @@ defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(d
 iforum_load_object();
  
 class Topic extends ArtObject {
-	function Topic()
+	function __construct()
 	{
 		$this->ArtObject("bb_topics");
 		$this->initVar('topic_id', XOBJ_DTYPE_INT);
@@ -65,7 +65,7 @@ class Topic extends ArtObject {
 }
  
 class IforumTopicHandler extends ArtObjectHandler {
-	function IforumTopicHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
 	}
@@ -135,7 +135,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 	{
 		$topic = null;
 		if (!empty($action)):
-		$sql = "SELECT * FROM " . $this->table. " WHERE 1=1". (($forum_id > 0)?" AND forum_id=".intval($forum_id):""). " AND topic_id ".(($action > 0)?">":"<").intval($topic_id). " ORDER BY topic_id ".(($action > 0)?"ASC":"DESC")." LIMIT 1";
+		$sql = "SELECT * FROM " . $this->table. " WHERE 1=1". (($forum_id > 0)?" AND forum_id=". (int)$forum_id :""). " AND topic_id ".(($action > 0)?">":"<").intval($topic_id). " ORDER BY topic_id ".(($action > 0)?"ASC":"DESC")." LIMIT 1";
 		if ($result = $this->db->query($sql))
 		{
 			if ($row = $this->db->fetchArray($result)):
@@ -153,7 +153,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 	{
 		$topic = null;
 		$sql = "SELECT t.* FROM " . $this->db->prefix('bb_topics') . " t, " . $this->db->prefix('bb_posts') . " p
-			WHERE t.topic_id = p.topic_id AND p.post_id = " . intval($post_id);
+			WHERE t.topic_id = p.topic_id AND p.post_id = " . (int)$post_id;
 		$result = $this->db->query($sql);
 		if (!$result)
 		{
@@ -182,7 +182,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		}
 		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item("topic_id", $topic->getVar('topic_id')));
 		$criteria->add(new icms_db_criteria_Item("approved", $approved));
-		$post_handler = icms_getmodulehandler("post", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler("post", basename(dirname(__DIR__) ), 'iforum' );
 		$count = $post_handler->getCount($criteria);
 		return $count;
 	}
@@ -202,7 +202,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			iforum_message("IforumTopicHandler::getTopPost error:" . $sql);
 			return $post;
 		}
-		$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(dirname(__DIR__) ), 'iforum' );
 		$myrow = $this->db->fetchArray($result);
 		$post = $post_handler->create(false);
 		$post->assignVars($myrow);
@@ -525,5 +525,3 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return true;
 	}
 }
- 
-?>

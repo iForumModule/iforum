@@ -28,11 +28,11 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
  
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
 iforum_load_object();
  
 class Ntext extends ArtObject {
-	function Ntext()
+	function __construct()
 	{
 		$this->ArtObject("bb_posts_text");
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
@@ -42,7 +42,7 @@ class Ntext extends ArtObject {
 }
  
 class IforumTextHandler extends ArtObjectHandler {
-	function IforumTextHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_posts_text', 'Ntext', 'post_id');
 	}
@@ -57,5 +57,3 @@ class IforumTextHandler extends ArtObjectHandler {
 		return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
 	}
 }
- 
-?>

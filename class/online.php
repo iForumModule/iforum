@@ -54,7 +54,7 @@ class IforumOnlineHandler {
 		$this->update();
 	}
 	 
-	function update()
+	public function update()
 	{
 		global $icmsModule;
 		 
@@ -87,7 +87,7 @@ class IforumOnlineHandler {
 		$this->write($uid, $uname, time(), $this->forum, $_SERVER['REMOTE_ADDR'], $this->forumtopic);
 	}
 	 
-	function &show_online()
+	public function show_online()
 	{
 		global $forumImage;
 		 
@@ -322,5 +322,3 @@ class IforumOnlineHandler {
 		return $ret;
 	}
 }
- 
-?>

@@ -33,7 +33,7 @@ iforum_load_object();
  
 class Forum extends ArtObject {
 	 
-	function Forum()
+	function __construct()
 	{
 		$this->ArtObject("bb_forums");
 		$this->initVar('forum_id', XOBJ_DTYPE_INT);
@@ -122,12 +122,12 @@ class Forum extends ArtObject {
 }
  
 class IforumForumHandler extends ArtObjectHandler {
-	function IforumForumHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
 	}
 	 
-	function insert(&$forum)
+	function insert(&$forum, $force = true)
 	{
 		if (!parent::insert($forum, true))
 		{
@@ -143,7 +143,7 @@ class IforumForumHandler extends ArtObjectHandler {
 		return $forum->getVar('forum_id');
 	}
 	 
-	function delete(&$forum)
+	function delete(&$forum, $force = true)
 	{
 		global $icmsModule;
 		// RMV-NOTIFY
@@ -916,4 +916,3 @@ class IforumForumHandler extends ArtObjectHandler {
 		return $forums_array;
 	}
 }
-?>

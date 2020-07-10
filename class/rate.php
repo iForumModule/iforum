@@ -32,7 +32,7 @@ defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(d
 iforum_load_object();
  
 class Nrate extends ArtObject {
-	function Nrate()
+	function __construct()
 	{
 		$this->ArtObject("bb_votedata");
 		$this->initVar('ratingid', XOBJ_DTYPE_INT);
@@ -45,7 +45,7 @@ class Nrate extends ArtObject {
 }
  
 class IforumRateHandler extends ArtObjectHandler {
-	function IforumRateHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_votedata', 'Nrate', 'ratingid');
 	}
@@ -60,5 +60,3 @@ class IforumRateHandler extends ArtObjectHandler {
 		return parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
 	}
 }
- 
-?>

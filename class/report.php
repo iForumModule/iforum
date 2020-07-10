@@ -28,11 +28,11 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
  
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
 iforum_load_object();
  
 class Report extends ArtObject {
-	function Report()
+	function __construct()
 	{
 		$this->ArtObject("bb_report");
 		$this->initVar('report_id', XOBJ_DTYPE_INT);
@@ -47,7 +47,7 @@ class Report extends ArtObject {
 }
  
 class IforumReportHandler extends ArtObjectHandler {
-	function IforumReportHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_report', 'Report', 'report_id');
 	}
@@ -127,5 +127,3 @@ class IforumReportHandler extends ArtObjectHandler {
 		return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
 	}
 }
- 
-?>

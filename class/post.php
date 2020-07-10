@@ -34,7 +34,7 @@ iforum_load_object();
 class Post extends ArtObject {
 	var $attachment_array = array();
 	 
-	function Post()
+	function __construct()
 	{
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
@@ -405,7 +405,7 @@ class Post extends ArtObject {
 		 
 		if ($GLOBALS["icmsModuleConfig"]['enable_permcheck'])
 		{
-			$topic_handler =icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+			$topic_handler =icms_getmodulehandler('topic', basename(dirname(__DIR__) ), 'iforum' );
 			if ($topic_handler->getPermission($forum_id, $topic_status, "edit"))
 			{
 				$edit_ok = false;
@@ -517,14 +517,14 @@ class Post extends ArtObject {
 }
  
 class IforumPostHandler extends ArtObjectHandler {
-	function IforumPostHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_posts', 'Post', 'post_id', 'subject');
 	}
 	 
 	function &get($id)
 	{
-		$id = intval($id);
+		$id = (int)$id;
 		$post = null;
 		$sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' t ON p.post_id=t.post_id WHERE p.post_id=' . $id;
 		if ($array = $this->db->fetchArray($this->db->query($sql)))
@@ -1003,5 +1003,3 @@ class IforumPostHandler extends ArtObjectHandler {
 		return $this->deleteAll($crit_expire, true/*, true*/);
 	}
 }
- 
-?>

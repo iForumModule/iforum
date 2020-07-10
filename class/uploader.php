@@ -36,7 +36,7 @@ class iforum_uploader extends icms_file_MediaUploadHandler {
 	 * @param int   $maxWidth
 	 * @param int   $maxHeight
 	 */
-	public function iforum_uploader($uploadDir, $allowedMimeTypes = array(), $maxFileSize = 0, $maxWidth = null, $maxHeight = null) {
+	public function __construct($uploadDir, $allowedMimeTypes = array(), $maxFileSize = 0, $maxWidth = null, $maxHeight = null) {
 		if (!is_array($allowedMimeTypes)) {
 			if (empty($allowedMimeTypes) || $allowedMimeTypes == "*") {
 				$allowedMimeTypes = array();

@@ -56,7 +56,7 @@ class Moderate extends ArtObject {
 }
  
 class IforumModerateHandler extends ArtObjectHandler {
-	function IforumModerateHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_moderates', 'Moderate', 'mod_id', 'uid');
 	}
@@ -70,7 +70,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 	*/
 	function clearGarbage($expire = 0)
 	{
-		$expire = time() - intval($expire);
+		$expire = time() - (int)$expire;
 		$sql = sprintf("DELETE FROM %s WHERE mod_end < %u", $this->db->prefix('bb_moderates'), $expire);
 		$this->db->queryF($sql);
 	}
@@ -92,7 +92,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 		$uid = ($uid < 0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):
 		$uid;
 		$uid_criteria = empty($uid)?"1=1":
-		"uid=".intval($uid);
+		"uid=". (int)$uid;
 		$ip = empty($ip)?iforum_getIP(true):
 		$ip;
 		if (!empty($ip))
@@ -109,7 +109,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 			$ip_criteria = "1=1";
 		}
 		$forum_criteria = empty($forum)?"forum_id=0":
-		"forum_id=0 OR forum_id=".intval($forum);
+		"forum_id=0 OR forum_id=". (int)$forum;
 		$expire_criteria = "mod_end > ".time();
 		$sql = sprintf("SELECT COUNT(*) AS count FROM %s WHERE (%s OR %s) AND (%s) AND (%s)", $this->db->prefix('bb_moderates'), $uid_criteria, $ip_criteria, $forum_criteria, $expire_criteria);
 		if (!$result = $this->db->query($sql))
@@ -128,7 +128,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 	* @param int  $uid user id
 	* @param string  $ip user ip
 	*/
-	function forumList($uid = -1, $ip = "")
+	public function forumList($uid = -1, $ip = "")
 	{
 		static $forums = array();
 		$uid = ($uid < 0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):
@@ -148,7 +148,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 			}
 		}
 		$uid_criteria = empty($uid)?"1=1":
-		"uid=".intval($uid);
+		"uid=". (int)$uid;
 		if (!empty($ip))
 		{
 			$ip_segs = explode(".", $ip);
@@ -247,4 +247,3 @@ class IforumModerateHandler extends ArtObjectHandler {
 		return true;
 	}
 }
-?>

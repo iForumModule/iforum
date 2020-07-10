@@ -28,12 +28,12 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
  
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
 iforum_load_object();
  
 class Category extends ArtObject {
 	 
-	function Category()
+	function __construct()
 	{
 		$this->ArtObject("bb_categories");
 		$this->initVar('cat_id', XOBJ_DTYPE_INT);
@@ -49,7 +49,7 @@ class Category extends ArtObject {
 }
  
 class IforumCategoryHandler extends ArtObjectHandler {
-	function IforumCategoryHandler(&$db)
+	function __construct(&$db)
 	{
 		$this->ArtObjectHandler($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
 	}
@@ -77,7 +77,7 @@ class IforumCategoryHandler extends ArtObjectHandler {
 		return $_cachedCats[$perm_string];
 	}
 	 
-	function insert(&$category)
+	function insert(&$category, $force = true)
 	{
 		parent::insert($category, true);
 		if ($category->isNew())
@@ -88,10 +88,10 @@ class IforumCategoryHandler extends ArtObjectHandler {
 		return $category->getVar('cat_id');
 	}
 	 
-	function delete(&$category)
+	function delete(&$category, $force = true)
 	{
 		global $icmsModule;
-		$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler =icms_getmodulehandler('forum', basename(dirname(__DIR__) ), 'iforum' );
 		$forum_handler->deleteAll(new icms_db_criteria_Item("cat_id", $category->getVar('cat_id')), true, true);
 		if ($result = parent::delete($category))
 		{
@@ -122,12 +122,12 @@ class IforumCategoryHandler extends ArtObjectHandler {
 		 
 		if (!isset($_cachedCategoryPerms))
 		{
-			$getpermission =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+			$getpermission =icms_getmodulehandler('permission', basename(dirname(__DIR__) ), 'iforum' );
 			$_cachedCategoryPerms = $getpermission->getPermissions("category");
 		}
 		 
 		$cat_id = is_object($category)? $category->getVar('cat_id'):
-		intval($category);
+            (int)$category;
 		$permission = (isset($_cachedCategoryPerms[$cat_id]['category_access'])) ? 1 :
 		 0;
 		 
@@ -136,15 +136,13 @@ class IforumCategoryHandler extends ArtObjectHandler {
 	 
 	function deletePermission(&$category)
 	{
-		$perm_handler = icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$perm_handler = icms_getmodulehandler('permission', basename(dirname(__DIR__) ), 'iforum' );
 		return $perm_handler->deleteByCategory($category->getVar("cat_id"));
 	}
 	 
 	function applyPermissionTemplate(&$category)
 	{
-		$perm_handler = icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$perm_handler = icms_getmodulehandler('permission', basename(dirname(__DIR__) ), 'iforum' );
 		return $perm_handler->setCategoryPermission($category->getVar("cat_id"));
 	}
 }
- 
-?>
