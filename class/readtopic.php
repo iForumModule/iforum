@@ -167,4 +167,3 @@ class IforumReadtopicHandler extends IforumReadHandler {
 		return true;
 	}
 }
-?>

@@ -49,7 +49,9 @@ class Report extends ArtObject {
 class IforumReportHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		parent::__construct($db, 'bb_report', 'Report', 'report_id');
+
+    parent::__construct($db, 'bb_report', 'Report', 'report_id');
+
 	}
 	function &getByPost($posts)
 	{

@@ -28,7 +28,7 @@ foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'start') as $geti
 {
 	$ {
 		$getint }
-	 = isset($_GET[$getint]) ? intval($_GET[$getint]) :
+	 = isset($_GET[$getint]) ? (int)$_GET[$getint] :
 	 0;
 }
 $viewmode = (isset($_GET['viewmode']) && $_GET['viewmode'] != 'flat') ? 'thread' :
@@ -44,9 +44,9 @@ elseif (empty($topic_id) )
 	exit();
 }
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
  
 if (!$topic_id && !$post_id )
 {
@@ -79,7 +79,7 @@ if (!$topic_handler->getPermission($forum_obj, $topic_status, 'reply'))
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($forum_obj);
 }
  
@@ -165,7 +165,7 @@ if (icms::$module->config['disc_show'] == 2 or icms::$module->config['disc_show'
  
 include 'include/forumform.inc.php';
  
-$karma_handler = icms_getmodulehandler('karma', basename(dirname(__FILE__ ) ), 'iforum' );
+$karma_handler = icms_getmodulehandler('karma', basename(__DIR__), 'iforum' );
 $user_karma = $karma_handler->getUserKarma();
  
 foreach ($forumpostshow as $eachpost)
@@ -213,4 +213,3 @@ foreach ($forumpostshow as $eachpost)
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

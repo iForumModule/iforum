@@ -706,7 +706,7 @@ class IforumForumHandler extends ArtObjectHandler {
 	*
 	* @return  bool true on success
 	*/
-	function cleanOrphan()
+	function cleanOrphan($table_link='', $field_link='', $field_object='')
 	{
 		parent::cleanOrphan($this->db->prefix("bb_categories"), "cat_id");
 		 

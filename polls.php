@@ -35,10 +35,10 @@ include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
 $op = "add";
 if (isset($_GET['op'])) $op = $_GET['op'];
 if (isset($_POST['op'])) $op = $_POST['op'];
-if (isset($_GET['poll_id'])) $poll_id = intval($_GET['poll_id']);
-	if (isset($_POST['poll_id'])) $poll_id = intval($_POST['poll_id']);
-	if (isset($_GET['topic_id'])) $topic_id = intval($_GET['topic_id']);
-	if (isset($_POST['topic_id'])) $topic_id = intval($_POST['topic_id']);
+if (isset($_GET['poll_id'])) $poll_id = (int)$_GET['poll_id'];
+	if (isset($_POST['poll_id'])) $poll_id = (int)$_POST['poll_id'];
+	if (isset($_GET['topic_id'])) $topic_id = (int)$_GET['topic_id'];
+	if (isset($_POST['topic_id'])) $topic_id = (int)$_POST['topic_id'];
 	 
 if (!isset($module_handler)) $module_handler = icms::handler('icms_module');
 $xoopspoll = $module_handler->getByDirname('xoopspoll');
@@ -50,10 +50,10 @@ if (!is_object($xoopspoll) || !$xoopspoll->getVar('isactive'))
  
 include ICMS_ROOT_PATH."/header.php";
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $forumtopic = $topic_handler->get($topic_id);
 $forum = $forumtopic->getVar('forum_id');
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $viewtopic_forum = $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum))
 {
@@ -584,4 +584,3 @@ if ($op == "log" )
 }
  
 include ICMS_ROOT_PATH."/footer.php";
-?>

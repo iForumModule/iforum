@@ -51,9 +51,9 @@ if (empty($forum) )
 	exit();
 }
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
  
 if (!empty($isedit) && $post_id > 0 )
 {
@@ -76,7 +76,7 @@ if (!$forum_handler->getPermission($forum_obj))
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($forum_obj);
 }
  
@@ -573,4 +573,3 @@ if (!empty($_POST['contents_upload']) || !empty($_POST['contents_preview']) || !
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

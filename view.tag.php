@@ -15,4 +15,3 @@
 //die('Sorry, this feature is not ready yet!<br />');
 include "header.php";
 include ICMS_ROOT_PATH."/modules/tag/view.tag.php";
-?>

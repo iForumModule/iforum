@@ -378,6 +378,7 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
             return mysql_get_server_info();
         }*/
         return "6.0.0";
+
     }
     
     /**

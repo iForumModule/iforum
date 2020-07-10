@@ -69,7 +69,7 @@ class ArtObject extends _XoopsPersistableObject
 	    if (!isset($loaded)) return;
 	    $loaded = 1;
 	    
-	    $path = empty($this->plugin_path) ? dirname(__FILE__).'/filters' : $this->plugin_path;
+	    $path = empty($this->plugin_path) ? __DIR__ .'/filters' : $this->plugin_path;
         @include_once $path.'/filter.php';
         foreach ($this->_filters as $f) {
             @include_once $path.'/'.strtolower($f).'php';

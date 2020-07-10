@@ -42,7 +42,7 @@ iforum_load_object();
  
 class Moderate extends ArtObject {
 	 
-	function Moderate()
+	function __construct()
 	{
 		parent::__construct("bb_moderates");
 		$this->initVar('mod_id', XOBJ_DTYPE_INT);

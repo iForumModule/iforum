@@ -32,7 +32,7 @@
 
 class XoopsRank extends XoopsObject
 {
-    function XoopsRank()
+    function __construct()
     {
         $this->XoopsObject();
         $this->initVar('rank_id', XOBJ_DTYPE_INT, null, false);
@@ -45,8 +45,7 @@ class XoopsRank extends XoopsObject
 }
 class XoopsRankHandler extends XoopsPersistableObjectHandler
 {
-    function XoopsRankHandler(&$db) {
+    function __construct(&$db) {
         $this->XoopsPersistableObjectHandler($db, 'ranks', 'XoopsRank', 'rank_id', 'rank_title');
     }
 }
-?>

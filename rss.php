@@ -30,13 +30,13 @@ icms::$logger->activated = FALSE;
  
 $forums = null;
 $category = empty($_GET["c"])?null:
-intval($_GET["c"]);
+(int)$_GET["c"];
 if (isset($_GET["f"]))
 {
 	$forums = array_map("intval", array_map("trim", explode("|", $_GET["f"])));
 }
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
  
 $available_forums = array();
@@ -91,7 +91,7 @@ $xoopsCachedTemplateId = 'mod_'.$icmsModule->getVar('dirname').'|'.md5(str_repla
 if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 {
 	 
-	$xmlrss_handler = icms_getmodulehandler('xmlrss', basename(dirname(__FILE__ ) ), 'iforum' );
+	$xmlrss_handler = icms_getmodulehandler('xmlrss', basename(__DIR__), 'iforum' );
 	$rss = $xmlrss_handler->create();
 	 
 	$rss->setVarRss('channel_title', $icmsConfig['sitename'].' :: '._MD_FORUM);
@@ -206,4 +206,3 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 	unset($rss);
 }
 $tpl->display('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id);
-?>

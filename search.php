@@ -28,7 +28,7 @@ iforum_load_lang_file("search");
 $icmsConfigSearch = icms::$config->getConfigsByCat(ICMS_CONF_SEARCH);
 if ($icmsConfigSearch['enable_search'] != 1)
 {
-	header('Location: '.ICMS_URL.'/modules/'.basename(dirname(__FILE__ ) ).'/index.php');
+	header('Location: '.ICMS_URL.'/modules/'.basename(__DIR__).'/index.php');
 	exit();
 }
  
@@ -36,7 +36,7 @@ $icmsConfig['module_cache'][$icmsModule->getVar('mid')] = 0;
 $xoopsOption['template_main'] = 'iforum_search.html';
 include ICMS_ROOT_PATH.'/header.php';
  
-include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__ ) ).'/include/search.inc.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename(__DIR__).'/include/search.inc.php';
 $limit = icms::$module->config['topics_per_page'];
  
 $queries = array();
@@ -58,7 +58,7 @@ $uname = isset($_POST['uname']) ? $_POST['uname'] :
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init(0);
 }
  
@@ -231,10 +231,10 @@ if (!empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !em
 	$icmsTpl->assign("search_info", $search_info);
 }
  
-$forumperms = icms_getmodulehandler('permission', basename(dirname(__FILE__ ) ), 'iforum' );
+$forumperms = icms_getmodulehandler('permission', basename(__DIR__), 'iforum' );
 $allowed_forums = $forumperms->getPermissions('forum');
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $forum_array = $forum_handler->getForums();
  
 $select_forum = '<select name="forum[]" size="5" multiple="multiple">';
@@ -257,4 +257,3 @@ if ($icmsConfigSearch['keyword_min'] > 0)
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

@@ -38,11 +38,11 @@ error_reporting(0);
 if (empty($_POST["post_data"]))
 {
 	 
-	$forum = isset($_GET['forum']) ? intval($_GET['forum']) :
+	$forum = isset($_GET['forum']) ? (int)$_GET['forum'] :
 	 0;
-	$topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) :
+	$topic_id = isset($_GET['topic_id']) ? (int)$_GET['topic_id'] :
 	 0;
-	$post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) :
+	$post_id = !empty($_GET['post_id']) ? (int)$_GET['post_id'] :
 	 0;
 	 
 	if (empty($post_id) && empty($topic_id) )
@@ -52,7 +52,7 @@ if (empty($_POST["post_data"]))
 	 
 	if (!empty($post_id))
 	{
-		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 		$post = $post_handler->get($post_id);
 		if (!$approved = $post->getVar('approved'))
 		{
@@ -61,10 +61,10 @@ if (empty($_POST["post_data"]))
 		$topic_id = $post->getVar("topic_id");
 		$post_data = $post_handler->getPostForPrint($post);
 		$isPost = 1;
-		$post_data["url"] = ICMS_URL."/".basename(dirname(__FILE__ ) )."/viewtopic.php?topic_id=".$post->getVar("topic_id")."&amp;post_id=".$post_id;
+		$post_data["url"] = ICMS_URL."/".basename(__DIR__)."/viewtopic.php?topic_id=".$post->getVar("topic_id")."&amp;post_id=".$post_id;
 	}
 	 
-	$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+	$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 	$forumtopic = $topic_handler->get($topic_id);
 	$topic_id = $forumtopic->getVar('topic_id');
 	$forum = $forumtopic->getVar('forum_id');
@@ -79,7 +79,7 @@ if (empty($_POST["post_data"]))
 		die(_MD_NORIGHTTOVIEW);
 	}
 	 
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+	$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 	$forum = $forumtopic->getVar('forum_id');
 	$viewtopic_forum = $forum_handler->get($forum);
 	if (!$forum_handler->getPermission($viewtopic_forum))
@@ -115,7 +115,7 @@ if (empty($isPost))
 	echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
 		<div style='width: 750px; border: 1px solid #000; padding: 20px;'>
 		<div style='text-align: center; display: block; margin: 0 0 6px 0;'>
-		<img src='" . ICMS_URL . "/modules/".basename(dirname(__FILE__ ) )."/images/xoopsbb_slogo.png' border='0' alt='' />
+		<img src='" . ICMS_URL . "/modules/".basename(__DIR__)."/images/xoopsbb_slogo.png' border='0' alt='' />
 		<br />
 		<br />
 		";
@@ -131,7 +131,7 @@ if (empty($isPost))
 			<div style='text-align: left'>".$post_data['text']."</div>
 			<div style='padding-top: 12px; border-top: 2px solid #ccc;'></div><br />";
 	}
-	echo "<p>"._MD_COMEFROM . "&nbsp;".ICMS_URL."/".basename(dirname(__FILE__ ) )."/viewtopic.php?forum=".$forum_id."&amp;topic_id=".$topic_id."</p>";
+	echo "<p>"._MD_COMEFROM . "&nbsp;".ICMS_URL."/".basename(__DIR__)."/viewtopic.php?forum=".$forum_id."&amp;topic_id=".$topic_id."</p>";
 	echo "</div></div>";
 	echo "</body></html>";
 	 
@@ -151,7 +151,7 @@ else
 	echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
 		<div style='width: 750px; border: 1px solid #000; padding: 20px;'>
 		<div style='text-align: center; display: block; margin: 0 0 6px 0;'>
-		<img src='" . ICMS_URL . "/modules/".basename(dirname(__FILE__ ) )."/images/xoopsbb_slogo.png' border='0' alt='' />
+		<img src='" . ICMS_URL . "/modules/".basename(__DIR__)."/images/xoopsbb_slogo.png' border='0' alt='' />
 		<h2 style='margin: 0;'>".$post_data['subject']."</h2></div>
 		<div align='center'>" ._POSTEDBY. "&nbsp;".$post_data['author']."&nbsp;"._ON."&nbsp;".$post_data['date']."</div>
 		<div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
@@ -162,4 +162,3 @@ else
 		<br />";
 	echo "<br /></body></html>";
 }
-?>

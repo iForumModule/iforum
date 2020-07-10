@@ -149,5 +149,3 @@ function iforum_getIP($asString = false)
 {
 	return mod_getIP($asString);
 }
- 
-?>

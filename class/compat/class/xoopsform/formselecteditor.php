@@ -36,7 +36,7 @@ class IforumFormSelectEditor extends icms_form_elements_Tray {
 	 * @param	string	$value	Pre-selected text value
      * @param	bool	$noHtml	dohtml disabled
 	 */
-	function IforumFormSelectEditor(&$form, $name = "editor", $value = null, $nohtml = false, $allowed_editors = array()) {
+	function __construct(&$form, $name = "editor", $value = null, $nohtml = false, $allowed_editors = array()) {
 		parent::__construct(_SELECT);
 		$this->allowed_editors = $allowed_editors;
 		$this->form		=& $form;

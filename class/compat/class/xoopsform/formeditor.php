@@ -23,7 +23,7 @@ class IforumFormEditor extends icms_form_elements_Textarea
      * @param	bool  	$noHtml		use non-WYSIWYG eitor onfailure
      * @param	string  $OnFailure	editor to be used if current one failed
 	 */
-	function IforumFormEditor($caption, $name, $editor_configs = null, $nohtml = false, $OnFailure = "")
+	function __construct($caption, $name, $editor_configs = null, $nohtml = false, $OnFailure = "")
 	{
 		parent::__construct($caption, $editor_configs["name"]);
 		require_once ICMS_ROOT_PATH."/class/xoopseditor.php";
@@ -36,4 +36,3 @@ class IforumFormEditor extends icms_form_elements_Textarea
 		return $this->editor->render();
 	}
 }
-?>

@@ -212,4 +212,3 @@ function iforum_createThumbnail($source, $thumb_width)
 	}
 	 
 	endif;
-	?>

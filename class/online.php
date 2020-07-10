@@ -189,6 +189,7 @@ class IforumOnlineHandler {
 		}
 		 
 		$mysql_version = "6.0.0";
+
 		/* for MySQL 4.1+ */
 		if ($mysql_version >= "4.1"):
 		 

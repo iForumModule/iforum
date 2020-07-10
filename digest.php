@@ -32,9 +32,8 @@ if (icms::$module->config['email_digest'] == 0)
 	echo "<br />Not set";
 	return false;
 }
-$digest_handler = icms_getmodulehandler('digest', basename(dirname(__FILE__ ) ), 'iforum' );
+$digest_handler = icms_getmodulehandler('digest', basename(__DIR__), 'iforum' );
 $msg = $digest_handler->process();
 $msg .= ob_get_contents();
 ob_end_clean();
 echo "<br />".$msg;
-?>

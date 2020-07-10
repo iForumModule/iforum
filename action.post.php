@@ -25,9 +25,9 @@
  
 include 'header.php';
  
-$topic_id = isset($_POST['topic_id']) ? intval($_POST['topic_id']) :
+$topic_id = isset($_POST['topic_id']) ? (int)$_POST['topic_id'] :
  0;
-$post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) :
+$post_id = !empty($_GET['post_id']) ? (int)$_GET['post_id'] :
  0;
 $post_id = !empty($_POST['post_id']) ? $_POST['post_id'] :
  $post_id;
@@ -37,7 +37,7 @@ $op = !empty($_GET['op']) ? $_GET['op'] :
  (!empty($_POST['op']) ? $_POST['op']:"");
 $op = in_array($op, array("approve", "delete", "restore", "split"))? $op :
  "";
-$mode = !empty($_GET['mode']) ? intval($_GET['mode']) :
+$mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  1;
  
 if (empty($post_id) || empty($op))
@@ -46,9 +46,9 @@ if (empty($post_id) || empty($op))
 	exit();
 }
  
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 if (empty($topic_id))
 {
 	$viewtopic_forum = null;
@@ -260,4 +260,3 @@ else
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

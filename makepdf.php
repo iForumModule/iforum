@@ -26,58 +26,58 @@
 error_reporting(0);
 include 'header.php';
  
-$forum = isset($_GET['forum']) ? intval($_GET['forum']) :
+$forum = isset($_GET['forum']) ? (int)$_GET['forum'] :
  0;
-$topic_id = isset($_GET['topic_id']) ? intval($_GET['topic_id']) :
+$topic_id = isset($_GET['topic_id']) ? (int)$_GET['topic_id'] :
  0;
-$post_id = !empty($_GET['post_id']) ? intval($_GET['post_id']) :
+$post_id = !empty($_GET['post_id']) ? (int)$_GET['post_id'] :
  0;
  
 if (empty($post_id))
 {
-	redirect_header(ICMS_URL.'/modules/'.basename(dirname(__FILE__ ) ).'/index.php', 2, _MD_ERRORTOPIC);
+	redirect_header(ICMS_URL.'/modules/'.basename(__DIR__).'/index.php', 2, _MD_ERRORTOPIC);
 	exit();
 }
  
 // Not exists
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 $post = $post_handler->get($post_id);
 if (empty($post) )
 {
-	redirect_header(ICMS_URL.'/modules/'.basename(dirname(__FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+	redirect_header(ICMS_URL.'/modules/'.basename(__DIR__).'/index.php', 2, _MD_NORIGHTTOVIEW);
 	exit();
 }
 // Not yet approved
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 $post = $post_handler->get($post_id);
 if (!$approved = $post->getVar('approved') )
 {
-	redirect_header(ICMS_URL.'/modules/'.basename(dirname(__FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+	redirect_header(ICMS_URL.'/modules/'.basename(__DIR__).'/index.php', 2, _MD_NORIGHTTOVIEW);
 	exit();
 }
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $forumtopic = $topic_handler->getByPost($post_id);
 $topic_id = $forumtopic->getVar('topic_id');
 if (!$approved = $forumtopic->getVar('approved') )
 {
-	redirect_header(ICMS_URL.'/modules/'.basename(dirname(__FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+	redirect_header(ICMS_URL.'/modules/'.basename(__DIR__).'/index.php', 2, _MD_NORIGHTTOVIEW);
 	exit();
 }
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $forum = ($forum)?$forum:
 $forumtopic->getVar('forum_id');
 $viewtopic_forum = $forum_handler->get($forum);
 if (!$forum_handler->getPermission($viewtopic_forum) )
 {
-	redirect_header(ICMS_URL.'/modules/'.basename(dirname(__FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOACCESS);
+	redirect_header(ICMS_URL.'/modules/'.basename(__DIR__).'/index.php', 2, _MD_NORIGHTTOACCESS);
 	exit();
 }
  
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view") )
 {
-	redirect_header(ICMS_URL.'/modules/'.basename(dirname(__FILE__ ) ).'/index.php', 2, _MD_NORIGHTTOVIEW);
+	redirect_header(ICMS_URL.'/modules/'.basename(__DIR__).'/index.php', 2, _MD_NORIGHTTOVIEW);
 	exit();
 }
 require_once ICMS_ROOT_PATH.'/include/pdf.php';
@@ -96,5 +96,3 @@ $content = '<b><i><u>'._PDF_SUBJECT.': '.$pdf_data['title'].'</u></i></b><br /><
 $doc_title = $pdf_data['subtitle'];
 $doc_keywords = 'ICMS';
 $contents = Generate_PDF ($content, $doc_title, $doc_keywords);
- 
-?>

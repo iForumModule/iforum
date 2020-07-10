@@ -25,9 +25,9 @@
  
 include 'header.php';
  
-$forum_id = isset($_POST['forum']) ? intval($_POST['forum']) :
+$forum_id = isset($_POST['forum']) ? (int)$_POST['forum'] :
  0;
-$forum_id = isset($_GET['forum']) ? intval($_GET['forum']) :
+$forum_id = isset($_GET['forum']) ? (int)$_GET['forum'] :
  $forum_id;
  
 $isadmin = iforum_isAdmin($forum_id);
@@ -38,7 +38,7 @@ if (!$isadmin)
 }
 $is_administrator = iforum_isAdmin();
  
-$moderate_handler = icms_getmodulehandler('moderate', basename(dirname(__FILE__ ) ), 'iforum' );
+$moderate_handler = icms_getmodulehandler('moderate', basename(__DIR__), 'iforum' );
  
 if (!empty($_POST["submit"]) && !empty($_POST["expire"]))
 {
@@ -62,7 +62,7 @@ if (!empty($_POST["submit"]) && !empty($_POST["expire"]))
 		if ($res = $moderate_handler->insert($moderate_obj) && !empty($forum_id) && !empty($_POST["uid"]) )
 		{
 			$uname = XoopsUser::getUnameFromID($_POST["uid"]);
-			$post_handler = icms_getmodulehandler("post", basename(dirname(__FILE__ ) ), 'iforum' );
+			$post_handler = icms_getmodulehandler("post", basename(__DIR__), 'iforum' );
 			$forumpost = $post_handler->create();
 			$forumpost->setVar("poster_ip", iforum_getIP());
 			$forumpost->setVar("uid", empty($GLOBALS["xoopsUser"])?0:$GLOBALS["xoopsUser"]->getVar("uid"));
@@ -111,7 +111,7 @@ elseif(!empty($_GET["del"]))
 	}
 }
  
-$start = isset($_GET['start']) ? intval($_GET['start']) :
+$start = isset($_GET['start']) ? (int)$_GET['start'] :
  0;
 $sortname = isset($_GET['sort']) ? $_GET['sort'] :
  "";
@@ -259,4 +259,3 @@ $forum_form->addElement(new icms_form_elements_Hidden('forum', $forum_id));
 $forum_form->addElement(new icms_form_elements_Button('', 'submit', _SUBMIT, "submit"));
 $forum_form->display();
 include ICMS_ROOT_PATH.'/footer.php';
-?>

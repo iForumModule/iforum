@@ -28,7 +28,7 @@ include "header.php";
 /* deal with marks */
 if (isset($_GET['mark_read']))
 	{
-	if (1 == intval($_GET['mark_read']))
+	if (1 == (int)$_GET['mark_read'])
 	{
 		// marked as read
 		$markvalue = 1;
@@ -45,8 +45,8 @@ if (isset($_GET['mark_read']))
 	redirect_header($url, 2, _MD_ALL_FORUM_MARKED.' '.$markresult);
 }
  
-$viewcat = @intval($_GET['cat']);
-$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__ ) ), 'iforum' );
+$viewcat = @(int)$_GET['cat'];
+$category_handler = icms_getmodulehandler('category', basename(__DIR__), 'iforum' );
  
 $categories = array();
 if (!$viewcat)
@@ -89,7 +89,7 @@ $icmsTpl->assign('xoops_module_header', $icms_module_header);
 $icmsTpl->assign('forum_index_title', $forum_index_title);
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init();
 	$icmsTpl->assign('online', $online_handler->show_online());
 }
@@ -102,7 +102,7 @@ $icmsTpl->assign(array(
 	"lang_lastvisit" => sprintf(_MD_LASTVISIT, formatTimestamp($last_visit)),
 	"lang_currenttime" => sprintf(_MD_TIMENOW, formatTimestamp(time(), "m"))));
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $forums_obj = $forum_handler->getForumsByCategory(array_keys($categories), "access");
 $forums_array = $forum_handler->display($forums_obj);
 unset($forums_obj);
@@ -186,7 +186,7 @@ $icmsTpl->assign('down', iforum_displayImage($forumImage['doubledown']));
  
 $isadmin = iforum_isAdmin();
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
-$mode = (!empty($_GET['mode'])) ? intval($_GET['mode']) :
+$mode = (!empty($_GET['mode'])) ? (int)$_GET['mode'] :
  0;
 $icmsTpl->assign('mode', $mode );
  
@@ -211,4 +211,3 @@ $icmsTpl->assign(array(
 	"img_locked_newposts" => iforum_displayImage($forumImage['locked_forum_newposts']),
 	'img_subforum' => iforum_displayImage($forumImage['subforum'])));
 include_once ICMS_ROOT_PATH.'/footer.php';
-?>

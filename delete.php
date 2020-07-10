@@ -44,16 +44,16 @@ foreach (array('forum', 'topic_id', 'post_id', 'order', 'pid', 'act') as $getint
 	)?$ {
 		$getint }
 	:
-	(isset($_GET[$getint]) ? intval($_GET[$getint]) : 0);
+	(isset($_GET[$getint]) ? (int)$_GET[$getint] : 0);
 }
 $viewmode = (isset($_GET['viewmode']) && $_GET['viewmode'] != 'flat') ? 'thread' :
  'flat';
 $viewmode = ($viewmode)?$viewmode:
  (isset($_POST['viewmode'])?$_POST['viewmode'] : 'flat');
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
  
 if (!empty($post_id) )
 {
@@ -104,7 +104,7 @@ if (!$isadmin && !$forumpost->checkTimelimit('delete_timelimit'))
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($forum_obj);
 }
  
@@ -143,4 +143,3 @@ else
 	}
 	include ICMS_ROOT_PATH.'/footer.php';
 }
-?>

@@ -53,6 +53,7 @@ function mod_getIP($asString = false)
   	}
     
   	$the_IP = ($asString) ? $the_IP : ip2long($the_IP);
+
   	*/
   	return '0.0.0.0';
 }

@@ -27,7 +27,7 @@ include "header.php";
  
 $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "digest", "unreplied", "unread")))? $_GET['type'] :
  "";
-$mode = !empty($_GET['mode']) ? intval($_GET['mode']) :
+$mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?2:
 $mode;
@@ -50,12 +50,12 @@ $xoopsOption['template_main'] = 'iforum_viewall.html';
 include ICMS_ROOT_PATH."/header.php";
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $viewall_forums = $forum_handler->getForums(0, 'access', array("forum_id", "cat_id", "forum_name")); // get all accessible forums
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init();
 	$icmsTpl->assign('online', $online_handler->show_online());
 }
@@ -90,7 +90,7 @@ $forum_selection_order .= '</select>';
 // assign to template
 $icmsTpl->assign_by_ref('forum_selection_order', $forum_selection_order);
  
-$since = isset($_GET['since']) ? intval($_GET['since']) :
+$since = isset($_GET['since']) ? (int)$_GET['since'] :
  icms::$module->config["since_default"];
 $forum_selection_since = iforum_sinceSelectBox($since);
  
@@ -107,7 +107,7 @@ $icmsTpl->assign('forum_since', $since); // For $since in search.php
  
 $startdate = empty($since)?0:
 (time() - iforum_getSinceTime($since));
-$start = !empty($_GET['start']) ? intval($_GET['start']) :
+$start = !empty($_GET['start']) ? (int)$_GET['start'] :
  0;
  
 $all_link = "viewall.php?start=$start&amp;sortname=$sortname&amp;sortorder=$sortorder&amp;since=$since";
@@ -197,4 +197,3 @@ $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
 $icmsTpl->assign('xoops_pagetitle', $icmsModule->getVar('name'). ' - ' .$current_type);
  
 include ICMS_ROOT_PATH."/footer.php";
-?>

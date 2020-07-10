@@ -42,8 +42,8 @@ if (empty($topic_id) || empty($op))
 }
  
 $topic_id = array_values($topic_id);
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 /*
 $topicid = is_array($topic_id)?$topic_id[0]:$topic_id;
 $forumtopic = $topic_handler->get($topicid);
@@ -149,7 +149,7 @@ switch($op)
 	)
 	{
 		$criteria = new icms_db_criteria_Item('topic_id', "(".implode(",", $topic_id).")", "IN");
-		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 		$post_handler->updateAll("forum_id", intval($_POST["newforum"]), $criteria, true);
 		$topic_handler->updateAll("forum_id", intval($_POST["newforum"]), $criteria, true);
 		 
@@ -158,7 +158,7 @@ switch($op)
 	}
 	else
 	{
-		$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__ ) ), 'iforum' );
+		$category_handler = icms_getmodulehandler('category', basename(__DIR__), 'iforum' );
 		$categories = $category_handler->getAllCats('access', true);
 		$forums = $forum_handler->getForumsByCategory(array_keys($categories), 'post', false);
 		 
@@ -218,4 +218,3 @@ else
 }
  
 include ICMS_ROOT_PATH.'/footer.php';
-?>

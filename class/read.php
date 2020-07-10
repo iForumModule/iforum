@@ -94,7 +94,8 @@ class IforumReadHandler extends ArtObjectHandler {
 		$type = ("forum" == $type) ? "forum" :
 		 "topic";
 		parent::__construct($db, 'bb_reads_'.$type, 'Read'.$type, 'read_id', 'post_id');
-		$this->type = $type;
+
+    $this->type = $type;
 		$iforumConfig = iforum_load_config();
 		$this->lifetime = !empty($iforumConfig["read_expire"]) ? $iforumConfig["read_expire"] * 24 * 3600 :
 		 30 * 24 * 3600;
@@ -269,4 +270,3 @@ class IforumReadHandler extends ArtObjectHandler {
 	}
 	 
 }
-?>

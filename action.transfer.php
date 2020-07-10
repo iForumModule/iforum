@@ -66,16 +66,16 @@ if (empty($post_id) )
 	}
 }
  
-$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 $post = $post_handler->get($post_id);
 if (!$approved = $post->getVar('approved')) die(_NOPERM);
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $forumtopic = $topic_handler->getByPost($post_id);
 $topic_id = $forumtopic->getVar('topic_id');
 if (!$approved = $forumtopic->getVar('approved')) die(_NOPERM);
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $forum = ($forum)?$forum:
 $forumtopic->getVar('forum_id');
 $viewtopic_forum = $forum_handler->get($forum);
@@ -87,7 +87,7 @@ $op = empty($_POST["op"])?"":
 $_POST["op"];
 $op = strtolower(trim($op));
  
-$transfer_handler = icms_getmodulehandler("transfer", basename(dirname(__FILE__ ) ), 'iforum' );
+$transfer_handler = icms_getmodulehandler("transfer", basename(__DIR__), 'iforum' );
 $op_options = $transfer_handler->getList();
  
 // Display option form
@@ -114,7 +114,7 @@ else
 	$data = array();
 	$data["id"] = $post_id;
 	$data["uid"] = $post->getVar("uid");
-	$data["url"] = ICMS_URL."/modules/".basename(dirname(__FILE__ ) )."/viewtopic.php?topic_id=".$topic_id."&post_id=".$post_id;
+	$data["url"] = ICMS_URL."/modules/".basename(__DIR__)."/viewtopic.php?topic_id=".$topic_id."&post_id=".$post_id;
 	$post_data = $post->getPostBody();
 	$data["author"] = $post_data["author"];
 	$data["title"] = $post_data["subject"];
@@ -140,4 +140,3 @@ else
 	xoops_confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE, $op_options[$op]), _CLOSE, $ret);
 	include ICMS_ROOT_PATH."/footer.php";
 }
-?>

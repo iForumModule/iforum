@@ -33,7 +33,7 @@ if (empty($_GET['forum']) )
  
 if (isset($_GET['mark_read']))
 	{
-	if (1 == intval($_GET['mark_read']))
+	if (1 == (int)$_GET['mark_read'])
 	{
 		// marked as read
 		$markvalue = 1;
@@ -50,15 +50,15 @@ if (isset($_GET['mark_read']))
 	redirect_header($url, 2, $markresult);
 }
  
-$forum_id = intval($_GET['forum']);
+$forum_id = (int)$_GET['forum'];
 $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "digest", "unreplied", "unread")))? $_GET['type'] :
  "";
-$mode = !empty($_GET['mode']) ? intval($_GET['mode']) :
+$mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")))?2:
 $mode;
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $forum_obj = $forum_handler->get($forum_id);
 if (!$forum_handler->getPermission($forum_obj))
 	{
@@ -96,12 +96,12 @@ $icmsTpl->assign('type', $type);
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($forum_obj);
 	$icmsTpl->assign('online', $online_handler->show_online());
 }
  
-$getpermission = icms_getmodulehandler('permission', basename(dirname(__FILE__ ) ), 'iforum' );
+$getpermission = icms_getmodulehandler('permission', basename(__DIR__), 'iforum' );
 $permission_set = $getpermission->getPermissions("forum", $forum_obj->getVar('forum_id'));
  
 $t_new = iforum_displayImage($forumImage['t_new'], _MD_POSTNEW);
@@ -118,7 +118,7 @@ if ($forum_handler->getPermission($forum_obj, "post")) {
 	}
 } else {
 	if (!empty($GLOBALS["icmsModuleConfig"]["show_reg"]) && !is_object(icms::$user)) {
-		$redirect = preg_replace("|(.*)\/modules\/".basename(dirname(__FILE__ ) )."\/(.*)|", "\\1/modules/".basename(dirname(__FILE__ ) )."/newtopic.php?forum=".$forum_obj->getVar('forum_id'), htmlspecialchars($xoopsRequestUri));
+		$redirect = preg_replace("|(.*)\/modules\/".basename(__DIR__)."\/(.*)|", "\\1/modules/".basename(__DIR__)."/newtopic.php?forum=".$forum_obj->getVar('forum_id'), htmlspecialchars($xoopsRequestUri));
 		$icmsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.$redirect.'">'.$t_signup.'</a>');
 		$icmsTpl->assign('forum_addpoll', "");
 	} else {
@@ -146,7 +146,7 @@ if ($forum_obj->getVar('parent_forum')) {
 	}
 }
  
-$category_handler = icms_getmodulehandler("category", basename(dirname(__FILE__ ) ), 'iforum' );
+$category_handler = icms_getmodulehandler("category", basename(__DIR__), 'iforum' );
 $category_obj = $category_handler->get($forum_obj->getVar("cat_id"), array("cat_title"));
 $icmsTpl->assign('category', array("id" => $forum_obj->getVar("cat_id"), "title" => $category_obj->getVar('cat_title')));
  
@@ -183,7 +183,7 @@ $forum_selection_order .= '</select>';
  
 $icmsTpl->assign_by_ref('forum_selection_order', $forum_selection_order);
  
-$since = isset($_GET['since']) ? intval($_GET['since']) :
+$since = isset($_GET['since']) ? (int)$_GET['since'] :
  icms::$module->config["since_default"];
 $forum_selection_since = iforum_sinceSelectBox($since);
  
@@ -199,7 +199,7 @@ $icmsTpl->assign('forum_since', $since); // For $since in search.php
  
 $startdate = empty($since)?0:
 (time() - iforum_getSinceTime($since));
-$start = !empty($_GET['start']) ? intval($_GET['start']) :
+$start = !empty($_GET['start']) ? (int)$_GET['start'] :
  0;
  
 list($allTopics, $sticky) = $forum_handler->getAllTopics($forum_obj, $startdate, $start, $sortname, $sortorder, $type, icms::$module->config['post_excerpt']);
@@ -285,4 +285,3 @@ if (icms::$module->config['rss_enable'] == 1)
 }
  
 include ICMS_ROOT_PATH."/footer.php";
-?>

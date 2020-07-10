@@ -28,8 +28,10 @@ load_functions("admin");
  */
 function mod_getMysqlVersion($conn = null)
 {
+
     static $mysql_version;
 
     return "6.0.0";
 }
+
 endif;

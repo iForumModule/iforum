@@ -41,7 +41,7 @@ else
 	{
 		$ {
 			$getint }
-		 = isset($_GET[$getint]) ? intval($_GET[$getint]) :
+		 = isset($_GET[$getint]) ? (int)$_GET[$getint] :
 		 0;
 	}
 }
@@ -53,12 +53,12 @@ if (!$topic_id )
 	redirect_header($redirect, 2, _MD_ERRORTOPIC);
 }
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $forum = $topic_handler->get($topic_id, "forum_id");
 $forum_new = !empty($newtopic)?$topic_handler->get($newtopic, "forum_id"):
 0;
  
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__ ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 if (!$forum_handler->getPermission($forum, 'moderate')
 	|| (!empty($forum_new) && !$forum_handler->getPermission($forum_new, 'reply')) // The forum for the topic to be merged to
 || (!empty($newforum) && !$forum_handler->getPermission($newforum, 'post')) // The forum to be moved to
@@ -70,7 +70,7 @@ if (!$forum_handler->getPermission($forum, 'moderate')
  
 if (icms::$module->config['wol_enabled'])
 	{
-	$online_handler = icms_getmodulehandler('online', basename(dirname(__FILE__ ) ), 'iforum' );
+	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($forum);
 }
  
@@ -110,7 +110,7 @@ if (isset($_POST['submit']) )
 	elseif('merge' == $mode)
 	{
 		//$topic_handler = icms_getmodulehandler('topic', basename( dirname( __FILE__ ) ), 'iforum' );
-		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__ ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 		 
 		$newtopic_obj = $topic_handler->get($newtopic);
 		/* return false if destination topic is newer or not existing */
@@ -213,7 +213,7 @@ else
 		echo '<tr><td class="bg3">'._MD_MOVETOPICTO.'</td><td class="bg1">';
 		$box = '<select name="newforum" size="1">';
 		 
-		$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__ ) ), 'iforum' );
+		$category_handler = icms_getmodulehandler('category', basename(__DIR__), 'iforum' );
 		$categories = $category_handler->getAllCats('access', true);
 		$forums = $forum_handler->getForumsByCategory(array_keys($categories), 'post', false);
 		 
@@ -256,4 +256,3 @@ else
 	echo "</td></tr></form></table></td></tr></table>";
 }
 include ICMS_ROOT_PATH.'/footer.php';
-?>

@@ -105,4 +105,3 @@ if (!function_exists($MyDirName.'_tag_synchronization'))
 	$myfunc = 'function '.$MyDirName.'_tag_synchronization ($mid) { return iforum_tag_synchronization($mid);}';
 	eval($myfunc);
 }
-?>

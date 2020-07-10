@@ -45,4 +45,3 @@ $iforum_module_header .= '
 $icms_module_header = $iforum_module_header; // for cache hack
  
 iforum_welcome();
-?>

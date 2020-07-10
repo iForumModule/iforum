@@ -33,11 +33,11 @@ foreach(array("topic_id", "rate", "forum") as $var)
 {
 	$ {
 		$var }
-	 = isset($_POST[$var]) ? intval($_POST[$var]) :
-	 (isset($_GET[$var])?intval($_GET[$var]):0);
+	 = isset($_POST[$var]) ? (int)$_POST[$var] :
+	 (isset($_GET[$var])?(int)$_GET[$var]:0);
 }
  
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__ ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $topic_obj = $topic_handler->get($topic_id);
 if (!$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "post")
 	&& !$topic_handler->getPermission($topic_obj->getVar("forum_id"), $topic_obj->getVar('topic_status'), "reply")
@@ -99,4 +99,3 @@ redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 2, 
 exit();
  
 include 'footer.php';
-?>
