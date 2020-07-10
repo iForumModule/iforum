@@ -37,7 +37,7 @@ include_once __DIR__ .'/read.php';
 class Readtopic extends Read {
 	function __construct()
 	{
-		$this->Read("topic");
+        parent::__construct("topic");
 		//$this->initVar('forum_id', XOBJ_DTYPE_INT);
 	}
 }
