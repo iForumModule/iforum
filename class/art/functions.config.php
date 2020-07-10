@@ -105,4 +105,3 @@ function mod_clearConfg($dirname = "")
 }
 
 endif;
-?>

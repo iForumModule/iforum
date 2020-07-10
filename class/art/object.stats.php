@@ -32,7 +32,7 @@ class ArtObjectStatsHandler
      */
     var $_handler;
     
-    function ArtObjectStatsHandler(&$handler) {
+    function __construct(&$handler) {
 	    $this->_handler =& $handler; 
     }
     
@@ -115,4 +115,3 @@ class ArtObjectStatsHandler
         return $ret;
     }
 }
-?>

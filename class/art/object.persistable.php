@@ -22,7 +22,7 @@ class _XoopsPersistableObject extends icms_core_Object
      */
     var $table;
     
-    function _XoopsPersistableObject($table = null) {
+    function __construct($table = null) {
 	    if (!empty($table)) {
 	    	$this->table = $GLOBALS["xoopsDB"]->prefix($table);
     	}
@@ -396,4 +396,3 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
 	function insert(&$object) {}
 	function delete(&$object) {}
 }
-?>

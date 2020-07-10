@@ -32,7 +32,7 @@ class ArtObjectRenderHandler
      */
     var $_handler;
     
-    function ArtObjectRenderHandler(&$handler) {
+    function __construct(&$handler) {
 	    $this->_handler =& $handler; 
     }
 
@@ -209,4 +209,3 @@ class ArtObjectRenderHandler
         return $ret;
    	}	
 }
-?>

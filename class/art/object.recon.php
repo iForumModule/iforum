@@ -33,7 +33,7 @@ class ArtObjectReconHandler
      */
     var $_handler;
     
-    function ArtObjectReconHandler(&$handler) {
+    function __construct(&$handler) {
 	    $this->_handler =& $handler; 
     }
     
@@ -91,4 +91,3 @@ class ArtObjectReconHandler
         return true;
     }
 }
-?>

@@ -44,8 +44,8 @@ function mod_getIP($asString = false)
     }
 
     if (!empty($proxy_ip) &&
-        $is_ip = ereg('^([0-9]{1,3}\.){3,3}[0-9]{1,3}', $proxy_ip, $regs) &&
-        count($regs) > 0
+        $is_ip = (ereg('^([0-9]{1,3}\.){3,3}[0-9]{1,3}', $proxy_ip, $regs) &&
+            count($regs) > 0)
   	) {
       	$the_IP = $regs[0];
   	}else{
@@ -91,7 +91,7 @@ function &mod_getUnameFromIds( $uid, $usereal = false, $linked = false )
 function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
 {
 	$myts = MyTextSanitizer::getInstance();
-	$userid = intval($userid);
+	$userid = (int)$userid;
 	if ($userid > 0) {
         $member_handler = icms::handler('icms_member');
         $user = $member_handler->getUser($userid);
@@ -113,4 +113,3 @@ function mod_getUnameFromId( $userid, $usereal = 0, $linked = false)
 }
 
 endif;
-?>

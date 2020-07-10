@@ -47,5 +47,3 @@ function mod_loadFilters(&$object, $method)
 }
     
 endif;
-    
-?>

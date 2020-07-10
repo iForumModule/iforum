@@ -32,7 +32,7 @@ class ArtObjectJointHandler
      */
     var $_handler;
     
-    function ArtObjectJointHandler(&$handler) {
+    function __construct(&$handler) {
 	    $this->_handler =& $handler; 
     }
 	
@@ -111,7 +111,7 @@ class ArtObjectJointHandler
             return false;
         }
         $myrow = icms::$xoopsDB->fetchArray($result);
-        return intval($myrow["count"]);
+        return (int)$myrow["count"];
     }
     
    	function getCountsByLink($criteria = null)
@@ -159,4 +159,3 @@ class ArtObjectJointHandler
         return icms::$xoopsDB->query($sql);
     }
 }
-?>
