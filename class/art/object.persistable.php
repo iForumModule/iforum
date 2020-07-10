@@ -251,7 +251,7 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
     *
     * @return void
     */
-    function _XoopsPersistableObjectHandler(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
+    function __construct(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
         parent::__construct($db);
         $this->table = $table;
         $this->keyName = $keyName;

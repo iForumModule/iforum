@@ -38,7 +38,7 @@ class ArtObject extends _XoopsPersistableObject
     
     function __construct($table = "")
     {
-	    $this->_XoopsPersistableObject($table);
+	    parent::__construct($table);
     }
 
     /**
@@ -135,7 +135,7 @@ class ArtObjectHandler extends _XoopsPersistableObjectHandler
 	 **/
     function __construct(&$db, $table = "", $className = "", $keyName = "", $identifierName = false) {
 	    $table = $db->prefix($table);
-        $this->_XoopsPersistableObjectHandler( $db, $table, $className, $keyName, $identifierName );
+        parent::__construct( $db, $table, $className, $keyName, $identifierName );
     }
     
     function _loadHandler($name, $params = array()) {
