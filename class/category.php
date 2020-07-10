@@ -35,7 +35,7 @@ class Category extends ArtObject {
 	 
 	function __construct()
 	{
-		$this->ArtObject("bb_categories");
+		$parent::__construct("bb_categories");
 		$this->initVar('cat_id', XOBJ_DTYPE_INT);
 		$this->initVar('pid', XOBJ_DTYPE_INT, 0);
 		$this->initVar('cat_title', XOBJ_DTYPE_TXTBOX);
@@ -51,7 +51,7 @@ class Category extends ArtObject {
 class IforumCategoryHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$this->ArtObjectHandler($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
+		parent::__construct($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
 	}
 	 
 	function &getAllCats($permission = false, $idAsKey = true, $tags = null)

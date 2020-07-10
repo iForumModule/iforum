@@ -34,7 +34,7 @@ iforum_load_object();
 class Topic extends ArtObject {
 	function __construct()
 	{
-		$this->ArtObject("bb_topics");
+		$parent::__construct("bb_topics");
 		$this->initVar('topic_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_title', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('topic_poster', XOBJ_DTYPE_INT);
@@ -67,7 +67,7 @@ class Topic extends ArtObject {
 class IforumTopicHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$this->ArtObjectHandler($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
+		$parent::__construct($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
 	}
 	 
 	function &get($id, $var = null)

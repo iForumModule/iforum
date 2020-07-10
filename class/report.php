@@ -34,7 +34,7 @@ iforum_load_object();
 class Report extends ArtObject {
 	function __construct()
 	{
-		$this->ArtObject("bb_report");
+		$parent::__construct("bb_report");
 		$this->initVar('report_id', XOBJ_DTYPE_INT);
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('reporter_uid', XOBJ_DTYPE_INT);
@@ -49,7 +49,7 @@ class Report extends ArtObject {
 class IforumReportHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
-		$this->ArtObjectHandler($db, 'bb_report', 'Report', 'report_id');
+		$parent::__construct($db, 'bb_report', 'Report', 'report_id');
 	}
 	function &getByPost($posts)
 	{
