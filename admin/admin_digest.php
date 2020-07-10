@@ -89,5 +89,3 @@ switch($op)
 	break;
 }
 icms_cp_footer();
- 
-?>
