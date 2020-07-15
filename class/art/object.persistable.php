@@ -38,8 +38,8 @@ class _XoopsPersistableObject extends icms_core_Object
     */
     function getVar($key, $format = 's')
     {
-		defined("MYTEXTSANITIZER_EXTENDED") || include_once ICMS_ROOT_PATH."/class/module.textsanitizer.php";
-		$ts = MyTextSanitizer::getInstance();
+		//defined("MYTEXTSANITIZER_EXTENDED") || include_once ICMS_ROOT_PATH."/class/module.textsanitizer.php";
+		$ts = icms_core_Textsanitizer::getInstance();
 		$ret = null;
 		if ( !isset($this->vars[$key]) ) return $ret ;
 		$ret = $this->vars[$key]['value'];
@@ -372,13 +372,14 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
      */
     function mysql_server_version($conn = null)
     {
-        /*if (!is_null($conn)) {
-            return mysql_get_server_info($conn);
-        } else {
-            return mysql_get_server_info();
-        }*/
-        return "6.0.0";
-
+	    /*
+	    if (!is_null($conn)) {
+		    return mysql_get_server_info($conn);
+	    } else {
+		    return mysql_get_server_info();
+	    }
+	    */
+	    return "6.0.0";
     }
     
     /**

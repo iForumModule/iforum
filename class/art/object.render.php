@@ -149,7 +149,7 @@ class ArtObjectRenderHandler
             return $ret;
         }
 
-        $myts = MyTextSanitizer::getInstance();
+        $myts = icms_core_Textsanitizer::getInstance();
         while ($myrow = icms::$xoopsDB->fetchArray($result)) {
             //identifiers should be textboxes, so sanitize them like that
             $ret[$myrow[$this->_handler->keyName]] = empty($this->_handler->identifierName) ? 1 : icms_core_DataFilter::htmlSpecialchars($myrow[$this->_handler->identifierName]);

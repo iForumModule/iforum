@@ -40,7 +40,7 @@ class ArtObjectWriteHandler
     {
 	    $object->cleanVars();
 	    $changedVars = array();
-        $ts = MyTextSanitizer::getInstance();
+        $ts = icms_core_Textsanitizer::getInstance();
         foreach ($object->vars as $k => $v) {
 	        if(!$v["changed"]) continue;
             $cleanv = $object->cleanVars[$k];
