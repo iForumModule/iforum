@@ -32,13 +32,13 @@
 	define($constpref."_POSTNOTAPPROVED", "پست تایید نشد");
 	define($constpref."_POSTSAVED", "پست ذخیره شد");
 	define($constpref."_POSTNOTSAVED", "پست ذخیره نشد");
-	 
+
 	define($constpref."_TOPICAPPROVED", "تاپیک تایید شد");
 	define($constpref."_TOPICNOTAPPROVED", "تاپیکتایید نشد");
 	define($constpref."_TOPICID", "ID تاپیک");
 	define($constpref."_ORPHAN_TOPICS_FOR_AUTH", "تایید نکردن تاپیک‌های ارسال شده");
-	 
-	 
+
+
 	define($constpref.'_DEL_ONE', 'فقط این پیام را پاککن');
 	define($constpref.'_POSTSDELETED', 'پیام انتخاب شده حذف شد');
 	define($constpref.'_NOAPPROVEPOST', 'در حال حاضر هیچ پست منتظر برای تایید موجود نیست.');
@@ -47,7 +47,7 @@
 	define($constpref.'_MESSAGEC', 'پیام:');
 	define($constpref.'_CANCELPOST', 'لغو کردن ارسال');
 	define($constpref.'_GOTOMOD', 'برو به ماژول');
-	 
+
 	define($constpref.'_PREFERENCES', 'تنظیمات ماژول');
 	define($constpref.'_POLLMODULE', 'ماژول Xoops poll');
 	define($constpref.'_POLL_OK', 'آماده برای استفاده');
@@ -55,8 +55,8 @@
 	define($constpref.'_GDLIB2', 'GD2 library:');
 	define($constpref.'_AUTODETECTED', 'شناسایی خودکار: ');
 	define($constpref.'_AVAILABLE', 'آماده‌است');
-	define($constpref.'_NOTAVAILABLE', '<font color="red">آماده نیست</font>');
-	define($constpref.'_NOTWRITABLE', '<font color="red">قابل دسترسی نیست</font>');
+	define($constpref.'_NOTAVAILABLE', '<span style="color: red; ">آماده نیست</span>');
+	define($constpref.'_NOTWRITABLE', '<span style="color: red; ">قابل دسترسی نیست</span>');
 	define($constpref.'_IMAGEMAGICK', 'ImageMagicK');
 	define($constpref.'_IMAGEMAGICK_NOTSET', 'تنظیم‌نشده');
 	define($constpref.'_ATTACHPATH', 'مسیر برای قرار دادن ضمائم');
@@ -65,21 +65,21 @@
 	define($constpref.'_REPORT', 'پیام‌های گزارش داده شده');
 	define($constpref.'_REPORT_PENDING', 'گزارش‌های معلق');
 	define($constpref.'_REPORT_PROCESSED', 'گزارش‌های پردازش شده');
-	 
+
 	define($constpref.'_CREATETHEDIR', 'بساز');
 	define($constpref.'_SETMPERM', 'گذاشتن دسترسی‌ها');
 	define($constpref.'_DIRCREATED', 'شاخه ساخته شد');
 	define($constpref.'_DIRNOTCREATED', 'شاخه شاخته نشد');
 	define($constpref.'_PERMSET', 'دسترسی تنظیم شد');
 	define($constpref.'_PERMNOTSET', 'دسترسی تنظیم نشد');
-	 
+
 	define($constpref.'_DIGEST', 'آگهای رسانی خلاصه‌ها');
-	define($constpref.'_DIGEST_PAST', '<font color="red"> %d دقیقه پیش گذاشته شده است</font>');
+	define($constpref.'_DIGEST_PAST', '<span style="color: red; "> %d دقیقه پیش گذاشته شده است</span>');
 	define($constpref.'_DIGEST_NEXT', ' %d دقیقه دیگر فرستاده می‌شود');
 	define($constpref.'_DIGEST_ARCHIVE', 'خلاصه در آرشیو قرار گرفت');
 	define($constpref.'_DIGEST_SENT', 'خلاصه در حال فرستاده شدن');
 	define($constpref.'_DIGEST_FAILED', 'خلاصه فرستاده نشد');
-	 
+
 	// admin_forum_manager.php
 	define($constpref."_NAME", "نام");
 	define($constpref."_CREATEFORUM", "ایجاد انجمن");
@@ -112,10 +112,10 @@
 	define($constpref."_MODERATOR_ADD", "اظافه کردن ناظر");
 	define($constpref."_ALLOW_SUBJECT_PREFIX", "اجازه استفاده از پیشوند برای عنوان‌ها در این انجمن");
 	define($constpref."_ALLOW_SUBJECT_PREFIX_DESC", "این به کاربران اجازه می‌دهد پیوندی مناسب با موضوع عنوان به عنوان‌های این انجمن اضافه کنند");
-	 
-	 
+
+
 	// admin_cat_manager.php
-	 
+
 	define($constpref."_SETCATEGORYORDER", "تنظیم محل شاخه:");
 	define($constpref."_ACTIVE", "فعال");
 	define($constpref."_INACTIVE", "غیرفعال");
@@ -127,9 +127,9 @@
 	define($constpref."_SPONSORLINK", "لینک پشتیبان:");
 	define($constpref."_DELCAT", "حذف شاخه");
 	define($constpref."_WAYSYWTDTTAL", "این قسمت انجمن‌های زیر شاخه را پاکنخواهد کرد.<br><br>WARNINGبرای پاککردن آن از ویرایش انجمن‌اقدام کنید. آیا مایلید شاخه‌را پاککنید؟");
-	 
-	 
-	 
+
+
+
 	//%%%%%%        File Name  admin_forums.php           %%%%%
 	define($constpref."_FORUMNAME", "نام انجمن:");
 	define($constpref."_FORUMDESCRIPTION", "توضیحات انجمن:");
@@ -161,14 +161,14 @@
 	define($constpref."_MERGETO_FORUM", "این انجمن را ادغام کن به:");
 	define($constpref."_MSG_FORUM_MERGED", "انجمن ادغام شد!");
 	define($constpref."_MSG_ERR_FORUM_MERGED", "خطا در ادغام انجمن!");
-	 
+
 	//%%%%%%        File Name  admin_forum_reorder.php           %%%%%
 	define($constpref."_REORDERID", "ID");
 	define($constpref."_REORDERTITLE", "عنوان");
 	define($constpref."_REORDERWEIGHT", "محل");
 	define($constpref."_SETFORUMORDER", "تغییر محل قرار گیری انجمن در شاخه");
 	define($constpref."_BOARDREORDER", "مکان انجمن تغییر داده شد");
-	 
+
 	// admin_permission.php
 	define($constpref."_PERMISSIONS_TO_THIS_FORUM", "دسترسی تاپیکها برای این انجمن");
 	define($constpref."_CAT_ACCESS", "می‌توانید به شاخه دسترسی داشته باشید");
@@ -183,7 +183,7 @@
 	define($constpref."_CAN_ATTACH", "می‌توانید فایل‌ها را به پیام خود پیوست کنید");
 	define($constpref."_CAN_NOAPPROVE", "می‌توانید پیام بدون نیاز به تایید بزنید");
 	define($constpref."_ACTION", "عمل");
-	 
+
 	define($constpref."_PERM_TEMPLATE", "الگوی دسترسی‌های پیشفرض");
 	define($constpref."_PERM_TEMPLATE_DESC", "میتواند به یک انجمن اضافه شود");
 	define($constpref."_PERM_FORUMS", "انتخاب انجمن‌ها");
@@ -193,9 +193,9 @@
 	define($constpref."_PERM_TEMPLATE_APPLIED", "دسترسی‌های پیشفرض در انجمن‌ها اعمال شد");
 	define($constpref."_PERM_ACTION", "عمل‌های دسترسی‌ها");
 	define($constpref."_PERM_SETBYGROUP", "اعمال دسترسی برای گروه‌ها به صورت مستقیم");
-	 
+
 	// admin_forum_prune.php
-	 
+
 	define($constpref."_PRUNE_RESULTS_TITLE", "نتیجه‌ی هرس‌کردن");
 	define($constpref."_PRUNE_RESULTS_TOPICS", "تاپیک‌‌های هرس شده");
 	define($constpref."_PRUNE_RESULTS_POSTS", "پست‌های هرس شده");
@@ -203,7 +203,7 @@
 	define($constpref."_PRUNE_STORE", "به جای حذف کردن آن در این انجمن قرارشان بده:");
 	define($constpref."_PRUNE_ARCHIVE", "یک کپی از پست‌ها در آرشیو نگه دار");
 	define($constpref."_PRUNE_FORUMSELERROR", "شما فراموش کرده‌اید که انجمنی را برای هرس انتخاب کنید.");
-	 
+
 	define($constpref."_PRUNE_DAYS", "پاک کردن تاپیک بدون پاسخ در :");
 	define($constpref."_PRUNE_FORUMS", "انجمن‌هایی که هرس می‌شوند:");
 	define($constpref."_PRUNE_STICKY", "تاپیک‌های مهم(Sticky) را حفظ کن.");
@@ -221,7 +221,7 @@
 	define($constpref."_PRUNE_4MONTH", "چهار ماه");
 	define($constpref."_PRUNE_YEAR", "یک سال");
 	define($constpref."_PRUNE_2YEARS", "دو سال");
-	 
+
 	// About.php constants
 	define($constpref.'_AUTHOR_INFO', "اطلاعات نویسنده:");
 	define($constpref.'_AUTHOR_NAME', "نویسنده:");
@@ -239,7 +239,7 @@
 	define($constpref.'_BY', 'توسط');
 	define($constpref.'_AUTHOR_WORD_EXTRA', "
 		");
-	 
+
 	// admin_report.php
 	define($constpref."_REPORTADMIN", "مدیریت پیام‌های گزارش شده");
 	define($constpref."_PROCESSEDREPORT", "دیدن پاسخ ارسال شده توسط ناظر به گزارش فرستاده شده");
@@ -249,11 +249,11 @@
 	define($constpref."_REPORTPOST", "پیام گزارش شده");
 	define($constpref."_REPORTTEXT", "متن گزارش ارسال شده");
 	define($constpref."_REPORTMEMO", "Process memo");
-	 
+
 	// admin_report.php
 	define($constpref."_DIGESTADMIN", "مدیریت خلاصه‌ها");
 	define($constpref."_DIGESTCONTENT", "متن خلاصه‌ها");
-	 
+
 	// admin_votedata.php
 	define($constpref."_VOTE_RATINGINFOMATION", "اطلاعات ارزش گذاری");
 	define($constpref."_VOTE_TOTALVOTES", "همه‌ی رای ها: ");
