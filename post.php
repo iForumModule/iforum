@@ -22,10 +22,10 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include 'header.php';
 include_once ICMS_ROOT_PATH . '/modules/' . $icmsModule->getVar("dirname") . '/class/uploader.php';
- 
+
 foreach (array(
 'forum',
 	'topic_id',
@@ -50,11 +50,11 @@ if (empty($forum) )
 	redirect_header("index.php", 2, _MD_ERRORFORUM);
 	exit();
 }
- 
+
 $forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
- 
+
 if (!empty($isedit) && $post_id > 0 )
 {
 	$forumpost = $post_handler->get($post_id);
@@ -73,15 +73,15 @@ if (!$forum_handler->getPermission($forum_obj))
 	redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
 	exit();
 }
- 
+
 if (icms::$module->config['wol_enabled'])
 	{
 	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($forum_obj);
 }
- 
+
 include ICMS_ROOT_PATH."/header.php";
- 
+
 if (!empty($_POST['contents_submit']) )
 {
 	$token_valid = false;
@@ -95,7 +95,7 @@ if (!empty($_POST['contents_submit']) )
 		if (!empty($_SESSION['submit_token']) && !empty($_POST['post_valid']) && $_POST['post_valid'] == $_SESSION['submit_token'] ) $token_valid = true;
 		$_SESSION['submit_token'] = null;
 	}
-	 
+
 	$captcha_invalid = false;
 	if (!is_object(icms::$user))
 	{
@@ -138,10 +138,10 @@ if (!empty($_POST['contents_submit']) )
 			$error_message[] = $icmsCaptcha->getMessage();
 		}
 	}
-	 
-	 
+
+
 	$isadmin = iforum_isAdmin($forum_obj);
-	 
+
 	$time_valid = true;
 	if (!$isadmin && !empty(icms::$module->config['post_timelimit']) )
 	{
@@ -151,7 +151,7 @@ if (!empty($_POST['contents_submit']) )
 			$time_valid = false;
 		}
 	}
-	 
+
 	if ($captcha_invalid || !$token_valid || !$time_valid)
 	{
 		$_POST['contents_preview'] = 1;
@@ -162,7 +162,7 @@ if (!empty($_POST['contents_submit']) )
 		echo "<br clear=\"both\" />";
 	}
 }
- 
+
 if (!empty($_POST['contents_submit']) )
 {
 	$message = $_POST['message'];
@@ -173,10 +173,10 @@ if (!empty($_POST['contents_submit']) )
 	}
 	if (!empty($isedit) && $post_id > 0)
 	{
-		 
+
 		$uid = is_object(icms::$user)? icms::$user->getVar('uid'):
 		0;
-		 
+
 		$topic_status = $topic_handler->get($topic_id, 'topic_status');
 		if ($topic_handler->getPermission($forum_obj, $topic_status, 'edit')
 			&& ($isadmin || ($forumpost->checkTimelimit('edit_timelimit') && $forumpost->checkIdentity() ))
@@ -188,9 +188,8 @@ if (!empty($_POST['contents_submit']) )
 			redirect_header("viewtopic.php?forum=$forum_id&amp;topic_id=$topic_id&amp;post_id=$post_id&amp;order=$order&amp;viewmode=$viewmode&amp;pid=$pid", 2, _MD_NORIGHTTOEDIT);
 			exit();
 		}
-		 
-		$delete_attach = isset($_POST['delete_attach']) ? $_POST['delete_attach'] :
-		 array();
+
+		$delete_attach = isset($_POST['delete_attach']) ? $_POST['delete_attach'] : array();
 		if (is_array($delete_attach) && count($delete_attach) > 0) $forumpost->deleteAttachment($delete_attach);
 		}
 	else
@@ -213,7 +212,7 @@ if (!empty($_POST['contents_submit']) )
 				exit();
 			}
 		}
-		 
+
 		$isreply = 0;
 		$isnew = 1;
 		if (!is_object(icms::$user) || (!empty($_POST['noname']) && !empty(icms::$module->config['allow_user_anonymous']) ) )
@@ -237,17 +236,17 @@ if (!empty($_POST['contents_submit']) )
 		$forumpost->setVar('uid', $uid);
 		$forumpost->setVar('post_time', time());
 	}
-	 
+
 	if ($topic_handler->getPermission($forum_obj, $topic_status, 'noapprove')) $approved = 1;
 	else $approved = 0;
 	$forumpost->setVar('approved', $approved);
-	 
+
 	$forumpost->setVar('forum_id', $forum_obj->getVar('forum_id'));
-	 
-	$subject = xoops_trim($_POST['subject']);
+
+	$subject = trim($_POST['subject']);
 	$subject = ($subject == '') ? _NOTITLE :
 	 $subject;
-	$poster_name = !empty($_POST['poster_name'])?xoops_trim($_POST['poster_name']):
+	$poster_name = !empty($_POST['poster_name'])?trim($_POST['poster_name']):
 	'';
 	$dohtml = !empty($_POST['dohtml']) ? 1 :
 	 0;
@@ -267,7 +266,7 @@ if (!empty($_POST['contents_submit']) )
 	$require_reply = ($view_require == 'require_reply')?1:
 	0;
 	$forumpost->setVar('subject', $subject);
-	 
+
 	// The text filter is far from complete
 	// Let's look for some comprehensive handlers
 	if ($dohtml && !iforum_isAdmin($forum_obj) )
@@ -286,7 +285,7 @@ if (!empty($_POST['contents_submit']) )
 	$forumpost->setVar('attachsig', $attachsig);
 	$forumpost->setAttachment();
 	if (!empty($post_id) ) $forumpost->setPostEdit($poster_name); // is reply
-	 
+
 	$attachments_tmp = array();
 	if (!empty($_POST["attachments_tmp"]))
 		{
@@ -311,17 +310,17 @@ if (!empty($_POST['contents_submit']) )
 			}
 		}
 	}
-	 
+
 	$error_upload = '';
-	 
+
 	if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != '' && $topic_handler->getPermission($forum_obj, $topic_status, 'attach')
 	)
 	{
 		$maxfilesize = $forum_obj->getVar('attach_maxkb') * 1024;
 		$uploaddir = ICMS_ROOT_PATH . "/". icms::$module->config['dir_attachments'];
-		 
+
 		$uploader = new iforum_uploader($uploaddir,	$forum_obj->getVar('attach_ext'), $maxfilesize);
-		 
+
 		if ($uploader->fetchMedia($_POST['xoops_upload_file'][0]) )
 			{
 			$prefix = is_object(icms::$user)?strval(icms::$user->uid()).'_':
@@ -342,7 +341,7 @@ if (!empty($_POST['contents_submit']) )
 			$error_upload = $uploader->getErrors();
 		}
 	}
-	 
+
 	$postid = $post_handler->insert($forumpost);
 	if (!$postid )
 	{
@@ -353,14 +352,14 @@ if (!empty($_POST['contents_submit']) )
 		exit();
 	}
 	iforum_setsession("LP", time()); // Recording last post time
-	 
-	 
+
+
 	if (iforum_checkSubjectPrefixPermission($forum_obj) && !empty($_POST['subject_pre']))
 	{
 		$subject_pre = intval($_POST['subject_pre']);
 		$sbj_res = $post_handler->insertnewsubject($forumpost->getVar('topic_id'), $subject_pre);
 	}
-	 
+
 	if (iforum_tag_module_included() && !empty(icms::$module->config['allow_tagging']) && $forumpost->isTopic() && @include_once ICMS_ROOT_PATH."/modules/tag/include/functions.php")
 	{
 		$topic->setVar("topic_tags", @$_POST["topic_tags"]);
@@ -369,14 +368,14 @@ if (!empty($_POST['contents_submit']) )
 			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'), $icmsModule->getVar("dirname"), 0);
 		}
 		$topic_handler->updateAll("topic_tags", @$_POST["topic_tags"], new icms_db_criteria_Item("topic_id", $forumpost->getVar('topic_id')));
-		 
+
 		if ($tag_handler = @xoops_getmodulehandler('tag', 'tag', true))
 		{
 			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'));
 		}
-		 
+
 	}
-	 
+
 	// RMV-NOTIFY
 	// Define tags for notification message
 	if ($approved && !empty(icms::$module->config['notification_enabled']) && !empty($isnew))
@@ -407,7 +406,7 @@ if (!empty($_POST['contents_submit']) )
 		$notification_handler->triggerEvent('global', 0, 'new_fullpost', $tags);
 		$notification_handler->triggerEvent('forum', $forum_obj->getVar('forum_id'), 'new_fullpost', $tags);
 	}
-	 
+
 	// If user checked notification box, subscribe them to the
 	// appropriate event; if unchecked, then unsubscribe
 	if (!empty(icms::$user) && !empty(icms::$module->config['notification_enabled']))
@@ -423,7 +422,7 @@ if (!empty($_POST['contents_submit']) )
 		}
 		// elseif($_POST['notify']<0) keep it as it is
 	}
-	 
+
 	if ($approved)
 	{
 		if (!empty(icms::$module->config['cache_enabled']))
@@ -449,8 +448,8 @@ if (!empty($_POST['contents_submit']) )
 		exit();
 	}
 }
- 
- 
+
+
 if (!empty($_POST['contents_upload']) )
 {
 	$attachments_tmp = array();
@@ -465,16 +464,16 @@ if (!empty($_POST['contents_upload']) )
 				unset($attachments_tmp[$key]);
 			}
 		}
-		 
+
 	}
-	 
+
 	$error_upload = '';
 	if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != '' ) {
 		$maxfilesize = $forum_obj->getVar('attach_maxkb') * 1024;
 		$uploaddir = XOOPS_CACHE_PATH;
 		$allowed_extensions = $forum_obj->getVar('attach_ext');
 		$uploader = new iforum_uploader($uploaddir, $allowed_extensions, $maxfilesize);
-		 
+
 		if ($uploader->fetchMedia($_POST['xoops_upload_file'][0]) )
 			{
 			$prefix = is_object(icms::$user)?strval(icms::$user->getVar('uid')).'_':
@@ -500,14 +499,14 @@ if (!empty($_POST['contents_upload']) )
 		}
 	}
 }
- 
+
 if (!empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) )
 {
 	if (!empty($_POST["attachments_tmp"]))
 		{
 		$attachments_tmp = unserialize(base64_decode($_POST["attachments_tmp"]));
 	}
-	 
+
 	$p_subject = icms_core_DataFilter::htmlSpecialchars(icms_core_DataFilter::stripSlashesGPC($_POST['subject']));
 	$dosmiley = empty($_POST['dosmiley']) ? 0 : 1;
 	$dohtml = empty($_POST['dohtml']) ? 0 : 1;
@@ -519,7 +518,7 @@ if (!empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) )
 	{
 		//$p_message = iforum_textFilter($p_message);
 	}
-	 
+
 	echo "<table cellpadding='4' cellspacing='1' width='98%' class='outer'>";
 	echo "<tr><td class='head'>".$p_subject."</td></tr>";
 	if (isset($_POST['poster_name']))
@@ -529,12 +528,12 @@ if (!empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) )
 	}
 	echo "<tr><td><br />".$p_message."<br /></td></tr></table>";
 }
- 
+
 if (!empty($_POST['contents_upload']) || !empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) || !empty($_POST['editor']))
 	{
-	 
+
 	echo "<br />";
-	 
+
 	$editor = empty($_POST['editor']) ? "" :
 	 $_POST['editor'];
 	$dosmiley = empty($_POST['dosmiley']) ? 0 :
@@ -566,10 +565,10 @@ if (!empty($_POST['contents_upload']) || !empty($_POST['contents_preview']) || !
 	$post_karma = (($view_require == 'require_karma') && isset($_POST['post_karma']) )? intval($_POST['post_karma']) : 0 ;
 	$require_reply = ($view_require == 'require_reply')?1:
 	0;
-	 
+
 	if (empty($_POST['contents_upload'])) $contents_preview = 1;
 	$attachments = $forumpost->getAttachment();
 	include 'include/forumform.inc.php';
 }
- 
+
 include ICMS_ROOT_PATH.'/footer.php';

@@ -22,9 +22,9 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include_once dirname(__FILE__).'/read.php';
- 
+
 /**
 * A handler for read/unread handling
 *
@@ -33,20 +33,20 @@ include_once dirname(__FILE__).'/read.php';
 * @author     D.J. (phppp, http://xoopsforge.com)
 * @copyright copyright (c) 2005 XOOPS.org
 */
- 
+
 class Readforum extends Read {
 	function __construct()
 	{
         parent::__construct("forum");
 	}
 }
- 
+
 class IforumReadforumHandler extends IforumReadHandler {
 	function __construct(&$db)
 	{
         parent::__construct($db, "forum");
 	}
-	 
+
 	/**
 	* clean orphan items from database
 	*
@@ -57,15 +57,20 @@ class IforumReadforumHandler extends IforumReadHandler {
 		parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
 		return parent::cleanOrphan($this->db->prefix("bb_forums"), "forum_id", "read_item");
 	}
-	 
+
 	function setRead_items($status = 0, $uid = null)
 	{
-		if (empty($this->mode)) return true;
-		 
-		if ($this->mode == 1) return $this->setRead_items_cookie($status);
-		else return $this->setRead_items_db($status, $uid);
+		if (empty($this->mode)) {
+			return true;
+		}
+
+		if ($this->mode == 1) {
+			return $this->setRead_items_cookie($status);
+		}
+
+		return $this->setRead_items_db($status, $uid);
 	}
-	 
+
 	function setRead_items_cookie($status, $items)
 	{
 		$cookie_name = "LF";
@@ -81,7 +86,7 @@ class IforumReadforumHandler extends IforumReadHandler {
 		iforum_setcookie($cookie_name, $items);
 		return true;
 	}
-	 
+
 	function setRead_items_db($status, $uid)
 	{
 		if (empty($uid))
@@ -100,7 +105,7 @@ class IforumReadforumHandler extends IforumReadHandler {
 			$this->deleteAll(new icms_db_criteria_Item("uid", $uid));
 			return true;
 		}
-		 
+
 		$item_handler = icms_getmodulehandler('forum', basename(dirname(__DIR__) ), 'iforum' );
 		$items_obj = $item_handler->getAll(null, array("forum_last_post_id"));
 		foreach(array_keys($items_obj) as $key)
@@ -108,7 +113,7 @@ class IforumReadforumHandler extends IforumReadHandler {
 			$this->setRead_db($key, $items_obj[$key]->getVar("forum_last_post_id"), $uid);
 		}
 		unset($items_obj);
-		 
+
 		return true;
 	}
 }

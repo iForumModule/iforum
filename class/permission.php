@@ -22,14 +22,14 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
-	 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 class IforumPermissionHandler extends icms_member_groupperm_Handler {
 	/*
 	* Returns permissions for a certain type
@@ -42,10 +42,10 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 	function getPermissions($type = "forum", $id = 0)
 	{
 		static $permissions = array(), $suspension = array();
-		 
+
 		$type = (strtolower($type) != "category")?"forum":
 		"category";
-		 
+
 		if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
 		{
 			$modid = $GLOBALS["icmsModule"]->getVar("mid");
@@ -57,9 +57,8 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 			$modid = $module->getVar("mid");
 			unset($module);
 		}
-		 
-		$uid = is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):
-		0;
+
+		$uid = is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"): 0;
 		$ip = iforum_getIP(true);
 		if (($type == "forum") && !iforum_isAdmin($id) && !isset($suspension[$uid][$id]) && !empty($GLOBALS["icmsModuleConfig"]['enable_usermoderate']))
 			{
@@ -73,7 +72,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 				$suspension[$uid][$ip][$id] = 0;
 			}
 		}
-		 
+
 		if (!isset($permissions[$type]) || ($id && !isset($permissions[$type][$id])))
 		{
 			// Get group permissions handler
@@ -100,12 +99,12 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 					$criteria->add(new icms_db_criteria_Item('gperm_itemid', (int)$id));
 				}
 			}
-			 
+
 			switch ($type)
 			{
 				case "forum":
 				$items = array_map("trim", explode(',', FORUM_PERM_ITEMS));
-				 
+
 				$full_items = array();
 				foreach($items as $item)
 				{
@@ -115,7 +114,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 				}
 				$gperm_names = implode(',', $full_items);
 				break;
-				 
+
 				case "category":
 				$gperm_names = "'category_access'";
 				break;
@@ -124,7 +123,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 			$criteria->add(new icms_db_criteria_Item('gperm_name', "(" . $gperm_names . ")", 'IN'));
 			// Get all permission objects in this module and for this user's groups
 			$userpermissions = $gperm_handler->getObjects($criteria, true);
-			 
+
 			// Set the granted permissions to 1
 			foreach ($userpermissions as $gperm_id => $gperm)
 			{
@@ -136,14 +135,14 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		return isset($permissions[$type]) ? $permissions[$type] :
 		 array();
 	}
-	 
+
 	function &permission_table($permission_set, $forum = 0, $topic_locked = false, $isadmin = false)
 	{
 		$perm = array();
-		 
+
 		if (is_object($forum)) $forumid = $forum->getVar('forum_id');
 			else $forumid = $forum;
-		 
+
 		$perm_items = explode(',', FORUM_PERM_ITEMS);
 		foreach($perm_items as $item)
 		{
@@ -158,10 +157,10 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 				$perm[] = constant('_MD_CANNOT_' . strtoupper($item));
 			}
 		}
-		 
+
 		return $perm;
 	}
-	 
+
 	function deleteByForum($forum)
 	{
 		$gperm_handler = icms::handler('icms_member_groupperm');
@@ -170,7 +169,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		$criteria->add(new icms_db_criteria_Item('gperm_itemid', $forum));
 		return $gperm_handler->deleteAll($criteria);
 	}
-	 
+
 	function deleteByCategory($category)
 	{
 		$gperm_handler = icms::handler('icms_member_groupperm');
@@ -179,7 +178,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		$criteria->add(new icms_db_criteria_Item('gperm_itemid', $category));
 		return $gperm_handler->deleteAll($criteria);
 	}
-	 
+
 	function setCategoryPermission($category, $groups = null)
 	{
 		if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
@@ -209,10 +208,10 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		{
 			$this->deleteRight("category_access", $category, $group, $mid);
 		}
-		 
+
 		return true;
 	}
-	 
+
 	function validateRight($perm, $itemid, $groupid, $mid = null)
 	{
 		if (empty($mid))
@@ -233,7 +232,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		$this->addRight($perm, $itemid, $groupid, $mid);
 		return true;
 	}
-	 
+
 	/**
 	* Check permission (directly)
 	*
@@ -272,7 +271,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		}
 		return false;
 	}
-	 
+
 	function deleteRight($perm, $itemid, $groupid, $mid = null)
 	{
 		if (empty($mid))
@@ -311,12 +310,12 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		}
 		return true;
 	}
-	 
+
 	function applyTemplate($forum, $mid = null)
 	{
 		$perm_template = $this->getTemplate();
 		if (empty($perm_template)) return false;
-		 
+
 		if (empty($mid))
 		{
 			if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
@@ -331,7 +330,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 				unset($iforum);
 			}
 		}
-		 
+
 		$member_handler = icms::handler('icms_member');
 		$glist = $member_handler->getGroupList();
 		$perms = array_map("trim", explode(',', FORUM_PERM_ITEMS));
@@ -352,13 +351,13 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		}
 		return true;
 	}
-	 
+
 	function &getTemplate()
 	{
 		$perms = mod_loadCacheFile("perm_template", basename(dirname(__DIR__) ));
 		return $perms;
 	}
-	 
+
 	function setTemplate($perms)
 	{
 		return mod_createCacheFile($perms, "perm_template", basename(dirname(__DIR__) ));

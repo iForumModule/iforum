@@ -22,18 +22,18 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
 iforum_load_object();
- 
+
 class Post extends ArtObject {
-	var $attachment_array = array();
-	 
+	public $attachment_array = array();
+
 	function __construct()
 	{
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
@@ -59,7 +59,7 @@ class Post extends ArtObject {
 		$this->initVar('post_text', XOBJ_DTYPE_TXTAREA, "");
 		$this->initVar('post_edit', XOBJ_DTYPE_TXTAREA, "");
 	}
-	 
+
 	// ////////////////////////////////////////////////////////////////////////////////////
 	// attachment functions    TODO: there should be a file/attachment management class
 	function getAttachment()
@@ -70,14 +70,14 @@ class Post extends ArtObject {
 		else $this->attachment_array = @unserialize(base64_decode($attachment));
 		return $this->attachment_array;
 	}
-	 
+
 	function incrementDownload($attach_key)
 	{
 		if (!$attach_key) return false;
-		$this->attachment_array[strval($attach_key)]['num_download'] ++;
-		return $this->attachment_array[strval($attach_key)]['num_download'];
+		$this->attachment_array[(string)$attach_key]['num_download'] ++;
+		return $this->attachment_array[(string)$attach_key]['num_download'];
 	}
-	 
+
 	function saveAttachment()
 	{
 		if (is_array($this->attachment_array) && count($this->attachment_array) > 0)
@@ -92,16 +92,16 @@ class Post extends ArtObject {
 		}
 		return true;
 	}
-	 
+
 	function deleteAttachment($attach_array = null)
 	{
 		$attach_old = $this->getAttachment();
 		if (!is_array($attach_old) || count($attach_old) < 1) return true;
 		$this->attachment_array = array();
-		 
+
 		if ($attach_array === null) $attach_array = array_keys($attach_old); // to delete all!
 		if (!is_array($attach_array)) $attach_array = array($attach_array);
-			 
+
 		foreach($attach_old as $key => $attach)
 		{
 			if (in_array($key, $attach_array))
@@ -112,43 +112,41 @@ class Post extends ArtObject {
 			}
 			$this->attachment_array[$key] = $attach;
 		}
-		if (is_array($this->attachment_array) && count($this->attachment_array) > 0)
+		if (is_array($this->attachment_array) && count($this->attachment_array) > 0) {
 			$attachment_save = base64_encode(serialize($this->attachment_array));
-		else $attachment_save = '';
+		} else {
+			$attachment_save = '';
+		}
 		$this->setVar('attachment', $attachment_save);
 		return true;
 	}
-	 
+
 	function setAttachment($name_saved = '', $name_display = '', $mimetype = '', $num_download = 0)
 	{
 		static $counter = 0;
 		$this->attachment_array = $this->getAttachment();
 		if ($name_saved)
 		{
-			$key = strval(time()+$counter++);
+			$key = (string)(time() + $counter++);
 			$this->attachment_array[$key] = array('name_saved' => $name_saved,
-				'name_display' => isset($name_display)?$name_display:
-			$name_saved,
+				'name_display' => isset($name_display)?$name_display: $name_saved,
 				'mimetype' => $mimetype,
-				'num_download' => isset($num_download)?intval($num_download):
+				'num_download' => isset($num_download)? (int)$num_download :
 			0 );
 		}
-		if (is_array($this->attachment_array))
-			{
+		if (is_array($this->attachment_array)) {
 			$attachment_save = base64_encode(serialize($this->attachment_array));
-		}
-		else
-		{
+		} else {
 			$attachment_save = null;
 		}
 		$this->setVar('attachment', $attachment_save);
 		return true;
 	}
-	 
+
 	function displayAttachment($asSource = false)
 	{
 		global $icmsModule;
-		 
+
 		$post_attachment = '';
 		$attachments = $this->getAttachment();
 		if (is_array($attachments) && count($attachments) > 0)
@@ -188,11 +186,11 @@ class Post extends ArtObject {
 	}
 	// attachment functions
 	// ////////////////////////////////////////////////////////////////////////////////////
-	 
+
 	function setPostEdit($poster_name = '')
 	{
 		global $icmsConfig;
-		 
+
 		if (empty(icms::$module->config['recordedit_timelimit'])
 		|| (time()-$this->getVar('post_time')) < icms::$module->config['recordedit_timelimit'] * 60 || $this->getVar('approved') < 1 )
 		{
@@ -212,7 +210,7 @@ class Post extends ArtObject {
 		$post_edit = array();
 		$post_edit['edit_user'] = $edit_user; // The proper way is to store uid instead of name. However, to save queries when displaying, the current way is ok.
 		$post_edit['edit_time'] = time();
-		 
+
 		$post_edits = $this->getVar('post_edit');
 		if (!empty($post_edits)) $post_edits = unserialize(base64_decode($post_edits));
 			if (!is_array($post_edits)) $post_edits = array();
@@ -222,13 +220,13 @@ class Post extends ArtObject {
 		$this->setVar('post_edit', $post_edit);
 		return true;
 	}
-	 
+
 	function displayPostEdit()
 	{
 		global $myts;
-		 
+
 		if (empty(icms::$module->config['recordedit_timelimit']) ) return false;
-		 
+
 		$post_edit = '';
 		$post_edits = $this->getVar('post_edit');
 		if (!empty($post_edits)) $post_edits = unserialize(base64_decode($post_edits));
@@ -237,24 +235,24 @@ class Post extends ArtObject {
 		{
 			foreach($post_edits as $postedit)
 			{
-				$edit_time = intval($postedit['edit_time']);
+				$edit_time = (int)$postedit['edit_time'];
 				$edit_user = $myts->stripSlashesGPC($postedit['edit_user']);
 				$post_edit .= _MD_EDITEDBY . " " . $edit_user . " " . _MD_ON . " " . formatTimestamp(intval($edit_time)) . "<br/>";
 			}
 		}
 		return $post_edit;
 	}
-	 
-	 
+
+
 	function &getPostBody($imageAsSource = false)
 	{
 		global $icmsConfig, $myts;
-		 
+
 		$uid = is_object(icms::$user)? icms::$user->getVar('uid'):
 		0;
 		$karma_handler = icms_getmodulehandler('karma', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 		$user_karma = $karma_handler->getUserKarma();
-		 
+
 		$post = array();
 		$post['attachment'] = false;
 		$post_text = iforum_displayTarea($this->vars['post_text']['value'], $this->getVar('dohtml'), $this->getVar('dosmiley'), $this->getVar('doxcode'), $this->getVar('doimage'), $this->getVar('dobr'));
@@ -293,24 +291,24 @@ class Post extends ArtObject {
 			$post['author'] = $this->getVar('poster_name')?$this->getVar('poster_name'):
 			$icmsConfig['anonymous'];
 		}
-		 
+
 		$post['subject'] = iforum_htmlSpecialChars($this->vars['subject']['value']);
-		 
+
 		$post['date'] = $this->getVar('post_time');
-		 
+
 		return $post;
 	}
-	 
+
 	function isTopic()
 	{
 		return !$this->getVar('pid');
 	}
-	 
+
 	function checkTimelimit($action_tag = 'edit_timelimit')
 	{
 		return iforum_checkTimelimit($this->getVar('post_time'), $action_tag);
 	}
-	 
+
 	function checkIdentity($uid = -1)
 	{
 		$uid = ($uid > -1)?$uid:
@@ -332,7 +330,7 @@ class Post extends ArtObject {
 		}
 		return $user_ok;
 	}
-	 
+
 	// TODO: cleaning up and merge with post hanldings in viewpost.php
 	function showPost($isadmin)
 	{
@@ -341,20 +339,20 @@ class Post extends ArtObject {
 		global $viewtopic_users, $viewtopic_posters, $viewtopic_forum, $forumtopic, $online, $user_karma, $viewmode, $order, $start, $total_posts, $topic_status;
 		static $post_NO = 0;
 		static $user_ip;
-		 
+
 		$post_id = $this->getVar('post_id');
 		$topic_id = $this->getVar('topic_id');
 		$forum_id = $this->getVar('forum_id');
-		 
+
 		$topic_status = $forumtopic->getVar('topic_status');
-		 
+
 		$uid = is_object(icms::$user)? icms::$user->getVar('uid'):
 		0;
-		 
+
 		$post_NO ++;
 		if (strtolower($order) == "desc") $post_no = $total_posts - ($start + $post_NO) + 1;
 		else $post_no = $start + $post_NO;
-		 
+
 		if ($isadmin or $this->checkIdentity())
 		{
 			$post_text = $this->getVar('post_text');
@@ -388,7 +386,7 @@ class Post extends ArtObject {
 			'link' => $this->getVar('poster_name')?$this->getVar('poster_name'):
 		icms_core_DataFilter::htmlSpecialchars($icmsConfig['anonymous'])
 		);
-		 
+
 		$posticon = $this->getVar('icon');
 		if (!empty($posticon))
 			{
@@ -398,11 +396,11 @@ class Post extends ArtObject {
 		{
 			$post_image = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/icons/posticon.gif" alt="" />';
 		}
-		 
+
 		$post_title = $this->getVar('subject');
-		 
+
 		$thread_buttons = array();
-		 
+
 		if ($GLOBALS["icmsModuleConfig"]['enable_permcheck'])
 		{
 			$topic_handler =icms_getmodulehandler('topic', basename(dirname(__DIR__) ), 'iforum' );
@@ -424,7 +422,7 @@ class Post extends ArtObject {
 					$thread_buttons['edit']['name'] = _EDIT;
 				}
 			}
-			 
+
 			if ($topic_handler->getPermission($forum_id, $topic_status, "delete"))
 			{
 				$delete_ok = false;
@@ -436,7 +434,7 @@ class Post extends ArtObject {
 				{
 					$delete_ok = true;
 				}
-				 
+
 				if ($delete_ok)
 				{
 					$thread_buttons['delete']['image'] = iforum_displayImage($forumImage['p_delete'], _DELETE);
@@ -449,48 +447,48 @@ class Post extends ArtObject {
 				$thread_buttons['reply']['image'] = iforum_displayImage($forumImage['p_reply'], _MD_REPLY);
 				$thread_buttons['reply']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
 				$thread_buttons['reply']['name'] = _MD_REPLY;
-				 
+
 				$thread_buttons['quote']['image'] = iforum_displayImage($forumImage['p_quote'], _MD_QUOTE);
 				$thread_buttons['quote']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start&amp;quotedac=1";
 				$thread_buttons['quote']['name'] = _MD_QUOTE;
-				 
+
 			}
-			 
+
 		}
 		else
 		{
-			 
+
 			$thread_buttons['edit']['image'] = iforum_displayImage($forumImage['p_edit'], _EDIT);
 			$thread_buttons['edit']['link'] = "edit.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 			$thread_buttons['edit']['name'] = _EDIT;
-			 
+
 			$thread_buttons['delete']['image'] = iforum_displayImage($forumImage['p_delete'], _DELETE);
 			$thread_buttons['delete']['link'] = "delete.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 			$thread_buttons['delete']['name'] = _DELETE;
-			 
+
 			$thread_buttons['reply']['image'] = iforum_displayImage($forumImage['p_reply'], _MD_REPLY);
 			$thread_buttons['reply']['link'] = "reply.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order&amp;start=$start";
 			$thread_buttons['reply']['name'] = _MD_REPLY;
-			 
+
 		}
-		 
+
 		if (!$isadmin && icms::$module->config['reportmod_enabled'])
 		{
 			$thread_buttons['report']['image'] = iforum_displayImage($forumImage['p_report'], _MD_REPORT);
 			$thread_buttons['report']['link'] = "report.php?forum=" . $forum_id . "&amp;topic_id=" . $topic_id . "&amp;viewmode=$viewmode&amp;order=$order";
 			$thread_buttons['report']['name'] = _MD_REPORT;
 		}
-		 
+
 		$thread_action = array();
-		 
+
 		$thread_action['pdf']['image'] = iforum_displayImage($forumImage['pdf'], _MD_PDF);
 		$thread_action['pdf']['link'] = "makepdf.php?post_id=".$post_id;
 		$thread_action['pdf']['name'] = _MD_PDF;
-		 
+
 		$thread_action['print']['image'] = iforum_displayImage($forumImage['printer'], _MD_PRINT);
 		$thread_action['print']['link'] = "print.php?form=2&amp;forum=". $forum_id."&amp;topic_id=" . $topic_id . "&amp;post_id=".$post_id;
 		$thread_action['print']['name'] = _MD_PRINT;
-		 
+
 		$post = array(
 			'post_id' => $post_id,
 			'post_parent_id' => $this->getVar('pid'),
@@ -506,22 +504,22 @@ class Post extends ArtObject {
 			'thread_action' => $thread_action,
 			'thread_buttons' => $thread_buttons,
 			'poster' => $poster );
-		 
+
 		unset($thread_action);
 		unset($thread_buttons);
 		unset($eachposter);
-		 
+
 		return $post;
 	}
-	 
+
 }
- 
+
 class IforumPostHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
 		parent::__construct($db, 'bb_posts', 'Post', 'post_id', 'subject');
 	}
-	 
+
 	function &get($id)
 	{
 		$id = (int)$id;
@@ -532,10 +530,10 @@ class IforumPostHandler extends ArtObjectHandler {
 			$post = $this->create(false);
 			$post->assignVars($array);
 		}
-		 
+
 		return $post;
 	}
-	 
+
 	function &getByLimit($topic_id, $limit, $approved = 1)
 	{
 		$sql = 'SELECT p.*, t.*, tp.topic_status FROM ' . $this->db->prefix('bb_posts') . ' p LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' t ON p.post_id=t.post_id LEFT JOIN ' . $this->db->prefix('bb_topics') . ' tp ON tp.topic_id=p.topic_id WHERE p.topic_id=' . $topic_id . ' AND p.approved ='. $approved .' ORDER BY p.post_time DESC';
@@ -545,23 +543,23 @@ class IforumPostHandler extends ArtObjectHandler {
 		{
 			$post = $this->create(false);
 			$post->assignVars($myrow);
-			 
+
 			$ret[$myrow['post_id']] = $post;
 			unset($post);
 		}
 		return $ret;
 	}
-	 
+
 	function getPostForPDF(&$post)
 	{
 		return $post->getPostBody(true);
 	}
-	 
+
 	function getPostForPrint(&$post)
 	{
 		return $post->getPostBody();
 	}
-	 
+
 	function approve(&$post, $force = false)
 	{
 		if (empty($post))
@@ -606,7 +604,7 @@ class IforumPostHandler extends ArtObjectHandler {
 			$forum_obj->setVar("forum_topics", $forum_obj->getVar("forum_topics")+1);
 		}
 		$forum_handler->insert($forum_obj, true);
-		 
+
 		// Update user stats
 		if ($post->getVar('uid') > 0)
 		{
@@ -619,10 +617,10 @@ class IforumPostHandler extends ArtObjectHandler {
 				unset($poster);
 			}
 		}
-		 
+
 		return true;
 	}
-	 
+
 	function insertnewsubject($topic_id, $subject)
 	{
 		$sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET topic_subject = " . intval($subject) . " WHERE topic_id = $topic_id";
@@ -634,11 +632,11 @@ class IforumPostHandler extends ArtObjectHandler {
 		}
 		return true;
 	}
-	 
+
 	function insert(&$post, $force = true)
 	{
 		global $icmsConfig;
-		 
+
 		$topic_handler = icms_getmodulehandler("topic", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 		// Verify the topic ID
 		if ($topic_id = $post->getVar("topic_id"))
@@ -678,7 +676,7 @@ class IforumPostHandler extends ArtObjectHandler {
 					return false;
 				}
 				$post->setVar('topic_id', $topic_id);
-				 
+
 				$pid = 0;
 				$post->setVar("pid", 0);
 			}
@@ -687,7 +685,7 @@ class IforumPostHandler extends ArtObjectHandler {
 				$pid = $topic_handler->getTopPostId($topic_id);
 				$post->setVar("pid", $pid);
 			}
-			 
+
 			$text_obj = $text_handler->create();
 			foreach($post_text_vars as $key)
 			{
@@ -752,7 +750,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		}
 		return $post->getVar('post_id');
 	}
-	 
+
 	function delete(&$post, $isDeleteOne = true, $force = false)
 	{
 		if (!is_object($post) || $post->getVar('post_id') == 0) return false;
@@ -775,7 +773,7 @@ class IforumPostHandler extends ArtObjectHandler {
 			include_once(ICMS_ROOT_PATH . "/class/xoopstree.php");
 			$mytree = new XoopsTree($this->db->prefix("bb_posts"), "post_id", "pid");
 			$arr = $mytree->getAllChild($post->getVar('post_id'));
-			for ($i = 0; $i < count($arr); $i++)
+			for ($i = 0, $iMax = count($arr); $i < $iMax; $i++)
 			{
 				$childpost = $this->create(false);
 				$childpost->assignVars($arr[$i]);
@@ -784,19 +782,19 @@ class IforumPostHandler extends ArtObjectHandler {
 			}
 			$this->_delete($post, $force);
 		}
-		 
+
 		return true;
 	}
-	 
+
 	function _delete(&$post, $force = false)
 	{
 		global $icmsModule, $icmsConfig;
 		static $forum_lastpost = array();
-		 
+
 		if (!is_object($post) || $post->getVar('post_id') == 0) return false;
-		 
+
 		$postcount_toupdate = ($post->getVar("approved") > 0);
-		 
+
 		/* Set active post as deleted */
 		if ($post->getVar("approved") > 0 && empty($force))
 		{
@@ -815,7 +813,7 @@ class IforumPostHandler extends ArtObjectHandler {
 				return false;
 			}
 			$post->deleteAttachment();
-			 
+
 			$sql = sprintf("DELETE FROM %s WHERE post_id = %u", $this->db->prefix("bb_posts_text"), $post->getVar('post_id'));
 			if (!$result = $this->db->queryF($sql))
 			{
@@ -823,7 +821,7 @@ class IforumPostHandler extends ArtObjectHandler {
 				return false;
 			}
 		}
-		 
+
 		if ($post->isTopic())
 		{
 			$topic_handler = icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -842,7 +840,7 @@ class IforumPostHandler extends ArtObjectHandler {
 				{
 					xoops_notification_deletebyitem ($icmsModule->getVar('mid'), 'thread', $post->getVar('topic_id'));
 				}
-				 
+
 				$poll_id = $topic_obj->getVar("poll_id");
 				if ($poll_id > 0)
 				{
@@ -852,7 +850,7 @@ class IforumPostHandler extends ArtObjectHandler {
 						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
 						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
 						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
-						 
+
 						$poll = new XoopsPoll($poll_id);
 						if ($poll->delete() != false )
 						{
@@ -863,7 +861,7 @@ class IforumPostHandler extends ArtObjectHandler {
 					}
 				}
 				endif;
-				 
+
 				$sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post->getVar('topic_id'));
 				if (!$result = $this->db->queryF($sql))
 				{
@@ -887,10 +885,10 @@ class IforumPostHandler extends ArtObjectHandler {
 			{
 			}
 		}
-		 
+
 		if ($postcount_toupdate > 0 )
 		{
-			 
+
 			// Update user stats
 			if ($post->getVar('uid') > 0)
 			{
@@ -903,22 +901,22 @@ class IforumPostHandler extends ArtObjectHandler {
 					unset($poster);
 				}
 			}
-			 
+
 			$sql = "UPDATE " . $this->db->prefix("bb_posts") . " SET pid = " . $post->getVar('pid') . " WHERE pid=" . $post->getVar('post_id');
 			if (!$result = $this->db->queryF($sql))
 			{
 				//icms_core_Message::error($this->db->error());
 			}
 		}
-		 
+
 		return true;
 	}
-	 
+
 	function getPostCount($criteria = null)
 	{
 		return parent::getCount($criteria);
 	}
-	 
+
 	/*
 	* TODO: combining viewtopic.php
 	*/
@@ -953,7 +951,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		}
 		return $ret;
 	}
-	 
+
 	/**
 	* clean orphan items from database
 	*
@@ -963,7 +961,7 @@ class IforumPostHandler extends ArtObjectHandler {
 	{
 		parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
 		parent::cleanOrphan($this->db->prefix("bb_posts_text"), "post_id");
-		 
+
 		/* for MySQL 4.1+ */
 		if ($this->mysql_major_version() >= 4):
 		$sql = "DELETE FROM ".$this->db->prefix("bb_posts_text"). " WHERE (post_id NOT IN ( SELECT DISTINCT post_id FROM ".$this->table.") )";
@@ -986,7 +984,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		}
 		return true;
 	}
-	 
+
 	/**
 	* clean expired objects from database
 	*

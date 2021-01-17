@@ -22,7 +22,7 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined('ICMS_ROOT_PATH'))
 {
 	exit();
@@ -30,12 +30,12 @@ if (!defined('ICMS_ROOT_PATH'))
 require_once(ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php');
 if (defined('IFORUM_BLOCK_DEFINED')) return;
 define('IFORUM_BLOCK_DEFINED', true);
- 
+
 function b_iforum_array_filter($var)
 {
 	return $var > 0;
 }
- 
+
 // options[0] - Citeria valid: time(by default)
 // options[1] - NumberToDisplay: any positive integer
 // options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
@@ -43,7 +43,7 @@ function b_iforum_array_filter($var)
 // options[4] - Display Navigator: 1 (by default), 0 (No)
 // options[5] - Title Length : 0 - no limit
 // options[6] - SelectedForumIDs: null for all
- 
+
 function b_iforum_show($options)
 {
 	global $icmsConfig;
@@ -70,7 +70,7 @@ function b_iforum_show($options)
 		break;
 	}
 	$iforumConfig = getConfigForBlock();
-	 
+
 	if (!isset($access_forums))
 	{
 		$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -90,12 +90,12 @@ function b_iforum_show($options)
 	{
 		$allowed_forums = $access_forums;
 	}
-	 
+
 	$forum_criteria = ' AND t.forum_id IN (' . implode(',', $allowed_forums) . ')';
 	$approve_criteria = ' AND t.approved = 1';
-	 
+
 	$query = 'SELECT'. ' DISTINCT t.topic_id, t.topic_replies, t.forum_id, t.topic_title, t.topic_views, t.topic_subject,'. ' f.forum_name, f.allow_subject_prefix,'. ' p.post_id, p.post_time, p.icon, p.uid, p.poster_name'. ' FROM ' . $db->prefix('bb_posts') . ' AS p '. ' LEFT JOIN ' . $db->prefix('bb_topics') . ' AS t ON t.topic_last_post_id=p.post_id'. ' LEFT JOIN ' . $db->prefix('bb_forums') . ' AS f ON f.forum_id=t.forum_id'. ' WHERE 1=1 ' . $forum_criteria . $approve_criteria . $extra_criteria . ' ORDER BY ' . $order . ' DESC';
-	 
+
 	$result = $db->query($query, $options[1], 0);
 	if (!$result)
 	{
@@ -112,7 +112,7 @@ function b_iforum_show($options)
 	}
 	if (count($rows) < 1) return false;
 	$author_name = iforum_getUnameFromIds(array_keys($author), $iforumConfig['show_realname'], true);
-	 
+
 	foreach ($rows as $arr)
 	{
 		$topic_page_jump = '';
@@ -137,7 +137,7 @@ function b_iforum_show($options)
 		$topic['forum_id'] = $arr['forum_id'];
 		$topic['forum_name'] = icms_core_DataFilter::htmlSpecialchars($arr['forum_name']);
 		$topic['id'] = $arr['topic_id'];
-		 
+
 		$title = icms_core_DataFilter::htmlSpecialchars($arr['topic_title']);
 		if (!empty($options[5]))
 		{
@@ -160,12 +160,12 @@ function b_iforum_show($options)
 		$block['topics'][] = $topic;
 		unset($topic);
 	}
-	$block['indexNav'] = intval($options[4]);
+	$block['indexNav'] = (int)$options[4];
 	$block['modulename'] = $modulename;
-	 
+
 	return $block;
 }
- 
+
 // options[0] - Citeria valid: time(by default), views, replies, digest, sticky
 // options[1] - NumberToDisplay: any positive integer
 // options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
@@ -173,13 +173,13 @@ function b_iforum_show($options)
 // options[4] - Display Navigator: 1 (by default), 0 (No)
 // options[5] - Title Length : 0 - no limit
 // options[6] - SelectedForumIDs: null for all
- 
+
 function b_iforum_topic_show($options)
 {
 	global $icmsConfig;
 	global $access_forums;
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
-	$db =Database::getInstance();
+	$db =icms_db_Factory::instance();
 	$myts =MyTextSanitizer::getInstance();
 	$block = array();
 	$i = 0;
@@ -215,7 +215,7 @@ function b_iforum_topic_show($options)
 		break;
 	}
 	$iforumConfig = getConfigForBlock();
-	 
+
 	if (!isset($access_forums))
 	{
 		$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -226,7 +226,7 @@ function b_iforum_topic_show($options)
 		$access_forums = array_keys($access_obj ); // get all accessible forums
 		unset($access_obj );
 	}
-	 
+
 	if (!empty($options[6]))
 	{
 		$allowedforums = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
@@ -236,12 +236,12 @@ function b_iforum_topic_show($options)
 	{
 		$allowed_forums = $access_forums;
 	}
-	 
+
 	$forum_criteria = ' AND t.forum_id IN (' . implode(',', $allowed_forums) . ')';
 	$approve_criteria = ' AND t.approved = 1';
-	 
+
 	$query = 'SELECT'. ' t.topic_id, t.topic_replies, t.forum_id, t.topic_title, t.topic_views, t.topic_subject, t.topic_time, t.topic_poster, t.poster_name,'. ' f.forum_name, f.allow_subject_prefix'. ' FROM ' . $db->prefix('bb_topics') . ' AS t '. ' LEFT JOIN ' . $db->prefix('bb_forums') . ' AS f ON f.forum_id=t.forum_id'. ' WHERE 1=1 ' . $forum_criteria . $approve_criteria . $extra_criteria . ' ORDER BY ' . $order . ' DESC';
-	 
+
 	$result = $db->query($query, $options[1], 0);
 	if (!$result)
 	{
@@ -258,7 +258,7 @@ function b_iforum_topic_show($options)
 	}
 	if (count($rows) < 1) return false;
 	$author_name = iforum_getUnameFromIds(array_keys($author), $iforumConfig['show_realname'], true);
-	 
+
 	foreach ($rows as $arr)
 	{
 		$topic_page_jump = '';
@@ -282,7 +282,7 @@ function b_iforum_topic_show($options)
 		$topic['forum_id'] = $arr['forum_id'];
 		$topic['forum_name'] = icms_core_DataFilter::htmlSpecialchars($arr['forum_name']);
 		$topic['id'] = $arr['topic_id'];
-		 
+
 		$title = icms_core_DataFilter::htmlSpecialchars($arr['topic_title']);
 		if (!empty($options[5]))
 		{
@@ -307,10 +307,10 @@ function b_iforum_topic_show($options)
 	}
 	$block['indexNav'] = intval($options[4]);
 	$block['modulename'] = $modulename;
-	 
+
 	return $block;
 }
- 
+
 // options[0] - Citeria valid: title(by default), text
 // options[1] - NumberToDisplay: any positive integer
 // options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
@@ -318,7 +318,7 @@ function b_iforum_topic_show($options)
 // options[4] - Display Navigator: 1 (by default), 0 (No)
 // options[5] - Title/Text Length : 0 - no limit
 // options[6] - SelectedForumIDs: null for all
- 
+
 function b_iforum_post_show($options)
 {
 	global $icmsConfig;
@@ -336,7 +336,7 @@ function b_iforum_post_show($options)
 		$time_criteria = time() - iforum_getSinceTime($options[2]);
 		$extra_criteria = " AND p.post_time>".$time_criteria;
 	}
-	 
+
 	switch ($options[0])
 	{
 		case "text":
@@ -349,7 +349,7 @@ function b_iforum_post_show($options)
 		break;
 	}
 	$iforumConfig = getConfigForBlock();
-	 
+
 	if (!isset($access_forums))
 	{
 		$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -360,7 +360,7 @@ function b_iforum_post_show($options)
 		$access_forums = array_keys($access_obj ); // get all accessible forums
 		unset($access_obj );
 	}
-	 
+
 	if (!empty($options[6]))
 	{
 		$allowedforums = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
@@ -370,10 +370,10 @@ function b_iforum_post_show($options)
 	{
 		$allowed_forums = $access_forums;
 	}
-	 
+
 	$forum_criteria = ' AND p.forum_id IN (' . implode(',', $allowed_forums) . ')';
 	$approve_criteria = ' AND p.approved = 1';
-	 
+
 	$query = 'SELECT';
 	$query .= ' p.post_id, p.subject, p.post_time, p.icon, p.uid, p.poster_name,';
 	if ($options[0] == "text")
@@ -386,7 +386,7 @@ function b_iforum_post_show($options)
 		$query .= ' LEFT JOIN ' . $db->prefix('bb_posts_text') . ' AS pt ON pt.post_id=p.post_id';
 	}
 	$query .= ' WHERE 1=1 ' . $forum_criteria . $approve_criteria . $extra_criteria . ' ORDER BY ' . $order . ' DESC';
-	 
+
 	$result = $db->query($query, $options[1], 0);
 	if (!$result)
 	{
@@ -404,7 +404,7 @@ function b_iforum_post_show($options)
 	}
 	if (count($rows) < 1) return false;
 	$author_name = iforum_getUnameFromIds(array_keys($author), $iforumConfig['show_realname'], true);
-	 
+
 	foreach ($rows as $arr)
 	{
 		//if ($arr['icon'] && is_file(ICMS_ROOT_PATH . "/images/subject/" . $arr['icon'])) {
@@ -420,7 +420,7 @@ function b_iforum_post_show($options)
 		$topic['forum_id'] = $arr['forum_id'];
 		$topic['forum_name'] = icms_core_DataFilter::htmlSpecialchars($arr['forum_name']);
 		//$topic['id'] = $arr['topic_id'];
-		 
+
 		$title = icms_core_DataFilter::htmlSpecialchars($arr['subject']);
 		if ($options[0] != "text" && !empty($options[5]))
 		{
@@ -438,7 +438,7 @@ function b_iforum_post_show($options)
 			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:$GLOBALS["icmsConfig"]["anonymous"] );
 		}
 		$topic['topic_poster'] = $topic_poster;
-		 
+
 		if ($options[0] == "text")
 		{
 			$post_text = $myts->displayTarea($arr['post_text'], $arr['dohtml'], $arr['dosmiley'], $arr['doxcode'], 1, $arr['dobr']);
@@ -448,7 +448,7 @@ function b_iforum_post_show($options)
 			}
 			$topic['post_text'] = $post_text;
 		}
-		 
+
 		$block['topics'][] = $topic;
 		unset($topic);
 	}
@@ -456,7 +456,7 @@ function b_iforum_post_show($options)
 	$block['modulename'] = $modulename;
 	return $block;
 }
- 
+
 // options[0] - Citeria valid: post(by default), topic, digest, sticky
 // options[1] - NumberToDisplay: any positive integer
 // options[2] - TimeDuration: negative for hours, positive for days, for instance, -5 for 5 hours and 5 for 5 days
@@ -464,7 +464,7 @@ function b_iforum_post_show($options)
 // options[4] - Display Navigator: 1 (by default), 0 (No)
 // options[5] - Title Length : 0 - no limit
 // options[6] - SelectedForumIDs: null for all
- 
+
 function b_iforum_author_show($options)
 {
 	global $icmsConfig;
@@ -503,7 +503,7 @@ function b_iforum_author_show($options)
 		break;
 	}
 	$iforumConfig = getConfigForBlock();
-	 
+
 	if (!isset($access_forums))
 	{
 		$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -514,7 +514,7 @@ function b_iforum_author_show($options)
 		$access_forums = array_keys($access_obj ); // get all accessible forums
 		unset($access_obj );
 	}
-	 
+
 	if (!empty($options[5]))
 	{
 		$allowedforums = array_filter(array_slice($options, 5), "b_iforum_array_filter"); // get allowed forums
@@ -524,7 +524,7 @@ function b_iforum_author_show($options)
 	{
 		$allowed_forums = $access_forums;
 	}
-	 
+
 	if ($type == "topic")
 	{
 		$forum_criteria = ' AND forum_id IN (' . implode(',', $allowed_forums) . ')';
@@ -541,7 +541,7 @@ function b_iforum_author_show($options)
 			FROM ' . $db->prefix('bb_posts') . '
 			WHERE uid>0 ' . $forum_criteria . $approve_criteria . $extra_criteria . ' GROUP BY uid ORDER BY ' . $order . ' DESC';
 	}
-	 
+
 	$result = $db->query($query, $options[1], 0);
 	if (!$result)
 	{
@@ -565,7 +565,7 @@ function b_iforum_author_show($options)
 	$block['modulename'] = $modulename;
 	return $block;
 }
- 
+
 function b_iforum_edit($options)
 {
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
@@ -593,17 +593,17 @@ function b_iforum_edit($options)
 		$form .= " checked='checked'";
 	}
 	$form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
-	 
+
 	$form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
 	if ($options[4] == 1) $form .= " checked=\"checked\"";
 	$form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
 	if ($options[4] == 0) $form .= " checked=\"checked\"";
 	$form .= " />"._NO;
-	 
+
 	$form .= "<br />" . _MB_IFORUM_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
-	 
+
 	$form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
-	 
+
 	$options_forum = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
 	$isAll = (count($options_forum) == 0 || empty($options_forum[0]))?true:
 	false;
@@ -629,10 +629,10 @@ function b_iforum_edit($options)
 	unset($forums);
 	*/
 	$form .= "</select><br />";
-	 
+
 	return $form;
 }
- 
+
 function b_iforum_topic_edit($options)
 {
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
@@ -672,17 +672,17 @@ function b_iforum_topic_edit($options)
 		$form .= " checked='checked'";
 	}
 	$form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
-	 
+
 	$form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
 	if ($options[4] == 1) $form .= " checked=\"checked\"";
 	$form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
 	if ($options[4] == 0) $form .= " checked=\"checked\"";
 	$form .= " />"._NO;
-	 
+
 	$form .= "<br />" . _MB_IFORUM_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
-	 
+
 	$form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
-	 
+
 	$options_forum = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
 	$isAll = (count($options_forum) == 0 || empty($options_forum[0]))?true:
 	false;
@@ -708,10 +708,10 @@ function b_iforum_topic_edit($options)
 	unset($forums);
 	*/
 	$form .= "</select><br />";
-	 
+
 	return $form;
 }
- 
+
 function b_iforum_post_edit($options)
 {
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
@@ -742,17 +742,17 @@ function b_iforum_post_edit($options)
 		$form .= " checked='checked'";
 	}
 	$form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
-	 
+
 	$form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
 	if ($options[4] == 1) $form .= " checked=\"checked\"";
 	$form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
 	if ($options[4] == 0) $form .= " checked=\"checked\"";
 	$form .= " />"._NO;
-	 
+
 	$form .= "<br />" . _MB_IFORUM_TITLE_LENGTH."<input type='text' name='options[5]' value='" . $options[5] . "' />";
-	 
+
 	$form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
-	 
+
 	$options_forum = array_filter(array_slice($options, 6), "b_iforum_array_filter"); // get allowed forums
 	$isAll = (count($options_forum) == 0 || empty($options_forum[0]))?true:
 	false;
@@ -778,10 +778,10 @@ function b_iforum_post_edit($options)
 	unset($forums);
 	*/
 	$form .= "</select><br />";
-	 
+
 	return $form;
 }
- 
+
 function b_iforum_author_edit($options)
 {
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
@@ -813,15 +813,15 @@ function b_iforum_author_edit($options)
 		$form .= " checked='checked'";
 	}
 	$form .= " />&nbsp;" . _MB_IFORUM_DISPLAYMODE_LITE;
-	 
+
 	$form .= "<br />" . _MB_IFORUM_INDEXNAV."<input type=\"radio\" name=\"options[4]\" value=\"1\"";
 	if ($options[4] == 1) $form .= " checked=\"checked\"";
 	$form .= " />"._YES."<input type=\"radio\" name=\"options[4]\" value=\"0\"";
 	if ($options[4] == 0) $form .= " checked=\"checked\"";
 	$form .= " />"._NO;
-	 
+
 	$form .= "<br /><br />" . _MB_IFORUM_FORUMLIST;
-	 
+
 	$options_forum = array_filter(array_slice($options, 5), "b_iforum_array_filter"); // get allowed forums
 	$isAll = (count($options_forum) == 0 || empty($options_forum[0]))?true:
 	false;
@@ -847,7 +847,7 @@ function b_iforum_author_edit($options)
 	unset($forums);
 	*/
 	$form .= "</select><br />";
-	 
+
 	return $form;
 }
 ?>

@@ -9,18 +9,18 @@
  * @version		$Id$
  * @package		Frameworks::art
  */
- 
+
 if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
 /**
-* Object stats handler class.  
+* Object stats handler class.
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
 *
-* {@link _XoopsPersistableObjectHandler} 
+* {@link _XoopsPersistableObjectHandler}
 *
 */
 
@@ -30,15 +30,15 @@ class ArtObjectStatsHandler
      *
      * @var object
      */
-    var $_handler;
-    
+    public $_handler;
+
     function __construct(&$handler) {
-	    $this->_handler =& $handler; 
+	    $this->_handler =& $handler;
     }
-    
+
     /**
      * count objects matching a condition
-     * 
+     *
      * @param object $criteria {@link icms_db_criteria_Element} to match
      * @return int count of objects
      */
@@ -75,17 +75,17 @@ class ArtObjectStatsHandler
             return $ret;
         }
     }
-    
+
     /**
      * get counts matching a condition
-     * 
+     *
      * @param object	$criteria {@link icms_db_criteria_Element} to match
      * @return array of conunts
      */
    	function getCounts($criteria = null)
     {
 	    $ret = array();
-	    
+
 	    $sql_where = "";
 	    $limit = null;
 	    $start = null;

@@ -9,19 +9,19 @@
  * @version		$Id$
  * @package		Frameworks::art
  */
- 
+
 if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 load_objectHandler("persistable");
 
 /**
-* Article object reconciliation handler class.  
+* Article object reconciliation handler class.
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
 *
-* {@link _XoopsPersistableObjectHandler} 
+* {@link _XoopsPersistableObjectHandler}
 *
 */
 
@@ -31,16 +31,16 @@ class ArtObjectReconHandler
      *
      * @var object
      */
-    var $_handler;
-    
+    public $_handler;
+
     function __construct(&$handler) {
-	    $this->_handler =& $handler; 
+	    $this->_handler =& $handler;
     }
-    
-    
+
+
     /**
      * clean orphan objects
-     * 
+     *
      * @return 	bool	true on success
      */
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
@@ -54,7 +54,7 @@ class ArtObjectReconHandler
 		    return false;
 	    }
 	    $field_object = empty($field_object) ? ( empty($this->_handler->field_object) ? $field_link : $this->_handler->field_object ) : preg_replace("/[^a-z0-9\-_]/i", "", $field_object);
-	    
+
     	/* for MySQL 4.1+ */
     	if($this->_handler->mysql_major_version() >= 4):
         $sql = "DELETE FROM ".$this->_handler->table.
@@ -79,10 +79,10 @@ class ArtObjectReconHandler
         }
         return true;
     }
-    
+
     /**
      * Synchronizing objects
-     * 
+     *
      * @return 	bool	true on success
      */
     function synchronization()

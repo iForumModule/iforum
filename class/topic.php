@@ -22,15 +22,15 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
 iforum_load_object();
- 
+
 class Topic extends ArtObject {
 	function __construct()
 	{
@@ -56,20 +56,20 @@ class Topic extends ArtObject {
 		$this->initVar('poll_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_tags', XOBJ_DTYPE_SOURCE);
 	}
-	 
+
 	function incrementCounter()
 	{
 		$sql = 'UPDATE ' . $GLOBALS["xoopsDB"]->prefix('bb_topics') . ' SET topic_views = topic_views + 1 WHERE topic_id =' . $this->getVar('topic_id');
 		$GLOBALS["xoopsDB"]->queryF($sql);
 	}
 }
- 
+
 class IforumTopicHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
 		parent::__construct($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
 	}
-	 
+
 	function &get($id, $var = null)
 	{
 		$ret = null;
@@ -95,7 +95,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		}
 		return $ret;
 	}
-	 
+
 	function approve($topic_id)
 	{
 		$sql = "UPDATE " . $this->db->prefix("bb_topics") . " SET approved = 1 WHERE topic_id = $topic_id";
@@ -113,7 +113,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		unset($posts_obj);
 		return true;
 	}
-	 
+
 	/**
 	* get previous/next topic
 	*
@@ -148,7 +148,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		$topic = $this->get($topic_id);
 		return $topic;
 	}
-	 
+
 	function &getByPost($post_id)
 	{
 		$topic = null;
@@ -165,7 +165,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		$topic->assignVars($row);
 		return $topic;
 	}
-	 
+
 	function getPostCount(&$topic, $type = "")
 	{
 		switch($type)
@@ -186,7 +186,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		$count = $post_handler->getCount($criteria);
 		return $count;
 	}
-	 
+
 	function &getTopPost($topic_id)
 	{
 		$post = null;
@@ -195,7 +195,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			WHERE
 			p.topic_id = " . $topic_id . " AND p.pid = 0
 			AND t.post_id = p.post_id";
-		 
+
 		$result = $this->db->query($sql);
 		if (!$result)
 		{
@@ -208,7 +208,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		$post->assignVars($myrow);
 		return $post;
 	}
-	 
+
 	function getTopPostId($topic_id)
 	{
 		$sql = "SELECT MIN(post_id) AS post_id FROM " . $this->db->prefix('bb_posts') . " WHERE topic_id = " . $topic_id . " AND pid = 0";
@@ -221,13 +221,13 @@ class IforumTopicHandler extends ArtObjectHandler {
 		list($post_id) = $this->db->fetchRow($result);
 		return $post_id;
 	}
-	 
+
 	function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
 	{
 		$ret = array();
-		$perpage = (intval($perpage) > 0) ? intval($perpage) :
+		$perpage = ((int)$perpage > 0) ? (int)$perpage :
 		 (empty(icms::$module->config['posts_per_page']) ? 10 : icms::$module->config['posts_per_page']);
-		$start = intval($start);
+		$start = (int)$start;
 		switch($type)
 		{
 			case "pending":
@@ -240,7 +240,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			$approve_criteria = ' AND p.approved = 1';
 			break;
 		}
-		 
+
 		if ($post_id)
 		{
 			if ($order == "DESC")
@@ -263,7 +263,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			list($position) = $this->db->fetchRow($result);
 			$start = intval($position / $perpage) * $perpage;
 		}
-		 
+
 		$sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p, ' . $this->db->prefix('bb_posts_text') . " t WHERE p.topic_id=" . $topic->getVar('topic_id') . " AND p.post_id = t.post_id" . $approve_criteria . " ORDER BY p.post_id $order";
 		$result = $this->db->query($sql, $perpage, $start);
 		if (!$result)
@@ -281,7 +281,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		}
 		return $ret;
 	}
-	 
+
 	function &getPostTree(&$postArray, $pid = 0)
 	{
 		include_once ICMS_ROOT_PATH . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/class/iforumtree.php";
@@ -291,13 +291,13 @@ class IforumTopicHandler extends ArtObjectHandler {
 		$IForumTree->getPostTree($postsArray, $pid);
 		return $postsArray;
 	}
-	 
+
 	function showTreeItem(&$topic, &$postArray)
 	{
 		global $icmsConfig, $viewtopic_users, $myts;
-		 
+
 		$postArray['post_time'] = formatTimestamp($postArray['post_time']);
-		 
+
 		if (!empty($postArray['icon']))
 			{
 			$postArray['icon'] = '<img style="vertical-align:middle;" src="' . ICMS_URL . "/images/subject/" . htmlspecialchars($postArray['icon']) . '" alt="" />';
@@ -306,13 +306,13 @@ class IforumTopicHandler extends ArtObjectHandler {
 		{
 			$postArray['icon'] = '<a><img style="vertical-align:middle;" src="' . ICMS_URL . '/images/icons/no_posticon.gif" alt="" /></a>';
 		}
-		 
+
 		if (isset($viewtopic_users[$postArray['uid']]['is_forumadmin']))
 			{
 			$postArray['subject'] = $myts->undoHtmlSpecialChars($postArray['subject']);
 		}
 		$postArray['subject'] = '<a href="viewtopic.php?viewmode=thread&amp;topic_id=' . $topic->getVar('topic_id') . '&amp;forum=' . $postArray['forum_id'] . '&amp;post_id=' . $postArray['post_id'] . '">' . $postArray['subject'] . '</a>';
-		 
+
 		$isActiveUser = false;
 		if (isset($viewtopic_users[$postArray['uid']]['name']))
 		{
@@ -325,10 +325,10 @@ class IforumTopicHandler extends ArtObjectHandler {
 			$postArray['poster'] = (empty($postArray['poster_name']))?icms_core_DataFilter::htmlSpecialchars($icmsConfig['anonymous']):
 			$postArray['poster_name'];
 		}
-		 
+
 		return $postArray;
 	}
-	 
+
 	function &getAllPosters(&$topic, $isApproved = true)
 	{
 		$sql = 'SELECT DISTINCT uid FROM ' . $this->db->prefix('bb_posts') . "  WHERE topic_id=" . $topic->getVar('topic_id')." AND uid>0";
@@ -337,7 +337,8 @@ class IforumTopicHandler extends ArtObjectHandler {
 		if (!$result)
 		{
 			iforum_message("IforumTopicHandler::getAllPosters error:" . $sql);
-			return array();
+			$ret = array();
+			return $ret;
 		}
 		$ret = array();
 		while ($myrow = $this->db->fetchArray($result))
@@ -346,11 +347,10 @@ class IforumTopicHandler extends ArtObjectHandler {
 		}
 		return $ret;
 	}
-	 
+
 	function delete(&$topic, $force = true)
 	{
-		$topic_id = is_object($topic)?$topic->getVar("topic_id"):
-		intval($topic);
+		$topic_id = is_object($topic)?$topic->getVar("topic_id"): (int)$topic;
 		if (empty($topic_id))
 		{
 			return false;
@@ -360,7 +360,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		$post_handler->delete($post_obj, false, $force);
 		return true;
 	}
-	 
+
 	// get permission
 	// parameter: $type: 'post', 'view',  'reply', 'edit', 'delete', 'addpoll', 'vote', 'attach'
 	// $gperm_names = "'forum_can_post', 'forum_can_view', 'forum_can_reply', 'forum_can_edit', 'forum_can_delete', 'forum_can_addpoll', 'forum_can_vote', 'forum_can_attach', 'forum_can_noapprove'";
@@ -368,29 +368,29 @@ class IforumTopicHandler extends ArtObjectHandler {
 	{
 		global $icmsModule;
 		static $_cachedTopicPerms;
-		 
+
 		if (iforum_isAdmin($forum)) return 1;
-		 
-		$forum = is_object($forum)?$forum->getVar('forum_id'):
-		intval($forum);
+
+		$forum = is_object($forum)?$forum->getVar('forum_id'): (int)$forum;
+
 		if ($forum < 1) return false;
-		 
+
 		if (!isset($_cachedTopicPerms))
 			{
 			$getpermission =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 			$_cachedTopicPerms = $getpermission->getPermissions("forum", $forum);
 		}
-		 
+
 		$type = strtolower($type);
 		$perm_item = 'forum_' . $type;
 		$permission = (isset($_cachedTopicPerms[$forum][$perm_item])) ? 1 :
 		 0;
-		 
+
 		if ($topic_locked && 'view' != $type) $permission = 0;
-		 
+
 		return $permission;
 	}
-	 
+
 	/**
 	* clean orphan items from database
 	*
@@ -400,10 +400,10 @@ class IforumTopicHandler extends ArtObjectHandler {
 	{
 		parent::cleanOrphan($this->db->prefix("bb_forums"), "forum_id");
 		parent::cleanOrphan($this->db->prefix("bb_posts"), "topic_id");
-		 
+
 		return true;
 	}
-	 
+
 	/**
 	* clean expired objects from database
 	*
@@ -418,7 +418,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		//}
 		return $this->deleteAll($crit_expire, true/*, true*/);
 	}
-	 
+
 	function synchronization($object = null, $force = true)
 	{
 		if (empty($object))
@@ -442,7 +442,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			}
 			unset($topics);
 			endif;
-			 
+
 			/*
 			// MYSQL syntax error
 			// Set post pid for top post
@@ -464,10 +464,12 @@ class IforumTopicHandler extends ArtObjectHandler {
 		}
 		if (!is_object($object))
 		{
-			$object = $this->get(intval($object));
+			$object = $this->get((int)$object);
 		}
-		if (!$object->getVar("topic_id")) return false;
-		 
+		if (!$object->getVar("topic_id")) {
+			return false;
+		}
+
 		if ($force):
 		$sql = "SELECT MAX(post_id) AS last_post, COUNT(*) AS total ". " FROM " . icms::$xoopsDB->prefix("bb_posts") . " WHERE approved=1 AND topic_id = ".$object->getVar("topic_id");
 		if ($result = icms::$xoopsDB->query($sql) )
@@ -484,7 +486,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		}
 		$this->insert($object, true);
 		endif;
-		 
+
 		$time_synchronization = 30 * 24 * 3600; // in days; this should be counted since last synchronization
 		if ($force || $object->getVar("topic_time") > (time() - $time_synchronization)):
 		$sql = "SELECT MIN(post_id) AS top_post FROM ".icms::$xoopsDB->prefix("bb_posts")." WHERE approved = 1 AND topic_id = ".$object->getVar("topic_id");
@@ -504,7 +506,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 				//iforum_message("Could not set post parent ID for topic: ".$sql);
 				//return false;
 			}
-			 
+
 			/*
 			// MYSQL syntax error
 			$sql =  "UPDATE ".icms::$xoopsDB->prefix("bb_posts").
