@@ -28,12 +28,12 @@
 	define("_AM_IFORUM_POSTNOTAPPROVED", "Post has NOT been approved");
 	define("_AM_IFORUM_POSTSAVED", "Post has been saved");
 	define("_AM_IFORUM_POSTNOTSAVED", "Post has NOT been saved");
-	 
+
 	define("_AM_IFORUM_TOPICAPPROVED", "Topic has been approved");
 	define("_AM_IFORUM_TOPICNOTAPPROVED", "Topic has been NOT approved");
 	define("_AM_IFORUM_TOPICID", "Topic ID");
 	define("_AM_IFORUM_ORPHAN_TOPICS_FOR_AUTH", "Unapproved topics authorization");
-	 
+
 	define($constpref.'_DEL_ONE', 'Delete only this message');
 	define($constpref.'_POSTSDELETED', 'Selected post deleted.');
 	define($constpref.'_NOAPPROVEPOST', 'There are presently no posts waiting approval.');
@@ -42,7 +42,7 @@
 	define($constpref.'_MESSAGEC', 'Message:');
 	define($constpref.'_CANCELPOST', 'Cancel Post');
 	define($constpref.'_GOTOMOD', 'Go to module');
-	 
+
 	define($constpref.'_PREFERENCES', 'Module preferences');
 	define($constpref.'_POLLMODULE', 'Poll Module');
 	define($constpref.'_POLL_OK', 'Ready for use');
@@ -50,8 +50,8 @@
 	define($constpref.'_GDLIB2', 'GD2 library:');
 	define($constpref.'_AUTODETECTED', 'Autodetected: ');
 	define($constpref.'_AVAILABLE', 'Available');
-	define($constpref.'_NOTAVAILABLE', '<font color="red">Not available</font>');
-	define($constpref.'_NOTWRITABLE', '<font color="red">Not writable</font>');
+	define($constpref.'_NOTAVAILABLE', '<span style="color: red; ">Not available</span>');
+	define($constpref.'_NOTWRITABLE', '<span style="color: red; ">Not writable</span>');
 	define($constpref.'_IMAGEMAGICK', 'ImageMagicK:');
 	define($constpref.'_IMAGEMAGICK_NOTSET', 'Not set');
 	define($constpref.'_ATTACHPATH', 'Path for attachment storing');
@@ -60,21 +60,21 @@
 	define($constpref.'_REPORT', 'Reported posts');
 	define($constpref.'_REPORT_PENDING', 'Pending report');
 	define($constpref.'_REPORT_PROCESSED', 'processed report');
-	 
+
 	define($constpref.'_CREATETHEDIR', 'Create it');
 	define($constpref.'_SETMPERM', 'Set the permission');
 	define($constpref.'_DIRCREATED', 'The directory has been created');
 	define($constpref.'_DIRNOTCREATED', 'The directory can not be created');
 	define($constpref.'_PERMSET', 'The permission has been set');
 	define($constpref.'_PERMNOTSET', 'The permission can not be set');
-	 
+
 	define($constpref.'_DIGEST', 'Digest notification');
-	define($constpref.'_DIGEST_PAST', '<font color="red">Should be sent out %d minutes ago</font>');
+	define($constpref.'_DIGEST_PAST', '<span style="color: red; ">Should be sent out %d minutes ago</span>');
 	define($constpref.'_DIGEST_NEXT', 'Need to send out in %d minutes');
 	define($constpref.'_DIGEST_ARCHIVE', 'Digest archive');
 	define($constpref.'_DIGEST_SENT', 'Digest processed');
 	define($constpref.'_DIGEST_FAILED', 'Digest NOT processed');
-	 
+
 	// admin_forum_manager.php
 	define("_AM_IFORUM_NAME", "Name");
 	define("_AM_IFORUM_CREATEFORUM", "Create Forum");
@@ -107,10 +107,10 @@
 	define("_AM_IFORUM_MODERATOR_ADD", "Add moderators");
 	define("_AM_IFORUM_ALLOW_SUBJECT_PREFIX", "Allow Subject Prefix for the Topics");
 	define("_AM_IFORUM_ALLOW_SUBJECT_PREFIX_DESC", "This allows a Prefix, which will be added to the Topic Subject");
-	 
-	 
+
+
 	// admin_cat_manager.php
-	
+
 	define("_AM_IFORUM_SETCATEGORYORDER", "Set Category Position:");
 	define("_AM_IFORUM_ACTIVE", "Active");
 	define("_AM_IFORUM_INACTIVE", "Inactive");
@@ -122,9 +122,9 @@
 	define("_AM_IFORUM_SPONSORLINK", "Sponsor Link:");
 	define("_AM_IFORUM_DELCAT", "Delete Category");
 	define("_AM_IFORUM_WAYSYWTDTTAL", "Note: This will NOT remove the forums under the category, you must do that via the Edit Forum section.<br /><br />WARNING: Are you sure you want to delete this Category?");
-	 
-	 
-	 
+
+
+
 	//%%%%%%        File Name  admin_forums.php           %%%%%
 	define("_AM_IFORUM_FORUMNAME", "Forum Name:");
 	define("_AM_IFORUM_FORUMDESCRIPTION", "Forum Description:");
@@ -156,14 +156,14 @@
 	define("_AM_IFORUM_MERGETO_FORUM", "Merge this forum to:");
 	define("_AM_IFORUM_MSG_FORUM_MERGED", "Forum merged!");
 	define("_AM_IFORUM_MSG_ERR_FORUM_MERGED", "Failed to merge forum.");
-	 
+
 	//%%%%%%        File Name  admin_forum_reorder.php           %%%%%
 	define("_AM_IFORUM_REORDERID", "ID");
 	define("_AM_IFORUM_REORDERTITLE", "Title");
 	define("_AM_IFORUM_REORDERWEIGHT", "Position");
 	define("_AM_IFORUM_SETFORUMORDER", "Set Board Ordering");
 	define("_AM_IFORUM_BOARDREORDER", "The Board has reordered to your specification");
-	 
+
 	// admin_permission.php
 	define("_AM_IFORUM_PERMISSIONS_TO_THIS_FORUM", "Topic permissions for this Forum");
 	define("_AM_IFORUM_CAT_ACCESS", "Category access");
@@ -178,7 +178,7 @@
 	define("_AM_IFORUM_CAN_ATTACH", "Can Attach");
 	define("_AM_IFORUM_CAN_NOAPPROVE", "Can Post without Approval");
 	define("_AM_IFORUM_ACTION", "Action");
-	 
+
 	define("_AM_IFORUM_PERM_TEMPLATE", "Set default permission template");
 	define("_AM_IFORUM_PERM_TEMPLATE_DESC", "Edit the following permission template so that it can be applied to a forum or a couple of forums");
 	define("_AM_IFORUM_PERM_FORUMS", "Select forums");
@@ -189,9 +189,9 @@
 	define("_AM_IFORUM_PERM_ACTION", "Permission management tools");
 	define("_AM_IFORUM_PERM_SETBYGROUP", "Set permissions directly by group");
 	define("_AM_IFORUM_PERM_PERMISSIONS", "Permissions");
-	 
+
 	// admin_forum_prune.php
-	 
+
 	define("_AM_IFORUM_PRUNE_RESULTS_TITLE", "Prune Results");
 	define("_AM_IFORUM_PRUNE_RESULTS_TOPICS", "Pruned Topics");
 	define("_AM_IFORUM_PRUNE_RESULTS_POSTS", "Pruned Posts");
@@ -199,7 +199,7 @@
 	define("_AM_IFORUM_PRUNE_STORE", "Store posts in this forum instead of deleting them");
 	define("_AM_IFORUM_PRUNE_ARCHIVE", "Make a copy of posts into Archive");
 	define("_AM_IFORUM_PRUNE_FORUMSELERROR", "You forgot to select forum(s) to prune");
-	 
+
 	define("_AM_IFORUM_PRUNE_DAYS", "Remove topics without replies in:");
 	define("_AM_IFORUM_PRUNE_FORUMS", "Forums to be pruned");
 	define("_AM_IFORUM_PRUNE_STICKY", "Keep Sticky topics");
@@ -217,7 +217,7 @@
 	define("_AM_IFORUM_PRUNE_4MONTH", "Four Months");
 	define("_AM_IFORUM_PRUNE_YEAR", "A Year");
 	define("_AM_IFORUM_PRUNE_2YEARS", "2 Years");
-	 
+
 	// About.php constants
 	define($constpref.'_AUTHOR_INFO', "Author Informations");
 	define($constpref.'_AUTHOR_NAME', "Author");
@@ -234,7 +234,7 @@
 	define($constpref.'_AUTHOR_WORD', "The Author's Word");
 	define($constpref.'_BY', 'By');
 	define($constpref.'_AUTHOR_WORD_EXTRA', "		");
-	 
+
 	// admin_report.php
 	define("_AM_IFORUM_REPORTADMIN", "Reported posts manager");
 	define("_AM_IFORUM_PROCESSEDREPORT", "View processed reports");
@@ -244,11 +244,11 @@
 	define("_AM_IFORUM_REPORTPOST", "Reported post");
 	define("_AM_IFORUM_REPORTTEXT", "Report text");
 	define("_AM_IFORUM_REPORTMEMO", "Process memo");
-	 
+
 	// admin_report.php
 	define("_AM_IFORUM_DIGESTADMIN", "Digest manager");
 	define("_AM_IFORUM_DIGESTCONTENT", "Digest content");
-	 
+
 	// admin_votedata.php
 	define("_AM_IFORUM_VOTE_RATINGINFOMATION", "Voting Information");
 	define("_AM_IFORUM_VOTE_TOTALVOTES", "Total votes: ");

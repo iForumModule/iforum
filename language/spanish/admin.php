@@ -33,13 +33,13 @@
 	define($constpref."_POSTNOTAPPROVED", "El mensaje no ha sido aprobado");
 	define($constpref."_POSTSAVED", "El mensaje ha sido guardado");
 	define($constpref."_POSTNOTSAVED", "El mensaje no ha sido guardado");
-	 
+
 	define($constpref."_TOPICAPPROVED", "El mensaje ha sido aprobado");
 	define($constpref."_TOPICNOTAPPROVED", "El mensaje NO ha sido aprobado");
 	define($constpref."_TOPICID", "ID del mensaje");
 	define($constpref."_ORPHAN_TOPICS_FOR_AUTH", "Mensajes sin aprobación");
-	 
-	 
+
+
 	define($constpref."_DEL_ONE", "Eliminar solo este mensaje");
 	define($constpref."_POSTSDELETED", "El mensaje seleccionado ha sido eliminado.");
 	define($constpref."_NOAPPROVEPOST", "Actualmente no hay mensajes pendientes de aprobación.");
@@ -48,7 +48,7 @@
 	define($constpref."_MESSAGEC", "Mensaje:");
 	define($constpref."_CANCELPOST", "Cancelar envío");
 	define($constpref."_GOTOMOD", "Ir al módulo");
-	 
+
 	define($constpref."_PREFERENCES", "Preferencias del módulo");
 	define($constpref."_POLLMODULE", "Modulo de encuestas de Xoops");
 	define($constpref."_POLL_OK", "Listo para ser usado");
@@ -56,8 +56,8 @@
 	define($constpref."_GDLIB2", "Librería GD2:");
 	define($constpref."_AUTODETECTED", "Autodetectada: ");
 	define($constpref."_AVAILABLE", "Disponible");
-	define($constpref.'_NOTAVAILABLE', '<font color="red">No disponible</font>');
-	define($constpref.'_NOTWRITABLE', '<font color="red">No escribible por el servidor</font>');
+	define($constpref.'_NOTAVAILABLE', '<span style="color: red; ">No disponible</span>');
+	define($constpref.'_NOTWRITABLE', '<span style="color: red; ">No escribible por el servidor</span>');
 	define($constpref."_IMAGEMAGICK", "ImageMagicK");
 	define($constpref."_IMAGEMAGICK_NOTSET", "No ajustado");
 	define($constpref."_ATTACHPATH", "Ruta para los archivos adjuntos");
@@ -66,21 +66,21 @@
 	define($constpref."_REPORT", "Mensajes reportados");
 	define($constpref."_REPORT_PENDING", "Pendientes");
 	define($constpref."_REPORT_PROCESSED", "Procesados");
-	 
+
 	define($constpref."_CREATETHEDIR", "Crear");
 	define($constpref."_SETMPERM", "Ajustar los permisos.");
 	define($constpref."_DIRCREATED", "El directorio ha sido creado.");
 	define($constpref."_DIRNOTCREATED", "El directorio no ha podido ser creado.");
 	define($constpref."_PERMSET", "Los permisos han sido establecidos.");
 	define($constpref."_PERMNOTSET", "Los permisos NO han podido ser establecidos.");
-	 
+
 	define($constpref."_DIGEST", "Notificación de selecciones");
-	define($constpref.'_DIGEST_PAST', '<font color="red">Ha sido enviada hace %d minutos.</font>');
+	define($constpref.'_DIGEST_PAST', '<span style="color: red; ">Ha sido enviada hace %d minutos.</span>');
 	define($constpref."_DIGEST_NEXT", "Será enviada en %d minutos.");
 	define($constpref."_DIGEST_ARCHIVE", "Historial de selecciones");
 	define($constpref."_DIGEST_SENT", "Selección procesada");
 	define($constpref."_DIGEST_FAILED", "Selección NO procesada");
-	 
+
 	// admin_forum_manager.php
 	define($constpref."_NAME", "Nombre");
 	define($constpref."_CREATEFORUM", "Crear foro");
@@ -113,10 +113,10 @@
 	define($constpref."_MODERATOR_ADD", "Agregar moderadores");
 	define($constpref."_ALLOW_SUBJECT_PREFIX", "Permitir un prefijo en el asunto");
 	define($constpref."_ALLOW_SUBJECT_PREFIX_DESC", "Permite incluir un prefijo en el asunto del mensaje, para por ejemplo indicar que el problema ha sido resuelto.");
-	 
-	 
+
+
 	// admin_cat_manager.php
-	 
+
 	define($constpref."_SETCATEGORYORDER", "Ordenar categoría:");
 	define($constpref."_ACTIVE", "Activa");
 	define($constpref."_INACTIVE", "Inactiva");
@@ -128,9 +128,9 @@
 	define($constpref."_SPONSORLINK", "Enlace del patrocinador:");
 	define($constpref."_DELCAT", "Eliminar categoría");
 	define($constpref."_WAYSYWTDTTAL", "Nota: Esta acción NO eliminará los foros que dependan de esta categoría; para eliminarlos deberá hacerlo por modificándolos.<br><br>ADVERTENCIA: ¿Está seguro de querer eliminar esta categoría?");
-	 
-	 
-	 
+
+
+
 	//%%%%%%        File Name  admin_forums.php           %%%%%
 	define($constpref."_FORUMNAME", "Nombre:");
 	define($constpref."_FORUMDESCRIPTION", "Descripción:");
@@ -162,14 +162,14 @@
 	define($constpref."_MERGETO_FORUM", "Combinar este foro con:");
 	define($constpref."_MSG_FORUM_MERGED", "El foro ha sido combinado.");
 	define($constpref."_MSG_ERR_FORUM_MERGED", "Error al combinar foro.");
-	 
+
 	//%%%%%%        File Name  admin_forum_reorder.php           %%%%%
 	define($constpref."_REORDERID", "ID");
 	define($constpref."_REORDERTITLE", "Título");
 	define($constpref."_REORDERWEIGHT", "Posición");
 	define($constpref."_SETFORUMORDER", "Ajustar orden del foro");
 	define($constpref."_BOARDREORDER", "El foro ha sido reordenado");
-	 
+
 	// admin_permission.php
 	define($constpref."_PERMISSIONS_TO_THIS_FORUM", "Permisos de los temas de este foro");
 	define($constpref."_CAT_ACCESS", "Acceso a la categoría");
@@ -184,7 +184,7 @@
 	define($constpref."_CAN_ATTACH", "Pueden adjuntar archivos");
 	define($constpref."_CAN_NOAPPROVE", "Pueden enviar sin aprobación");
 	define($constpref."_ACTION", "Acción");
-	 
+
 	define($constpref."_PERM_TEMPLATE", "Plantilla de permisos predeterminados");
 	define($constpref."_PERM_TEMPLATE_DESC", "Podrá ser aplicado a un foro ");
 	define($constpref."_PERM_FORUMS", "Seleccionar foros");
@@ -194,9 +194,9 @@
 	define($constpref."_PERM_TEMPLATE_APPLIED", "Los permisos predetermiinados se han aplicado a los foros");
 	define($constpref."_PERM_ACTION", "Acciones de los permisos");
 	define($constpref."_PERM_SETBYGROUP", "Fijar permisos directamente al grupo");
-	 
+
 	// admin_forum_prune.php
-	 
+
 	define($constpref."_PRUNE_RESULTS_TITLE", "Purgar resultados");
 	define($constpref."_PRUNE_RESULTS_TOPICS", "Temas purgados");
 	define($constpref."_PRUNE_RESULTS_POSTS", "Mensajes purgados");
@@ -204,7 +204,7 @@
 	define($constpref."_PRUNE_STORE", "Guardar mensajes en este foro en vez de eliminarlos");
 	define($constpref."_PRUNE_ARCHIVE", "Hacer una copia de los mensajes en un archivo");
 	define($constpref."_PRUNE_FORUMSELERROR", "Ha olvidado seleccionar los foros que desea purgar");
-	 
+
 	define($constpref."_PRUNE_DAYS", "Remover mensajes sin respuesta en:");
 	define($constpref."_PRUNE_FORUMS", "Foros que serán purgados");
 	define($constpref."_PRUNE_STICKY", "Conservar los temas pegados");
@@ -222,7 +222,7 @@
 	define($constpref."_PRUNE_4MONTH", "4 meses");
 	define($constpref."_PRUNE_YEAR", "1 año");
 	define($constpref."_PRUNE_2YEARS", "2 años");
-	 
+
 	// About.php constants
 	define($constpref."_AUTHOR_INFO", "Información del autor");
 	define($constpref."_AUTHOR_NAME", "Autor");
@@ -240,7 +240,7 @@
 	define($constpref."_BY", "Por");
 	define($constpref."_AUTHOR_WORD_EXTRA", "
 		");
-	 
+
 	// admin_report.php
 	define($constpref."_REPORTADMIN", "Gestor de reportes");
 	define($constpref."_PROCESSEDREPORT", "Ver reportes procesados");
@@ -250,11 +250,11 @@
 	define($constpref."_REPORTPOST", "Mensaje reportado");
 	define($constpref."_REPORTTEXT", "Texto reportado");
 	define($constpref."_REPORTMEMO", "Memoria de reportes");
-	 
+
 	// admin_report.php
 	define($constpref."_DIGESTADMIN", "Gestor de selecciones");
 	define($constpref."_DIGESTCONTENT", "Contenido de las selecciones");
-	 
+
 	// admin_votedata.php
 	define($constpref."_VOTE_RATINGINFOMATION", "Información de votos");
 	define($constpref."_VOTE_TOTALVOTES", "Votos en total: ");

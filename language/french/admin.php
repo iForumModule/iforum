@@ -32,13 +32,13 @@
 	define($constpref."_POSTNOTAPPROVED", "La proposition n'a pas &eacute;t&eacute; approuv&eacute;e");
 	define($constpref."_POSTSAVED", "La contribution a &eacute;t&eacute; sauvegard&eacute;e");
 	define($constpref."_POSTNOTSAVED", "La contribution n'a pas &eacute;t&eacute; sauvegard&eacute;e");
-	 
+
 	define($constpref."_TOPICAPPROVED", "Le sujet a &eacute;t&eacute; approuv&eacute;");
 	define($constpref."_TOPICNOTAPPROVED", "le sujet n'a pas &eacute;t&eacute; approuv&eacute;");
 	define($constpref."_TOPICID", "Sujet N°");
 	define($constpref."_ORPHAN_TOPICS_FOR_AUTH", "Autorisation des sujets non approuv&eacute;s");
-	 
-	 
+
+
 	define($constpref.'_DEL_ONE', 'Effacer seulement ce message');
 	define($constpref.'_POSTSDELETED', 'S&eacute;lection de la proposition &agrave; effacer.');
 	define($constpref."_NOAPPROVEPOST", "Il n'y a aucune contribution en attente d'approbation pour le moment.");
@@ -47,7 +47,7 @@
 	define($constpref.'_MESSAGEC', 'Message :');
 	define($constpref.'_CANCELPOST', 'Annuler votre contribution');
 	define($constpref.'_GOTOMOD', 'Aller au module');
-	 
+
 	define($constpref.'_PREFERENCES', 'Pr&eacute;f&eacute;rences du module');
 	define($constpref.'_POLLMODULE', 'Module Xoops de sondage ');
 	define($constpref.'_POLL_OK', 'Pr&ecirc;t &agrave; &ecirc;tre utilis&eacute;');
@@ -55,8 +55,8 @@
 	define($constpref.'_GDLIB2', 'Librairie GD2 :');
 	define($constpref.'_AUTODETECTED', 'Autod&eacute;tection : ');
 	define($constpref.'_AVAILABLE', 'Valide');
-	define($constpref.'_NOTAVAILABLE', '<font color="red">Non valide</font>');
-	define($constpref.'_NOTWRITABLE', '<font color="red">Non ouvert en &eacute;criture</font>');
+	define($constpref.'_NOTAVAILABLE', '<span style="color: red; ">Non valide</span>');
+	define($constpref.'_NOTWRITABLE', '<span style="color: red; ">Non ouvert en &eacute;criture</span>');
 	define($constpref.'_IMAGEMAGICK', 'Image MagicK');
 	define($constpref.'_IMAGEMAGICK_NOTSET', 'Non param&eacute;tr&eacute;');
 	define($constpref.'_ATTACHPATH', 'Chemin de stockage des pi&egrave;ces jointes');
@@ -65,21 +65,21 @@
 	define($constpref.'_REPORT', 'Posts rapport&eacute;s');
 	define($constpref.'_REPORT_PENDING', 'Rapports en attente');
 	define($constpref.'_REPORT_PROCESSED', 'Rapports trait&eacute;s');
-	 
+
 	define($constpref.'_CREATETHEDIR', 'Le cr&eacute;er');
 	define($constpref.'_SETMPERM', 'Param&egrave;trer les permissions');
 	define($constpref.'_DIRCREATED', 'Le r&eacute;pertoire a &eacute;t&eacute; cr&eacute;&eacute;');
 	define($constpref.'_DIRNOTCREATED', 'Le r&eacute;pertoire ne peut pas &ecirc;tre cr&eacute;&eacute;');
 	define($constpref.'_PERMSET', 'Les permissions ont &eacute;t&eacute; param&egrave;tr&eacute;es');
 	define($constpref.'_PERMNOTSET', 'Les permissions ne peuvent pas &circ;tre param&egrave;tr&eacute;es');
-	 
+
 	define($constpref.'_DIGEST', "Notification des sommaires");
-	define($constpref.'_DIGEST_PAST', '<font color="red">devait &ecirc;tre communiqu&eacute; il y a %d minutes</font>');
+	define($constpref.'_DIGEST_PAST', '<span style="color: red; ">devait &ecirc;tre communiqu&eacute; il y a %d minutes</span>');
 	define($constpref.'_DIGEST_NEXT', "Demande &agrave; etre envoy&eacute; &agrave; l'ext&eacute;rieur dans %d minutes");
 	define($constpref.'_DIGEST_ARCHIVE', "Archive des sommaires");
 	define($constpref.'_DIGEST_SENT', 'Sommaires op&eacute;r&eacute;s');
 	define($constpref.'_DIGEST_FAILED', 'Sommaires NON op&eacute;r&eacute;s');
-	 
+
 	// admin_forum_manager.php
 	define($constpref."_NAME", "Nom");
 	define($constpref."_CREATEFORUM", "Cr&eacute;er un forum");
@@ -112,10 +112,10 @@
 	define($constpref."_MODERATOR_ADD", "Ajouter des mod&eacute;rateurs");
 	define($constpref."_ALLOW_SUBJECT_PREFIX", "Allouer un pr&eacute;fixe de sujet pour les articles");
 	define($constpref."_ALLOW_SUBJECT_PREFIX_DESC", "Ceci alloue un pr&eacute;fixe, qui sera ajout&eacute; au sujet de l'article");
-	 
-	 
+
+
 	// admin_cat_manager.php
-	 
+
 	define($constpref."_SETCATEGORYORDER", "Param&egrave;tres de position de la cat&eacute;gorie :");
 	define($constpref."_ACTIVE", "Actif");
 	define($constpref."_INACTIVE", "Inactif");
@@ -127,9 +127,9 @@
 	define($constpref."_SPONSORLINK", "Lien du sponsor :");
 	define($constpref."_DELCAT", "Effacer la cat&eacute;gorie");
 	define($constpref."_WAYSYWTDTTAL", "Note : Ceci ne supprimera pas les forums situ&eacute;s sous la cat&eacute;gorie, pour ce faire vous devez utiliser la section Editer un forum.<br /><br />AVERTISSEMENT : Etes vous certain de vouloir effacer cette cat&eacute;gorie ?");
-	 
-	 
-	 
+
+
+
 	//%%%%%%        Nom du dossier admin_forums.php           %%%%%
 	define($constpref."_FORUMNAME", "Nom du forum :");
 	define($constpref."_FORUMDESCRIPTION", "Description du forum :");
@@ -161,14 +161,14 @@
 	define($constpref."_MERGETO_FORUM", "Fusionner ce forum avec :");
 	define($constpref."_MSG_FORUM_MERGED", "Forums fusionn&eacute;s !");
 	define($constpref."_MSG_ERR_FORUM_MERGED", "Echec de la fusion des forums.");
-	 
+
 	//%%%%%%        Nom du dossier admin_forum_reorder.php           %%%%%
 	define($constpref."_REORDERID", "N°");
 	define($constpref."_REORDERTITLE", "Titre");
 	define($constpref."_REORDERWEIGHT", "Position");
 	define($constpref."_SETFORUMORDER", "Param&egrave;tres d'organisation des forums");
 	define($constpref."_BOARDREORDER", "Le forum a &eacute;t&eacute; r&eacute;-ordonn&eacute;");
-	 
+
 	// admin_permission.php
 	define($constpref."_PERMISSIONS_TO_THIS_FORUM", "Permissions pour ce forum");
 	define($constpref."_CAT_ACCESS", "Acc&egrave;s aux cat&eacute;gories");
@@ -183,7 +183,7 @@
 	define($constpref."_CAN_ATTACH", "peut attacher");
 	define($constpref."_CAN_NOAPPROVE", "peut poster sans approbation");
 	define($constpref."_ACTION", "Action");
-	 
+
 	define($constpref."_PERM_TEMPLATE", "Mod&egrave;le de Permissions");
 	define($constpref."_PERM_TEMPLATE_DESC", "Sera appliqu&eacute; aux nouveaux forums");
 	define($constpref."_PERM_FORUMS", "S&eacute;lectionnez les forums");
@@ -193,9 +193,9 @@
 	define($constpref."_PERM_TEMPLATE_APPLIED", "Les permissions par d&eacute;faut ont &eacute;t&eacute; appliqu&eacute;es aux forums");
 	define($constpref."_PERM_ACTION", "Outils de Gestion des Permissions");
 	define($constpref."_PERM_SETBYGROUP", "D&eacute;duire les permissions des droits des groupes");
-	 
+
 	// admin_forum_prune.php
-	 
+
 	define($constpref."_PRUNE_RESULTS_TITLE", "R&eacute;sultats des purges");
 	define($constpref."_PRUNE_RESULTS_TOPICS", "Sujets purg&eacute;s");
 	define($constpref."_PRUNE_RESULTS_POSTS", "Contributions purg&eacute;es");
@@ -203,7 +203,7 @@
 	define($constpref."_PRUNE_STORE", "Enregistrer les contributions de ces forums avant de les purger");
 	define($constpref."_PRUNE_ARCHIVE", "R&eacute;aliser une copie d'archive des contributions");
 	define($constpref."_PRUNE_FORUMSELERROR", "Vous avez oubli&eacute; de s&eacute;lectionner le ou les forums &agrave; purger");
-	 
+
 	define($constpref."_PRUNE_DAYS", "Supprimer les sujets sans r&eacute;ponse depuis :");
 	define($constpref."_PRUNE_FORUMS", "Forums &agrave; purger");
 	define($constpref."_PRUNE_STICKY", "Conserver les sujets &eacute;tiquet&eacute;s");
@@ -221,7 +221,7 @@
 	define($constpref."_PRUNE_4MONTH", "Quatre mois");
 	define($constpref."_PRUNE_YEAR", "Un an");
 	define($constpref."_PRUNE_2YEARS", "2 ans");
-	 
+
 	// About.php constants
 	define($constpref.'_AUTHOR_INFO', "Informations au sujet de l'auteur");
 	define($constpref.'_AUTHOR_NAME', "Auteur");
@@ -238,8 +238,8 @@
 	define($constpref.'_AUTHOR_WORD', "Le monde de l'auteur");
 	define($constpref.'_BY', 'Par');
 	define($constpref.'_AUTHOR_WORD_EXTRA', " ");
-	 
-	 
+
+
 	// admin_report.php
 	define($constpref."_REPORTADMIN", "Posts rapport&eacute;s aux gestionnaires");
 	define($constpref."_PROCESSEDREPORT", "Vues des rapports g&eacute;n&eacute;r&eacute;s");
@@ -249,11 +249,11 @@
 	define($constpref."_REPORTPOST", "Post rapport&eacute;");
 	define($constpref."_REPORTTEXT", "Texte du rapport");
 	define($constpref."_REPORTMEMO", "Memo g&eacute;n&eacute;r&eacute;");
-	 
+
 	// admin_report.php
 	define($constpref."_DIGESTADMIN", "Gestion des sommaires");
 	define($constpref."_DIGESTCONTENT", "Contenu des sommaires");
-	 
+
 	// admin_votedata.php
 	define($constpref."_VOTE_RATINGINFOMATION", "Informations de vote");
 	define($constpref."_VOTE_TOTALVOTES", "Nombre total de votes : ");

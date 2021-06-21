@@ -32,13 +32,13 @@
 	define($constpref."_POSTNOTAPPROVED", "Mensagem não foi aprovada");
 	define($constpref."_POSTSAVED", "Mensagem salva");
 	define($constpref."_POSTNOTSAVED", "Mensagem não foi salva");
-	 
+
 	define($constpref."_TOPICAPPROVED", "Tópico aprovado");
 	define($constpref."_TOPICNOTAPPROVED", "Tópico não foi aprovado");
 	define($constpref."_TOPICID", "Id");
 	define($constpref."_ORPHAN_TOPICS_FOR_AUTH", "Tópicos aguardando aprovação");
-	 
-	 
+
+
 	define($constpref.'_DEL_ONE', 'Excluir apenas esta mensagem');
 	define($constpref.'_POSTSDELETED', 'Mensagem selecionada foi excluída.');
 	define($constpref.'_NOAPPROVEPOST', 'Não há mensagens aguardando aprovação.');
@@ -47,7 +47,7 @@
 	define($constpref.'_MESSAGEC', 'Mensagem:');
 	define($constpref.'_CANCELPOST', 'Cancelar');
 	define($constpref.'_GOTOMOD', 'Ir para o Módulo');
-	 
+
 	define($constpref.'_PREFERENCES', 'Preferências');
 	define($constpref.'_POLLMODULE', 'Módulo XoopsPoll (Enquetes)');
 	define($constpref.'_POLL_OK', 'Disponível para uso');
@@ -55,8 +55,8 @@
 	define($constpref.'_GDLIB2', 'Biblioteca GD2:');
 	define($constpref.'_AUTODETECTED', 'Disponível: ');
 	define($constpref.'_AVAILABLE', 'Disponível');
-	define($constpref.'_NOTAVAILABLE', '<font color="red">Indisponível</font>');
-	define($constpref.'_NOTWRITABLE', '<font color="red">Não tem permissão para gravação</font>');
+	define($constpref.'_NOTAVAILABLE', '<span style="color: red; ">Indisponível</span>');
+	define($constpref.'_NOTWRITABLE', '<span style="color: red; ">Não tem permissão para gravação</span>');
 	define($constpref.'_IMAGEMAGICK', 'ImageMagick:');
 	define($constpref.'_IMAGEMAGICK_NOTSET', 'Não configurado');
 	define($constpref.'_ATTACHPATH', 'Diretório para anexos');
@@ -65,21 +65,21 @@
 	define($constpref.'_REPORT', 'Envio de Relatórios');
 	define($constpref.'_REPORT_PENDING', 'Pendentes');
 	define($constpref.'_REPORT_PROCESSED', 'Processados');
-	 
+
 	define($constpref.'_CREATETHEDIR', 'Criar Diretório');
 	define($constpref.'_SETMPERM', 'Alterar permissão');
 	define($constpref.'_DIRCREATED', 'O diretório foi criado');
 	define($constpref.'_DIRNOTCREATED', 'Não é possível a criação do diretório');
 	define($constpref.'_PERMSET', 'Permissão alterada alterada com sucesso');
 	define($constpref.'_PERMNOTSET', 'Não é possível a alteração da permissão');
-	 
+
 	define($constpref.'_DIGEST', 'Notificação de Informativo');
-	define($constpref.'_DIGEST_PAST', '<font color="red">Deveria ter sido enviado há %d minutos</font>');
+	define($constpref.'_DIGEST_PAST', '<span style="color: red; ">Deveria ter sido enviado há %d minutos</span>');
 	define($constpref.'_DIGEST_NEXT', 'Será enviado em %d minutos');
 	define($constpref.'_DIGEST_ARCHIVE', 'Arquivo de informativos');
 	define($constpref.'_DIGEST_SENT', 'Informativo processado');
 	define($constpref.'_DIGEST_FAILED', 'Informativo não processado');
-	 
+
 	// admin_forum_manager.php
 	define($constpref."_NAME", "Nome");
 	define($constpref."_CREATEFORUM", "Criar fórum");
@@ -112,10 +112,10 @@
 	define($constpref."_MODERATOR_ADD", "Incluir moderadores");
 	define($constpref."_ALLOW_SUBJECT_PREFIX", "Permitir Prefixo no assunto para os Tópicos");
 	define($constpref."_ALLOW_SUBJECT_PREFIX_DESC", "Isso permite um prefixo, que serão adicionados nos assuntos dos Tópicos");
-	 
-	 
+
+
 	// admin_cat_manager.php
-	 
+
 	define($constpref."_SETCATEGORYORDER", "Ordem:");
 	define($constpref."_ACTIVE", "Ativo");
 	define($constpref."_INACTIVE", "Inativo");
@@ -127,9 +127,9 @@
 	define($constpref."_SPONSORLINK", "Link do patrocinador:");
 	define($constpref."_DELCAT", "Excluir categoria");
 	define($constpref."_WAYSYWTDTTAL", "Nota: Isto NÃO irá excluir os fóruns desta categoria, para isso você deverá usar o Gerenciador de Fóruns.<br /><br />ATENÇÃO: Você tem certeza que quer excluir esta categoria?");
-	 
-	 
-	 
+
+
+
 	//%%%%%%        File Name  admin_forums.php           %%%%%
 	define($constpref."_FORUMNAME", "Nome do fórum:");
 	define($constpref."_FORUMDESCRIPTION", "Descrição do fórum:");
@@ -161,14 +161,14 @@
 	define($constpref."_MERGETO_FORUM", "Mesclar este fórum com:");
 	define($constpref."_MSG_FORUM_MERGED", "Fórum mesclado com sucesso!");
 	define($constpref."_MSG_ERR_FORUM_MERGED", "Operação de mesclagem não realizada.");
-	 
+
 	//%%%%%%        File Name  admin_forum_reorder.php           %%%%%
 	define($constpref."_REORDERID", "Id");
 	define($constpref."_REORDERTITLE", "Título");
 	define($constpref."_REORDERWEIGHT", "Posição");
 	define($constpref."_SETFORUMORDER", "Reordenar");
 	define($constpref."_BOARDREORDER", "As categorias e os fóruns foram reordenados com sucesso");
-	 
+
 	// admin_permission.php
 	define($constpref."_PERMISSIONS_TO_THIS_FORUM", "Permissões de tópico para este fórum");
 	define($constpref."_CAT_ACCESS", "Quem pode ver as categorias?");
@@ -183,7 +183,7 @@
 	define($constpref."_CAN_ATTACH", "Quem pode enviar arquivos?");
 	define($constpref."_CAN_NOAPPROVE", "Quem pode enviar sem aprovação?");
 	define($constpref."_ACTION", "Ação");
-	 
+
 	define($constpref."_PERM_TEMPLATE", "Modelo de Permissão");
 	define($constpref."_PERM_TEMPLATE_DESC", "Aplicar aos novos fóruns");
 	define($constpref."_PERM_FORUMS", "Selecionar fóruns");
@@ -193,9 +193,9 @@
 	define($constpref."_PERM_TEMPLATE_APPLIED", "Modelo de permissão aplicado com sucesso!");
 	define($constpref."_PERM_ACTION", "Gerenciamento de Permissões");
 	define($constpref."_PERM_SETBYGROUP", "Configurar permissões diretamente para o grupo");
-	 
+
 	// admin_forum_prune.php
-	 
+
 	define($constpref."_PRUNE_RESULTS_TITLE", "Resultados da exclusão");
 	define($constpref."_PRUNE_RESULTS_TOPICS", "Tópicos excluídos");
 	define($constpref."_PRUNE_RESULTS_POSTS", "Mensagens excluídas");
@@ -203,7 +203,7 @@
 	define($constpref."_PRUNE_STORE", "Ao invés da exclusão permanente, mover para o fórum:");
 	define($constpref."_PRUNE_ARCHIVE", "Copiar as mensagens excluídas em arquivo?");
 	define($constpref."_PRUNE_FORUMSELERROR", "Você deve selecionar o(s) fórum(s) para exclusão");
-	 
+
 	define($constpref."_PRUNE_DAYS", "Excluir tópicos sem respostas a mais de:");
 	define($constpref."_PRUNE_FORUMS", "Executar exclusões nos fóruns:");
 	define($constpref."_PRUNE_STICKY", "Preservar tópicos fixos?");
@@ -221,7 +221,7 @@
 	define($constpref."_PRUNE_4MONTH", "4 meses");
 	define($constpref."_PRUNE_YEAR", "1 ano");
 	define($constpref."_PRUNE_2YEARS", "2 anos");
-	 
+
 	// About.php constants
 	define($constpref.'_AUTHOR_INFO', "Informações sobre o desenvolvedor");
 	define($constpref.'_AUTHOR_NAME', "Nome");
@@ -239,7 +239,7 @@
 	define($constpref.'_BY', 'por');
 	define($constpref.'_AUTHOR_WORD_EXTRA', "
 		");
-	 
+
 	// admin_report.php
 	define($constpref."_REPORTADMIN", "Relatórios");
 	define($constpref."_PROCESSEDREPORT", "Exibir relatórios processados");
@@ -249,11 +249,11 @@
 	define($constpref."_REPORTPOST", "Relatórios");
 	define($constpref."_REPORTTEXT", "Texto");
 	define($constpref."_REPORTMEMO", "Nota");
-	 
+
 	// admin_report.php
 	define($constpref."_DIGESTADMIN", "Informativos");
 	define($constpref."_DIGESTCONTENT", "Conteúdo do Informativo");
-	 
+
 	// admin_votedata.php
 	define($constpref."_VOTE_RATINGINFOMATION", "Enquetes");
 	define($constpref."_VOTE_TOTALVOTES", "Total de votos: ");
@@ -274,7 +274,7 @@
 	define($constpref."_VOTE_NOVOTES", "Não há votos a exibir");
 	define($constpref."_VOTE_DELETE", "Não há votos a excluir");
 	define($constpref."_VOTE_DELETEDSC", "<strong>Exclui</strong> a avaliação escolhida do banco de dados.");
-	 
+
 	// admin_type_manager.php
 	//define($constpref."_TYPE_ADD", "Adicionar Prefixo");
 	//define($constpref."_TYPE_TEMPLATE", "Modelo de Prefixo");
@@ -287,8 +287,8 @@
 	//define($constpref."_TYPE_LIST", "Lista de Prefixo");
 	//define($constpref."_TODEL_TYPE", "Tem a certeza que deseja apagar os Prefixos: [%s]?");
 	//define($constpref."_TYPE_ORDER_DESC", "Para ativar o prefixo no fórum, coloque um valor maior que 0(zero); Em outras palavras, deixando em 0(zero) o prefixo permanecerá inativo no fórum..");
-	 
-	 
+
+
 	// admin_synchronization.php
 	//define($constpref."_SYNC_TYPE_FORUM", "Dados do Forum");
 	//define($constpref."_SYNC_TYPE_TOPIC", "Dados do Topicos");
@@ -296,11 +296,11 @@
 	//define($constpref."_SYNC_TYPE_USER", "Dados do Usuários");
 	//define($constpref."_SYNC_TYPE_STATS", "Stats Info");
 	//define($constpref."_SYNC_TYPE_MISC", "Mesclar");
-	 
+
 	//define($constpref."_SYNC_ITEMS", "Itens para cada ciclo: ");
-	 
+
 	//define($constpref."_CAN_TYPE", "Pode ser usado o tipo de tópico");
 	//define($constpref."_CAN_HTML", "Pode ser usado código HTML");
 	//define($constpref."_CAN_SIGNATURE", "Pode ser usado assinatura");
-	 
+
 ?>
