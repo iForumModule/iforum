@@ -22,17 +22,17 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
 iforum_load_object();
- 
+
 class Forum extends ArtObject {
-	 
+
 	function __construct()
 	{
 		parent::__construct("bb_forums");
@@ -65,15 +65,15 @@ class Forum extends ArtObject {
 		$this->initVar("doimage", XOBJ_DTYPE_INT, 1);
 		$this->initVar("dobr", XOBJ_DTYPE_INT, 1);
 	}
-	 
+
 	// Get moderators in uname or in uid
 	function &getModerators($asUname = false)
 	{
 		static $_cachedModerators = array();
-		 
+
 		$moderators = array_filter($this->getVar('forum_moderator'));
 		if (!$asUname) return $moderators;
-		 
+
 		$moderators_return = array();
 		$moderators_new = array();
 		foreach($moderators as $id)
@@ -94,17 +94,17 @@ class Forum extends ArtObject {
 		}
 		return $moderators_return;
 	}
-	 
+
 	// deprecated
 	function isSubForum()
 	{
 		return ($this->getVar('parent_forum') > 0);
 	}
-	 
+
 	function disp_forumModerators($valid_moderators = 0)
 	{
 		global $myts;
-		 
+
 		$ret = "";
 		if ($valid_moderators === 0)
 		{
@@ -120,13 +120,13 @@ class Forum extends ArtObject {
 		return $ret;
 	}
 }
- 
+
 class IforumForumHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
 		parent::__construct($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
 	}
-	 
+
 	function insert(&$forum, $force = true)
 	{
 		if (!parent::insert($forum, true))
@@ -134,15 +134,15 @@ class IforumForumHandler extends ArtObjectHandler {
 			icms_core_Message::error($forum->getErrors());
 			return false;
 		}
-		 
+
 		if ($forum->isNew())
 		{
 			$this->applyPermissionTemplate($forum);
 		}
-		 
+
 		return $forum->getVar('forum_id');
 	}
-	 
+
 	function delete(&$forum, $force = true)
 	{
 		global $icmsModule;
@@ -155,7 +155,7 @@ class IforumForumHandler extends ArtObjectHandler {
 		$this->deletePermission($forum);
 		return parent::delete($forum);
 	}
-	 
+
 	function &getForums($cat = 0, $permission = "", $tags = null)
 	{
 		$_cachedForums = array();
@@ -183,17 +183,22 @@ class IforumForumHandler extends ArtObjectHandler {
 		// TODO: Retrieve subforums
 		return $_cachedForums[$perm_string];
 	}
-	 
+
 	function &getForumsByCategory($categoryid = 0, $permission = "", $asObject = true, $tags = null)
 	{
 		//$tags = array("parent_forum", "cat_id", "forum_name");
 		$forums = $this->getForums($categoryid, $permission, $tags);
-		if ($asObject) return $forums;
-		 
+		if ($asObject) {
+			return $forums;
+		}
+
 		$forums_array = array();
 		$array_cat = array();
 		$array_forum = array();
-		if (!is_array($forums)) return array();
+		if (!is_array($forums)) {
+			$arr = array();
+			return $arr;
+		}
 		foreach (array_keys($forums) as $forumid)
 		{
 			$forum = & $forums[$forumid];
@@ -220,7 +225,7 @@ class IforumForumHandler extends ArtObjectHandler {
 		unset($forums_array);
 		return $array_forum;
 	}
-	 
+
 	// Get moderators of multi-forums
 	function &getModerators(&$forums, $asUname = false)
 	{
@@ -239,17 +244,17 @@ class IforumForumHandler extends ArtObjectHandler {
 		}
 		return $moderators;
 	}
-	 
+
 	function getAllTopics(&$forum, $startdate, $start, $sortname, $sortorder, $type = '', $excerpt = 0)
 	{
 		global $icmsModule, $icmsConfig, $forumImage, $forumUrl, $myts, $viewall_forums;
 		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
-		 
+
 		$UserUid = is_object(icms::$user) ? icms::$user->getVar('uid') :
 		 null;
-		 
+
 		$topic_lastread = iforum_getcookie('LT', true);
-		 
+
 		if (is_object($forum))
 		{
 			$criteria_forum = ' AND t.forum_id = ' . $forum->getVar('forum_id');
@@ -273,7 +278,7 @@ class IforumForumHandler extends ArtObjectHandler {
 				$criteria_forum = '';
 			}
 		}
-		 
+
 		$sort = array();
 		$criteria_post = ' p.post_time > ' . $startdate;
 		$criteria_extra = '';
@@ -305,7 +310,9 @@ class IforumForumHandler extends ArtObjectHandler {
 				$topic_lastread = iforum_getcookie('LT', true);
 				if (count($topic_lastread) > 0) foreach($topic_lastread as $id => $time)
 				{
-					if ($time > $time_criterion) $topics[] = $id;
+					if ($time > $time_criterion) {
+						$topics[] = $id;
+					}
 				}
 				if (count($topics) > 0)
 				{
@@ -331,11 +338,11 @@ class IforumForumHandler extends ArtObjectHandler {
 			$sort[] = 't.topic_sticky DESC';
 			break;
 		}
-		 
+
 		$select = 't.*, '. ' p.post_time as last_post_time, p.poster_name as last_poster_name, p.icon, p.post_id, p.uid';
 		$from = $this->db->prefix("bb_topics") . ' t '.$leftjoin;
 		$where = $criteria_post. $criteria_forum . $criteria_extra . $criteria_approve;
-		 
+
 		if ($excerpt)
 		{
 			$select .= ', p.post_karma, p.require_reply, pt.post_text';
@@ -345,19 +352,19 @@ class IforumForumHandler extends ArtObjectHandler {
 		{
 			$sortname = "t.topic_poster";
 		}
-		 
+
 		$sort[] = trim($sortname.' '.$sortorder);
 		$sort = implode(", ", $sort);
 		if (empty($sort)) $sort = 'p.post_time DESC';
-		 
+
 		$sql = 'SELECT '.$select. ' FROM '.$from. ' WHERE '.$where. ' ORDER BY '.$sort;
-		 
+
 		if (!$result = $this->db->query($sql, icms::$module->config['topics_per_page'], $start))
 		{
 			redirect_header('index.php', 2, _MD_ERROROCCURED . '<br />' . $sql);
 			exit();
 		}
-		 
+
 		$subject_array = array();
 		if (!empty($allow_subject_prefix) && !empty(icms::$module->config['subject_prefix'])):
 		$subjectpres = explode(',', icms::$module->config['subject_prefix']);
@@ -370,8 +377,8 @@ class IforumForumHandler extends ArtObjectHandler {
 		}
 		endif;
 		$subject_array[0] = null;
-		 
-		 
+
+
 		$sticky = 0;
 		$topics = array();
 		$posters = array();
@@ -382,10 +389,10 @@ class IforumForumHandler extends ArtObjectHandler {
 			{
 				$sticky++;
 			}
-			 
+
 			// ------------------------------------------------------
 			// topic_icon: priority: sticky->digest->regular
-			 
+
 			if ($myrow['topic_haspoll'])
 			{
 				if ($myrow['topic_sticky'])
@@ -453,10 +460,10 @@ class IforumForumHandler extends ArtObjectHandler {
 			{
 				$forum_link = '';
 			}
-			 
+
 			$topic_title = icms_core_DataFilter::htmlSpecialchars($myrow['topic_title']);
 			if ($myrow['topic_digest']) $topic_title = "<span class='digest'>" . $topic_title . "</span>";
-			 
+
 			if ($excerpt == 0 )
 			{
 				$topic_excerpt = "";
@@ -470,7 +477,7 @@ class IforumForumHandler extends ArtObjectHandler {
 				$topic_excerpt = icms_core_DataFilter::icms_substr(iforum_html2text($myts->displayTarea($myrow['post_text'])), 0, $excerpt);
 				$topic_excerpt = str_replace("[", "&#91;", icms_core_DataFilter::htmlSpecialchars($topic_excerpt));
 			}
-			 
+
 			$topic_subject = ($allow_subject_prefix)?$subject_array[$myrow['topic_subject']]:
 			"";
 			$topics[$myrow['topic_id']] = array(
@@ -495,7 +502,7 @@ class IforumForumHandler extends ArtObjectHandler {
 				'stick' => empty($myrow['topic_sticky']),
 				"stats" => array($myrow['topic_status'], $myrow['topic_digest'], $myrow['topic_replies']),
 				);
-			 
+
 			/* users */
 			$posters[$myrow['topic_poster']] = 1;
 			$posters[$myrow['uid']] = 1;
@@ -508,7 +515,7 @@ class IforumForumHandler extends ArtObjectHandler {
 		}
 		$posters_name = iforum_getUnameFromIds(array_keys($posters), icms::$module->config['show_realname'], true);
 		$topic_isRead = iforum_isRead("topic", $reads);
-		 
+
 		foreach(array_keys($topics) as $id)
 		{
 			$topics[$id]["topic_poster"] = !empty($posters_name[$topics[$id]["topic_poster_uid"]])? $posters_name[$topics[$id]["topic_poster_uid"]] :
@@ -549,10 +556,10 @@ class IforumForumHandler extends ArtObjectHandler {
 				}
 			}
 			$topics[$id]['topic_folder'] = iforum_displayImage($topic_folder);
-			 
+
 			unset($topics[$id]["topic_poster_name"], $topics[$id]["topic_last_poster_name"], $topics[$id]["stats"]);
 		}
-		 
+
 		if (count($topics) > 0)
 		{
 			$sql = " SELECT DISTINCT topic_id FROM " . $this->db->prefix("bb_posts"). " WHERE attachment != ''". " AND topic_id IN (" . implode(',', array_keys($topics)) . ")";
@@ -566,11 +573,11 @@ class IforumForumHandler extends ArtObjectHandler {
 		}
 		return array($topics, $sticky);
 	}
-	 
+
 	function getTopicCount(&$forum, $startdate, $type)
 	{
 		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
-		 
+
 		$criteria_extra = '';
 		$criteria_approve = ' AND t.approved = 1'; // any others?
 		$leftjoin = ' LEFT JOIN ' . $this->db->prefix('bb_posts') . ' p ON p.post_id = t.topic_last_post_id';
@@ -635,7 +642,7 @@ class IforumForumHandler extends ArtObjectHandler {
 				$criteria_forum = '';
 			}
 		}
-		 
+
 		$sql = 'SELECT COUNT(*) as count FROM ' . $this->db->prefix("bb_topics") . ' t '.$leftjoin;
 		$sql .= ' WHERE '.$criteria_post . $criteria_forum . $criteria_extra . $criteria_approve;
 		if (!$result = $this->db->query($sql))
@@ -646,26 +653,26 @@ class IforumForumHandler extends ArtObjectHandler {
 		$count = $myrow['count'];
 		return $count;
 	}
-	 
+
 	// get permission
 	function getPermission($forum, $type = "access", $checkCategory = true)
 	{
 		global $icmsModule;
 		static $_cachedPerms;
 		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
-		 
+
 		if ($type == "all") return true;
 		if (iforum_isAdministrator()) return true;
 		if (!is_object($forum)) $forum = $this->get($forum);
 			if ($forum->getVar('forum_type')) return false;// if forum inactive, all has no access except admin
-		 
+
 		if (!empty($checkCategory))
 		{
 			$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 			$categoryPerm = $category_handler->getPermission($forum->getVar('cat_id'));
 			if (!$categoryPerm) return false;
 		}
-		 
+
 		$type = strtolower($type);
 		if ("moderate" == $type)
 		{
@@ -688,19 +695,19 @@ class IforumForumHandler extends ArtObjectHandler {
 		}
 		return $permission;
 	}
-	 
+
 	function deletePermission(&$forum)
 	{
 		$perm_handler = icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 		return $perm_handler->deleteByForum($forum->getVar("forum_id"));
 	}
-	 
+
 	function applyPermissionTemplate(&$forum)
 	{
 		$perm_handler = icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 		return $perm_handler->applyTemplate($forum->getVar("forum_id"));
 	}
-	 
+
 	/**
 	* clean orphan items from database
 	*
@@ -709,7 +716,7 @@ class IforumForumHandler extends ArtObjectHandler {
 	function cleanOrphan($table_link='', $field_link='', $field_object='')
 	{
 		parent::cleanOrphan($this->db->prefix("bb_categories"), "cat_id");
-		 
+
 		if ($this->mysql_major_version() >= 4):
 		/*
 		$sql = "DELETE FROM ".$this->table.
@@ -735,10 +742,10 @@ class IforumForumHandler extends ArtObjectHandler {
 			}
 		}
 		endif;
-		 
+
 		return true;
 	}
-	 
+
 	function synchronization($object = null)
 	{
 		if (empty($object))
@@ -773,7 +780,7 @@ class IforumForumHandler extends ArtObjectHandler {
 					unset($obj);
 				}
 			}
-			 
+
 			return true;
 		}
 		if (!is_object($object))
@@ -781,7 +788,7 @@ class IforumForumHandler extends ArtObjectHandler {
 			$object = $this->get(intval($object));
 		}
 		if (!$object->getVar("forum_id")) return false;
-		 
+
 		$sql = "SELECT MAX(post_id) AS last_post, COUNT(*) AS total FROM " . icms::$xoopsDB->prefix("bb_posts") . " AS p LEFT JOIN  " . icms::$xoopsDB->prefix("bb_topics") . " AS t ON p.topic_id=t.topic_id WHERE p.approved=1 AND t.approved=1 AND p.forum_id = ".$object->getVar("forum_id");
 		if ($result = icms::$xoopsDB->query($sql)):
 			$last_post = 0;
@@ -810,15 +817,15 @@ class IforumForumHandler extends ArtObjectHandler {
 			}
 		}
 		endif;
-		 
+
 		return $this->insert($object, true);
 	}
-	 
+
 	function &display(&$forums_obj)
 	{
 		global $icmsModule, $icmsConfig, $forumImage, $myts;
 		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
-		 
+
 		$posts = array();
 		$posts_obj = array();
 		foreach (array_keys($forums_obj) as $id)
@@ -830,7 +837,7 @@ class IforumForumHandler extends ArtObjectHandler {
 			$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 			$posts_obj = $post_handler->getAll(new icms_db_criteria_Item("post_id", "(".implode(", ", $posts).")", "IN"), array("uid", "topic_id", "post_time", "subject", "poster_name", "icon"));
 		}
-		 
+
 		$users = array();
 		$reads = array();
 		foreach (array_keys($forums_obj) as $id)
@@ -856,13 +863,13 @@ class IforumForumHandler extends ArtObjectHandler {
 		}
 		$forum_isread = iforum_isRead("forum", $reads);
 		$users_linked = iforum_getUnameFromIds(array_unique($users), !empty(icms::$module->config['show_realname']), true);
-		 
+
 		$forums_array = array();
 		foreach (array_keys($forums_obj) as $id)
 		{
 			$forum_obj = & $forums_obj[$id];
 			if (!$this->getPermission($forum_obj, "access", false)) continue;
-			 
+
 			$_forum_data = array();
 			$_forum_data["forum_order"] = $forum_obj->getVar('forum_order');
 			$_forum_data["forum_id"] = $id;
@@ -879,7 +886,7 @@ class IforumForumHandler extends ArtObjectHandler {
 				$forum_moderators[] = @$users_linked[$moderator];
 			}
 			$_forum_data["forum_moderators"] = implode(", ", array_filter($forum_moderators));
-			 
+
 			if ($forum_obj->getVar("forum_last_post_id")):
 			$post_obj = & $posts_obj[$forum_obj->getVar("forum_last_post_id")];
 			if (!empty($users_linked[$post_obj->getVar("uid")]))
@@ -894,11 +901,11 @@ class IforumForumHandler extends ArtObjectHandler {
 			{
 				$_forum_data["forum_lastpost_user"] = icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]["anonymous"]);
 			}
-			 
+
 			$_forum_data['forum_lastpost_time'] = formatTimestamp($post_obj->getVar('post_time'));
 			$_forum_data['forum_lastpost_icon'] = '<a href="' . ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '"> ' . _MD_LASTPOST . ' <img src="' . ICMS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'. '</a>';
 			endif;
-			 
+
 			if (empty($forum_isread[$id]))
 			{
 				$forum_folder = ($forum_obj->getVar('forum_type') == 1) ? $forumImage['locked_forum_newposts'] :
@@ -910,7 +917,7 @@ class IforumForumHandler extends ArtObjectHandler {
 				 $forumImage['folder_forum'];
 			}
 			$_forum_data['forum_folder'] = iforum_displayImage($forum_folder);
-			 
+
 			$forums_array[$forum_obj->getVar('parent_forum')][] = $_forum_data;
 		}
 		return $forums_array;

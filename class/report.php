@@ -22,15 +22,15 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
 iforum_load_object();
- 
+
 class Report extends ArtObject {
 	function __construct()
 	{
@@ -45,14 +45,13 @@ class Report extends ArtObject {
 		$this->initVar('report_memo', XOBJ_DTYPE_TXTBOX);
 	}
 }
- 
+
 class IforumReportHandler extends ArtObjectHandler {
-	function __construct(&$db)
-	{
 
-    parent::__construct($db, 'bb_report', 'Report', 'report_id');
-
+	function __construct(&$db) {
+    	parent::__construct($db, 'bb_report', 'Report', 'report_id');
 	}
+
 	function &getByPost($posts)
 	{
 		$ret = array();
@@ -65,7 +64,7 @@ class IforumReportHandler extends ArtObjectHandler {
 		$ret = $this->getAll($post_criteria);
 		return $ret;
 	}
-	 
+
 	function &getAllReports($forums = 0, $order = "ASC", $perpage = 0, &$start, $report_result = 0, $report_id = 0)
 	{
 		if ($order == "DESC")
@@ -78,7 +77,7 @@ class IforumReportHandler extends ArtObjectHandler {
 			$operator_for_position = '<' ;
 		}
 		$order_criteria = " ORDER BY r.report_id $order";
-		 
+
 		if ($perpage <= 0)
 		{
 			$perpage = 10;
@@ -88,7 +87,7 @@ class IforumReportHandler extends ArtObjectHandler {
 			$start = 0;
 		}
 		$result_criteria = ' AND r.report_result = ' . $report_result;
-		 
+
 		if (!$forums)
 		{
 			$forum_criteria = '';
@@ -99,7 +98,7 @@ class IforumReportHandler extends ArtObjectHandler {
 			$forum_criteria = ' AND p.forum_id IN (' . implode(',', $forums) . ')';
 		}
 		$tables_criteria = ' FROM ' . $this->db->prefix('bb_report') . ' r, ' . $this->db->prefix('bb_posts') . ' p WHERE r.post_id= p.post_id';
-		 
+
 		if ($report_id)
 		{
 			$result = $this->db->query("SELECT COUNT(*) as report_count" . $tables_criteria . $forum_criteria . $result_criteria . " AND report_id $operator_for_position $report_id" . $order_criteria);
@@ -107,7 +106,7 @@ class IforumReportHandler extends ArtObjectHandler {
 				$position = $row['report_count'];
 			$start = intval($position / $perpage) * $perpage;
 		}
-		 
+
 		$sql = "SELECT r.*, p.subject, p.topic_id, p.forum_id" . $tables_criteria . $forum_criteria . $result_criteria . $order_criteria;
 		$result = $this->db->query($sql, $perpage, $start);
 		$ret = array();
@@ -118,7 +117,7 @@ class IforumReportHandler extends ArtObjectHandler {
 		}
 		return $ret;
 	}
-	 
+
 	/**
 	* clean orphan items from database
 	*

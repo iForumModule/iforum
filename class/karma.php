@@ -22,13 +22,13 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 class IforumKarmaHandler {
-	var $user;
-	 
+	public $user;
+
 	function getUserKarma($user = false)
 	{
-		 
+
 		if (!isset($user) || !$user)
 		{
 			if (is_object(icms::$user)) $this->user = &icms::$user;
@@ -44,25 +44,25 @@ class IforumKarmaHandler {
 			$this->user =$member_handler->get($user);
 		}
 		 else $this->user = null;
-		 
+
 		return $this->calUserkarma();
 	}
-	 
+
 	function calUserkarma()
 	{
 		if (!$this->user) $user_karma = 0;
 		else $user_karma = $this->user->getVar('posts') * 50;
 		return $user_karma;
 	}
-	 
+
 	function updateUserKarma()
 	{
 	}
-	 
+
 	function writeUserKarma()
 	{
 	}
-	 
+
 	function readUserKarma()
 	{
 	}

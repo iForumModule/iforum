@@ -22,33 +22,33 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 class IForumTree extends icms_view_Tree {
-	var $prefix = '&nbsp;&nbsp;';
-	var $increment = '&nbsp;&nbsp;';
-	var $postArray = '';
-	 
+	public $prefix = '&nbsp;&nbsp;';
+	public $increment = '&nbsp;&nbsp;';
+	public $postArray = '';
+
 	function __construct($table_name, $id_name = "post_id", $pid_name = "pid")
 	{
 		parent::__construct($table_name, $id_name, $pid_name);
 	}
-	 
+
 	function setPrefix($val = '')
 	{
 		$this->prefix = $val;
 		$this->increment = $val;
 	}
-	 
+
 	function getAllPostArray($sel_id, $order = '')
 	{
 		$this->postArray = $this->getAllChild($sel_id, $order);
 	}
-	 
+
 	function setPostArray($postArray)
 	{
 		$this->postArray = &$postArray;
@@ -57,7 +57,7 @@ class IForumTree extends icms_view_Tree {
 	function getPostTree(&$postTree_array, $pid = 0, $prefix = '&nbsp;&nbsp;')
 	{
 		if (!is_array($postTree_array)) $postTree_array = array();
-			 
+
 		$newPostArray = array();
 		$prefix .= $this->increment;
 		foreach($this->postArray as $post)
@@ -82,7 +82,7 @@ class IForumTree extends icms_view_Tree {
 		}
 		$this->postArray = $newPostArray;
 		unset($newPostArray);
-		 
+
 		return true;
 	}
 }

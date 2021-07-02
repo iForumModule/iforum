@@ -11,8 +11,8 @@
  */
 
 /**
- * Base class for all objects in the Xoops kernel (and beyond) 
- * 
+ * Base class for all objects in the Xoops kernel (and beyond)
+ *
  * @author		Taiwen Jiang
  **/
 class _XoopsPersistableObject extends icms_core_Object
@@ -20,17 +20,17 @@ class _XoopsPersistableObject extends icms_core_Object
     /**
      * @var string
      */
-    var $table;
-    
+    public $table;
+
     function __construct($table = null) {
 	    if (!empty($table)) {
 	    	$this->table = $GLOBALS["xoopsDB"]->prefix($table);
     	}
     }
-    
+
     /**
     * returns a specific variable for the object in a proper format
-    * 
+    *
     * @access public
     * @param string $key key of the object's variable to be returned
     * @param string $format format to use for the output
@@ -43,7 +43,7 @@ class _XoopsPersistableObject extends icms_core_Object
 		$ret = null;
 		if ( !isset($this->vars[$key]) ) return $ret ;
 		$ret = $this->vars[$key]['value'];
-		
+
         switch ($this->vars[$key]['data_type']) {
 
         case XOBJ_DTYPE_TXTBOX:
@@ -164,7 +164,7 @@ class _XoopsPersistableObject extends icms_core_Object
 
     /**
     * assign a value to a variable
-    * 
+    *
     * @access public
     * @param string $key name of the variable to assign
     * @param mixed $value value to assign
@@ -175,10 +175,10 @@ class _XoopsPersistableObject extends icms_core_Object
             $this->vars[$key]['value'] =& $value;
         }
     }
-    
+
     /**
     * unset variable(s) for the object
-    * 
+    *
     * @access public
     * @param mixed $var
     */
@@ -192,7 +192,7 @@ class _XoopsPersistableObject extends icms_core_Object
 	    }
 	    return true;
     }
-    
+
 	/**
 	* Returns the values of the specified variables
 	*
@@ -224,7 +224,7 @@ class _XoopsPersistableObject extends icms_core_Object
 }
 
 /**
-* Persistable Object Handler class.  
+* Persistable Object Handler class.
 *
 * @author	Taiwen Jiang, derived from Jan Keller Pedersen's class for XOOPS 2.2
 */
@@ -236,10 +236,10 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
     *
     * @var string
     */
-    var $table;
-    var $keyName;
-    var $className;
-    var $identifierName;
+    public $table;
+	public $keyName;
+	public $className;
+	public $identifierName;
     /**#@-*/
 
     /**
@@ -260,10 +260,10 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
             $this->identifierName = $identifierName;
         }
     }
-    
+
     /**
      * create a new object
-     * 
+     *
      * @param bool $isNew Flag the new objects as "new"?
      *
      * @return object
@@ -275,10 +275,10 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
         }
         return $obj;
     }
-    
+
     /**
      * Load a {@link _XoopsPersistableObject} object from the database
-     * 
+     *
      * @param   mixed	$id     ID
      * @param   array	$tags	variables to fetch
      * @return  object  {@link _XoopsPersistableObject}, a new {@link _XoopsPersistableObject} on fail
@@ -287,12 +287,12 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
 		$tags = null;
 		$args = func_get_args();
 		if (isset($args[1])) $tags = $args[1];
-		
+
 	    if (empty($id)) {
 	    	$object = $this->create();
 		    return $object;
 	    }
-	    
+
 	    $ret = null;
 	    if (is_array($tags) && count($tags) > 0) {
 		    $select = implode(",", $tags);
@@ -306,20 +306,20 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
         if (!$result = $this->db->query($sql)) {
             return $ret;
         }
-        
+
         if (!$this->db->getRowsNum($result)) {
 	        return $ret;
         }
-        
+
     	$object = $this->create(false);
 		$object->assignVars($this->db->fetchArray($result));
-        
+
         return $object;
-    }    
-    
+    }
+
     /**
      * get objects matching a condition
-     * 
+     *
      * @param object	$criteria {@link icms_db_criteria_Element} to match
      * @param array		$tags 	variables to fetch
      * @param bool		$asObject 	flag indicating as object, otherwise as array
@@ -347,7 +347,7 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
         if (empty($orderSet)) $sql .= " ORDER BY ".$this->keyName." DESC";
         $result = $this->db->query($sql, $limit, $start);
         $ret = array();
-		if ($asObject) {        
+		if ($asObject) {
 	        while ($myrow = $this->db->fetchArray($result)) {
 	            $object = $this->create(false);
 	            $object->assignVars($myrow);
@@ -364,10 +364,10 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
         }
         return $ret;
     }
-        
+
     /**
      * get MySQL server version
-     * 
+     *
      * @return 	string
      */
     function mysql_server_version($conn = null)
@@ -381,10 +381,10 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
 	    */
 	    return "6.0.0";
     }
-    
+
     /**
      * get MySQL major version
-     * 
+     *
      * @return 	integer	: 3 - 4.1-; 4 - 4.1+; 5 - 5.0+
      */
     function mysql_major_version()
@@ -395,7 +395,7 @@ class _XoopsPersistableObjectHandler extends icms_core_ObjectHandler {
 	    else $mysql_version = 3;
 	    return $mysql_version;
     }
-	
+
 	function insert(&$object) {}
 	function delete(&$object) {}
 }

@@ -14,24 +14,24 @@ defined('ICMS_ROOT_PATH') or exit();
 
 /**
  * A select box with available editors
- * 
+ *
  * @package     kernel
  * @subpackage  form
- * 
+ *
  * @author	    phppp (D.J.)
  * @copyright	The XOOPS Project
  */
-class IforumFormSelectEditor extends icms_form_elements_Tray {	
-	var $allowed_editors = array();
-	var $form;
-	var $value;
-	var $name;
-	var $nohtml;
-	
+class IforumFormSelectEditor extends icms_form_elements_Tray {
+	public $allowed_editors = array();
+	public $form;
+	public $value;
+	public $name;
+	public $nohtml;
+
 	/**
 	 * Constructor
-	 * 
-	 * @param	object	$form	the form calling the editor selection	
+	 *
+	 * @param	object	$form	the form calling the editor selection
 	 * @param	string	$name	editor name
 	 * @param	string	$value	Pre-selected text value
      * @param	bool	$noHtml	dohtml disabled
@@ -44,7 +44,7 @@ class IforumFormSelectEditor extends icms_form_elements_Tray {
 		$this->value	= $value;
 		$this->nohtml	= $nohtml;
 	}
-	
+
 	function render() {
 		$editor_handler = icms_plugins_EditorHandler::getInstance();
 		$editor_handler->allowed_editors = $this->allowed_editors;
@@ -54,9 +54,9 @@ class IforumFormSelectEditor extends icms_form_elements_Tray {
 			}"';
 		$option_select->setExtra($extra);
 		$option_select->addOptionArray($editor_handler->getList($this->nohtml));
-		
+
 		$this->addElement($option_select);
-		
+
 		return parent::render();
 	}
 }

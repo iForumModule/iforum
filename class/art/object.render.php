@@ -9,18 +9,18 @@
  * @version		$Id$
  * @package		Frameworks::art
  */
- 
+
 if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
 /**
-* Object render handler class.  
+* Object render handler class.
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
 *
-* {@link _XoopsPersistableObjectHandler} 
+* {@link _XoopsPersistableObjectHandler}
 *
 */
 
@@ -30,17 +30,17 @@ class ArtObjectRenderHandler
      *
      * @var object
      */
-    var $_handler;
-    
+    public $_handler;
+
     function __construct(&$handler) {
-	    $this->_handler =& $handler; 
+	    $this->_handler =& $handler;
     }
 
     /**
      * retrieve objects from the database
      *
      * For performance consideration, getAll() is recommended
-     * 
+     *
      * @param object $criteria {@link icms_db_criteria_Element} conditions to be met
      * @param bool $id_as_key use the ID as key for the array?
      * @param bool $as_object return an array of objects?
@@ -113,7 +113,7 @@ class ArtObjectRenderHandler
 
         return $ret;
     }
-    
+
     /**
     * Retrieve a list of objects as arrays - Try to repair a misuse of setSort in parent::object
     *
@@ -123,14 +123,14 @@ class ArtObjectRenderHandler
     *
     * @return array
     */
-    
-    function getList($criteria = null, $limit = 0, $start = 0) 
+
+    function getList($criteria = null, $limit = 0, $start = 0)
     {
         $ret = array();
         if ($criteria == null) {
             $criteria = new icms_db_criteria_Compo();
         }
-            
+
         $sql = 'SELECT '.$this->_handler->keyName;
         if(!empty($this->_handler->identifierName)){
 	        $sql .= ', '.$this->_handler->identifierName;
@@ -159,7 +159,7 @@ class ArtObjectRenderHandler
 
     /**
      * get IDs of objects matching a condition
-     * 
+     *
      * @param 	object	$criteria {@link icms_db_criteria_Element} to match
      * @return 	array of object IDs
      */
@@ -185,8 +185,8 @@ class ArtObjectRenderHandler
 
     /**
      * get a limited list of objects matching a condition
-     * 
-	 * {@link CriteriaCompo} 
+     *
+	 * {@link CriteriaCompo}
 	 *
 	 * @param int   	$limit      Max number of objects to fetch
 	 * @param int   	$start      Which record to start at
@@ -207,5 +207,5 @@ class ArtObjectRenderHandler
         }
         $ret = $this->_handler->getAll($criteria, $tags, $asObject);
         return $ret;
-   	}	
+   	}
 }

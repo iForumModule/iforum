@@ -22,20 +22,19 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include('admin_header.php');
 include_once ICMS_ROOT_PATH."/class/pagenav.php";
- 
- 
+
+
 $op = !empty($_GET['op'])? $_GET['op'] :
  (!empty($_POST['op'])?$_POST['op']:"default");
 $item = !empty($_GET['op'])? $_GET['item'] :
  (!empty($_POST['item'])?$_POST['item']:"process");
- 
-$start = (isset($_GET['start']))?$_GET['start']:
-0;
+
+$start = (isset($_GET['start']))?$_GET['start']: 0;
 $report_handler = icms_getmodulehandler('report', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
- 
+
 icms_cp_header();
 switch($op)
 {
@@ -61,12 +60,12 @@ switch($op)
 		}
 	}
 	redirect_header("admin_report.php?item=$item", 1);
-	 
+
 	break;
-	 
+
 	case "process":
 	default:
-	 
+
 	if ($item == 'process')
 	{
 		$process_result = 0;
@@ -81,21 +80,21 @@ switch($op)
 		$title_other = _AM_IFORUM_PROCESSREPORT;
 		$extra = _DELETE;
 	}
-	 
+
 	$limit = 10;
 	loadModuleAdminMenu(8, _AM_IFORUM_REPORTADMIN);
 	echo "<fieldset style='border: #e8e8e8 1px solid;'>
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_REPORTADMIN . "</legend>";
 	echo"<br />";
 	echo "<a style='border: 1px solid #5E5D63; color: #000000; font-family: verdana, tahoma, arial, helvetica, sans-serif; font-size: 1em; padding: 4px 8px; text-align:center;' href=\"admin_report.php?item=$item_other\">".$title_other."</a><br /><br />";
-	 
+
 	echo '<form action="'.xoops_getenv('PHP_SELF').'" method="post">';
 	echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
 	echo "<tr align='center'>";
 	echo "<td class='bg3' width='80%'>"._AM_IFORUM_REPORTTITLE."</td>";
 	echo "<td class='bg3' width='10%'>".$extra."</td>";
 	echo "</tr>";
-	 
+
 	$reports = $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
 	foreach($reports as $report)
 	{
@@ -109,7 +108,7 @@ switch($op)
 		{
 			$memo = icms_core_DataFilter::htmlSpecialchars($report['report_memo']);
 		}
-		 
+
 		echo "<tr class='odd' align='left'>";
 		echo "<td>"._AM_IFORUM_REPORTPOST.': '. $post_link . "</td>";
 		echo "<td align='center'>" . $report['report_id'] . "</td>";
@@ -120,7 +119,7 @@ switch($op)
 		$reporter_name = iforum_getUnameFromId($uid, icms::$module->config['show_realname']);
 		$reporter = (!empty($uid))? "<a href='" . ICMS_URL . "/userinfo.php?uid=".$uid."'>".$reporter_name."</a><br />":
 		"";
-		 
+
 		echo "<td align='center'>" . $reporter.long2ip($report['reporter_ip']) . "</td>";
 		echo "</tr>";
 		echo "<tr class='odd' align='left'>";
@@ -135,16 +134,16 @@ switch($op)
 	echo $hidden->render();
 	$hidden = new icms_form_elements_Hidden('item', $item);
 	echo $hidden->render()."</form>";
-	 
+
 	echo "</table>";
-	 
+
 	$nav = new icms_view_PageNav($report_handler->getCount(new icms_db_criteria_Item("report_result", $process_result)), $limit, $start, "start", "item=".$item);
 	echo $nav->renderNav(4);
-	 
+
 	echo "</fieldset>";
-	 
+
 	break;
 }
 icms_cp_footer();
- 
+
 ?>

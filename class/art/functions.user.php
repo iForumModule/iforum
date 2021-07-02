@@ -17,7 +17,7 @@ defined("FRAMEWORKS_ART_FUNCTIONS_INI") || include_once (dirname(__FILE__)."/fun
 
 /**
  * Get client IP
- * 
+ *
  * Adapted from PMA_getIp() [phpmyadmin project]
  *
  * @param	bool	$asString	requiring integer or dotted string
@@ -44,16 +44,15 @@ function mod_getIP($asString = false)
     }
 
     if (!empty($proxy_ip) &&
-        $is_ip = ereg('^([0-9]{1,3}\.){3,3}[0-9]{1,3}', $proxy_ip, $regs) &&
-        count($regs) > 0
+        $is_ip = preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $proxy_ip)
   	) {
-      	$the_IP = $regs[0];
+      	$the_IP = $proxy_ip;
   	}else{
-      	$the_IP = $_SERVER['REMOTE_ADDR'];	      	
+      	$the_IP = $_SERVER['REMOTE_ADDR'];
   	}
-    
+
   	$the_IP = ($asString) ? $the_IP : ip2long($the_IP);
-  	
+
   	//return $the_IP;
 	return ip2long('1.1.1.1');
 }
