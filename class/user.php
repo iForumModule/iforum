@@ -45,9 +45,9 @@ function iforum_getGroupsByUser($uid)
 	{
 		$ret[$myrow['uid']][] = $myrow['groupid'];
 	}
-	foreach($ret as $uid => $groups)
+	foreach($ret as $uid2 => $groups)
 	{
-		$ret[$uid] = array_unique($groups);
+		$ret[$uid2] = array_unique($groups);
 	}
 
 	return $ret;
@@ -144,12 +144,15 @@ function get_user_level(& $user)
 	return $level;
 }
 
-class User extends XoopsObject {
-	var $user = null;
-	function User(&$user)
+class User extends icms_core_Object {
+
+	public $user = null;
+
+	function __construct(&$user)
 	{
-		if (!is_object($user)) return null;
 		$this->user = &$user;
+
+		parent::__construct();
 	}
 
 	function &getUserbar()
@@ -260,9 +263,9 @@ class User extends XoopsObject {
 }
 
 class IforumUserHandler extends icms_core_ObjectHandler {
-	var $users = array();
-	var $groups = array();
-	var $status = array();
+	public $users = array();
+	public $groups = array();
+	public $status = array();
 
 	function &get($uid)
 	{

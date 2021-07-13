@@ -22,15 +22,15 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
 iforum_load_object();
- 
+
 /**
 * A handler for read/unread handling
 *
@@ -39,7 +39,7 @@ iforum_load_object();
 * @author     D.J. (phppp, http://xoopsforge.com)
 * @copyright copyright (c) 2005 XOOPS.org
 */
- 
+
 class Read extends ArtObject {
 	function __construct($type)
 	{
@@ -51,7 +51,7 @@ class Read extends ArtObject {
 		$this->initVar('read_time', XOBJ_DTYPE_INT);
 	}
 }
- 
+
 class IforumReadHandler extends ArtObjectHandler {
 	/**
 	* Object type.
@@ -62,8 +62,8 @@ class IforumReadHandler extends ArtObjectHandler {
 	*
 	* @var string
 	*/
-	var $type;
-	 
+	public $type;
+
 	/**
 	* seconds records will persist.
 	* assigned from icms::$module->config["read_expire"]
@@ -74,8 +74,8 @@ class IforumReadHandler extends ArtObjectHandler {
 	*
 	* @var integer
 	*/
-	var $lifetime;
-	 
+	public $lifetime;
+
 	/**
 	* storage mode for records.
 	* assigned from icms::$module->config["read_mode"]
@@ -87,22 +87,19 @@ class IforumReadHandler extends ArtObjectHandler {
 	*
 	* @var integer
 	*/
-	var $mode;
-	 
+	public $mode;
+
 	function __construct(&$db, $type)
 	{
-		$type = ("forum" == $type) ? "forum" :
-		 "topic";
+		$type = ("forum" == $type) ? "forum" : "topic";
 		parent::__construct($db, 'bb_reads_'.$type, 'Read'.$type, 'read_id', 'post_id');
 
     $this->type = $type;
 		$iforumConfig = iforum_load_config();
-		$this->lifetime = !empty($iforumConfig["read_expire"]) ? $iforumConfig["read_expire"] * 24 * 3600 :
-		 30 * 24 * 3600;
-		$this->mode = isset($iforumConfig["read_mode"]) ? $iforumConfig["read_mode"] :
-		 2;
+		$this->lifetime = !empty($iforumConfig["read_expire"]) ? $iforumConfig["read_expire"] * 24 * 3600 : 30 * 24 * 3600;
+		$this->mode = isset($iforumConfig["read_mode"]) ? $iforumConfig["read_mode"] : 2;
 	}
-	 
+
 	/**
 	* Clear garbage
 	*
@@ -110,10 +107,10 @@ class IforumReadHandler extends ArtObjectHandler {
 	*/
 	function clearGarbage()
 	{
-		$expire = time() - intval($this->lifetime);
+		$expire = time() - (int)$this->lifetime;
 		$sql = "DELETE FROM ".$this->table." WHERE read_time < ". $expire;
 		$this->db->queryF($sql);
-		 
+
 		/* for MySQL 4.1+ */
 		if ($this->mysql_major_version() >= 4):
 		$sql = "DELETE bb FROM ".$this->table." AS bb". " LEFT JOIN ".$this->table." AS aa ON bb.read_item = aa.read_item ". " WHERE aa.post_id > bb.post_id";
@@ -128,14 +125,19 @@ class IforumReadHandler extends ArtObjectHandler {
 		}
 		return true;
 	}
-	 
+
 	function getRead($read_item, $uid = null)
 	{
-		if (empty($this->mode)) return null;
-		if ($this->mode == 1) return $this->getRead_cookie($read_item);
-		else return $this->getRead_db($read_item, $uid);
+		if (empty($this->mode)) {
+			return null;
+		}
+		if ($this->mode == 1) {
+			return $this->getRead_cookie($read_item);
+		}
+
+		return $this->getRead_db($read_item, $uid);
 	}
-	 
+
 	function getRead_cookie($item_id)
 	{
 		$cookie_name = ($this->type == "forum")?"LF":
@@ -144,7 +146,7 @@ class IforumReadHandler extends ArtObjectHandler {
 		$lastview = iforum_getcookie($cookie_name);
 		return @$lastview[$cookie_var];
 	}
-	 
+
 	function getRead_db($read_item, $uid)
 	{
 		if (empty($uid))
@@ -166,14 +168,14 @@ class IforumReadHandler extends ArtObjectHandler {
 		list($post_id) = $this->db->fetchRow($result);
 		return $post_id;
 	}
-	 
+
 	function setRead($read_item, $post_id, $uid = null)
 	{
 		if (empty($this->mode)) return true;
 		if ($this->mode == 1) return $this->setRead_cookie($read_item, $post_id);
 		else return $this->setRead_db($read_item, $post_id, $uid);
 	}
-	 
+
 	function setRead_cookie($read_item, $post_id)
 	{
 		$cookie_name = ($this->type == "forum") ? "LF" :
@@ -182,7 +184,7 @@ class IforumReadHandler extends ArtObjectHandler {
 		$lastview[$read_item] = time();
 		iforum_setcookie($cookie_name, $lastview);
 	}
-	 
+
 	function setRead_db($read_item, $post_id, $uid)
 	{
 		if (empty($uid))
@@ -196,7 +198,7 @@ class IforumReadHandler extends ArtObjectHandler {
 				return false;
 			}
 		}
-		 
+
 		$sql = "UPDATE ".$this->table. " SET post_id = ".intval($post_id).",". "  read_time =".time(). " WHERE read_item = ".intval($read_item). "  AND uid = ".intval($uid);
 		if ($this->db->queryF($sql) && $this->db->getAffectedRows())
 		{
@@ -209,23 +211,23 @@ class IforumReadHandler extends ArtObjectHandler {
 		$object->setVar("read_time", time(), true);
 		return parent::insert($object);
 	}
-	 
+
 	function isRead_items(&$items, $uid = null)
 	{
 		$ret = null;
 		if (empty($this->mode)) return $ret;
-		 
+
 		if ($this->mode == 1) $ret = $this->isRead_items_cookie($items);
 		else $ret = $this->isRead_items_db($items, $uid);
 		return $ret;
 	}
-	 
+
 	function isRead_items_cookie(&$items)
 	{
 		$cookie_name = ($this->type == "forum")?"LF":
 		"LT";
 		$cookie_vars = iforum_getcookie($cookie_name, true);
-		 
+
 		$ret = array();
 		foreach($items as $key => $last_update)
 		{
@@ -233,12 +235,12 @@ class IforumReadHandler extends ArtObjectHandler {
 		}
 		return $ret;
 	}
-	 
+
 	function isRead_items_db(&$items, $uid)
 	{
 		$ret = array();
 		if (empty($items)) return $ret;
-		 
+
 		if (empty($uid))
 		{
 			if (is_object($GLOBALS["xoopsUser"]))
@@ -250,23 +252,23 @@ class IforumReadHandler extends ArtObjectHandler {
 				return $ret;
 			}
 		}
-		 
+
 		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item("uid", $uid));
 		$criteria->add(new icms_db_criteria_Item("read_item", "(".implode(", ", array_map("intval", array_keys($items))).")", "IN"));
 		$items_obj = $this->getAll($criteria, array("read_item", "post_id"));
-		 
+
 		$items_list = array();
 		foreach(array_keys($items_obj) as $key)
 		{
 			$items_list[$items_obj[$key]->getVar("read_item")] = $items_obj[$key]->getVar("post_id");
 		}
 		unset($items_obj);
-		 
+
 		foreach($items as $key => $last_update)
 		{
 			$ret[$key] = (@$items_list[$key] >= $last_update);
 		}
 		return $ret;
 	}
-	 
+
 }

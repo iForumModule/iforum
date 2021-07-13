@@ -22,9 +22,10 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include('admin_header.php');
- 
+icms_loadLanguageFile(dirname(dirname(__FILE__)),  );
+
 function iforum_admin_getPathStatus($path)
 {
 	if (empty($path)) return false;
@@ -42,18 +43,18 @@ function iforum_admin_getPathStatus($path)
 	}
 	return $path_status;
 }
- 
+
 function iforum_admin_mkdir($target, $mode = 0777)
 {
 	// http://www.php.net/manual/en/function.mkdir.php
 	return is_dir($target) or (iforum_admin_mkdir(dirname($target), $mode) and mkdir($target, $mode) );
 }
- 
+
 function iforum_admin_chmod($target, $mode = 0777)
 {
 	return @chmod($target, $mode);
 }
- 
+
 function iforum_getImageLibs()
 {
 	$imageLibs = array();
@@ -82,7 +83,7 @@ function iforum_getImageLibs()
 		}
 		unset($output, $status);
 	}
-	 
+
 	$GDfuncList = get_extension_funcs('gd');
 	ob_start();
 	@phpinfo(INFO_MODULES);
@@ -102,10 +103,10 @@ function iforum_getImageLibs()
 	}
 	return $imageLibs;
 }
- 
+
 $op = (isset($_GET['op']))? $_GET['op'] :
  "";
- 
+
 switch ($op)
 {
 	case "createdir":
@@ -116,7 +117,7 @@ switch ($op)
 	redirect_header('index.php', 2, $msg . ': ' . $path);
 	exit();
 	break;
-	 
+
 	case "setperm":
 	if (isset($_GET['path'])) $path = $_GET['path'];
 	$res = iforum_admin_chmod($path, 0777);
@@ -125,7 +126,7 @@ switch ($op)
 	redirect_header('index.php', 2, $msg . ': ' . $path);
 	exit();
 	break;
-	 
+
 	case "senddigest":
 	$digest_handler =icms_getmodulehandler('digest', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$res = $digest_handler->process(true);
@@ -134,18 +135,18 @@ switch ($op)
 	redirect_header('index.php', 2, $msg);
 	exit();
 	break;
-	 
+
 	case "default":
 	default:
-	 
+
 	icms_cp_header();
-	 
+
 	loadModuleAdminMenu(0, "Index");
 	$imageLibs = iforum_getImageLibs();
-	 
+
 	echo "<fieldset style='border: #e8e8e8 1px solid;'>
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_PREFERENCES . "</legend>";
-	 
+
 	echo "<div style='padding: 12px;'>" . _AM_IFORUM_POLLMODULE . ": ";
 	echo (iforum_poll_module_active()) ? _AM_IFORUM_AVAILABLE : _AM_IFORUM_NOTAVAILABLE;
 	echo "</div>";
@@ -179,7 +180,7 @@ switch ($op)
 	{
 		 echo _AM_IFORUM_NOTAVAILABLE;
 	}
-	 
+
 	echo "<br />";
 	echo _AM_IFORUM_GDLIB2."&nbsp;";
 	if (array_key_exists('gd2', $imageLibs))
@@ -191,22 +192,22 @@ switch ($op)
 		 echo _AM_IFORUM_NOTAVAILABLE;
 	}
 	echo "</div>";
-	 
-	 
+
+
 	echo "<div style='padding: 8px;'>" . _AM_IFORUM_ATTACHPATH . ": ";
 	$attach_path = ICMS_ROOT_PATH . '/' . icms::$module->config['dir_attachments'] . '/';
 	$path_status = iforum_admin_getPathStatus($attach_path);
 	echo $attach_path . ' ( ' . $path_status . ' )';
-	 
+
 	echo "<br />" . _AM_IFORUM_THUMBPATH . ": ";
 	$thumb_path = $attach_path . 'thumbs/'; // be careful
 	$path_status = iforum_admin_getPathStatus($thumb_path);
 	echo $thumb_path . ' ( ' . $path_status . ' )';
-	 
+
 	echo "</div>";
-	 
+
 	echo "</fieldset><br />";
-	 
+
 	echo "<fieldset style='border: #e8e8e8 1px solid;'>
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_BOARDSUMMARY . "</legend>";
 	echo "<div style='padding: 12px;'>";
@@ -214,7 +215,7 @@ switch ($op)
 	echo _AM_IFORUM_TOTALPOSTS . " <strong>" . get_total_posts() . "</strong> | ";
 	echo _AM_IFORUM_TOTALVIEWS . " <strong>" . get_total_views() . "</strong></div>";
 	echo "</fieldset><br />";
-	 
+
 	$report_handler =icms_getmodulehandler('report', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	echo "<fieldset style='border: #e8e8e8 1px solid;'>
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_REPORT . "</legend>";
@@ -222,7 +223,7 @@ switch ($op)
 	echo _AM_IFORUM_REPORT_PROCESSED . " <strong>" . $report_handler->getCount(new icms_db_criteria_Item("report_result", 1)) . "</strong>";
 	echo "</div>";
 	echo "</fieldset><br />";
-	 
+
 	if (icms::$module->config['email_digest'] > 0)
 	{
 		$digest_handler =icms_getmodulehandler('digest', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -236,9 +237,9 @@ switch ($op)
 		echo "</div>";
 		echo "</fieldset><br />";
 	}
-	 
+
 	echo "<br /><br />";
-	 
+
 	/* A trick to clear garbage for suspension management
 	* Not good but works
 	*/
@@ -247,9 +248,9 @@ switch ($op)
 		$moderate_handler = icms_getmodulehandler('moderate', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 		$moderate_handler->clearGarbage();
 	}
-	 
+
 	icms_cp_footer();
 	break;
 }
- 
+
 ?>
