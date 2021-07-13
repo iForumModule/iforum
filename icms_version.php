@@ -1,9 +1,7 @@
 <?php
 /**
 * iForum - a bulletin Board (Forum) for ImpressCMS
-*
-* Based upon CBB 3.08
-*
+**
 * @copyright  http://www.xoops.org/ The XOOPS Project
 * @copyright  http://xoopsforge.com The XOOPS FORGE Project
 * @copyright  http://xoops.org.cn The XOOPS CHINESE Project
@@ -19,13 +17,13 @@
 * ----------------------------------------------------------------------------------------------------------
 *     iForum - a bulletin Board (Forum) for ImpressCMS
 * @since   1.00
-* @author  modified by stranger
+* @author  modified by fiammybe
 * @version  $Id$
 */
  
 $modulename = basename(__DIR__);
 $modversion['name'] = _MI_IFORUM_NAME;
-$modversion['version'] = "2.3 beta";
+$modversion['version'] = "2.3 final";
 $modversion['description'] = _MI_IFORUM_DESC;
 $modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
 $modversion['author'] = "fiammybe";
@@ -40,10 +38,10 @@ $modversion['author_realname'] = "David Janssens";
 $modversion['author_website_url'] = "https://www.impresscms.org";
 $modversion['author_website_name'] = "ImpressCMS website";
 $modversion['author_email'] = "david.j@impresscms.org";
-$modversion['status_version'] = "Beta";
-$modversion['status'] = "Beta";
-$modversion['date'] = "10 Jul 2020";
-$modversion['warning'] = _CO_ICMS_WARNING_BETA;
+$modversion['status_version'] = "Final";
+$modversion['status'] = "Final";
+$modversion['date'] = "13 Jul 2021";
+$modversion['warning'] = _CO_ICMS_WARNING_FINAL;
  
 $modversion['demo_site_url'] = "https://www.impresscms.org/modules/iforum/";
 $modversion['demo_site_name'] = _IMPRESSCMS_COMMUNITY;
@@ -108,17 +106,17 @@ $modversion['onUpdate'] = 'include/module.php';
  
 // Templates
 $modversion['templates'][0]['file'] = 'iforum_poll_results.html';
-$modversion['templates'][0]['description'] = '';
+$modversion['templates'][0]['description'] = 'Poll results';
 $modversion['templates'][1]['file'] = 'iforum_index.html';
-$modversion['templates'][1]['description'] = '';
+$modversion['templates'][1]['description'] = 'Forum start page';
 $modversion['templates'][2]['file'] = 'iforum_searchresults.html';
-$modversion['templates'][2]['description'] = '';
+$modversion['templates'][2]['description'] = 'Forum search results';
 $modversion['templates'][3]['file'] = 'iforum_search.html';
-$modversion['templates'][3]['description'] = '';
+$modversion['templates'][3]['description'] = 'Forum search';
 $modversion['templates'][4]['file'] = 'iforum_thread.html';
-$modversion['templates'][4]['description'] = '';
+$modversion['templates'][4]['description'] = 'Forum discussion thread';
 $modversion['templates'][5]['file'] = 'iforum_viewforum.html';
-$modversion['templates'][5]['description'] = '';
+$modversion['templates'][5]['description'] = 'Forum view a forum';
 $modversion['templates'][6]['file'] = 'iforum_viewtopic_flat.html';
 $modversion['templates'][6]['description'] = '';
 $modversion['templates'][7]['file'] = 'iforum_viewtopic_thread.html';
