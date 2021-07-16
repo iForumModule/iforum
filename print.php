@@ -95,8 +95,11 @@ if (empty($_POST["post_data"]))
 }
 else
 {
-	$post_data = unserialize(base64_decode($_POST["post_data"]));
+    $myTs = new icms_core_Textsanitizer();
+
+	$post_data = $myTs->codeSanitizer(unserialize(base64_decode($_POST["post_data"])));
 	$isPost = 1;
+
 }
  
 header('Content-Type: text/html; charset='._CHARSET);
@@ -111,7 +114,7 @@ if (empty($isPost))
 	echo "<meta name='AUTHOR' content='" . htmlspecialchars($icmsConfig['sitename'], ENT_QUOTES) . "' />\n";
 	echo "<meta name='COPYRIGHT' content='Copyright (c) ".date('Y')." by " . htmlspecialchars($icmsConfig['sitename'], ENT_QUOTES) . "' />\n";
 	echo "<meta name='DESCRIPTION' content='" . htmlspecialchars($icmsConfig['slogan'], ENT_QUOTES) . "' />\n";
-	echo "<meta name='GENERATOR' content='" . XOOPS_VERSION . "' />\n\n\n";
+	echo "<meta name='GENERATOR' content='" . ICMS_VERSION_NAME . "' />\n\n\n";
 	echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
 		<div style='width: 750px; border: 1px solid #000; padding: 20px;'>
 		<div style='text-align: center; display: block; margin: 0 0 6px 0;'>
