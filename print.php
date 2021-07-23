@@ -95,9 +95,12 @@ if (empty($_POST["post_data"]))
 }
 else
 {
-    $myTs = new icms_core_Textsanitizer();
-
-	$post_data = $myTs->codeSanitizer(unserialize(base64_decode($_POST["post_data"])));
+    $post_data = unserialize(base64_decode($_POST["post_data"]));
+	if (is_array($post_data)) {
+  		foreach ($post_data as $k => $v) {
+     		$post_data[$k] = $myTs->codeSanitizer($v);
+  		}
+    }
 	$isPost = 1;
 
 }
