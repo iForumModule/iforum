@@ -110,7 +110,9 @@ $op = (isset($_GET['op']))? $_GET['op'] :
 switch ($op)
 {
 	case "createdir":
-	if (isset($_GET['path'])) $path = $_GET['path'];
+	if (isset($_GET['path'])) {
+        $path = $_GET['path'];
+    }
 	$res = iforum_admin_mkdir($path);
 	$msg = ($res)?_AM_IFORUM_DIRCREATED:
 	_AM_IFORUM_DIRNOTCREATED;
@@ -119,7 +121,9 @@ switch ($op)
 	break;
 
 	case "setperm":
-	if (isset($_GET['path'])) $path = $_GET['path'];
+	if (isset($_GET['path'])) {
+        $path = $_GET['path'];
+    }
 	$res = iforum_admin_chmod($path, 0777);
 	$msg = ($res)?_AM_IFORUM_PERMSET:
 	_AM_IFORUM_PERMNOTSET;
