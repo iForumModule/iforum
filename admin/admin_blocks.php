@@ -24,4 +24,4 @@
 */
 
 include "admin_header.php";
-header("Location: " . ICMS_URL . "/modules/system/admin.php?fct=blocksadmin&filtersel=mid&filtersel2=".$icmsModule->getVar("mid"));
+header("Location: " . ICMS_URL . "/modules/system/admin.php?fct=blocksadmin&filtersel=mid&filtersel2=".icms::$module->getVar("mid"));

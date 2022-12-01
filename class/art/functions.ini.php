@@ -71,7 +71,7 @@ function load_functions($group = "", $dirname = "art")
  */
 function mod_loadFunctions($group = "", $dirname = "")
 {
-	$dirname = !empty($dirname) ? $dirname : $GLOBALS["icmsModule"]->getVar("dirname", "n");
+	$dirname = !empty($dirname) ? $dirname : icms::$module->getVar("dirname", "n");
 	$constant = strtoupper( "{$dirname}_functions" . ( ($group) ? "_{$group}" : "" ) . "_loaded" );
 	if (defined($constant)) return true;
 	$filename = ICMS_ROOT_PATH."/modules/{$dirname}/include/functions.{$group}" . (empty($group) ? "" : "." ) . "php";
@@ -90,7 +90,7 @@ function mod_loadFunctions($group = "", $dirname = "")
  */
 function mod_loadRenderer($class, $dirname = "")
 {
-	$dirname = !empty($dirname) ? $dirname : $GLOBALS["icmsModule"]->getVar("dirname", "n");
+	$dirname = !empty($dirname) ? $dirname : icms::$module->getVar("dirname", "n");
 	$renderer = ucfirst($dirname).ucfirst($class)."Renderer";
 	if (!class_exists($renderer)) {
 		require_once ICMS_ROOT_PATH."/modules/{$dirname}/class/{$class}.renderer.php";
@@ -109,7 +109,7 @@ function mod_DB_prefix($name, $isRel = false)
 {
 	$relative_name = $GLOBALS["MOD_DB_PREFIX"]."_".$name;
 	if ($isRel) return $relative_name;
-	return $GLOBALS["xoopsDB"]->prefix($relative_name);
+	return icms::$xoopsDB->prefix($relative_name);
 }
 }
 

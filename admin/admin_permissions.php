@@ -40,7 +40,7 @@ icms_cp_header();
 loadModuleAdminMenu(3, _AM_IFORUM_PERM_PERMISSIONS );
  
 $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : "";
-$module_id = $icmsModule->getVar('mid');
+$module_id = icms::$module->getVar('mid');
 $perms = array_map("trim", explode(',', FORUM_PERM_ITEMS));
  
 switch($action)

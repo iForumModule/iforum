@@ -22,9 +22,11 @@ class _XoopsPersistableObject extends icms_core_Object
      */
     public $table;
 
+
     function __construct($table = null) {
+
 	    if (!empty($table)) {
-	    	$this->table = $GLOBALS["xoopsDB"]->prefix($table);
+	    	$this->table = icms::$xoopsDB->prefix($table);
     	}
     }
 

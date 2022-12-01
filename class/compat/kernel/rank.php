@@ -25,16 +25,16 @@
 
 /**
  * @package     kernel
- * 
+ *
  * @author	    D.J.
  * @copyright	copyright (c) 2000-2005 XOOPS.org
  */
 
-class XoopsRank extends XoopsObject
+class XoopsRank extends icms_core_Object
 {
     function __construct()
     {
-        $this->XoopsObject();
+    	parent::__construct();
         $this->initVar('rank_id', XOBJ_DTYPE_INT, null, false);
         $this->initVar('rank_title', XOBJ_DTYPE_TXTBOX, null, false);
         $this->initVar('rank_min', XOBJ_DTYPE_INT, 0);

@@ -22,12 +22,12 @@ define("FRAMEWORKS_ART_FUNCTIONS_CONFIG", true);
  */
 function mod_loadConfig($dirname = "")
 {
-	if (empty($dirname) && empty($GLOBALS["icmsModule"])) {
+	if (empty($dirname) && empty(icms::$module)) {
 		return null;
 	}
-	$dirname = !empty($dirname) ? $dirname : $GLOBALS["icmsModule"]->getVar("dirname");
+	$dirname = !empty($dirname) ? $dirname : icms::$module->getVar("dirname");
 	
-    if (isset($GLOBALS["icmsModule"]) && is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname", "n") == $dirname){
+    if (isset(icms::$module) && is_object(icms::$module) && icms::$module->getVar("dirname", "n") == $dirname){
 	    if (isset($GLOBALS["icmsModuleConfig"])) {
 		    $moduleConfig =& $GLOBALS["icmsModuleConfig"];
 	    } else {

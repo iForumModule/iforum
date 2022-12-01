@@ -11,8 +11,8 @@
  */
 class IforumFormEditor extends icms_form_elements_Textarea
 {
-	var $editor;
-	
+	public $editor;
+
 	/**
 	 * Constructor
 	 *
@@ -30,7 +30,7 @@ class IforumFormEditor extends icms_form_elements_Textarea
 		$editor_handler = XoopsEditorHandler::getInstance();
 		$this->editor = $editor_handler->get($name, $editor_configs, $nohtml, $OnFailure);
 	}
-	
+
 	function render()
 	{
 		return $this->editor->render();

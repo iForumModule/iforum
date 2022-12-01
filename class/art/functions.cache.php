@@ -37,7 +37,7 @@ function mod_createFile($data, $name = null, $dirname = null, $root_path = XOOPS
     global $icmsModule;
 
     $name = ($name) ? $name : strval(time());
-    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? $icmsModule->getVar("dirname", "n") : "system");
+    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? icms::$module->getVar("dirname", "n") : "system");
 
 	$file_name = $dirname."_".$name.".php";
 	$file = $root_path."/".$file_name;
@@ -69,7 +69,7 @@ function &mod_loadFile($name, $dirname = null, $root_path = XOOPS_CACHE_PATH)
     $data = null;
     
     if (empty($name)) return $data;
-    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? $icmsModule->getVar("dirname", "n") : "system");
+    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? icms::$module->getVar("dirname", "n") : "system");
 	$file_name = $dirname."_".$name.".php";
 	$file = $root_path."/".$file_name;
 
@@ -118,7 +118,7 @@ function mod_clearSmartyCache($pattern = "")
     global $icmsModule;
     
     if (empty($pattern)) {
-	    $dirname = (is_object($icmsModule) ? $icmsModule->getVar("dirname", "n") : "system");
+	    $dirname = (is_object($icmsModule) ? icms::$module->getVar("dirname", "n") : "system");
 	    $pattern = "/(^{$dirname}\^.*\.html$|blk_{$dirname}_.*[^\.]*\.html$)/";
     }
 	if ($handle = opendir(XOOPS_CACHE_PATH)) {

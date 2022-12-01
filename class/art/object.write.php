@@ -9,18 +9,18 @@
  * @version		$Id$
  * @package		Frameworks::art
  */
- 
+
 if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
 /**
-* Object write handler class.  
+* Object write handler class.
 *
 * @author  D.J. (phppp)
 * @copyright copyright &copy; 2000 The XOOPS Project
 *
-* {@link _XoopsPersistableObjectHandler} 
+* {@link _XoopsPersistableObjectHandler}
 *
 */
 
@@ -30,10 +30,10 @@ class ArtObjectWriteHandler
      *
      * @var object
      */
-    var $_handler;
-    
+    public $_handler;
+
     function __construct(&$handler) {
-	    $this->_handler =& $handler; 
+	    $this->_handler =& $handler;
     }
 
     function &cleanVars(&$object)
@@ -81,10 +81,10 @@ class ArtObjectWriteHandler
 
         return $changedVars;
     }
-    
+
     /**
      * insert an object into the database
-     * 
+     *
      * @param	object	$object 	{@link ArtObject} reference to ArtObject
      * @param 	bool 	$force 		flag to force the query execution despite security settings
      * @return 	int 	object ID
@@ -100,7 +100,7 @@ class ArtObjectWriteHandler
 	        return $object->getVar($this->_handler->keyName);
         }
         $queryFunc = empty($force) ? "query" : "queryF";
-        
+
         if ($object->isNew()) {
 	        $keys = array_keys($changedVars);
 	        $vals = array_values($changedVars);
@@ -130,7 +130,7 @@ class ArtObjectWriteHandler
 
     /**
      * delete an object from the database
-     * 
+     *
      * @param object $obj reference to the object to delete
      * @param bool $force
      * @return bool FALSE if failed.
@@ -161,7 +161,7 @@ class ArtObjectWriteHandler
 
     /**
      * delete all objects meeting the conditions
-     * 
+     *
      * @param object $criteria {@link icms_db_criteria_Element} with conditions to meet
      * @return bool
      */
@@ -181,7 +181,7 @@ class ArtObjectWriteHandler
 	        if (is_subclass_of($criteria, 'icms_db_criteria_Element')) {
 	            $sql .= ' '.$criteria->renderWhere();
             } else {
-	            return false; 
+	            return false;
             }
         }
         if (!icms::$xoopsDB->{$queryFunc}($sql)) {
@@ -193,11 +193,11 @@ class ArtObjectWriteHandler
 
     /**
      * Change a value for objects with a certain criteria
-     * 
+     *
      * @param   string  $fieldname  Name of the field
      * @param   string  $fieldvalue Value to write
-     * @param   object  $criteria   {@link icms_db_criteria_Element} 
-     * 
+     * @param   object  $criteria   {@link icms_db_criteria_Element}
+     *
      * @return  bool
      **/
     function updateAll($fieldname, $fieldvalue, $criteria = null, $force = false)

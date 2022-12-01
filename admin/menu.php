@@ -71,12 +71,12 @@ if (isset($icmsModule ) )
 	$i = -1;
 	 
 	$i++;
-	$headermenu[$i]['title'] = $icmsModule->getVar('name' );
+	$headermenu[$i]['title'] = icms::$module->getVar('name' );
 	$headermenu[$i]['link'] = ICMS_URL . '/modules/' . $admin_dirname .'/index.php';
 	 
 	$i++;
 	$headermenu[$i]['title'] = _PREFERENCES;
-	$headermenu[$i]['link'] = '../../system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $icmsModule->getVar('mid' );
+	$headermenu[$i]['link'] = '../../system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . icms::$module->getVar('mid' );
 	 
 	$i++;
 	$headermenu[$i]['title'] = _AM_IFORUM_ABOUT;

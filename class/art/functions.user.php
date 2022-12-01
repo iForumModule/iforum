@@ -65,12 +65,12 @@ function &mod_getUnameFromIds( $uid, $usereal = false, $linked = false )
 	$myts = icms_core_Textsanitizer::getInstance();
 	$users = array();
 	if (count($userid) > 0) {
-        $sql = 'SELECT uid, uname, name FROM ' . $GLOBALS['xoopsDB']->prefix('users'). ' WHERE level>0 AND uid IN('.implode(",", array_unique($userid)).')';
-        if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+        $sql = 'SELECT uid, uname, name FROM ' . icms::$xoopsDB->prefix('users'). ' WHERE level>0 AND uid IN('.implode(",", array_unique($userid)).')';
+        if (!$result = icms::$xoopsDB->query($sql)) {
 	        //icms_core_Message::error("user query error: ".$sql);
             return $users;
         }
-        while ($row = $GLOBALS['xoopsDB']->fetchArray($result)) {
+        while ($row = icms::$xoopsDB->fetchArray($result)) {
 	        $uid = $row["uid"];
             if ( $usereal && $row["name"] ) {
 				$users[$uid] = icms_core_DataFilter::htmlSpecialchars($row["name"]);
