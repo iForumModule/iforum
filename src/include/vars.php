@@ -51,14 +51,14 @@ $GLOBALS["icmsModuleConfig"]["require_name"] = true; // "name" field is required
 include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
  
 // You shouldn't have to change any of these
-$forumUrl['root'] = ICMS_URL."/modules/" . $icmsModule->getVar("dirname");
+$forumUrl['root'] = ICMS_URL."/modules/" . icms::$module->getVar("dirname");
 $forumUrl['images_root'] = $forumUrl['root']."/images";
  
 $setdir = icms::$module->config['image_set'];
 if (empty($setdir)) $setdir = "default";
  
 $forumUrl['images_set'] = $forumUrl['images_root']."/imagesets/".$setdir;
-if (is_dir(ICMS_ROOT_PATH.'/modules/'. $icmsModule->getVar("dirname") .'/images/imagesets/'.$setdir.'/'.$icmsConfig['language'])) {
+if (is_dir(ICMS_ROOT_PATH.'/modules/'. icms::$module->getVar("dirname") .'/images/imagesets/'.$setdir.'/'.$icmsConfig['language'])) {
 	$forumUrl['images_lang'] = $forumUrl['images_set']."/".$icmsConfig['language'];
 } else {
 	$forumUrl['images_lang'] = $forumUrl['images_set']."/english";
@@ -157,7 +157,7 @@ if (empty($forumCookie['prefix']))
 	$cookie_prefix = preg_replace("/[^a-z_0-9]+/i", "_", preg_replace("/(http(s)?:\/\/)?(www.)?/i", "", ICMS_URL));
 	$cookie_userid = (is_object(icms::$user))?icms::$user->getVar('uid'):
 	0;
-	$forumCookie['prefix'] = $cookie_prefix."_".$icmsModule->getVar("dirname").$cookie_userid."_";
+	$forumCookie['prefix'] = $cookie_prefix."_".icms::$module->getVar("dirname").$cookie_userid."_";
 }
  
 // set LastVisitTemp cookie, which only gets the time from the LastVisit cookie if it does not exist yet
