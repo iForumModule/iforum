@@ -194,7 +194,7 @@ $modversion['blocks'][] = array(
 $modversion['blocks'][] = array(
 'file' => "iforum_block.php",
 	'name' => _MI_IFORUM_BLOCK_POST,
-	'description' => "Shows recent posts in the forums",
+	'description' => _MI_IFORUM_BLOCK_POST_DSC,
 	'show_func' => "b_iforum_post_show",
 	'options' => "title|10|360|0|1|0|0",
 	'edit_func' => "b_iforum_post_edit",
@@ -216,42 +216,6 @@ $modversion['blocks'][] = array(
 	'edit_func' => "b_iforum_author_edit",
 	'template' => 'iforum_block_author.html');
  
-if (iforum_tag_module_included())
-{
-	/*
-	* $options:
-	*     $options[0] - number of tags to display
-	*     $options[1] - time duration, in days, 0 for all the time
-	*     $options[2] - max font size (px or %)
-	*     $options[3] - min font size (px or %)
-	*/
-	$modversion["blocks"][] = array(
-	"file" => "iforum_block_tag.php",
-		"name" => _MI_IFORUM_BLOCK_TAG_CLOUD,
-		"description" => "Show tag cloud",
-		"show_func" => "iforum_tag_block_cloud_show",
-		"edit_func" => "iforum_tag_block_cloud_edit",
-		"options" => "100|0|150|80",
-		"template" => "iforum_tag_block_cloud.html",
-		);
-	 
-	/*
-	* $options:
-	*     $options[0] - number of tags to display
-	*     $options[1] - time duration, in days, 0 for all the time
-	*     $options[2] - sort: a - alphabet; c - count; t - time
-	*/
-	$modversion["blocks"][] = array(
-	"file" => "iforum_block_tag.php",
-		"name" => _MI_IFORUM_BLOCK_TAG_TOP,
-		"description" => "Show top tags",
-		"show_func" => "iforum_tag_block_top_show",
-		"edit_func" => "iforum_tag_block_top_edit",
-		"options" => "50|0|c",
-		"template" => "iforum_tag_block_top.html",
-		);
-	 
-}
 // Search
 $modversion['hasSearch'] = 1;
 $modversion['search']['file'] = "include/search.inc.php";
