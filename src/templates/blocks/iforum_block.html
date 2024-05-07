@@ -1,0 +1,60 @@
+<table class="outer" cellspacing="1">
+
+  <{if $block.disp_mode == 0}>
+  <tr>
+    <th class="head"><{$smarty.const._MB_IFORUM_FORUM}></th>
+    <th class="head"><{$smarty.const._MB_IFORUM_TOPIC}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_RPLS}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_VIEWS}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_LPOST}></th>
+  </tr>
+
+  <{foreach item=topic from=$block.topics}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewforum.php?forum=<{$topic.forum_id}>"><{$topic.forum_name}></a></td>
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>">
+		<{if $topic.topic_subject}>
+		<{$topic.topic_subject}>
+		<{/if}>
+		<{$topic.title}></a><{$topic.topic_page_jump}></td>
+    <td align="center"><{$topic.replies}></td>
+    <td align="center"><{$topic.views}></td>
+    <td align="<{$smarty.const._GLOBAL_RIGHT}>"><{$topic.time}><br /><{$topic.topic_poster}></td>
+  </tr>
+  <{/foreach}>
+
+  <{elseif $block.disp_mode == 1}>
+
+  <tr>
+    <th class="head"><{$smarty.const._MB_IFORUM_TOPIC}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_RPLS}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_LPOST}></th>
+  </tr>
+
+  <{foreach item=topic from=$block.topics}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></td>
+    <td align="center"><{$topic.replies}></td>
+    <td align="<{$smarty.const._GLOBAL_RIGHT}>"><{$topic.time}><br /><{$topic.topic_poster}></td>
+  </tr>
+  <{/foreach}>
+
+  <{elseif $block.disp_mode == 2}>
+
+  <{foreach item=topic from=$block.topics}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$icms_url}>/modules/<{$block.modulename}>/viewtopic.php?topic_id=<{$topic.id}>&amp;forum=<{$topic.forum_id}>&amp;post_id=<{$topic.post_id}>#forumpost<{$topic.post_id}>"><{$topic.title}></a></td>
+  </tr>
+  <{/foreach}>
+
+  <{/if}>
+
+</table>
+
+<{if $block.indexNav}>
+<div style="text-align:<{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
+<a href="<{$icms_url}>/modules/<{$block.modulename}>/viewpost.php"><{$smarty.const._MB_IFORUM_ALLPOSTS}></a> |
+<a href="<{$icms_url}>/modules/<{$block.modulename}>/viewall.php"><{$smarty.const._MB_IFORUM_ALLTOPICS}></a> |
+<a href="<{$icms_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_IFORUM_VSTFRMS}></a>
+</div>
+<{/if}>

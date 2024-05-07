@@ -1,0 +1,22 @@
+##############################################################
+## Translation Info: br.impresscms.org                      ##
+## Version: iForum                                          ##
+## Language: Brazilian Portuguese                           ##
+## Translation team: http://br.impresscms.org               ##
+## Ultima revisão 07/11/2008 by GibaPhp                     ##
+##############################################################
+## Muitas constantes foram aproveitadas da versão 4.0       ##
+##############################################################
+## Translation Info: X-Trad                                 ##
+## Version: CBB 4.0 (newbb)                                 ##
+## Language: Brazilian Portuguese                           ##
+## Translation team: http://www.x-trad.org/                 ##
+## Ultima revisão 12/10/2008 by artsgeral                   ##
+##############################################################
+##############################################################
+## Translation Info: X-Trad                                 ##
+## Version: CBB 3.08 (newbb)                                ##
+## Language: Brazilian Portuguese                           ##
+## Translation team: http://www.x-trad.org/                 ##
+## Ultima revisão ??/??/2007 by gibaphp e equipe            ##
+##############################################################

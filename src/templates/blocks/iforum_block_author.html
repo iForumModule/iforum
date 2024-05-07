@@ -1,0 +1,31 @@
+<table class="outer" cellspacing="1">
+
+  <{if $block.disp_mode == 0}>
+  <tr>
+    <th class="head"><{$smarty.const._MB_IFORUM_AUTHOR}></th>
+    <th class="head" align="center"><{$smarty.const._MB_IFORUM_COUNT}></th>
+  </tr>
+
+  <{foreach item=author key=uid from=$block.authors}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$icms_url}>/userinfo.php?uid=<{$uid}>"><{$author.name}></a></td>
+    <td align="center"><{$author.count}></td>
+  </tr>
+  <{/foreach}>
+
+  <{elseif $block.disp_mode == 1}>
+
+  <{foreach item=author key=uid from=$block.authors}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td><a href="<{$icms_url}>/userinfo.php?uid=<{$uid}>"><{$author.name}></a> <{$author.count}></td>
+  </tr>
+  <{/foreach}>
+
+  <{/if}>
+
+</table>
+<{if $block.indexNav}>
+<div style="text-align:<{$smarty.const._GLOBAL_RIGHT}>; padding: 5px;">
+<a href="<{$icms_url}>/modules/<{$block.modulename}>/"><{$smarty.const._MB_IFORUM_VSTFRMS}></a>
+</div>
+<{/if}>
