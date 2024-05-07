@@ -1,0 +1,17 @@
+name: 🚀 FTP Deploy
+on: 
+  workflow_dispatch
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v4.1.2
+      - name: 📦 Get LFTP
+        run: sudo apt install lftp
+      - name: 🛠️ Configure LFTP
+        run: mkdir ~/.lftp && echo "set ssl:verify-certificate false;" >> ~/.lftp/rc
+      - name: 🔑 Load Secrets
+        run: echo "machine ${{ secrets.FTP_HOSTNAME }} login ${{ secrets.FTP_USERNAME }} password ${{ secrets.FTP_PASSWORD }}" > ~/.netrc
+      - name: 📁 Upload Folder
+        run: lftp -e "mirror --parallel=2 -R ./src/ "${{ secrets.TARGET_FOLDER }} ${{ secrets.FTP_HOSTNAME }}
