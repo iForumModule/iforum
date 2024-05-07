@@ -1,0 +1,25 @@
+div.dropdown .userbar {
+  position: absolute;
+  left: 0px;
+  top: 2px;
+  visibility: hidden;
+}
+
+div.dropdown .userbar .item{
+  padding: 2px 4px;
+  position: absolute;
+  left: 0px;
+  top: 2px;
+}
+
+div.dropdown .menubar{
+	float: left;
+	padding: 2px 4px;
+	margin: 0px 1px;
+	font-weight: bold;
+  	display: block;
+}
+
+div.dropdown a.item {
+  	display: block;
+}

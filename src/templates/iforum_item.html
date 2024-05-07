@@ -1,0 +1,36 @@
+<div class="outer">
+
+<a id="forumpost<{$topic_post.post_id}>"></a>
+
+<div class="odd" style="padding:5px;">
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{$topic_post.poster.link}> | 
+<{$smarty.const._MD_POSTEDON}> <{$topic_post.post_date}>
+</div>
+
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{if $topic_post.poster_ip}>
+IP: <a href="http://www.whois.sc/<{$topic_post.poster_ip}>" target="_blank"><{$topic_post.poster_ip}></a> | 
+<{/if}> 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a> 
+</div>
+<div class="clear"></div>
+<!--[if IE 7]><br /><![endif]-->
+</div>
+
+<div class="clear"></div>
+
+
+<div class="post_text"><{$topic_post.post_text}></div>
+<{if $topic_post.post_attachment}><div class="post_files"><{$topic_post.post_attachment}></div>
+<{/if}>
+
+<div class="clear"></div>
+
+<div class="foot">
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>;"><{foreach item=btn from=$topic_post.thread_buttons}><a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a> <{/foreach}>
+<a href="#threadtop" title="<{$smarty.const._MD_UP}>"> <{$p_up}></a></div>
+<div class="clear"></div>
+</div>
+
+</div>

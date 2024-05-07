@@ -1,0 +1,97 @@
+<a id="forumpost<{$topic_post.post_id}>"></a>
+<div class="outer">
+<table width="100%">
+  <tr>
+    <th align="<{$smarty.const._GLOBAL_LEFT}>"><div class="comTitle" style="float: <{$smarty.const._GLOBAL_LEFT}>;"><a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?post_id=<{$topic_post.post_id}>#forumpost<{$topic_post.post_id}>">#<{$topic_post.post_no}></a></div></th>
+    <th style="width: 75%;" align="<{$smarty.const._GLOBAL_LEFT}>"><div class="comTitle"><{$topic_post.post_title}></div></th>
+       <th style="width: 20%;" align="<{$smarty.const._GLOBAL_RIGHT}>">
+     <div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserName"><{$topic_post.poster.link}></div>
+   	</th>
+  </tr>
+
+  <tr>
+    <td style="width: 75%;" colspan="2" class="even">
+    <div style="font-size:10px; font-style:italic;float: <{$smarty.const._GLOBAL_RIGHT}>;"><{$smarty.const._MD_POSTEDON}><{$topic_post.post_date}><{if $topic_post.post_edit}>&nbsp;-&nbsp;<{$topic_post.post_edit}><{/if}></div>
+ 	<div class="clear"></div>
+    <div class="comText"><{$topic_post.post_text}></div>
+	<{if $topic_post.post_attachment}>
+	<div class="comText"><{$topic_post.post_attachment}></div>
+	<{/if}>
+
+     </td>
+     <td class="odd" rowspan="2" valign="top">
+  	<{if $topic_post.poster.uid != 0}>
+	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserImg">
+			<img src="<{$topic_post.poster.avatar}>" alt="" class="comUserImg" />
+	</div>
+  	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserRankText"><{$topic_post.poster.rank.title}><br /><{$topic_post.poster.rank.image}></div>
+	<div style="margin-left: auto; margin-right: auto; text-align: center;padding-top: 5px;" class="Userbar">
+				<{foreach item=bar from=$topic_post.poster.userbar}>
+				<{if $bar}>
+				<a class="UserLink" href="<{$bar.link}>" title="<{$bar.name}>"<{if $bar.pm}> rel="lightbox"<{/if}>><{$bar.image}></a>
+				<{/if}>
+				<{/foreach}>
+	</div>
+	  	<{if $topic_post.poster.status}>
+  	<div style="margin-left: auto; margin-right: auto; text-align: center;" class="comUserStat"><{$topic_post.poster.status}></div>
+  	<{/if}>
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_JOINED}>:</span> <{$topic_post.poster.regdate}></div>
+	<{if $topic_post.poster.from}>
+        <div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_FROM}>:</span> <a href="http://<{$icms_langcode}>.wikipedia.org/wiki/<{$topic_post.poster.from}>" rel="external"><{$topic_post.poster.from}></a></div>
+	<{/if}>	
+	<{if $topic_post.poster.groups}>
+  	<div class="comUserStat"> <span class="comUserStatCaption"><{$smarty.const._MD_GROUP}></span>
+  	<{foreach item=group from=$topic_post.poster.groups}> <{$group}> |<{/foreach}>
+  	</div>
+	<{/if}>
+  	<div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_POSTS}>:</span> 
+  	<{if $topic_post.poster.posts gt 0}>
+  	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewpost.php?uid=<{$topic_post.poster.uid}>" title="<{$smarty.const._ALL}>" target="_self"><{$topic_post.poster.posts}></a>
+  	<{else}>
+  	0
+  	<{/if}>
+  	</div>
+  	<{if $topic_post.poster.level}>
+  	<div class="comUserStat"><{$topic_post.poster.level}></div>
+  	<{/if}>
+  	<{if $topic_post.poster_ip}>
+	<div class="comUserStat"><span class="comUserStatCaption">IP:</span>&nbsp;<a href="http://www.whois.sc/<{$topic_post.poster_ip}>" target="_blank"><{$topic_post.poster_ip}></a></div>
+	<{/if}>
+	<{else}>
+   	<div class="comUserRankText"><{$anonymous_prefix}><{$topic_post.poster.name}></div>
+	<{/if}>
+	</td>
+  </tr>
+
+  <tr>
+    <td style="width: 75%;" colspan="2" class="even" valign="bottom">
+	<{if $topic_post.post_signature}>
+    <div class="signature">
+	_________________<br />
+	<{$topic_post.post_signature}>
+	</div>
+	<{/if}>
+	</td>
+  </tr>
+
+  <tr>
+    <td style="width: 75%;" colspan="2" class="foot"><div style="float: <{$smarty.const._GLOBAL_LEFT}>">
+    <{if $mode gt 1}>
+		<a href="<{$icms_url}>/modules/<{$icms_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=1" target="_self" title="<{$smarty.const._MD_SPLIT_ONE}>"><{$smarty.const._MD_SPLIT_ONE}></a> | 
+		<a href="<{$icms_url}>/modules/<{$icms_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=2" target="_self" title="<{$smarty.const._MD_SPLIT_TREE}>"><{$smarty.const._MD_SPLIT_TREE}></a> | 
+		<a href="<{$icms_url}>/modules/<{$icms_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=3" target="_self" title="<{$smarty.const._MD_SPLIT_ALL}>"><{$smarty.const._MD_SPLIT_ALL}></a> | 
+		<input type="checkbox" name="post_id[]" id="post_id[<{$topic_post.post_id}>]" value="<{$topic_post.post_id}>" />
+    <{else}>
+    	<{foreach item=btn from=$topic_post.thread_buttons}> <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a> <{/foreach}>
+    <{/if}>
+    <a href="#threadtop" title="<{$smarty.const._MD_UP}>"> <{$p_up}></a>
+    </div>
+    </td>
+    <td class="foot"><div style="float: <{$smarty.const._GLOBAL_RIGHT}>">
+    	<{foreach item=act from=$topic_post.thread_action}>
+				<a href="<{$act.link}>" title="<{$act.name}>"> <{$act.image}></a>
+			<{/foreach}>
+	</div></td>
+  </tr>
+</table>
+</div>

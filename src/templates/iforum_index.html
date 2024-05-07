@@ -1,0 +1,264 @@
+<div id="index_welcome">
+	<div class="title">
+		<a href="<{$icms_url}>/modules/<{$icms_dirname}>/"><{$lang_welcomemsg}></a>
+	</div>
+	<div class="desc">
+		<{foreach item=category from=$categories}><a
+			href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a> - 
+		<{/foreach}><{$smarty.const._MD_TOSTART}>
+	</div>
+</div>
+<div class="clear"></div>
+
+<{if $viewer_level eq 2 AND $mode gt 0}>
+	<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+	
+	<{$smarty.const._MD_TOPIC}>: 
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewall.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a>
+	<br style="clear:both;" /> 
+	
+	<{$smarty.const._MD_POST2}>: 
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewpost.php?type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewpost.php?type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewpost.php?type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a>
+	<br style="clear:both;" /> 
+	
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/moderate.php" target="_self" title="<{$smarty.const._MD_TYPE_SUSPEND}>"><{$smarty.const._MD_TYPE_SUSPEND}></a> | 
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/admin/index.php" target="_self" title="<{$smarty.const._MD_ADMINCP}>"><{$smarty.const._MD_ADMINCP}></a>
+	
+	</div>
+	<br />
+	<div class="clear"></div>
+<{/if}>
+<div style="float:<{$smarty.const._GLOBAL_LEFT}>;padding:15px 0;">
+	<form action="search.php" method="post" class="search" id="search">
+		<div>
+			<input name="term" id="term" type="text" size="20" /> <input
+				type="hidden" name="forum" id="forum" value="all" /> <input
+				type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
+			<input type="hidden" name="searchin" id="searchin" value="both" /> <input
+				type="submit" name="submit" id="submit"
+				value="<{$smarty.const._MD_SEARCH}>" />
+		</div>
+	</form>
+</div>
+<div style="float:<{$smarty.const._GLOBAL_RIGHT}>;padding:15px 0;">
+	<{$smarty.const._MD_TOTALTOPICSC}><strong><{$total_topics}></strong> |
+	<{$smarty.const._MD_TOTALPOSTSC}><strong><{$total_posts}></strong>
+</div>
+<div class="clear"></div>
+<div>
+<div id="forum_pagenav_top" style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{$forum_pagenav}>
+</div>
+<div class="dropdown">
+	<select
+		name="mainoption" id="mainoption"
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}">
+		<option value=""><{$smarty.const._MD_MAINFORUMOPT}></option>
+		<option value="<{$mark_read}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_READ}></option>
+		<option value="<{$mark_unread}>"><{$smarty.const._MD_MARK_ALL_FORUMS}>&nbsp;<{$smarty.const._MD_MARK_UNREAD}></option>
+		<option value="">--------</option>
+		<option value="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></option>
+		<option value="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></option>
+		<option value="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></option>
+		<option value="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></option>
+		<option value="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></option>
+		<option value="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></option>
+		<{if $forum_index_cpanel}>
+		<option value="">--------</option>
+		<option value="<{$forum_index_cpanel.link}>"><{$forum_index_cpanel.name}></option>
+		<{/if}>
+	</select>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- start forum categories -->
+<div>
+<{foreach item=category from=$categories}>
+<div class="head" style="font-weight:normal;margin-top:5px;border-top:1px dotted;">
+		<span style="padding-top:5px;position:relative;float: <{$smarty.const._GLOBAL_RIGHT}>">
+		<{if $category.cat_sponsor}>
+		<a href="<{$category.cat_sponsor.link}>" title="<{$category.cat_sponsor.title}>" rel="external"><{$category.cat_sponsor.title}></a>
+		<{/if}>
+		<img style="cursor: pointer;" onclick="ToggleBlock2('cat_<{$category.cat_id}>', this)" src="<{$category.cat_display_icon}>" alt="" />
+		</span>
+		
+		<h2 class="h2_forum"><span><a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php?cat=<{$category.cat_id}>"><{$category.cat_title}></a></span></h2>
+			<{if $category.cat_image}>
+			<img src="<{$category.cat_image}>" alt="<{$category.cat_title}>" />
+			<{/if}>
+		<{if $category.cat_description}><p class="desc"><{$category.cat_description}></p><{/if}>
+</div>
+<div id="cat_<{$category.cat_id}>" style="display: <{$category.cat_display}>">
+<table width="100%" cellpadding="0" cellspacing="0">
+
+<!-- start forums -->
+<{if $subforum_display == "expand"}>
+<{foreach item=forum from=$category.forums}>
+    <tr class="<{cycle values="even,odd"}>">
+      <td style="width:1%;vertical-align:middle;text-align:center;"><{$forum.forum_folder}></td>
+      <td colspan="2" style="vertical-align:middle;">
+		<div class="index_forum">
+	      	<div style="font-weight:bold;"><a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
+	      	<{if $rss_enable}>
+			(<a href="<{$icms_url}>/modules/<{$icms_dirname}>/rss.php?f=<{$forum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
+			<{/if}>
+	      	<div style="font-size:80%;"><{$forum.forum_desc}></div>
+	      	</div>
+			<{if $forum.forum_moderators}>
+			<span class="extra" style="font-size:80%;">
+        	<{$smarty.const._MD_MODERATOR}>: <{$forum.forum_moderators}>
+        	</span>
+        	<{/if}>
+        </div>
+      </td>
+      <td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$forum.forum_topics}></p><{$smarty.const._MD_TOPICS}> </td>
+      <td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$forum.forum_posts}></p><{$smarty.const._MD_POSTS}> </td>
+      <td style="width:25%;vertical-align:middle;text-align:<{$smarty.const._GLOBAL_RIGHT}>;"><{$forum.forum_lastpost_icon}><br />
+      	<{$forum.forum_lastpost_time}><br />
+		<{$forum.forum_lastpost_user}>
+	  </td>
+    </tr>
+<{if $forum.subforum}>
+    <tr class="head" >
+      <td style="width: 5%;" align="center"><{$img_subforum}>&nbsp;</td>
+      <td colspan="5" class="nowrap" align="<{$smarty.const._GLOBAL_LEFT}>"><{$smarty.const._MD_SUBFORUMS}></td>
+    </tr>
+<{foreach item=subforum from=$forum.subforum}>
+   <tr class="<{cycle values="even,odd"}>">
+      <td style="width:1%;vertical-align:middle;text-align:center;"><{$subforum.forum_folder}></td>
+      <td colspan="2" style="vertical-align:middle;">
+		<div>
+	      	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$subforum.forum_id}>"><strong><{$subforum.forum_name}></strong></a>
+	      	<{if $rss_enable}>
+			(<a href="<{$icms_url}>/modules/<{$icms_dirname}>/rss.php?f=<{$subforum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
+			<{/if}>
+	      	<div><{$subforum.forum_desc}></div>
+			<{if $subforum.forum_moderators}>
+			<span class="extra" style="font-size:80%;">
+        	<{$smarty.const._MD_MODERATOR}>: <{$subforum.forum_moderators}>
+        	</span>
+        	<{/if}>
+        </div>
+	  </td>
+      <td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$subforum.forum_topics}></p><{$smarty.const._MD_TOPICS}></td>
+      <td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$subforum.forum_posts}></p><{$smarty.const._MD_POSTS}></td>
+      <td style="width:25%;vertical-align:middle;text-align:<{$smarty.const._GLOBAL_RIGHT}>;"><{$subforum.forum_lastpost_icon}><br />
+      	<{$subforum.forum_lastpost_time}><br />
+		<{$subforum.forum_lastpost_user}>
+	  </td>
+   </tr>
+<{/foreach}>
+<{/if}>
+<{/foreach}>
+
+<{elseif $subforum_display == "collapse"}>
+
+<{foreach item=forum from=$category.forums}>
+	<tr class="<{cycle values="even,odd"}>">
+		<{if $forum.subforum}>
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><{$forum.forum_folder}></td>
+		<{else}>
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><{$forum.forum_folder}></td>
+		<{/if}>
+      	<td style="vertical-align:middle;">
+		<div>
+	      	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
+	      	<{if $rss_enable}>
+			(<a href="<{$icms_url}>/modules/<{$icms_dirname}>/rss.php?f=<{$forum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
+			<{/if}><br />
+			<div style="font-size:80%;"><{$forum.forum_desc}></div>
+			<{if $forum.forum_moderators}>
+			<span class="extra" style="font-size:80%;">
+        	<{$smarty.const._MD_MODERATOR}>: <{$forum.forum_moderators}>
+        	</span>
+        	<{/if}>
+		<{if $forum.subforum}>
+		<div style="border-top:1px dotted;clear:<{$smarty.const._GLOBAL_LEFT}>;margin-top:4px;margin-bottom:4px;"></div>
+		<div><{$smarty.const._MD_SUBFORUMS}>&nbsp;<{$img_subforum}>&nbsp;
+			<{foreach item=subforum from=$forum.subforum}>
+			&nbsp;[<a href="viewforum.php?forum=<{$subforum.forum_id}>"><{$subforum.forum_name}></a>]
+			<{/foreach}>
+		</div>
+		<{/if}>
+        </div>
+        </td>
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{if $forum.subforum}><{else}><{$forum.forum_topics}></p><{$smarty.const._MD_TOPICS}><{/if}></td>
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{if $forum.subforum}><{else}><{$forum.forum_posts}></p><{$smarty.const._MD_POSTS}><{/if}></td>
+      	<td style="width:25%;vertical-align:middle;text-align:<{$smarty.const._GLOBAL_RIGHT}>;"><{if $forum.subforum}><{else}><{$forum.forum_lastpost_icon}><br />
+      		<{$forum.forum_lastpost_time}><br />
+			<{$forum.forum_lastpost_user}><{/if}>
+		</td>
+    </tr>
+<{/foreach}>
+
+<{else}>
+
+<{foreach item=forum from=$category.forums}>
+	<tr class="<{cycle values="even,odd"}>">
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><{$forum.forum_folder}></td>
+      	<td style="vertical-align:middle;">
+		<div class="index_forum">
+	      	<span><a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
+	      	<{if $rss_enable}>
+			(<a href="<{$icms_url}>/modules/<{$icms_dirname}>/rss.php?f=<{$forum.forum_id}>" rel="external" title="RSS feed">RSS</a>)
+			<{/if}>
+	      	</span>
+	      	<div style="font-size:80%;"><{$forum.forum_desc}></div>
+			<{if $forum.forum_moderators}>
+			<span class="extra" style="font-size:80%;">
+        	<{$smarty.const._MD_MODERATOR}>: <{$forum.forum_moderators}>
+        	</span>
+        	<{/if}>
+        </div>
+        </td>
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$forum.forum_topics}></p><{$smarty.const._MD_TOPICS}></td>
+      	<td style="width:1%;vertical-align:middle;text-align:center;"><p style="font-weight: bold;"><{$forum.forum_posts}></p><{$smarty.const._MD_POSTS}></td>
+      	<td style="width:25%;vertical-align:middle;text-align:<{$smarty.const._GLOBAL_RIGHT}>;"><{$forum.forum_lastpost_icon}><br />
+      		<{$forum.forum_lastpost_time}><br />
+			<{$forum.forum_lastpost_user}>
+		</td>
+    </tr>
+<{/foreach}>
+
+<{/if}>
+  <!-- end forums -->
+</table>
+</div>
+<{/foreach}>
+<!-- end forum categories -->
+</div>
+
+<br />
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+	<{$img_hotfolder}> = <{$smarty.const._MD_NEWPOSTS}><br />
+	<{$img_folder}> = <{$smarty.const._MD_NONEWPOSTS}><br />
+	<{$img_locked_newposts}> = <{$smarty.const._MD_INACTIVEFORUM_NEWPOSTS}><br />
+	<{$img_locked_nonewposts}> = <{$smarty.const._MD_INACTIVEFORUM_NONEWPOSTS}>
+</div>
+<div class="clear"></div>
+
+<br style="clear: both;" />
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;padding-top: 5px;">
+	<{if $viewer_level gt 1}>
+		<{if $mode gt 0}>
+		<a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php?mode=0&amp;cat=<{$viewcat}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a> 
+		<{else}>
+		<a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php?mode=1&amp;cat=<{$viewcat}>" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+		<{/if}> 
+	<{/if}>
+	<{if $rss_button}>
+	<a href="<{$icms_url}>/modules/<{$icms_dirname}>/rss.php?c=<{$viewcat}>" rel="external" title="RSS FEED"><{$rss_button}></a>
+	<br />
+	<{/if}>
+</div>
+<div class="clear"></div>
+
+
+<{if $online}><{include file="db:iforum_online.html"}><{/if}>
+<{include file='db:system_notification_select.html'}>
+<!-- end module contents -->

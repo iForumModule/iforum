@@ -1,0 +1,174 @@
+<script type="text/javascript" src="<{$icms_url}>/modules/<{$icms_dirname}>/templates/collapse.js"></script>
+
+<div id="index_welcome">
+<div class="title"><a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php"><{$lang_forum_index}></a> 
+> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
+
+<{if $parent_forum}>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a> 
+> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a> 
+<{else}>
+> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a>
+<{/if}>
+</div>
+<div class="desc"><strong><{$topic_title}></strong> <{if $topictype}><{$topictype}><{/if}></div>
+</div>
+<div class="clear"></div>
+
+<{if $topic_poll}>
+<{if $topic_pollresult}> <{include file="db:iforum_poll_results.html" poll=$poll}>
+<{else}> <{include file="db:iforum_poll_view.html" poll=$poll}> <{/if}>
+<div class="clear"></div>
+<{/if}>
+
+<div style="padding: 5px;">
+<a id="threadtop"></a>
+<span style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{$forum_reply}><{$forum_addpoll}>&nbsp;<{$forum_post_or_register}>
+</span>
+</div>
+<div class="clear"></div>
+<div class="clear"></div>
+<!--[if IE]> <br /><br /> <![endif]-->
+<div class="forum_controls">
+<div id="forum_pagenav_top" style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{$forum_page_nav}>
+</div>
+<div class="dropdown">
+	<select
+		name="topicoption" id="topicoption"
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}">
+		<option value=""><{$smarty.const._MD_TOPICOPTION}></option>
+		<{if $viewer_level gt 1}>
+		<{foreach item=act from=$admin_actions}>
+		<option value="<{$act.link}>"><{$act.name}></option>
+		<{/foreach}>
+		<option value=""> </option>
+		<{/if}>
+		<{if count($adminpoll_actions)>0 }>
+		<option value=""><{$smarty.const._MD_POLLOPTIONADMIN}></option>
+		<{foreach item=actpoll from=$adminpoll_actions}>
+		<option value="<{$actpoll.link}>"><{$actpoll.name}></option>
+		<{/foreach}>
+		<option value=""> </option>
+		<{/if}>
+		<!--
+		<option value=""> </option>
+		<option value="<{$topic_print_link}>"><{$smarty.const._MD_PRINTTOPICS}></option>
+		-->
+	</select>
+
+	<{if $rating_enable}>
+	<select
+		name="rate" id="rate"
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}">
+		<option value=""><{$smarty.const._MD_RATE}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_RATE5}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_RATE4}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=3"><{$smarty.const._MD_RATE3}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=2"><{$smarty.const._MD_RATE2}></option>
+		<option value="ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=1"><{$smarty.const._MD_RATE1}></option>
+	</select>
+	<{/if}>
+
+	<select
+		name="viewmode" id="viewmode"
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.location=this.options[this.selectedIndex].value;}">
+		<option value=""><{$smarty.const._MD_VIEWMODE}></option>
+		<{foreach item=act from=$viewmode_options}>
+		<option value="<{$act.link}>"><{$act.title}></option>
+		<{/foreach}>
+	</select>
+</div>
+<div class="clear"></div>
+
+<{if $mode gt 1}>
+<form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="javascript: if(window.document.forum_posts_admin.op.value &lt; 1){return false;}">
+<{/if}>
+</div>
+
+<{foreach item=topic_post from=$topic_posts}>
+<{include file="$iforum_template_path/iforum_left.html" topic_post=$topic_post}>
+<br />
+<{/foreach}>
+<div class="clear"></div>
+
+<a id="threadbottom"></a>
+
+<div style="clear: both; padding: 5px; float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{if $quickreply.show}>
+<a href="#threadbottom" onclick="ToggleBlock('qr', this)"> <{$quickreply.icon}></a><{/if}>
+<{$forum_addpoll}><{$forum_reply}>&nbsp;<{$forum_post_or_register}>&nbsp;<a href="javascript:toggleLayer('extras');"><{$forum_extras}></a>
+</div>
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+	<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$left}>&nbsp;<{$smarty.const._MD_PREVTOPIC}></a>&nbsp;&nbsp;<a href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$right}>&nbsp;<{$smarty.const._MD_NEXTTOPIC}></a>
+	<div class="clear"></div>
+	<{$forum_page_nav}>
+</div>
+<div class="clear"></div>
+<{if $quickreply.show}>
+<div class="clear"></div>
+<br />
+<!--[if gte IE 7]> <br /><br /> <![endif]-->
+<div id="qr" style="display: <{$quickreply.display}>">
+<div><{$quickreply.form}></div>
+</div>
+<div class="clear"></div>
+<{/if}>
+
+
+<{if $viewer_level gt 1}>
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;" id="admin">
+<{if $mode gt 1}>
+<{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');" /> 
+<select name="op">
+	<option value="0"><{$smarty.const._SELECT}></option>
+	<option value="delete"><{$smarty.const._DELETE}></option>
+	<{if $type eq "pending"}>
+		<option value="approve"><{$smarty.const._MD_APPROVE}></option>
+	<{elseif $type eq "deleted"}>
+		<option value="restore"><{$smarty.const._MD_RESTORE}></option>
+	<{/if}>
+</select>
+<input type="hidden" name="topic_id" value="<{$topic_id}>" /> 
+<input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>" /> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+</form>
+<{elseif $mode eq 1}>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=active#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=pending#admin" target="_self" title="<{$smarty.const._MD_TYPE_PENDING}>"><{$smarty.const._MD_TYPE_PENDING}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;type=deleted#admin" target="_self" title="<{$smarty.const._MD_TYPE_DELETED}>"><{$smarty.const._MD_TYPE_DELETED}></a> | 
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>" target="_self" title="<{$smarty.const._MD_TYPE_VIEW}>"><{$smarty.const._MD_TYPE_VIEW}></a>
+<{else}>
+<a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewtopic.php?topic_id=<{$topic_id}>&amp;mode=1#admin" target="_self" title="<{$smarty.const._MD_TYPE_ADMIN}>"><{$smarty.const._MD_TYPE_ADMIN}></a>
+<{/if}>
+</div>
+<br />
+<{/if}>
+<div class="clear"></div>
+
+<div id="extras">
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<{foreach item=perm from=$permission_table}>
+<div><{$perm}></div>
+<{/foreach}>
+</div>
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<form action="search.php" method="get"><div>
+<input name="term" id="term" type="text" size="15" />
+<input type="hidden" name="forum" id="forum" value="<{$forum_id}>" />
+<input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
+<input type="hidden" name="since" id="since" value="<{$forum_since}>" />
+<input type="hidden" name="action" id="action" value="yes" />
+<input type="hidden" name="searchin" id="searchin" value="both" />
+<input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
+[<a href="<{$icms_url}>/modules/<{$icms_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]</div>
+</form><br />
+<{$forum_jumpbox}>
+</div>
+</div>
+<div class="clear"></div>
+
+<br />
+<{if $online}><{include file="db:iforum_online.html"}><{/if}>
+<{include file='db:system_notification_select.html'}>

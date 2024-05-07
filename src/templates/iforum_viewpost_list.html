@@ -1,0 +1,90 @@
+<div id="forum_header">
+<div><{$folder_topic}> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/index.php"><{$lang_forum_index}></a></div>
+
+<{if $parent_forum}>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$parent_forum}>"><{$parent_name}></a></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<{$folder_topic}> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<{elseif $forum_name}>
+<div>&nbsp;&nbsp;<{$folder_topic}> <a href="<{$icms_url}>/modules/<{$icms_dirname}>/viewforum.php?forum=<{$forum_id}>"><{$forum_name}></a></div>
+<{/if}>
+<div>&nbsp;&nbsp; <{$post_content}> <strong><{$lang_title}></strong></div>
+</div>
+<div class="clear"></div>
+
+<br />
+<div>
+<div class="dropdown">
+	<select
+		name="topicoption" id="topicoption"
+		onchange="javascript: if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}">
+		<option value=""><{$smarty.const._MD_TOPICOPTION}></option>
+		<option value="<{$post_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALLPOSTS}></option>
+		<option value="<{$newpost_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_NEWPOSTS}></option>
+		<option value="<{$all_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_ALL}></option>
+		<option value="<{$digest_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_DIGEST}></option>
+		<option value="<{$unreplied_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREPLIED}></option>
+		<option value="<{$unread_link}>"><{$smarty.const._MD_VIEW}>&nbsp;<{$smarty.const._MD_UNREAD}></option>
+	</select>
+</div>
+<div style="padding: 5px;float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{$pagenav}>
+</div>
+</div>
+<div class="clear"></div>
+<br />
+<br />
+
+<table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
+
+    <tr class="head" align="<{$smarty.const._GLOBAL_LEFT}>">
+		<th colspan="2" align="center"><strong><{$smarty.const._MD_POSTS}></strong></th>
+		<th width="15%" align="center" nowrap="nowrap"><strong><{$smarty.const._MD_FORUM}></strong></th>
+		<th width="15%" align="center" nowrap="nowrap"><strong><{$smarty.const._MD_POSTER}></strong></th>
+		<th width="15%" align="center" nowrap="nowrap"><strong><{$smarty.const._MD_DATE}></strong></th>
+	</tr>
+
+  <!-- start forum topic -->
+<{foreach name=loop item=post from=$posts}>
+  <tr class="<{cycle values="even,odd"}>">
+    <td width="4%" align="center"><{$post.image}></td>
+    <td>&nbsp;<{$post.title}></td>
+    <td align="<{$smarty.const._GLOBAL_LEFT}>" valign="middle"><{$post.forum}></td>
+    <td align="center" valign="middle"><{$post.poster}></td>
+    <td align="<{$smarty.const._GLOBAL_RIGHT}>" valign="middle"><{$post.time}></td>
+  </tr>
+<{/foreach}>
+  <!-- end forum topic -->
+</table>
+<!-- end forum main table -->
+
+<br />
+
+<div style="padding: 5px; float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{$pagenav}>
+</div>
+<div class="clear"></div>
+
+<br />
+<br />
+<div>
+<div style="float: <{$smarty.const._GLOBAL_LEFT}>; text-align: <{$smarty.const._GLOBAL_LEFT}>;">
+<form action="search.php" method="get">
+<input name="term" id="term" type="text" size="15" />
+<input type="hidden" name="sortby" id="sortby" value="p.post_time desc" />
+<input type="hidden" name="action" id="action" value="yes" />
+<input type="hidden" name="searchin" id="searchin" value="both" />
+<input type="submit" class="formButton" value="<{$smarty.const._MD_SEARCH}>" /><br />
+[<a href="<{$icms_url}>/modules/<{$icms_dirname}>/search.php"><{$smarty.const._MD_ADVSEARCH}></a>]
+</form>
+</div>
+<div style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
+<{$forum_jumpbox}>
+</div>
+</div>
+<div class="clear"></div>
+<br />
+<br />
+
+<{if $online}><{include file="db:iforum_online.html"}><{/if}>
+<{include file='db:system_notification_select.html'}>
+<!-- end module contents -->
