@@ -17,11 +17,11 @@
 * @author  McDonald
 * @version  $Id$
 */
- 
-$admin_dirname = basename(dirname(dirname(__FILE__ ) ) );
- 
-global $icmsModule, $icmsConfig;
- 
+
+$admin_dirname = basename(dirname(__FILE__, 2));
+
+global $icmsConfig;
+
 $adminmenu[0]['title'] = _MI_IFORUM_ADMENU_INDEX;
 $adminmenu[0]['link'] = 'admin/index.php';
 $adminmenu[0]['icon'] = 'images/home.png';
@@ -55,10 +55,10 @@ $adminmenu[9]['icon'] = 'images/digest.png';
 $adminmenu[10]['title'] = _MI_IFORUM_ADMENU_VOTE;
 $adminmenu[10]['link'] = 'admin/admin_votedata.php';
 $adminmenu[10]['icon'] = 'images/votes.png';
- 
-if (isset($icmsModule ) )
+
+if (isset(icms::$module ) )
 {
-	 
+
 	if (file_exists(ICMS_ROOT_PATH . '/modules/' . $admin_dirname . '/language/' . $icmsConfig['language'] . '/admin.php' ) )
 	{
 		include_once ICMS_ROOT_PATH . '/modules/' . $admin_dirname . '/language/' . $icmsConfig['language'] . '/admin.php';
@@ -67,21 +67,19 @@ if (isset($icmsModule ) )
 	{
 		include_once ICMS_ROOT_PATH . '/modules/' . $admin_dirname . '/language/english/admin.php';
 	}
-	 
+
 	$i = -1;
-	 
+
 	$i++;
 	$headermenu[$i]['title'] = icms::$module->getVar('name' );
 	$headermenu[$i]['link'] = ICMS_URL . '/modules/' . $admin_dirname .'/index.php';
-	 
+
 	$i++;
 	$headermenu[$i]['title'] = _PREFERENCES;
 	$headermenu[$i]['link'] = '../../system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . icms::$module->getVar('mid' );
-	 
+
 	$i++;
 	$headermenu[$i]['title'] = _AM_IFORUM_ABOUT;
 	$headermenu[$i]['link'] = ICMS_URL . '/modules/' . $admin_dirname . '/admin/about.php';
-	 
+
 }
- 
-?>

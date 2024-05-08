@@ -98,7 +98,7 @@ switch($op)
 	$reports = $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
 	foreach($reports as $report)
 	{
-		$post_link = "<a href=\"".ICMS_URL."/modules/".$icmsModule->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".icms_core_DataFilter::htmlSpecialchars($report['subject'])."</a>";
+		$post_link = "<a href=\"".ICMS_URL."/modules/".icms::$module->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".icms_core_DataFilter::htmlSpecialchars($report['subject'])."</a>";
 		$checkbox = '<input type="checkbox" name="report_id['.$report['report_id'].']" value="1" checked="checked" />';
 		if ($item == 'process')
 		{
