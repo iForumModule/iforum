@@ -51,12 +51,12 @@ if (empty($rate))
 	redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_NOVOTERATE);
 	exit();
 }
-$rate_handler = icms_getmodulehandler("rate", $icmsModule->getVar("dirname"), "iforum");
+$rate_handler = icms_getmodulehandler("rate", icms::$module->getVar("dirname"), "iforum");
 if ($ratinguser != 0) {
 	// Check if Topic POSTER is voting (UNLESS Anonymous users allowed to post)
 	$crit_post = new icms_db_criteria_Compo(new icms_db_criteria_Item("topic_id", $topic_id));
 	$crit_post->add(new icms_db_criteria_Item("uid", $ratinguser));
-	$post_handler = icms_getmodulehandler("post", $icmsModule->getVar("dirname"), "iforum");
+	$post_handler = icms_getmodulehandler("post", icms::$module->getVar("dirname"), "iforum");
 	if ($post_handler->getCount($crit_post)) {
 		redirect_header("viewtopic.php?topic_id=".$topic_id."&amp;forum=".$forum."", 4, _MD_CANTVOTEOWN);
 		exit();

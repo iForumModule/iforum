@@ -32,7 +32,7 @@ if ($icmsConfigSearch['enable_search'] != 1)
 	exit();
 }
  
-$icmsConfig['module_cache'][$icmsModule->getVar('mid')] = 0;
+$icmsConfig['module_cache'][icms::$module->getVar('mid')] = 0;
 $xoopsOption['template_main'] = 'iforum_search.html';
 include ICMS_ROOT_PATH.'/header.php';
  
@@ -196,7 +196,7 @@ if (!empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !em
 			unset($next_search);
 			unset($items);
 		}
-		$search_url = ICMS_URL.'/modules/'.$icmsModule->getVar('dirname')."/search.php?".$paras;
+		$search_url = ICMS_URL.'/modules/'.icms::$module->getVar('dirname')."/search.php?".$paras;
 		 
 		$next_results = iforum_search($queries, $andor, 1, $start + $limit, $uid, $forum, $sortby, $searchin, $subquery);
 		$next_count = count($next_results);

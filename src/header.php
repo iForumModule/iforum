@@ -24,14 +24,14 @@
 */
  
 include_once '../../mainfile.php';
-include_once ICMS_ROOT_PATH."/modules/".$icmsModule->getVar("dirname")."/include/vars.php";
-include_once ICMS_ROOT_PATH."/modules/".$icmsModule->getVar("dirname")."/include/functions.php";
-include_once ICMS_ROOT_PATH."/modules/".$icmsModule->getVar("dirname")."/class/art/functions.php";
+include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/vars.php";
+include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/functions.php";
+include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/class/art/functions.php";
  
 $myts = MyTextSanitizer::getInstance();
  
 $iforum_module_header = '';
-$iforum_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.$icmsModule->getVar('name').'" href="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/rss.php" />';
+$iforum_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />';
 if (!empty(icms::$module->config['pngforie_enabled']))
 {
 	$iforum_module_header .= '<style type="text/css">img {behavior:url("include/pngbehavior.htc");}</style>';

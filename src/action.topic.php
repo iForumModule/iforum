@@ -22,9 +22,9 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include 'header.php';
- 
+
 $forum_id = isset($_POST['forum_id']) ? intval($_POST['forum_id']) :
  0;
 $topic_id = !empty($_POST['topic_id']) ? $_POST['topic_id'] :
@@ -33,14 +33,14 @@ $op = !empty($_POST['op']) ? $_POST['op']:
 "";
 $op = in_array($op, array("approve", "delete", "restore", "move"))? $op :
  "";
- 
- 
+
+
 if (empty($topic_id) || empty($op))
 {
 	redirect_header("javascript:history.go(-1);", 2, _MD_NORIGHTTOACCESS);
 	exit();
 }
- 
+
 $topic_id = array_values($topic_id);
 $topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
@@ -51,15 +51,15 @@ $forum_id = $forumtopic->getVar('forum_id');
 $forum_handler = icms_getmodulehandler('forum', basename( dirname( __FILE__ ) ), 'iforum' );
 $viewtopic_forum = $forum_handler->get($forum_id);
 */
- 
+
 $isadmin = iforum_isAdmin($forum_id);
- 
+
 if (!$isadmin)
 {
 	redirect_header("index.php", 2, _MD_NORIGHTTOACCESS);
 	exit();
 }
- 
+
 switch($op)
 {
 	case "restore":
@@ -90,16 +90,16 @@ switch($op)
 		$topic_handler->synchronization($topic_obj);
 		$forums[$topic_obj->getVar("forum_id")] = 1;
 	}
-	 
+
 	$criteria_forum = new icms_db_criteria_Item("forum_id", "(".implode(",", array_keys($forums)).")", "IN");
 	$forums_obj = $forum_handler->getAll($criteria_forum);
 	foreach(array_keys($forums_obj) as $id)
 	{
 		$forum_handler->synchronization($forums_obj[$id]);
 	}
-	 
+
 	if (empty(icms::$module->config['notification_enabled'])) break;
-	 
+
 	include_once 'include/notification.inc.php';
 	$notification_handler = icms::handler('icms_data_notification');
 	foreach(array_keys($topics_obj) as $id)
@@ -107,9 +107,9 @@ switch($op)
 		$topic_obj = & $topics_obj[$id];
 		$tags = array();
 		$tags['THREAD_NAME'] = $topic_obj->getVar("topic_title");
-		$tags['THREAD_URL'] = ICMS_URL . '/modules/' . $icmsModule->getVar('dirname') . '/viewtopic.php?topic_id=' . $id.'&amp;forum=' . $topic_obj->getVar('forum_id');
+		$tags['THREAD_URL'] = ICMS_URL . '/modules/' . icms::$module->getVar('dirname') . '/viewtopic.php?topic_id=' . $id.'&amp;forum=' . $topic_obj->getVar('forum_id');
 		$tags['FORUM_NAME'] = $forums_obj[$topic_obj->getVar("forum_id")]->getVar("forum_name");
-		$tags['FORUM_URL'] = ICMS_URL . '/modules/' . $icmsModule->getVar('dirname') . '/viewforum.php?forum=' . $topic_obj->getVar('forum_id');
+		$tags['FORUM_URL'] = ICMS_URL . '/modules/' . icms::$module->getVar('dirname') . '/viewforum.php?forum=' . $topic_obj->getVar('forum_id');
 		$notification_handler->triggerEvent('global', 0, 'new_thread', $tags);
 		$notification_handler->triggerEvent('forum', $topic_obj->getVar('forum_id'), 'new_thread', $tags);
 		$post_obj = $topic_handler->getTopPost($id);
@@ -135,7 +135,7 @@ switch($op)
 		$topic_handler->synchronization($topic_obj);
 		$forums[$topic_obj->getVar("forum_id")] = 1;
 	}
-	 
+
 	$criteria_forum = new icms_db_criteria_Item("forum_id", "(".implode(",", array_keys($forums)).")", "IN");
 	$forums_obj = $forum_handler->getAll($criteria_forum);
 	foreach(array_keys($forums_obj) as $id)
@@ -152,7 +152,7 @@ switch($op)
 		$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 		$post_handler->updateAll("forum_id", intval($_POST["newforum"]), $criteria, true);
 		$topic_handler->updateAll("forum_id", intval($_POST["newforum"]), $criteria, true);
-		 
+
 		$forum_handler->synchronization($_POST["newforum"]);
 		$forum_handler->synchronization($forum_id);
 	}
@@ -161,7 +161,7 @@ switch($op)
 		$category_handler = icms_getmodulehandler('category', basename(__DIR__), 'iforum' );
 		$categories = $category_handler->getAllCats('access', true);
 		$forums = $forum_handler->getForumsByCategory(array_keys($categories), 'post', false);
-		 
+
 		$box = '<select name="newforum" size="1">';
 		if (count($categories) > 0 && count($forums) > 0)
 		{
@@ -185,7 +185,7 @@ switch($op)
 		}
 		$box .= "</select>";
 		unset($forums, $categories);
-		 
+
 		echo "<form action='".$_SERVER['PHP_SELF']."' method='post'>";
 		echo "<table border='0' cellpadding='1' cellspacing='0' width='95%'>";
 		echo "<tr><td class='bg2'>";
@@ -216,5 +216,5 @@ else
 {
 	redirect_header("viewforum.php?forum=$forum_id", 2, _MD_DBUPDATED);
 }
- 
+
 include ICMS_ROOT_PATH.'/footer.php';

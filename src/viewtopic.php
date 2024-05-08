@@ -25,7 +25,7 @@
  
 include 'header.php';
 // To enable image auto-resize by js
-$icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
+$icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
  
 $topic_id = isset($_GET['topic_id']) ? (int)$_GET['topic_id'] :
  0;
@@ -174,20 +174,20 @@ iforum_setRead("topic", $topic_id, $forumtopic->getVar("topic_last_post_id"));
  
 if (!empty(icms::$module->config['rss_enable']))
 {
-	$icms_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.$icmsModule->getVar('name').'-'.$viewtopic_forum->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/rss.php?f='.$viewtopic_forum->getVar("forum_id").'" />';
+	$icms_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'-'.$viewtopic_forum->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php?f='.$viewtopic_forum->getVar("forum_id").'" />';
 }
-$icms_pagetitle = $forumtopic->getVar('topic_title') . ' [' . $icmsModule->getVar('name') ." - ". $viewtopic_forum->getVar('forum_name') . "]";
+$icms_pagetitle = $forumtopic->getVar('topic_title') . ' [' . icms::$module->getVar('name') ." - ". $viewtopic_forum->getVar('forum_name') . "]";
  
 $xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
 $xoopsOption['xoops_module_header'] = $icms_module_header;
 include ICMS_ROOT_PATH."/header.php";
-if ($icmsTpl->compile_check && is_dir(XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".$icmsModule->getVar("dirname")))
+if ($icmsTpl->compile_check && is_dir(XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".icms::$module->getVar("dirname")))
 {
-	$icmsTpl->assign('iforum_template_path', XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".$icmsModule->getVar("dirname"));
+	$icmsTpl->assign('iforum_template_path', XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".icms::$module->getVar("dirname"));
 }
 else
 {
-	$icmsTpl->assign('iforum_template_path', ICMS_ROOT_PATH."/modules/".$icmsModule->getVar("dirname")."/templates");
+	$icmsTpl->assign('iforum_template_path', ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/templates");
 }
 $icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
@@ -742,7 +742,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$groups = (is_object(icms::$user)) ? icms::$user->getGroups() :
 	 ICMS_GROUP_ANONYMOUS;
 	$gperm_handler = icms::handler('icms_member_groupperm');
-	if ($icmsConfig ['editor_default'] != 'dhtmltextarea' && $gperm_handler->checkRight('use_wysiwygeditor', 1, $groups, $icmsModule->getVar('mid'), false) && $viewtopic_forum->getVar('allow_html'))
+	if ($icmsConfig ['editor_default'] != 'dhtmltextarea' && $gperm_handler->checkRight('use_wysiwygeditor', 1, $groups, icms::$module->getVar('mid'), false) && $viewtopic_forum->getVar('allow_html'))
 	{
 		$forum_form->addElement(new icms_form_elements_Hidden('dohtml', 1));
 		$forum_form->addElement(new icms_form_elements_Hidden('dobr', 0));

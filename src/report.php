@@ -103,7 +103,7 @@ else
 {
 	 
 	// Disable cache
-	$icmsConfig["module_cache"][$icmsModule->getVar("mid")] = 0;
+	$icmsConfig["module_cache"][icms::$module->getVar("mid")] = 0;
 	include ICMS_ROOT_PATH.'/header.php';
  
 	$report_form = new icms_form_Theme('', 'reportform', 'report.php');

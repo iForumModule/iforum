@@ -68,10 +68,10 @@ if (!$forum_handler->getPermission($forum_obj))
 iforum_setRead("forum", $forum_id, $forum_obj->getVar("forum_last_post_id"));
  
  
-$icms_pagetitle = $forum_obj->getVar('forum_name') . " [" .$icmsModule->getVar('name')."]";
+$icms_pagetitle = $forum_obj->getVar('forum_name') . " [" .icms::$module->getVar('name')."]";
 if (!empty(icms::$module->config['rss_enable']))
 {
-	$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$icmsModule->getVar('name').'-'.$forum_obj->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
+	$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.icms::$module->getVar('name').'-'.$forum_obj->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
 }
  
 $xoopsOption['template_main'] = 'iforum_viewforum.html';
@@ -281,7 +281,7 @@ if (icms::$module->config['show_permissiontable'])
  
 if (icms::$module->config['rss_enable'] == 1)
 {
-	$icmsTpl->assign("rss_button", "<div><a href='".ICMS_URL . "/modules/" . $icmsModule->getVar("dirname") . "/rss.php?f=".$forum_obj->getVar('forum_id')."' title='RSS feed' target='_blank'>".iforum_displayImage($forumImage['rss'], 'RSS feed')."</a></div>");
+	$icmsTpl->assign("rss_button", "<div><a href='".ICMS_URL . "/modules/" . icms::$module->getVar("dirname") . "/rss.php?f=".$forum_obj->getVar('forum_id')."' title='RSS feed' target='_blank'>".iforum_displayImage($forumImage['rss'], 'RSS feed')."</a></div>");
 }
  
 include ICMS_ROOT_PATH."/footer.php";

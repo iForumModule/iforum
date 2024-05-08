@@ -16,5 +16,5 @@ if (defined("IFORUM_DISABLE_UPLOAD") && constant("IFORUM_DISABLE_UPLOAD"))
 {
 	define("FCKUPLOAD_DISABLED", 1);
 }
-define("XOOPS_FCK_FOLDER", $icmsModule->getVar("dirname"));
+define("XOOPS_FCK_FOLDER", icms::$module->getVar("dirname"));
 include ICMS_ROOT_PATH."/editors/FCKeditor/editor/filemanager/upload/php/upload.php";

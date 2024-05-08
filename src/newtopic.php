@@ -81,7 +81,7 @@ unset($topic_id);
  
  
 // Disable cache
-$icmsConfig["module_cache"][$icmsModule->getVar("mid")] = 0;
+$icmsConfig["module_cache"][icms::$module->getVar("mid")] = 0;
 include ICMS_ROOT_PATH.'/header.php';
 if (icms::$module->config['disc_show'] == 1 or icms::$module->config['disc_show'] == 3 )
 	{

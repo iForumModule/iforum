@@ -25,7 +25,7 @@
  
 include 'header.php';
 // To enable image auto-resize by js
-$icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
+$icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
  
 $start = !empty($_GET['start']) ? (int)$_GET['start'] :
  0;
@@ -152,18 +152,18 @@ if (count($posts) > 0) foreach (array_keys($posts) as $id)
 	$poster_array[$posts[$id]->getVar('uid')] = 1;
 }
  
-$icms_pagetitle = $icmsModule->getVar('name'). ' - ' ._MD_VIEWALLPOSTS;
+$icms_pagetitle = icms::$module->getVar('name'). ' - ' ._MD_VIEWALLPOSTS;
 $xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
 $xoopsOption['xoops_module_header'] = $icms_module_header;
 $xoopsOption['template_main'] = 'iforum_viewpost.html';
 include ICMS_ROOT_PATH."/header.php";
-if ($icmsTpl->compile_check && is_dir(XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".$icmsModule->getVar("dirname")))
+if ($icmsTpl->compile_check && is_dir(XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".icms::$module->getVar("dirname")))
 {
-	$icmsTpl->assign('iforum_template_path', XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".$icmsModule->getVar("dirname"));
+	$icmsTpl->assign('iforum_template_path', XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".icms::$module->getVar("dirname"));
 }
 else
 {
-	$icmsTpl->assign('iforum_template_path', ICMS_ROOT_PATH."/modules/".$icmsModule->getVar("dirname")."/templates");
+	$icmsTpl->assign('iforum_template_path', ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/templates");
 }
  
 if (!empty($forum_id))
@@ -183,17 +183,17 @@ if (!empty($forum_id))
 	$icmsTpl->assign('forum_name', $forum_obj->getVar('forum_name'));
 	$icmsTpl->assign('forum_moderators', $forum_obj->disp_forumModerators());
 	 
-	$icms_pagetitle = $forum_obj->getVar('forum_name'). ' - ' ._MD_VIEWALLPOSTS. ' [' . $icmsModule->getVar('name'). ']';
+	$icms_pagetitle = $forum_obj->getVar('forum_name'). ' - ' ._MD_VIEWALLPOSTS. ' [' . icms::$module->getVar('name'). ']';
 	$icmsTpl->assign("forum_id", $forum_obj->getVar('forum_id'));
 	 
 	if (!empty(icms::$module->config['rss_enable']))
 	{
-		$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$icmsModule->getVar('name').'-'.$forum_obj->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
+		$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.icms::$module->getVar('name').'-'.$forum_obj->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
 	}
 }
 elseif(!empty(icms::$module->config['rss_enable']))
 {
-	$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.$icmsModule->getVar('name').'" href="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/rss.php" />';
+	$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />';
 }
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
 $icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);

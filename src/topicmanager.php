@@ -92,7 +92,7 @@ $action['undigest']['sql'] = 'topic_digest = 0';
 $action['digest']['sql'] = 'topic_digest = 1, digest_time = '.time();
  
 // Disable cache
-$icmsConfig["module_cache"][$icmsModule->getVar("mid")] = 0;
+$icmsConfig["module_cache"][icms::$module->getVar("mid")] = 0;
 include ICMS_ROOT_PATH.'/header.php';
  
 if (isset($_POST['submit']) )
@@ -104,7 +104,7 @@ if (isset($_POST['submit']) )
 		$topic_handler->delete($topic_id);
 		$forum_handler->synchronization($forum);
 		//sync($topic_id, "topic");
-		//xoops_notification_deletebyitem ($icmsModule->getVar('mid'), 'thread', $topic_id);
+		//xoops_notification_deletebyitem (icms::$module->getVar('mid'), 'thread', $topic_id);
 		echo $action[$mode]['msg']."<p><a href='viewforum.php?forum=$forum'>"._MD_RETURNTOTHEFORUM."</a></p><p><a href='index.php'>"._MD_RETURNFORUMINDEX."</a></p>";
 	}
 	elseif('merge' == $mode)
@@ -147,7 +147,7 @@ if (isset($_POST['submit']) )
 				{
 					XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
 					XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
-					xoops_comment_delete($icmsModule->getVar('mid'), $poll->getVar('poll_id'));
+					xoops_comment_delete(icms::$module->getVar('mid'), $poll->getVar('poll_id'));
 				}
 			}
 		}

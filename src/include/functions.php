@@ -22,10 +22,10 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("IFORUM_FUNCTIONS")):
 define("IFORUM_FUNCTIONS", true);
- 
+
 include_once dirname(__FILE__)."/functions.ini.php";
 if (!defined("_GLOBAL_LEFT"))
 {
@@ -40,12 +40,12 @@ function &iforum_getUnameFromIds($userid, $usereal = 0, $linked = false )
 	$users = mod_getUnameFromIds($userid, $usereal, $linked);
 	return $users;
 }
- 
+
 function iforum_getUnameFromId($userid, $usereal = 0, $linked = false)
 {
 	return mod_getUnameFromId($userid, $usereal, $linked);
 }
- 
+
 function iforum_is_dir($dir)
 {
 	$openBasedir = ini_get('open_basedir');
@@ -53,10 +53,10 @@ function iforum_is_dir($dir)
 	{
 		return @is_dir($dir);
 	}
-	 
+
 	return in_array($dir, explode(':', $openBasedir));
 }
- 
+
 /*
 * Sorry, we have to use the stupid solution unless there is an option in MyTextSanitizer:: htmlspecialchars();
 */
@@ -64,18 +64,18 @@ function iforum_htmlSpecialChars($text)
 {
 	return preg_replace(array("/&amp;/i", "/&nbsp;/i"), array('&', '&amp;nbsp;'), htmlspecialchars($text));
 }
- 
+
 function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $config = 'display')
 {
 	// ################# Preload Trigger beforeDisplayTarea ##############
 	global $icmsPreloadHandler, $myts;
 	$icmsPreloadHandler->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
-	 
+
 	if ($html != 1)
 	{
 		$text = icms_core_DataFilter::htmlSpecialchars($text);
 	}
-	 
+
 	$text = icms_core_DataFilter::codePreConv($text, $xcode); // Ryuji_edit(2003-11-18)
 	$text = icms_core_DataFilter::makeClickable($text);
 	if ($smiley != 0)
@@ -108,7 +108,7 @@ function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image 
 	$icmsPreloadHandler->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 	return $text;
 }
- 
+
 /*
 * Filter out possible malicious text
 * kses project at SF could be a good solution to check
@@ -122,7 +122,7 @@ function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image 
 function &iforum_textFilter($text, $force = false)
 {
 	global $icmsConfig;
-	 
+
 	if (empty($force) && is_object(icms::$user) && icms::$user->isAdmin())
 	{
 		return $text;
@@ -131,7 +131,7 @@ function &iforum_textFilter($text, $force = false)
 	$tags = empty($icmsConfig["filter_tags"])?array():
 	explode(",", $icmsConfig["filter_tags"]);
 	$tags = array_map("trim", $tags);
-	 
+
 	// Set embedded tags
 	$tags[] = "SCRIPT";
 	$tags[] = "VBSCRIPT";
@@ -150,20 +150,20 @@ function &iforum_textFilter($text, $force = false)
 	$text = preg_replace($search, $replace, $text);
 	return $text;
 }
- 
+
 function iforum_html2text($document)
 {
 	$text = strip_tags($document);
 	return $text;
 }
- 
+
 /*
 * Currently the iforum session/cookie handlers are limited to:
 * -- one dimension
 * -- "," and "|" are preserved
 *
 */
- 
+
 function iforum_setsession($name, $string = '')
 {
 	if (is_array($string))
@@ -177,7 +177,7 @@ function iforum_setsession($name, $string = '')
 	}
 	$_SESSION['iforum_'.$name] = $string;
 }
- 
+
 function iforum_getsession($name, $isArray = false)
 {
 	$value = !empty($_SESSION['iforum_'.$name]) ? $_SESSION['iforum_'.$name] :
@@ -197,7 +197,7 @@ function iforum_getsession($name, $isArray = false)
 	}
 	return $value;
 }
- 
+
 function iforum_setcookie($name, $string = '', $expire = 0)
 {
 	global $forumCookie;
@@ -212,7 +212,7 @@ function iforum_setcookie($name, $string = '', $expire = 0)
 	}
 	setcookie($forumCookie['prefix'].$name, $string, intval($expire), $forumCookie['path'], $forumCookie['domain'], $forumCookie['secure']);
 }
- 
+
 function iforum_getcookie($name, $isArray = false)
 {
 	global $forumCookie;
@@ -241,7 +241,7 @@ function iforum_getcookie($name, $isArray = false)
 	}
 	return $value;
 }
- 
+
 function iforum_checkTimelimit($action_last, $action_tag, $inMinute = true)
 {
 	if (!isset(icms::$module->config[$action_tag]) or icms::$module->config[$action_tag] == 0) return true;
@@ -250,16 +250,16 @@ function iforum_checkTimelimit($action_last, $action_tag, $inMinute = true)
 	return ($action_last > time()-$timelimit)?true:
 	false;
 }
- 
- 
+
+
 function &getModuleAdministrators($mid = 0)
 {
 	static $module_administrators = array();
 	if (isset($module_administrators[$mid])) return $module_administrators[$mid];
-	 
+
 	$moduleperm_handler = icms::handler('icms_member_groupperm');
 	$groupsIds = $moduleperm_handler->getGroupIds('module_admin', $mid);
-	 
+
 	$administrators = array();
 	$member_handler = icms::handler('icms_member');
 	foreach($groupsIds as $groupid)
@@ -274,13 +274,13 @@ function &getModuleAdministrators($mid = 0)
 	unset($administrators);
 	return $module_administrators[$mid];
 }
- 
+
 /* use hardcoded DB query to save queries */
 function iforum_isModuleAdministrator($uid = 0, $mid = 0)
 {
 	static $module_administrators = array();
 	if (isset($module_administrators[$mid][$uid])) return $module_administrators[$mid][$uid];
-	 
+
 	$sql = "SELECT COUNT(l.groupid) FROM ".icms::$xoopsDB->prefix('groups_users_link')." AS l". " LEFT JOIN ".icms::$xoopsDB->prefix('group_permission')." AS p ON p.gperm_groupid=l.groupid". " WHERE l.uid=".intval($uid). " AND p.gperm_modid = '1' AND p.gperm_name = 'module_admin' AND p.gperm_itemid = '".intval($mid)."'";
 	if (!$result = icms::$xoopsDB->query($sql))
 	{
@@ -293,12 +293,12 @@ function iforum_isModuleAdministrator($uid = 0, $mid = 0)
 	}
 	return $module_administrators[$mid][$uid];
 }
- 
+
 /* use hardcoded DB query to save queries */
 function iforum_isModuleAdministrators($uid = array(), $mid = 0)
 {
 	$module_administrators = array();
-	 
+
 	if (empty($uid)) return $module_administrators;
 	$sql = "SELECT COUNT(l.groupid) AS count, l.uid FROM ".icms::$xoopsDB->prefix('groups_users_link')." AS l". " LEFT JOIN ".icms::$xoopsDB->prefix('group_permission')." AS p ON p.gperm_groupid=l.groupid". " WHERE l.uid IN (".implode(", ", array_map("intval", $uid)).")". " AND p.gperm_modid = '1' AND p.gperm_name = 'module_admin' AND p.gperm_itemid = '".intval($mid)."'". " GROUP BY l.uid";
 	if ($result = icms::$xoopsDB->query($sql))
@@ -310,49 +310,48 @@ function iforum_isModuleAdministrators($uid = array(), $mid = 0)
 	}
 	return $module_administrators;
 }
- 
+
 function iforum_isAdministrator($user = -1, $mid = 0)
 {
-	global $icmsModule;
 	static $administrators, $iforum_mid;
-	 
+
 	if (is_numeric($user) && $user == -1) $user = & icms::$user;
 	if (!is_object($user) && intval($user) < 1) return false;
 	$uid = (is_object($user))?$user->getVar('uid'):
 	intval($user);
-	 
+
 	if (!$mid)
 	{
 		if (!isset($iforum_mid))
 		{
-			if (is_object($icmsModule)&& basename(dirname(dirname(__FILE__ ) ) ) == $icmsModule->getVar("dirname"))
+			if (is_object(icms::$module)&& basename(dirname(dirname(__FILE__ ) ) ) == icms::$module->getVar("dirname"))
 			{
-				$iforum_mid = $icmsModule->getVar('mid');
+				$iforum_mid = icms::$module->getVar('mid');
 			}
 			else
 			{
 				$modhandler = icms::handler('icms_module');
-				$iforum = $modhandler->getByDirname(basename(dirname(dirname(__FILE__ ) ) ));
+				$iforum = $modhandler->getByDirname(basename(dirname(__FILE__, 2)));
 				$iforum_mid = $iforum->getVar('mid');
 				unset($iforum);
 			}
 		}
 		$mid = $iforum_mid;
 	}
-	 
+
 	return iforum_isModuleAdministrator($uid, $mid);
 }
- 
+
 function iforum_isAdmin($forum = 0, $user = -1)
 {
 	static $_cachedModerators;
-	 
+
 	if (is_numeric($user) && $user == -1) $user = & icms::$user;
 	if (!is_object($user) && intval($user) < 1) return false;
 	$uid = (is_object($user))?$user->getVar('uid'):
 	intval($user);
 	if (iforum_isAdministrator($uid)) return true;
-	 
+
 	$cache_id = (is_object($forum))?$forum->getVar('forum_id'):
 	intval($forum);
 	if (!isset($_cachedModerators[$cache_id]))
@@ -363,11 +362,11 @@ function iforum_isAdmin($forum = 0, $user = -1)
 	}
 	return in_array($uid, $_cachedModerators[$cache_id]);
 }
- 
+
 function iforum_isModerator($forum = 0, $user = -1)
 {
 	static $_cachedModerators;
-	 
+
 	if (is_numeric($user) && $user == -1) $user = & icms::$user;
 	if (!is_object($user) && intval($user) < 1)
 	{
@@ -375,7 +374,7 @@ function iforum_isModerator($forum = 0, $user = -1)
 	}
 	$uid = (is_object($user))?$user->getVar('uid'):
 	intval($user);
-	 
+
 	$cache_id = (is_object($forum))?$forum->getVar('forum_id'):
 	intval($forum);
 	if (!isset($_cachedModerators[$cache_id]))
@@ -386,7 +385,7 @@ function iforum_isModerator($forum = 0, $user = -1)
 	}
 	return in_array($uid, $_cachedModerators[$cache_id]);
 }
- 
+
 function iforum_checkSubjectPrefixPermission($forum = 0, $user = -1)
 {
 	if (icms::$module->config['subject_prefix_level'] < 1)
@@ -429,7 +428,7 @@ function get_total_topics($forum_id = "")
 	}
 	return $topic_handler->getCount($criteria);
 }
- 
+
 /*
 * Returns the total number of posts in the whole system, a forum, or a topic
 * Also can return the number of users on the system.
@@ -452,7 +451,7 @@ function get_total_posts($id = 0, $type = "all")
 	}
 	return $post_handler->getCount($criteria);
 }
- 
+
 function get_total_views()
 {
 	$sql = "SELECT sum(topic_views) FROM ".icms::$xoopsDB->prefix("bb_topics")."";
@@ -463,14 +462,14 @@ function get_total_views()
 	list ($total) = icms::$xoopsDB->fetchRow($result);
 	return $total;
 }
- 
+
 function iforum_forumSelectBox($value = null, $permission = "access", $delimitor_category = true)
 {
 	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$categories = $category_handler->getAllCats($permission, true);
 	$forums = $forum_handler->getForumsByCategory(array_keys($categories), $permission, false);
-	 
+
 	if (!defined("_MD_SELFORUM"))
 	{
 		if (!($ret = @include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(dirname(__FILE__ ) ) )."/language/".$GLOBALS['icmsConfig']['language']."/main.php" ) ) )
@@ -506,10 +505,10 @@ function iforum_forumSelectBox($value = null, $permission = "access", $delimitor
 		$box .= "<option value='-1'>"._MD_NOFORUMINDB."</option>";
 	}
 	unset($forums, $categories);
-	 
+
 	return $box;
 }
- 
+
 function iforum_make_jumpbox($forum_id = 0)
 {
 	$box = '<form class="forum_jumpbox" name="forum_jumpbox" method="get" action="viewforum.php" onsubmit="javascript: if(document.forum_jumpbox.forum.value &lt; 1){return false;}">';
@@ -519,11 +518,11 @@ function iforum_make_jumpbox($forum_id = 0)
 	unset($forums, $categories);
 	return $box;
 }
- 
+
 function iforum_isIE5()
 {
 	static $user_agent_is_IE5;
-	 
+
 	if (isset($user_agent_is_IE5)) return $user_agent_is_IE5;
 	;
 	$msie = '/msie\s(5\.[5-9]|[6-9]\.[0-9]*).*(win)/i';
@@ -537,12 +536,12 @@ function iforum_isIE5()
 	}
 	return $user_agent_is_IE5;
 }
- 
+
 function iforum_displayImage($image, $alt = "", $width = 0, $height = 0, $style = "margin: 0px;", $sizeMeth = 'scale')
 {
 	global $forumImage;
 	static $image_type;
-	 
+
 	$user_agent_is_IE5 = iforum_isIE5();
 	if (!isset($image_type)) $image_type = (icms::$module->config['image_type'] == 'auto')?(($user_agent_is_IE5)?'gif':'png'):
 	icms::$module->config['image_type'];
@@ -567,13 +566,13 @@ function iforum_displayImage($image, $alt = "", $width = 0, $height = 0, $style 
 	}
 	$width .= 'px';
 	$height .= 'px';
-	 
+
 	$img_style = "width: $width; height:$height; $style";
 	$image_url = "<img src=\"".$image."\" style=\"".$img_style."\" alt=\"".$alt."\" />";
-	 
+
 	return $image_url;
 }
- 
+
 /**
 * iforum_updaterating()
 *
@@ -595,12 +594,12 @@ function iforum_updaterating($sel_id)
 	$sql = sprintf("UPDATE %s SET rating = %u, votes = %u WHERE topic_id = %u", icms::$xoopsDB->prefix('bb_topics'), $finalrating, $votesDB, $sel_id);
 	icms::$xoopsDB->queryF($sql);
 }
- 
+
 function iforum_sinceSelectBox($selected = 100)
 {
 	$select_array = explode(',', icms::$module->config['since_options']);
 	$select_array = array_map('trim', $select_array);
-	 
+
 	$forum_selection_since = '<select name="since">';
 	foreach ($select_array as $since)
 	{
@@ -618,17 +617,17 @@ function iforum_sinceSelectBox($selected = 100)
 	$forum_selection_since .= '<option value="365"'.(($selected == 365) ? ' selected="selected"' : '').'>'._MD_THELASTYEAR.'</option>';
 	$forum_selection_since .= '<option value="0"'.(($selected == 0) ? ' selected="selected"' : '').'>'._MD_BEGINNING.'</option>';
 	$forum_selection_since .= '</select>';
-	 
+
 	return $forum_selection_since;
 }
- 
+
 function iforum_getSinceTime($since = 100)
 {
 	if ($since == 1000) return 0;
 	if ($since > 0) return intval($since) * 24 * 3600;
 	else return intval(abs($since)) * 3600;
 }
- 
+
 function iforum_welcome($user = -1 )
 {
 	if (empty(icms::$module->config["welcome_forum"])) return null;
@@ -637,7 +636,7 @@ function iforum_welcome($user = -1 )
 	{
 		return false;
 	}
-	 
+
 	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$forum = $forum_handler->get(icms::$module->config["welcome_forum"]);
 	if (!$forum_handler->getPermission($forum))
@@ -649,7 +648,7 @@ function iforum_welcome($user = -1 )
 	include_once dirname(__FILE__)."/functions.welcome.php";
 	return iforum_welcome_create($user, icms::$module->config["welcome_forum"]);
 }
- 
+
 function iforum_synchronization($type = "")
 {
 	switch($type)
@@ -708,31 +707,31 @@ function iforum_synchronization($type = "")
 	endif;
 	return true;
 }
- 
+
 function iforum_setRead($type, $item_id, $post_id, $uid = null)
 {
 	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	return $read_handler->setRead($item_id, $post_id, $uid);
 }
- 
+
 function iforum_getRead($type, $item_id, $uid = null)
 {
 	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	return $read_handler->getRead($item_id, $uid);
 }
- 
+
 function iforum_setRead_forum($status = 0, $uid = null)
 {
 	$read_handler = icms_getmodulehandler("readforum", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	return $read_handler->setRead_items($status, $uid);
 }
- 
+
 function iforum_setRead_topic($status = 0, $forum_id = 0, $uid = null)
 {
 	$read_handler = icms_getmodulehandler("readtopic", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	return $read_handler->setRead_items($status, $forum_id, $uid);
 }
- 
+
 function iforum_isRead($type, &$items, $uid = null)
 {
 	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -757,16 +756,15 @@ function iforum_tag_module_included()
 	}
 	return $iforum_tag_module_included;
 }
- 
+
 // Add item_tag to Tag-module
 function iforum_tagupdate($topic_id, $item_tag)
 {
-	global $icmsModule;
 	if (iforum_tag_module_included())
 		{
 		include_once ICMS_ROOT_PATH . '/modules/tag/include/formtag.php';
 		$tag_handler = xoops_getmodulehandler('tag', 'tag');
-		$tag_handler->updateByItem($item_tag, $topic_id, $icmsModule->getVar('dirname' ), 0);
+		$tag_handler->updateByItem($item_tag, $topic_id, icms::$module->getVar('dirname' ), 0);
 	}
 }
 
@@ -776,5 +774,5 @@ function iforum_poll_module_active() {
 	if (!is_object($xoopspoll)) return false;
 	return $xoopspoll->getVar('isactive');
 }
- 
+
 endif;

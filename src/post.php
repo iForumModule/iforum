@@ -24,7 +24,7 @@
 */
  
 include 'header.php';
-include_once ICMS_ROOT_PATH . '/modules/' . $icmsModule->getVar("dirname") . '/class/uploader.php';
+include_once ICMS_ROOT_PATH . '/modules/' . icms::$module->getVar("dirname") . '/class/uploader.php';
  
 foreach (array(
 'forum',
@@ -366,7 +366,7 @@ if (!empty($_POST['contents_submit']) )
 		$topic->setVar("topic_tags", @$_POST["topic_tags"]);
 		if ($tag_handler = tag_getTagHandler() )
 		{
-			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'), $icmsModule->getVar("dirname"), 0);
+			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'), icms::$module->getVar("dirname"), 0);
 		}
 		$topic_handler->updateAll("topic_tags", @$_POST["topic_tags"], new icms_db_criteria_Item("topic_id", $forumpost->getVar('topic_id')));
 		 
@@ -383,7 +383,7 @@ if (!empty($_POST['contents_submit']) )
 	{
 		$tags = array();
 		$tags['THREAD_NAME'] = $_POST['subject'];
-		$tags['THREAD_URL'] = ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/viewtopic.php?post_id='.$postid.'&amp;topic_id=' . $forumpost->getVar('topic_id').'&amp;forum=' . $forumpost->getVar('forum_id');
+		$tags['THREAD_URL'] = ICMS_URL . '/modules/' . icms::$module->getVar("dirname") . '/viewtopic.php?post_id='.$postid.'&amp;topic_id=' . $forumpost->getVar('topic_id').'&amp;forum=' . $forumpost->getVar('forum_id');
 		$tags['POST_URL'] = $tags['THREAD_URL'] . '#forumpost' . $postid;
 		include_once 'include/notification.inc.php';
 		$forum_info = iforum_notify_iteminfo ('forum', $forum_obj->getVar('forum_id'));

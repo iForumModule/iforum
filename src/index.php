@@ -41,7 +41,7 @@ if (isset($_GET['mark_read']))
 		$markresult = _MD_MARK_UNREAD;
 	}
 	iforum_setRead_forum($markvalue);
-	$url = ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/index.php';
+	$url = ICMS_URL . '/modules/' . icms::$module->getVar("dirname") . '/index.php';
 	redirect_header($url, 2, _MD_ALL_FORUM_MARKED.' '.$markresult);
 }
  
@@ -53,7 +53,7 @@ if (!$viewcat)
 {
 	$categories = $category_handler->getAllCats('access', true);
 	$forum_index_title = "";
-	$icms_pagetitle = $icmsModule->getVar('name');
+	$icms_pagetitle = icms::$module->getVar('name');
 }
 else
 {
@@ -63,7 +63,7 @@ else
 		$categories[$viewcat] = & $category_obj;
 	}
 	$forum_index_title = sprintf(_MD_FORUMINDEX, htmlspecialchars($icmsConfig['sitename'], ENT_QUOTES));
-	$icms_pagetitle = $category_obj->getVar('cat_title') . " [" .$icmsModule->getVar('name')."]";
+	$icms_pagetitle = $category_obj->getVar('cat_title') . " [" .icms::$module->getVar('name')."]";
 }
 if (count($categories) == 0)
 {
@@ -75,7 +75,7 @@ if (count($categories) == 0)
 if (!empty(icms::$module->config['rss_enable']))
 {
 	$icms_module_header .= '
-		<link rel="alternate" type="application/rss+xml" title="'.$icmsModule->getVar('name').'" href="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/rss.php" />
+		<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />
 		';
 }
  
@@ -151,7 +151,7 @@ foreach(array_keys($categories) as $id)
 	if (!empty($url)) $cat_sponsor = array("title" => $title, "link" => formatURL($url));
 	if ($onecat->getVar('cat_image') && $onecat->getVar('cat_image') != "blank.gif")
 	{
-		$cat_image = ICMS_URL."/modules/" . $icmsModule->getVar("dirname") . "/images/category/" . $onecat->getVar('cat_image');
+		$cat_image = ICMS_URL."/modules/" . icms::$module->getVar("dirname") . "/images/category/" . $onecat->getVar('cat_image');
 	}
 	else
 	{
@@ -191,7 +191,7 @@ $mode = (!empty($_GET['mode'])) ? (int)$_GET['mode'] :
 $icmsTpl->assign('mode', $mode );
  
 $icmsTpl->assign('viewcat', $viewcat);
-$icmsTpl->assign('version', $icmsModule->getVar("version"));
+$icmsTpl->assign('version', icms::$module->getVar("version"));
  
 /* To be removed */
 if ($isadmin )

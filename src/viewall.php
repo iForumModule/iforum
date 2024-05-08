@@ -43,7 +43,7 @@ if (!$isadmin)
  
 if (!empty(icms::$module->config['rss_enable']))
 {
-	$icms_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.$icmsModule->getVar('name').'" href="'.ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/rss.php" />';
+	$icms_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />';
 }
 $xoopsOption['xoops_module_header'] = $icms_module_header;
 $xoopsOption['template_main'] = 'iforum_viewall.html';
@@ -194,6 +194,6 @@ $icmsTpl->assign('mode', $mode);
 $icmsTpl->assign('type', $type);
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
  
-$icmsTpl->assign('xoops_pagetitle', $icmsModule->getVar('name'). ' - ' .$current_type);
+$icmsTpl->assign('xoops_pagetitle', icms::$module->getVar('name'). ' - ' .$current_type);
  
 include ICMS_ROOT_PATH."/footer.php";

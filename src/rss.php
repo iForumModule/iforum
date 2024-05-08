@@ -87,7 +87,7 @@ $tpl->xoops_setCaching(1);
 $tpl->xoops_setCacheTime(icms::$module->config['rss_cachetime'] * 60);
  
 $compile_id = implode(",", $valid_forums);
-$xoopsCachedTemplateId = 'mod_'.$icmsModule->getVar('dirname').'|'.md5(str_replace(ICMS_URL, '', $GLOBALS['xoopsRequestUri']));
+$xoopsCachedTemplateId = 'mod_'.icms::$module->getVar('dirname').'|'.md5(str_replace(ICMS_URL, '', $GLOBALS['xoopsRequestUri']));
 if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 {
 	 
@@ -96,21 +96,21 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 	 
 	$rss->setVarRss('channel_title', $icmsConfig['sitename'].' :: '._MD_FORUM);
 	$rss->channel_link = ICMS_URL.'/';
-	$rss->setVarRss('channel_desc', $icmsConfig['slogan'].' :: '.$icmsModule->getInfo('description'));
+	$rss->setVarRss('channel_desc', $icmsConfig['slogan'].' :: '.icms::$module->getInfo('description'));
 	// There is a "bug" with xoops function formatTimestamp(time(), 'rss')
 	// We have to make a customized function
 	//$rss->channel_lastbuild = formatTimestamp(time(), 'rss');
 	$rss->setVarRss('channel_lastbuild', formatTimestamp(time(), 'rss'));
 	$rss->channel_webmaster = $icmsConfig['adminmail'];
 	$rss->channel_editor = $icmsConfig['adminmail'];
-	$rss->setVarRss('channel_category', $icmsModule->getVar('name'));
-	$rss->channel_generator = "CBB ".$icmsModule->getInfo('version');
+	$rss->setVarRss('channel_category', icms::$module->getVar('name'));
+	$rss->channel_generator = "CBB ".icms::$module->getInfo('version');
 	$rss->channel_language = _LANGCODE;
 	$rss->xml_encoding = empty(icms::$module->config['rss_utf8'])?_CHARSET:
 	'UTF-8';
-	$rss->image_url = ICMS_URL.'/modules/'.$icmsModule->getVar('dirname').'/'.$icmsModule->getInfo('image');
+	$rss->image_url = ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/'.icms::$module->getInfo('image');
 	 
-	$dimention = getimagesize(ICMS_ROOT_PATH.'/modules/'.$icmsModule->getVar('dirname').'/'.$icmsModule->getInfo('image'));
+	$dimention = getimagesize(ICMS_ROOT_PATH.'/modules/'.icms::$module->getVar('dirname').'/'.icms::$module->getInfo('image'));
 	if (empty($dimention[0]))
 	{
 		$width = 88;
@@ -196,7 +196,7 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 		$description .= $myts->displayTarea($topic['post_text'], $topic['dohtml'], $topic['dosmiley'], $topic['doxcode']);
 		$label = _MD_BY." ".$topic['uname'];
 		$time = formatTimestamp($topic['post_time'], "rss");
-		$link = ICMS_URL . "/modules/" . $icmsModule->getVar("dirname") . '/viewtopic.php?topic_id=' . $topic['topic_id'] . '&amp;forum=' . $topic['forum_id'];
+		$link = ICMS_URL . "/modules/" . icms::$module->getVar("dirname") . '/viewtopic.php?topic_id=' . $topic['topic_id'] . '&amp;forum=' . $topic['forum_id'];
 		$title = $topic['subject'];
 		if (!$rss->addItem($title, $link, $description, $label, $time)) break;
 	}

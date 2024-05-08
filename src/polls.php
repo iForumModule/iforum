@@ -230,7 +230,7 @@ if ($op == "save" )
 			iforum_message("poll adding to topic error: ".$sql);
 		}
 		include_once ICMS_ROOT_PATH.'/class/template.php';
-		xoops_template_clear_module_cache($icmsModule->getVar('mid'));
+		xoops_template_clear_module_cache(icms::$module->getVar('mid'));
 	}
 	else
 	{
@@ -387,7 +387,7 @@ if ($op == "update" )
 	}
 	$poll->updateCount();
 	include_once ICMS_ROOT_PATH.'/class/template.php';
-	xoops_template_clear_module_cache($icmsModule->getVar('mid'));
+	xoops_template_clear_module_cache(icms::$module->getVar('mid'));
 	redirect_header("viewtopic.php?topic_id=$topic_id", 1, _MD_POLL_DBUPDATED);
 	//exit();
 }
@@ -470,7 +470,7 @@ if ($op == "savemore" )
 		$i++;
 	}
 	include_once ICMS_ROOT_PATH.'/class/template.php';
-	xoops_template_clear_module_cache($icmsModule->getVar('mid'));
+	xoops_template_clear_module_cache(icms::$module->getVar('mid'));
 	redirect_header("polls.php?op=edit&amp;poll_id=".$poll->getVar("poll_id")."&amp;topic_id=".$topic_id, 1, _MD_POLL_DBUPDATED);
 	//exit();
 }
@@ -493,9 +493,9 @@ if ($op == "delete_ok" )
 		XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
 		XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
 		include_once ICMS_ROOT_PATH.'/class/template.php';
-		xoops_template_clear_module_cache($icmsModule->getVar('mid'));
+		xoops_template_clear_module_cache(icms::$module->getVar('mid'));
 		// delete comments for this poll
-		xoops_comment_delete($icmsModule->getVar('mid'), $poll->getVar('poll_id'));
+		xoops_comment_delete(icms::$module->getVar('mid'), $poll->getVar('poll_id'));
 		$sql = "UPDATE ".icms::$xoopsDB->prefix("bb_topics")." SET votes = 0, topic_haspoll = 0, poll_id = 0 WHERE topic_id = $topic_id";
 		if (!$result = icms::$xoopsDB->query($sql) )
 		{
@@ -569,7 +569,7 @@ if ($op == "restart_ok" )
 	}
 	$poll->updateCount();
 	include_once ICMS_ROOT_PATH.'/class/template.php';
-	xoops_template_clear_module_cache($icmsModule->getVar('mid'));
+	xoops_template_clear_module_cache(icms::$module->getVar('mid'));
 	redirect_header("viewtopic.php?topic_id=$topic_id", 1, _MD_POLL_DBUPDATED);
 	//exit();
 }

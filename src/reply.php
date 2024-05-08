@@ -85,7 +85,7 @@ if (icms::$module->config['wol_enabled'])
  
  
 // Disable cache
-$icmsConfig["module_cache"][$icmsModule->getVar("mid")] = 0;
+$icmsConfig["module_cache"][icms::$module->getVar("mid")] = 0;
 include ICMS_ROOT_PATH.'/header.php';
  
 $myts = MyTextSanitizer::getInstance();
