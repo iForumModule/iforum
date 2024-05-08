@@ -58,8 +58,6 @@ class IforumOnlineHandler {
 
 	public function update()
 	{
-		global $icmsModule;
-
 		mt_srand((double)microtime() * 1000000);
 		// set gc probabillity to 10% for now..
 		if (mt_rand(1, 100) < 11)
@@ -80,7 +78,7 @@ class IforumOnlineHandler {
 		}
 
 		$online_handler = icms::handler('icms_core_Online');
-		if (!$online_handler->write($uid, $uname, time(), $icmsModule->getVar('mid'), $_SERVER['REMOTE_ADDR'])) {
+		if (!$online_handler->write($uid, $uname, time(), icms::$module->getVar('mid'), $_SERVER['REMOTE_ADDR'])) {
 			iforum_message("iforum online upate error");
 		}
 
@@ -155,8 +153,6 @@ class IforumOnlineHandler {
 	*/
 	function write($uid, $uname, $time, $forum, $ip, $forumtopic)
 	{
-		global $icmsModule;
-
 		$uid = (int)$uid;
 		if ($uid > 0)
 		{
@@ -190,7 +186,7 @@ class IforumOnlineHandler {
 		/* for MySQL 4.1+ */
 		if ($mysql_version >= "4.1"):
 
-		$sql = "DELETE FROM ".$GLOBALS["xoopsDB"]->prefix('bb_online'). " WHERE". " ( online_uid > 0 AND online_uid NOT IN ( SELECT online_uid FROM ".$GLOBALS["xoopsDB"]->prefix('online')." WHERE online_module =".$icmsModule->getVar('mid')." ) )". " OR ( online_uid = 0 AND online_ip NOT IN ( SELECT online_ip FROM ".$GLOBALS["xoopsDB"]->prefix('online')." WHERE online_module =".$icmsModule->getVar('mid')." AND online_uid = 0 ) )";
+		$sql = "DELETE FROM ".$GLOBALS["xoopsDB"]->prefix('bb_online'). " WHERE". " ( online_uid > 0 AND online_uid NOT IN ( SELECT online_uid FROM ".$GLOBALS["xoopsDB"]->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." ) )". " OR ( online_uid = 0 AND online_ip NOT IN ( SELECT online_ip FROM ".$GLOBALS["xoopsDB"]->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." AND online_uid = 0 ) )";
 
 		if ($result = $GLOBALS["xoopsDB"]->queryF($sql))
 		{
@@ -221,7 +217,6 @@ class IforumOnlineHandler {
 	*/
 	function gc($expire)
 	{
-		global $icmsModule;
 		$sql = "DELETE FROM ".$GLOBALS["xoopsDB"]->prefix('bb_online')." WHERE online_updated < ".(time() - intval($expire));
 		$GLOBALS["xoopsDB"]->queryF($sql);
 

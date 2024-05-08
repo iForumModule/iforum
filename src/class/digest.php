@@ -259,11 +259,11 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 
 	function buildDigest(&$digest)
 	{
-		global $icmsConfig, $icmsModule;
+		global $icmsConfig;
 
 		if (!defined('SUMMARY_LENGTH')) define('SUMMARY_LENGTH', 100);
 
-		$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler =icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		$thisUser = icms::$user;
 		icms::$user = null; // To get posts accessible by anonymous
 		$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums

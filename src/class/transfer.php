@@ -22,30 +22,30 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 /**
 * @package module::article
 * @copyright copyright &copy; 2005 XoopsForge.com
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 class IforumTransferHandler {
 	var $root_path;
-	 
+
 	function __construct()
 	{
 		$current_path = __FILE__;
 		if (DIRECTORY_SEPARATOR != "/" ) $current_path = str_replace(strpos($current_path, "\\\\", 2 ) ? "\\\\" : DIRECTORY_SEPARATOR, "/", $current_path);
 		$this->root_path = dirname($current_path)."/transfer";
 	}
-	 
+
 	function &getList()
 	{
-		global $icmsConfig, $icmsModule;
+		global $icmsConfig;
 		$module_handler = icms::handler("icms_module");
 		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item("isactive", 1));
 		$module_list = array_keys($module_handler->getList($criteria, true) );
@@ -64,7 +64,7 @@ class IforumTransferHandler {
 		unset($_list);
 		return $list;
 	}
-	 
+
 	/**
 	* Transfer article content to another module or site
 	*
@@ -74,7 +74,7 @@ class IforumTransferHandler {
 	*/
 	function do_transfer($item, $data)
 	{
-		global $icmsConfig, $icmsModule;
+		global $icmsConfig;
 		$item = preg_replace("/[^a-z0-9_\-]/i", "", $item);
 		if (!is_readable($this->root_path."/".$item."/index.php")) return false;
 		require_once $this->root_path."/".$item."/index.php";

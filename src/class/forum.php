@@ -145,9 +145,8 @@ class IforumForumHandler extends ArtObjectHandler {
 
 	function delete(&$forum, $force = true)
 	{
-		global $icmsModule;
 		// RMV-NOTIFY
-		xoops_notification_deletebyitem ($icmsModule->getVar('mid'), 'forum', $forum->getVar('forum_id'));
+		xoops_notification_deletebyitem (icms::$module->getVar('mid'), 'forum', $forum->getVar('forum_id'));
 		// Get list of all topics in forum, to delete them too
 		$topic_handler = icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 		$topic_handler->deleteAll(new icms_db_criteria_Item("forum_id", $forum->getVar('forum_id')), true, true);
@@ -247,8 +246,8 @@ class IforumForumHandler extends ArtObjectHandler {
 
 	function getAllTopics(&$forum, $startdate, $start, $sortname, $sortorder, $type = '', $excerpt = 0)
 	{
-		global $icmsModule, $icmsConfig, $forumImage, $forumUrl, $myts, $viewall_forums;
-		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
+		global $icmsConfig, $forumImage, $forumUrl, $myts, $viewall_forums;
+		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php';
 
 		$UserUid = is_object(icms::$user) ? icms::$user->getVar('uid') :
 		 null;
@@ -657,7 +656,6 @@ class IforumForumHandler extends ArtObjectHandler {
 	// get permission
 	function getPermission($forum, $type = "access", $checkCategory = true)
 	{
-		global $icmsModule;
 		static $_cachedPerms;
 		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
 
@@ -823,7 +821,7 @@ class IforumForumHandler extends ArtObjectHandler {
 
 	function &display(&$forums_obj)
 	{
-		global $icmsModule, $icmsConfig, $forumImage, $myts;
+		global $icmsConfig, $forumImage, $myts;
 		include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
 
 		$posts = array();
@@ -903,7 +901,7 @@ class IforumForumHandler extends ArtObjectHandler {
 			}
 
 			$_forum_data['forum_lastpost_time'] = formatTimestamp($post_obj->getVar('post_time'));
-			$_forum_data['forum_lastpost_icon'] = '<a href="' . ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '"> ' . _MD_LASTPOST . ' <img src="' . ICMS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'. '</a>';
+			$_forum_data['forum_lastpost_icon'] = '<a href="' . ICMS_URL . '/modules/' . icms::$module->getVar("dirname") . '/viewtopic.php?post_id=' . $post_obj->getVar('post_id') . '&amp;topic_id=' . $post_obj->getVar('topic_id') . '#forumpost' . $post_obj->getVar('post_id') . '"> ' . _MD_LASTPOST . ' <img src="' . ICMS_URL . '/images/subject/' . ($post_obj->getVar('icon')?$post_obj->getVar('icon'): 'icon1.gif') . '" alt="" />'. '</a>';
 			endif;
 
 			if (empty($forum_isread[$id]))

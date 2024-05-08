@@ -25,7 +25,6 @@ class IforumForumHandler extends icms_ipf_Handler
 
     function delete(&$forum)
     {
-        global $icmsModule;
 // RMV-NOTIFY
         xoops_notification_deletebyitem(icms::$module->getVar('mid'), 'forum', $forum->getVar('forum_id'));
 // Get list of all topics in forum, to delete them too
@@ -110,7 +109,7 @@ class IforumForumHandler extends icms_ipf_Handler
 
     function getAllTopics(&$forum, $startdate, $start, $sortname, $sortorder, $type = '', $excerpt = 0)
     {
-        global $icmsModule, $icmsConfig, $forumImage, $forumUrl, $myts, $viewall_forums;
+        global $icmsConfig, $forumImage, $forumUrl, $myts, $viewall_forums;
         include_once ICMS_ROOT_PATH . '/modules/' . basename(dirname(__DIR__)) . '/include/functions.php';
 
         $UserUid = is_object(icms::$user) ? icms::$user->getVar('uid') :
@@ -437,7 +436,6 @@ class IforumForumHandler extends icms_ipf_Handler
 // get permission
     function getPermission($forum, $type = "access", $checkCategory = true)
     {
-        global $icmsModule;
         static $_cachedPerms;
         include_once ICMS_ROOT_PATH . '/modules/' . basename(dirname(dirname(__FILE__))) . '/include/functions.php';
 
@@ -582,7 +580,7 @@ class IforumForumHandler extends icms_ipf_Handler
 
     function &display(&$forums_obj)
     {
-        global $icmsModule, $icmsConfig, $forumImage, $myts;
+        global $icmsConfig, $forumImage, $myts;
         include_once ICMS_ROOT_PATH . '/modules/' . basename(dirname(dirname(__FILE__))) . '/include/functions.php';
 
         $posts = array();

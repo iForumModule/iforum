@@ -145,13 +145,11 @@ class Post extends ArtObject {
 
 	function displayAttachment($asSource = false)
 	{
-		global $icmsModule;
-
 		$post_attachment = '';
 		$attachments = $this->getAttachment();
 		if (is_array($attachments) && count($attachments) > 0)
 		{
-			include_once ICMS_ROOT_PATH . '/modules/' . $icmsModule->getVar("dirname") . '/include/functions.image.php';
+			include_once ICMS_ROOT_PATH . '/modules/' . icms::$module->getVar("dirname") . '/include/functions.image.php';
 			$image_extensions = array("jpg", "jpeg", "gif", "png", "bmp"); // need improve !!!
 			$post_attachment .= '<br /><strong>' . _MD_ATTACHMENT . '</strong>:';
 			$post_attachment .= '<br /><hr size="1" noshade="noshade" /><br />';
@@ -159,13 +157,13 @@ class Post extends ArtObject {
 			{
 				$file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
 				$filetype = $file_extension;
-				if (file_exists(ICMS_ROOT_PATH . '/modules/' . $icmsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif'))
+				if (file_exists(ICMS_ROOT_PATH . '/modules/' . icms::$module->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif'))
 					{
-					$icon_filetype = ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif';
+					$icon_filetype = ICMS_URL . '/modules/' . icms::$module->getVar("dirname") . '/images/filetypes/' . $filetype . '.gif';
 				}
 				else
 				{
-					$icon_filetype = ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/images/filetypes/unknown.gif';
+					$icon_filetype = ICMS_URL . '/modules/' . icms::$module->getVar("dirname") . '/images/filetypes/unknown.gif';
 				}
 				$file_size = @filesize(ICMS_ROOT_PATH . '/' . icms::$module->config['dir_attachments'] . '/' . $att['name_saved']);
 				$file_size = number_format ($file_size / 1024, 2)." KB";
@@ -177,7 +175,7 @@ class Post extends ArtObject {
 				}
 				else
 				{
-					$post_attachment .= '<a href="' . ICMS_URL . '/modules/' . $icmsModule->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img style="vertical-align:middle;" src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
+					$post_attachment .= '<a href="' . ICMS_URL . '/modules/' . icms::$module->getVar("dirname") . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img style="vertical-align:middle;" src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': '. $file_size . '; '._MD_HITS.': ' . $att['num_download'];
 				}
 				$post_attachment .= '<br />';
 			}
@@ -334,7 +332,7 @@ class Post extends ArtObject {
 	// TODO: cleaning up and merge with post hanldings in viewpost.php
 	function showPost($isadmin)
 	{
-		global $icmsConfig, $icmsModule, $myts, $icmsTpl;
+		global $icmsConfig, $myts, $icmsTpl;
 		global $forumUrl, $forumImage;
 		global $viewtopic_users, $viewtopic_posters, $viewtopic_forum, $forumtopic, $online, $user_karma, $viewmode, $order, $start, $total_posts, $topic_status;
 		static $post_NO = 0;
@@ -788,7 +786,7 @@ class IforumPostHandler extends ArtObjectHandler {
 
 	function _delete(&$post, $force = false)
 	{
-		global $icmsModule, $icmsConfig;
+		global $icmsConfig;
 		static $forum_lastpost = array();
 
 		if (!is_object($post) || $post->getVar('post_id') == 0) return false;
@@ -831,14 +829,14 @@ class IforumPostHandler extends ArtObjectHandler {
 				$topiccount_toupdate = 1;
 				$topic_obj->setVar("approved", -1);
 				$topic_handler->insert($topic_obj);
-				xoops_notification_deletebyitem ($icmsModule->getVar('mid'), 'thread', $post->getVar('topic_id'));
+				xoops_notification_deletebyitem (icms::$module->getVar('mid'), 'thread', $post->getVar('topic_id'));
 			}
 			else
 			{
 				if (is_object($topic_obj)):
 				if ($topic_obj->getVar("approved") > 0)
 				{
-					xoops_notification_deletebyitem ($icmsModule->getVar('mid'), 'thread', $post->getVar('topic_id'));
+					xoops_notification_deletebyitem (icms::$module->getVar('mid'), 'thread', $post->getVar('topic_id'));
 				}
 
 				$poll_id = $topic_obj->getVar("poll_id");
@@ -856,7 +854,7 @@ class IforumPostHandler extends ArtObjectHandler {
 						{
 							XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
 							XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
-							xoops_comment_delete($icmsModule->getVar('mid'), $poll->getVar('poll_id'));
+							xoops_comment_delete(icms::$module->getVar('mid'), $poll->getVar('poll_id'));
 						}
 					}
 				}

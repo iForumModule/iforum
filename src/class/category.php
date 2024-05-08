@@ -89,7 +89,6 @@ class IforumCategoryHandler extends ArtObjectHandler {
 
 	function delete(&$category, $force = true)
 	{
-		global $icmsModule;
 		$forum_handler =icms_getmodulehandler('forum', basename(dirname(__DIR__) ), 'iforum' );
 		$forum_handler->deleteAll(new icms_db_criteria_Item("cat_id", $category->getVar('cat_id')), true, true);
 		if ($result = parent::delete($category))
@@ -114,7 +113,6 @@ class IforumCategoryHandler extends ArtObjectHandler {
 	*/
 	function getPermission($category)
 	{
-		global $icmsModule;
 		static $_cachedCategoryPerms;
 
 		if (iforum_isAdministrator()) return true;
