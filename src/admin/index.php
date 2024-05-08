@@ -24,7 +24,7 @@
 */
 
 include('admin_header.php');
-icms_loadLanguageFile(dirname(dirname(__FILE__)),  );
+icms_loadLanguageFile(dirname(dirname(__FILE__)), "common" );
 
 function iforum_admin_getPathStatus($path)
 {

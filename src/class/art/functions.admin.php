@@ -12,6 +12,6 @@
  */
 
 function loadModuleAdminMenu ($currentoption = 0, $breadcrumb = '')  {
-	global $icmsModule;
-	$icmsModule -> displayAdminMenu( $currentoption, $icmsModule -> getVar('name') . ' | ' . $breadcrumb );
+
+	icms::$module->displayAdminMenu( $currentoption, icms::$module->getVar('name') . ' | ' . $breadcrumb );
 }

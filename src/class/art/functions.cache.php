@@ -24,7 +24,7 @@ function mod_generateCacheId_byGroup($groups = null) {
 	} else {
 		$contentCacheId = ICMS_GROUP_ANONYMOUS;
 	}
-	
+
 	return $contentCacheId;
 }
 
@@ -34,10 +34,8 @@ function mod_generateCacheId($groups = null) {
 
 function mod_createFile($data, $name = null, $dirname = null, $root_path = XOOPS_CACHE_PATH)
 {
-    global $icmsModule;
-
     $name = ($name) ? $name : strval(time());
-    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? icms::$module->getVar("dirname", "n") : "system");
+    $dirname = ($dirname) ? $dirname : (is_object(icms::$module) ? icms::$module->getVar("dirname", "n") : "system");
 
 	$file_name = $dirname."_".$name.".php";
 	$file = $root_path."/".$file_name;
@@ -48,7 +46,7 @@ function mod_createFile($data, $name = null, $dirname = null, $root_path = XOOPS
 		icms_core_Message::error( "Cannot create file: ".$file_name );
 	}
     return $file_name;
-	
+
 }
 
 function mod_createCacheFile($data, $name = null, $dirname = null)
@@ -64,12 +62,10 @@ function mod_createCacheFile_byGroup($data, $name = null, $dirname = null, $grou
 
 function &mod_loadFile($name, $dirname = null, $root_path = XOOPS_CACHE_PATH)
 {
-    global $icmsModule;
-
     $data = null;
-    
+
     if (empty($name)) return $data;
-    $dirname = ($dirname) ? $dirname : (is_object($icmsModule) ? icms::$module->getVar("dirname", "n") : "system");
+    $dirname = ($dirname) ? $dirname : (is_object(icms::$module) ? icms::$module->getVar("dirname", "n") : "system");
 	$file_name = $dirname."_".$name.".php";
 	$file = $root_path."/".$file_name;
 
@@ -94,8 +90,7 @@ function &mod_loadCacheFile_byGroup($name, $dirname = null, $groups = null)
 
 function mod_clearFile($name = "", $dirname = null, $root_path = XOOPS_CACHE_PATH)
 {
-    global $icmsModule;
-    
+
     $pattern = ($dirname) ? "{$dirname}_{$name}.*\.php" : "[^_]+_{$name}.*\.php";
 	if ($handle = opendir($root_path)) {
 		while (false !== ($file = readdir($handle))) {
@@ -115,10 +110,8 @@ function mod_clearCacheFile($name = "", $dirname = null)
 
 function mod_clearSmartyCache($pattern = "")
 {
-    global $icmsModule;
-    
     if (empty($pattern)) {
-	    $dirname = (is_object($icmsModule) ? icms::$module->getVar("dirname", "n") : "system");
+	    $dirname = (is_object(icms::$module) ? icms::$module->getVar("dirname", "n") : "system");
 	    $pattern = "/(^{$dirname}\^.*\.html$|blk_{$dirname}_.*[^\.]*\.html$)/";
     }
 	if ($handle = opendir(XOOPS_CACHE_PATH)) {

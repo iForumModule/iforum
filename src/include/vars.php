@@ -22,16 +22,16 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined('ICMS_ROOT_PATH'))
 {
 	exit();
 }
 include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
- 
+
 $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
- 
+
 /**#@+
 * iForum constant
 *
@@ -44,29 +44,29 @@ define('IFORUM_DIGEST', 4);
 define('IFORUM_DELETEONE', 1);
 define('IFORUM_DELETEALL', 2);
 if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
-	 
+
 /* some static icmsModuleConfig */
 $GLOBALS["icmsModuleConfig"]["require_name"] = true; // "name" field is required for anonymous users in edit form
- 
+
 include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
- 
+
 // You shouldn't have to change any of these
 $forumUrl['root'] = ICMS_URL."/modules/" . icms::$module->getVar("dirname");
 $forumUrl['images_root'] = $forumUrl['root']."/images";
- 
+
 $setdir = icms::$module->config['image_set'];
 if (empty($setdir)) $setdir = "default";
- 
+
 $forumUrl['images_set'] = $forumUrl['images_root']."/imagesets/".$setdir;
 if (is_dir(ICMS_ROOT_PATH.'/modules/'. icms::$module->getVar("dirname") .'/images/imagesets/'.$setdir.'/'.$icmsConfig['language'])) {
 	$forumUrl['images_lang'] = $forumUrl['images_set']."/".$icmsConfig['language'];
 } else {
 	$forumUrl['images_lang'] = $forumUrl['images_set']."/english";
 }
- 
+
 /* -- You shouldn't have to change anything after this point */
 /* -- Images -- */
- 
+
 $forumImage['attachment'] = $forumUrl['images_set']."/attachment-a";
 $forumImage['clip'] = $forumUrl['images_set']."/clip-a";
 $forumImage['whosonline'] = $forumUrl['images_set']."/whosonline-a";
@@ -142,7 +142,7 @@ $forumImage['rate2'] = $forumUrl['images_set'].'/rate2-a';
 $forumImage['rate3'] = $forumUrl['images_set'].'/rate3-a';
 $forumImage['rate4'] = $forumUrl['images_set'].'/rate4-a';
 $forumImage['rate5'] = $forumUrl['images_set'].'/rate5-a';
- 
+
 // iForum cookie structure
 /* -- Cookie settings -- */
 $forumCookie['domain'] = "";
@@ -150,7 +150,7 @@ $forumCookie['path'] = "/";
 $forumCookie['secure'] = false;
 $forumCookie['expire'] = time() + 3600 * 24 * 30; // one month
 $forumCookie['prefix'] = '';
- 
+
 // set cookie name to avoid subsites confusion such as: domain.com, sub1.domain.com, sub2.domain.com, domain.com/xoopss, domain.com/xoops2
 if (empty($forumCookie['prefix']))
 {
@@ -159,7 +159,7 @@ if (empty($forumCookie['prefix']))
 	0;
 	$forumCookie['prefix'] = $cookie_prefix."_".icms::$module->getVar("dirname").$cookie_userid."_";
 }
- 
+
 // set LastVisitTemp cookie, which only gets the time from the LastVisit cookie if it does not exist yet
 // otherwise, it gets the time from the LastVisitTemp cookie
 //$last_visit = iforum_getcookie("LVT");
@@ -168,13 +168,13 @@ $last_visit = ($last_visit)?$last_visit:
 iforum_getcookie("LV");
 $last_visit = ($last_visit)?$last_visit:
 time();
- 
- 
+
+
 // update LastVisit cookie.
 iforum_setcookie("LV", time(), $forumCookie['expire']); // set cookie life time to one month
 //iforum_setcookie("LVT", $last_visit);
 iforum_setsession("LV", $last_visit);
- 
+
 /* iForum cookie storage
 Long term cookie: (configurable, generally one month)
 LV - Last Visit
@@ -188,13 +188,13 @@ LF - Forum Last view
 LT - Topic Last read
 LVT - Last Visit Temp
 */
- 
+
 // include customized variables
 if (is_object($GLOBALS["icmsModule"]) && basename(dirname(dirname(__FILE__ ) ) ) == $GLOBALS["icmsModule"]->getVar("dirname", "n") )
 {
 	$GLOBALS["icmsModuleConfig"] = iforum_load_config();
 }
- 
+
 iforum_load_object();
- 
+
 error_reporting($ori_error_level);
