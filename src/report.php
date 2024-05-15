@@ -74,7 +74,7 @@ if (icms::$module->config['wol_enabled'])
 	$online_handler->init($forum);
 }
  
-$myts = MyTextSanitizer::getInstance();
+$myts = icms_core_Textsanitizer::getInstance();
  
 if (isset($_POST['submit']) )
 {
