@@ -1,4 +1,9 @@
 # iForum Changelog
+## 2.4 beta
+17 May 2024
+### New
+* Support for ImpressCMS 2.0 RC
+* moved the module below the /src folder
 
 ## 2.3 beta
 10 July 2020
