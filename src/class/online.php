@@ -156,16 +156,16 @@ class IforumOnlineHandler {
 		$uid = (int)$uid;
 		if ($uid > 0)
 		{
-			$sql = "SELECT COUNT(*) FROM " . $GLOBALS["xoopsDB"]->prefix('bb_online') . " WHERE online_uid=" . $uid;
+			$sql = "SELECT COUNT(*) FROM " . icms::$db->prefix('bb_online') . " WHERE online_uid=" . $uid;
 		}
 		else
 		{
-			$sql = "SELECT COUNT(*) FROM " . $GLOBALS["xoopsDB"]->prefix('bb_online') . " WHERE online_uid=" . $uid . " AND online_ip='" . $ip . "'";
+			$sql = "SELECT COUNT(*) FROM " . icms::$db->prefix('bb_online') . " WHERE online_uid=" . $uid . " AND online_ip='" . $ip . "'";
 		}
-		list($count) = $GLOBALS["xoopsDB"]->fetchRow($GLOBALS["xoopsDB"]->queryF($sql));
+		list($count) = icms::$db->fetchRow(icms::$db->queryF($sql));
 		if ($count > 0)
 		{
-			$sql = "UPDATE " . $GLOBALS["xoopsDB"]->prefix('bb_online') . " SET online_updated= '" . $time . "', online_forum = '" . $forum . "', online_topic = '" . $forumtopic . "' WHERE online_uid = " . $uid;
+			$sql = "UPDATE " . icms::$db->prefix('bb_online') . " SET online_updated= '" . $time . "', online_forum = '" . $forum . "', online_topic = '" . $forumtopic . "' WHERE online_uid = " . $uid;
 			if ($uid == 0)
 			{
 				$sql .= " AND online_ip='" . $ip . "'";
@@ -173,9 +173,9 @@ class IforumOnlineHandler {
 		}
 		else
 		{
-			$sql = sprintf("INSERT INTO %s (online_uid, online_uname, online_updated, online_ip, online_forum, online_topic) VALUES (%u, %s, %u, %s, %u, %u)", $GLOBALS["xoopsDB"]->prefix('bb_online'), $uid, $GLOBALS["xoopsDB"]->quoteString($uname), $time, $GLOBALS["xoopsDB"]->quoteString($ip), $forum, $forumtopic);
+			$sql = sprintf("INSERT INTO %s (online_uid, online_uname, online_updated, online_ip, online_forum, online_topic) VALUES (%u, %s, %u, %s, %u, %u)", icms::$db->prefix('bb_online'), $uid, icms::$db->quoteString($uname), $time, icms::$db->quoteString($ip), $forum, $forumtopic);
 		}
-		if (!$GLOBALS["xoopsDB"]->queryF($sql))
+		if (!icms::$db->queryF($sql))
 		{
 			iforum_message("can not update online info: ".$sql);
 			return false;
@@ -186,9 +186,9 @@ class IforumOnlineHandler {
 		/* for MySQL 4.1+ */
 		if ($mysql_version >= "4.1"):
 
-		$sql = "DELETE FROM ".$GLOBALS["xoopsDB"]->prefix('bb_online'). " WHERE". " ( online_uid > 0 AND online_uid NOT IN ( SELECT online_uid FROM ".$GLOBALS["xoopsDB"]->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." ) )". " OR ( online_uid = 0 AND online_ip NOT IN ( SELECT online_ip FROM ".$GLOBALS["xoopsDB"]->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." AND online_uid = 0 ) )";
+		$sql = "DELETE FROM ".icms::$db->prefix('bb_online'). " WHERE". " ( online_uid > 0 AND online_uid NOT IN ( SELECT online_uid FROM ".icms::$db->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." ) )". " OR ( online_uid = 0 AND online_ip NOT IN ( SELECT online_ip FROM ".icms::$db->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." AND online_uid = 0 ) )";
 
-		if ($result = $GLOBALS["xoopsDB"]->queryF($sql))
+		if ($result = icms::$db->queryF($sql))
 		{
 			return true;
 		}
@@ -200,10 +200,10 @@ class IforumOnlineHandler {
 
 
 		else:
-			$sql = "DELETE ".$GLOBALS["xoopsDB"]->prefix('bb_online')." FROM ".$GLOBALS["xoopsDB"]->prefix('bb_online'). " LEFT JOIN ".$GLOBALS["xoopsDB"]->prefix('online')." AS aa ". " ON ".$GLOBALS["xoopsDB"]->prefix('bb_online').".online_uid = aa.online_uid WHERE ".$GLOBALS["xoopsDB"]->prefix('bb_online').".online_uid > 0 AND aa.online_uid IS NULL";
-		$result = $GLOBALS["xoopsDB"]->queryF($sql);
-		$sql = "DELETE ".$GLOBALS["xoopsDB"]->prefix('bb_online')." FROM ".$GLOBALS["xoopsDB"]->prefix('bb_online'). " LEFT JOIN ".$GLOBALS["xoopsDB"]->prefix('online')." AS aa ". " ON ".$GLOBALS["xoopsDB"]->prefix('bb_online').".online_ip = aa.online_ip WHERE ".$GLOBALS["xoopsDB"]->prefix('bb_online').".online_uid = 0 AND aa.online_ip IS NULL";
-		$result = $GLOBALS["xoopsDB"]->queryF($sql);
+			$sql = "DELETE ".icms::$db->prefix('bb_online')." FROM ".icms::$db->prefix('bb_online'). " LEFT JOIN ".icms::$db->prefix('online')." AS aa ". " ON ".icms::$db->prefix('bb_online').".online_uid = aa.online_uid WHERE ".icms::$db->prefix('bb_online').".online_uid > 0 AND aa.online_uid IS NULL";
+		$result = icms::$db->queryF($sql);
+		$sql = "DELETE ".icms::$db->prefix('bb_online')." FROM ".icms::$db->prefix('bb_online'). " LEFT JOIN ".icms::$db->prefix('online')." AS aa ". " ON ".icms::$db->prefix('bb_online').".online_ip = aa.online_ip WHERE ".icms::$db->prefix('bb_online').".online_uid = 0 AND aa.online_ip IS NULL";
+		$result = icms::$db->queryF($sql);
 		return true;
 		endif;
 	}
@@ -217,8 +217,8 @@ class IforumOnlineHandler {
 	*/
 	function gc($expire)
 	{
-		$sql = "DELETE FROM ".$GLOBALS["xoopsDB"]->prefix('bb_online')." WHERE online_updated < ".(time() - intval($expire));
-		$GLOBALS["xoopsDB"]->queryF($sql);
+		$sql = "DELETE FROM ".icms::$db->prefix('bb_online')." WHERE online_updated < ".(time() - intval($expire));
+		icms::$db->queryF($sql);
 
 		$online_handler = icms::handler('icms_core_Online');
 		$online_handler->gc($expire);
@@ -234,19 +234,19 @@ class IforumOnlineHandler {
 	{
 		$ret = array();
 		$limit = $start = 0;
-		$sql = 'SELECT * FROM ' . $GLOBALS["xoopsDB"]->prefix('bb_online');
+		$sql = 'SELECT * FROM ' . icms::$db->prefix('bb_online');
 		if (is_object($criteria) && is_subclass_of($criteria, 'icms_db_criteria_Element'))
 		{
 			$sql .= ' ' . $criteria->renderWhere();
 			$limit = $criteria->getLimit();
 			$start = $criteria->getStart();
 		}
-		$result = $GLOBALS["xoopsDB"]->query($sql, $limit, $start);
+		$result = icms::$db->query($sql, $limit, $start);
 		if (!$result)
 		{
 			return false;
 		}
-		while ($myrow = $GLOBALS["xoopsDB"]->fetchArray($result))
+		while ($myrow = icms::$db->fetchArray($result))
 		{
 			$ret[] = $myrow;
 			if ($myrow["online_uid"] > 0 )
@@ -269,18 +269,18 @@ class IforumOnlineHandler {
 		}
 		else
 		{
-			$sql = 'SELECT online_uid FROM ' . $GLOBALS["xoopsDB"]->prefix('bb_online');
+			$sql = 'SELECT online_uid FROM ' . icms::$db->prefix('bb_online');
 			if (!empty($uids))
 			{
 				$sql .= ' WHERE online_uid IN ('.implode(", ", array_map("intval", $uids)).')';
 			}
 
-			$result = $GLOBALS["xoopsDB"]->query($sql);
+			$result = icms::$db->query($sql);
 			if (!$result)
 			{
 				return false;
 			}
-			while (list($uid) = $GLOBALS["xoopsDB"]->fetchRow($result))
+			while (list($uid) = icms::$db->fetchRow($result))
 			{
 				$online_users[] = $uid;
 			}
@@ -302,16 +302,16 @@ class IforumOnlineHandler {
 	*/
 	function getCount($criteria = null)
 	{
-		$sql = 'SELECT COUNT(*) FROM ' . $GLOBALS["xoopsDB"]->prefix('bb_online');
+		$sql = 'SELECT COUNT(*) FROM ' . icms::$db->prefix('bb_online');
 		if (is_object($criteria) && is_subclass_of($criteria, 'icms_db_criteria_Element'))
 		{
 			$sql .= ' ' . $criteria->renderWhere();
 		}
-		if (!$result = $GLOBALS["xoopsDB"]->query($sql))
+		if (!$result = icms::$db->query($sql))
 		{
 			return false;
 		}
-		list($ret) = $GLOBALS["xoopsDB"]->fetchRow($result);
+		list($ret) = icms::$db->fetchRow($result);
 		return $ret;
 	}
 }
