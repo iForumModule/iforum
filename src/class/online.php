@@ -125,7 +125,7 @@ class IforumOnlineHandler {
 		$online['num_user'] = $num_user;
 		$online['num_anonymous'] = $num_anonymous;
 		$online["users"] = array();
-		$administrator_list = iforum_isModuleAdministrators($users_id, $GLOBALS["icmsModule"]->getVar("mid"));
+		$administrator_list = iforum_isModuleAdministrators($users_id, icms::$module->getVar("mid"));
 		foreach ($users_online as $uid => $user)
 		{
 			if (!empty($administrator_list[$uid])) {

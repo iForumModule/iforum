@@ -46,9 +46,9 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		$type = (strtolower($type) != "category")?"forum":
 		"category";
 		 
-		if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
+		if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(__DIR__) ))
 		{
-			$modid = $GLOBALS["icmsModule"]->getVar("mid");
+			$modid = icms::$module->getVar("mid");
 		}
 		else
 		{
@@ -165,7 +165,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 	function deleteByForum($forum)
 	{
 		$gperm_handler = icms::handler('icms_member_groupperm');
-		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item('gperm_modid', $GLOBALS["icmsModule"]->getVar('mid')));
+		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item('gperm_modid', icms::$module->getVar('mid')));
 		$criteria->add(new icms_db_criteria_Item('gperm_name', '('.FORUM_PERM_ITEMS.')', 'IN'));
 		$criteria->add(new icms_db_criteria_Item('gperm_itemid', $forum));
 		return $gperm_handler->deleteAll($criteria);
@@ -174,7 +174,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 	function deleteByCategory($category)
 	{
 		$gperm_handler = icms::handler('icms_member_groupperm');
-		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item('gperm_modid', $GLOBALS["icmsModule"]->getVar('mid')));
+		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item('gperm_modid', icms::$module->getVar('mid')));
 		$criteria->add(new icms_db_criteria_Item('gperm_name', 'category_access'));
 		$criteria->add(new icms_db_criteria_Item('gperm_itemid', $category));
 		return $gperm_handler->deleteAll($criteria);
@@ -182,9 +182,9 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 	 
 	function setCategoryPermission($category, $groups = null)
 	{
-		if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
+		if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(__DIR__) ))
 		{
-			$mid = $GLOBALS["icmsModule"]->getVar("mid");
+			$mid = icms::$module->getVar("mid");
 		}
 		else
 		{
@@ -217,9 +217,9 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 	{
 		if (empty($mid))
 		{
-			if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
+			if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(__DIR__) ))
 			{
-				$mid = $GLOBALS["icmsModule"]->getVar("mid");
+				$mid = icms::$module->getVar("mid");
 			}
 			else
 			{
@@ -277,9 +277,9 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 	{
 		if (empty($mid))
 		{
-			if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
+			if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(__DIR__) ))
 			{
-				$mid = $GLOBALS["icmsModule"]->getVar("mid");
+				$mid = icms::$module->getVar("mid");
 			}
 			else
 			{
@@ -319,9 +319,9 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 		 
 		if (empty($mid))
 		{
-			if (is_object($GLOBALS["icmsModule"]) && $GLOBALS["icmsModule"]->getVar("dirname") == basename(dirname(__DIR__) ))
+			if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(__DIR__) ))
 			{
-				$mid = $GLOBALS["icmsModule"]->getVar("mid");
+				$mid = icms::$module->getVar("mid");
 			}
 			else
 			{
