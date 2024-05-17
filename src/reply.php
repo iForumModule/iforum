@@ -88,7 +88,7 @@ if (icms::$module->config['wol_enabled'])
 $icmsConfig["module_cache"][icms::$module->getVar("mid")] = 0;
 include ICMS_ROOT_PATH.'/header.php';
  
-$myts = MyTextSanitizer::getInstance();
+$myts = icms_core_Textsanitizer::getInstance();
 $isadmin = iforum_isAdmin($forum_obj);
 $forumpostshow = $post_handler->getByLimit($topic_id, 5);
  

@@ -59,8 +59,8 @@ class Topic extends ArtObject {
 
 	function incrementCounter()
 	{
-		$sql = 'UPDATE ' . $GLOBALS["xoopsDB"]->prefix('bb_topics') . ' SET topic_views = topic_views + 1 WHERE topic_id =' . $this->getVar('topic_id');
-		$GLOBALS["xoopsDB"]->queryF($sql);
+		$sql = 'UPDATE ' . icms::$xoopsDB->prefix('bb_topics') . ' SET topic_views = topic_views + 1 WHERE topic_id =' . $this->getVar('topic_id');
+		icms::$xoopsDB->queryF($sql);
 	}
 }
 

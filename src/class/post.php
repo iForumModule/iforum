@@ -84,8 +84,8 @@ class Post extends ArtObject {
 			$attachment_save = base64_encode(serialize($this->attachment_array));
 		else $attachment_save = '';
 		$this->setVar('attachment', $attachment_save);
-		$sql = "UPDATE " . $GLOBALS["xoopsDB"]->prefix("bb_posts") . " SET attachment=" . $GLOBALS["xoopsDB"]->quoteString($attachment_save) . " WHERE post_id = " . $this->getVar('post_id');
-		if (!$result = $GLOBALS["xoopsDB"]->queryF($sql))
+		$sql = "UPDATE " . icms::$xoopsDB->prefix("bb_posts") . " SET attachment=" . icms::$xoopsDB->quoteString($attachment_save) . " WHERE post_id = " . $this->getVar('post_id');
+		if (!$result = icms::$xoopsDB->queryF($sql))
 		{
 			iforum_message("save attachment error: ". $sql);
 			return false;
