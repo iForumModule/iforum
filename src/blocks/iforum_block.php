@@ -50,7 +50,7 @@ function b_iforum_show($options)
 	global $access_forums;
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
 	$db = Database::getInstance();
-	$myts = MyTextSanitizer::getInstance();
+	$myts = icms_core_Textsanitizer::getInstance();
 	$block = array();
 	$i = 0;
 	$order = "";
@@ -180,7 +180,7 @@ function b_iforum_topic_show($options)
 	global $access_forums;
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
 	$db =icms_db_Factory::instance();
-	$myts =MyTextSanitizer::getInstance();
+	$myts =icms_core_Textsanitizer::getInstance();
 	$block = array();
 	$i = 0;
 	$order = "";
@@ -325,7 +325,7 @@ function b_iforum_post_show($options)
 	global $access_forums;
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
 	$db =Database::getInstance();
-	$myts =MyTextSanitizer::getInstance();
+	$myts =icms_core_Textsanitizer::getInstance();
 	$block = array();
 	$i = 0;
 	$order = "";
@@ -471,7 +471,7 @@ function b_iforum_author_show($options)
 	global $access_forums;
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
 	$db =Database::getInstance();
-	$myts =MyTextSanitizer::getInstance();
+	$myts =icms_core_Textsanitizer::getInstance();
 	$block = array();
 	$i = 0;
 	$type = "topic";

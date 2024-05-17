@@ -22,14 +22,14 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include_once '../../mainfile.php';
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/vars.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/functions.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/class/art/functions.php";
- 
-$myts = MyTextSanitizer::getInstance();
- 
+
+$myts = icms_core_Textsanitizer::getInstance();
+
 $iforum_module_header = '';
 $iforum_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />';
 if (!empty(icms::$module->config['pngforie_enabled']))
@@ -43,5 +43,5 @@ $iforum_module_header .= '
 	<script src="include/js/iforum_toggle.js" type="text/javascript"></script>
 	';
 $icms_module_header = $iforum_module_header; // for cache hack
- 
+
 iforum_welcome();
