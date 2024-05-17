@@ -190,7 +190,7 @@ LVT - Last Visit Temp
 */
 
 // include customized variables
-if (is_object($GLOBALS["icmsModule"]) && basename(dirname(dirname(__FILE__ ) ) ) == $GLOBALS["icmsModule"]->getVar("dirname", "n") )
+if (is_object(icms::$module) && basename(dirname(dirname(__FILE__ ) ) ) == icms::$module->getVar("dirname", "n") )
 {
 	$GLOBALS["icmsModuleConfig"] = iforum_load_config();
 }
