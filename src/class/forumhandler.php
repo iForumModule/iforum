@@ -49,7 +49,7 @@ class IforumForumHandler extends icms_ipf_Handler
         }
         $criteria->setSort("forum_order");
         $criteria->setOrder("ASC");
-        $forums = $forum_handler->getAll($criteria, $tags);
+        $forums = $forum_handler->getList($criteria, $tags);
         $_cachedForums[$perm_string] = array();
         foreach (array_keys($forums) as $key) {
             if ($permission && !$this->getPermission($forums[$key], $permission, empty($cat))) continue;
@@ -486,7 +486,7 @@ class IforumForumHandler extends icms_ipf_Handler
      *
      * @return  bool true on success
      */
-    function cleanOrphan()
+    function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
     {
         parent::cleanOrphan($this->db->prefix("bb_categories"), "cat_id");
 
