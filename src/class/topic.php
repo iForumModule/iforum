@@ -222,7 +222,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return $post_id;
 	}
 
-	function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
+	/*function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
 	{
 		$ret = array();
 		$perpage = (intval($perpage) > 0) ? intval($perpage) :
@@ -280,7 +280,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			unset($post);
 		}
 		return $ret;
-	}
+	}*/
 
 	function &getPostTree(&$postArray, $pid = 0)
 	{
