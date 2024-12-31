@@ -1,6 +1,4 @@
 <?php
-$constpref = '_AM_IFORUM';
-
 	define("_AM_IFORUM_FORUMCONF", "Forum Configuration");
 	define("_AM_IFORUM_ADDAFORUM", "Add a Forum");
 	define("_AM_IFORUM_SYNCFORUM", "Sync forum");
@@ -36,46 +34,46 @@ $constpref = '_AM_IFORUM';
 	define("_AM_IFORUM_TOPICID", "Topic ID");
 	define("_AM_IFORUM_ORPHAN_TOPICS_FOR_AUTH", "Unapproved topics authorization");
 
-	define($constpref.'_DEL_ONE', 'Delete only this message');
-	define($constpref.'_POSTSDELETED', 'Selected post deleted.');
-	define($constpref.'_NOAPPROVEPOST', 'There are presently no posts waiting approval.');
-	define($constpref.'_SUBJECTC', 'Subject:');
-	define($constpref.'_MESSAGEICON', 'Message Icon:');
-	define($constpref.'_MESSAGEC', 'Message:');
-	define($constpref.'_CANCELPOST', 'Cancel Post');
-	define($constpref.'_GOTOMOD', 'Go to module');
+	define('_AM_IFORUM_DEL_ONE', 'Delete only this message');
+	define('_AM_IFORUM_POSTSDELETED', 'Selected post deleted.');
+	define('_AM_IFORUM_NOAPPROVEPOST', 'There are presently no posts waiting approval.');
+	define('_AM_IFORUM_SUBJECTC', 'Subject:');
+	define('_AM_IFORUM_MESSAGEICON', 'Message Icon:');
+	define('_AM_IFORUM_MESSAGEC', 'Message:');
+	define('_AM_IFORUM_CANCELPOST', 'Cancel Post');
+	define('_AM_IFORUM_GOTOMOD', 'Go to module');
 
-	define($constpref.'_PREFERENCES', 'Module preferences');
-	define($constpref.'_POLLMODULE', 'Poll Module');
-	define($constpref.'_POLL_OK', 'Ready for use');
-	define($constpref.'_GDLIB1', 'GD1 library:');
-	define($constpref.'_GDLIB2', 'GD2 library:');
-	define($constpref.'_AUTODETECTED', 'Autodetected: ');
-	define($constpref.'_AVAILABLE', 'Available');
-	define($constpref.'_NOTAVAILABLE', '<span style="color: red; ">Not available</span>');
-	define($constpref.'_NOTWRITABLE', '<span style="color: red; ">Not writable</span>');
-	define($constpref.'_IMAGEMAGICK', 'ImageMagicK:');
-	define($constpref.'_IMAGEMAGICK_NOTSET', 'Not set');
-	define($constpref.'_ATTACHPATH', 'Path for attachment storing');
-	define($constpref.'_THUMBPATH', 'Path for attached image thumbs');
-	//define($constpref.'_RSSPATH','Path for RSS feed');
-	define($constpref.'_REPORT', 'Reported posts');
-	define($constpref.'_REPORT_PENDING', 'Pending report');
-	define($constpref.'_REPORT_PROCESSED', 'processed report');
+	define('_AM_IFORUM_PREFERENCES', 'Module preferences');
+	define('_AM_IFORUM_POLLMODULE', 'Poll Module');
+	define('_AM_IFORUM_POLL_OK', 'Ready for use');
+	define('_AM_IFORUM_GDLIB1', 'GD1 library:');
+	define('_AM_IFORUM_GDLIB2', 'GD2 library:');
+	define('_AM_IFORUM_AUTODETECTED', 'Autodetected: ');
+	define('_AM_IFORUM_AVAILABLE', 'Available');
+	define('_AM_IFORUM_NOTAVAILABLE', '<span style="color: red; ">Not available</span>');
+	define('_AM_IFORUM_NOTWRITABLE', '<span style="color: red; ">Not writable</span>');
+	define('_AM_IFORUM_IMAGEMAGICK', 'ImageMagicK:');
+	define('_AM_IFORUM_IMAGEMAGICK_NOTSET', 'Not set');
+	define('_AM_IFORUM_ATTACHPATH', 'Path for attachment storing');
+	define('_AM_IFORUM_THUMBPATH', 'Path for attached image thumbs');
+	//define('_AM_IFORUM_RSSPATH','Path for RSS feed');
+	define('_AM_IFORUM_REPORT', 'Reported posts');
+	define('_AM_IFORUM_REPORT_PENDING', 'Pending report');
+	define('_AM_IFORUM_REPORT_PROCESSED', 'processed report');
 
-	define($constpref.'_CREATETHEDIR', 'Create it');
-	define($constpref.'_SETMPERM', 'Set the permission');
-	define($constpref.'_DIRCREATED', 'The directory has been created');
-	define($constpref.'_DIRNOTCREATED', 'The directory can not be created');
-	define($constpref.'_PERMSET', 'The permission has been set');
-	define($constpref.'_PERMNOTSET', 'The permission can not be set');
+	define('_AM_IFORUM_CREATETHEDIR', 'Create it');
+	define('_AM_IFORUM_SETMPERM', 'Set the permission');
+	define('_AM_IFORUM_DIRCREATED', 'The directory has been created');
+	define('_AM_IFORUM_DIRNOTCREATED', 'The directory can not be created');
+	define('_AM_IFORUM_PERMSET', 'The permission has been set');
+	define('_AM_IFORUM_PERMNOTSET', 'The permission can not be set');
 
-	define($constpref.'_DIGEST', 'Digest notification');
-	define($constpref.'_DIGEST_PAST', '<span style="color: red; ">Should be sent out %d minutes ago</span>');
-	define($constpref.'_DIGEST_NEXT', 'Need to send out in %d minutes');
-	define($constpref.'_DIGEST_ARCHIVE', 'Digest archive');
-	define($constpref.'_DIGEST_SENT', 'Digest processed');
-	define($constpref.'_DIGEST_FAILED', 'Digest NOT processed');
+	define('_AM_IFORUM_DIGEST', 'Digest notification');
+	define('_AM_IFORUM_DIGEST_PAST', '<span style="color: red; ">Should be sent out %d minutes ago</span>');
+	define('_AM_IFORUM_DIGEST_NEXT', 'Need to send out in %d minutes');
+	define('_AM_IFORUM_DIGEST_ARCHIVE', 'Digest archive');
+	define('_AM_IFORUM_DIGEST_SENT', 'Digest processed');
+	define('_AM_IFORUM_DIGEST_FAILED', 'Digest NOT processed');
 
 	// admin_forum_manager.php
 	define("_AM_IFORUM_NAME", "Name");
@@ -221,21 +219,21 @@ $constpref = '_AM_IFORUM';
 	define("_AM_IFORUM_PRUNE_2YEARS", "2 Years");
 
 	// About.php constants
-	define($constpref.'_AUTHOR_INFO', "Author Informations");
-	define($constpref.'_AUTHOR_NAME', "Author");
-	define($constpref.'_AUTHOR_WEBSITE', "Author's website");
-	define($constpref.'_AUTHOR_EMAIL', "Author's email");
-	define($constpref.'_AUTHOR_CREDITS', "Credits");
-	define($constpref.'_MODULE_INFO', "Module Development Information");
-	define($constpref.'_MODULE_STATUS', "Status");
-	define($constpref.'_MODULE_DEMO', "Demo Site");
-	define($constpref.'_MODULE_SUPPORT', "Official support site");
-	define($constpref.'_MODULE_BUG', "Report a bug for this module");
-	define($constpref.'_MODULE_FEATURE', "Suggest a new feature for this module");
-	define($constpref.'_MODULE_DISCLAIMER', "Disclaimer");
-	define($constpref.'_AUTHOR_WORD', "The Author's Word");
-	define($constpref.'_BY', 'By');
-	define($constpref.'_AUTHOR_WORD_EXTRA', "		");
+	define('_AM_IFORUM_AUTHOR_INFO', "Author Informations");
+	define('_AM_IFORUM_AUTHOR_NAME', "Author");
+	define('_AM_IFORUM_AUTHOR_WEBSITE', "Author's website");
+	define('_AM_IFORUM_AUTHOR_EMAIL', "Author's email");
+	define('_AM_IFORUM_AUTHOR_CREDITS', "Credits");
+	define('_AM_IFORUM_MODULE_INFO', "Module Development Information");
+	define('_AM_IFORUM_MODULE_STATUS', "Status");
+	define('_AM_IFORUM_MODULE_DEMO', "Demo Site");
+	define('_AM_IFORUM_MODULE_SUPPORT', "Official support site");
+	define('_AM_IFORUM_MODULE_BUG', "Report a bug for this module");
+	define('_AM_IFORUM_MODULE_FEATURE', "Suggest a new feature for this module");
+	define('_AM_IFORUM_MODULE_DISCLAIMER', "Disclaimer");
+	define('_AM_IFORUM_AUTHOR_WORD', "The Author's Word");
+	define('_AM_IFORUM_BY', 'By');
+	define('_AM_IFORUM_AUTHOR_WORD_EXTRA', "		");
 
 	// admin_report.php
 	define("_AM_IFORUM_REPORTADMIN", "Reported posts manager");
