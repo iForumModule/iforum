@@ -123,7 +123,7 @@ class IforumReportHandler extends ArtObjectHandler {
 	*
 	* @return  bool true on success
 	*/
-	function cleanOrphan()
+    function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
 		return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
 	}

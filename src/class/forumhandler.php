@@ -9,7 +9,7 @@ class IforumForumHandler extends icms_ipf_Handler
         //$this->ArtObjectHandler($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
     }
 
-    function insert(&$forum)
+    function insert(&$forum, $force = false,$checkObject = true,$debug=false)
     {
         if (!parent::insert($forum, true)) {
             icms_core_Message::error($forum->getErrors());
@@ -23,7 +23,7 @@ class IforumForumHandler extends icms_ipf_Handler
         return $forum->getVar('forum_id');
     }
 
-    function delete(&$forum)
+    function delete(&$forum, $force = false)
     {
 // RMV-NOTIFY
         xoops_notification_deletebyitem(icms::$module->getVar('mid'), 'forum', $forum->getVar('forum_id'));
@@ -477,7 +477,7 @@ class IforumForumHandler extends icms_ipf_Handler
 
     function applyPermissionTemplate(&$forum)
     {
-        $perm_handler = icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__))), 'iforum');
+        $perm_handler = icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum');
         return $perm_handler->applyTemplate($forum->getVar("forum_id"));
     }
 
@@ -491,10 +491,7 @@ class IforumForumHandler extends icms_ipf_Handler
         parent::cleanOrphan($this->db->prefix("bb_categories"), "cat_id");
 
         if ($this->mysql_major_version() >= 4):
-            /*
-            $sql = "DELETE FROM ".$this->table.
-            " WHERE (parent_forum >0 AND parent_forum NOT IN ( SELECT DISTINCT forum_id FROM ".$this->table.") )";
-            */
+
             $sql = "DELETE " . $this->table . " FROM " . $this->table . " LEFT JOIN " . $this->table . " AS aa ON " . $this->table . ".parent_forum = aa.forum_id " . " WHERE " . $this->table . ".parent_forum>0 AND (aa.forum_id IS NULL)";
             if (!$result = $this->db->queryF($sql)):
                 icms_core_Message::error("cleanOrphan error:" . $sql);
