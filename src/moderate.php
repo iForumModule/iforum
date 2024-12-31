@@ -22,14 +22,14 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include 'header.php';
- 
+
 $forum_id = isset($_POST['forum']) ? (int)$_POST['forum'] :
  0;
 $forum_id = isset($_GET['forum']) ? (int)$_GET['forum'] :
  $forum_id;
- 
+
 $isadmin = iforum_isAdmin($forum_id);
 if (!$isadmin)
 {
@@ -37,9 +37,9 @@ if (!$isadmin)
 	exit();
 }
 $is_administrator = iforum_isAdmin();
- 
+
 $moderate_handler = icms_getmodulehandler('moderate', basename(__DIR__), 'iforum' );
- 
+
 if (!empty($_POST["submit"]) && !empty($_POST["expire"]))
 {
 	if (!empty($_POST["ip"]) && !preg_match("/^([0-9]{1,3}\.){0,3}[0-9]{1,3}$/", $_POST["ip"])) $_POST["ip"] = "";
@@ -110,12 +110,12 @@ elseif(!empty($_GET["del"]))
 		exit();
 	}
 }
- 
+
 $start = isset($_GET['start']) ? (int)$_GET['start'] :
  0;
 $sortname = isset($_GET['sort']) ? $_GET['sort'] :
  "";
- 
+
 switch($sortname)
 {
 	case "uid":
@@ -136,7 +136,7 @@ switch($sortname)
 	$order = "ASC";
 	break;
 }
- 
+
 $criteria = new icms_db_criteria_Item("forum_id", "(0, ".$forum_id.")", "IN");
 $criteria->setLimit(icms::$module->config['topics_per_page']);
 $criteria->setStart($start);
@@ -144,7 +144,7 @@ $criteria->setSort($sort);
 $criteria->setOrder($order);
 $moderate_objs = $moderate_handler->getObjects($criteria);
 $moderate_count = $moderate_handler->getCount($criteria);
- 
+
 include ICMS_ROOT_PATH.'/header.php';
 if ($forum_id)
 {
@@ -155,7 +155,7 @@ else
 	$url = 'index.php';
 }
 echo '<div style="padding: 10px; margin-left:auto; margin-right:auto; text-align:center;"><a href="'.$url.'"><h2>'._MD_SUSPEND_MANAGEMENT.'</h2></a></div>';
- 
+
 if (!empty($moderate_count))
 {
 	$_users = array();
@@ -164,7 +164,7 @@ if (!empty($moderate_count))
 		$_users[$moderate_objs[$id]->getVar("uid")] = 1;
 	}
 	$users = iforum_getUnameFromIds(array_keys($_users), icms::$module->config['show_realname'], true);
-	 
+
 	echo '
 		<table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
 		<tr class="head" align="left">
@@ -188,7 +188,7 @@ if (!empty($moderate_count))
 		</td>
 		</tr>
 		';
-	 
+
 	foreach(array_keys($moderate_objs) as $id)
 	{
 		echo '
@@ -242,20 +242,25 @@ if (!empty($moderate_count))
 		';
 	if ($moderate_count > icms::$module->config['topics_per_page'])
 	{
-		include ICMS_ROOT_PATH.'/class/pagenav.php';
-		$nav = new XoopsPageNav($all_topics, icms::$module->config['topics_per_page'], $start, "start", 'forum='.$forum_id.'&amp;sort='.$sortname);
-		echo '<tr><td colspan="6">'.$nav->renderNav(4).'</td></tr>';
+		$nav = new icms_view_PageNav($all_topics, icms::$module->config['topics_per_page'], $start, "start", 'forum='.$forum_id.'&amp;sort='.$sortname);
+		echo '<tr><td colspan="6">' . $nav->renderNav(4).'</td></tr>';
 	}
-	 
+
 	echo '</table><br /><br />';
 }
- 
+
 $forum_form = new icms_form_Theme(_ADD, 'suspend', "moderate.php", 'post');
-$forum_form->addElement(new icms_form_elements_Text(_MD_SUSPEND_UID, 'uid', 20, 25));
-$forum_form->addElement(new icms_form_elements_Text(_MD_SUSPEND_IP, 'ip', 20, 25));
-$forum_form->addElement(new icms_form_elements_Text(_MD_SUSPEND_DURATION, 'expire', 20, 25, ''), true);
-$forum_form->addElement(new icms_form_elements_Text(_MD_SUSPEND_DESC, 'desc', 50, 255));
-$forum_form->addElement(new icms_form_elements_Hidden('forum', $forum_id));
-$forum_form->addElement(new icms_form_elements_Button('', 'submit', _SUBMIT, "submit"));
+$icms_form_elements_Text = new icms_form_elements_Text(_MD_SUSPEND_UID, 'uid', 20, 25);
+$forum_form->addElement($icms_form_elements_Text);
+$icms_form_elements_Text_IP = new icms_form_elements_Text(_MD_SUSPEND_IP, 'ip', 20, 25);
+$forum_form->addElement($icms_form_elements_Text_IP);
+$formElement = new icms_form_elements_Text(_MD_SUSPEND_DURATION, 'expire', 20, 25, '');
+$forum_form->addElement($formElement, true);
+$icms_form_elements_Text1 = new icms_form_elements_Text(_MD_SUSPEND_DESC, 'desc', 50, 255);
+$forum_form->addElement($icms_form_elements_Text1);
+$icms_form_elements_Hidden = new icms_form_elements_Hidden('forum', $forum_id);
+$forum_form->addElement($icms_form_elements_Hidden);
+$icms_form_elements_Button = new icms_form_elements_Button('', 'submit', _SUBMIT, "submit");
+$forum_form->addElement($icms_form_elements_Button);
 $forum_form->display();
 include ICMS_ROOT_PATH.'/footer.php';

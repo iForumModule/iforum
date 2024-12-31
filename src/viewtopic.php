@@ -22,11 +22,11 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include 'header.php';
 // To enable image auto-resize by js
 $icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
- 
+
 $topic_id = isset($_GET['topic_id']) ? (int)$_GET['topic_id'] :
  0;
 $post_id = !empty($_GET['post_id']) ? (int)$_GET['post_id'] :
@@ -41,14 +41,14 @@ $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pendi
  "";
 $mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  (!empty($type)?2:0);
- 
+
 if (!$topic_id && !$post_id )
 {
 	$redirect = empty($forum_id)?"index.php":
 	'viewforum.php?forum='.$forum_id;
 	redirect_header($redirect, 2, _MD_ERRORTOPIC);
 }
- 
+
 $topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 if (!empty($post_id) )
 {
@@ -70,9 +70,9 @@ if (!is_object($forumtopic) || !$topic_id = $forumtopic->getVar('topic_id') )
 $forum_id = $forumtopic->getVar('forum_id');
 $forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $viewtopic_forum = $forum_handler->get($forum_id);
- 
+
 $isadmin = iforum_isAdmin($viewtopic_forum);
- 
+
 if (!$isadmin && $forumtopic->getVar('approved') < 0 )
 {
 	redirect_header("viewforum.php?forum=".$forum_id, 2, _MD_NORIGHTTOVIEW);
@@ -93,19 +93,19 @@ if ($mode)
 {
 	$_GET['viewmode'] = "flat";
 }
- 
+
 $perm = icms_getmodulehandler('permission', basename(__DIR__), 'iforum' );
 $permission_set = $perm->getPermissions('forum', $forum_id);
- 
+
 if (!$topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "view"))
 	{
 	redirect_header("viewforum.php?forum=".$forum_id, 2, _MD_NORIGHTTOVIEW);
 	exit();
 }
- 
+
 $karma_handler = icms_getmodulehandler('karma', basename(__DIR__), 'iforum' );
 $user_karma = $karma_handler->getUserKarma();
- 
+
 $valid_modes = array("flat", "thread", "compact", "left", "right");
 $viewmode_cookie = iforum_getcookie("V");
 if (isset($_GET['viewmode']) && in_array($_GET['viewmode'], $valid_modes))
@@ -132,9 +132,9 @@ $order = (isset($_GET['order']) && in_array(strtoupper($_GET['order']), array("D
 "DESC":"ASC"
 );
 */
- 
+
 $total_posts = $topic_handler->getPostCount($forumtopic, $type);
- 
+
 if ($viewmode == "thread")
 {
 	$xoopsOption['template_main'] = 'iforum_viewtopic_thread.html';
@@ -160,7 +160,7 @@ else
 	$xoopsOption['template_main'] = 'iforum_viewtopic_flat.html';
 	$postsArray = $topic_handler->getAllPosts($forumtopic, $order, icms::$module->config['posts_per_page'], $start, $post_id, $type);
 }
- 
+
 // cookie should be handled before calling ICMS_ROOT_PATH."/header.php", otherwise it won't work for cache
 //$topic_lastread = iforum_getcookie('LT',true);
 //if ( empty($topic_lastread[$topic_id]) ) {
@@ -171,13 +171,13 @@ $topic_lastread[$topic_id] = time();
 iforum_setcookie("LT", $topic_lastread);
 */
 iforum_setRead("topic", $topic_id, $forumtopic->getVar("topic_last_post_id"));
- 
+
 if (!empty(icms::$module->config['rss_enable']))
 {
 	$icms_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'-'.$viewtopic_forum->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php?f='.$viewtopic_forum->getVar("forum_id").'" />';
 }
 $icms_pagetitle = $forumtopic->getVar('topic_title') . ' [' . icms::$module->getVar('name') ." - ". $viewtopic_forum->getVar('forum_name') . "]";
- 
+
 $xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
 $xoopsOption['xoops_module_header'] = $icms_module_header;
 include ICMS_ROOT_PATH."/header.php";
@@ -191,21 +191,21 @@ else
 }
 $icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
- 
+
 if (icms::$module->config['wol_enabled'])
 	{
 	$online_handler = icms_getmodulehandler('online', basename(__DIR__), 'iforum' );
 	$online_handler->init($viewtopic_forum, $forumtopic);
 	$icmsTpl->assign('online', $online_handler->show_online());
 }
- 
+
 if ($viewtopic_forum->getVar('parent_forum') > 0)
 {
 	$q = "select forum_name from ".icms::$xoopsDB->prefix('bb_forums')." WHERE forum_id=".$viewtopic_forum->getVar('parent_forum');
 	$row = icms::$xoopsDB->fetchArray(icms::$xoopsDB->query($q));
 	$icmsTpl->assign(array('parent_forum' => $viewtopic_forum->getVar('parent_forum'), 'parent_name' => icms_core_DataFilter::htmlSpecialchars($row['forum_name'])));
 }
- 
+
 $topic_prefix = "";
 if ($forumtopic->getVar('topic_subject')
 && !empty(icms::$module->config['subject_prefix'])
@@ -220,16 +220,16 @@ $icmsTpl->assign(array(
 	'forum_name' => $viewtopic_forum->getVar('forum_name'),
 	'lang_nexttopic' => _MD_NEXTTOPIC,
 	'lang_prevtopic' => _MD_PREVTOPIC ));
- 
+
 $category_handler = icms_getmodulehandler("category", basename(__DIR__), 'iforum' );
 $category_obj = $category_handler->get($viewtopic_forum->getVar("cat_id"), array("cat_title"));
 $icmsTpl->assign('category', array("id" => $viewtopic_forum->getVar("cat_id"), "title" => $category_obj->getVar('cat_title')));
- 
+
 $icmsTpl->assign('folder_topic', iforum_displayImage($forumImage['folder_topic']));
- 
+
 $icmsTpl->assign('topic_id', $topic_id);
 $icmsTpl->assign('forum_id', $forum_id);
- 
+
 if ($order == 'DESC')
 {
 	$order_current = 'DESC';
@@ -240,12 +240,12 @@ else
 	$order_current = 'ASC';
 	$icmsTpl->assign(array('order_current' => 'ASC'));
 }
- 
+
 $t_new = iforum_displayImage($forumImage['t_new'], _MD_POSTNEW);
 $t_reply = iforum_displayImage($forumImage['t_reply'], _MD_REPLY);
 $t_extras = iforum_displayImage($forumImage['t_extras'], _MD_EXTRAS);
 $t_signup = iforum_displayImage($forumImage['t_signup'], _MD_EXTRAS);
- 
+
 if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "post"))
 	{
 	$icmsTpl->assign('forum_post_or_register', "<a href=\"newtopic.php?forum=".$forum_id."\">".$t_new."</a>");
@@ -270,7 +270,7 @@ if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_s
 	$icmsTpl->assign('forum_reply', "<a href=\"reply.php?forum=".$forum_id."&amp;topic_id=".$topic_id."\">".$t_reply."</a>");
 }
 $icmsTpl->assign('forum_extras', $t_extras);
- 
+
 $poster_array = array();
 $require_reply = false;
 foreach ($postsArray as $eachpost)
@@ -292,12 +292,12 @@ else
 	$user_criteria = '';
 	$users = null;
 }
- 
+
 if (icms::$module->config['wol_enabled'] && $online_handler)
 	{
 	$online = $online_handler->checkStatus(array_keys($poster_array));
 }
- 
+
 if (icms::$module->config['groupbar_enabled'])
 {
 	$groups_disp = array();
@@ -309,7 +309,7 @@ if (icms::$module->config['groupbar_enabled'])
 	}
 	unset($groups);
 }
- 
+
 $viewtopic_users = array();
 if (count($userid_array) > 0)
 {
@@ -328,7 +328,7 @@ if (count($userid_array) > 0)
 }
 unset($users);
 unset($groups_disp);
- 
+
 if (icms::$module->config['allow_require_reply'] && $require_reply)
 {
 	if (!empty(icms::$module->config['cache_enabled']))
@@ -349,20 +349,20 @@ else
 {
 	$viewtopic_posters = array();
 }
- 
+
 if ($viewmode == "thread")
 {
 	if (!empty($post_id))
 	{
 		$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 		$currentPost = $post_handler->get($post_id);
-		 
+
 		if (!$isadmin && $currentPost->getVar('approved') < 0 )
 		{
 			redirect_header("viewtopic.php?topic_id=".$topic_id, 2, _MD_NORIGHTTOVIEW);
 			exit();
 		}
-		 
+
 		$topPost = $topic_handler->getTopPost($topic_id);
 		$top_pid = $topPost->getVar('post_id');
 		unset($topPost);
@@ -372,9 +372,9 @@ if ($viewmode == "thread")
 		$currentPost = $topic_handler->getTopPost($topic_id);
 		$top_pid = $currentPost->getVar('post_id');
 	}
-	 
+
 	$icmsTpl->append('topic_posts', $currentPost->showPost($isadmin));
-	 
+
 	$postArray = $topic_handler->getPostTree($postsArray);
 	if (count($postArray) > 0 )
 	{
@@ -393,11 +393,10 @@ else
 	{
 		$icmsTpl->append('topic_posts', $eachpost->showPost($isadmin));
 	}
-	 
+
 	if ($total_posts > icms::$module->config['posts_per_page'] )
 	{
-		include ICMS_ROOT_PATH.'/class/pagenav.php';
-		$nav = new XoopsPageNav($total_posts, icms::$module->config['posts_per_page'], $start, "start", 'topic_id='.$topic_id.'&amp;viewmode='.$viewmode.'&amp;order='.$order.'&amp;type='.$type."&amp;mode=".$mode);
+		$nav = new icms_view_PageNav($total_posts, icms::$module->config['posts_per_page'], $start, "start", 'topic_id='.$topic_id.'&amp;viewmode='.$viewmode.'&amp;order='.$order.'&amp;type='.$type."&amp;mode=".$mode);
 		$icmsTpl->assign('forum_page_nav', $nav->renderNav(4));
 	}
 	else
@@ -406,11 +405,11 @@ else
 	}
 }
 unset($postsArray);
- 
+
 $icmsTpl->assign('topic_print_link', "print.php?form=1&amp;topic_id=$topic_id&amp;forum=".$forum_id."&amp;order=$order&amp;start=$start");
- 
+
 $admin_actions = array();
- 
+
 $ad_merge = "";
 $ad_move = "";
 $ad_delete = "";
@@ -420,7 +419,7 @@ $ad_sticky = "";
 $ad_unsticky = "";
 $ad_digest = "";
 $ad_undigest = "";
- 
+
 $admin_actions['merge'] = array(
 "link" => $forumUrl['root'].'/topicmanager.php?mode=merge&amp;topic_id='.$topic_id.'&amp;forum='.$forum_id,
 	"name" => _MD_MERGETOPIC,
@@ -476,16 +475,16 @@ else
 		"name" => _MD_UNDIGESTTOPIC);
 }
 $icmsTpl->assign_by_ref('admin_actions', $admin_actions);
- 
+
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
- 
+
 if (icms::$module->config['show_permissiontable'])
 {
 	$permission_table = $perm->permission_table($permission_set, $viewtopic_forum, $forumtopic->getVar('topic_status'), $isadmin);
 	$icmsTpl->assign_by_ref('permission_table', $permission_table);
 	unset($permission_table);
 }
- 
+
 ///////////////////////////////
 // show Poll
 if ($viewtopic_forum->getVar('allow_polls') ):
@@ -502,12 +501,12 @@ $forumtopic->getVar('topic_haspoll')
 	@include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
 	@include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
 }
- 
+
 if ($forumtopic->getVar('topic_haspoll')
 	&& $topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "vote")
 )
 {
-	 
+
 	$icmsTpl->assign('topic_poll', 1);
 	$poll = new XoopsPoll($forumtopic->getVar('poll_id'));
 	$renderer = new XoopsPollRenderer($poll);
@@ -548,7 +547,7 @@ if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_s
 		$poll_edit = "";
 		$poll_delete = "";
 		$poll_restart = "";
-		 
+
 		$adminpoll_actions = array();
 		$adminpoll_actions['editpoll'] = array(
 		"link" => $forumUrl['root'].'/polls.php?op=edit&amp;poll_id='.$forumtopic->getVar('poll_id').'&amp;topic_id='.$topic_id.'&amp;forum='.$forum_id,
@@ -562,19 +561,19 @@ if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_s
 		"link" => $forumUrl['root'].'/polls.php?op=restart&amp;poll_id='.$forumtopic->getVar('poll_id').'&amp;topic_id='.$topic_id.'&amp;forum='.$forum_id,
 			"image" => $poll_restart,
 			"name" => _MD_RESTARTPOLL);
-		 
+
 		$icmsTpl->assign_by_ref('adminpoll_actions', $adminpoll_actions);
 		unset($adminpoll_actions);
 	}
 }
 if (isset($poll)) unset($poll);
 endif;
- 
+
 $icmsTpl->assign('p_up', iforum_displayImage($forumImage['p_up'], _MD_TOP));
 $icmsTpl->assign('rating_enable', icms::$module->config['rating_enabled']);
 $icmsTpl->assign('groupbar_enable', icms::$module->config['groupbar_enabled']);
 $icmsTpl->assign('anonymous_prefix', icms::$module->config['anonymous_prefix']);
- 
+
 $icmsTpl->assign('threaded', iforum_displayImage($forumImage['threaded']));
 $icmsTpl->assign('flat', iforum_displayImage($forumImage['flat']));
 $icmsTpl->assign('left', iforum_displayImage($forumImage['left']));
@@ -585,7 +584,7 @@ $icmsTpl->assign('up', iforum_displayImage($forumImage['up']));
 $icmsTpl->assign('printer', iforum_displayImage($forumImage['printer']));
 $icmsTpl->assign('personal', iforum_displayImage($forumImage['personal']));
 $icmsTpl->assign('post_content', iforum_displayImage($forumImage['post_content']));
- 
+
 if (!empty(icms::$module->config['rating_enabled']))
 {
 	$icmsTpl->assign('votes', $forumtopic->getVar('votes'));
@@ -605,14 +604,14 @@ if (!empty(icms::$module->config['rating_enabled']))
 	$icmsTpl->assign('rate4', iforum_displayImage($forumImage['rate4'], _MD_RATE4));
 	$icmsTpl->assign('rate5', iforum_displayImage($forumImage['rate5'], _MD_RATE5));
 }
- 
+
 // create jump box
 if (!empty(icms::$module->config['show_jump']))
 {
 	$icmsTpl->assign('forum_jumpbox', iforum_make_jumpbox($forum_id));
 }
 $icmsTpl->assign(array('lang_forum_index' => sprintf(_MD_FORUMINDEX, htmlspecialchars($icmsConfig['sitename'], ENT_QUOTES)), 'lang_from' => _MD_FROM, 'lang_joined' => _MD_JOINED, 'lang_posts' => _MD_POSTS, 'lang_poster' => _MD_POSTER, 'lang_thread' => _MD_THREAD, 'lang_edit' => _EDIT, 'lang_delete' => _DELETE, 'lang_reply' => _REPLY, 'lang_postedon' => _MD_POSTEDON, 'lang_groups' => _MD_GROUPS));
- 
+
 $viewmode_options = array();
 if ($viewmode == "thread")
 {
@@ -697,7 +696,7 @@ switch($type)
 	break;
 }
 $icmsTpl->assign('topictype', $current_type);
- 
+
 $icmsTpl->assign('mode', $mode);
 $icmsTpl->assign('type', $type);
 $icmsTpl->assign('viewmode_compact', ($viewmode == "compact")?1:0);
@@ -705,13 +704,13 @@ $icmsTpl->assign('viewmode_left', ($viewmode == "left")?1:0);
 $icmsTpl->assign('viewmode_right', ($viewmode == "right")?1:0);
 $icmsTpl->assign_by_ref('viewmode_options', $viewmode_options);
 unset($viewmode_options);
- 
+
 if (!empty(icms::$module->config['quickreply_enabled'])
 && $topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "reply")
 )
 {
 	$forum_form = new icms_form_Theme(_MD_POSTREPLY, 'quick_reply', "post.php", 'post', true);
-	 
+
 	if (!is_object(icms::$user))
 	{
 		$user_tray = new icms_form_elements_Tray(_MD_ACCOUNT);
@@ -722,7 +721,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 		$user_tray->addElement($login_checkbox);
 		$forum_form->addElement($user_tray, '');
 	}
-	 
+
 	$quickform = icms::$module->config['editor_default'];
 	$editor_configs = array();
 	$editor_configs["caption"] = _MD_MESSAGEC;
@@ -755,9 +754,9 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$forum_form->addElement(new icms_form_elements_Hidden('dosmiley', 1));
 	$forum_form->addElement(new icms_form_elements_Hidden('doxcode', 1));
 	$forum_form->addElement(new icms_form_elements_Hidden('attachsig', 1));
-	 
+
 	$forum_form->addElement(new icms_form_elements_Hidden('isreply', 1));
-	 
+
 	$forum_form->addElement(new icms_form_elements_Hidden('subject', _MD_RE.': '.$forumtopic->getVar('topic_title', 'e')));
 	$forum_form->addElement(new icms_form_elements_Hidden('pid', empty($post_id)?$topic_handler->getTopPostId($topic_id):$post_id));
 	$forum_form->addElement(new icms_form_elements_Hidden('topic_id', $topic_id));
@@ -765,7 +764,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$forum_form->addElement(new icms_form_elements_Hidden('viewmode', $viewmode));
 	$forum_form->addElement(new icms_form_elements_Hidden('order', $order));
 	$forum_form->addElement(new icms_form_elements_Hidden('start', $start));
-	 
+
 	if (!empty(icms::$module->config['captcha_enabled']) )
 	{
 		$forum_form->addElement(new icms_form_elements_Captcha("", "topic_{$topic_id}_{$start}") );
@@ -777,7 +776,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 		$_SESSION['submit_token'] = $post_valid;
 		$forum_form->addElement(new icms_form_elements_Hidden('post_valid', $post_valid));
 	}
-	 
+
 	$forum_form->addElement(new icms_form_elements_Hidden('notify', -1));
 	$forum_form->addElement(new icms_form_elements_Hidden('contents_submit', 1));
 	$submit_button = new icms_form_elements_Button('', 'quick_submit', _SUBMIT, "submit");
@@ -785,7 +784,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$button_tray = new icms_form_elements_Tray('');
 	$button_tray->addElement($submit_button);
 	$forum_form->addElement($button_tray);
-	 
+
 	$toggles = iforum_getcookie('G', true);
 	$display = (in_array('qr', $toggles)) ? 'none;' :
 	 'block;';

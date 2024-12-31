@@ -25,7 +25,7 @@
 
 include 'admin_header.php';
 include ICMS_ROOT_PATH . "/class/xoopstree.php";
-//include_once ICMS_ROOT_PATH . "/class/pagenav.php";
+
 
 $op = '';
 $confirm = '';
