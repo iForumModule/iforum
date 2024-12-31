@@ -178,9 +178,7 @@ switch ($op)
 			if (!empty($_POST['forum'])) $forum_id = intval($_POST['forum']);
 
 		$dest = $_POST['dest'];
-		if ($dest {
-			0 }
-		== "f")
+		if ($dest [0] == "f")
 		{
 			$pid = substr($dest, 1);
 			$forum =$forum_handler->get(intval($pid));
