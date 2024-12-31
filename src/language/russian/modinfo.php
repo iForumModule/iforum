@@ -3,47 +3,44 @@
 	// Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 	// Module Info
-	//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-	$constpref = '_MI_IFORUM';
-
 	// The name of this module
-	define($constpref."_NAME", "iForum");
+	define("_MI_IFORUM_NAME", "iForum");
 
 	// A brief description of this module
-	define($constpref."_DESC", "Доска объявлений сообщества (форум)");
+	define("_MI_IFORUM_DESC", "Доска объявлений сообщества (форум)");
 
 	// Names of blocks for this module (Not all module has blocks)
-	define($constpref."_BLOCK_TOPIC_POST", "Последние отклики на темы");
-	define($constpref."_BLOCK_TOPIC", "Последние темы");
-	define($constpref."_BLOCK_POST", "Последние сообщения");
-	define($constpref."_BLOCK_AUTHOR", "Авторы");
-	define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
-	define($constpref."_BLOCK_TAG_TOP", "Top Tags");
+	define("_MI_IFORUM_BLOCK_TOPIC_POST", "Последние отклики на темы");
+	define("_MI_IFORUM_BLOCK_TOPIC", "Последние темы");
+	define("_MI_IFORUM_BLOCK_POST", "Последние сообщения");
+	define("_MI_IFORUM_BLOCK_AUTHOR", "Авторы");
+	define("_MI_IFORUM_BLOCK_TAG_CLOUD", "Tag Cloud");
+	define("_MI_IFORUM_BLOCK_TAG_TOP", "Top Tags");
 	/*
-	define($constpref."_BNAME2","Most Viewed Topics");
-	define($constpref."_BNAME3","Most Active Topics");
-	define($constpref."_BNAME4","Newest Digest");
-	define($constpref."_BNAME5","Newest Sticky Topics");
-	define($constpref."_BNAME6","Newest Posts");
-	define($constpref."_BNAME7","Authors with most topics");
-	define($constpref."_BNAME8","Authors with most posts");
-	define($constpref."_BNAME9","Authors with most digests");
-	define($constpref."_BNAME10","Authors with most sticky topics");
-	define($constpref."_BNAME11","Recent post with text");
+	define("_MI_IFORUM_BNAME2","Most Viewed Topics");
+	define("_MI_IFORUM_BNAME3","Most Active Topics");
+	define("_MI_IFORUM_BNAME4","Newest Digest");
+	define("_MI_IFORUM_BNAME5","Newest Sticky Topics");
+	define("_MI_IFORUM_BNAME6","Newest Posts");
+	define("_MI_IFORUM_BNAME7","Authors with most topics");
+	define("_MI_IFORUM_BNAME8","Authors with most posts");
+	define("_MI_IFORUM_BNAME9","Authors with most digests");
+	define("_MI_IFORUM_BNAME10","Authors with most sticky topics");
+	define("_MI_IFORUM_BNAME11","Recent post with text");
 	*/
 
 	// Names of admin menu items
-	define($constpref."_ADMENU_INDEX", "Индекс");
-	define($constpref."_ADMENU_CATEGORY", "Категории");
-	define($constpref."_ADMENU_FORUM", "Форумы");
-	define($constpref."_ADMENU_PERMISSION", "Права доступа");
-	define($constpref."_ADMENU_BLOCK", "Блоки");
-	define($constpref."_ADMENU_ORDER", "Упорядочивание");
-	define($constpref."_ADMENU_SYNC", "Синхронизация");
-	define($constpref."_ADMENU_PRUNE", "Очистка");
-	define($constpref."_ADMENU_REPORT", "Отчеты");
-	define($constpref."_ADMENU_DIGEST", "Дайджесты");
-	define($constpref."_ADMENU_VOTE", "Голосование");
+	define("_MI_IFORUM_ADMENU_INDEX", "Индекс");
+	define("_MI_IFORUM_ADMENU_CATEGORY", "Категории");
+	define("_MI_IFORUM_ADMENU_FORUM", "Форумы");
+	define("_MI_IFORUM_ADMENU_PERMISSION", "Права доступа");
+	define("_MI_IFORUM_ADMENU_BLOCK", "Блоки");
+	define("_MI_IFORUM_ADMENU_ORDER", "Упорядочивание");
+	define("_MI_IFORUM_ADMENU_SYNC", "Синхронизация");
+	define("_MI_IFORUM_ADMENU_PRUNE", "Очистка");
+	define("_MI_IFORUM_ADMENU_REPORT", "Отчеты");
+	define("_MI_IFORUM_ADMENU_DIGEST", "Дайджесты");
+	define("_MI_IFORUM_ADMENU_VOTE", "Голосование");
 
 
 
@@ -142,9 +139,9 @@
 
 	define("_MI_EMAIL_DIGEST", "Email post digest");
 	define("_MI_EMAIL_DIGEST_DESC", "Set time period for sending post digest to users");
-	define($constpref."_EMAIL_NONE", "No email");
-	define($constpref."_EMAIL_DAILY", "Daily");
-	define($constpref."_EMAIL_WEEKLY", "Weekly");
+	define("_MI_IFORUM_EMAIL_NONE", "No email");
+	define("_MI_IFORUM_EMAIL_DAILY", "Daily");
+	define("_MI_IFORUM_EMAIL_WEEKLY", "Weekly");
 
 	define("_MI_SHOW_IP", "Show user IP");
 	define("_MI_SHOW_IP_DESC", "Setting YES will show users IP to moderators");
@@ -295,12 +292,12 @@
 	define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} автооповещение : получен дайджест');
 
 	// FOR installation
-	define($constpref."_INSTALL_CAT_TITLE", "Тестовая категория");
-	define($constpref."_INSTALL_CAT_DESC", "Категория для тестирования.");
-	define($constpref."_INSTALL_FORUM_NAME", "Тестовый форум");
-	define($constpref."_INSTALL_FORUM_DESC", "Форум для тестирования.");
-	define($constpref."_INSTALL_POST_SUBJECT", "Поздравляем! Форум работает.");
-	define($constpref."_INSTALL_POST_TEXT", "
+	define("_MI_IFORUM_INSTALL_CAT_TITLE", "Тестовая категория");
+	define("_MI_IFORUM_INSTALL_CAT_DESC", "Категория для тестирования.");
+	define("_MI_IFORUM_INSTALL_FORUM_NAME", "Тестовый форум");
+	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Форум для тестирования.");
+	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Поздравляем! Форум работает.");
+	define("_MI_IFORUM_INSTALL_POST_TEXT", "
 		Добро пожаловать на форум ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES)).".
 		Чтобы открыть собственные темы, Вам достаточно просто зарегистрироваться и войти на сайт.
 

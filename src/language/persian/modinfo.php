@@ -5,45 +5,43 @@
 	// Module Info
 
 	// The name of this module
-	//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-	$constpref = '_MI_IFORUM';
-	define($constpref."_NAME", "انجمن‌ها");
+	define("_MI_IFORUM_NAME", "انجمن‌ها");
 
 	// A brief description of this module
-	define($constpref."_DESC", "ماژول انجمن‌های برنامه مدیریت محتوای ایمپرس سی‌ام‌اس");
+	define("_MI_IFORUM_DESC", "ماژول انجمن‌های برنامه مدیریت محتوای ایمپرس سی‌ام‌اس");
 
 	// Names of blocks for this module (Not all module has blocks)
-	define($constpref."_BLOCK_TOPIC_POST", "پاسخ‌های جدید در عنوان‌ها");
-	define($constpref."_BLOCK_TOPIC", "عنوان‌های دارای جدید ترین پاسخ");
-	define($constpref."_BLOCK_POST", "پاسخ‌های جدید");
-	define($constpref."_BLOCK_AUTHOR", "پیام دهندگان");
-	define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
-	define($constpref."_BLOCK_TAG_TOP", "Top Tags");
+	define("_MI_IFORUM_BLOCK_TOPIC_POST", "پاسخ‌های جدید در عنوان‌ها");
+	define("_MI_IFORUM_BLOCK_TOPIC", "عنوان‌های دارای جدید ترین پاسخ");
+	define("_MI_IFORUM_BLOCK_POST", "پاسخ‌های جدید");
+	define("_MI_IFORUM_BLOCK_AUTHOR", "پیام دهندگان");
+	define("_MI_IFORUM_BLOCK_TAG_CLOUD", "Tag Cloud");
+	define("_MI_IFORUM_BLOCK_TAG_TOP", "Top Tags");
 	/*
-	define($constpref."_BNAME2","تاپیک‌های پر بیننده");
-	define($constpref."_BNAME3","تاپیک‌های دارای بیشترین پاسخ");
-	define($constpref."_BNAME4","پیام‌های جدید در انجمن‌های خصوصی");
-	define($constpref."_BNAME5","جدید ترین عنوان‌های چسبان");
-	define($constpref."_BNAME6","پیام‌های جدید");
-	define($constpref."_BNAME7","زنندگان بیشترین عنوان");
-	define($constpref."_BNAME8","زنندگان بیشترین پست");
-	define($constpref."_BNAME9","زنندگان بیشترین خلاصه");
-	define($constpref."_BNAME10","زنندگان بیشترین عنوان‌های خلاصه");
-	define($constpref."_BNAME11","پیام‌های جدید همراه با متن");
+	define("_MI_IFORUM_BNAME2","تاپیک‌های پر بیننده");
+	define("_MI_IFORUM_BNAME3","تاپیک‌های دارای بیشترین پاسخ");
+	define("_MI_IFORUM_BNAME4","پیام‌های جدید در انجمن‌های خصوصی");
+	define("_MI_IFORUM_BNAME5","جدید ترین عنوان‌های چسبان");
+	define("_MI_IFORUM_BNAME6","پیام‌های جدید");
+	define("_MI_IFORUM_BNAME7","زنندگان بیشترین عنوان");
+	define("_MI_IFORUM_BNAME8","زنندگان بیشترین پست");
+	define("_MI_IFORUM_BNAME9","زنندگان بیشترین خلاصه");
+	define("_MI_IFORUM_BNAME10","زنندگان بیشترین عنوان‌های خلاصه");
+	define("_MI_IFORUM_BNAME11","پیام‌های جدید همراه با متن");
 	*/
 
 	// Names of admin menu items
-	define($constpref."_ADMENU_INDEX", "صفحه اصلی مدیریت");
-	define($constpref."_ADMENU_CATEGORY", "شاخه‌ها");
-	define($constpref."_ADMENU_FORUM", "انجمن‌ها");
-	define($constpref."_ADMENU_PERMISSION", "دسترسی‌ها");
-	define($constpref."_ADMENU_BLOCK", "بلاک‌ها");
-	define($constpref."_ADMENU_ORDER", "تغییر مکان‌ها");
-	define($constpref."_ADMENU_SYNC", "همزمان کردن انجمن‌ها");
-	define($constpref."_ADMENU_PRUNE", "هرس کردن");
-	define($constpref."_ADMENU_REPORT", "گزارش‌ها");
-	define($constpref."_ADMENU_DIGEST", "خلاصه");
-	define($constpref."_ADMENU_VOTE", "نظر سنجی‌ها");
+	define("_MI_IFORUM_ADMENU_INDEX", "صفحه اصلی مدیریت");
+	define("_MI_IFORUM_ADMENU_CATEGORY", "شاخه‌ها");
+	define("_MI_IFORUM_ADMENU_FORUM", "انجمن‌ها");
+	define("_MI_IFORUM_ADMENU_PERMISSION", "دسترسی‌ها");
+	define("_MI_IFORUM_ADMENU_BLOCK", "بلاک‌ها");
+	define("_MI_IFORUM_ADMENU_ORDER", "تغییر مکان‌ها");
+	define("_MI_IFORUM_ADMENU_SYNC", "همزمان کردن انجمن‌ها");
+	define("_MI_IFORUM_ADMENU_PRUNE", "هرس کردن");
+	define("_MI_IFORUM_ADMENU_REPORT", "گزارش‌ها");
+	define("_MI_IFORUM_ADMENU_DIGEST", "خلاصه");
+	define("_MI_IFORUM_ADMENU_VOTE", "نظر سنجی‌ها");
 
 
 
@@ -142,9 +140,9 @@
 
 	define("_MI_EMAIL_DIGEST", "پست هایی را که به عنوان خلاصه قرار گرفته اند ایمیل کن");
 	define("_MI_EMAIL_DIGEST_DESC", "مدت زمانی را که پست‌های خلاصه به کاربران ارسال شوند مشخص کنید");
-	define($constpref."_EMAIL_NONE", "ایمیل نزن");
-	define($constpref."_EMAIL_DAILY", "روزانه ایمیل بزن");
-	define($constpref."_EMAIL_WEEKLY", "هفتگی ایمیل بزن");
+	define("_MI_IFORUM_EMAIL_NONE", "ایمیل نزن");
+	define("_MI_IFORUM_EMAIL_DAILY", "روزانه ایمیل بزن");
+	define("_MI_IFORUM_EMAIL_WEEKLY", "هفتگی ایمیل بزن");
 
 	define("_MI_SHOW_IP", "نشان دادن IP");
 	define("_MI_SHOW_IP_DESC", "اگر بله را انتخاب کنید IP کاربر به ناظر انجمن و مدیران نشان داده می‌شود");
@@ -295,12 +293,12 @@
 	define($constpref.'_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} اطلاع رسانی خود کار: پست‌های خلاصه');
 
 	// FOR installation
-	define($constpref."_INSTALL_CAT_TITLE", "تست شاخه‌ها");
-	define($constpref."_INSTALL_CAT_DESC", "شاخه برای تست.");
-	define($constpref."_INSTALL_FORUM_NAME", "تست انجمن");
-	define($constpref."_INSTALL_FORUM_DESC", "انجمن برای تست.");
-	define($constpref."_INSTALL_POST_SUBJECT", "انجمن با موفقیت کار میکند.");
-	define($constpref."_INSTALL_POST_TEXT", "
+	define("_MI_IFORUM_INSTALL_CAT_TITLE", "تست شاخه‌ها");
+	define("_MI_IFORUM_INSTALL_CAT_DESC", "شاخه برای تست.");
+	define("_MI_IFORUM_INSTALL_FORUM_NAME", "تست انجمن");
+	define("_MI_IFORUM_INSTALL_FORUM_DESC", "انجمن برای تست.");
+	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "انجمن با موفقیت کار میکند.");
+	define("_MI_IFORUM_INSTALL_POST_TEXT", "
 		به انجمن‌های سایت ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES))." خوش آمدید.<br />
 		میتوانید ثبت نام کرده و سپس مبادرت به ارسال پیام کنید.<br /><br />
 		اگر هر سوالی راجع به استفاده از انجمن‌ها دارید، لطفاً سایت پشتیبانی را بازدید کنید <a href=\"http://www.impresscms.ir/modules/newbb/\" target=\"_blank\" title=\"سایت رسمی پشتیبانی ایمپرسی سی‌ام‌اس فارسی\">ماژول انجمن‌ها</a>.
