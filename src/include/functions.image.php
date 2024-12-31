@@ -22,25 +22,25 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("IFORUM_FUNCTIONS_IMAGE")):
 define("IFORUM_FUNCTIONS_IMAGE", true);
- 
+
 function iforum_attachmentImage($source)
 {
 	$img_path = ICMS_ROOT_PATH.'/'.icms::$module->config['dir_attachments'];
 	$img_url = ICMS_URL.'/'.icms::$module->config['dir_attachments'];
 	$thumb_path = $img_path.'/thumbs';
 	$thumb_url = $img_url.'/thumbs';
-	 
+
 	$thumb = $thumb_path.'/'.$source;
 	$image = $img_path.'/'.$source;
 	$thumb_url = $thumb_url.'/'.$source;
 	$image_url = $img_url.'/'.$source;
-	 
+
 	$imginfo = @getimagesize($image);
 	$img_info = (count($imginfo) > 0 )?$imginfo[0]."X".$imginfo[1].' px':"";
-	 
+
 	if (icms::$module->config['max_img_width'] > 0)
 	{
 		if (
@@ -67,8 +67,8 @@ function iforum_attachmentImage($source)
 			iforum_createThumbnail($source, icms::$module->config['max_img_width']);
 		}
 	}
-	 
-	 
+
+
 	if (file_exists($thumb))
 	{
 		$attachmentImage = '<a rel="lightbox" href="'.$image_url.'" title="'.$source.' '.$img_info.'" target="iforum_image">';
@@ -86,11 +86,11 @@ function iforum_attachmentImage($source)
 		$attachmentImage = '<img src="'.$image_url.'" alt="'.$source.' '.$img_info.'" />';
 	}
 	else $attachmentImage = '';
-	 
+
 	return $attachmentImage;
 }
- 
- 
+
+
 function iforum_createThumbnail($source, $thumb_width)
 {
 	$img_path = ICMS_ROOT_PATH.'/'.icms::$module->config['dir_attachments'];
@@ -98,17 +98,17 @@ function iforum_createThumbnail($source, $thumb_width)
 	$src_file = $img_path.'/'.$source;
 	$new_file = $thumb_path.'/'.$source;
 	//$imageLibs = iforum_getImageLibs();
-	 
+
 	if (!filesize($src_file) || !is_readable($src_file))
 	{
 		return false;
 	}
-	 
+
 	if (!is_dir($thumb_path) || !is_writable($thumb_path))
 	{
 		return false;
 	}
-	 
+
 	$imginfo = @getimagesize($src_file);
 	if (NULL == $imginfo )
 	{
@@ -118,10 +118,10 @@ function iforum_createThumbnail($source, $thumb_width)
 	{
 		return false;
 	}
-	 
+
 	$newWidth = (int)(min($imginfo[0], $thumb_width));
 	$newHeight = (int)($imginfo[1] * $newWidth / $imginfo[0]);
-	 
+
 	if (icms::$module->config['image_lib'] == 1 or icms::$module->config['image_lib'] == 0 )
 	{
 		if (preg_match("#[A-Z]:|\\\\#Ai", __FILE__))
@@ -138,42 +138,42 @@ function iforum_createThumbnail($source, $thumb_width)
 		$path = empty(icms::$module->config['path_magick'])?"":
 		icms::$module->config['path_magick']."/";
 		$magick_command = $path . 'convert -quality 85 -antialias -sample ' . $newWidth . 'x' . $newHeight . ' ' . $src_file_im . ' +profile "*" ' . str_replace('\\', '/', $new_file_im) . '';
-			 
+
 			@passthru($magick_command);
 			if (file_exists($new_file)){
 			return true;
 			}
 	}
-	 
+
 	if (icms::$module->config['image_lib'] == 2 or icms::$module->config['image_lib'] == 0 )
 	{
 		$path = empty(icms::$module->config['path_netpbm'])?"":icms::$module->config['path_netpbm']."/";
-		if (eregi("\.png", $source)){
+		if (preg_match("\.png", $source)){
 			$cmd = $path . "pngtopnm $src_file | ".$path . "pnmscale -xysize $newWidth $newHeight | ".$path . "pnmtopng > $new_file" ;
 		}
-		else if (eregi("\.(jpg|jpeg)", $source)){
+		else if (preg_match("\.(jpg|jpeg)", $source)){
 			$cmd = $path . "jpegtopnm $src_file | ".$path . "pnmscale -xysize $newWidth $newHeight | ".$path . "ppmtojpeg -quality=90 > $new_file" ;
 		}
-		else if (eregi("\.gif", $source)){
+		else if (preg_match("\.gif", $source)){
 			$cmd = $path . "giftopnm $src_file | ".$path . "pnmscale -xysize $newWidth $newHeight | ppmquant 256 | ".$path . "ppmtogif > $new_file" ;
 		}
-	
+
 		@exec($cmd, $output, $retval);
 		if (file_exists($new_file)){
 			return true;
 		}
 	}
-	 
+
 	$type = $imginfo[2];
 	$supported_types = array();
-	 
+
 	if (!extension_loaded('gd')) return false;
 	if (function_exists('imagegif')) $supported_types[] = 1;
 	if (function_exists('imagejpeg'))$supported_types[] = 2;
 	if (function_exists('imagepng')) $supported_types[] = 3;
-	 
+
 	$imageCreateFunction = (function_exists('imagecreatetruecolor'))? "imagecreatetruecolor" : "imagecreate";
-	 
+
 	if (in_array($type, $supported_types) )
 	{
 		switch ($type)
@@ -205,10 +205,10 @@ function iforum_createThumbnail($source, $thumb_width)
 			break;
 			}
 		}
-		 
-		 
+
+
 		if (file_exists($new_file)) return true;
 		else return false;
 	}
-	 
+
 	endif;
