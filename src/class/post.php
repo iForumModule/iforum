@@ -398,7 +398,7 @@ class Post extends ArtObject {
 
 		$thread_buttons = array();
 
-		if ($GLOBALS["icmsModuleConfig"]['enable_permcheck'])
+		if (icms::$module->config['enable_permcheck'])
 		{
 			$topic_handler =icms_getmodulehandler('topic', basename(dirname(__DIR__) ), 'iforum' );
 			if ($topic_handler->getPermission($forum_id, $topic_status, "edit"))

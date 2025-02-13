@@ -299,7 +299,7 @@
 	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Forum für Test.");
 	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Glückwunsch! Das Forum arbeitet.");
 	define("_MI_IFORUM_INSTALL_POST_TEXT", "
-		Willkommen zu ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES))." Forum.<br />
+		Willkommen zu ".(htmlspecialchars(icms::$config['sitename'], ENT_QUOTES))." Forum.<br />
 		Jetzt Registrieren, Anmelden und mit Themen starten.<br /><br />
 
 		Für Fragen hinsichtlich des iForum steht die lokale Supportseite oder die <a href=\"http://www.impresscms.de\" target=\"_blank\" title=\"ImpressCMS\">ImpressCMS.de Gemeinschaft</a> zur Verfügung.

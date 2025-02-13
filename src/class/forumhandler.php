@@ -640,7 +640,7 @@ class IforumForumHandler extends icms_ipf_Handler
                 } elseif ($post_obj->getVar("poster_name")) {
                     $_forum_data["forum_lastpost_user"] = $post_obj->getVar("poster_name");
                 } else {
-                    $_forum_data["forum_lastpost_user"] = icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]["anonymous"]);
+                    $_forum_data["forum_lastpost_user"] = icms_core_DataFilter::htmlSpecialchars(icms::$config["anonymous"]);
                 }
 
                 $_forum_data['forum_lastpost_time'] = formatTimestamp($post_obj->getVar('post_time'));

@@ -172,7 +172,7 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 		else
 		{
 			$topic['uname'] = ($topic['poster_name'])?icms_core_DataFilter::htmlSpecialchars($topic['poster_name']):
-			icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]["anonymous"]);
+			icms_core_DataFilter::htmlSpecialchars(icms::$config["anonymous"]);
 		}
 		$description = $topic["forum_name"]."::";
 		if ($topic['allow_subject_prefix'])

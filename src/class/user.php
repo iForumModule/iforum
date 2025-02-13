@@ -221,7 +221,7 @@ class User extends icms_core_Object {
 		$icmsConfigUser = icms::$config->getConfigsByCat(ICMS_CONF_USER);
 		$userinfo = array();
 		$user = & $this->user;
-		if (!(is_object($user)) || !($user->isActive()) ) return array("name" => icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]['anonymous']), "link" => icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]['anonymous']));
+		if (!(is_object($user)) || !($user->isActive()) ) return array("name" => icms_core_DataFilter::htmlSpecialchars(icms::$config['anonymous']), "link" => icms_core_DataFilter::htmlSpecialchars(icms::$config['anonymous']));
 		$userinfo["uid"] = $user->getVar("uid");
 		$name = $user->getVar('name');
 		$name = (empty(icms::$module->config['show_realname']) || empty($name))?$user->getVar('uname'):
