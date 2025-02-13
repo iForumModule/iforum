@@ -1,15 +1,18 @@
 # iForum Changelog
-## 2.4 beta
-17 May 2024
-### New
-* Support for ImpressCMS 2.0 RC
-* moved the module below the /src folder
 
-## 2.3 beta
-10 July 2020
-### New
- * Support for PHP 7.3
- 
+## 2.4 beta 1
+18 july 2024
+### Prepare for ICMS 2.0
+* refactor use of global $icmsModule to icms::$module
+* fix database access
+* moved the module below the /src folder
+## 2.3
+13 july 2021
+* HTML Tags in translations from font to span
+* add missing translation variable $constpref
+* Compatibility with PHP up to 7.4
+* myTextSanitizer -> icms_core_TextSanitizer
+* remove end tags in files
 ## 2.0
 29 November 2017
 ### New
