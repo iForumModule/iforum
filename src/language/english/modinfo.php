@@ -275,7 +275,7 @@
 	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Forum for test.");
 	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
 	define("_MI_IFORUM_INSTALL_POST_TEXT", "
-		Welcome to ".(htmlspecialchars(icms::$config['sitename'], ENT_QUOTES))." forum.
+		Welcome to ".(htmlspecialchars(icms::$config->getConfig('sitename'), ENT_QUOTES))." forum.
 		Feel free to register and login to start your topics.
 
 		If you have any question concerning iForum usage, plz visit your local support site or [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9]CBB Module Site[/url].
