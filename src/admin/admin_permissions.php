@@ -60,7 +60,7 @@ switch($action)
 	$member_handler = icms::handler('icms_member');
 	$glist = $member_handler->getGroupList();
 	$elements = array();
-	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum' );
 	$perm_template = $iforumperm_handler->getTemplate($groupid = 0);
 	foreach (array_keys($glist) as $i)
 	{
@@ -105,7 +105,7 @@ switch($action)
 	break;
 
 	case "template_save":
-	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum' );
 	$res = $iforumperm_handler->setTemplate($_POST['perms'], $groupid = 0);
 	if ($res)
 	{
@@ -118,7 +118,7 @@ switch($action)
 	break;
 
 	case "apply":
-	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum' );
 	$perm_template = $iforumperm_handler->getTemplate();
 	if ($perm_template === null)
 	{
@@ -132,10 +132,10 @@ switch($action)
 	$opform->addElement($op_select);
 	$opform->display();
 
-	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__, 2)), 'iforum' );
 	$categories = $category_handler->getAllCats("", true);
 
-	$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$forum_handler =icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	$fm_options = array();
 	foreach (array_keys($categories) as $c)
@@ -166,7 +166,7 @@ switch($action)
 
 	case "apply_save":
 	if (empty($_POST["forums"])) break;
-	$iforumperm_handler = icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$iforumperm_handler = icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum' );
 	foreach($_POST["forums"] as $forum)
 	{
 		if ($forum < 1) continue;
@@ -188,7 +188,7 @@ switch($action)
 	$opform->addElement($op_select);
 	$opform->display();
 
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	$op_options = array("category" => _AM_IFORUM_CAT_ACCESS);
 	$fm_options = array("category" => array("title" => _AM_IFORUM_CAT_ACCESS, "item" => "category_access", "desc" => "", "anonymous" => true));
@@ -226,7 +226,7 @@ switch($action)
 
 	$form = new icms_form_Groupperm($fm_options[$op]["title"], $module_id, $fm_options[$op]["item"], $fm_options[$op]["desc"], 'admin/admin_permissions.php', $fm_options[$op]["anonymous"]);
 
-	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__, 2)), 'iforum' );
 	$categories = $category_handler->getAllCats("", true);
 	if ($op == "category")
 	{

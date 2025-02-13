@@ -39,7 +39,7 @@ switch($op)
 {
 	case "delete":
 	$digest_ids = $_POST['digest_id'];
-	$digest_handler = icms_getmodulehandler('digest', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$digest_handler = icms_getmodulehandler('digest', basename(dirname(__FILE__, 2)), 'iforum' );
 	foreach($digest_ids as $did => $value)
 	{
 		$digest_handler->delete($did);
@@ -61,7 +61,7 @@ switch($op)
 	echo "<td class='bg3' width='2%'>"._DELETE."</td>";
 	echo "</tr>";
 
-	$digest_handler = icms_getmodulehandler('digest', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$digest_handler = icms_getmodulehandler('digest', basename(dirname(__FILE__, 2)), 'iforum' );
 	$digests = $digest_handler->getAllDigests($start, $limit);
 	foreach($digests as $digest)
 	{

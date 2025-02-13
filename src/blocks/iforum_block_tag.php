@@ -25,7 +25,7 @@ function iforum_tag_block_cloud_show($options)
 	{
 		return null;
 	}
-	$block_content = tag_block_cloud_show($options, basename(dirname(dirname(__FILE__ ) ) ));
+	$block_content = tag_block_cloud_show($options, basename(dirname(__FILE__, 2)));
 	return $block_content;
 }
  
@@ -45,7 +45,7 @@ function iforum_tag_block_top_show($options)
 	{
 		return null;
 	}
-	$block_content = tag_block_top_show($options, basename(dirname(dirname(__FILE__ ) ) ));
+	$block_content = tag_block_top_show($options, basename(dirname(__FILE__, 2)));
 	return $block_content;
 }
  

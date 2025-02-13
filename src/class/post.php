@@ -28,7 +28,7 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
 
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
 iforum_load_object();
 
 class Post extends ArtObject {
@@ -575,7 +575,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		}
 		$post->setVar("approved", 1);
 		$this->insert($post, true);
-		$topic_handler = icms_getmodulehandler("topic", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$topic_handler = icms_getmodulehandler("topic", basename(dirname(__FILE__, 2)), 'iforum' );
 		$topic_obj = $topic_handler->get($post->getVar("topic_id"));
 		if ($topic_obj->getVar("topic_last_post_id") < $post->getVar("post_id"))
 		{
@@ -590,7 +590,7 @@ class IforumPostHandler extends ArtObjectHandler {
 			$topic_obj->setVar("topic_replies", $topic_obj->getVar("topic_replies")+1);
 		}
 		$topic_handler->insert($topic_obj, true);
-		$forum_handler = icms_getmodulehandler("forum", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler = icms_getmodulehandler("forum", basename(dirname(__FILE__, 2)), 'iforum' );
 		$forum_obj = $forum_handler->get($post->getVar("forum_id"));
 		if ($forum_obj->getVar("forum_last_post_id") < $post->getVar("post_id"))
 		{
@@ -635,7 +635,7 @@ class IforumPostHandler extends ArtObjectHandler {
 	{
 		global $icmsConfig;
 
-		$topic_handler = icms_getmodulehandler("topic", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$topic_handler = icms_getmodulehandler("topic", basename(dirname(__FILE__, 2)), 'iforum' );
 		// Verify the topic ID
 		if ($topic_id = $post->getVar("topic_id"))
 		{
@@ -654,7 +654,7 @@ class IforumPostHandler extends ArtObjectHandler {
 			$post->setNew();
 			$topic_obj = $topic_handler->create();
 		}
-		$text_handler = icms_getmodulehandler("text", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$text_handler = icms_getmodulehandler("text", basename(dirname(__FILE__, 2)), 'iforum' );
 		$post_text_vars = array("post_text", "post_edit");
 		if ($post->isNew())
 		{
@@ -822,7 +822,7 @@ class IforumPostHandler extends ArtObjectHandler {
 
 		if ($post->isTopic())
 		{
-			$topic_handler = icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+			$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__, 2)), 'iforum' );
 			$topic_obj = $topic_handler->get($post->getVar('topic_id'));
 			if (is_object($topic_obj) && $topic_obj->getVar("approved") > 0 && empty($force))
 			{

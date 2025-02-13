@@ -28,7 +28,7 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
 
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
 iforum_load_object();
 
 class Nrate extends ArtObject {

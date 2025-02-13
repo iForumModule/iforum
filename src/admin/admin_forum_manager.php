@@ -36,7 +36,7 @@ if (isset($_POST['default'])) $op = 'default';
 if (isset($_GET['forum'])) $forum = $_GET['forum'];
 if (isset($_POST['forum'])) $forum = $_POST['forum'];
 
-$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 /**
 * newForum()
 *
@@ -396,7 +396,7 @@ switch ($op)
 	{
 		if (!empty($_POST["perm_template"]))
 		{
-			$groupperm_handler =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+			$groupperm_handler =icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum' );
 			$perm_template = $groupperm_handler->getTemplate();
 			$member_handler = icms::handler('icms_member');
 			$glist = $member_handler->getGroupList();
@@ -476,7 +476,7 @@ switch ($op)
 	$echo .= "<td class='bg3'>" . _AM_IFORUM_MERGE . "</td>";
 	$echo .= "</tr>";
 
-	$category_handler =icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$category_handler =icms_getmodulehandler('category', basename(dirname(__FILE__, 2)), 'iforum' );
 	$categories = $category_handler->getAllCats('', true);
 	$forums = $forum_handler->getForumsByCategory(array_keys($categories), '', false);
 	foreach (array_keys($categories) as $c)

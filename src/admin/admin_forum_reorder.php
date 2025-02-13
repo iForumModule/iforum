@@ -72,9 +72,9 @@ else
 	echo "</td><td class='head' align='left' width='30%'><strong>" . _AM_IFORUM_REORDERTITLE . "</strong>";
 	echo "</td><td class='head' align='center' width='5%'><strong>" . _AM_IFORUM_REORDERWEIGHT . "</strong>";
 	echo "</td></tr>";
-	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__, 2)), 'iforum' );
 	$categories = $category_handler->getAllCats();
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory();
 	 
 	$forums_array = array();

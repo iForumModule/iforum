@@ -73,7 +73,7 @@ foreach (array(
 }
 
 
-$topic_handler = icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__, 2)), 'iforum' );
 $topic_status = $topic_handler->get(@$topic_id, 'topic_status');
 
 $forum_form_action = (empty($admin_form_action))?"post.php":
