@@ -3,46 +3,44 @@
 	// Blocks
 	if (defined('_MB_IFORUM_DEFINED')) return;
 	else define('_MB_IFORUM_DEFINED', true);
-	//$constpref = '_MB_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-	$constpref = '_MB_IFORUM';
-	 
-	define($constpref."_FORUM", "Forums");
-	define($constpref."_TOPIC", "Sujets");
-	define($constpref."_RPLS", "R&eacute;ponses");
-	define($constpref."_VIEWS", "Lus");
-	define($constpref."_LPOST", "Derni&egrave;res contributions");
-	define($constpref."_VSTFRMS", " Visiter les forums");
-	define($constpref."_DISPLAY", "Nombre de posts");
-	define($constpref."_DISPLAYMODE", "Mode de visualisation : ");
-	define($constpref."_DISPLAYMODE_FULL", "Complet");
-	define($constpref."_DISPLAYMODE_COMPACT", "Compact");
-	define($constpref."_DISPLAYMODE_LITE", "L&eacute;ger");
-	define($constpref."_FORUMLIST", "Allouer la liste des forums");
-	//define($constpref."_FORUMLIST_DESC","N° des forums allou&eacute;s a &ecirc;tre montr&eacute; dans le bloc. S&eacute;parateur \",\"; 0 pour TOUS, \"-\" pour exclure.");
-	//define($constpref."_FORUMLIST_ID","N°");
-	//define($constpref."_FORUMLIST_NAME","Nom de forum");
-	define($constpref."_ALLTOPICS", "Sujets");
-	define($constpref."_ALLPOSTS", "Contributions");
-	 
-	define($constpref."_CRITERIA", "Afficher le crit&egrave;re");
-	define($constpref."_CRITERIA_TOPIC", "Sujets");
-	define($constpref."_CRITERIA_POST", "Contributions");
-	define($constpref."_CRITERIA_TIME", "Le plus r&eacute;cent");
-	define($constpref."_CRITERIA_TITLE", "Titre du post");
-	define($constpref."_CRITERIA_TEXT", "Contenu du post");
-	define($constpref."_CRITERIA_VIEWS", "Les plus vus");
-	define($constpref."_CRITERIA_REPLIES", "Le plus de r&eacute;ponses");
-	define($constpref."_CRITERIA_DIGEST", "Les derniers sommaires");
-	define($constpref."_CRITERIA_STICKY", "Les derniers agraphag&eacute;s");
-	define($constpref."_CRITERIA_DIGESTS", "Les plus sommairis&eacute;s");
-	define($constpref."_CRITERIA_STICKYS", "Sujets les plus agraphag&eacute;s");
-	define($constpref."_TIME", "P&eacute;riode de temps");
-	define($constpref."_TIME_DESC", "Positif pour les jours et n&eacute;gatif pour les heures");
-	 
-	define($constpref."_TITLE", "Titre");
-	define($constpref."_AUTHOR", "Auteur");
-	define($constpref."_COUNT", "Compteur");
-	define($constpref."_INDEXNAV", "Afficher le navigateur");
-	 
-	define($constpref."_TITLE_LENGTH", "Titre/longueur du post");
+
+	define("_MB_IFORUM_FORUM", "Forums");
+	define("_MB_IFORUM_TOPIC", "Sujets");
+	define("_MB_IFORUM_RPLS", "R&eacute;ponses");
+	define("_MB_IFORUM_VIEWS", "Lus");
+	define("_MB_IFORUM_LPOST", "Derni&egrave;res contributions");
+	define("_MB_IFORUM_VSTFRMS", " Visiter les forums");
+	define("_MB_IFORUM_DISPLAY", "Nombre de posts");
+	define("_MB_IFORUM_DISPLAYMODE", "Mode de visualisation : ");
+	define("_MB_IFORUM_DISPLAYMODE_FULL", "Complet");
+	define("_MB_IFORUM_DISPLAYMODE_COMPACT", "Compact");
+	define("_MB_IFORUM_DISPLAYMODE_LITE", "L&eacute;ger");
+	define("_MB_IFORUM_FORUMLIST", "Allouer la liste des forums");
+	//define("_MB_IFORUM_FORUMLIST_DESC","N° des forums allou&eacute;s a &ecirc;tre montr&eacute; dans le bloc. S&eacute;parateur \",\"; 0 pour TOUS, \"-\" pour exclure.");
+	//define("_MB_IFORUM_FORUMLIST_ID","N°");
+	//define("_MB_IFORUM_FORUMLIST_NAME","Nom de forum");
+	define("_MB_IFORUM_ALLTOPICS", "Sujets");
+	define("_MB_IFORUM_ALLPOSTS", "Contributions");
+
+	define("_MB_IFORUM_CRITERIA", "Afficher le crit&egrave;re");
+	define("_MB_IFORUM_CRITERIA_TOPIC", "Sujets");
+	define("_MB_IFORUM_CRITERIA_POST", "Contributions");
+	define("_MB_IFORUM_CRITERIA_TIME", "Le plus r&eacute;cent");
+	define("_MB_IFORUM_CRITERIA_TITLE", "Titre du post");
+	define("_MB_IFORUM_CRITERIA_TEXT", "Contenu du post");
+	define("_MB_IFORUM_CRITERIA_VIEWS", "Les plus vus");
+	define("_MB_IFORUM_CRITERIA_REPLIES", "Le plus de r&eacute;ponses");
+	define("_MB_IFORUM_CRITERIA_DIGEST", "Les derniers sommaires");
+	define("_MB_IFORUM_CRITERIA_STICKY", "Les derniers agraphag&eacute;s");
+	define("_MB_IFORUM_CRITERIA_DIGESTS", "Les plus sommairis&eacute;s");
+	define("_MB_IFORUM_CRITERIA_STICKYS", "Sujets les plus agraphag&eacute;s");
+	define("_MB_IFORUM_TIME", "P&eacute;riode de temps");
+	define("_MB_IFORUM_TIME_DESC", "Positif pour les jours et n&eacute;gatif pour les heures");
+
+	define("_MB_IFORUM_TITLE", "Titre");
+	define("_MB_IFORUM_AUTHOR", "Auteur");
+	define("_MB_IFORUM_COUNT", "Compteur");
+	define("_MB_IFORUM_INDEXNAV", "Afficher le navigateur");
+
+	define("_MB_IFORUM_TITLE_LENGTH", "Titre/longueur du post");
 ?>

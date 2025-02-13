@@ -222,7 +222,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return $post_id;
 	}
 
-	function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
+	/*function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
 	{
 		$ret = array();
 		$perpage = (intval($perpage) > 0) ? intval($perpage) :
@@ -280,7 +280,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			unset($post);
 		}
 		return $ret;
-	}
+	}*/
 
 	function &getPostTree(&$postArray, $pid = 0)
 	{
@@ -395,7 +395,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 	*
 	* @return  bool true on success
 	*/
-	function cleanOrphan()
+    function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
 		parent::cleanOrphan($this->db->prefix("bb_forums"), "forum_id");
 		parent::cleanOrphan($this->db->prefix("bb_posts"), "topic_id");

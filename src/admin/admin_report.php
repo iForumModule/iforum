@@ -24,8 +24,6 @@
 */
 
 include('admin_header.php');
-include_once ICMS_ROOT_PATH."/class/pagenav.php";
-
 
 $op = !empty($_GET['op'])? $_GET['op'] :
  (!empty($_POST['op'])?$_POST['op']:"default");

@@ -50,10 +50,10 @@ class ArtObject extends _XoopsPersistableObject
      * @param string $filtername name of the filter
      * @access public
      */
-    function registerFilter($filtername)
-    {
-        parent::registerFilter($filtername);
-    }
+//    function registerFilter($filtername)
+//    {
+//        parent::registerFilter($filtername);
+//    }
 
     /**
      * load all additional filters that have been registered to the object

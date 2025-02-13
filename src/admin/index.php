@@ -110,7 +110,9 @@ $op = (isset($_GET['op']))? $_GET['op'] :
 switch ($op)
 {
 	case "createdir":
-	if (isset($_GET['path'])) $path = $_GET['path'];
+	if (isset($_GET['path'])) {
+        $path = $_GET['path'];
+    }
 	$res = iforum_admin_mkdir($path);
 	$msg = ($res)?_AM_IFORUM_DIRCREATED:
 	_AM_IFORUM_DIRNOTCREATED;
@@ -119,7 +121,9 @@ switch ($op)
 	break;
 
 	case "setperm":
-	if (isset($_GET['path'])) $path = $_GET['path'];
+	if (isset($_GET['path'])) {
+        $path = $_GET['path'];
+    }
 	$res = iforum_admin_chmod($path, 0777);
 	$msg = ($res)?_AM_IFORUM_PERMSET:
 	_AM_IFORUM_PERMNOTSET;
@@ -128,7 +132,7 @@ switch ($op)
 	break;
 
 	case "senddigest":
-	$digest_handler =icms_getmodulehandler('digest', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$digest_handler =icms_getmodulehandler('digest', basename(dirname(__FILE__, 2)), 'iforum' );
 	$res = $digest_handler->process(true);
 	$msg = ($res)?_AM_IFORUM_DIGEST_FAILED:
 	_AM_IFORUM_DIGEST_SENT;
@@ -216,7 +220,7 @@ switch ($op)
 	echo _AM_IFORUM_TOTALVIEWS . " <strong>" . get_total_views() . "</strong></div>";
 	echo "</fieldset><br />";
 
-	$report_handler =icms_getmodulehandler('report', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$report_handler =icms_getmodulehandler('report', basename(dirname(__FILE__, 2)), 'iforum' );
 	echo "<fieldset style='border: #e8e8e8 1px solid;'>
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_REPORT . "</legend>";
 	echo "<div style='padding: 12px;'><a href='admin_report.php'>" . _AM_IFORUM_REPORT_PENDING . "</a> <strong>" . $report_handler->getCount(new icms_db_criteria_Item("report_result", 0)) . "</strong> | ";
@@ -226,7 +230,7 @@ switch ($op)
 
 	if (icms::$module->config['email_digest'] > 0)
 	{
-		$digest_handler =icms_getmodulehandler('digest', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$digest_handler =icms_getmodulehandler('digest', basename(dirname(__FILE__, 2)), 'iforum' );
 		echo "<fieldset style='border: #e8e8e8 1px solid;'>
 			<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_DIGEST . "</legend>";
 		$due = ($digest_handler->checkStatus()) / 60; // minutes
@@ -245,7 +249,7 @@ switch ($op)
 	*/
 	if (!empty(icms::$module->config['enable_usermoderate']))
 		{
-		$moderate_handler = icms_getmodulehandler('moderate', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$moderate_handler = icms_getmodulehandler('moderate', basename(dirname(__FILE__, 2)), 'iforum' );
 		$moderate_handler->clearGarbage();
 	}
 

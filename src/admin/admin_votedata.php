@@ -22,12 +22,12 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include 'admin_header.php';
- 
+
 $op = !empty($_GET['op'])? $_GET['op'] :
  (!empty($_POST['op'])?$_POST['op']:"");
- 
+
 switch ($op) {
 	case "delvotes":
 	global $_GET;
@@ -38,23 +38,23 @@ switch ($op) {
 	iforum_updaterating($topic_id);
 	redirect_header("admin_votedata.php", 1, _AM_IFORUM_VOTEDELETED);
 	break;
-	 
+
 	case 'main':
 	default:
 	$start = isset($_GET['start']) ? (int)$_GET['start'] :
 	 0;
 	$useravgrating = '0';
 	$uservotes = '0';
-	 
+
 	$sql = "SELECT * FROM " . icms::$xoopsDB->prefix('bb_votedata') . " ORDER BY ratingtimestamp DESC";
 	$results = icms::$xoopsDB->query($sql, 20, $start);
 	$votes = icms::$xoopsDB->getRowsNum($results);
-	 
+
 	$sql = "SELECT rating FROM " . icms::$xoopsDB->prefix('bb_votedata') . "";
 	$result2 = icms::$xoopsDB->query($sql, 20, $start);
 	$uservotes = icms::$xoopsDB->getRowsNum($result2);
 	$useravgrating = 0;
-	 
+
 	while (list($rating2) = icms::$xoopsDB->fetchRow($result2))
 	{
 		$useravgrating = $useravgrating + $rating2;
@@ -64,11 +64,11 @@ switch ($op) {
 		$useravgrating = $useravgrating / $uservotes;
 		$useravgrating = number_format($useravgrating, 2);
 	}
-	 
+
 	icms_cp_header();
 	loadModuleAdminMenu(10, _AM_IFORUM_VOTE_RATINGINFOMATION);
-	 
-	 
+
+
 	echo "
 		<fieldset style='border: #e8e8e8 1px solid;'>
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_VOTE_DISPLAYVOTES . "</legend>\n
@@ -90,7 +90,7 @@ switch ($op) {
 		<th align='center'>" . _AM_IFORUM_VOTE_RATING . "</th>\n
 		<th align='center'>" . _AM_IFORUM_VOTE_DATE . "</th>\n
 		<th align='center'>" . _AM_IFORUM_ACTION . "</th></tr>\n";
-	 
+
 	if ($votes == 0)
 		{
 		echo "<tr><td align='center' colspan='7' class='head'>" . _AM_IFORUM_VOTE_NOVOTES . "</td></tr>";
@@ -99,7 +99,7 @@ switch ($op) {
 	{
 		$sql = "SELECT topic_title FROM " . icms::$xoopsDB->prefix('bb_topics') . " WHERE topic_id=" . $topic_id . "";
 		$down_array = icms::$xoopsDB->fetchArray(icms::$xoopsDB->query($sql));
-		 
+
 		$formatted_date = formatTimestamp($ratingtimestamp, _DATESTRING);
 		$ratinguname = iforum_getUnameFromId($ratinguser, icms::$module->config['show_realname']);
 		echo "
@@ -115,7 +115,6 @@ switch ($op) {
 	}
 	echo "</table>";
 	//Include page navigation
-	include_once ICMS_ROOT_PATH . '/class/pagenav.php';
 	$page = ($votes > 20) ? _AM_IFORUM_MINDEX_PAGE :
 	 '';
 	$pagenav = new icms_view_PageNav($page, 20, $start, 'start');

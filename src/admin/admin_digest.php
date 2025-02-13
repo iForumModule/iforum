@@ -22,19 +22,18 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include('admin_header.php');
-include_once ICMS_ROOT_PATH."/class/pagenav.php";
- 
+
 $op = !empty($_GET['op'])? $_GET['op'] :
  (!empty($_POST['op'])?$_POST['op']:"default");
 $item = !empty($_GET['op'])? $_GET['item'] :
  (!empty($_POST['item'])?$_POST['item']:"process");
- 
+
 $start = (isset($_GET['start']))?$_GET['start']:
 0;
 //$report_handler = icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
- 
+
 icms_cp_header();
 switch($op)
 {
@@ -47,9 +46,9 @@ switch($op)
 	}
 	redirect_header("admin_digest.php", 1);
 	break;
-	 
+
 	default:
-	 
+
 	$limit = 5;
 	loadModuleAdminMenu(9, _AM_IFORUM_DIGESTADMIN);
 	echo "<fieldset style='border: #e8e8e8 1px solid;'>
@@ -61,7 +60,7 @@ switch($op)
 	echo "<td class='bg3'>"._AM_IFORUM_DIGESTCONTENT."</td>";
 	echo "<td class='bg3' width='2%'>"._DELETE."</td>";
 	echo "</tr>";
-	 
+
 	$digest_handler = icms_getmodulehandler('digest', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$digests = $digest_handler->getAllDigests($start, $limit);
 	foreach($digests as $digest)
@@ -78,14 +77,14 @@ switch($op)
 	echo $hidden->render();
 	$hidden = new icms_form_elements_Hidden('item', $item);
 	echo $hidden->render()."</form>";
-	 
+
 	echo "</table>";
-	 
+
 	$nav = new icms_view_PageNav($digest_handler->getDigestCount(), $limit, $start, "start");
 	echo $nav->renderNav(4);
-	 
+
 	echo "</fieldset>";
-	 
+
 	break;
 }
 icms_cp_footer();

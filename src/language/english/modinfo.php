@@ -3,52 +3,35 @@
 	// Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 	// Module Info
-	//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-	$constpref = '_MI_IFORUM';
 
 	// The name of this module
-	define($constpref."_NAME", "iForum");
+	define("_MI_IFORUM_NAME", "iForum");
 
 	// A brief description of this module
-	define($constpref."_DESC", "Community Bulletin Board");
+	define("_MI_IFORUM_DESC", "Community Bulletin Board");
 
 	// Names of blocks for this module (Not all module has blocks)
-	define($constpref."_BLOCK_TOPIC_POST", "Recent Replied Topics");
-	define($constpref."_BLOCK_TOPIC", "Recent Topics");
-	define($constpref."_BLOCK_POST", "Recent Posts");
-	define($constpref."_BLOCK_AUTHOR", "Authors");
-	define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
-	define($constpref."_BLOCK_TAG_TOP", "Top Tags");
-	/*
-	define($constpref."_BNAME2","Most Viewed Topics");
-	define($constpref."_BNAME3","Most Active Topics");
-	define($constpref."_BNAME4","Newest Digest");
-	define($constpref."_BNAME5","Newest Sticky Topics");
-	define($constpref."_BNAME6","Newest Posts");
-	define($constpref."_BNAME7","Authors with most topics");
-	define($constpref."_BNAME8","Authors with most posts");
-	define($constpref."_BNAME9","Authors with most digests");
-	define($constpref."_BNAME10","Authors with most sticky topics");
-	define($constpref."_BNAME11","Recent post with text");
-	*/
+	define("_MI_IFORUM_BLOCK_TOPIC_POST", "Recent Replied Topics");
+	define("_MI_IFORUM_BLOCK_TOPIC", "Recent Topics");
+	define("_MI_IFORUM_BLOCK_POST", "Recent Posts");
+	define("_MI_IFORUM_BLOCK_AUTHOR", "Authors");
+	define("_MI_IFORUM_BLOCK_TAG_CLOUD", "Tag Cloud");
+	define("_MI_IFORUM_BLOCK_TAG_TOP", "Top Tags");
 
 	// Names of admin menu items
-	define($constpref."_ADMENU_INDEX", "Index");
-	define($constpref."_ADMENU_CATEGORY", "Categories");
-	define($constpref."_ADMENU_FORUM", "Forums");
-	define($constpref."_ADMENU_PERMISSION", "Permissions");
-	define($constpref."_ADMENU_BLOCK", "Blocks");
-	define($constpref."_ADMENU_ORDER", "Order");
-	define($constpref."_ADMENU_SYNC", "Sync forums");
-	define($constpref."_ADMENU_PRUNE", "Prune");
-	define($constpref."_ADMENU_REPORT", "Reports");
-	define($constpref."_ADMENU_DIGEST", "Digest");
-	define($constpref."_ADMENU_VOTE", "Votes");
-
-
+	define("_MI_IFORUM_ADMENU_INDEX", "Index");
+	define("_MI_IFORUM_ADMENU_CATEGORY", "Categories");
+	define("_MI_IFORUM_ADMENU_FORUM", "Forums");
+	define("_MI_IFORUM_ADMENU_PERMISSION", "Permissions");
+	define("_MI_IFORUM_ADMENU_BLOCK", "Blocks");
+	define("_MI_IFORUM_ADMENU_ORDER", "Order");
+	define("_MI_IFORUM_ADMENU_SYNC", "Sync forums");
+	define("_MI_IFORUM_ADMENU_PRUNE", "Prune");
+	define("_MI_IFORUM_ADMENU_REPORT", "Reports");
+	define("_MI_IFORUM_ADMENU_DIGEST", "Digest");
+	define("_MI_IFORUM_ADMENU_VOTE", "Votes");
 
 	//config options
-
 	define("_MI_DO_DEBUG", "Debug Mode");
 	define("_MI_DO_DEBUG_DESC", "Dislay error message");
 
@@ -97,12 +80,6 @@
 	define("_MI_OP_BOTH", "Both");
 	define("_MI_WOL_ENABLE", "Enable Who's Online");
 	define("_MI_WOL_ENABLE_DESC", "Enable Who's Online Block shown below the Index page and the Forum pages");
-	//define("_MI_WOL_ADMIN_COL","Administrator Highlight Color");
-	//define("_MI_WOL_ADMIN_COL_DESC","Highlight Color of the Administrators shown in the Who's Online Block");
-	//define("_MI_WOL_MOD_COL","Moderator Highlight Color");
-	//define("_MI_WOL_MOD_COL_DESC","Highlight Color of the Moderators shown in the Who's Online Block");
-	//define("_MI_LEVELS_ENABLE", "Enable HP/MP/EXP Levels Mod");
-	//define("_MI_LEVELS_ENABLE_DESC", "<strong>HP</strong>  is determined by your average posts per day.<br /><strong>MP</strong>  is determined by your join date related to your post count.<br /><strong>EXP</strong> goes up each time you post, and when you get to 100%, you gain a level and the EXP drops to 0 again.");
 	define("_MI_NULL", "disable");
 	define("_MI_TEXT", "text");
 	define("_MI_GRAPHIC", "graphic");
@@ -142,9 +119,9 @@
 
 	define("_MI_EMAIL_DIGEST", "Email post digest");
 	define("_MI_EMAIL_DIGEST_DESC", "Set time period for sending post digest to users");
-	define($constpref."_EMAIL_NONE", "No email");
-	define($constpref."_EMAIL_DAILY", "Daily");
-	define($constpref."_EMAIL_WEEKLY", "Weekly");
+	define("_MI_IFORUM_EMAIL_NONE", "No email");
+	define("_MI_IFORUM_EMAIL_DAILY", "Daily");
+	define("_MI_IFORUM_EMAIL_WEEKLY", "Weekly");
 
 	define("_MI_SHOW_IP", "Show user IP");
 	define("_MI_SHOW_IP_DESC", "Setting YES will show users IP to moderators");
@@ -246,10 +223,7 @@
 	define("_MI_USERMODERATE", "Enable user moderation");
 	define("_MI_USERMODERATE_DESC", "");
 
-
-	// RMV-NOTIFY
 	// Notification event descriptions and mail templates
-
 	define ('_MI_IFORUM_THREAD_NOTIFY', 'Thread');
 	define ('_MI_IFORUM_THREAD_NOTIFYDSC', 'Notification options that apply to the current thread.');
 
@@ -295,12 +269,12 @@
 	define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : post digest');
 
 	// FOR installation
-	define($constpref."_INSTALL_CAT_TITLE", "Category Test");
-	define($constpref."_INSTALL_CAT_DESC", "Category for test.");
-	define($constpref."_INSTALL_FORUM_NAME", "Forum Test");
-	define($constpref."_INSTALL_FORUM_DESC", "Forum for test.");
-	define($constpref."_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
-	define($constpref."_INSTALL_POST_TEXT", "
+	define("_MI_IFORUM_INSTALL_CAT_TITLE", "Category Test");
+	define("_MI_IFORUM_INSTALL_CAT_DESC", "Category for test.");
+	define("_MI_IFORUM_INSTALL_FORUM_NAME", "Forum Test");
+	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Forum for test.");
+	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
+	define("_MI_IFORUM_INSTALL_POST_TEXT", "
 		Welcome to ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES))." forum.
 		Feel free to register and login to start your topics.
 
@@ -310,7 +284,9 @@
 	define("_MI_CAPTCHA_ENABLE_DESC", "Enable or disable Captcha for users, while posting");
 
 	// icms_version constants
-	define ('_MI_IFORUM_BLOCK',);
+	define ('_MI_IFORUM_BLOCK','');
 	define ('_MI_IFORUM_BLOCK_DSC',"Shows recent posts in the forums");
-	define ('_MI_IFORUM_BLOCK_AUTHOR',);
+	define ('_MI_IFORUM_BLOCK_AUTHOR','');
 	define ('_MI_IFORUM_BLOCK_AUTHOR_DSC',"Shows authors stats");
+	define ('_MI_IFORUM_BLOCK_POST',"Recent Posts");
+	define ('_MI_IFORUM_BLOCK_POST_DSC',"Shows Recent posts");

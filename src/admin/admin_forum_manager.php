@@ -25,7 +25,7 @@
 
 include 'admin_header.php';
 include ICMS_ROOT_PATH . "/class/xoopstree.php";
-//include_once ICMS_ROOT_PATH . "/class/pagenav.php";
+
 
 $op = '';
 $confirm = '';
@@ -178,9 +178,7 @@ switch ($op)
 			if (!empty($_POST['forum'])) $forum_id = intval($_POST['forum']);
 
 		$dest = $_POST['dest'];
-		if ($dest {
-			0 }
-		== "f")
+		if ($dest [0] == "f")
 		{
 			$pid = substr($dest, 1);
 			$forum =$forum_handler->get(intval($pid));

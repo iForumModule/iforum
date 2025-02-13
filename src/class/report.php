@@ -65,7 +65,7 @@ class IforumReportHandler extends ArtObjectHandler {
 		return $ret;
 	}
 
-	function &getAllReports($forums = 0, $order = "ASC", $perpage = 0, &$start, $report_result = 0, $report_id = 0)
+	function &getAllReports( &$start, $report_result = 0, $report_id = 0,$forums = 0, $order = "ASC", $perpage = 0)
 	{
 		if ($order == "DESC")
 		{
@@ -123,7 +123,7 @@ class IforumReportHandler extends ArtObjectHandler {
 	*
 	* @return  bool true on success
 	*/
-	function cleanOrphan()
+    function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
 		return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
 	}
