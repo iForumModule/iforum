@@ -259,7 +259,7 @@ $modversion['config'][] = array(
 $theme_set = array(_NONE => "0");
 if ($isModuleAction)
 {
-	foreach (icms::$config["theme_set_allowed"] as $theme)
+	foreach (icms::$config->getConfig("theme_set_allowed") as $theme)
 	{
 		$theme_set[$theme] = $theme;
 	}

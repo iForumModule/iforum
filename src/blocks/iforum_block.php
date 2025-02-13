@@ -153,7 +153,7 @@ function b_iforum_show($options)
 		}
 		else
 		{
-			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config["anonymous"] );
+			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config->getConfig("anonymous") );
 		}
 		$topic['topic_poster'] = $topic_poster;
 		$topic['topic_page_jump'] = $topic_page_jump;
@@ -298,7 +298,7 @@ function b_iforum_topic_show($options)
 		}
 		else
 		{
-			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config["anonymous"] );
+			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config->getConfig("anonymous") );
 		}
 		$topic['topic_poster'] = $topic_poster;
 		$topic['topic_page_jump'] = $topic_page_jump;
@@ -435,7 +435,7 @@ function b_iforum_post_show($options)
 		}
 		else
 		{
-			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config["anonymous"] );
+			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config->getConfig("anonymous") );
 		}
 		$topic['topic_poster'] = $topic_poster;
 

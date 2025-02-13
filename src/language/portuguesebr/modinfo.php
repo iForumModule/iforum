@@ -298,7 +298,7 @@
 	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Fórum para teste");
 	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Parabéns! O fórum está funcionando.");
 	define("_MI_IFORUM_INSTALL_POST_TEXT", "
-		Bem-vindo para o ".(htmlspecialchars(icms::$config['sitename'], ENT_QUOTES))." forum.
+		Bem-vindo para o ".(htmlspecialchars(icms::$config->getConfig('sitename'), ENT_QUOTES))." forum.
 		Sinta-se livre para fazer o seu registro ou entrar com o seu login para iniciar ou responder tópicos.
 
 		Se você tiver alguma pergunta sobre como usar o CBB, por favor, faça uma visita no site de suporte: [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9](Site sobre o módulo CBB)[/url].

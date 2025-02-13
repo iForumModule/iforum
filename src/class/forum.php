@@ -897,7 +897,7 @@ class IforumForumHandler extends ArtObjectHandler {
 			}
 			else
 			{
-				$_forum_data["forum_lastpost_user"] = icms_core_DataFilter::htmlSpecialchars(icms::$config["anonymous"]);
+				$_forum_data["forum_lastpost_user"] = icms_core_DataFilter::htmlSpecialchars(icms::$config->getConfig("anonymous"));
 			}
 
 			$_forum_data['forum_lastpost_time'] = formatTimestamp($post_obj->getVar('post_time'));
