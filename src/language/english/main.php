@@ -2,12 +2,12 @@
 	// $Id$
 	if (defined('MAIN_DEFINED')) return;
 	define('MAIN_DEFINED', true);
-	 
+
 	define('_MD_ERROR', 'Error');
 	define('_MD_NOPOSTS', 'No Posts');
 	define('_MD_GO', 'Go');
 	define('_MD_SELFORUM', 'Select a Forum');
-	 
+
 	define('_MD_THIS_FILE_WAS_ATTACHED_TO_THIS_POST', 'Attached file:');
 	define('_MD_ALLOWED_EXTENSIONS', 'Allowed extensions');
 	define('_MD_MAX_FILESIZE', 'Maxium file size');
@@ -24,8 +24,7 @@
 	define('_MD_ALL_FORUM_MARKED', 'All forums marked');
 	define('_MD_ALL_TOPIC_MARKED', 'All topics marked');
 	define('_MD_BOARD_DISCLAIMER', 'Board Disclaimer');
-	 
-	 
+
 	//index.php
 	define('_MD_ADMINCP', 'Admin CP');
 	define('_MD_FORUM', 'Forum');
@@ -52,17 +51,14 @@
 	define('_MD_SUBFORUMS', 'Subforums');
 	define('_MD_MAINFORUMOPT', 'Main Options');
 	define("_MD_PENDING_POSTS_FOR_AUTH", "Posts pending approval:");
-	 
-	 
-	 
+
 	//page_header.php
 	define('_MD_MODERATEDBY', 'Moderated by');
 	define('_MD_SEARCH', 'Search');
-	//define('_MD_SEARCHRESULTS','Search Results');
 	define('_MD_FORUMINDEX', '%s Forum Index');
 	define('_MD_POSTNEW', 'New Topic');
 	define('_MD_REGTOPOST', 'Register To Post');
-	 
+
 	//search.php
 	define('_MD_SEARCHALLFORUMS', 'Search All Forums');
 	define('_MD_FORUMC', 'Forum');
@@ -74,7 +70,7 @@
 	define('_MD_USERNAME', 'Username');
 	define('_MD_BODY', 'Body');
 	define('_MD_SINCE', 'Since');
-	 
+
 	//viewforum.php
 	define('_MD_REPLIES', 'Replies');
 	define('_MD_POSTER', 'Poster');
@@ -100,8 +96,7 @@
 	define('_MD_BEGINNING', 'From the beginning');
 	define('_MD_SEARCHTHISFORUM', 'Search This Forum');
 	define('_MD_TOPIC_SUBJECTC', 'Topic Prefix:');
-	 
-	 
+
 	define('_MD_RATINGS', 'Ratings');
 	define("_MD_CAN_ACCESS", "You <strong>can</strong> access the forum.<br />");
 	define("_MD_CANNOT_ACCESS", "You <strong>cannot</strong> access the forum.<br />");
@@ -126,17 +121,16 @@
 	define("_MD_IMTOPICS", "Important Topics");
 	define("_MD_NOTIMTOPICS", "Forum Topics");
 	define('_MD_FORUMOPTION', 'Forum options');
-	 
+
 	define('_MD_VAUP', 'View all unreplied posts');
 	define('_MD_VANP', 'View all new posts');
-	 
-	 
+
 	define('_MD_UNREPLIED', 'unreplied topics');
 	define('_MD_UNREAD', 'unread topics');
 	define('_MD_ALL', 'all topics');
 	define('_MD_ALLPOSTS', 'all posts');
 	define('_MD_VIEW', 'View');
-	 
+
 	//viewtopic.php
 	define('_MD_AUTHOR', 'Author');
 	define('_MD_LOCKTOPIC', 'Lock this topic');
@@ -171,9 +165,9 @@
 	define('_MD_VIEWMODE', 'View mode');
 	define('_MD_NEWEST', 'Newest First');
 	define('_MD_OLDEST', 'Oldest First');
-	 
+
 	define('_MD_FORUMSEARCH', 'Search Forum');
-	 
+
 	define('_MD_RATED', 'Rated:');
 	define('_MD_RATE', 'Rate Thread');
 	define('_MD_RATEDESC', 'Rate this Thread');
@@ -183,31 +177,30 @@
 	define('_MD_RATE3', 'Average');
 	define('_MD_RATE4', 'Good');
 	define('_MD_RATE5', 'Excellent');
-	 
+
 	define('_MD_TOPICOPTION', 'Topic options');
 	define('_MD_KARMA_REQUIREMENT', 'Your personal karm %s does not reach the required karma %s. <br /> Please try later.');
 	define('_MD_REPLY_REQUIREMENT', 'To view this post, you must login and reply first.');
 	define('_MD_TOPICOPTIONADMIN', 'Topic Admin options');
 	define('_MD_POLLOPTIONADMIN', 'Poll Admin options');
-	 
+
 	define('_MD_EDITPOLL', 'Edit this Poll');
 	define('_MD_DELETEPOLL', 'Delete this Poll');
 	define('_MD_RESTARTPOLL', 'Restart this Poll');
 	define('_MD_ADDPOLL', 'Add Poll');
-	 
+
 	define('_MD_QUICKREPLY_EMPTY', 'Enter a quick reply here');
-	 
+
 	define('_MD_LEVEL', 'Level :');
 	define('_MD_HP', 'HP :');
 	define('_MD_MP', 'MP :');
 	define('_MD_EXP', 'EXP :');
-	 
+
 	define('_MD_BROWSING', 'Browsing this Thread:');
 	define('_MD_POSTTONEWS', 'Send this post to a news Story');
-	 
+
 	define('_MD_EXCEEDTHREADVIEW', 'Post count exceeds the threshold for thread mode<br />Changing to flat mode');
-	 
-	 
+
 	//forumform.inc
 	define('_MD_PRIVATE', 'This is a <strong>Private</strong> forum.<br />Only users with special access can post new topics and replies to this forum');
 	define('_MD_QUOTE', 'Quote');
@@ -215,9 +208,9 @@
 	define('_MD_REQUIRE_KARMA', 'Karma');
 	define('_MD_REQUIRE_REPLY', 'Reply');
 	define('_MD_REQUIRE_NULL', 'No requirement');
-	 
+
 	define("_MD_SELECT_FORMTYPE", "Select your desired form type");
-	 
+
 	define("_MD_FORM_COMPACT", "Compact");
 	define("_MD_FORM_DHTML", "DHTML");
 	define("_MD_FORM_SPAW", "Spaw Editor");
@@ -225,7 +218,7 @@
 	define("_MD_FORM_FCK", "FCK Editor");
 	define("_MD_FORM_KOIVI", "Koivi Editor");
 	define("_MD_FORM_TINYMCE", "TinyMCE Editor");
-	 
+
 	// ERROR messages
 	define('_MD_ERRORFORUM', 'ERROR: Forum not selected!');
 	define('_MD_ERRORPOST', 'ERROR: Post not selected!');
@@ -245,12 +238,12 @@
 	define('_MD_COULDNOTREMOVETXT', 'Error - Could not remove post texts!');
 	define('_MD_TIMEISUP', 'Your have reach the timelimit for editing your post.');
 	define('_MD_TIMEISUPDEL', 'Your have reach the timelimit for deleting your post.');
-	 
+
 	//reply.php
 	define('_MD_ON', 'on'); //Posted on
 	define('_MD_USERWROTE', '%s wrote:'); // %s is username
 	define('_MD_RE', 'Re');
-	 
+
 	//post.php
 	define('_MD_EDITNOTALLOWED', 'You\'re not allowed to edit this post!');
 	define('_MD_EDITEDBY', 'Edited by');
@@ -262,7 +255,7 @@
 	define('_MD_CLICKBELOW', 'Click on the link below to view the thread:');
 	define('_MD_WAITFORAPPROVAL', 'Thank you. Your post will be approved before publication.');
 	define('_MD_POSTING_LIMITED', 'Why not take a break and come back in %d sec');
-	 
+
 	//forumform.inc
 	define('_MD_NAMEMAIL', 'Name/Email:');
 	define('_MD_LOGOUT', 'Logout');
@@ -284,19 +277,19 @@
 	define('_MD_CANCELPOST', 'Cancel Post');
 	define('_MD_REMOVE', 'Remove');
 	define('_MD_UPLOAD', 'Upload');
-	 
+
 	// forumuserpost.php
 	define('_MD_ADD', 'Add');
 	define('_MD_REPLY', 'Reply');
 	define('_MD_EXTRAS', 'extras');
-	 
+
 	// topicmanager.php
 	define('_MD_VIEWTHETOPIC', 'View the topic');
 	define('_MD_RETURNTOTHEFORUM', 'Return to the forum');
 	define('_MD_RETURNFORUMINDEX', 'Return to the forum index');
 	define('_MD_ERROR_BACK', 'Error - Please go back and try again.');
 	define('_MD_GOTONEWFORUM', 'View the updated topic');
-	 
+
 	define('_MD_TOPICDELETE', 'The topic has been deleted.');
 	define('_MD_TOPICMERGE', 'The topic has been merged.');
 	define('_MD_TOPICMOVE', 'The topic has been moved.');
@@ -306,7 +299,7 @@
 	define('_MD_TOPICUNSTICKY', 'The topic has been unStickyed.');
 	define('_MD_TOPICDIGEST', 'The topic has been Digested.');
 	define('_MD_TOPICUNDIGEST', 'The topic has been unDigested.');
-	 
+
 	define('_MD_DELETE', 'Delete');
 	define('_MD_MOVE', 'Move');
 	define('_MD_MERGE', 'Merge');
@@ -316,7 +309,7 @@
 	define('_MD_UNSTICKY', 'unSticky');
 	define('_MD_DIGEST', 'Digest');
 	define('_MD_UNDIGEST', 'unDigest');
-	 
+
 	define('_MD_DESC_DELETE', 'Once you press the delete button at the bottom of this form the topic you have selected, and all its related posts, will be <strong>permanently</strong> removed.');
 	define('_MD_DESC_MOVE', 'Once you press the move button at the bottom of this form the topic you have selected, and its related posts, will be moved to the forum you have selected.');
 	define('_MD_DESC_MERGE', 'Once you press the merge button at the bottom of this form the topic you have selected, and its related posts, will be merged to the topic you have selected.<br /><strong>The destination topic ID must be smaller than current one</strong>.');
@@ -326,17 +319,17 @@
 	define('_MD_DESC_UNSTICKY', 'Once you press the unSticky button at the bottom of this form the topic you have selected will be unStickyed. You may Sticky it again at a later time if you like.');
 	define('_MD_DESC_DIGEST', 'Once you press the Digest button at the bottom of this form the topic you have selected will be Digested. You may unDigest it again at a later time if you like.');
 	define('_MD_DESC_UNDIGEST', 'Once you press the unDigest button at the bottom of this form the topic you have selected will be unDigested. You may Digest it again at a later time if you like.');
-	 
+
 	define('_MD_MERGETOPICTO', 'Merge Topic To:');
 	define('_MD_MOVETOPICTO', 'Move Topic To:');
 	define('_MD_NOFORUMINDB', 'No Forums in DB');
-	 
+
 	// delete.php
 	define('_MD_DELNOTALLOWED', 'Sorry, but you\'re not allowed to delete this post.');
 	define('_MD_AREUSUREDEL', 'Are you sure you want to delete this post and all its child posts?');
 	define('_MD_POSTSDELETED', 'Selected post and all its child posts deleted.');
 	define('_MD_POSTDELETED', 'Selected post deleted.');
-	 
+
 	// definitions moved from global.
 	define('_MD_THREAD', 'Thread');
 	define('_MD_FROM', 'From');
@@ -344,8 +337,8 @@
 	define('_MD_ONLINE', 'Online');
 	define('_MD_OFFLINE', 'Offline');
 	define('_MD_FLAT', 'Flat');
-	 
-	 
+
+
 	// online.php
 	define('_MD_USERS_ONLINE', 'Users Online:');
 	define('_MD_ANONYMOUS_USERS', 'Anonymous Users');
@@ -353,10 +346,10 @@
 	define('_MD_BROWSING_FORUM', 'Users browsing forum');
 	define('_MD_TOTAL_ONLINE', 'Total %d Users Online.');
 	define('_MD_ADMINISTRATOR', 'Administrator');
-	 
+
 	define('_MD_NO_SUCH_FILE', 'File not exist!');
 	define('_MD_ERROR_UPATEATTACHMENT', 'Error occur when updating attachment');
-	 
+
 	// ratethread.php
 	define("_MD_CANTVOTEOWN", "You cannot vote on the topic you submitted.<br />All votes are logged and reviewed.");
 	define("_MD_VOTEONCE", "Please do not vote for the same topic more than once.");
@@ -364,8 +357,8 @@
 	define("_MD_THANKYOU", "Thank you for taking the time to vote here at %s"); // %s is your site name
 	define("_MD_VOTES", "Votes");
 	define("_MD_NOVOTERATE", "You did not rate this Topic");
-	 
-	 
+
+
 	// polls.php
 	define("_MD_POLL_DBUPDATED", "Database Updated Successfully!");
 	define("_MD_POLL_POLLCONF", "Polls Configuration");
@@ -395,55 +388,55 @@
 	define("_MD_POLL_RESET", "Reset all logs for this poll?");
 	define("_MD_POLL_ADDPOLL", "Add Poll");
 	define("_MD_POLLMODULE_ERROR", "Poll module not available for use");
-	 
+
 	//report.php
 	define("_MD_REPORTED", "Thank you for reporting this post/thread! A moderator will look into your report shortly.");
 	define("_MD_REPORT_ERROR", "Error occured while sending the report.");
 	define("_MD_REPORT_TEXT", "Report message:");
-	 
+
 	define("_MD_PDF", "Create PDF from Post");
 	define("_MD_PDF_PAGE", "Page %s");
-	 
+
 	//print.php
 	define("_MD_COMEFROM", "This Post was from:");
-	 
+
 	//viewpost.php
 	define("_MD_VIEWALLPOSTS", "All Posts");
 	define("_MD_VIEWTOPIC", "Topic");
 	define("_MD_VIEWFORUM", "Forum");
-	 
+
 	define("_MD_COMPACT", "Compact");
-	 
+
 	define("_MD_WELCOME_SUBJECT", "%s has joined the forum");
 	define("_MD_WELCOME_MESSAGE", "Hi, %s has joined you. Let's start ...");
-	 
+
 	define("_MD_VIEWNEWPOSTS", "View new posts");
-	 
+
 	define("_MD_INVALID_SUBMIT", "Invalid submission. You could have exceeded session time. Please re-submit or make a backup of your post and login to resubmit if necessary.");
-	 
+
 	define("_MD_ACCOUNT", "Account");
 	define("_MD_NAME", "Name");
 	define("_MD_PASSWORD", "Password");
 	define("_MD_LOGIN", "Login");
-	 
+
 	define("_MD_TRANSFER", "Transfer");
 	define("_MD_TRANSFER_DESC", "Transfer the post to other applications");
 	define("_MD_TRANSFER_DONE", "The action is done successully: %s");
-	 
+
 	define("_MD_APPROVE", "Approve");
 	define("_MD_RESTORE", "Restore");
 	define("_MD_SPLIT_ONE", "Split");
 	define("_MD_SPLIT_TREE", "Split all children");
 	define("_MD_SPLIT_ALL", "Split all");
-	 
+
 	define("_MD_TYPE_ADMIN", "Admin");
 	define("_MD_TYPE_VIEW", "View");
 	define("_MD_TYPE_PENDING", "Pending");
 	define("_MD_TYPE_DELETED", "Deleted");
 	define("_MD_TYPE_SUSPEND", "Suspension");
-	 
+
 	define("_MD_DBUPDATED", "Database Updated Successfully!");
-	 
+
 	define("_MD_SUSPEND_SUBJECT", "User %s is suspended for %d days");
 	define("_MD_SUSPEND_TEXT", "User %s is suspended for %d days due to:<br />[quote]%s[/quote]<br /><br />The suspension is valid till %s");
 	define("_MD_SUSPEND_UID", "User ID");
@@ -456,14 +449,14 @@
 	define("_MD_SUSPEND_SCOPE", "Scope");
 	define("_MD_SUSPEND_MANAGEMENT", "Moderation management");
 	define("_MD_SUSPEND_NOACCESS", "Your ID or IP has been suspended");
-	 
+
 	// !!IMPORTANT!! insert '\' before any char among reserved chars: "a", "A","B","c","d","D","F","g","G","h","H","i","I","j","l","L","m","M","n","O","r","s","S","t","T","U","w","W","Y","y","z","Z"
 	// insert double '\' before 't', 'r', 'n'
 	define("_MD_TODAY", "\T\o\d\a\y G:i:s");
 	define("_MD_YESTERDAY", "\Y\e\s\\t\e\\r\d\a\y G:i:s");
 	define("_MD_MONTHDAY", "n/j G:i:s");
 	define("_MD_YEARMONTHDAY", "Y/n/j G:i");
-	 
+
 	// For user info
 	// If you have customized userbar, define here.
 	/*require_once(ICMS_ROOT_PATH."/modules/".basename(  dirname(  dirname(  dirname( __FILE__ ) ) ) )."/class/user.php");
@@ -473,7 +466,7 @@
 	{
 	$this->User($user);
 	}
-	 
+
 	function &getUserbar()
 	{
 	global $isadmin;
@@ -513,4 +506,3 @@
 	define("_MD_LEVEL_MOD_EXP", "Experience: This bar shows how far you are away from the next user level. As soon as this bar reaches 100%, your next message will upgrade you to the next user level. ");
 	define("_MD_LEVEL_MOD_HP", "Activity: This bar goes up or down depending to your activity within the community. Simplified this value of every user is oriented to a defined number of messages per day.");
 	define("_MD_LEVEL_MOD_MP", "Answer-waiting-time: This bar shows the permanence of your activity since you are registered and i.e. how fast you answered to articles. A high value means you reacting rarely or very, very slow to a article… [Bad boy ^^] ");
-?>

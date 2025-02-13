@@ -3,47 +3,45 @@
 	// Thanks Tom (http://www.wf-projects.com), for correcting the Engligh language package
 
 	// Module Info
-	//$constpref = '_MI_' . strtoupper( basename( dirname(  dirname(  dirname( __FILE__ ) ) ) ) ) ;
-	$constpref = '_MI_IFORUM';
 
 	// The name of this module
-	define($constpref."_NAME", "iForum");
+	define("_MI_IFORUM_NAME", "iForum");
 
 	// A brief description of this module
-	define($constpref."_DESC", "Community Bulletin Board");
+	define("_MI_IFORUM_DESC", "Community Bulletin Board");
 
 	// Names of blocks for this module (Not all module has blocks)
-	define($constpref."_BLOCK_TOPIC_POST", "Recent Replied Topics");
-	define($constpref."_BLOCK_TOPIC", "Recent Topics");
-	define($constpref."_BLOCK_POST", "Recent Posts");
-	define($constpref."_BLOCK_AUTHOR", "Authors");
-	define($constpref."_BLOCK_TAG_CLOUD", "Tag Cloud");
-	define($constpref."_BLOCK_TAG_TOP", "Top Tags");
+	define("_MI_IFORUM_BLOCK_TOPIC_POST", "Recent Replied Topics");
+	define("_MI_IFORUM_BLOCK_TOPIC", "Recent Topics");
+	define("_MI_IFORUM_BLOCK_POST", "Recent Posts");
+	define("_MI_IFORUM_BLOCK_AUTHOR", "Authors");
+	define("_MI_IFORUM_BLOCK_TAG_CLOUD", "Tag Cloud");
+	define("_MI_IFORUM_BLOCK_TAG_TOP", "Top Tags");
 	/*
-	define($constpref."_BNAME2","Most Viewed Topics");
-	define($constpref."_BNAME3","Most Active Topics");
-	define($constpref."_BNAME4","Newest Digest");
-	define($constpref."_BNAME5","Newest Sticky Topics");
-	define($constpref."_BNAME6","Newest Posts");
-	define($constpref."_BNAME7","Authors with most topics");
-	define($constpref."_BNAME8","Authors with most posts");
-	define($constpref."_BNAME9","Authors with most digests");
-	define($constpref."_BNAME10","Authors with most sticky topics");
-	define($constpref."_BNAME11","Recent post with text");
+	define("_MI_IFORUM_BNAME2","Most Viewed Topics");
+	define("_MI_IFORUM_BNAME3","Most Active Topics");
+	define("_MI_IFORUM_BNAME4","Newest Digest");
+	define("_MI_IFORUM_BNAME5","Newest Sticky Topics");
+	define("_MI_IFORUM_BNAME6","Newest Posts");
+	define("_MI_IFORUM_BNAME7","Authors with most topics");
+	define("_MI_IFORUM_BNAME8","Authors with most posts");
+	define("_MI_IFORUM_BNAME9","Authors with most digests");
+	define("_MI_IFORUM_BNAME10","Authors with most sticky topics");
+	define("_MI_IFORUM_BNAME11","Recent post with text");
 	*/
 
 	// Names of admin menu items
-	define($constpref."_ADMENU_INDEX", "Index");
-	define($constpref."_ADMENU_CATEGORY", "Categories");
-	define($constpref."_ADMENU_FORUM", "Forums");
-	define($constpref."_ADMENU_PERMISSION", "Permissions");
-	define($constpref."_ADMENU_BLOCK", "Blocks");
-	define($constpref."_ADMENU_ORDER", "Order");
-	define($constpref."_ADMENU_SYNC", "Sync forums");
-	define($constpref."_ADMENU_PRUNE", "Prune");
-	define($constpref."_ADMENU_REPORT", "Reports");
-	define($constpref."_ADMENU_DIGEST", "Digest");
-	define($constpref."_ADMENU_VOTE", "Votes");
+	define("_MI_IFORUM_ADMENU_INDEX", "Index");
+	define("_MI_IFORUM_ADMENU_CATEGORY", "Categories");
+	define("_MI_IFORUM_ADMENU_FORUM", "Forums");
+	define("_MI_IFORUM_ADMENU_PERMISSION", "Permissions");
+	define("_MI_IFORUM_ADMENU_BLOCK", "Blocks");
+	define("_MI_IFORUM_ADMENU_ORDER", "Order");
+	define("_MI_IFORUM_ADMENU_SYNC", "Sync forums");
+	define("_MI_IFORUM_ADMENU_PRUNE", "Prune");
+	define("_MI_IFORUM_ADMENU_REPORT", "Reports");
+	define("_MI_IFORUM_ADMENU_DIGEST", "Digest");
+	define("_MI_IFORUM_ADMENU_VOTE", "Votes");
 
 
 
@@ -145,9 +143,9 @@ Gebruik nooit een slash '/' als afsluiter.");
 
 	define("_MI_EMAIL_DIGEST", "post samenvatting emailen");
 	define("_MI_EMAIL_DIGEST_DESC", "Bepaal de periode om post samenvattingen te versturen naar de gebruikers");
-	define($constpref."_EMAIL_NONE", "No email");
-	define($constpref."_EMAIL_DAILY", "Daily");
-	define($constpref."_EMAIL_WEEKLY", "Weekly");
+	define("_MI_IFORUM_EMAIL_NONE", "No email");
+	define("_MI_IFORUM_EMAIL_DAILY", "Daily");
+	define("_MI_IFORUM_EMAIL_WEEKLY", "Weekly");
 
 	define("_MI_SHOW_IP", "Toon IP adres van de gebruiker");
 	define("_MI_SHOW_IP_DESC", "Dit toont het IP adres van de gebruiker aan moderatoren");
@@ -298,12 +296,12 @@ Gebruik nooit een slash '/' als afsluiter.");
 	define ('_MI_IFORUM_GLOBAL_DIGEST_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : post digest');
 
 	// FOR installation
-	define($constpref."_INSTALL_CAT_TITLE", "Category Test");
-	define($constpref."_INSTALL_CAT_DESC", "Category for test.");
-	define($constpref."_INSTALL_FORUM_NAME", "Forum Test");
-	define($constpref."_INSTALL_FORUM_DESC", "Forum for test.");
-	define($constpref."_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
-	define($constpref."_INSTALL_POST_TEXT", "
+	define("_MI_IFORUM_INSTALL_CAT_TITLE", "Category Test");
+	define("_MI_IFORUM_INSTALL_CAT_DESC", "Category for test.");
+	define("_MI_IFORUM_INSTALL_FORUM_NAME", "Forum Test");
+	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Forum for test.");
+	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Congratulations! The forum is working.");
+	define("_MI_IFORUM_INSTALL_POST_TEXT", "
 		Welcome to ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES))." forum.
 		Feel free to register and login to start your topics.
 
