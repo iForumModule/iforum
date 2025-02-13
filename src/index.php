@@ -22,9 +22,9 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include "header.php";
- 
+
 /* deal with marks */
 if (isset($_GET['mark_read']))
 	{
@@ -44,10 +44,10 @@ if (isset($_GET['mark_read']))
 	$url = ICMS_URL . '/modules/' . icms::$module->getVar("dirname") . '/index.php';
 	redirect_header($url, 2, _MD_ALL_FORUM_MARKED.' '.$markresult);
 }
- 
+
 $viewcat = @(int)$_GET['cat'];
 $category_handler = icms_getmodulehandler('category', basename(__DIR__), 'iforum' );
- 
+
 $categories = array();
 if (!$viewcat)
 {
@@ -70,7 +70,7 @@ if (count($categories) == 0)
 	redirect_header(ICMS_URL, 2, _MD_NORIGHTTOACCESS);
 	exit();
 }
- 
+
 /* rss feed */
 if (!empty(icms::$module->config['rss_enable']))
 {
@@ -78,12 +78,12 @@ if (!empty(icms::$module->config['rss_enable']))
 		<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />
 		';
 }
- 
+
 $xoopsOption['template_main'] = 'iforum_index.html';
 $xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
 $xoopsOption['xoops_module_header'] = $icms_module_header;
 include ICMS_ROOT_PATH."/header.php";
- 
+
 $icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
 $icmsTpl->assign('forum_index_title', $forum_index_title);
@@ -93,7 +93,7 @@ if (icms::$module->config['wol_enabled'])
 	$online_handler->init();
 	$icmsTpl->assign('online', $online_handler->show_online());
 }
- 
+
 /* display forum stats */
 $icmsTpl->assign(array(
 "lang_welcomemsg" => sprintf(_MD_WELCOME, htmlspecialchars($icmsConfig['sitename'], ENT_QUOTES)),
@@ -101,12 +101,12 @@ $icmsTpl->assign(array(
 	"total_posts" => get_total_posts(),
 	"lang_lastvisit" => sprintf(_MD_LASTVISIT, formatTimestamp($last_visit)),
 	"lang_currenttime" => sprintf(_MD_TIMENOW, formatTimestamp(time(), "m"))));
- 
+
 $forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $forums_obj = $forum_handler->getForumsByCategory(array_keys($categories), "access");
 $forums_array = $forum_handler->display($forums_obj);
 unset($forums_obj);
- 
+
 if (count($forums_array) > 0)
 {
 	foreach ($forums_array[0] as $parent => $forum)
@@ -118,34 +118,33 @@ if (count($forums_array) > 0)
 		$forumsByCat[$forum['forum_cid']][] = $forum;
 	}
 }
- 
+
 $category_array = array();
 $cat_order = array();
 $toggles = iforum_getcookie('G', true);
 foreach(array_keys($categories) as $id)
 {
 	$forums = array();
-	 
+
 	$onecat = & $categories[$id];
-	 
+
 	$catid = "cat_".$onecat->getVar('cat_id');
-	$catshow = (count($toggles) > 0)?((in_array($catid, $toggles)) ? false : true):
-	true;
-	 
+	$catshow = !(count($toggles) > 0) || !in_array($catid, $toggles);
+
 	$display = ($catshow) ? 'block;' :
 	 'none;';
 	$display_icon = ($catshow) ? 'images/minus.png' :
 	 'images/plus.png';
-	 
+
 	if (isset($forumsByCat[$onecat->getVar('cat_id')]))
 	{
 		$forums = & $forumsByCat[$onecat->getVar('cat_id')];
 	}
-	 
+
 	$cat_description = $onecat->getVar('cat_description');
 	$cat_description = icms_core_DataFilter::undoHtmlSpecialChars($cat_description);
 	$cat_sponsor = array();
-	@list($url, $title) = array_map("trim", preg_split("/ /", $onecat->getVar('cat_url'), 2));
+	@list($url, $title) = array_map("trim", explode(" ", $onecat->getVar('cat_url'), 2));
 	if (empty($title)) $title = $url;
 	$title = icms_core_DataFilter::htmlSpecialchars($title);
 	if (!empty($url)) $cat_sponsor = array("title" => $title, "link" => formatURL($url));
@@ -170,12 +169,12 @@ foreach(array_keys($categories) as $id)
 	$cat_order[] = $onecat->getVar('cat_order');
 }
 unset($categories);
- 
+
 $icmsTpl->assign_by_ref("categories", $category_array);
 $icmsTpl->assign("subforum_display", icms::$module->config['subforum_display']);
 $icmsTpl->assign('mark_read', "index.php?mark_read=1");
 $icmsTpl->assign('mark_unread', "index.php?mark_read=2");
- 
+
 $icmsTpl->assign('all_link', "viewall.php");
 $icmsTpl->assign('post_link', "viewpost.php");
 $icmsTpl->assign('newpost_link', "viewpost.php?type=new");
@@ -183,22 +182,22 @@ $icmsTpl->assign('digest_link', "viewall.php?type=digest");
 $icmsTpl->assign('unreplied_link', "viewall.php?type=unreplied");
 $icmsTpl->assign('unread_link', "viewall.php?type=unread");
 $icmsTpl->assign('down', iforum_displayImage($forumImage['doubledown']));
- 
+
 $isadmin = iforum_isAdmin();
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
 $mode = (!empty($_GET['mode'])) ? (int)$_GET['mode'] :
  0;
 $icmsTpl->assign('mode', $mode );
- 
+
 $icmsTpl->assign('viewcat', $viewcat);
 $icmsTpl->assign('version', icms::$module->getVar("version"));
- 
+
 /* To be removed */
 if ($isadmin )
 {
 	$icmsTpl->assign('forum_index_cpanel', array("link" => "admin/index.php", "name" => _MD_ADMINCP));
 }
- 
+
 if (icms::$module->config['rss_enable'] == 1)
 {
 	$icmsTpl->assign("rss_enable", 1);

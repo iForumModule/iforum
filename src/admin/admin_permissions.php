@@ -22,9 +22,9 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include 'admin_header.php';
- 
+
 /**
 * Add category navigation to forum casscade structure
 * <ol>Special points:
@@ -34,15 +34,15 @@ include 'admin_header.php';
 *
 * Note: this is a __patchy__ solution. We should have a more extensible and flexible group permission management: not only for data architecture but also for management interface
 */
- 
+
 icms_cp_header();
- 
+
 loadModuleAdminMenu(3, _AM_IFORUM_PERM_PERMISSIONS );
- 
+
 $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : "";
 $module_id = icms::$module->getVar('mid');
 $perms = array_map("trim", explode(',', FORUM_PERM_ITEMS));
- 
+
 switch($action)
 {
 	case "template":
@@ -56,7 +56,7 @@ switch($action)
 		"default" => _AM_IFORUM_PERM_SETBYGROUP ));
 	$opform->addElement($op_select);
 	$opform->display();
-	 
+
 	$member_handler = icms::handler('icms_member');
 	$glist = $member_handler->getGroupList();
 	$elements = array();
@@ -103,7 +103,7 @@ switch($action)
 	$ret .= '</table></form>';
 	echo $ret;
 	break;
-	 
+
 	case "template_save":
 	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$res = $iforumperm_handler->setTemplate($_POST['perms'], $groupid = 0);
@@ -116,7 +116,7 @@ switch($action)
 		redirect_header("admin_permissions.php?action=template", 2, _AM_IFORUM_PERM_TEMPLATE_ERROR);
 	}
 	break;
-	 
+
 	case "apply":
 	$iforumperm_handler =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$perm_template = $iforumperm_handler->getTemplate();
@@ -124,17 +124,17 @@ switch($action)
 	{
 		redirect_header("admin_permissions.php?action=template", 2, _AM_IFORUM_PERM_TEMPLATE);
 	}
-	 
+
 	$opform = new icms_form_Simple(_AM_IFORUM_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
 	$op_select = new icms_form_elements_Select("", 'action');
 	$op_select->setExtra('onchange="document.forms.actionform.submit()"');
 	$op_select->addOptionArray(array("no" => _SELECT, "template" => _AM_IFORUM_PERM_TEMPLATE, "apply" => _AM_IFORUM_PERM_TEMPLATEAPP));
 	$opform->addElement($op_select);
 	$opform->display();
-	 
+
 	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$categories = $category_handler->getAllCats("", true);
-	 
+
 	$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	$fm_options = array();
@@ -163,7 +163,7 @@ switch($action)
 	$fmform->addElement($tray);
 	$fmform->display();
 	break;
-	 
+
 	case "apply_save":
 	if (empty($_POST["forums"])) break;
 	$iforumperm_handler = icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
@@ -174,9 +174,9 @@ switch($action)
 	}
 	redirect_header("admin_permissions.php", 2, _AM_IFORUM_PERM_TEMPLATE_APPLIED);
 	break;
-	 
+
 	default:
-	 
+
 	$opform = new icms_form_Simple(_AM_IFORUM_PERM_ACTION, 'actionform', 'admin_permissions.php', "get");
 	$op_select = new icms_form_elements_Select("", 'action');
 	$op_select->setExtra('onchange="document.forms.actionform.submit()"');
@@ -187,7 +187,7 @@ switch($action)
 		"default" => _AM_IFORUM_PERM_SETBYGROUP ));
 	$opform->addElement($op_select);
 	$opform->display();
-	 
+
 	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$forums = $forum_handler->getForumsByCategory(0, '', false);
 	$op_options = array("category" => _AM_IFORUM_CAT_ACCESS);
@@ -197,7 +197,7 @@ switch($action)
 		$op_options[$perm] = CONSTANT("_AM_IFORUM_CAN_".strtoupper($perm));
 		$fm_options[$perm] = array("title" => CONSTANT("_AM_IFORUM_CAN_".strtoupper($perm)), "item" => "forum_".$perm, "desc" => "", "anonymous" => true);
 	}
-	 
+
 	$op_keys = array_keys($op_options);
 	$op = isset($_GET['op']) ? strtolower($_GET['op']) :
 	 (isset($_COOKIE['op']) ? strtolower($_COOKIE['op']):"");
@@ -214,18 +214,18 @@ switch($action)
 		}
 		setCookie("op", isset($op_keys[$i+1])?$op_keys[$i+1]:"");
 	}
-	 
+
 	$opform = new icms_form_Simple('', 'opform', 'admin_permissions.php', "get");
 	$op_select = new icms_form_elements_Select("", 'op', $op);
 	$op_select->setExtra('onchange="document.forms.opform.submit()"');
 	$op_select->addOptionArray($op_options);
 	$opform->addElement($op_select);
 	$opform->display();
-	 
+
 	$perm_desc = "";
-	 
+
 	$form = new icms_form_Groupperm($fm_options[$op]["title"], $module_id, $fm_options[$op]["item"], $fm_options[$op]["desc"], 'admin/admin_permissions.php', $fm_options[$op]["anonymous"]);
-	 
+
 	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
 	$categories = $category_handler->getAllCats("", true);
 	if ($op == "category")
@@ -242,22 +242,24 @@ switch($action)
 		{
 			$key_c = -1 * $c;
 			$form->addItem($key_c, "<strong>[".$categories[$c]->getVar('cat_title')."]</strong>");
-			foreach(array_keys($forums[$c]) as $f)
-			{
-				$form->addItem($f, $forums[$c][$f]["title"], $key_c);
-				if (!isset($forums[$c][$f]["sub"])) continue;
-				foreach(array_keys($forums[$c][$f]["sub"]) as $s)
-				{
-					$form->addItem($s, "&rarr;".$forums[$c][$f]["sub"][$s]["title"], $f);
-				}
-			}
+			if($forums[$c]) {
+                foreach(array_keys($forums[$c]) as $f)
+                {
+                    $form->addItem($f, $forums[$c][$f]["title"], $key_c);
+                    if (!isset($forums[$c][$f]["sub"])) continue;
+                    foreach(array_keys($forums[$c][$f]["sub"]) as $s)
+                    {
+                        $form->addItem($s, "&rarr;".$forums[$c][$f]["sub"][$s]["title"], $f);
+                    }
+                }
+            }
 		}
 		unset($forums, $categories);
 	}
 	$form->display();
-	 
+
 	break;
 }
- 
+
 icms_cp_footer();
 ?>

@@ -36,6 +36,8 @@ class Post extends ArtObject {
 
 	function __construct()
 	{
+        parent::__construct();
+
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
 		$this->initVar('forum_id', XOBJ_DTYPE_INT, 0, true);
@@ -71,7 +73,7 @@ class Post extends ArtObject {
 		return $this->attachment_array;
 	}
 
-	function incrementDownload($attach_key)
+	public function incrementDownload($attach_key)
 	{
 		if (!$attach_key) return false;
 		$this->attachment_array[(string)$attach_key]['num_download'] ++;
@@ -221,7 +223,6 @@ class Post extends ArtObject {
 
 	function displayPostEdit()
 	{
-		global $myts;
 
 		if (empty(icms::$module->config['recordedit_timelimit']) ) return false;
 
@@ -234,8 +235,8 @@ class Post extends ArtObject {
 			foreach($post_edits as $postedit)
 			{
 				$edit_time = (int)$postedit['edit_time'];
-				$edit_user = $myts->stripSlashesGPC($postedit['edit_user']);
-				$post_edit .= _MD_EDITEDBY . " " . $edit_user . " " . _MD_ON . " " . formatTimestamp(intval($edit_time)) . "<br/>";
+				$edit_user = icms_core_Textsanitizer::getInstance()->stripSlashesGPC($postedit['edit_user']);
+				$post_edit .= _MD_EDITEDBY . " " . $edit_user . " " . _MD_ON . " " . formatTimestamp((int)$edit_time) . "<br/>";
 			}
 		}
 		return $post_edit;
@@ -244,11 +245,11 @@ class Post extends ArtObject {
 
 	function &getPostBody($imageAsSource = false)
 	{
-		global $icmsConfig, $myts;
+		global $icmsConfig;
 
 		$uid = is_object(icms::$user)? icms::$user->getVar('uid'):
 		0;
-		$karma_handler = icms_getmodulehandler('karma', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$karma_handler = icms_getmodulehandler('karma', basename(dirname(__FILE__, 2)), 'iforum' );
 		$user_karma = $karma_handler->getUserKarma();
 
 		$post = array();
@@ -379,10 +380,8 @@ class Post extends ArtObject {
 		$poster = (($this->getVar('uid') > 0) && isset($viewtopic_users[$this->getVar('uid')]))? $viewtopic_users[$this->getVar('uid')]:
 		array(
 		'poster_uid' => 0,
-			'name' => $this->getVar('poster_name')?$this->getVar('poster_name'):
-		icms_core_DataFilter::htmlSpecialchars($icmsConfig['anonymous']),
-			'link' => $this->getVar('poster_name')?$this->getVar('poster_name'):
-		icms_core_DataFilter::htmlSpecialchars($icmsConfig['anonymous'])
+			'name' => $this->getVar('poster_name') ?: icms_core_DataFilter::htmlSpecialchars($icmsConfig['anonymous']),
+			'link' => $this->getVar('poster_name') ?: icms_core_DataFilter::htmlSpecialchars($icmsConfig['anonymous'])
 		);
 
 		$posticon = $this->getVar('icon');

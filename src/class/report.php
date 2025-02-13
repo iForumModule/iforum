@@ -65,7 +65,7 @@ class IforumReportHandler extends ArtObjectHandler {
 		return $ret;
 	}
 
-	function &getAllReports( &$start, $report_result = 0, $report_id = 0,$forums = 0, $order = "ASC", $perpage = 0)
+	function &getAllReports( $start, $report_result = 0, $report_id = 0,$forums = 0, $order = "ASC", $perpage = 0)
 	{
 		if ($order == "DESC")
 		{
