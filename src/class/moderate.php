@@ -22,15 +22,15 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
 iforum_load_object();
- 
+
 /**
 * A handler for User moderation management
 *
@@ -39,9 +39,9 @@ iforum_load_object();
 * @author     D.J. (phppp, http://xoopsforge.com)
 * @copyright copyright (c) 2005 XOOPS.org
 */
- 
+
 class Moderate extends ArtObject {
-	 
+
 	function __construct()
 	{
 		parent::__construct("bb_moderates");
@@ -54,13 +54,13 @@ class Moderate extends ArtObject {
 		$this->initVar('forum_id', XOBJ_DTYPE_INT);
 	}
 }
- 
+
 class IforumModerateHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
         parent::__construct($db, 'bb_moderates', 'Moderate', 'mod_id', 'uid');
 	}
-	 
+
 	/**
 	* Clear garbage
 	*
@@ -74,7 +74,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 		$sql = sprintf("DELETE FROM %s WHERE mod_end < %u", $this->db->prefix('bb_moderates'), $expire);
 		$this->db->queryF($sql);
 	}
-	 
+
 	/**
 	* Check if a user is moderated, according to his uid and ip
 	*
@@ -119,7 +119,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 		$row = $this->db->fetchArray($result);
 		return $row["count"];
 	}
-	 
+
 	/**
 	* Get a forum list that a user is suspended, according to his uid and ip
 	* Store the list into session if module cache is enabled
@@ -182,10 +182,10 @@ class IforumModerateHandler extends ArtObjectHandler {
 		{
 			iforum_setsession("sf".$uid."_".ip2long($ip), $forums[$uid][$ip]);
 		}
-		 
+
 		return $forums[$uid][$ip];
 	}
-	 
+
 	/**
 	* Get latest expiration for a user moderation
 	*
@@ -216,13 +216,13 @@ class IforumModerateHandler extends ArtObjectHandler {
 		$row = $this->db->fetchArray($result);
 		return $row["expire"];
 	}
-	 
+
 	/**
 	* clean orphan items from database
 	*
 	* @return  bool true on success
 	*/
-	function cleanOrphan()
+	function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
 		/* for MySQL 4.1+ */
 		if ($this->mysql_major_version() >= 4):

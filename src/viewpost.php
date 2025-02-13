@@ -22,18 +22,18 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include 'header.php';
 // To enable image auto-resize by js
 $icms_module_header .= '<script src="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/include/js/xoops.js" type="text/javascript"></script>';
- 
+
 $start = !empty($_GET['start']) ? (int)$_GET['start'] :
  0;
 $forum_id = !empty($_GET['forum']) ? (int)$_GET['forum'] :
  0;
 $order = isset($_GET['order'])?$_GET['order']:
 "DESC";
- 
+
 $uid = !empty($_GET['uid']) ? (int)$_GET['uid'] :
  0;
 $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pending", "deleted", "new")))? $_GET['type'] :
@@ -41,10 +41,10 @@ $type = (!empty($_GET['type']) && in_array($_GET['type'], array("active", "pendi
 $mode = !empty($_GET['mode']) ? (int)$_GET['mode'] :
  0;
 $mode = (!empty($type) && in_array($type, array("active", "pending", "deleted")) )?2:$mode;
- 
+
 $forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
- 
+
 $isadmin = iforum_isAdmin($forum_id);
 /* Only admin has access to admin mode */
 if (!$isadmin)
@@ -57,7 +57,7 @@ if ($mode)
 {
 	$_GET['viewmode'] = "flat";
 }
- 
+
 if (empty($forum_id))
 {
 	$forums = $forum_handler->getForums(0, "view");
@@ -69,20 +69,20 @@ else
 	$forums[$forum_id] = & $forum_obj;
 	$access_forums = array($forum_id);
 }
- 
+
 $post_perpage = icms::$module->config['posts_per_page'];
- 
+
 $criteria_count = new icms_db_criteria_Compo(new icms_db_criteria_Item("forum_id", "(".implode(",", $access_forums).")", "IN"));
 $criteria_post = new icms_db_criteria_Compo(new icms_db_criteria_Item("p.forum_id", "(".implode(",", $access_forums).")", "IN"));
 $criteria_post->setSort("p.post_time");
 $criteria_post->setOrder($order);
- 
+
 if (!empty($uid))
 {
 	$criteria_count->add(new icms_db_criteria_Item("uid", $uid));
 	$criteria_post->add(new icms_db_criteria_Item("p.uid", $uid));
 }
- 
+
 $join = null;
 switch($type)
 {
@@ -123,10 +123,10 @@ switch($type)
 }
 $criteria_count->add($criteria_type_count);
 $criteria_post->add($criteria_type_post);
- 
+
 $karma_handler = icms_getmodulehandler('karma', basename(__DIR__), 'iforum' );
 $user_karma = $karma_handler->getUserKarma();
- 
+
 $valid_modes = array("flat", "compact", "left", "right");
 $viewmode_cookie = iforum_getcookie("V");
 if (isset($_GET['viewmode']) && $_GET['viewmode'] == "compact") iforum_setcookie("V", "compact", $forumCookie['expire']);
@@ -142,16 +142,16 @@ icms::$user->getVar('umode'):
 );
 $viewmode = in_array($viewmode, $valid_modes)?$viewmode:
 "flat";
- 
+
 $postCount = $post_handler->getPostCount($criteria_count);
 $posts = $post_handler->getPostsByLimit($criteria_post, $post_perpage, $start/*, $join*/);
- 
+
 $poster_array = array();
 if (count($posts) > 0) foreach (array_keys($posts) as $id)
 {
 	$poster_array[$posts[$id]->getVar('uid')] = 1;
 }
- 
+
 $icms_pagetitle = icms::$module->getVar('name'). ' - ' ._MD_VIEWALLPOSTS;
 $xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
 $xoopsOption['xoops_module_header'] = $icms_module_header;
@@ -165,7 +165,7 @@ else
 {
 	$icmsTpl->assign('iforum_template_path', ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/templates");
 }
- 
+
 if (!empty($forum_id))
 {
 	if (!$forum_handler->getPermission($forum_obj, "view"))
@@ -182,10 +182,10 @@ if (!empty($forum_id))
 	}
 	$icmsTpl->assign('forum_name', $forum_obj->getVar('forum_name'));
 	$icmsTpl->assign('forum_moderators', $forum_obj->disp_forumModerators());
-	 
+
 	$icms_pagetitle = $forum_obj->getVar('forum_name'). ' - ' ._MD_VIEWALLPOSTS. ' [' . icms::$module->getVar('name'). ']';
 	$icmsTpl->assign("forum_id", $forum_obj->getVar('forum_id'));
-	 
+
 	if (!empty(icms::$module->config['rss_enable']))
 	{
 		$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.icms::$module->getVar('name').'-'.$forum_obj->getVar('forum_name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php?f='.$forum_id.'" />';
@@ -197,7 +197,7 @@ elseif(!empty(icms::$module->config['rss_enable']))
 }
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
 $icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
- 
+
 $userid_array = array();
 if (count($poster_array) > 0)
 {
@@ -211,7 +211,7 @@ else
 	$user_criteria = '';
 	$users = null;
 }
- 
+
 if (icms::$module->config['wol_enabled'])
 	{
 	$online = array();
@@ -229,7 +229,7 @@ if (icms::$module->config['wol_enabled'])
 		}
 	}
 }
- 
+
 if (icms::$module->config['groupbar_enabled'])
 {
 	$groups_disp = array();
@@ -241,9 +241,9 @@ if (icms::$module->config['groupbar_enabled'])
 	}
 	unset($groups);
 }
- 
+
 $viewtopic_users = array();
- 
+
 if (count($userid_array) > 0)
 {
 	$user_handler = icms_getmodulehandler('user', basename(__DIR__), 'iforum' );
@@ -257,17 +257,17 @@ if (count($userid_array) > 0)
 }
 unset($users);
 unset($groups_disp);
- 
+
 $pn = 0;
 $topic_handler =icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 static $suspension = array();
 foreach(array_keys($posts) as $id)
 {
 	$pn++;
-	 
+
 	$post = & $posts[$id];
 	$post_title = $post->getVar('subject');
-	 
+
 	if ($posticon = $post->getVar('icon') )
 		{
 		$post_image = '<img style="vertical-align:middle;" src="' . ICMS_URL . '/images/subject/' . htmlspecialchars($posticon) . '" alt="" />';
@@ -309,18 +309,18 @@ foreach(array_keys($posts) as $id)
 		$post_text = $post->getVar('post_text');
 		$post_attachment = $post->displayAttachment();
 	}
-	 
+
 	$thread_buttons = array();
-	 
+
 	if ($GLOBALS["icmsModuleConfig"]['enable_permcheck'])
 	{
-		 
+
 		if (!isset($suspension[$post->getVar('forum_id')]))
 		{
 			$moderate_handler = icms_getmodulehandler('moderate', basename(__DIR__), 'iforum' );
 			$suspension[$post->getVar('forum_id')] = $moderate_handler->verifyUser(-1, "", $post->getVar('forum_id'));
 		}
-		 
+
 		if (!$suspension[$post->getVar('forum_id')] && $post->checkIdentity() && $post->checkTimelimit('edit_timelimit')
 			|| $isadmin)
 		{
@@ -328,7 +328,7 @@ foreach(array_keys($posts) as $id)
 			$thread_buttons['edit']['link'] = "edit.php?forum=" .$post->getVar('forum_id') . "&amp;topic_id=" . $post->getVar('topic_id');
 			$thread_buttons['edit']['name'] = _EDIT;
 		}
-		 
+
 		if ((!$suspension[$post->getVar('forum_id')] && $post->checkIdentity() && $post->checkTimelimit('delete_timelimit'))
 			|| $isadmin )
 		{
@@ -341,12 +341,12 @@ foreach(array_keys($posts) as $id)
 			$thread_buttons['reply']['image'] = iforum_displayImage($forumImage['p_reply'], _MD_REPLY);
 			$thread_buttons['reply']['link'] = "reply.php?forum=" . $post->getVar('forum_id') . "&amp;topic_id=" . $post->getVar('topic_id');
 			$thread_buttons['reply']['name'] = _MD_REPLY;
-			 
+
 			$thread_buttons['quote']['image'] = iforum_displayImage($forumImage['p_quote'], _MD_QUOTE);
 			$thread_buttons['quote']['link'] = "reply.php?forum=" . $post->getVar('forum_id') . "&amp;topic_id=" . $post->getVar('topic_id') . "&amp;quotedac=1";
 			$thread_buttons['quote']['name'] = _MD_QUOTE;
 		}
-		 
+
 	}
 	else
 	{
@@ -360,7 +360,7 @@ foreach(array_keys($posts) as $id)
 		$thread_buttons['reply']['link'] = "reply.php?forum=" . $post->getVar('forum_id') . "&amp;topic_id=" . $post->getVar('topic_id');
 		$thread_buttons['reply']['name'] = _MD_REPLY;
 	}
-	 
+
 	if (!$isadmin && icms::$module->config['reportmod_enabled'])
 	{
 		$thread_buttons['report']['image'] = iforum_displayImage($forumImage['p_report'], _MD_REPORT);
@@ -368,7 +368,7 @@ foreach(array_keys($posts) as $id)
 		$thread_buttons['report']['name'] = _MD_REPORT;
 	}
 	$thread_action = array();
-	 
+
 	$icmsTpl->append('posts',
 		array(
 	'post_id' => $post->getVar('post_id'),
@@ -389,32 +389,31 @@ foreach(array_keys($posts) as $id)
 		'thread_buttons' => $thread_buttons,
 		'poster' => $poster )
 	);
-	 
+
 	unset($thread_buttons);
 	unset($poster);
 }
 unset($viewtopic_users);
 unset($forums);
- 
+
 if (!empty(icms::$module->config['show_jump']))
 {
 	$icmsTpl->assign('forum_jumpbox', iforum_make_jumpbox($forum_id));
 }
- 
+
 if ($postCount > $post_perpage )
 {
-	include ICMS_ROOT_PATH.'/class/pagenav.php';
-	$nav = new XoopsPageNav($postCount, $post_perpage, $start, "start", 'forum='.$forum_id.'&amp;viewmode='.$viewmode.'&amp;type='.$type.'&amp;uid='.$uid.'&amp;order='.$order."&amp;mode=".$mode);
+	$nav = new icms_view_PageNav($postCount, $post_perpage, $start, "start", 'forum='.$forum_id.'&amp;viewmode='.$viewmode.'&amp;type='.$type.'&amp;uid='.$uid.'&amp;order='.$order."&amp;mode=".$mode);
 	$icmsTpl->assign('pagenav', $nav->renderNav(4));
 }
 else
 {
 	$icmsTpl->assign('pagenav', '');
 }
- 
+
 $icmsTpl->assign('lang_forum_index', sprintf(_MD_FORUMINDEX, htmlspecialchars($icmsConfig['sitename'], ENT_QUOTES)));
 $icmsTpl->assign('folder_topic', iforum_displayImage($forumImage['folder_topic']));
- 
+
 switch($type)
 {
 	case 'active':
@@ -447,21 +446,21 @@ $icmsTpl->assign('up', iforum_displayImage($forumImage['up']));
 $icmsTpl->assign('printer', iforum_displayImage($forumImage['printer']));
 $icmsTpl->assign('personal', iforum_displayImage($forumImage['personal']));
 $icmsTpl->assign('post_content', iforum_displayImage($forumImage['post_content']));
- 
+
 $all_link = "viewall.php?forum=".$forum_id."&amp;start=$start";
 $post_link = "viewpost.php?forum=".$forum_id;
 $newpost_link = "viewpost.php?forum=".$forum_id."&amp;new=1";
 $digest_link = "viewall.php?forum=".$forum_id."&amp;start=$start&amp;type=digest";
 $unreplied_link = "viewall.php?forum=".$forum_id."&amp;start=$start&amp;type=unreplied";
 $unread_link = "viewall.php?forum=".$forum_id."&amp;start=$start&amp;type=unread";
- 
+
 $icmsTpl->assign('all_link', $all_link);
 $icmsTpl->assign('post_link', $post_link);
 $icmsTpl->assign('newpost_link', $newpost_link);
 $icmsTpl->assign('digest_link', $digest_link);
 $icmsTpl->assign('unreplied_link', $unreplied_link);
 $icmsTpl->assign('unread_link', $unread_link);
- 
+
 $viewmode_options = array();
 if ($viewmode == "compact")
 {
@@ -519,15 +518,15 @@ else
 		$viewmode_options[] = array("link" => "viewpost.php?viewmode=flat&amp;order=DESC&amp;forum=".$forum_id, "title" => _NEWESTFIRST);
 	}
 }
- 
+
 $icmsTpl->assign('viewmode_compact', ($viewmode == "compact")?1:0);
 $icmsTpl->assign('viewmode_left', ($viewmode == "left")?1:0);
 $icmsTpl->assign('viewmode_right', ($viewmode == "right")?1:0);
 $icmsTpl->assign_by_ref('viewmode_options', $viewmode_options);
- 
+
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
 $icmsTpl->assign('uid', $uid);
 $icmsTpl->assign('mode', $mode);
 $icmsTpl->assign('type', $type);
- 
+
 include ICMS_ROOT_PATH.'/footer.php';

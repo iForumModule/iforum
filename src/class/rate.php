@@ -22,15 +22,15 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 if (!defined("ICMS_ROOT_PATH"))
 {
 	exit();
 }
- 
+
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
 iforum_load_object();
- 
+
 class Nrate extends ArtObject {
 	function __construct()
 	{
@@ -43,19 +43,19 @@ class Nrate extends ArtObject {
 		$this->initVar('ratinghostname', XOBJ_DTYPE_TXTBOX);
 	}
 }
- 
+
 class IforumRateHandler extends ArtObjectHandler {
 	function __construct(&$db)
 	{
 		parent::__construct($db, 'bb_votedata', 'Nrate', 'ratingid');
 	}
-	 
+
 	/**
 	* clean orphan items from database
 	*
 	* @return  bool true on success
 	*/
-	function cleanOrphan()
+    function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
 		return parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
 	}
