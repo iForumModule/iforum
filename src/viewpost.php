@@ -312,7 +312,7 @@ foreach(array_keys($posts) as $id)
 
 	$thread_buttons = array();
 
-	if ($GLOBALS["icmsModuleConfig"]['enable_permcheck'])
+	if (icms::$module->config['enable_permcheck'])
 	{
 
 		if (!isset($suspension[$post->getVar('forum_id')]))

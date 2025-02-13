@@ -84,7 +84,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 	*/
 	function verifyUser(int $uid = -1, string $ip = "", $forum = 0)
 	{
-		if (!empty($GLOBALS["icmsModuleConfig"]['cache_enabled']))
+		if (!empty(icms::$module->config['cache_enabled']))
 		{
 			$forums = $this->forumList($uid, $ip);
 			return in_array($forum, $forums);
@@ -139,7 +139,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 		{
 			return $forums[$uid][$ip];
 		}
-		if (!empty($GLOBALS["icmsModuleConfig"]['cache_enabled']))
+		if (!empty(icms::$module->config['cache_enabled']))
 		{
 			$forums[$uid][$ip] = iforum_getsession("sf".$uid."_".ip2long($ip), true);
 			if (is_array($forums[$uid][$ip]) && count($forums[$uid][$ip]))
@@ -178,7 +178,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 		}
 		$forums[$uid][$ip] = count($_forums)?array_keys($_forums):
 		array(-1);
-		if (!empty($GLOBALS["icmsModuleConfig"]['cache_enabled']))
+		if (!empty(icms::$module->config['cache_enabled']))
 		{
 			iforum_setsession("sf".$uid."_".ip2long($ip), $forums[$uid][$ip]);
 		}

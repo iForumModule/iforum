@@ -46,7 +46,7 @@ define('IFORUM_DELETEALL', 2);
 if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
 
 /* some static icmsModuleConfig */
-$GLOBALS["icmsModuleConfig"]["require_name"] = true; // "name" field is required for anonymous users in edit form
+icms::$module->config["require_name"] = true; // "name" field is required for anonymous users in edit form
 
 include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
 
@@ -192,7 +192,7 @@ LVT - Last Visit Temp
 // include customized variables
 if (is_object(icms::$module) && basename(dirname(dirname(__FILE__ ) ) ) == icms::$module->getVar("dirname", "n") )
 {
-	$GLOBALS["icmsModuleConfig"] = iforum_load_config();
+	icms::$module->config = iforum_load_config();
 }
 
 iforum_load_object();

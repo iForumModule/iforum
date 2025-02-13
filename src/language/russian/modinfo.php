@@ -298,7 +298,7 @@
 	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Форум для тестирования.");
 	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Поздравляем! Форум работает.");
 	define("_MI_IFORUM_INSTALL_POST_TEXT", "
-		Добро пожаловать на форум ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES)).".
+		Добро пожаловать на форум ".(htmlspecialchars(icms::$config['sitename'], ENT_QUOTES)).".
 		Чтобы открыть собственные темы, Вам достаточно просто зарегистрироваться и войти на сайт.
 
 		Если у Вас имеются вопросы относительно использования CBB, пожалуйста, посетите сайт локальной поддержки или [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9]сайт CBB модуля[/url].

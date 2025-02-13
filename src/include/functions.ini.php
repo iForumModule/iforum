@@ -66,9 +66,9 @@ function &iforum_load_config()
 	 
 	if (isset(icms::$module) && is_object(icms::$module) && icms::$module->getVar("dirname", "n") == basename(dirname(dirname(__FILE__ ) ) ))
 	{
-		if (!empty($GLOBALS["icmsModuleConfig"]))
+		if (!empty(icms::$module->config))
 		{
-			$moduleConfig = & $GLOBALS["icmsModuleConfig"];
+			$moduleConfig = & icms::$module->config;
 		}
 		else
 		{
@@ -107,7 +107,7 @@ function getConfigForBlock()
 	 
 	if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(dirname(__FILE__ ) ) ))
 	{
-		$iforumConfig = & $GLOBALS["icmsModuleConfig"];
+		$iforumConfig = & icms::$module->config;
 	}
 	else
 	{

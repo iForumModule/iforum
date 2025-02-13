@@ -299,7 +299,7 @@
 	define("_MI_IFORUM_INSTALL_FORUM_DESC", "انجمن برای تست.");
 	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "انجمن با موفقیت کار میکند.");
 	define("_MI_IFORUM_INSTALL_POST_TEXT", "
-		به انجمن‌های سایت ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES))." خوش آمدید.<br />
+		به انجمن‌های سایت ".(htmlspecialchars(icms::$config['sitename'], ENT_QUOTES))." خوش آمدید.<br />
 		میتوانید ثبت نام کرده و سپس مبادرت به ارسال پیام کنید.<br /><br />
 		اگر هر سوالی راجع به استفاده از انجمن‌ها دارید، لطفاً سایت پشتیبانی را بازدید کنید <a href=\"http://www.impresscms.ir/modules/newbb/\" target=\"_blank\" title=\"سایت رسمی پشتیبانی ایمپرسی سی‌ام‌اس فارسی\">ماژول انجمن‌ها</a>.
 		");

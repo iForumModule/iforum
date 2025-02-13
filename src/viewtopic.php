@@ -250,7 +250,7 @@ if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_s
 	{
 	$icmsTpl->assign('forum_post_or_register', "<a href=\"newtopic.php?forum=".$forum_id."\">".$t_new."</a>");
 }
-elseif (!empty($GLOBALS["icmsModuleConfig"]["show_reg"]) )
+elseif (!empty(icms::$module->config["show_reg"]) )
 {
 	if ($forumtopic->getVar('topic_status'))
 	{
