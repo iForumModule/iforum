@@ -42,7 +42,7 @@ iforum_load_object();
 
 class Moderate extends ArtObject {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct("bb_moderates");
 		$this->initVar('mod_id', XOBJ_DTYPE_INT);
@@ -56,7 +56,7 @@ class Moderate extends ArtObject {
 }
 
 class IforumModerateHandler extends ArtObjectHandler {
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
         parent::__construct($db, 'bb_moderates', 'Moderate', 'mod_id', 'uid');
 	}
@@ -79,10 +79,10 @@ class IforumModerateHandler extends ArtObjectHandler {
 	* Check if a user is moderated, according to his uid and ip
 	*
 	*
-	* @param int  $uid user id
-	* @param string  $ip user ip
+	* @param int $uid user id
+	* @param string $ip user ip
 	*/
-	function verifyUser($uid = -1, $ip = "", $forum = 0)
+	function verifyUser(int $uid = -1, string $ip = "", $forum = 0)
 	{
 		if (!empty($GLOBALS["icmsModuleConfig"]['cache_enabled']))
 		{
