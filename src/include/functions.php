@@ -324,7 +324,7 @@ function iforum_isAdministrator($user = -1, $mid = 0)
 	{
 		if (!isset($iforum_mid))
 		{
-			if (is_object(icms::$module)&& basename(dirname(dirname(__FILE__ ) ) ) == icms::$module->getVar("dirname"))
+			if (is_object(icms::$module)&& basename(dirname(__FILE__, 2)) == icms::$module->getVar("dirname"))
 			{
 				$iforum_mid = icms::$module->getVar('mid');
 			}
@@ -356,7 +356,7 @@ function iforum_isAdmin($forum = 0, $user = -1)
 	intval($forum);
 	if (!isset($_cachedModerators[$cache_id]))
 	{
-		$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		if (!is_object($forum)) $forum = $forum_handler->get(intval($forum));
 		$_cachedModerators[$cache_id] = $forum_handler->getModerators($forum);
 	}
@@ -379,7 +379,7 @@ function iforum_isModerator($forum = 0, $user = -1)
 	intval($forum);
 	if (!isset($_cachedModerators[$cache_id]))
 	{
-		$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		if (!is_object($forum)) $forum = $forum_handler->get(intval($forum));
 		$_cachedModerators[$cache_id] = $forum_handler->getModerators($forum);
 	}
@@ -420,7 +420,7 @@ function iforum_checkSubjectPrefixPermission($forum = 0, $user = -1)
 */
 function get_total_topics($forum_id = "")
 {
-	$topic_handler = icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$topic_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__, 2)), 'iforum' );
 	$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item("approved", 0, ">"));
 	if ($forum_id )
 	{
@@ -435,7 +435,7 @@ function get_total_topics($forum_id = "")
 */
 function get_total_posts($id = 0, $type = "all")
 {
-	$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 	$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item("approved", 0, ">"));
 	switch ($type )
 	{
@@ -465,16 +465,16 @@ function get_total_views()
 
 function iforum_forumSelectBox($value = null, $permission = "access", $delimitor_category = true)
 {
-	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__, 2)), 'iforum' );
+	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 	$categories = $category_handler->getAllCats($permission, true);
 	$forums = $forum_handler->getForumsByCategory(array_keys($categories), $permission, false);
 
 	if (!defined("_MD_SELFORUM"))
 	{
-		if (!($ret = @include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(dirname(__FILE__ ) ) )."/language/".$GLOBALS['icmsConfig']['language']."/main.php" ) ) )
+		if (!($ret = @include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/".$GLOBALS['icmsConfig']['language']."/main.php" ) ) )
 		{
-			include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(dirname(__FILE__ ) ) )."/language/english/main.php" );
+			include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/english/main.php" );
 		}
 	}
 	$value = is_array($value)?$value:
@@ -637,7 +637,7 @@ function iforum_welcome($user = -1 )
 		return false;
 	}
 
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 	$forum = $forum_handler->get(icms::$module->config["welcome_forum"]);
 	if (!$forum_handler->getPermission($forum))
 		{
@@ -671,37 +671,37 @@ function iforum_synchronization($type = "")
 	}
 	foreach($clean as $item)
 	{
-		$handler = icms_getmodulehandler($item, basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$handler = icms_getmodulehandler($item, basename(dirname(__FILE__, 2)), 'iforum' );
 		$handler->cleanOrphan();
 		unset($handler);
 	}
 	$iforumConfig = iforum_load_config();
 	if (empty($type) || in_array("post", $type)):
-	$post_handler = icms_getmodulehandler("post", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$post_handler = icms_getmodulehandler("post", basename(dirname(__FILE__, 2)), 'iforum' );
 	$expires = isset($iforumConfig["pending_expire"])?intval($iforumConfig["pending_expire"]):
 	7;
 	$post_handler->cleanExpires($expires * 24 * 3600);
 	endif;
 	if (empty($type) || in_array("topic", $type)):
-	$topic_handler = icms_getmodulehandler("topic", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$topic_handler = icms_getmodulehandler("topic", basename(dirname(__FILE__, 2)), 'iforum' );
 	$expires = isset($iforumConfig["pending_expire"])?intval($iforumConfig["pending_expire"]):
 	7;
 	$topic_handler->cleanExpires($expires * 24 * 3600);
 	$topic_handler->synchronization();
 	endif;
 	if (empty($type) || in_array("forum", $type)):
-	$forum_handler = icms_getmodulehandler("forum", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$forum_handler = icms_getmodulehandler("forum", basename(dirname(__FILE__, 2)), 'iforum' );
 	$forum_handler->synchronization();
 	endif;
 	if (empty($type) || in_array("moderate", $type)):
-	$moderate_handler = icms_getmodulehandler("moderate", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$moderate_handler = icms_getmodulehandler("moderate", basename(dirname(__FILE__, 2)), 'iforum' );
 	$moderate_handler->clearGarbage();
 	endif;
 	if (empty($type) || in_array("read", $type)):
-	$read_handler = icms_getmodulehandler("readforum", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$read_handler = icms_getmodulehandler("readforum", basename(dirname(__FILE__, 2)), 'iforum' );
 	$read_handler->clearGarbage();
 	$read_handler->synchronization();
-	$read_handler = icms_getmodulehandler("readtopic", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$read_handler = icms_getmodulehandler("readtopic", basename(dirname(__FILE__, 2)), 'iforum' );
 	$read_handler->clearGarbage();
 	$read_handler->synchronization();
 	endif;
@@ -710,31 +710,31 @@ function iforum_synchronization($type = "")
 
 function iforum_setRead($type, $item_id, $post_id, $uid = null)
 {
-	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(__FILE__, 2)), 'iforum' );
 	return $read_handler->setRead($item_id, $post_id, $uid);
 }
 
 function iforum_getRead($type, $item_id, $uid = null)
 {
-	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(__FILE__, 2)), 'iforum' );
 	return $read_handler->getRead($item_id, $uid);
 }
 
 function iforum_setRead_forum($status = 0, $uid = null)
 {
-	$read_handler = icms_getmodulehandler("readforum", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$read_handler = icms_getmodulehandler("readforum", basename(dirname(__FILE__, 2)), 'iforum' );
 	return $read_handler->setRead_items($status, $uid);
 }
 
 function iforum_setRead_topic($status = 0, $forum_id = 0, $uid = null)
 {
-	$read_handler = icms_getmodulehandler("readtopic", basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$read_handler = icms_getmodulehandler("readtopic", basename(dirname(__FILE__, 2)), 'iforum' );
 	return $read_handler->setRead_items($status, $forum_id, $uid);
 }
 
 function iforum_isRead($type, &$items, $uid = null)
 {
-	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(__FILE__, 2)), 'iforum' );
 	return $read_handler->isRead_items($items, $uid);
 }
 // Check if Tag module is installed

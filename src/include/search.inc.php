@@ -27,7 +27,7 @@ if (!defined('ICMS_ROOT_PATH'))
 {
 	exit();
 }
-require_once(ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php');
+require_once(ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php');
  
 function &iforum_search($queryarray, $andor, $limit, $offset, $userid, $forums = 0, $sortby = 0, $searchin = "both", $subquery = "")
 {
@@ -39,7 +39,7 @@ function &iforum_search($queryarray, $andor, $limit, $offset, $userid, $forums =
 	 
 	if (!isset($allowedForums[$uid]))
 	{
-		$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		if (is_array($forums) && count($forums) > 0)
 		{
 			$forums = array_map('intval', $forums);
@@ -181,7 +181,7 @@ function &iforum_search($queryarray, $andor, $limit, $offset, $userid, $forums =
 	}
 	 
 	$module_handler = icms::handler('icms_module');
-	$iforum =$module_handler->getByDirname(basename(dirname(dirname(__FILE__ ) ) ));
+	$iforum =$module_handler->getByDirname(basename(dirname(__FILE__, 2)));
 	 
 	if (!isset($iforumConfig))
 	{

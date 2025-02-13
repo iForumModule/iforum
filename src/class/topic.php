@@ -104,7 +104,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			iforum_message("IforumTopicHandler::approve error:" . $sql);
 			return false;
 		}
-		$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 		$posts_obj = $post_handler->getAll(new icms_db_criteria_Item('topic_id', $topic_id));
 		foreach(array_keys($posts_obj) as $post_id)
 		{
@@ -271,7 +271,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			iforum_message("IforumTopicHandler::getAllPosts error:" . $sql);
 			return $ret;
 		}
-		$post_handler =icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler =icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 		while ($myrow = $this->db->fetchArray($result))
 		{
 			$post =$post_handler->create(false);
@@ -284,7 +284,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 
 	function &getPostTree(&$postArray, $pid = 0)
 	{
-		include_once ICMS_ROOT_PATH . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/class/iforumtree.php";
+		include_once ICMS_ROOT_PATH . "/modules/".basename(dirname(__FILE__, 2))."/class/iforumtree.php";
 		$IForumTree = new IForumTree('bb_posts');
 		$IForumTree->setPrefix('&nbsp;&nbsp;');
 		$IForumTree->setPostArray($postArray);
@@ -356,7 +356,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			return false;
 		}
 		$post_obj = $this->getTopPost($topic_id);
-		$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 		$post_handler->delete($post_obj, false, $force);
 		return true;
 	}
@@ -376,7 +376,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 
 		if (!isset($_cachedTopicPerms))
 			{
-			$getpermission =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+			$getpermission =icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum' );
 			$_cachedTopicPerms = $getpermission->getPermissions("forum", $forum);
 		}
 

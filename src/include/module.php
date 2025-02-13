@@ -28,8 +28,8 @@ defined('ICMS_ROOT_PATH') or exit();
 if (defined("XOOPS_MODULE_IFORUM_FUCTIONS")) exit();
 define("XOOPS_MODULE_IFORUM_FUCTIONS", 1);
  
-@include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/plugin.php';
-include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
+@include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/plugin.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php';
  
 iforum_load_object();
 function icms_module_update_iforum(&$module, $oldversion = null, $olddbversion = null) {
@@ -51,14 +51,14 @@ function icms_module_update_iforum(&$module, $oldversion = null, $olddbversion =
 	if (!empty($iforumConfig["syncOnUpdate"])) {
 		iforum_synchronization();
 	}
-	$icmsDatabaseUpdater->updateModuleDBVersion($newDbVersion, basename(dirname(dirname(__FILE__ ) ) ));
+	$icmsDatabaseUpdater->updateModuleDBVersion($newDbVersion, basename(dirname(__FILE__, 2)));
 	 
 	return true;
 }
  
 function icms_module_install_iforum(&$module) {
 	/* Create a test category */
-	$category_handler = icms_getmodulehandler('category', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__, 2)), 'iforum' );
 	$category = $category_handler->create();
 	$category->setVar('cat_title', _MI_IFORUM_INSTALL_CAT_TITLE, true);
 	$category->setVar('cat_image', "", true);
@@ -70,7 +70,7 @@ function icms_module_install_iforum(&$module) {
 	}
 	 
 	/* Create a forum for test */
-	$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 	$forum = $forum_handler->create();
 	$forum->setVar('forum_name', _MI_IFORUM_INSTALL_FORUM_NAME, true);
 	$forum->setVar('forum_desc', _MI_IFORUM_INSTALL_FORUM_DESC, true);

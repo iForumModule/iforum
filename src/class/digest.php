@@ -175,7 +175,7 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 		$sql = "SELECT * FROM " . $this->db->prefix('bb_digest') . " ORDER BY digest_id DESC";
 		$result = $this->db->query($sql, $perpage, $start);
 		$ret = array();
-		$report_handler =icms_getmodulehandler('report', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$report_handler =icms_getmodulehandler('report', basename(dirname(__FILE__, 2)), 'iforum' );
 		while ($myrow = $this->db->fetchArray($result))
 		{
 			$ret[] = $myrow; // return as array

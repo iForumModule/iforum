@@ -27,7 +27,7 @@ if (!defined('ICMS_ROOT_PATH'))
 {
 	exit();
 }
-require_once(ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php');
+require_once(ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php');
 if (!defined('IFORUM_NOTIFY_ITEMINFO') )
 {
 	define('IFORUM_NOTIFY_ITEMINFO', 1);
@@ -35,7 +35,7 @@ if (!defined('IFORUM_NOTIFY_ITEMINFO') )
 	function iforum_notify_iteminfo($category, $item_id)
 	{
 		$module_handler = icms::handler('icms_module');
-		$module = $module_handler->getByDirname(basename(dirname(dirname(__FILE__ ) ) ));
+		$module = $module_handler->getByDirname(basename(dirname(__FILE__, 2)));
 		 
 		if ($category == 'global')
 		{
