@@ -49,7 +49,7 @@ function b_iforum_show($options)
 	global $icmsConfig;
 	global $access_forums;
 	$modulename = basename(dirname(dirname(__FILE__ ) ) );
-	$db = Database::getInstance();
+	$db =icms_db_Factory::instance();
 	$myts = icms_core_Textsanitizer::getInstance();
 	$block = array();
 	$i = 0;
@@ -850,4 +850,3 @@ function b_iforum_author_edit($options)
 
 	return $form;
 }
-?>
