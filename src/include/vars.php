@@ -27,7 +27,7 @@ if (!defined('ICMS_ROOT_PATH'))
 {
 	exit();
 }
-include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
 
 $ori_error_level = ini_get('error_reporting');
 error_reporting(E_ALL ^ E_NOTICE);
@@ -46,9 +46,9 @@ define('IFORUM_DELETEALL', 2);
 if (!defined('FORUM_PERM_ITEMS')) define('FORUM_PERM_ITEMS', 'access,view,post,reply,edit,delete,addpoll,vote,attach,noapprove');
 
 /* some static icmsModuleConfig */
-$GLOBALS["icmsModuleConfig"]["require_name"] = true; // "name" field is required for anonymous users in edit form
+icms::$module->config["require_name"] = true; // "name" field is required for anonymous users in edit form
 
-include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php';
+include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php';
 
 // You shouldn't have to change any of these
 $forumUrl['root'] = ICMS_URL."/modules/" . icms::$module->getVar("dirname");
@@ -190,9 +190,9 @@ LVT - Last Visit Temp
 */
 
 // include customized variables
-if (is_object(icms::$module) && basename(dirname(dirname(__FILE__ ) ) ) == icms::$module->getVar("dirname", "n") )
+if (is_object(icms::$module) && basename(dirname(__FILE__, 2)) == icms::$module->getVar("dirname", "n") )
 {
-	$GLOBALS["icmsModuleConfig"] = iforum_load_config();
+	icms::$module->config = iforum_load_config();
 }
 
 iforum_load_object();

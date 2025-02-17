@@ -31,7 +31,7 @@ if (!defined('ICMS_ROOT_PATH'))
 if (defined("IFORUM_FUNCTIONS_INI")) return;
  define("IFORUM_FUNCTIONS_INI", 1);
  
-include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(dirname(__FILE__ ) ) )."/class/art/functions.php");
+include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/class/art/functions.php");
  
 function iforum_load_object()
 {
@@ -64,11 +64,11 @@ function &iforum_load_config()
 		return $moduleConfig;
 	}
 	 
-	if (isset(icms::$module) && is_object(icms::$module) && icms::$module->getVar("dirname", "n") == basename(dirname(dirname(__FILE__ ) ) ))
+	if (isset(icms::$module) && is_object(icms::$module) && icms::$module->getVar("dirname", "n") == basename(dirname(__FILE__, 2)))
 	{
-		if (!empty($GLOBALS["icmsModuleConfig"]))
+		if (!empty(icms::$module->config))
 		{
-			$moduleConfig = & $GLOBALS["icmsModuleConfig"];
+			$moduleConfig = & icms::$module->config;
 		}
 		else
 		{
@@ -78,7 +78,7 @@ function &iforum_load_config()
 	else
 	{
 		$module_handler = icms::handler('icms_module');
-		$module = $module_handler->getByDirname(basename(dirname(dirname(__FILE__ ) ) ));
+		$module = $module_handler->getByDirname(basename(dirname(__FILE__, 2)));
 		 
 		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item('conf_modid', $module->getVar('mid')));
 		$configs = icms::$config->getConfigs($criteria);
@@ -88,7 +88,7 @@ function &iforum_load_config()
 		}
 		unset($configs);
 	}
-	if ($customConfig = @include(ICMS_ROOT_PATH."/modules/".basename(dirname(dirname(__FILE__ ) ) )."/include/plugin.php"))
+	if ($customConfig = @include(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/include/plugin.php"))
 	{
 		$moduleConfig = array_merge($moduleConfig, $customConfig);
 	}
@@ -105,14 +105,14 @@ function getConfigForBlock()
 		return $iforumConfig;
 	}
 	 
-	if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(dirname(__FILE__ ) ) ))
+	if (is_object(icms::$module) && icms::$module->getVar("dirname") == basename(dirname(__FILE__, 2)))
 	{
-		$iforumConfig = & $GLOBALS["icmsModuleConfig"];
+		$iforumConfig = & icms::$module->config;
 	}
 	else
 	{
 		$module_handler = icms::handler('icms_module');
-		$iforum = $module_handler->getByDirname(basename(dirname(dirname(__FILE__ ) ) ));
+		$iforum = $module_handler->getByDirname(basename(dirname(__FILE__, 2)));
 		 
 		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item('conf_modid', $iforum->getVar('mid')));
 		$criteria->add(new icms_db_criteria_Item('conf_name', "('show_realname', 'subject_prefix', 'allow_require_reply')", "IN"));

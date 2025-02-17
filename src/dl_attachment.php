@@ -59,7 +59,7 @@ unset($forumpost);
 $msg = ob_get_contents();
 ob_end_clean();
  
-if (!empty($GLOBALS["icmsModuleConfig"]["download_direct"])):
+if (!empty(icms::$module->config["download_direct"])):
  
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);

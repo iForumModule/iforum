@@ -117,7 +117,7 @@ if ($forum_handler->getPermission($forum_obj, "post")) {
 		}
 	}
 } else {
-	if (!empty($GLOBALS["icmsModuleConfig"]["show_reg"]) && !is_object(icms::$user)) {
+	if (!empty(icms::$module->config["show_reg"]) && !is_object(icms::$user)) {
 		$redirect = preg_replace("|(.*)\/modules\/".basename(__DIR__)."\/(.*)|", "\\1/modules/".basename(__DIR__)."/newtopic.php?forum=".$forum_obj->getVar('forum_id'), htmlspecialchars($xoopsRequestUri));
 		$icmsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.$redirect.'">'.$t_signup.'</a>');
 		$icmsTpl->assign('forum_addpoll', "");

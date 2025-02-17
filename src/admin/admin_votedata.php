@@ -107,7 +107,7 @@ switch ($op) {
 			<td class='head' align='center'>$ratingid</td>\n
 			<td class='even' align='center'>$ratinguname</td>\n
 			<td class='even' align='center' >$ratinghostname</td>\n
-			<td class='even' align='left'><a href='".ICMS_URL."/modules/".basename(dirname(dirname(__FILE__ ) ) )."/viewtopic.php?topic_id=".$topic_id."' target='topic'>".icms_core_DataFilter::htmlSpecialchars($down_array['topic_title'])."</a></td>\n
+			<td class='even' align='left'><a href='".ICMS_URL."/modules/".basename(dirname(__FILE__, 2))."/viewtopic.php?topic_id=".$topic_id."' target='topic'>".icms_core_DataFilter::htmlSpecialchars($down_array['topic_title'])."</a></td>\n
 			<td class='even' align='center'>$rating</td>\n
 			<td class='even' align='center'>$formatted_date</td>\n
 			<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;topic_id=$topic_id&amp;rid=$ratingid'>".iforum_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n

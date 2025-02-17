@@ -298,7 +298,7 @@
 	define("_MI_IFORUM_INSTALL_FORUM_DESC", "Foro para pruebas.");
 	define("_MI_IFORUM_INSTALL_POST_SUBJECT", "Felicitaciones: el foro está funcionando.");
 	define("_MI_IFORUM_INSTALL_POST_TEXT", "
-		Bienvenido al foro de  ".(htmlspecialchars($GLOBALS["icmsConfig"]['sitename'], ENT_QUOTES))."
+		Bienvenido al foro de  ".(htmlspecialchars(icms::$config->getConfig('sitename'), ENT_QUOTES))."
 		Inicie su sesión como usuario registrado y publique sus temas o conteste a los ya publicados.
 
 		Si tiene cualquier pregunta referente al uso de iForum, por favor, visite su sitio de soporte local, o la página en inglés de soporte de [url=http://community.impresscms.org/modules/newbb/viewforum.php?forum=9]iForum[/url].

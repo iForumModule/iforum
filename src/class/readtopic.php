@@ -96,7 +96,7 @@ class IforumReadtopicHandler extends IforumReadHandler {
 		$cookie_name = "LT";
 		$cookie_vars = iforum_getcookie($cookie_name, true);
 
-		$item_handler = icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$item_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__, 2)), 'iforum' );
 		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item("forum_id", $forum_id));
 		$criteria->setSort("topic_last_post_id");
 		$criteria->setOrder("DESC");
@@ -132,7 +132,7 @@ class IforumReadtopicHandler extends IforumReadHandler {
 			}
 		}
 
-		$item_handler = icms_getmodulehandler('topic', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$item_handler = icms_getmodulehandler('topic', basename(dirname(__FILE__, 2)), 'iforum' );
 		$criteria_topic = new icms_db_criteria_Compo(new icms_db_criteria_Item("forum_id", $forum_id));
 		$criteria_topic->setSort("topic_last_post_id");
 		$criteria_topic->setOrder("DESC");

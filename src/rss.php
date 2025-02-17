@@ -22,12 +22,12 @@
 * @author  modified by stranger
 * @version  $Id$
 */
- 
+
 include_once("header.php");
 include_once ICMS_ROOT_PATH.'/class/template.php';
 error_reporting(0);
 icms::$logger->activated = FALSE;
- 
+
 $forums = null;
 $category = empty($_GET["c"])?null:
 (int)$_GET["c"];
@@ -38,7 +38,7 @@ if (isset($_GET["f"]))
 $forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
 $access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
- 
+
 $available_forums = array();
 foreach($access_forums as $forum)
 {
@@ -67,7 +67,7 @@ elseif($category > 0)
 		if (in_array($forum, array_keys($available_forums)))
 		$valid_forums[] = $forum;
 	}
-	 
+
 }
 else
 {
@@ -78,22 +78,22 @@ if (count($valid_forums) == 0)
 {
 	exit();
 }
- 
+
 $charset = empty(icms::$module->config['rss_utf8']) ? _CHARSET : 'utf-8';
 header ('Content-Type:text/xml; charset='.$charset);
- 
+
 $tpl = new XoopsTpl();
 $tpl->xoops_setCaching(1);
 $tpl->xoops_setCacheTime(icms::$module->config['rss_cachetime'] * 60);
- 
+
 $compile_id = implode(",", $valid_forums);
 $xoopsCachedTemplateId = 'mod_'.icms::$module->getVar('dirname').'|'.md5(str_replace(ICMS_URL, '', $GLOBALS['xoopsRequestUri']));
 if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 {
-	 
+
 	$xmlrss_handler = icms_getmodulehandler('xmlrss', basename(__DIR__), 'iforum' );
 	$rss = $xmlrss_handler->create();
-	 
+
 	$rss->setVarRss('channel_title', $icmsConfig['sitename'].' :: '._MD_FORUM);
 	$rss->channel_link = ICMS_URL.'/';
 	$rss->setVarRss('channel_desc', $icmsConfig['slogan'].' :: '.icms::$module->getInfo('description'));
@@ -109,7 +109,7 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 	$rss->xml_encoding = empty(icms::$module->config['rss_utf8'])?_CHARSET:
 	'UTF-8';
 	$rss->image_url = ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/'.icms::$module->getInfo('image');
-	 
+
 	$dimention = getimagesize(ICMS_ROOT_PATH.'/modules/'.icms::$module->getVar('dirname').'/'.icms::$module->getInfo('image'));
 	if (empty($dimention[0]))
 	{
@@ -131,19 +131,19 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 	}
 	$rss->image_width = $width;
 	$rss->image_height = $height;
-	 
+
 	$rss->max_items = icms::$module->config['rss_maxitems'];
 	$rss->max_item_description = icms::$module->config['rss_maxdescription'];
-	 
-	 
+
+
 	$forum_criteria = ' AND t.forum_id IN ('.implode(',', $valid_forums).')';
 	unset($valid_forums);
 	$approve_criteria = ' AND t.approved = 1 AND p.approved = 1';
-	 
+
 	$query = 'SELECT'. ' f.forum_id, f.forum_name, f.allow_subject_prefix,'. ' t.topic_id, t.topic_title, t.topic_subject,'. ' p.post_id, p.post_time, p.subject, p.uid, p.poster_name, p.post_karma, p.require_reply, p.dohtml, p.dosmiley, p.doxcode,'. ' pt.post_text'. ' FROM ' . icms::$xoopsDB->prefix('bb_posts') . ' AS p'. ' LEFT JOIN ' . icms::$xoopsDB->prefix('bb_topics') . ' AS t ON t.topic_last_post_id=p.post_id'. ' LEFT JOIN ' . icms::$xoopsDB->prefix('bb_posts_text') . ' AS pt ON pt.post_id=p.post_id'. ' LEFT JOIN ' . icms::$xoopsDB->prefix('bb_forums') . ' AS f ON f.forum_id=p.forum_id'. ' WHERE 1=1 ' . $forum_criteria . $approve_criteria . ' ORDER BY p.post_time DESC';
-	 
+
 	$limit = intval(icms::$module->config['rss_maxitems'] * 1.5);
-	 
+
 	if (!$result = icms::$xoopsDB->query($query, $limit))
 	{
 		iforum_message("query for rss builder error: ".$query);
@@ -160,7 +160,7 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 		return $xmlrss_handler->get($rss);
 	}
 	$users = iforum_getUnameFromIds(array_keys($users), icms::$module->config['show_realname']);
-	 
+
 	foreach($rows as $topic)
 	{
 		if (icms::$module->config['enable_karma'] && $topic['post_karma'] > 0 ) continue;
@@ -172,7 +172,7 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 		else
 		{
 			$topic['uname'] = ($topic['poster_name'])?icms_core_DataFilter::htmlSpecialchars($topic['poster_name']):
-			icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]["anonymous"]);
+			icms_core_DataFilter::htmlSpecialchars(icms::$config->getConfig("anonymous"));
 		}
 		$description = $topic["forum_name"]."::";
 		if ($topic['allow_subject_prefix'])
@@ -201,7 +201,7 @@ if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 		if (!$rss->addItem($title, $link, $description, $label, $time)) break;
 	}
 	$rss_feed =$xmlrss_handler->get($rss);
-	 
+
 	$tpl->assign('rss', $rss_feed);
 	unset($rss);
 }

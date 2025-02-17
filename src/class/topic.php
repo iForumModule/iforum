@@ -104,7 +104,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			iforum_message("IforumTopicHandler::approve error:" . $sql);
 			return false;
 		}
-		$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 		$posts_obj = $post_handler->getAll(new icms_db_criteria_Item('topic_id', $topic_id));
 		foreach(array_keys($posts_obj) as $post_id)
 		{
@@ -222,12 +222,12 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return $post_id;
 	}
 
-	/*function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
+	function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
 	{
 		$ret = array();
-		$perpage = (intval($perpage) > 0) ? intval($perpage) :
+		$perpage = ((int)$perpage > 0) ? (int)$perpage :
 		 (empty(icms::$module->config['posts_per_page']) ? 10 : icms::$module->config['posts_per_page']);
-		$start = intval($start);
+		$start = (int)$start;
 		switch($type)
 		{
 			case "pending":
@@ -253,7 +253,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 				$operator_for_position = '<' ;
 			}
 			//$approve_criteria = ' AND approved = 1'; // any others?
-			$sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_posts') . " AS p WHERE p.topic_id=" . intval($topic->getVar('topic_id')) . $approve_criteria . " AND p.post_id $operator_for_position $post_id";
+			$sql = "SELECT COUNT(*) FROM " . $this->db->prefix('bb_posts') . " AS p WHERE p.topic_id=" . (int)$topic->getVar('topic_id') . $approve_criteria . " AND p.post_id $operator_for_position $post_id";
 			$result = $this->db->query($sql);
 			if (!$result)
 			{
@@ -261,7 +261,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 				return $ret;
 			}
 			list($position) = $this->db->fetchRow($result);
-			$start = intval($position / $perpage) * $perpage;
+			$start = (int)($position / $perpage) * $perpage;
 		}
 
 		$sql = 'SELECT p.*, t.* FROM ' . $this->db->prefix('bb_posts') . ' p, ' . $this->db->prefix('bb_posts_text') . " t WHERE p.topic_id=" . $topic->getVar('topic_id') . " AND p.post_id = t.post_id" . $approve_criteria . " ORDER BY p.post_id $order";
@@ -271,7 +271,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			iforum_message("IforumTopicHandler::getAllPosts error:" . $sql);
 			return $ret;
 		}
-		$post_handler =icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler =icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 		while ($myrow = $this->db->fetchArray($result))
 		{
 			$post =$post_handler->create(false);
@@ -280,11 +280,11 @@ class IforumTopicHandler extends ArtObjectHandler {
 			unset($post);
 		}
 		return $ret;
-	}*/
+	}
 
 	function &getPostTree(&$postArray, $pid = 0)
 	{
-		include_once ICMS_ROOT_PATH . "/modules/".basename(dirname(dirname(__FILE__ ) ) )."/class/iforumtree.php";
+		include_once ICMS_ROOT_PATH . "/modules/".basename(dirname(__FILE__, 2))."/class/iforumtree.php";
 		$IForumTree = new IForumTree('bb_posts');
 		$IForumTree->setPrefix('&nbsp;&nbsp;');
 		$IForumTree->setPostArray($postArray);
@@ -356,7 +356,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 			return false;
 		}
 		$post_obj = $this->getTopPost($topic_id);
-		$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 		$post_handler->delete($post_obj, false, $force);
 		return true;
 	}
@@ -376,7 +376,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 
 		if (!isset($_cachedTopicPerms))
 			{
-			$getpermission =icms_getmodulehandler('permission', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+			$getpermission =icms_getmodulehandler('permission', basename(dirname(__FILE__, 2)), 'iforum' );
 			$_cachedTopicPerms = $getpermission->getPermissions("forum", $forum);
 		}
 

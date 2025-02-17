@@ -27,7 +27,7 @@ if (!defined('ICMS_ROOT_PATH'))
 {
 	exit();
 }
-require_once(ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.php');
+require_once(ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php');
 if (defined('IFORUM_BLOCK_DEFINED')) return;
 define('IFORUM_BLOCK_DEFINED', true);
 
@@ -48,7 +48,7 @@ function b_iforum_show($options)
 {
 	global $icmsConfig;
 	global $access_forums;
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$db =icms_db_Factory::instance();
 	$myts = icms_core_Textsanitizer::getInstance();
 	$block = array();
@@ -73,7 +73,7 @@ function b_iforum_show($options)
 
 	if (!isset($access_forums))
 	{
-		$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		if (!$access_obj = $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) )
 		{
 			return null;
@@ -153,7 +153,7 @@ function b_iforum_show($options)
 		}
 		else
 		{
-			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:$GLOBALS["icmsConfig"]["anonymous"] );
+			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config->getConfig("anonymous") );
 		}
 		$topic['topic_poster'] = $topic_poster;
 		$topic['topic_page_jump'] = $topic_page_jump;
@@ -178,7 +178,7 @@ function b_iforum_topic_show($options)
 {
 	global $icmsConfig;
 	global $access_forums;
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$db =icms_db_Factory::instance();
 	$myts =icms_core_Textsanitizer::getInstance();
 	$block = array();
@@ -218,7 +218,7 @@ function b_iforum_topic_show($options)
 
 	if (!isset($access_forums))
 	{
-		$forum_handler = icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler = icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		if (!$access_obj = $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) )
 		{
 			return null;
@@ -298,7 +298,7 @@ function b_iforum_topic_show($options)
 		}
 		else
 		{
-			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:$GLOBALS["icmsConfig"]["anonymous"] );
+			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config->getConfig("anonymous") );
 		}
 		$topic['topic_poster'] = $topic_poster;
 		$topic['topic_page_jump'] = $topic_page_jump;
@@ -323,7 +323,7 @@ function b_iforum_post_show($options)
 {
 	global $icmsConfig;
 	global $access_forums;
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$db =Database::getInstance();
 	$myts =icms_core_Textsanitizer::getInstance();
 	$block = array();
@@ -352,7 +352,7 @@ function b_iforum_post_show($options)
 
 	if (!isset($access_forums))
 	{
-		$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler =icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		if (!$access_obj = $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) )
 		{
 			return null;
@@ -435,7 +435,7 @@ function b_iforum_post_show($options)
 		}
 		else
 		{
-			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:$GLOBALS["icmsConfig"]["anonymous"] );
+			$topic_poster = icms_core_DataFilter::htmlSpecialchars(($arr['poster_name'])?$arr['poster_name']:icms::$config->getConfig("anonymous") );
 		}
 		$topic['topic_poster'] = $topic_poster;
 
@@ -469,7 +469,7 @@ function b_iforum_author_show($options)
 {
 	global $icmsConfig;
 	global $access_forums;
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$db =Database::getInstance();
 	$myts =icms_core_Textsanitizer::getInstance();
 	$block = array();
@@ -506,7 +506,7 @@ function b_iforum_author_show($options)
 
 	if (!isset($access_forums))
 	{
-		$forum_handler =icms_getmodulehandler('forum', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+		$forum_handler =icms_getmodulehandler('forum', basename(dirname(__FILE__, 2)), 'iforum' );
 		if (!$access_obj = $forum_handler->getForums(0, 'access', array('forum_id', 'cat_id', 'forum_type')) )
 		{
 			return null;
@@ -568,7 +568,7 @@ function b_iforum_author_show($options)
 
 function b_iforum_edit($options)
 {
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$form = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
 	$form .= "<option value='time'";
 	if ($options[0] == "time") $form .= " selected='selected' ";
@@ -635,7 +635,7 @@ function b_iforum_edit($options)
 
 function b_iforum_topic_edit($options)
 {
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$form = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
 	$form .= "<option value='time'";
 	if ($options[0] == "time") $form .= " selected='selected' ";
@@ -714,7 +714,7 @@ function b_iforum_topic_edit($options)
 
 function b_iforum_post_edit($options)
 {
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$form = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
 	$form .= "<option value='title'";
 	if ($options[0] == "title") $form .= " selected='selected' ";
@@ -784,7 +784,7 @@ function b_iforum_post_edit($options)
 
 function b_iforum_author_edit($options)
 {
-	$modulename = basename(dirname(dirname(__FILE__ ) ) );
+	$modulename = basename(dirname(__FILE__, 2));
 	$form = _MB_IFORUM_CRITERIA."<select name='options[0]'>";
 	$form .= "<option value='post'";
 	if ($options[0] == "post") $form .= " selected='selected' ";

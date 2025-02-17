@@ -30,14 +30,14 @@ if (!defined('ICMS_ROOT_PATH'))
 *
 */
  
-$MyDirName = basename(dirname(dirname(__FILE__ ) ) );
+$MyDirName = basename(dirname(__FILE__, 2));
 function iforum_tag_iteminfo(&$items)
 {
 	if (empty($items) || !is_array($items))
 	{
 		return false;
 	}
-	$MyDirName = basename(dirname(dirname(__FILE__ ) ) );
+	$MyDirName = basename(dirname(__FILE__, 2));
 	 
 	$items_id = array();
 	foreach(array_keys($items) as $cat_id)
@@ -79,7 +79,7 @@ function iforum_tag_iteminfo(&$items)
 */
 function iforum_tag_synchronization($mid)
 {
-	$MyDirName = basename(dirname(dirname(__FILE__ ) ) );
+	$MyDirName = basename(dirname(__FILE__, 2));
 	$item_handler = icms_getmodulehandler('topic', $MyDirName, 'iforum' );
 	$link_handler = xoops_getmodulehandler("link", "tag");
 	 

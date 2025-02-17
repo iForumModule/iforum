@@ -28,8 +28,8 @@ function mod_loadConfig($dirname = "")
 	$dirname = !empty($dirname) ? $dirname : icms::$module->getVar("dirname");
 	
     if (isset(icms::$module) && is_object(icms::$module) && icms::$module->getVar("dirname", "n") == $dirname){
-	    if (isset($GLOBALS["icmsModuleConfig"])) {
-		    $moduleConfig =& $GLOBALS["icmsModuleConfig"];
+	    if (isset(icms::$module->config)) {
+		    $moduleConfig =& icms::$module->config;
 	    } else {
 		    return null;
 	    }

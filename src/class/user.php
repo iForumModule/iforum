@@ -28,7 +28,7 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
 
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/include/functions.ini.php';
+defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
 function iforum_getGroupsByUser($uid)
 {
 	$ret = array();
@@ -221,14 +221,14 @@ class User extends icms_core_Object {
 		$icmsConfigUser = icms::$config->getConfigsByCat(ICMS_CONF_USER);
 		$userinfo = array();
 		$user = & $this->user;
-		if (!(is_object($user)) || !($user->isActive()) ) return array("name" => icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]['anonymous']), "link" => icms_core_DataFilter::htmlSpecialchars($GLOBALS["icmsConfig"]['anonymous']));
+		if (!(is_object($user)) || !($user->isActive()) ) return array("name" => icms_core_DataFilter::htmlSpecialchars(icms::$config->getConfig('anonymous')), "link" => icms_core_DataFilter::htmlSpecialchars(icms::$config->getConfig('anonymous')));
 		$userinfo["uid"] = $user->getVar("uid");
 		$name = $user->getVar('name');
 		$name = (empty(icms::$module->config['show_realname']) || empty($name))?$user->getVar('uname'):
 		$name;
 		$userinfo["name"] = $name;
 		$userinfo["link"] = "<a href=\"".ICMS_URL . "/userinfo.php?uid=" . $user->getVar("uid") ."\">".$name."</a>";
-		$userinfo_avatar = ICMS_URL.'/modules/'.basename(dirname(dirname(__FILE__ ) ) ).'/images/anonymous.gif';
+		$userinfo_avatar = ICMS_URL.'/modules/'.basename(dirname(__FILE__, 2)).'/images/anonymous.gif';
 		if ($icmsConfigUser['avatar_allow_gravatar'])
 		{
 			$userinfo_avatar = $user->gravatar('G', $icmsConfigUser['avatar_width']);

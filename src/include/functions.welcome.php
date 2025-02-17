@@ -30,7 +30,7 @@ function iforum_welcome_create(&$user, $forum_id ) {
 	if (!is_object($user)) return false;
 	 
 	$subject = sprintf(_MD_WELCOME_SUBJECT, $user->getVar('uname'));
-	$post_handler = icms_getmodulehandler('post', basename(dirname(dirname(__FILE__ ) ) ), 'iforum' );
+	$post_handler = icms_getmodulehandler('post', basename(dirname(__FILE__, 2)), 'iforum' );
 	$forumpost = $post_handler->create();
 	$forumpost->setVar('poster_ip', iforum_getIP());
 	$forumpost->setVar('uid', $user->getVar("uid"));
