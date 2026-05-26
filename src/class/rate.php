@@ -91,7 +91,7 @@ class IforumRateHandler extends icms_ipf_Handler {
 
 		$row = $this->db->fetchArray($result);
 		$voteCount = isset($row['vote_count']) ? (int)$row['vote_count'] : 0;
-		$averageRating = ($voteCount > 0 && isset($row['average_rating'])) ? number_format((float)$row['average_rating'], 2) : '0';
+		$averageRating = ($voteCount > 0 && isset($row['average_rating'])) ? number_format((float)$row['average_rating'], 2) : '0.00';
 
 		return array('vote_count' => $voteCount, 'average_rating' => $averageRating);
 	}

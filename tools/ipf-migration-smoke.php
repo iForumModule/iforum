@@ -515,7 +515,7 @@ class icms_ipf_Handler extends icms_core_ObjectHandler
                 case 'IN':
                     $options = array_map('trim', explode(',', trim($criteria->value, '() ')));
 
-                    return in_array((string)$value, $options, true);
+                    return in_array($value, $options, false);
 
                 case '>':
                     return $value > $criteria->value;
