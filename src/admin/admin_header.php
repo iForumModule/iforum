@@ -27,7 +27,7 @@ include "../../../include/cp_header.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/bootstrap.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/vars.php";
 if (!iforum_load_art_functions('admin')) {
-	trigger_error('Unable to load iForum admin Art functions.', E_USER_WARNING);
+	trigger_error('Unable to load iForum admin Art functions from '.iforum_get_module_path('class/art/functions.admin.php').'.', E_USER_WARNING);
 	return;
 }
  

@@ -85,7 +85,9 @@ function iforum_load_art_functions($group = '')
     }
 
     if ($group === '') {
-        return (bool) include_once iforum_get_module_path('class/art/functions.php');
+        include_once iforum_get_module_path('class/art/functions.php');
+
+        return defined('FRAMEWORKS_ART_FUNCTIONS');
     }
 
     if (!function_exists('load_functions')) {

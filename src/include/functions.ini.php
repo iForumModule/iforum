@@ -28,7 +28,7 @@ if (!defined('ICMS_ROOT_PATH'))
 	exit();
 }
 
-include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/include/bootstrap.php");
+include_once dirname(__DIR__).'/include/bootstrap.php';
  
 if (defined("IFORUM_FUNCTIONS_INI")) return;
 define("IFORUM_FUNCTIONS_INI", 1);

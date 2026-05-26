@@ -28,7 +28,7 @@ define("IFORUM_FUNCTIONS", true);
 
 include_once dirname(__FILE__)."/functions.ini.php";
 if (!iforum_load_art_functions()) {
-	trigger_error('Unable to load iForum Art functions.', E_USER_WARNING);
+	trigger_error('Unable to load iForum Art functions from '.iforum_get_module_path('class/art/functions.php').'.', E_USER_WARNING);
 	return;
 }
 if (!defined("_GLOBAL_LEFT"))
