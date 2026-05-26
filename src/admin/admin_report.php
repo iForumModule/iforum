@@ -38,23 +38,21 @@ switch($op)
 {
 	case "save":
 	$report_ids = (isset($_POST['report_id']) && is_array($_POST['report_id'])) ? $_POST['report_id'] : array();
+	$report_ids = array_map('intval', array_keys($report_ids));
 	$report_memos = isset($_POST['report_memo'])?$_POST['report_memo']:
 	array();
-	foreach($report_ids as $rid => $value)
+	foreach($report_ids as $rid)
 	{
-		if ($value)
+		$report_obj = $report_handler->get($rid);
+		if ($item == 'processed')
 		{
-			$report_obj = $report_handler->get($rid);
-			if ($item == 'processed')
-			{
-				$report_handler->delete($report_obj);
-			}
-			if ($item == 'process')
-			{
-				$report_obj->setVar("report_result", 1);
-				$report_obj->setVar("report_memo", $report_memos[$rid]);
-				$report_handler->insert($report_obj);
-			}
+			$report_handler->delete($report_obj);
+		}
+		if ($item == 'process')
+		{
+			$report_obj->setVar("report_result", 1);
+			$report_obj->setVar("report_memo", isset($report_memos[$rid]) ? $report_memos[$rid] : '');
+			$report_handler->insert($report_obj);
 		}
 	}
 	redirect_header("admin_report.php?item=$item", 1);
