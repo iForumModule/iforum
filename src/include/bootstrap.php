@@ -1,4 +1,5 @@
 <?php
+
 /**
  * iForum - shared bootstrap helpers.
  *
@@ -43,7 +44,11 @@ function &iforum_get_module()
         return $module;
     }
 
-    if (isset(icms::$module) && is_object(icms::$module) && icms::$module->getVar('dirname', 'n') === iforum_get_module_dirname()) {
+    if (
+        isset(icms::$module)
+        && is_object(icms::$module)
+        && icms::$module->getVar('dirname', 'n') === iforum_get_module_dirname()
+    ) {
         $module = icms::$module;
 
         return $module;

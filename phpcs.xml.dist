@@ -4,6 +4,7 @@
 
     <arg name="basepath" value="."/>
     <arg name="colors"/>
+    <arg name="warning-severity" value="0"/>
 
     <file>src/include/bootstrap.php</file>
 
