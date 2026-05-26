@@ -37,7 +37,7 @@ icms_cp_header();
 switch($op)
 {
 	case "save":
-	$report_ids = $_POST['report_id'];
+	$report_ids = isset($_POST['report_id']) ? $_POST['report_id'] : array();
 	$report_memos = isset($_POST['report_memo'])?$_POST['report_memo']:
 	array();
 	foreach($report_ids as $rid => $value)
@@ -93,7 +93,7 @@ switch($op)
 	echo "<td class='bg3' width='10%'>".$extra."</td>";
 	echo "</tr>";
 
-	$reports = $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
+	$reports = $report_handler->getAllReports($start, $process_result, 0, 0, 'ASC', $limit);
 	foreach($reports as $report)
 	{
 		$post_link = "<a href=\"".ICMS_URL."/modules/".icms::$module->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".icms_core_DataFilter::htmlSpecialchars($report['subject'])."</a>";
