@@ -84,17 +84,22 @@ function iforum_load_art_functions($group = '')
         return false;
     }
 
+    $constant = 'FRAMEWORKS_ART_FUNCTIONS';
+    if ($group !== '') {
+        $constant .= '_' . strtoupper($group);
+    }
+
     if ($group === '') {
         include_once iforum_get_module_path('class/art/functions.php');
+    } else {
+        if (!function_exists('load_functions')) {
+            return false;
+        }
 
-        return defined('FRAMEWORKS_ART_FUNCTIONS');
+        load_functions($group);
     }
 
-    if (!function_exists('load_functions')) {
-        return false;
-    }
-
-    return load_functions($group);
+    return defined($constant);
 }
 
 function iforum_load_art_object()
