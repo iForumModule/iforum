@@ -1,0 +1,38 @@
+name: PHP quality checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.2', '8.3', '8.4', '8.5']
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          tools: parallel-lint, phpcs, phpstan
+
+      - name: Lint PHP sources
+        run: parallel-lint --exclude .git --exclude vendor src
+
+      - name: Check coding standards
+        run: phpcs --standard=phpcs.xml.dist
+
+      - name: Run static analysis
+        run: phpstan analyse --no-progress --configuration=phpstan.neon.dist

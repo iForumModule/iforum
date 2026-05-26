@@ -1,0 +1,7 @@
+parameters:
+    level: 0
+    paths:
+        - src/include/bootstrap.php
+    bootstrapFiles:
+        - tools/phpstan-bootstrap.php
+    tmpDir: /tmp/phpstan-iforum
