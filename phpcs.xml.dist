@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="iForum developer checks">
+    <description>Coding standards coverage for the shared bootstrap helper added in this refactor slice.</description>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="warning-severity" value="0"/>
+
+    <file>src/include/bootstrap.php</file>
+
+    <rule ref="PSR12"/>
+</ruleset>
