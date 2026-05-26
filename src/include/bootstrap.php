@@ -73,9 +73,7 @@ function iforum_load_art_functions_ini()
         return true;
     }
 
-    $loaded = include_once iforum_get_module_path('class/art/functions.ini.php');
-
-    return $loaded !== false || defined('FRAMEWORKS_ART_FUNCTIONS_INI');
+    return include_once iforum_get_module_path('class/art/functions.ini.php') !== false;
 }
 
 function iforum_load_art_functions($group = '')
