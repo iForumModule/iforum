@@ -24,9 +24,9 @@
 */
 
 include_once '../../mainfile.php';
+include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/bootstrap.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/vars.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/functions.php";
-include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/class/art/functions.php";
 
 $myts = icms_core_Textsanitizer::getInstance();
 

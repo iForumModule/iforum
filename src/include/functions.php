@@ -27,6 +27,7 @@ if (!defined("IFORUM_FUNCTIONS")):
 define("IFORUM_FUNCTIONS", true);
 
 include_once dirname(__FILE__)."/functions.ini.php";
+iforum_load_art_functions();
 if (!defined("_GLOBAL_LEFT"))
 {
 	define('_GLOBAL_LEFT', ((defined('_ADM_USE_RTL') && _ADM_USE_RTL )?"right":"left"));

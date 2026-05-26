@@ -66,3 +66,30 @@ function &iforum_get_handler($handlerName)
 
     return $handler;
 }
+
+function iforum_load_art_functions_ini()
+{
+    if (defined('FRAMEWORKS_ART_FUNCTIONS_INI')) {
+        return true;
+    }
+
+    return (bool) include_once iforum_get_module_path('class/art/functions.ini.php');
+}
+
+function iforum_load_art_functions($group = '')
+{
+    iforum_load_art_functions_ini();
+
+    if ($group === '') {
+        return (bool) include_once iforum_get_module_path('class/art/functions.php');
+    }
+
+    return load_functions($group);
+}
+
+function iforum_load_art_object()
+{
+    iforum_load_art_functions_ini();
+
+    return load_object();
+}

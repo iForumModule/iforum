@@ -27,15 +27,18 @@ if (!defined('ICMS_ROOT_PATH'))
 	{
 	exit();
 }
+
+include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/bootstrap.php';
  
 if (defined("IFORUM_FUNCTIONS_INI")) return;
- define("IFORUM_FUNCTIONS_INI", 1);
- 
-include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/class/art/functions.php");
- 
+define("IFORUM_FUNCTIONS_INI", 1);
+
+/**
+* @deprecated Use iforum_load_art_object() instead.
+*/
 function iforum_load_object()
 {
-	return load_object();
+	return iforum_load_art_object();
 }
  
 function iforum_message($message )
