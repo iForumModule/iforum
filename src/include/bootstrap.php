@@ -93,7 +93,6 @@ function iforum_load_art_functions($group = '')
         include_once iforum_get_module_path('class/art/functions.php');
     } else {
         if (!function_exists('load_functions')) {
-            trigger_error('Unable to initialize the iForum Art runtime.', E_USER_WARNING);
             return false;
         }
 
