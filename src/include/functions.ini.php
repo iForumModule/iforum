@@ -34,7 +34,7 @@ if (defined("IFORUM_FUNCTIONS_INI")) return;
 define("IFORUM_FUNCTIONS_INI", 1);
 
 /**
-* @deprecated Use iforum_load_art_object() instead.
+* @deprecated since 2.4.0, use iforum_load_art_object() instead; kept for compatibility and subject to future removal.
 */
 function iforum_load_object()
 {
