@@ -105,7 +105,7 @@ class Digest extends icms_ipf_Object {
 
 class IforumDigestHandler extends icms_ipf_Handler {
 	public $last_digest;
-	public $last_digest_id;
+	public $last_digest_id = 0;
 
 	function __construct(&$db)
 	{
@@ -122,7 +122,7 @@ class IforumDigestHandler extends icms_ipf_Handler {
 			return null;
 		}
 
-		return parent::get($id, true);
+		return parent::get($id, $as_object, $debug, $criteria);
 	}
 
 	function process($isForced = false)

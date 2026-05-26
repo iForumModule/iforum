@@ -76,7 +76,7 @@ class IforumCategoryHandler extends icms_ipf_Handler {
 
 	function get($id, $as_object = true, $debug = false, $criteria = false)
 	{
-		return parent::get($id, true);
+		return parent::get($id, is_array($as_object) ? true : $as_object, $debug, $criteria);
 	}
 
 	function insert(&$category, $force = false, $checkObject = true, $debug = false)

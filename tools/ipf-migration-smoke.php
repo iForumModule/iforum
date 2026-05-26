@@ -642,6 +642,7 @@ $category = $categoryHandler->create();
 $category->setVar('cat_title', 'Announcements');
 $category->setVar('cat_order', 2);
 assertTrue($categoryHandler->insert($category) === 1, 'Category insert should return the new id.');
+assertTrue($category->getVar('cat_id') === 1, 'Category should keep the inserted id on the object.');
 assertTrue($categoryHandler->get($category->getVar('cat_id'))->getVar('cat_title') === 'Announcements', 'Category get should return the stored object.');
 
 $reportHandler = new IforumReportHandler($db);

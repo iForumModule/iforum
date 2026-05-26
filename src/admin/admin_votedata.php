@@ -79,7 +79,6 @@ switch ($op) {
 	foreach ($ratings as $ratingRow)
 	{
 		$ratingid = (int)$ratingRow['ratingid'];
-		$ratingIdParam = rawurlencode((string)$ratingid);
 		$topic_id = (int)$ratingRow['topic_id'];
 		$ratinguser = (int)$ratingRow['ratinguser'];
 		$formatted_date = formatTimestamp($ratingRow['ratingtimestamp'], _DATESTRING);
@@ -94,7 +93,7 @@ switch ($op) {
 			<td class='even' align='left'><a href='".ICMS_URL."/modules/".basename(dirname(__FILE__, 2))."/viewtopic.php?topic_id=".$topic_id."' target='topic'>".icms_core_DataFilter::htmlSpecialchars($topicTitle)."</a></td>\n
 			<td class='even' align='center'>".$ratingRow['rating']."</td>\n
 			<td class='even' align='center'>$formatted_date</td>\n
-			<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;rid=$ratingIdParam'>".iforum_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n
+			<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;rid=$ratingid'>".iforum_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n
 			</tr>\n";
 	}
 	echo "</table>";
