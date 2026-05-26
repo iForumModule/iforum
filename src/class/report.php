@@ -58,7 +58,7 @@ class IforumReportHandler extends icms_ipf_Handler {
 			return $ret;
 		}
 		if (!is_array($posts)) $posts = array($posts);
-		$post_criteria = new icms_db_criteria_Item("post_id", "(" . implode(", ", array_map("intval", $posts)) . ")", "IN");
+		$post_criteria = new icms_db_criteria_Item("post_id", "(" . implode(",", array_map("intval", $posts)) . ")", "IN");
 		$ret = $this->getObjects($post_criteria);
 		return $ret;
 	}
@@ -94,13 +94,9 @@ class IforumReportHandler extends icms_ipf_Handler {
 		{
 			$forum_criteria = '';
 		}
-		else if (!is_array($forums))
-		{
-			$forums = array($forums);
-			$forum_criteria = ' AND p.forum_id IN (' . implode(',', $forums) . ')';
-		}
 		else
 		{
+			$forums = is_array($forums) ? $forums : array($forums);
 			$forum_criteria = ' AND p.forum_id IN (' . implode(',', array_map('intval', $forums)) . ')';
 		}
 		$tables_criteria = ' FROM ' . $this->db->prefix('bb_report') . ' r, ' . $this->db->prefix('bb_posts') . ' p WHERE r.post_id= p.post_id';

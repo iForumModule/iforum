@@ -196,8 +196,8 @@ class IforumDigestHandler extends icms_ipf_Handler {
 		else
 		{
 			$array = $this->db->fetchArray($result);
-			$this->last_digest = (isset($array['digest_time']))?(int)$array['digest_time']: 0;
-			$this->last_digest_id = (isset($array['digest_id']))?(int)$array['digest_id']: 0;
+			$this->last_digest = (isset($array['digest_time'])) ? (int)$array['digest_time'] : 0;
+			$this->last_digest_id = (isset($array['digest_id'])) ? (int)$array['digest_id'] : 0;
 		}
 	}
 
@@ -234,7 +234,10 @@ class IforumDigestHandler extends icms_ipf_Handler {
 			return false;
 		}
 		if (!isset($this->last_digest)) $this->getLastDigest();
-			if ($this->last_digest_id === $digest_id) return false; // It is not allowed to delete the last digest
+		if ($this->last_digest_id === $digest_id)
+		{
+			return false; // It is not allowed to delete the last digest
+		}
 
 		return parent::delete($digest_obj, true);
 	}
