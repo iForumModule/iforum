@@ -52,7 +52,7 @@ $modversion['support_site_name'] = "ImpressCMS Community Forum";
 $modversion['submit_feature'] = "https://www.impresscms.org/modules/iforum/";
 $modversion['submit_bug'] = "https://www.impresscms.org/modules/iforum/";
 
-include_once(ICMS_ROOT_PATH."/modules/".$modulename."/class/art/functions.ini.php");
+include_once(ICMS_ROOT_PATH."/modules/".$modulename."/include/bootstrap.php");
 include_once(ICMS_ROOT_PATH."/modules/".$modulename."/include/functions.php");
 // Is performing module install/update?
 $isModuleAction = icms_moduleAction($modversion['dirname']);

@@ -27,6 +27,10 @@ if (!defined("IFORUM_FUNCTIONS")):
 define("IFORUM_FUNCTIONS", true);
 
 include_once dirname(__FILE__)."/functions.ini.php";
+if (!iforum_load_art_functions()) {
+	trigger_error('Unable to initialize the iForum Art runtime.', E_USER_WARNING);
+	return;
+}
 if (!defined("_GLOBAL_LEFT"))
 {
 	define('_GLOBAL_LEFT', ((defined('_ADM_USE_RTL') && _ADM_USE_RTL )?"right":"left"));

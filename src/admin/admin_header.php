@@ -24,10 +24,12 @@
 */
 
 include "../../../include/cp_header.php";
+include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/bootstrap.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/vars.php";
-include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/class/art/functions.php";
-include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/class/art/functions.admin.php";
-
+if (!iforum_load_art_functions('admin')) {
+	trigger_error('Unable to initialize the iForum Art admin runtime.', E_USER_WARNING);
+	return;
+}
 
 // include the default language file for the admin interface
 if (!@include_once(ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/language/" . $icmsConfig['language'] . "/main.php"))

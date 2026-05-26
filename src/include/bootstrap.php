@@ -66,3 +66,47 @@ function &iforum_get_handler($handlerName)
 
     return $handler;
 }
+
+function iforum_load_art_functions_ini()
+{
+    if (defined('FRAMEWORKS_ART_FUNCTIONS_INI')) {
+        return true;
+    }
+
+    include_once iforum_get_module_path('class/art/functions.ini.php');
+
+    return defined('FRAMEWORKS_ART_FUNCTIONS_INI');
+}
+
+function iforum_load_art_functions($group = '')
+{
+    if (!iforum_load_art_functions_ini()) {
+        return false;
+    }
+
+    $constant = 'FRAMEWORKS_ART_FUNCTIONS';
+    if ($group !== '') {
+        $constant .= '_' . strtoupper($group);
+    }
+
+    if ($group === '') {
+        include_once iforum_get_module_path('class/art/functions.php');
+    } else {
+        if (!function_exists('load_functions')) {
+            return false;
+        }
+
+        load_functions($group);
+    }
+
+    return defined($constant);
+}
+
+function iforum_load_art_object()
+{
+    if (!iforum_load_art_functions_ini() || !function_exists('load_object')) {
+        return false;
+    }
+
+    return load_object();
+}
