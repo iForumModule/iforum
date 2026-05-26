@@ -23,18 +23,14 @@
 * @version  $Id$
 */
 
-if (!defined("ICMS_ROOT_PATH"))
-{
+if (!defined("ICMS_ROOT_PATH")) {
 	exit();
 }
 
-defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
-iforum_load_object();
-
-class Report extends ArtObject {
-	function __construct()
+class Report extends icms_ipf_Object {
+	function __construct($handler = null)
 	{
-		parent::__construct("bb_report");
+		$this->handler = $handler;
 		$this->initVar('report_id', XOBJ_DTYPE_INT);
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('reporter_uid', XOBJ_DTYPE_INT);
@@ -46,10 +42,12 @@ class Report extends ArtObject {
 	}
 }
 
-class IforumReportHandler extends ArtObjectHandler {
+class IforumReportHandler extends icms_ipf_Handler {
 
 	function __construct(&$db) {
-    	parent::__construct($db, 'bb_report', 'Report', 'report_id');
+    	parent::__construct($db, 'report', 'report_id', '', '', basename(dirname(__DIR__)));
+		$this->table = $db->prefix('bb_report');
+		$this->className = 'Report';
 	}
 
 	function &getByPost($posts)
@@ -60,13 +58,17 @@ class IforumReportHandler extends ArtObjectHandler {
 			return $ret;
 		}
 		if (!is_array($posts)) $posts = array($posts);
-			$post_criteria = new icms_db_criteria_Item("post_id", "(" . implode(", ", $posts) . ")", "IN");
-		$ret = $this->getAll($post_criteria);
+		$post_criteria = new icms_db_criteria_Item("post_id", "(" . implode(",", array_map("intval", $posts)) . ")", "IN");
+		$ret = $this->getObjects($post_criteria);
 		return $ret;
 	}
 
 	function &getAllReports( $start, $report_result = 0, $report_id = 0,$forums = 0, $order = "ASC", $perpage = 0)
 	{
+		$start = (int)$start;
+		$report_result = (int)$report_result;
+		$report_id = (int)$report_id;
+		$forum_criteria = '';
 		if ($order == "DESC")
 		{
 			$operator_for_position = '>' ;
@@ -92,16 +94,17 @@ class IforumReportHandler extends ArtObjectHandler {
 		{
 			$forum_criteria = '';
 		}
-		else if (!is_array($forums))
+		else
 		{
-			$forums = array($forums);
-			$forum_criteria = ' AND p.forum_id IN (' . implode(',', $forums) . ')';
+			$forums = is_array($forums) ? $forums : array($forums);
+			$forum_criteria = ' AND p.forum_id IN (' . implode(',', array_map('intval', $forums)) . ')';
 		}
 		$tables_criteria = ' FROM ' . $this->db->prefix('bb_report') . ' r, ' . $this->db->prefix('bb_posts') . ' p WHERE r.post_id= p.post_id';
 
 		if ($report_id)
 		{
 			$result = $this->db->query("SELECT COUNT(*) as report_count" . $tables_criteria . $forum_criteria . $result_criteria . " AND report_id $operator_for_position $report_id" . $order_criteria);
+			$row = array('report_count' => 0);
 			if ($result) $row = $this->db->fetchArray($result);
 				$position = $row['report_count'];
 			$start = intval($position / $perpage) * $perpage;
@@ -110,12 +113,26 @@ class IforumReportHandler extends ArtObjectHandler {
 		$sql = "SELECT r.*, p.subject, p.topic_id, p.forum_id" . $tables_criteria . $forum_criteria . $result_criteria . $order_criteria;
 		$result = $this->db->query($sql, $perpage, $start);
 		$ret = array();
+		if (!$result)
+		{
+			return $ret;
+		}
 		//$report_handler =icms_getmodulehandler('report', basename(  dirname(  dirname( __FILE__ ) ) ), 'iforum' );
 		while ($myrow = $this->db->fetchArray($result))
 		{
 			$ret[] = $myrow; // return as array
 		}
 		return $ret;
+	}
+
+	function insert(&$report, $force = false, $checkObject = true, $debug = false)
+	{
+		if (!parent::insert($report, true))
+		{
+			return false;
+		}
+
+		return $report->getVar('report_id');
 	}
 
 	/**
@@ -125,6 +142,9 @@ class IforumReportHandler extends ArtObjectHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
+		$sql = 'DELETE FROM ' . $this->table
+			. ' WHERE post_id NOT IN (SELECT post_id FROM ' . $this->db->prefix("bb_posts") . ')';
+
+		return $this->db->queryF($sql);
 	}
 }

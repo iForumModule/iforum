@@ -27,15 +27,12 @@ include 'admin_header.php';
 
 $op = !empty($_GET['op'])? $_GET['op'] :
  (!empty($_POST['op'])?$_POST['op']:"");
+$rate_handler = icms_getmodulehandler('rate', basename(dirname(__FILE__, 2)), 'iforum' );
 
 switch ($op) {
 	case "delvotes":
-	global $_GET;
 	$rid = (int)$_GET['rid'];
-	$topic_id = (int)$_GET['topic_id'];
-	$sql = icms::$xoopsDB->queryF("DELETE FROM " . icms::$xoopsDB->prefix('bb_votedata') . " WHERE ratingid = $rid");
-	icms::$xoopsDB->query($sql);
-	iforum_updaterating($topic_id);
+	$rate_handler->deleteRating($rid);
 	redirect_header("admin_votedata.php", 1, _AM_IFORUM_VOTEDELETED);
 	break;
 
@@ -43,27 +40,11 @@ switch ($op) {
 	default:
 	$start = isset($_GET['start']) ? (int)$_GET['start'] :
 	 0;
-	$useravgrating = '0';
-	$uservotes = '0';
-
-	$sql = "SELECT * FROM " . icms::$xoopsDB->prefix('bb_votedata') . " ORDER BY ratingtimestamp DESC";
-	$results = icms::$xoopsDB->query($sql, 20, $start);
-	$votes = icms::$xoopsDB->getRowsNum($results);
-
-	$sql = "SELECT rating FROM " . icms::$xoopsDB->prefix('bb_votedata') . "";
-	$result2 = icms::$xoopsDB->query($sql, 20, $start);
-	$uservotes = icms::$xoopsDB->getRowsNum($result2);
-	$useravgrating = 0;
-
-	while (list($rating2) = icms::$xoopsDB->fetchRow($result2))
-	{
-		$useravgrating = $useravgrating + $rating2;
-	}
-	if ($useravgrating > 0)
-		{
-		$useravgrating = $useravgrating / $uservotes;
-		$useravgrating = number_format($useravgrating, 2);
-	}
+	$ratingSummary = $rate_handler->getAverageRating();
+	$useravgrating = $ratingSummary['average_rating'];
+	$uservotes = $ratingSummary['vote_count'];
+	$votes = $rate_handler->getCount();
+	$ratings = $rate_handler->getAllRates($start, 20);
 
 	icms_cp_header();
 	loadModuleAdminMenu(10, _AM_IFORUM_VOTE_RATINGINFOMATION);
@@ -95,30 +76,33 @@ switch ($op) {
 		{
 		echo "<tr><td align='center' colspan='7' class='head'>" . _AM_IFORUM_VOTE_NOVOTES . "</td></tr>";
 	}
-	while (list($ratingid, $topic_id, $ratinguser, $rating, $ratinghostname, $ratingtimestamp) = icms::$xoopsDB->fetchRow($results))
+	foreach ($ratings as $ratingRow)
 	{
-		$sql = "SELECT topic_title FROM " . icms::$xoopsDB->prefix('bb_topics') . " WHERE topic_id=" . $topic_id . "";
-		$down_array = icms::$xoopsDB->fetchArray(icms::$xoopsDB->query($sql));
-
-		$formatted_date = formatTimestamp($ratingtimestamp, _DATESTRING);
+		$ratingid = (int)$ratingRow['ratingid'];
+		$topic_id = (int)$ratingRow['topic_id'];
+		$ratinguser = (int)$ratingRow['ratinguser'];
+		$formatted_date = formatTimestamp($ratingRow['ratingtimestamp'], _DATESTRING);
 		$ratinguname = iforum_getUnameFromId($ratinguser, icms::$module->config['show_realname']);
+		$topicTitle = isset($ratingRow['topic_title']) ? $ratingRow['topic_title'] : '';
+		$ratingHost = isset($ratingRow['ratinghostname']) ? $ratingRow['ratinghostname'] : '';
 		echo "
 			<tr>\n
 			<td class='head' align='center'>$ratingid</td>\n
 			<td class='even' align='center'>$ratinguname</td>\n
-			<td class='even' align='center' >$ratinghostname</td>\n
-			<td class='even' align='left'><a href='".ICMS_URL."/modules/".basename(dirname(__FILE__, 2))."/viewtopic.php?topic_id=".$topic_id."' target='topic'>".icms_core_DataFilter::htmlSpecialchars($down_array['topic_title'])."</a></td>\n
-			<td class='even' align='center'>$rating</td>\n
+			<td class='even' align='center' >".icms_core_DataFilter::htmlSpecialchars($ratingHost)."</td>\n
+			<td class='even' align='left'><a href='".ICMS_URL."/modules/".basename(dirname(__FILE__, 2))."/viewtopic.php?topic_id=".$topic_id."' target='topic'>".icms_core_DataFilter::htmlSpecialchars($topicTitle)."</a></td>\n
+			<td class='even' align='center'>".$ratingRow['rating']."</td>\n
 			<td class='even' align='center'>$formatted_date</td>\n
-			<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;topic_id=$topic_id&amp;rid=$ratingid'>".iforum_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n
+			<td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;rid=".(int)$ratingid."'>".iforum_displayImage($forumImage['delete'], _DELETE)."</a></strong></td>\n
 			</tr>\n";
 	}
 	echo "</table>";
 	//Include page navigation
-	$page = ($votes > 20) ? _AM_IFORUM_MINDEX_PAGE :
-	 '';
-	$pagenav = new icms_view_PageNav($page, 20, $start, 'start');
-	echo '<div align="right" style="padding: 8px;">' . $page . '' . $pagenav->renderImageNav(4) . '</div>';
+	if ($votes > 20)
+	{
+		$pagenav = new icms_view_PageNav($votes, 20, $start, 'start');
+		echo '<div align="right" style="padding: 8px;">' . _AM_IFORUM_MINDEX_PAGE . $pagenav->renderImageNav(4) . '</div>';
+	}
 	break;
 }
 icms_cp_footer();

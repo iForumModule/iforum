@@ -19,6 +19,7 @@ This roadmap describes the intended migration path while keeping the module inst
 - Migrate one handler family at a time from Art-based patterns to IPF-friendly structures.
 - Add adapters where needed so existing call sites keep working during the transition.
 - Separate persistence concerns from presentation helpers as handlers move over.
+- Current completed slice: category, report, rate, and digest persistence now use IPF-oriented handlers, with a dedicated smoke check for the migrated CRUD paths.
 
 ## Phase 4: Cleanup and expansion
 

@@ -37,24 +37,22 @@ icms_cp_header();
 switch($op)
 {
 	case "save":
-	$report_ids = $_POST['report_id'];
+	$report_ids = (isset($_POST['report_id']) && is_array($_POST['report_id'])) ? $_POST['report_id'] : array();
+	$report_ids = array_map('intval', array_keys($report_ids));
 	$report_memos = isset($_POST['report_memo'])?$_POST['report_memo']:
 	array();
-	foreach($report_ids as $rid => $value)
+	foreach($report_ids as $rid)
 	{
-		if ($value)
+		$report_obj = $report_handler->get($rid);
+		if ($item == 'processed')
 		{
-			$report_obj = $report_handler->get($rid);
-			if ($item == 'processed')
-			{
-				$report_handler->delete($report_obj);
-			}
-			if ($item == 'process')
-			{
-				$report_obj->setVar("report_result", 1);
-				$report_obj->setVar("report_memo", $report_memos[$rid]);
-				$report_handler->insert($report_obj);
-			}
+			$report_handler->delete($report_obj);
+		}
+		if ($item == 'process')
+		{
+			$report_obj->setVar("report_result", 1);
+			$report_obj->setVar("report_memo", isset($report_memos[$rid]) ? $report_memos[$rid] : '');
+			$report_handler->insert($report_obj);
 		}
 	}
 	redirect_header("admin_report.php?item=$item", 1);
@@ -93,7 +91,7 @@ switch($op)
 	echo "<td class='bg3' width='10%'>".$extra."</td>";
 	echo "</tr>";
 
-	$reports = $report_handler->getAllReports(0, "ASC", $limit, $start, $process_result);
+	$reports = $report_handler->getAllReports($start, $process_result, 0, 0, 'ASC', $limit);
 	foreach($reports as $report)
 	{
 		$post_link = "<a href=\"".ICMS_URL."/modules/".icms::$module->getVar('dirname')."/viewtopic.php?post_id=". $report['post_id'] ."&amp;topic_id=". $report['topic_id'] ."&amp;forum=". $report['forum_id'] ."&amp;viewmode=thread\" target=\"checkreport\">".icms_core_DataFilter::htmlSpecialchars($report['subject'])."</a>";

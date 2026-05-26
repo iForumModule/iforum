@@ -4,7 +4,7 @@ This module still mixes legacy Art-based persistence patterns with newer Impress
 
 | Legacy area | Current responsibility | IPF-oriented target | Notes for follow-up |
 | --- | --- | --- | --- |
-| `src/class/art/object.php` and related Art base classes | Shared object lifecycle, validation, and persistence helpers | Replace with IPF object and handler base classes | Start with low-risk handlers that already map cleanly to one table each |
+| `src/class/art/object.php` and related Art base classes | Shared object lifecycle, validation, and persistence helpers | Replace with IPF object and handler base classes | The category, report, rate, and digest handlers are now migrated; keep moving one low-risk table-backed handler at a time |
 | `src/class/forum.php`, `src/class/topic.php`, `src/class/post.php` | Module domain objects and handler logic | Move table mapping and CRUD concerns into dedicated IPF handlers | Keep public method names stable while adapters are introduced |
 | `src/include/functions.ini.php` config loading | Module-wide config bootstrap | Route shared module/config access through the new bootstrap helper first | This reduces repeated dirname lookups before broader refactors |
 | Direct `icms_getmodulehandler()` calls throughout `src/` | Per-file handler lookup | Centralize lookup behind helper functions | Lets later refactors swap implementations in one place |
@@ -17,3 +17,4 @@ This module still mixes legacy Art-based persistence patterns with newer Impress
 - Refactor one handler family at a time so existing forum, topic, and post behavior stays unchanged.
 - Prefer adding adapters and compatibility layers before deleting Art-based code.
 - Expand CI coverage alongside each phase so new IPF-oriented code is checked on all supported PHP versions.
+- Keep the lightweight `php tools/ipf-migration-smoke.php` regression check green as each additional handler family moves off Art.

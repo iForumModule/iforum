@@ -1,45 +1,44 @@
 <?php
 /**
-* iForum - a bulletin Board (Forum) for ImpressCMS
-*
-* Based upon CBB 3.08
-*
-* @copyright  http://www.xoops.org/ The XOOPS Project
-* @copyright  http://xoopsforge.com The XOOPS FORGE Project
-* @copyright  http://xoops.org.cn The XOOPS CHINESE Project
-* @copyright  XOOPS_copyrights.txt
-* @copyright  readme.txt
-* @copyright  http://www.impresscms.org/ The ImpressCMS Project
-* @license   GNU General Public License (GPL)
-*     a copy of the GNU license is enclosed.
-* ----------------------------------------------------------------------------------------------------------
-* @package  CBB - XOOPS Community Bulletin Board
-* @since   3.08
-* @author  phppp
-* ----------------------------------------------------------------------------------------------------------
-*     iForum - a bulletin Board (Forum) for ImpressCMS
-* @since   1.00
-* @author  modified by stranger
-* @version  $Id$
-*/
+ * iForum - a bulletin Board (Forum) for ImpressCMS
+ *
+ * Based upon CBB 3.08
+ *
+ * @copyright  http://www.xoops.org/ The XOOPS Project
+ * @copyright  http://xoopsforge.com The XOOPS FORGE Project
+ * @copyright  http://xoops.org.cn The XOOPS CHINESE Project
+ * @copyright  XOOPS_copyrights.txt
+ * @copyright  readme.txt
+ * @copyright  http://www.impresscms.org/ The ImpressCMS Project
+ * @license   GNU General Public License (GPL)
+ *     a copy of the GNU license is enclosed.
+ * ----------------------------------------------------------------------------------------------------------
+ * @package  CBB - XOOPS Community Bulletin Board
+ * @since   3.08
+ * @author  phppp
+ * ----------------------------------------------------------------------------------------------------------
+ *     iForum - a bulletin Board (Forum) for ImpressCMS
+ * @since   1.00
+ * @author  modified by stranger
+ * @version  $Id$
+ */
 
-class Digest extends icms_core_Object {
-	public $digest_id;
-	public $digest_time;
-	public $digest_content;
+if (!defined('ICMS_ROOT_PATH')) {
+	exit();
+}
 
+class Digest extends icms_ipf_Object {
 	public $items;
 	public $isHtml = false;
 	public $isSummary = true;
 
-	function __construct()
+	function __construct($handler = null)
 	{
+		$this->handler = $handler;
 		$this->initVar('digest_id', XOBJ_DTYPE_INT);
 		$this->initVar('digest_time', XOBJ_DTYPE_INT);
 		$this->initVar('digest_content', XOBJ_DTYPE_TXTAREA);
 		$this->items = array();
-
-		parent::__construct();
 	}
 
 	function setHtml()
@@ -104,37 +103,26 @@ class Digest extends icms_core_Object {
 	}
 }
 
-class IforumDigestHandler extends icms_core_ObjectHandler {
+class IforumDigestHandler extends icms_ipf_Handler {
 	public $last_digest;
+	public $last_digest_id = 0;
 
-	function &create($isNew = true)
+	function __construct(&$db)
 	{
-		$digest = new Digest();
-		if ($isNew)
-		{
-			$digest->setNew();
-		}
-		return $digest;
+		parent::__construct($db, 'digest', 'digest_id', '', '', basename(dirname(__FILE__, 2)));
+		$this->table = $db->prefix('bb_digest');
+		$this->className = 'Digest';
 	}
 
-	function &get($id)
+	function get($id, $as_object = true, $debug = false, $criteria = false)
 	{
-		$digest = null;
 		$id = (int)$id;
-		if (!$id)
+		if ($id < 1)
 		{
-			return $digest;
+			return null;
 		}
-		$sql = 'SELECT * FROM ' . $this->db->prefix('bb_digest') . ' WHERE digest_id=' . $id;
-		if ($array = $this->db->fetchArray($this->db->query($sql)))
-		{
-			if (isset($var)) {
-				return $array[$var];
-			}
-			$digest = $this->create(false);
-			$digest->assignVars($array);
-		}
-		return $digest;
+
+		return parent::get($id, $as_object, $debug, $criteria);
 	}
 
 	function process($isForced = false)
@@ -157,7 +145,6 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 
 	function notify(&$digest)
 	{
-		$content = $digest->getVar('digest_content');
 		$notification_handler = icms::handler('icms_data_notification');
 		$tags['DIGEST_ID'] = $digest->getVar('digest_id');
 		$tags['DIGEST_CONTENT'] = $digest->getVar('digest_content', 'E');
@@ -172,45 +159,45 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 			$start = 0;
 		}
 
-		$sql = "SELECT * FROM " . $this->db->prefix('bb_digest') . " ORDER BY digest_id DESC";
-		$result = $this->db->query($sql, $perpage, $start);
+		$criteria = new icms_db_criteria_Compo();
+		$criteria->setSort('digest_id');
+		$criteria->setOrder('DESC');
+		$criteria->setLimit((int)$perpage);
+		$criteria->setStart((int)$start);
+
+		$digests = $this->getObjects($criteria);
 		$ret = array();
-		$report_handler =icms_getmodulehandler('report', basename(dirname(__FILE__, 2)), 'iforum' );
-		while ($myrow = $this->db->fetchArray($result))
+		foreach ($digests as $digest)
 		{
-			$ret[] = $myrow; // return as array
+			$ret[] = array(
+				'digest_id' => $digest->getVar('digest_id'),
+				'digest_time' => $digest->getVar('digest_time'),
+				'digest_content' => $digest->getVar('digest_content'),
+			);
 		}
+
 		return $ret;
 	}
 
 	function getDigestCount()
 	{
-		$sql = 'SELECT COUNT(*) as count FROM ' . $this->db->prefix("bb_digest");
-		$result = $this->db->query($sql);
-		if (!$result)
-		{
-			return 0;
-		}
-		else
-		{
-			$array = $this->db->fetchArray($result);
-			return $array['count'];
-		}
+		return $this->getCount();
 	}
 
 	function getLastDigest()
 	{
-		$sql = 'SELECT MAX(digest_time) as last_digest FROM ' . $this->db->prefix("bb_digest");
-		$result = $this->db->query($sql);
+		$sql = 'SELECT digest_id, digest_time FROM ' . $this->table . ' ORDER BY digest_time DESC, digest_id DESC';
+		$result = $this->db->query($sql, 1, 0);
 		if (!$result)
 		{
 			$this->last_digest = 0;
-			// echo "<br />no data:".$query;
+			$this->last_digest_id = 0;
 		}
 		else
 		{
 			$array = $this->db->fetchArray($result);
-			$this->last_digest = (isset($array['last_digest']))?$array['last_digest']: 0;
+			$this->last_digest = (isset($array['digest_time'])) ? (int)$array['digest_time'] : 0;
+			$this->last_digest_id = (isset($array['digest_id'])) ? (int)$array['digest_id'] : 0;
 		}
 	}
 
@@ -223,38 +210,39 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 		return $time_diff - $deadline;
 	}
 
-	function insert(&$digest)
+	function insert(&$digest, $force = false, $checkObject = true, $debug = false)
 	{
-		$content = $digest->getVar('digest_content', 'E');
+		$digest->setVar('digest_time', time());
 
-		$id = $this->db->genId($digest->table . "_digest_id_seq");
-		$sql = "INSERT INTO " . $digest->table . " (digest_id, digest_time, digest_content) VALUES (" . $id . ", " . time() . ", " . $this->db->quoteString($content) . " )";
-
-		if (!$this->db->queryF($sql))
-		{
-			//echo "<br />digest insert error::" . $sql;
-			return false;
-		}
-		if (empty($id))
-		{
-			$id = $this->db->getInsertId();
-		}
-		$digest->setVar('digest_id', $id);
-		return true;
+		return parent::insert($digest, true);
 	}
 
-	function delete(&$digest)
+	function delete(&$digest, $force = false)
 	{
-		if (is_object($digest)) $digest_id = $digest->getVar('digest_id');
-			else $digest_id = $digest;
-		if (!isset($this->last_digest)) $this->getLastDigest();
-			if ($this->last_digest == $digest_id) return false; // It is not allowed to delete the last digest
-		$sql = "DELETE FROM " . $this->db->prefix("bb_digest") . " WHERE digest_id=" . $digest_id;
-		if (!$result = $this->db->queryF($sql))
+		if (is_object($digest))
+		{
+			$digest_obj = $digest;
+			$digest_id = (int)$digest->getVar('digest_id');
+		}
+		else
+		{
+			$digest_id = (int)$digest;
+			$digest_obj = $this->get($digest_id);
+		}
+		if (!$digest_obj || $digest_obj->isNew())
 		{
 			return false;
 		}
-		return true;
+		if (!isset($this->last_digest) || !isset($this->last_digest_id))
+		{
+			$this->getLastDigest();
+		}
+		if ($this->last_digest_id === $digest_id)
+		{
+			return false; // It is not allowed to delete the last digest
+		}
+
+		return parent::delete($digest_obj, true);
 	}
 
 	function buildDigest(&$digest)
@@ -269,6 +257,11 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 		$access_forums = $forum_handler->getForums(0, 'access'); // get all accessible forums
 		icms::$user = $thisUser;
 
+		if (count($access_forums) < 1)
+		{
+			return false;
+		}
+
 		$forum_criteria = ' AND t.forum_id IN (' . implode(',', array_keys($access_forums)) . ')';
 		unset($access_forums);
 		$approve_criteria = ' AND t.approved = 1 AND p.approved = 1';
@@ -282,7 +275,6 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 		$query = 'SELECT t.topic_id, t.forum_id, t.topic_title, t.topic_time, t.digest_time, p.uid, p.poster_name, pt.post_text FROM ' . $this->db->prefix('bb_topics') . ' t, ' . $this->db->prefix('bb_posts_text') . ' pt, ' . $this->db->prefix('bb_posts') . ' p WHERE t.topic_digest = 1 AND p.topic_id=t.topic_id AND p.pid=0 ' . $forum_criteria . $approve_criteria . $time_criteria . $karma_criteria . $reply_criteria . ' AND pt.post_id=p.post_id ORDER BY t.digest_time DESC';
 		if (!$result = $this->db->query($query))
 		{
-			//echo "<br />No result:<br />$query";
 			return false;
 		}
 		$rows = array();
@@ -300,7 +292,6 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 		if (count($uids) > 0)
 		{
 			$member_handler = icms::handler('icms_member');
-			$user_criteria = new icms_db_criteria_Item('uid', "(" . implode(',', $uids) . ")", 'IN');
 			$users = $member_handler->getUsers(new icms_db_criteria_Item('uid', "(" . implode(',', $uids) . ")", 'IN'), true);
 		}
 		else
