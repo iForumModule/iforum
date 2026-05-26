@@ -26,8 +26,9 @@
 include "../../../include/cp_header.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/bootstrap.php";
 include_once ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/include/vars.php";
-
-
+iforum_load_art_functions('admin');
+ 
+ 
 // include the default language file for the admin interface
 if (!@include_once(ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/language/" . $icmsConfig['language'] . "/main.php"))
 	{

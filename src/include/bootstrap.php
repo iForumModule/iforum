@@ -73,15 +73,23 @@ function iforum_load_art_functions_ini()
         return true;
     }
 
-    return (bool) include_once iforum_get_module_path('class/art/functions.ini.php');
+    $loaded = include_once iforum_get_module_path('class/art/functions.ini.php');
+
+    return $loaded !== false || defined('FRAMEWORKS_ART_FUNCTIONS_INI');
 }
 
 function iforum_load_art_functions($group = '')
 {
-    iforum_load_art_functions_ini();
+    if (!iforum_load_art_functions_ini()) {
+        return false;
+    }
 
     if ($group === '') {
         return (bool) include_once iforum_get_module_path('class/art/functions.php');
+    }
+
+    if (!function_exists('load_functions')) {
+        return false;
     }
 
     return load_functions($group);
@@ -89,7 +97,9 @@ function iforum_load_art_functions($group = '')
 
 function iforum_load_art_object()
 {
-    iforum_load_art_functions_ini();
+    if (!iforum_load_art_functions_ini() || !function_exists('load_object')) {
+        return false;
+    }
 
     return load_object();
 }
