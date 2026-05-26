@@ -37,7 +37,7 @@ icms_cp_header();
 switch($op)
 {
 	case "save":
-	$report_ids = isset($_POST['report_id']) ? $_POST['report_id'] : array();
+	$report_ids = (isset($_POST['report_id']) && is_array($_POST['report_id'])) ? $_POST['report_id'] : array();
 	$report_memos = isset($_POST['report_memo'])?$_POST['report_memo']:
 	array();
 	foreach($report_ids as $rid => $value)

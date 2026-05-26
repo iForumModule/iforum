@@ -233,7 +233,7 @@ class IforumDigestHandler extends icms_ipf_Handler {
 		{
 			return false;
 		}
-		if (!isset($this->last_digest)) $this->getLastDigest();
+		if (!isset($this->last_digest) || !isset($this->last_digest_id)) $this->getLastDigest();
 		if ($this->last_digest_id === $digest_id)
 		{
 			return false; // It is not allowed to delete the last digest
