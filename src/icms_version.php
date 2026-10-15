@@ -25,7 +25,7 @@
 
 $modulename = basename(__DIR__);
 $modversion['name'] = _MI_IFORUM_NAME;
-$modversion['version'] = "2.4 beta";
+$modversion['version'] = "3.0 beta";
 $modversion['description'] = _MI_IFORUM_DESC;
 $modversion['credits'] = "Marko Schmuck a.k.a predator (author) and D.J. a.k.a phppp (author) and other CBB/newbb developers [see readme.txt for more information]";
 $modversion['author'] = "fiammybe";
@@ -40,9 +40,9 @@ $modversion['author_realname'] = "David Janssens";
 $modversion['author_website_url'] = "https://www.impresscms.org";
 $modversion['author_website_name'] = "ImpressCMS website";
 $modversion['author_email'] = "david.j@impresscms.org";
-$modversion['status_version'] = "2.4.0 Beta";
+$modversion['status_version'] = "3.0.0 Beta";
 $modversion['status'] = "Beta";
-$modversion['date'] = "17 May 2024";
+$modversion['date'] = "16 October 2026";
 $modversion['warning'] = _CO_ICMS_WARNING_BETA;
 
 $modversion['demo_site_url'] = "https://www.impresscms.org/modules/iforum/";
