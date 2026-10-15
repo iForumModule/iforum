@@ -75,7 +75,7 @@ class mod_iforum_CategoryHandler extends icms_ipf_Handler {
 		return $_cachedCats[$perm_string];
 	}
 
-	public function insert(&$category, $force = true, $checkObject = true, $debug = false)
+	public function insert($category, $force = true, $checkObject = true, $debug = false)
 	{
 		$isNew = $category->isNew();
 		if (!parent::insert($category, true, $checkObject, $debug))

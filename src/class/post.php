@@ -636,7 +636,7 @@ class mod_iforum_PostHandler extends icms_ipf_Handler {
 		return true;
 	}
 
-	public function insert(&$post, $force = true, $checkObject = true, $debug = false)
+	public function insert($post, $force = true, $checkObject = true, $debug = false)
 	{
 		global $icmsConfig;
 

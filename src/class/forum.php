@@ -148,7 +148,7 @@ class mod_iforum_ForumHandler extends icms_ipf_Handler {
 		$this->table = $db->prefix('bb_forums');
 	}
 
-	public function insert(&$forum, $force = true, $checkObject = true, $debug = false)
+	public function insert($forum, $force = true, $checkObject = true, $debug = false)
 	{
 		if (!$this->traitInsert($forum, true))
 		{

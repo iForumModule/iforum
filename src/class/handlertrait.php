@@ -67,7 +67,7 @@ trait mod_iforum_HandlerTrait {
 	/**
 	 * Insert or update an object; returns the object key on success, false on failure
 	 */
-	public function insert(&$object, $force = true, $checkObject = true, $debug = false)
+	public function insert($object, $force = true, $checkObject = true, $debug = false)
 	{
 		// tables such as bb_posts_text use an explicit key: keep it, IPF would overwrite it with the insert id
 		$key = $object->getVar($this->keyName);

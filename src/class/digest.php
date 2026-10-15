@@ -223,7 +223,7 @@ class mod_iforum_DigestHandler extends icms_core_ObjectHandler {
 		return $time_diff - $deadline;
 	}
 
-	function insert(&$digest)
+	function insert($digest)
 	{
 		$content = $digest->getVar('digest_content', 'E');
 
