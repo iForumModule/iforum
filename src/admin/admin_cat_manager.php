@@ -171,7 +171,7 @@ switch ($op)
 	case "del":
 	if (empty($_POST['confirm']))
 	{
-		xoops_confirm(array('op' => 'del', 'cat_id' => (int)$_GET['cat_id'], 'confirm' => 1), 'admin_cat_manager.php', _AM_IFORUM_WAYSYWTDTTAL);
+		icms_core_Message::confirm(array('op' => 'del', 'cat_id' => (int)$_GET['cat_id'], 'confirm' => 1), 'admin_cat_manager.php', _AM_IFORUM_WAYSYWTDTTAL);
 		break;
 	}
 	else

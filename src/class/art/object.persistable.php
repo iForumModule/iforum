@@ -45,6 +45,7 @@ class _XoopsPersistableObject extends icms_core_Object
 		$ret = null;
 		if ( !isset($this->vars[$key]) ) return $ret ;
 		$ret = $this->vars[$key]['value'];
+		if ($ret === null && in_array($this->vars[$key]['data_type'], array(XOBJ_DTYPE_TXTBOX, XOBJ_DTYPE_TXTAREA, XOBJ_DTYPE_SOURCE))) $ret = '';
 
         switch ($this->vars[$key]['data_type']) {
 

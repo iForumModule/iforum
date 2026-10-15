@@ -715,30 +715,9 @@ class IforumForumHandler extends ArtObjectHandler {
 	{
 		parent::cleanOrphan($this->db->prefix("bb_categories"), "cat_id");
 
-		if ($this->mysql_major_version() >= 4):
-		/*
-		$sql = "DELETE FROM ".$this->table.
-		" WHERE (parent_forum >0 AND parent_forum NOT IN ( SELECT DISTINCT forum_id FROM ".$this->table.") )";
-		*/
 		$sql = "DELETE ".$this->table." FROM ".$this->table. " LEFT JOIN ".$this->table." AS aa ON ".$this->table.".parent_forum = aa.forum_id ". " WHERE ".$this->table.".parent_forum>0 AND (aa.forum_id IS NULL)";
 		if (!$result = $this->db->queryF($sql)):
 			icms_core_Message::error("cleanOrphan error:". $sql);
-		endif;
-		else:
-			$this->identifierName = "parent_forum";
-		$forum_list = $this->getList(new icms_db_criteria_Item("parent_forum", 0, ">"));
-		$this->identifierName = "forum_name";
-		if ($parent_forums = @array_values($forum_list))
-		{
-			$parent_list = $this->getIds(new icms_db_criteria_Item("forum_id", "(".implode(", ", $parent_forums).")", "IN"));
-			foreach($forum_list as $forum_id => $parent_forum)
-			{
-				if (in_array($parent_forum, $parent_list)) continue;
-				$forum_obj = $this->get($forum_id);
-				$this->delete($forum_obj);
-				unset($forum_obj);
-			}
-		}
 		endif;
 
 		return true;
@@ -748,9 +727,6 @@ class IforumForumHandler extends ArtObjectHandler {
 	{
 		if (empty($object))
 		{
-			/* for MySQL 4.1+ */
-			if ($this->mysql_major_version() >= 4)
-			{
 				$sql = "UPDATE ".$this->table. " SET ".$this->table.".forum_last_post_id = @last_post =(". " SELECT MAX(post_id) AS last_post ". "  FROM " . $this->db->prefix("bb_posts") . "  WHERE approved=1 AND forum_id = ".$this->table.".forum_id". " )". " WHERE ".$this->table.".forum_last_post_id <> @last_post";
 				if (!$this->db->queryF($sql))
 				{
@@ -766,18 +742,6 @@ class IforumForumHandler extends ArtObjectHandler {
 				{
 					icms_core_Message::error("update error: ".$sql);
 				}
-			}
-			else
-			{
-				// for 4.0+
-				$forums = $this->getIds();
-				foreach($forums as $id)
-				{
-					if (!$obj = $this->get($id)) continue;
-					$this->synchronization($obj);
-					unset($obj);
-				}
-			}
 
 			return true;
 		}

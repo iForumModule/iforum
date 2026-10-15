@@ -763,7 +763,7 @@ function iforum_tagupdate($topic_id, $item_tag)
 	if (iforum_tag_module_included())
 		{
 		include_once ICMS_ROOT_PATH . '/modules/tag/include/formtag.php';
-		$tag_handler = xoops_getmodulehandler('tag', 'tag');
+		$tag_handler = icms_getModuleHandler('tag', 'tag');
 		$tag_handler->updateByItem($item_tag, $topic_id, icms::$module->getVar('dirname' ), 0);
 	}
 }

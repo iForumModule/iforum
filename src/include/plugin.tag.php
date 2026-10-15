@@ -81,27 +81,12 @@ function iforum_tag_synchronization($mid)
 {
 	$MyDirName = basename(dirname(__FILE__, 2));
 	$item_handler = icms_getmodulehandler('topic', $MyDirName, 'iforum' );
-	$link_handler = xoops_getmodulehandler("link", "tag");
+	$link_handler = icms_getModuleHandler("link", "tag");
 	 
 	/* clear tag-item links */
-	if ($link_handler->mysql_major_version() >= 4):
 	$sql = " DELETE FROM {$link_handler->table}". " WHERE ". "  tag_modid = {$mid}". "  AND ". "  ( tag_itemid NOT IN ". "   ( SELECT DISTINCT {$item_handler->keyName} ". "    FROM {$item_handler->table} ". "    WHERE {$item_handler->table}.approved > 0". "   ) ". "  )";
-	else:
-		$sql = " DELETE {$link_handler->table} FROM {$link_handler->table}". " LEFT JOIN {$item_handler->table} AS aa ON {$link_handler->table}.tag_itemid = aa.{$item_handler->keyName} ". " WHERE ". "  tag_modid = {$mid}". "  AND ". "  ( aa.{$item_handler->keyName} IS NULL". "   OR aa.approved < 1". "  )";
-	endif;
 	if (!$result = $link_handler->db->queryF($sql))
 	{
 		//icms_core_Message::error($link_handler->db->error());
 	}
-}
-// These will try to create functions for tag plugin, if the filder has been reneamed to something else
-if (!function_exists($MyDirName.'_tag_iteminfo'))
-	{
-	$myfunc = 'function '.$MyDirName.'_tag_iteminfo (&$items) { return iforum_tag_iteminfo($items);}';
-	eval($myfunc);
-}
-if (!function_exists($MyDirName.'_tag_synchronization'))
-	{
-	$myfunc = 'function '.$MyDirName.'_tag_synchronization ($mid) { return iforum_tag_synchronization($mid);}';
-	eval($myfunc);
 }

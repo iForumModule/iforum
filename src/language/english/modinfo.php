@@ -286,7 +286,5 @@
 	// icms_version constants
 	define ('_MI_IFORUM_BLOCK','');
 	define ('_MI_IFORUM_BLOCK_DSC',"Shows recent posts in the forums");
-	define ('_MI_IFORUM_BLOCK_AUTHOR','');
 	define ('_MI_IFORUM_BLOCK_AUTHOR_DSC',"Shows authors stats");
-	define ('_MI_IFORUM_BLOCK_POST',"Recent Posts");
 	define ('_MI_IFORUM_BLOCK_POST_DSC',"Shows Recent posts");

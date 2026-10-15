@@ -222,7 +222,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return $post_id;
 	}
 
-	function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
+	function &getAllPosts(&$topic, $order, $perpage, &$start, $post_id = 0, $type = "")
 	{
 		$ret = array();
 		$perpage = ((int)$perpage > 0) ? (int)$perpage :
@@ -423,24 +423,12 @@ class IforumTopicHandler extends ArtObjectHandler {
 		if (empty($object))
 		{
 			/* for MySQL 4.1+ */
-			if ($this->mysql_major_version() >= 4):
 			// Set topic_last_post_id
 			$sql = "UPDATE ".$this->table. " SET ".$this->table.".topic_last_post_id = @last_post =(". " SELECT MAX(post_id) AS last_post ". "  FROM " . $this->db->prefix("bb_posts") . "  WHERE approved=1 AND topic_id = ".$this->table.".topic_id". " )". " WHERE ".$this->table.".topic_last_post_id <> @last_post";
 			$this->db->queryF($sql);
 			// Set topic_replies
 			$sql = "UPDATE ".$this->table. " SET ".$this->table.".topic_replies = @replies =(". " SELECT count(*) AS total ". "  FROM " . $this->db->prefix("bb_posts") . "  WHERE approved=1 AND topic_id = ".$this->table.".topic_id". " )". " WHERE ".$this->table.".topic_replies <> @replies";
 			$this->db->queryF($sql);
-			else:
-				// for 4.0+
-			$topics = $this->getIds();
-			foreach($topics as $id)
-			{
-				if (!$obj = $this->get($id)) continue;
-				$this->synchronization($obj);
-				unset($obj);
-			}
-			unset($topics);
-			endif;
 
 			/*
 			// MYSQL syntax error

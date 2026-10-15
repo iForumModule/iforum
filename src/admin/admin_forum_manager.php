@@ -24,7 +24,6 @@
 */
 
 include 'admin_header.php';
-include ICMS_ROOT_PATH . "/class/xoopstree.php";
 
 
 $op = '';
@@ -69,7 +68,7 @@ function editForum($ff, $parent_forum = 0) {
 		$pf = $forum_handler->get($parent_forum);
 	}
 
-	$mytree = new XoopsTree(icms::$xoopsDB->prefix("bb_categories"), "cat_id", "0");
+	$mytree = new icms_view_Tree(icms::$xoopsDB->prefix("bb_categories"), "cat_id", "0");
 
 	if ($forum) {
 		$sform = new icms_form_Theme(_AM_IFORUM_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
@@ -447,7 +446,7 @@ switch ($op)
 
 	if (isset($_POST['confirm']) != 1)
 	{
-		xoops_confirm(array('op' => 'del', 'forum' => (int)$_GET['forum'], 'confirm' => 1), 'admin_forum_manager.php', _AM_IFORUM_TWDAFAP);
+		icms_core_Message::confirm(array('op' => 'del', 'forum' => (int)$_GET['forum'], 'confirm' => 1), 'admin_forum_manager.php', _AM_IFORUM_TWDAFAP);
 		break;
 	}
 	else

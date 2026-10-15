@@ -226,6 +226,7 @@ $category_obj = $category_handler->get($viewtopic_forum->getVar("cat_id"), array
 $icmsTpl->assign('category', array("id" => $viewtopic_forum->getVar("cat_id"), "title" => $category_obj->getVar('cat_title')));
 
 $icmsTpl->assign('folder_topic', iforum_displayImage($forumImage['folder_topic']));
+$icmsTpl->assign('adminpoll_actions', array());
 
 $icmsTpl->assign('topic_id', $topic_id);
 $icmsTpl->assign('forum_id', $forum_id);
@@ -728,14 +729,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$editor_configs["name"] = "message";
 	$editor_configs["rows"] = 10;
 	$editor_configs["cols"] = 60;
-	if (!$editor_handler = new icms_plugins_EditorHandler())
-	{
-		if (!@include_once ICMS_ROOT_PATH."/class/xoopseditor.php")
-		{
-			require_once ICMS_ROOT_PATH."/modules/".basename(__DIR__)."/class/compat/xoopseditor/xoopseditor.php";
-		}
-		$editor_handler = new XoopsEditorHandler();
-	}
+	$editor_handler = icms_plugins_EditorHandler::getInstance();
 	$editor_object = $editor_handler->get($quickform, $editor_configs, "", 1);
 	$forum_form->addElement($editor_object, true);
 	$groups = (is_object(icms::$user)) ? icms::$user->getGroups() :
@@ -768,13 +762,6 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	if (!empty(icms::$module->config['captcha_enabled']) )
 	{
 		$forum_form->addElement(new icms_form_elements_Captcha("", "topic_{$topic_id}_{$start}") );
-	}
-	// backward compatible
-	if (!class_exists("XoopsSecurity"))
-	{
-		$post_valid = 1;
-		$_SESSION['submit_token'] = $post_valid;
-		$forum_form->addElement(new icms_form_elements_Hidden('post_valid', $post_valid));
 	}
 
 	$forum_form->addElement(new icms_form_elements_Hidden('notify', -1));

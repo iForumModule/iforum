@@ -58,7 +58,7 @@ class IforumPermissionHandler extends icms_member_groupperm_Handler {
 			unset($module);
 		}
 
-		$uid = is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0;
+		$uid = is_object(icms::$user)?icms::$user->getVar("uid"):0;
 		$ip = iforum_getIP(true);
 		if (($type == "forum") && !iforum_isAdmin($id) && !isset($suspension[$uid][$id]) && !empty(icms::$module->config['enable_usermoderate']))
 			{

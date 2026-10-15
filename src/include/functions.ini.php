@@ -30,6 +30,18 @@ if (!defined('ICMS_ROOT_PATH'))
  
 if (defined("IFORUM_FUNCTIONS_INI")) return;
  define("IFORUM_FUNCTIONS_INI", 1);
+
+// Autoload the IPF classes: mod_iforum_<Entity>[Handler] lives in class/<entity>.php
+spl_autoload_register(function ($class) {
+	if (strpos($class, 'mod_iforum_') !== 0) {
+		return;
+	}
+	$name = strtolower(preg_replace('/Handler$/', '', substr($class, strlen('mod_iforum_'))));
+	$file = dirname(__DIR__) . '/class/' . $name . '.php';
+	if (is_file($file)) {
+		include_once $file;
+	}
+});
  
 include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/class/art/functions.php");
  

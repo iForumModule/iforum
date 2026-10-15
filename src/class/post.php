@@ -768,8 +768,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		}
 		else
 		{
-			include_once(ICMS_ROOT_PATH . "/class/xoopstree.php");
-			$mytree = new XoopsTree($this->db->prefix("bb_posts"), "post_id", "pid");
+			$mytree = new icms_view_Tree($this->db->prefix("bb_posts"), "post_id", "pid");
 			$arr = $mytree->getAllChild($post->getVar('post_id'));
 			for ($i = 0, $iMax = count($arr); $i < $iMax; $i++)
 			{
@@ -961,20 +960,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		parent::cleanOrphan($this->db->prefix("bb_posts_text"), "post_id");
 
 		/* for MySQL 4.1+ */
-		if ($this->mysql_major_version() >= 4):
 		$sql = "DELETE FROM ".$this->db->prefix("bb_posts_text"). " WHERE (post_id NOT IN ( SELECT DISTINCT post_id FROM ".$this->table.") )";
-		else:
-			// for 4.0+
-		/* */
-		$sql = "DELETE ".$this->db->prefix("bb_posts_text")." FROM ".$this->db->prefix("bb_posts_text"). " LEFT JOIN ".$this->table." AS aa ON ".$this->db->prefix("bb_posts_text").".post_id = aa.post_id ". " WHERE (aa.post_id IS NULL)";
-		/* */
-		// Alternative for 4.1+
-		/*
-		$sql =  "DELETE bb FROM ".$this->db->prefix("bb_posts_text")." AS bb".
-		" LEFT JOIN ".$this->table." AS aa ON bb.post_id = aa.post_id ".
-		" WHERE (aa.post_id IS NULL)";
-		*/
-		endif;
 		if (!$result = $this->db->queryF($sql))
 		{
 			iforum_message("cleanOrphan:". $sql);

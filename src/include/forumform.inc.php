@@ -158,8 +158,7 @@ $editor_configs["width"] = empty(icms::$module->config["editor_width"])? "100%" 
  icms::$module->config["editor_width"];
 $editor_configs["height"] = empty(icms::$module->config["editor_height"])? "400px" :
  icms::$module->config["editor_height"];
-include_once ICMS_ROOT_PATH . "/modules/" . basename(dirname(dirname(__FILE__))) . "/class/compat/class/xoopsform/formeditor.php";
-$forum_form->addElement(new IforumFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure = null));
+$forum_form->addElement(new icms_form_elements_Editor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure = null));
 
 if (iforum_tag_module_included() && !empty(icms::$module->config['allow_tagging']) && (empty($topic_id) || $forumpost->isTopic()))
 {
@@ -323,14 +322,6 @@ if (!empty($admin_form_action))
 {
 	$approved_radio = new icms_form_elements_Radioyn(_AM_IFORUM_APPROVE, 'approved', 1, '' . _YES . '', ' ' . _NO . '');
 	$forum_form->addElement($approved_radio);
-}
-
-// backward compatible
-if (!class_exists("XoopsSecurity"))
-{
-	$post_valid = 1;
-	$_SESSION['submit_token'] = $post_valid;
-	$forum_form->addElement(new icms_form_elements_Hidden('post_valid', $post_valid));
 }
 
 $forum_form->addElement(new icms_form_elements_Hidden('pid', $pid));

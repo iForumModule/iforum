@@ -29,38 +29,37 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
-iforum_load_object();
 
-class Category extends ArtObject {
+class mod_iforum_Category extends icms_ipf_Object {
 
-	function __construct()
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_categories");
+		parent::__construct($handler);
 		$this->initVar('cat_id', XOBJ_DTYPE_INT);
-		$this->initVar('pid', XOBJ_DTYPE_INT, 0);
 		$this->initVar('cat_title', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('cat_image', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('cat_description', XOBJ_DTYPE_TXTAREA);
 		$this->initVar('cat_order', XOBJ_DTYPE_INT);
-		//$this->initVar('cat_state', XOBJ_DTYPE_INT);
 		$this->initVar('cat_url', XOBJ_DTYPE_URL);
-		//$this->initVar('cat_showdescript', XOBJ_DTYPE_INT);
 	}
 }
 
-class IforumCategoryHandler extends ArtObjectHandler {
-	function __construct(&$db)
+class mod_iforum_CategoryHandler extends icms_ipf_Handler {
+
+	public function __construct(&$db)
 	{
-		parent::__construct($db, 'bb_categories', 'Category', 'cat_id', 'cat_title');
+		parent::__construct($db, 'category', 'cat_id', 'cat_title', '', 'iforum');
+		// the legacy schema is kept: the table is bb_categories, not iforum_category
+		$this->table = $db->prefix('bb_categories');
 	}
 
-	function &getAllCats($permission = false, $idAsKey = true, $tags = null)
+	public function &getAllCats($permission = false, $idAsKey = true, $tags = null)
 	{
 		$perm_string = (empty($permission))?'all': 'access';
 		$_cachedCats[$perm_string] = array();
 		$criteria = new icms_db_criteria_Item("1", 1);
 		$criteria->setSort("cat_order");
-		$categories = $this->getAll($criteria, $tags, $idAsKey);
+		$categories = $this->getObjects($criteria, true);
 		foreach(array_keys($categories) as $key)
 		{
 			if ($permission && !$this->getPermission($categories[$key])) continue;
@@ -76,10 +75,14 @@ class IforumCategoryHandler extends ArtObjectHandler {
 		return $_cachedCats[$perm_string];
 	}
 
-	function insert(&$category, $force = true)
+	public function insert(&$category, $force = true, $checkObject = true, $debug = false)
 	{
-		parent::insert($category, true);
-		if ($category->isNew())
+		$isNew = $category->isNew();
+		if (!parent::insert($category, true, $checkObject, $debug))
+		{
+			return false;
+		}
+		if ($isNew)
 		{
 			$this->applyPermissionTemplate($category);
 		}
@@ -87,18 +90,19 @@ class IforumCategoryHandler extends ArtObjectHandler {
 		return $category->getVar('cat_id');
 	}
 
-	function delete(&$category, $force = true)
+	public function delete(&$category, $force = true)
 	{
 		$forum_handler =icms_getmodulehandler('forum', basename(dirname(__DIR__) ), 'iforum' );
 		$forum_handler->deleteAll(new icms_db_criteria_Item("cat_id", $category->getVar('cat_id')), true, true);
-		if ($result = parent::delete($category))
+		if ($result = parent::delete($category, $force))
 		{
 			// Delete group permissions
-			return $this->deletePermission($category);
+			$this->deletePermission($category);
+			return true;
 		}
 		else
 		{
-			$category->setErrors("delete category error: ".$sql);
+			$category->setErrors("delete category error");
 			return false;
 		}
 	}

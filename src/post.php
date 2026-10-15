@@ -84,17 +84,7 @@ include ICMS_ROOT_PATH."/header.php";
  
 if (!empty($_POST['contents_submit']) )
 {
-	$token_valid = false;
-	if (class_exists("XoopsSecurity"))
-	{
-		$token_valid = $GLOBALS['xoopsSecurity']->check();
-	}
-	else
-	{
-		// backward compatible
-		if (!empty($_SESSION['submit_token']) && !empty($_POST['post_valid']) && $_POST['post_valid'] == $_SESSION['submit_token'] ) $token_valid = true;
-		$_SESSION['submit_token'] = null;
-	}
+	$token_valid = icms::$security->check();
 	 
 	$captcha_invalid = false;
 	if (!is_object(icms::$user))
@@ -244,10 +234,10 @@ if (!empty($_POST['contents_submit']) )
 	 
 	$forumpost->setVar('forum_id', $forum_obj->getVar('forum_id'));
 	 
-	$subject = xoops_trim($_POST['subject']);
+	$subject = trim($_POST['subject']);
 	$subject = ($subject == '') ? _NOTITLE :
 	 $subject;
-	$poster_name = !empty($_POST['poster_name'])?xoops_trim($_POST['poster_name']):
+	$poster_name = !empty($_POST['poster_name'])?trim($_POST['poster_name']):
 	'';
 	$dohtml = !empty($_POST['dohtml']) ? 1 :
 	 0;

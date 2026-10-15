@@ -200,8 +200,7 @@ switch($op)
 	}
 	elseif($mode == 2)
 	{
-		include_once(ICMS_ROOT_PATH . "/class/xoopstree.php");
-		$mytree = new XoopsTree(icms::$xoopsDB->prefix("bb_posts"), "post_id", "pid");
+		$mytree = new icms_view_Tree(icms::$xoopsDB->prefix("bb_posts"), "post_id", "pid");
 		$posts = $mytree->getAllChildId($post_id);
 		if (count($posts) > 0)
 		{

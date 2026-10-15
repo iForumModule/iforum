@@ -34,14 +34,10 @@ include_once dirname(__FILE__).'/read.php';
 * @copyright copyright (c) 2005 XOOPS.org
 */
 
-class Readforum extends Read {
-	function __construct()
-	{
-        parent::__construct("forum");
-	}
+class mod_iforum_Readforum extends mod_iforum_Read {
 }
 
-class IforumReadforumHandler extends IforumReadHandler {
+class mod_iforum_ReadforumHandler extends mod_iforum_ReadHandler {
 	function __construct(&$db)
 	{
         parent::__construct($db, "forum");
@@ -54,8 +50,8 @@ class IforumReadforumHandler extends IforumReadHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
-		return parent::cleanOrphan($this->db->prefix("bb_forums"), "forum_id", "read_item");
+		$this->removeOrphans($this->db->prefix("bb_posts"), "post_id");
+		return $this->removeOrphans($this->db->prefix("bb_forums"), "forum_id", "read_item");
 	}
 
 	function setRead_items($status = 0, $uid = null)
@@ -86,9 +82,9 @@ class IforumReadforumHandler extends IforumReadHandler {
 	{
 		if (empty($uid))
 		{
-			if (is_object($GLOBALS["xoopsUser"]))
+			if (is_object(icms::$user))
 			{
-				$uid = $GLOBALS["xoopsUser"]->getVar("uid");
+				$uid = icms::$user->getVar("uid");
 			}
 			else
 			{

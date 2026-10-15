@@ -45,7 +45,7 @@
 		<{/foreach}>
 		<option value=""> </option>
 		<{/if}>
-		<{if count($adminpoll_actions)>0 }>
+		<{if !empty($adminpoll_actions)}>
 		<option value=""><{$smarty.const._MD_POLLOPTIONADMIN}></option>
 		<{foreach item=actpoll from=$adminpoll_actions}>
 		<option value="<{$actpoll.link}>"><{$actpoll.name}></option>

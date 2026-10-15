@@ -153,7 +153,8 @@ if (!empty($_POST['submit']))
 
                 /*Pulling the names of the forums, so that we dont have to use numbers...*/
                 $r = icms::$xoopsDB->query("SELECT forum_name FROM " . icms::$xoopsDB->prefix("bb_forums") . " WHERE forum_id = " . $v);
-                while($row = mysql_fetch_assoc($r))
+                $forum_name = '';
+                while($row = icms::$xoopsDB->fetchArray($r))
                 {
                     $forum_name = $row['forum_name'];
                 }

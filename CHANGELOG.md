@@ -2,6 +2,9 @@
 
 ## 2.4 beta 1
 18 july 2024
+### Requirements
+* **BREAKING**: requires ImpressCMS 2.0.3+ and PHP 8.2+; XOOPS and older ImpressCMS are no longer supported
+* removed `mysql_*` calls and pre-MySQL 4.1 code paths; removed `eval` from the tag plugin
 ### Prepare for ICMS 2.0
 * refactor use of global $icmsModule to icms::$module
 * fix database access

@@ -181,10 +181,6 @@ class IforumOnlineHandler {
 			return false;
 		}
 
-		$mysql_version = "6.0.0";
-
-		/* for MySQL 4.1+ */
-		if ($mysql_version >= "4.1"):
 
 		$sql = "DELETE FROM ".icms::$xoopsDB->prefix('bb_online'). " WHERE". " ( online_uid > 0 AND online_uid NOT IN ( SELECT online_uid FROM ".icms::$xoopsDB->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." ) )". " OR ( online_uid = 0 AND online_ip NOT IN ( SELECT online_ip FROM ".icms::$xoopsDB->prefix('online')." WHERE online_module =".icms::$module->getVar('mid')." AND online_uid = 0 ) )";
 
@@ -199,13 +195,6 @@ class IforumOnlineHandler {
 		}
 
 
-		else:
-			$sql = "DELETE ".icms::$xoopsDB->prefix('bb_online')." FROM ".icms::$xoopsDB->prefix('bb_online'). " LEFT JOIN ".icms::$xoopsDB->prefix('online')." AS aa ". " ON ".icms::$xoopsDB->prefix('bb_online').".online_uid = aa.online_uid WHERE ".icms::$xoopsDB->prefix('bb_online').".online_uid > 0 AND aa.online_uid IS NULL";
-		$result = icms::$xoopsDB->queryF($sql);
-		$sql = "DELETE ".icms::$xoopsDB->prefix('bb_online')." FROM ".icms::$xoopsDB->prefix('bb_online'). " LEFT JOIN ".icms::$xoopsDB->prefix('online')." AS aa ". " ON ".icms::$xoopsDB->prefix('bb_online').".online_ip = aa.online_ip WHERE ".icms::$xoopsDB->prefix('bb_online').".online_uid = 0 AND aa.online_ip IS NULL";
-		$result = icms::$xoopsDB->queryF($sql);
-		return true;
-		endif;
 	}
 
 	/**
