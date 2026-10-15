@@ -353,7 +353,7 @@ class mod_iforum_TopicHandler extends icms_ipf_Handler {
 		return $ret;
 	}
 
-	function delete(&$topic, $force = true)
+	function delete($topic, $force = true)
 	{
 		$topic_id = is_object($topic)?$topic->getVar("topic_id"):
 		intval($topic);

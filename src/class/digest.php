@@ -243,7 +243,7 @@ class mod_iforum_DigestHandler extends icms_core_ObjectHandler {
 		return true;
 	}
 
-	function delete(&$digest)
+	function delete($digest)
 	{
 		if (is_object($digest)) $digest_id = $digest->getVar('digest_id');
 			else $digest_id = $digest;

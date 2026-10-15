@@ -90,7 +90,7 @@ class mod_iforum_CategoryHandler extends icms_ipf_Handler {
 		return $category->getVar('cat_id');
 	}
 
-	public function delete(&$category, $force = true)
+	public function delete($category, $force = true)
 	{
 		$forum_handler =icms_getmodulehandler('forum', basename(dirname(__DIR__) ), 'iforum' );
 		$forum_handler->deleteAll(new icms_db_criteria_Item("cat_id", $category->getVar('cat_id')), true, true);

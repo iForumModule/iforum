@@ -752,7 +752,7 @@ class mod_iforum_PostHandler extends icms_ipf_Handler {
 		return $post->getVar('post_id');
 	}
 
-	function delete(&$post, $isDeleteOne = true, $force = false)
+	function delete($post, $isDeleteOne = true, $force = false)
 	{
 		if (!is_object($post) || $post->getVar('post_id') == 0) return false;
 		if ($isDeleteOne)
@@ -786,7 +786,7 @@ class mod_iforum_PostHandler extends icms_ipf_Handler {
 		return true;
 	}
 
-	function _delete(&$post, $force = false)
+	function _delete($post, $force = false)
 	{
 		global $icmsConfig;
 		static $forum_lastpost = array();

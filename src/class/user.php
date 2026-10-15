@@ -319,5 +319,5 @@ class mod_iforum_UserHandler extends icms_core_ObjectHandler {
 
 	function &create() {}
 	function insert(&$object) {}
-	function delete(&$object) {}
+	function delete($object) {}
 }

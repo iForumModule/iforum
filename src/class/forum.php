@@ -164,7 +164,7 @@ class mod_iforum_ForumHandler extends icms_ipf_Handler {
 		return $forum->getVar('forum_id');
 	}
 
-	function delete(&$forum, $force = true)
+	function delete($forum, $force = true)
 	{
 		// RMV-NOTIFY
 		xoops_notification_deletebyitem (icms::$module->getVar('mid'), 'forum', $forum->getVar('forum_id'));
