@@ -68,8 +68,8 @@ function iforum_htmlSpecialChars($text)
 function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $config = 'display')
 {
 	// ################# Preload Trigger beforeDisplayTarea ##############
-	global $icmsPreloadHandler, $myts;
-	$icmsPreloadHandler->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
+	global $myts;
+	icms::$preload->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 
 	if ($html != 1)
 	{
@@ -104,8 +104,7 @@ function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image 
 		$text = $htmlFilter->filterHTML($text);
 	}
 	// ################# Preload Trigger afterDisplayTarea ##############
-	global $icmsPreloadHandler;
-	$icmsPreloadHandler->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
+	icms::$preload->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 	return $text;
 }
 
@@ -472,7 +471,7 @@ function iforum_forumSelectBox($value = null, $permission = "access", $delimitor
 
 	if (!defined("_MD_SELFORUM"))
 	{
-		if (!($ret = @include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/".$GLOBALS['icmsConfig']['language']."/main.php" ) ) )
+		if (!($ret = @include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/".icms::$config->getConfig('language')."/main.php" ) ) )
 		{
 			include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/english/main.php" );
 		}

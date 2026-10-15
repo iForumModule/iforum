@@ -23,7 +23,7 @@
 * @version  $Id$
 */
 
-class IforumOnlineHandler {
+class mod_iforum_OnlineHandler {
 	public $forum;
 	public $forum_object;
 	public $forumtopic;

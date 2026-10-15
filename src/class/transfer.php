@@ -33,7 +33,7 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
 
-class IforumTransferHandler {
+class mod_iforum_TransferHandler {
 	var $root_path;
 
 	function __construct()

@@ -21,10 +21,10 @@
 
 ## 4. Core entities
 
-- [ ] 4.1 Migrate Forum and its handler (including `forumhandler.php`), keeping existing SQL for listings; update call sites
-- [ ] 4.2 Migrate Topic and its handler; update call sites
-- [ ] 4.3 Migrate Post and its handler, including counter updates on insert/delete; update call sites
-- [ ] 4.4 Move user, online, digest, permission and transfer classes to IPF naming and loading
+- [x] 4.1 Migrate Forum and its handler (including `forumhandler.php`), keeping existing SQL for listings; update call sites
+- [x] 4.2 Migrate Topic and its handler; update call sites
+- [x] 4.3 Migrate Post and its handler, including counter updates on insert/delete; update call sites
+- [x] 4.4 Move user, online, digest, permission and transfer classes to IPF naming and loading
 
 ## 5. Remove Art
 

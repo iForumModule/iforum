@@ -244,6 +244,15 @@ trait mod_iforum_HandlerTrait {
 	}
 
 	/**
+	 * Delete the row of an object without going through the handler's own delete() logic
+	 */
+	protected function deleteRow(&$object, $force = false)
+	{
+		$sql = "DELETE FROM " . $this->table . " WHERE " . $this->keyName . " = " . $this->db->quoteString($object->getVar($this->keyName));
+		return (bool) (empty($force) ? $this->db->query($sql) : $this->db->queryF($sql));
+	}
+
+	/**
 	 * Delete all objects meeting the conditions
 	 *
 	 * @param object $criteria
@@ -256,7 +265,7 @@ trait mod_iforum_HandlerTrait {
 		if ($asObject) {
 			$objects = $this->getAll($criteria);
 			foreach (array_keys($objects) as $key) {
-				$this->delete($objects[$key], $force);
+				$this->deleteRow($objects[$key], $force);
 			}
 			unset($objects);
 			return true;

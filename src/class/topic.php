@@ -29,12 +29,10 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
-iforum_load_object();
-
-class Topic extends ArtObject {
-	function __construct()
+class mod_iforum_Topic extends icms_ipf_Object {
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_topics");
+		parent::__construct($handler);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_title', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('topic_poster', XOBJ_DTYPE_INT);
@@ -64,13 +62,21 @@ class Topic extends ArtObject {
 	}
 }
 
-class IforumTopicHandler extends ArtObjectHandler {
-	function __construct(&$db)
-	{
-		parent::__construct($db, 'bb_topics', 'Topic', 'topic_id', 'topic_title');
+class mod_iforum_TopicHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait {
+		get as protected traitGet;
+		insert as protected traitInsert;
+		getCount as protected traitGetCount;
 	}
 
-	function &get($id, $var = null)
+	public function __construct(&$db)
+	{
+		parent::__construct($db, 'topic', 'topic_id', 'topic_title', '', 'iforum');
+		// the legacy schema is kept: the table is bb_topics
+		$this->table = $db->prefix('bb_topics');
+	}
+
+	public function &get($id, $var = null, $debug = false, $criteria = false)
 	{
 		$ret = null;
 		if (!empty($var) && is_string($var))
@@ -81,7 +87,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		{
 			$tags = $var;
 		}
-		if (!$topic_obj = parent::get($id, $tags))
+		if (!$topic_obj = $this->traitGet($id, $tags))
 		{
 			return $ret;
 		}
@@ -222,7 +228,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return $post_id;
 	}
 
-	function &getAllPosts(&$topic, $order, $perpage, &$start, $post_id = 0, $type = "")
+	public function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start = 0, $post_id = 0, $type = "")
 	{
 		$ret = array();
 		$perpage = ((int)$perpage > 0) ? (int)$perpage :
@@ -397,8 +403,8 @@ class IforumTopicHandler extends ArtObjectHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		parent::cleanOrphan($this->db->prefix("bb_forums"), "forum_id");
-		parent::cleanOrphan($this->db->prefix("bb_posts"), "topic_id");
+		$this->removeOrphans($this->db->prefix("bb_forums"), "forum_id");
+		$this->removeOrphans($this->db->prefix("bb_posts"), "topic_id");
 
 		return true;
 	}

@@ -29,14 +29,12 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
-iforum_load_object();
-
-class Post extends ArtObject {
+class mod_iforum_Post extends icms_ipf_Object {
 	public $attachment_array = array();
 
-	function __construct()
+	public function __construct(&$handler)
 	{
-        parent::__construct();
+		parent::__construct($handler);
 
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
@@ -58,8 +56,8 @@ class Post extends ArtObject {
 		$this->initVar('post_karma', XOBJ_DTYPE_INT, 0);
 		$this->initVar('require_reply', XOBJ_DTYPE_INT, 0);
 		$this->initVar('attachment', XOBJ_DTYPE_TXTAREA, "");
-		$this->initVar('post_text', XOBJ_DTYPE_TXTAREA, "");
-		$this->initVar('post_edit', XOBJ_DTYPE_TXTAREA, "");
+		$this->initVar('post_text', XOBJ_DTYPE_TXTAREA, "", false, null, '', false, '', '', false, false);
+		$this->initVar('post_edit', XOBJ_DTYPE_TXTAREA, "", false, null, '', false, '', '', false, false);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////
@@ -511,13 +509,21 @@ class Post extends ArtObject {
 
 }
 
-class IforumPostHandler extends ArtObjectHandler {
-	function __construct(&$db)
-	{
-		parent::__construct($db, 'bb_posts', 'Post', 'post_id', 'subject');
+class mod_iforum_PostHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait {
+		get as protected traitGet;
+		insert as protected traitInsert;
+		getCount as protected traitGetCount;
 	}
 
-	function &get($id)
+	public function __construct(&$db)
+	{
+		parent::__construct($db, 'post', 'post_id', 'subject', '', 'iforum');
+		// the legacy schema is kept: the table is bb_posts
+		$this->table = $db->prefix('bb_posts');
+	}
+
+	public function &get($id, $as_object = true, $debug = false, $criteria = false)
 	{
 		$id = (int)$id;
 		$post = null;
@@ -631,7 +637,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		return true;
 	}
 
-	function insert(&$post, $force = true)
+	public function insert(&$post, $force = true, $checkObject = true, $debug = false)
 	{
 		global $icmsConfig;
 
@@ -687,10 +693,9 @@ class IforumPostHandler extends ArtObjectHandler {
 			$text_obj = $text_handler->create();
 			foreach($post_text_vars as $key)
 			{
-				$text_obj->vars[$key] = $post->vars[$key];
+				$text_obj->setVar($key, $post->vars[$key]['value'], true);
 			}
-			$post->destoryVars($post_text_vars);
-			if (!$post_id = parent::insert($post, $force))
+			if (!$post_id = $this->traitInsert($post, $force))
 			{
 				return false;
 			}
@@ -731,10 +736,9 @@ class IforumPostHandler extends ArtObjectHandler {
 			$text_obj->setDirty();
 			foreach($post_text_vars as $key)
 			{
-				$text_obj->vars[$key] = $post->vars[$key];
+				$text_obj->setVar($key, $post->vars[$key]['value'], true);
 			}
-			$post->destoryVars($post_text_vars);
-			if (!$post_id = parent::insert($post, $force))
+			if (!$post_id = $this->traitInsert($post, $force))
 			{
 				icms_core_Message::error($post->getErrors());
 				return false;
@@ -911,7 +915,7 @@ class IforumPostHandler extends ArtObjectHandler {
 
 	function getPostCount($criteria = null)
 	{
-		return parent::getCount($criteria);
+		return $this->traitGetCount($criteria);
 	}
 
 	/*
@@ -956,8 +960,8 @@ class IforumPostHandler extends ArtObjectHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
-		parent::cleanOrphan($this->db->prefix("bb_posts_text"), "post_id");
+		$this->removeOrphans($this->db->prefix("bb_topics"), "topic_id");
+		$this->removeOrphans($this->db->prefix("bb_posts_text"), "post_id");
 
 		/* for MySQL 4.1+ */
 		$sql = "DELETE FROM ".$this->db->prefix("bb_posts_text"). " WHERE (post_id NOT IN ( SELECT DISTINCT post_id FROM ".$this->table.") )";

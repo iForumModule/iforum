@@ -144,7 +144,7 @@ function get_user_level(& $user)
 	return $level;
 }
 
-class User extends icms_core_Object {
+class mod_iforum_User extends icms_core_Object {
 
 	public $user = null;
 
@@ -262,7 +262,7 @@ class User extends icms_core_Object {
 	}
 }
 
-class IforumUserHandler extends icms_core_ObjectHandler {
+class mod_iforum_UserHandler extends icms_core_ObjectHandler {
 	public $users = array();
 	public $groups = array();
 	public $status = array();
@@ -279,7 +279,7 @@ class IforumUserHandler extends icms_core_ObjectHandler {
 		}
 		else
 		{
-			$user = new User($this->users[$uid]);
+			$user = new mod_iforum_User($this->users[$uid]);
 		}
 		$userinfo = $user->getInfo();
 		if (icms::$module->config['groupbar_enabled'] && !empty($userinfo["groups_id"]))

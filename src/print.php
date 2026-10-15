@@ -65,6 +65,7 @@ if (empty($_POST["post_data"]))
 	}
 	 
 	$topic_handler = icms_getmodulehandler('topic', basename(__DIR__), 'iforum' );
+$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
 	$forumtopic = $topic_handler->get($topic_id);
 	$topic_id = $forumtopic->getVar('topic_id');
 	$forum = $forumtopic->getVar('forum_id');

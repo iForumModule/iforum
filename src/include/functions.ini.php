@@ -147,7 +147,7 @@ function iforum_load_lang_file($filename, $module = '', $default = 'english' )
 		return xoops_load_lang_file($filename, $module, $default);
 	}
 	 
-	$lang = $GLOBALS['icmsConfig']['language'];
+	$lang = icms::$config->getConfig('language');
 	$path = ICMS_ROOT_PATH . (empty($module) ? '/' : "/modules/$module/" ) . 'language';
 	if (!($ret = @include_once("$path/$lang/$filename.php" ) ) )
 	{

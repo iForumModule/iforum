@@ -30,7 +30,7 @@
 * @return type description
 * @link
 */
-class Xmlrss {
+class mod_iforum_Xmlrss {
 	 
 	var $xml_version;
 	var $rss_version;
@@ -115,10 +115,10 @@ class Xmlrss {
 	}
 }
  
-class IforumXmlrssHandler {
+class mod_iforum_XmlrssHandler {
 	function &create()
 	{
-		$xmlrss = new Xmlrss();
+		$xmlrss = new mod_iforum_Xmlrss();
 		return $xmlrss;
 	}
 	 

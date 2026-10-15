@@ -23,7 +23,7 @@
 * @version  $Id$
 */
  
-class IforumKarmaHandler {
+class mod_iforum_KarmaHandler {
 	var $user;
 	 
 	function getUserKarma($user = false)

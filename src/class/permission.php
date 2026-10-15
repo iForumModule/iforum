@@ -30,7 +30,7 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
 
-class IforumPermissionHandler extends icms_member_groupperm_Handler {
+class mod_iforum_PermissionHandler extends icms_member_groupperm_Handler {
 	/*
 	* Returns permissions for a certain type
 	*
