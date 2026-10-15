@@ -48,7 +48,7 @@ class mod_iforum_Topic extends icms_ipf_Object {
 		$this->initVar('digest_time', XOBJ_DTYPE_INT);
 		$this->initVar('approved', XOBJ_DTYPE_INT);
 		$this->initVar('poster_name', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('rating', XOBJ_DTYPE_OTHER);
+		$this->initVar('rating', XOBJ_DTYPE_OTHER, 0);
 		$this->initVar('votes', XOBJ_DTYPE_INT);
 		$this->initVar('topic_haspoll', XOBJ_DTYPE_INT);
 		$this->initVar('poll_id', XOBJ_DTYPE_INT);

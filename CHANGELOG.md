@@ -2,6 +2,10 @@
 
 ## 2.4 beta 1
 18 july 2024
+### Persistence
+* **BREAKING**: the Art framework is removed; all forum entities now use ImpressCMS IPF (`icms_ipf_Object` / `icms_ipf_Handler`) with `mod_iforum_*` class names. The `bb_*` database schema is unchanged
+* post IP addresses are recorded again (the Art helper always returned 1.1.1.1)
+* post submission now checks the ImpressCMS security token
 ### Requirements
 * **BREAKING**: requires ImpressCMS 2.0.3+ and PHP 8.2+; XOOPS and older ImpressCMS are no longer supported
 * removed `mysql_*` calls and pre-MySQL 4.1 code paths; removed `eval` from the tag plugin

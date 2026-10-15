@@ -354,12 +354,12 @@ class mod_iforum_PermissionHandler extends icms_member_groupperm_Handler {
 
 	function &getTemplate()
 	{
-		$perms = mod_loadCacheFile("perm_template", basename(dirname(__DIR__) ));
+		$perms = iforum_loadCacheFile("perm_template", basename(dirname(__DIR__) ));
 		return $perms;
 	}
 
 	function setTemplate($perms)
 	{
-		return mod_createCacheFile($perms, "perm_template", basename(dirname(__DIR__) ));
+		return iforum_createCacheFile($perms, "perm_template", basename(dirname(__DIR__) ));
 	}
 }

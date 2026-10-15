@@ -31,7 +31,6 @@ define("XOOPS_MODULE_IFORUM_FUCTIONS", 1);
 @include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/plugin.php';
 include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php';
  
-iforum_load_object();
 function icms_module_update_iforum(&$module, $oldversion = null, $olddbversion = null) {
 	$icmsDatabaseUpdater = icms_db_legacy_Factory::getDatabaseUpdater();
 	$iforumConfig = iforum_load_config();

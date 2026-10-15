@@ -4,7 +4,7 @@
 - [x] 1.2 Remove all `mysql_major_version()` / `mysql_server_version()` branches (forum, forumhandler, post, topic, read, moderate, online, `include/plugin.tag.php`), keeping only the modern SQL path
 - [x] 1.3 Replace `eval` in `mod_loadRenderer` and fix other 8.2 issues (dynamic properties, implicit nullable params, `static`/reference misuse)
 - [x] 1.4 Run `php -l` over all files under `src/` and PHPStan/Psalm at a baseline level; record zero syntax errors
-- [ ] 1.5 Set minimum ImpressCMS 2.0.3 / PHP 8.2 in `icms_version.php`, README and CHANGELOG
+- [x] 1.5 Set minimum ImpressCMS 2.0.3 / PHP 8.2 in `icms_version.php`, README and CHANGELOG
 
 ## 2. IPF pattern spike
 
@@ -28,16 +28,16 @@
 
 ## 5. Remove Art
 
-- [ ] 5.1 Remove Art includes from `header.php`, `admin/admin_header.php`, `icms_version.php`, `include/functions.ini.php`; drop `load_object()` and related helpers
-- [ ] 5.2 Delete `class/art/`
-- [ ] 5.3 `grep` for `ArtObject`, `_XoopsPersistable`, `load_object`, `iforum_getHandler` and old class names; confirm none remain
+- [x] 5.1 Remove Art includes from `header.php`, `admin/admin_header.php`, `icms_version.php`, `include/functions.ini.php`; drop `load_object()` and related helpers
+- [x] 5.2 Delete `class/art/`
+- [x] 5.3 `grep` for `ArtObject`, `_XoopsPersistable`, `load_object`, `iforum_getHandler` and old class names; confirm none remain
 
 ## 6. Verification
 
 - [ ] 6.1 Compare rendered output of sample posts (BBCode, smilies, special characters) with pre-migration output
 - [ ] 6.2 Walk through the spec scenarios on ImpressCMS 2.0.3 / PHP 8.2: install, index, forum, topic, post/reply/edit/delete, moderate, ratings, reports, digest, prune, admin pages
-- [ ] 6.3 Confirm no schema changes against the `sql/` install file and that an existing database works without an update step
-- [ ] 6.4 Update CHANGELOG with breaking-change notes
+- [x] 6.3 Confirm no schema changes against the `sql/` install file and that an existing database works without an update step
+- [x] 6.4 Update CHANGELOG with breaking-change notes
 
 ## 7. Legacy XOOPS remnants (found during verification)
 

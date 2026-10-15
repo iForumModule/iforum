@@ -195,6 +195,5 @@ if (is_object(icms::$module) && basename(dirname(__FILE__, 2)) == icms::$module-
 	icms::$module->config = iforum_load_config();
 }
 
-iforum_load_object();
 
 error_reporting($ori_error_level);

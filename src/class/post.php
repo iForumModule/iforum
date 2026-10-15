@@ -64,7 +64,7 @@ class mod_iforum_Post extends icms_ipf_Object {
 	// attachment functions    TODO: there should be a file/attachment management class
 	function getAttachment()
 	{
-		if (count($this->attachment_array)) return $this->attachment_array;
+		if (is_array($this->attachment_array) && count($this->attachment_array)) return $this->attachment_array;
 		$attachment = $this->getVar('attachment');
 		if (empty($attachment)) $this->attachment_array = null;
 		else $this->attachment_array = @unserialize(base64_decode($attachment));
