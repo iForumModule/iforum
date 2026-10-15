@@ -29,14 +29,12 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
-iforum_load_object();
-
-class Post extends ArtObject {
+class mod_iforum_Post extends icms_ipf_Object {
 	public $attachment_array = array();
 
-	function __construct()
+	public function __construct(&$handler)
 	{
-        parent::__construct();
+		parent::__construct($handler);
 
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT, 0, true);
@@ -58,15 +56,15 @@ class Post extends ArtObject {
 		$this->initVar('post_karma', XOBJ_DTYPE_INT, 0);
 		$this->initVar('require_reply', XOBJ_DTYPE_INT, 0);
 		$this->initVar('attachment', XOBJ_DTYPE_TXTAREA, "");
-		$this->initVar('post_text', XOBJ_DTYPE_TXTAREA, "");
-		$this->initVar('post_edit', XOBJ_DTYPE_TXTAREA, "");
+		$this->initVar('post_text', XOBJ_DTYPE_TXTAREA, "", false, null, '', false, '', '', false, false);
+		$this->initVar('post_edit', XOBJ_DTYPE_TXTAREA, "", false, null, '', false, '', '', false, false);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////
 	// attachment functions    TODO: there should be a file/attachment management class
 	function getAttachment()
 	{
-		if (count($this->attachment_array)) return $this->attachment_array;
+		if (is_array($this->attachment_array) && count($this->attachment_array)) return $this->attachment_array;
 		$attachment = $this->getVar('attachment');
 		if (empty($attachment)) $this->attachment_array = null;
 		else $this->attachment_array = @unserialize(base64_decode($attachment));
@@ -511,13 +509,21 @@ class Post extends ArtObject {
 
 }
 
-class IforumPostHandler extends ArtObjectHandler {
-	function __construct(&$db)
-	{
-		parent::__construct($db, 'bb_posts', 'Post', 'post_id', 'subject');
+class mod_iforum_PostHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait {
+		get as protected traitGet;
+		insert as protected traitInsert;
+		getCount as protected traitGetCount;
 	}
 
-	function &get($id)
+	public function __construct(&$db)
+	{
+		parent::__construct($db, 'post', 'post_id', 'subject', '', 'iforum');
+		// the legacy schema is kept: the table is bb_posts
+		$this->table = $db->prefix('bb_posts');
+	}
+
+	public function &get($id, $as_object = true, $debug = false, $criteria = false)
 	{
 		$id = (int)$id;
 		$post = null;
@@ -531,8 +537,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		return $post;
 	}
 
-	//function &getByLimit($topic_id, $limit, $approved = 1,)
-	function &getByLimit($limit = 0, $start = 0, $criteria = null, $tags = null, $asObject = true)
+	public function &getByLimit($topic_id = 0, $limit = 0, $approved = 1)
 	{
 		$sql = 'SELECT p.*, t.*, tp.topic_status FROM ' . $this->db->prefix('bb_posts') . ' p LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' t ON p.post_id=t.post_id LEFT JOIN ' . $this->db->prefix('bb_topics') . ' tp ON tp.topic_id=p.topic_id WHERE p.topic_id=' . $topic_id . ' AND p.approved ='. $approved .' ORDER BY p.post_time DESC';
 		$result = $this->db->query($sql, $limit, 0);
@@ -631,7 +636,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		return true;
 	}
 
-	function insert(&$post, $force = true)
+	public function insert($post, $force = true, $checkObject = true, $debug = false)
 	{
 		global $icmsConfig;
 
@@ -687,10 +692,9 @@ class IforumPostHandler extends ArtObjectHandler {
 			$text_obj = $text_handler->create();
 			foreach($post_text_vars as $key)
 			{
-				$text_obj->vars[$key] = $post->vars[$key];
+				$text_obj->setVar($key, $post->vars[$key]['value'], true);
 			}
-			$post->destoryVars($post_text_vars);
-			if (!$post_id = parent::insert($post, $force))
+			if (!$post_id = $this->traitInsert($post, $force))
 			{
 				return false;
 			}
@@ -731,10 +735,9 @@ class IforumPostHandler extends ArtObjectHandler {
 			$text_obj->setDirty();
 			foreach($post_text_vars as $key)
 			{
-				$text_obj->vars[$key] = $post->vars[$key];
+				$text_obj->setVar($key, $post->vars[$key]['value'], true);
 			}
-			$post->destoryVars($post_text_vars);
-			if (!$post_id = parent::insert($post, $force))
+			if (!$post_id = $this->traitInsert($post, $force))
 			{
 				icms_core_Message::error($post->getErrors());
 				return false;
@@ -749,7 +752,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		return $post->getVar('post_id');
 	}
 
-	function delete(&$post, $isDeleteOne = true, $force = false)
+	function delete($post, $isDeleteOne = true, $force = false)
 	{
 		if (!is_object($post) || $post->getVar('post_id') == 0) return false;
 		if ($isDeleteOne)
@@ -768,8 +771,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		}
 		else
 		{
-			include_once(ICMS_ROOT_PATH . "/class/xoopstree.php");
-			$mytree = new XoopsTree($this->db->prefix("bb_posts"), "post_id", "pid");
+			$mytree = new icms_view_Tree($this->db->prefix("bb_posts"), "post_id", "pid");
 			$arr = $mytree->getAllChild($post->getVar('post_id'));
 			for ($i = 0, $iMax = count($arr); $i < $iMax; $i++)
 			{
@@ -784,7 +786,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		return true;
 	}
 
-	function _delete(&$post, $force = false)
+	function _delete($post, $force = false)
 	{
 		global $icmsConfig;
 		static $forum_lastpost = array();
@@ -912,7 +914,7 @@ class IforumPostHandler extends ArtObjectHandler {
 
 	function getPostCount($criteria = null)
 	{
-		return parent::getCount($criteria);
+		return $this->traitGetCount($criteria);
 	}
 
 	/*
@@ -957,24 +959,11 @@ class IforumPostHandler extends ArtObjectHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
-		parent::cleanOrphan($this->db->prefix("bb_posts_text"), "post_id");
+		$this->removeOrphans($this->db->prefix("bb_topics"), "topic_id");
+		$this->removeOrphans($this->db->prefix("bb_posts_text"), "post_id");
 
 		/* for MySQL 4.1+ */
-		if ($this->mysql_major_version() >= 4):
 		$sql = "DELETE FROM ".$this->db->prefix("bb_posts_text"). " WHERE (post_id NOT IN ( SELECT DISTINCT post_id FROM ".$this->table.") )";
-		else:
-			// for 4.0+
-		/* */
-		$sql = "DELETE ".$this->db->prefix("bb_posts_text")." FROM ".$this->db->prefix("bb_posts_text"). " LEFT JOIN ".$this->table." AS aa ON ".$this->db->prefix("bb_posts_text").".post_id = aa.post_id ". " WHERE (aa.post_id IS NULL)";
-		/* */
-		// Alternative for 4.1+
-		/*
-		$sql =  "DELETE bb FROM ".$this->db->prefix("bb_posts_text")." AS bb".
-		" LEFT JOIN ".$this->table." AS aa ON bb.post_id = aa.post_id ".
-		" WHERE (aa.post_id IS NULL)";
-		*/
-		endif;
 		if (!$result = $this->db->queryF($sql))
 		{
 			iforum_message("cleanOrphan:". $sql);

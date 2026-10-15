@@ -91,9 +91,15 @@ switch($action)
 		$elements[] = $ret_ele;
 	}
 	$tray = new icms_form_elements_Tray('');
-	$tray->addElement(new icms_form_elements_Hidden('action', 'template_save'));
-	$tray->addElement(new icms_form_elements_Button('', 'submit', _SUBMIT, 'submit'));
-	$tray->addElement(new icms_form_elements_Button('', 'reset', _CANCEL, 'reset'));
+	$element = new icms_form_elements_Hidden('action', 'template_save');
+	$tray->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Button('', 'submit', _SUBMIT, 'submit');
+	$tray->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Button('', 'reset', _CANCEL, 'reset');
+	$tray->addElement($element);
+	unset($element);
 	$ret = '<h4>' . _AM_IFORUM_PERM_TEMPLATE . '</h4>' . _AM_IFORUM_PERM_TEMPLATE_DESC . '<br /><br /><br />';
 	$ret .= "<form name='template' id='template' method='post'>\n<table width='100%' class='outer' cellspacing='1'>\n";
 	$ret .= implode("\n", $elements);
@@ -157,9 +163,15 @@ switch($action)
 	$fm_select->addOptionArray($fm_options);
 	$fmform->addElement($fm_select);
 	$tray = new icms_form_elements_Tray('');
-	$tray->addElement(new icms_form_elements_Hidden('action', 'apply_save'));
-	$tray->addElement(new icms_form_elements_Button('', 'submit', _SUBMIT, 'submit'));
-	$tray->addElement(new icms_form_elements_Button('', 'reset', _CANCEL, 'reset'));
+	$element = new icms_form_elements_Hidden('action', 'apply_save');
+	$tray->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Button('', 'submit', _SUBMIT, 'submit');
+	$tray->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Button('', 'reset', _CANCEL, 'reset');
+	$tray->addElement($element);
+	unset($element);
 	$fmform->addElement($tray);
 	$fmform->display();
 	break;

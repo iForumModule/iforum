@@ -29,8 +29,6 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
-iforum_load_object();
-
 /**
 * A handler for User moderation management
 *
@@ -40,11 +38,11 @@ iforum_load_object();
 * @copyright copyright (c) 2005 XOOPS.org
 */
 
-class Moderate extends ArtObject {
+class mod_iforum_Moderate extends icms_ipf_Object {
 
-	public function __construct()
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_moderates");
+		parent::__construct($handler);
 		$this->initVar('mod_id', XOBJ_DTYPE_INT);
 		$this->initVar('mod_start', XOBJ_DTYPE_INT);
 		$this->initVar('mod_end', XOBJ_DTYPE_INT);
@@ -55,10 +53,14 @@ class Moderate extends ArtObject {
 	}
 }
 
-class IforumModerateHandler extends ArtObjectHandler {
+class mod_iforum_ModerateHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait;
+
 	public function __construct(&$db)
 	{
-        parent::__construct($db, 'bb_moderates', 'Moderate', 'mod_id', 'uid');
+		parent::__construct($db, 'moderate', 'mod_id', 'uid', '', 'iforum');
+		// the legacy schema is kept: the table is bb_moderates
+		$this->table = $db->prefix('bb_moderates');
 	}
 
 	/**
@@ -89,7 +91,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 			$forums = $this->forumList($uid, $ip);
 			return in_array($forum, $forums);
 		}
-		$uid = ($uid < 0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):
+		$uid = ($uid < 0)?(is_object(icms::$user)?icms::$user->getVar("uid"):0):
 		$uid;
 		$uid_criteria = empty($uid)?"1=1":
 		"uid=". (int)$uid;
@@ -131,7 +133,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 	public function forumList($uid = -1, $ip = "")
 	{
 		static $forums = array();
-		$uid = ($uid < 0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):
+		$uid = ($uid < 0)?(is_object(icms::$user)?icms::$user->getVar("uid"):0):
 		$uid;
 		$ip = empty($ip)?iforum_getIP(true):
 		$ip;
@@ -224,21 +226,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 	*/
 	function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		/* for MySQL 4.1+ */
-		if ($this->mysql_major_version() >= 4):
 		$sql = "DELETE FROM ".$this->table. " WHERE (forum_id >0 AND forum_id NOT IN ( SELECT DISTINCT forum_id FROM ".$this->db->prefix("bb_forums").") )";
-		else:
-			// for 4.0 +
-		/* */
-		$sql = "DELETE ".$this->table." FROM ".$this->table. " LEFT JOIN ".$this->db->prefix("bb_forums")." AS aa ON ".$this->table.".forum_id = aa.forum_id ". " WHERE ".$this->table.".forum_id > 0 AND (aa.forum_id IS NULL)";
-		/* */
-		// for 4.1+
-		/*
-		$sql =  "DELETE bb FROM ".$this->table." AS bb".
-		" LEFT JOIN ".$this->db->prefix("bb_forums")." AS aa ON bb.forum_id = aa.forum_id ".
-		" WHERE bb.forum_id > 0 AND (aa.forum_id IS NULL)";
-		*/
-		endif;
 		if (!$result = $this->db->queryF($sql))
 		{
 			iforum_message("cleanOrphan:". $sql);

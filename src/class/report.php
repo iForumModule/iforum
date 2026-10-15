@@ -29,12 +29,10 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
-iforum_load_object();
-
-class Report extends ArtObject {
-	function __construct()
+class mod_iforum_Report extends icms_ipf_Object {
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_report");
+		parent::__construct($handler);
 		$this->initVar('report_id', XOBJ_DTYPE_INT);
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('reporter_uid', XOBJ_DTYPE_INT);
@@ -46,10 +44,15 @@ class Report extends ArtObject {
 	}
 }
 
-class IforumReportHandler extends ArtObjectHandler {
+class mod_iforum_ReportHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait;
 
-	function __construct(&$db) {
-    	parent::__construct($db, 'bb_report', 'Report', 'report_id');
+
+	public function __construct(&$db)
+	{
+		parent::__construct($db, 'report', 'report_id', 'report_id', '', 'iforum');
+		// the legacy schema is kept: the table is bb_report, not iforum_report
+		$this->table = $db->prefix('bb_report');
 	}
 
 	function &getByPost($posts)
@@ -102,8 +105,11 @@ class IforumReportHandler extends ArtObjectHandler {
 		if ($report_id)
 		{
 			$result = $this->db->query("SELECT COUNT(*) as report_count" . $tables_criteria . $forum_criteria . $result_criteria . " AND report_id $operator_for_position $report_id" . $order_criteria);
-			if ($result) $row = $this->db->fetchArray($result);
+			$position = 0;
+			if ($result && ($row = $this->db->fetchArray($result)))
+			{
 				$position = $row['report_count'];
+			}
 			$start = intval($position / $perpage) * $perpage;
 		}
 
@@ -125,6 +131,6 @@ class IforumReportHandler extends ArtObjectHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
+		return $this->removeOrphans($this->db->prefix("bb_posts"), "post_id");
 	}
 }

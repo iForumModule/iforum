@@ -29,12 +29,10 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
-iforum_load_object();
-
-class Nrate extends ArtObject {
-	function __construct()
+class mod_iforum_Rate extends icms_ipf_Object {
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_votedata");
+		parent::__construct($handler);
 		$this->initVar('ratingid', XOBJ_DTYPE_INT);
 		$this->initVar('topic_id', XOBJ_DTYPE_INT);
 		$this->initVar('ratinguser', XOBJ_DTYPE_INT);
@@ -44,10 +42,14 @@ class Nrate extends ArtObject {
 	}
 }
 
-class IforumRateHandler extends ArtObjectHandler {
-	function __construct(&$db)
+class mod_iforum_RateHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait;
+
+	public function __construct(&$db)
 	{
-		parent::__construct($db, 'bb_votedata', 'Nrate', 'ratingid');
+		parent::__construct($db, 'rate', 'ratingid', 'ratingid', '', 'iforum');
+		// the legacy schema is kept: the table is bb_votedata, not iforum_rate
+		$this->table = $db->prefix('bb_votedata');
 	}
 
 	/**
@@ -57,6 +59,6 @@ class IforumRateHandler extends ArtObjectHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		return parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id");
+		return $this->removeOrphans($this->db->prefix("bb_topics"), "topic_id");
 	}
 }

@@ -153,15 +153,22 @@ if (!empty($_POST['submit']))
 
                 /*Pulling the names of the forums, so that we dont have to use numbers...*/
                 $r = icms::$xoopsDB->query("SELECT forum_name FROM " . icms::$xoopsDB->prefix("bb_forums") . " WHERE forum_id = " . $v);
-                while($row = mysql_fetch_assoc($r))
+                $forum_name = '';
+                while($row = icms::$xoopsDB->fetchArray($r))
                 {
                     $forum_name = $row['forum_name'];
                 }
                 
                 $tform = new icms_form_Theme(_AM_IFORUM_PRUNE_RESULTS_TITLE, "prune_results", xoops_getenv('PHP_SELF'));
-                $tform->addElement(new icms_form_elements_Label(_AM_IFORUM_PRUNE_RESULTS_FORUMS, $forum_name));
-                $tform->addElement(new icms_form_elements_Label(_AM_IFORUM_PRUNE_RESULTS_TOPICS, $topics_number));
-                $tform->addElement(new icms_form_elements_Label(_AM_IFORUM_PRUNE_RESULTS_POSTS, $posts_number));
+                $element = new icms_form_elements_Label(_AM_IFORUM_PRUNE_RESULTS_FORUMS, $forum_name);
+                $tform->addElement($element);
+                unset($element);
+                $element = new icms_form_elements_Label(_AM_IFORUM_PRUNE_RESULTS_TOPICS, $topics_number);
+                $tform->addElement($element);
+                unset($element);
+                $element = new icms_form_elements_Label(_AM_IFORUM_PRUNE_RESULTS_POSTS, $posts_number);
+                $tform->addElement($element);
+                unset($element);
                 $tform->display();
         }
 }
@@ -171,7 +178,9 @@ else
 	$sform->setExtra('enctype="multipart/form-data"');
 	 
 	/* Let User select the number of days
-	$sform->addElement( new icms_form_elements_Text(_AM_IFORUM_PRUNE_DAYS , 'days', 5, 10,100 ), true );
+	$element = new icms_form_elements_Text(_AM_IFORUM_PRUNE_DAYS , 'days', 5, 10,100 );
+	$sform->addElement($element, true );
+	unset($element);
 	*/
 	// $sql="SELECT p.topic_id, p.post_id t.post_text FROM ".icms::$xoopsDB->prefix("bb_posts")." p, ".icms::$xoopsDB->prefix("bb_posts_text")." t WHERE p.post_id IN ($post_list) AND p.post_id=t.post_id";
 	// $result = icms::$xoopsDB->query();
@@ -234,8 +243,12 @@ else
 	$sform->addElement($archive_confirmation);
 	 
 	$button_tray = new icms_form_elements_Tray('', '');
-	$button_tray->addElement(new icms_form_elements_Button('', 'submit', _AM_IFORUM_PRUNE_SUBMIT, 'submit'));
-	$button_tray->addElement(new icms_form_elements_Button('', 'reset', _AM_IFORUM_PRUNE_RESET, 'reset'));
+	$element = new icms_form_elements_Button('', 'submit', _AM_IFORUM_PRUNE_SUBMIT, 'submit');
+	$button_tray->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Button('', 'reset', _AM_IFORUM_PRUNE_RESET, 'reset');
+	$button_tray->addElement($element);
+	unset($element);
 	$sform->addElement($button_tray);
 	 
 	$sform->display();

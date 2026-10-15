@@ -29,22 +29,24 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__DIR__) ).'/include/functions.ini.php';
-iforum_load_object();
-
-class Ntext extends ArtObject {
-	function __construct()
+class mod_iforum_Text extends icms_ipf_Object {
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_posts_text");
+		parent::__construct($handler);
 		$this->initVar('post_id', XOBJ_DTYPE_INT);
 		$this->initVar('post_text', XOBJ_DTYPE_TXTAREA);
 		$this->initVar('post_edit', XOBJ_DTYPE_TXTAREA);
 	}
 }
 
-class IforumTextHandler extends ArtObjectHandler {
-	function __construct(&$db)
+class mod_iforum_TextHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait;
+
+	public function __construct(&$db)
 	{
-		parent::__construct($db, 'bb_posts_text', 'Ntext', 'post_id');
+		parent::__construct($db, 'text', 'post_id', 'post_id', '', 'iforum');
+		// the legacy schema is kept: the table is bb_posts_text, not iforum_text
+		$this->table = $db->prefix('bb_posts_text');
 	}
 
 	/**
@@ -54,6 +56,6 @@ class IforumTextHandler extends ArtObjectHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		return parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
+		return $this->removeOrphans($this->db->prefix("bb_posts"), "post_id");
 	}
 }

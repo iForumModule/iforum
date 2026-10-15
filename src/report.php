@@ -108,14 +108,28 @@ else
  
 	$report_form = new icms_form_Theme('', 'reportform', 'report.php');
 	 
-	$report_form->addElement(new icms_form_elements_Text(_MD_REPORT_TEXT, 'report_text', 80, 255), true);
+	$element = new icms_form_elements_Text(_MD_REPORT_TEXT, 'report_text', 80, 255);
+	$report_form->addElement($element, true);
+	unset($element);
 	 
-	$report_form->addElement(new icms_form_elements_Hidden('pid', $pid));
-	$report_form->addElement(new icms_form_elements_Hidden('post_id', $post_id));
-	$report_form->addElement(new icms_form_elements_Hidden('topic_id', $topic_id));
-	$report_form->addElement(new icms_form_elements_Hidden('forum', $forum));
-	$report_form->addElement(new icms_form_elements_Hidden('viewmode', $viewmode));
-	$report_form->addElement(new icms_form_elements_Hidden('order', $order));
+	$element = new icms_form_elements_Hidden('pid', $pid);
+	$report_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('post_id', $post_id);
+	$report_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('topic_id', $topic_id);
+	$report_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('forum', $forum);
+	$report_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('viewmode', $viewmode);
+	$report_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('order', $order);
+	$report_form->addElement($element);
+	unset($element);
 	 
 	$button_tray = new icms_form_elements_Tray('');
 	$submit_button = new icms_form_elements_Button('', 'submit', _SUBMIT, "submit");

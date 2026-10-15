@@ -82,9 +82,9 @@ if (count($valid_forums) == 0)
 $charset = empty(icms::$module->config['rss_utf8']) ? _CHARSET : 'utf-8';
 header ('Content-Type:text/xml; charset='.$charset);
 
-$tpl = new XoopsTpl();
-$tpl->xoops_setCaching(1);
-$tpl->xoops_setCacheTime(icms::$module->config['rss_cachetime'] * 60);
+$tpl = new icms_view_Tpl();
+$tpl->caching = 1;
+$tpl->cache_lifetime = icms::$module->config['rss_cachetime'] * 60;
 
 $compile_id = implode(",", $valid_forums);
 $xoopsCachedTemplateId = 'mod_'.icms::$module->getVar('dirname').'|'.md5(str_replace(ICMS_URL, '', $GLOBALS['xoopsRequestUri']));

@@ -23,7 +23,7 @@
 * @version  $Id$
 */
 
-class Digest extends icms_core_Object {
+class mod_iforum_Digest extends icms_core_Object {
 	public $digest_id;
 	public $digest_time;
 	public $digest_content;
@@ -104,12 +104,12 @@ class Digest extends icms_core_Object {
 	}
 }
 
-class IforumDigestHandler extends icms_core_ObjectHandler {
+class mod_iforum_DigestHandler extends icms_core_ObjectHandler {
 	public $last_digest;
 
 	function &create($isNew = true)
 	{
-		$digest = new Digest();
+		$digest = new mod_iforum_Digest();
 		if ($isNew)
 		{
 			$digest->setNew();
@@ -223,7 +223,7 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 		return $time_diff - $deadline;
 	}
 
-	function insert(&$digest)
+	function insert($digest)
 	{
 		$content = $digest->getVar('digest_content', 'E');
 
@@ -243,7 +243,7 @@ class IforumDigestHandler extends icms_core_ObjectHandler {
 		return true;
 	}
 
-	function delete(&$digest)
+	function delete($digest)
 	{
 		if (is_object($digest)) $digest_id = $digest->getVar('digest_id');
 			else $digest_id = $digest;

@@ -75,9 +75,15 @@ function editCategory($cat_id = 0)
 		$fc->setVar('cat_url', 'http://www.impresscms.org ImpressCMS');
 	}
 
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_SETCATEGORYORDER, 'cat_order', 5, 10, $fc->getVar('cat_order')), false);
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_CATEGORY, 'title', 50, 80, $fc->getVar('cat_title', 'E')), true);
-	$sform->addElement(new icms_form_elements_Dhtmltextarea(_AM_IFORUM_CATEGORYDESC, 'catdescript', $fc->getVar('cat_description', 'E'), 10, 60), false);
+	$element = new icms_form_elements_Text(_AM_IFORUM_SETCATEGORYORDER, 'cat_order', 5, 10, $fc->getVar('cat_order'));
+	$sform->addElement($element, false);
+	unset($element);
+	$element = new icms_form_elements_Text(_AM_IFORUM_CATEGORY, 'title', 50, 80, $fc->getVar('cat_title', 'E'));
+	$sform->addElement($element, true);
+	unset($element);
+	$element = new icms_form_elements_Dhtmltextarea(_AM_IFORUM_CATEGORYDESC, 'catdescript', $fc->getVar('cat_description', 'E'), 10, 60);
+	$sform->addElement($element, false);
+	unset($element);
 
 	$imgdir = "/modules/" . icms::$module->getVar("dirname") . "/images/category";
 	if (!$fc->getVar("cat_image")) $fc->setVar('cat_image', 'blank.gif');
@@ -88,14 +94,22 @@ function editCategory($cat_id = 0)
 	$indeximage_select->setExtra("onchange=\"showImgSelected('img', 'indeximage', '/".$imgdir."/', '', '" . ICMS_URL . "')\"");
 	$indeximage_tray = new icms_form_elements_Tray(_AM_IFORUM_IMAGE, '&nbsp;');
 	$indeximage_tray->addElement($indeximage_select);
-	$indeximage_tray->addElement(new icms_form_elements_Label('', "<br /><img src='" . ICMS_URL . $imgdir . "/" . $fc->getVar('cat_image') . " 'name='img' id='img' alt='' />"));
+	$element = new icms_form_elements_Label('', "<br /><img src='" . ICMS_URL . $imgdir . "/" . $fc->getVar('cat_image') . " 'name='img' id='img' alt='' />");
+	$indeximage_tray->addElement($element);
+	unset($element);
 	$sform->addElement($indeximage_tray);
 
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_SPONSORLINK, 'sponurl', 50, 80, $fc->getVar('cat_url', 'E')), false);
-	$sform->addElement(new icms_form_elements_Hidden('cat_id', $cat_id));
+	$element = new icms_form_elements_Text(_AM_IFORUM_SPONSORLINK, 'sponurl', 50, 80, $fc->getVar('cat_url', 'E'));
+	$sform->addElement($element, false);
+	unset($element);
+	$element = new icms_form_elements_Hidden('cat_id', $cat_id);
+	$sform->addElement($element);
+	unset($element);
 
 	$button_tray = new icms_form_elements_Tray('', '');
-	$button_tray->addElement(new icms_form_elements_Hidden('op', 'save'));
+	$element = new icms_form_elements_Hidden('op', 'save');
+	$button_tray->addElement($element);
+	unset($element);
 
 	$butt_save = new icms_form_elements_Button('', '', _SUBMIT, 'submit');
 	$butt_save->setExtra('onclick="this.form.elements.op.value=\'save\'"');
@@ -171,7 +185,7 @@ switch ($op)
 	case "del":
 	if (empty($_POST['confirm']))
 	{
-		xoops_confirm(array('op' => 'del', 'cat_id' => (int)$_GET['cat_id'], 'confirm' => 1), 'admin_cat_manager.php', _AM_IFORUM_WAYSYWTDTTAL);
+		icms_core_Message::confirm(array('op' => 'del', 'cat_id' => (int)$_GET['cat_id'], 'confirm' => 1), 'admin_cat_manager.php', _AM_IFORUM_WAYSYWTDTTAL);
 		break;
 	}
 	else

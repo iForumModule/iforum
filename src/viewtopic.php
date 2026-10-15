@@ -226,6 +226,7 @@ $category_obj = $category_handler->get($viewtopic_forum->getVar("cat_id"), array
 $icmsTpl->assign('category', array("id" => $viewtopic_forum->getVar("cat_id"), "title" => $category_obj->getVar('cat_title')));
 
 $icmsTpl->assign('folder_topic', iforum_displayImage($forumImage['folder_topic']));
+$icmsTpl->assign('adminpoll_actions', array());
 
 $icmsTpl->assign('topic_id', $topic_id);
 $icmsTpl->assign('forum_id', $forum_id);
@@ -714,8 +715,12 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	if (!is_object(icms::$user))
 	{
 		$user_tray = new icms_form_elements_Tray(_MD_ACCOUNT);
-		$user_tray->addElement(new icms_form_elements_Text(_MD_NAME, "uname", 26, 255));
-		$user_tray->addElement(new icms_form_elements_Password(_MD_PASSWORD, "pass", 10, 32));
+		$element = new icms_form_elements_Text(_MD_NAME, "uname", 26, 255);
+		$user_tray->addElement($element);
+		unset($element);
+		$element = new icms_form_elements_Password(_MD_PASSWORD, "pass", 10, 32);
+		$user_tray->addElement($element);
+		unset($element);
 		$login_checkbox = new icms_form_elements_Checkbox('', 'login', 1);
 		$login_checkbox->addOption(1, _MD_LOGIN);
 		$user_tray->addElement($login_checkbox);
@@ -728,14 +733,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$editor_configs["name"] = "message";
 	$editor_configs["rows"] = 10;
 	$editor_configs["cols"] = 60;
-	if (!$editor_handler = new icms_plugins_EditorHandler())
-	{
-		if (!@include_once ICMS_ROOT_PATH."/class/xoopseditor.php")
-		{
-			require_once ICMS_ROOT_PATH."/modules/".basename(__DIR__)."/class/compat/xoopseditor/xoopseditor.php";
-		}
-		$editor_handler = new XoopsEditorHandler();
-	}
+	$editor_handler = icms_plugins_EditorHandler::getInstance();
 	$editor_object = $editor_handler->get($quickform, $editor_configs, "", 1);
 	$forum_form->addElement($editor_object, true);
 	$groups = (is_object(icms::$user)) ? icms::$user->getGroups() :
@@ -743,42 +741,71 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$gperm_handler = icms::handler('icms_member_groupperm');
 	if ($icmsConfig ['editor_default'] != 'dhtmltextarea' && $gperm_handler->checkRight('use_wysiwygeditor', 1, $groups, icms::$module->getVar('mid'), false) && $viewtopic_forum->getVar('allow_html'))
 	{
-		$forum_form->addElement(new icms_form_elements_Hidden('dohtml', 1));
-		$forum_form->addElement(new icms_form_elements_Hidden('dobr', 0));
+		$element = new icms_form_elements_Hidden('dohtml', 1);
+		$forum_form->addElement($element);
+		unset($element);
+		$element = new icms_form_elements_Hidden('dobr', 0);
+		$forum_form->addElement($element);
+		unset($element);
 	}
 	else
 	{
-		$forum_form->addElement(new icms_form_elements_Hidden('dohtml', 0));
-		$forum_form->addElement(new icms_form_elements_Hidden('dobr', 1));
+		$element = new icms_form_elements_Hidden('dohtml', 0);
+		$forum_form->addElement($element);
+		unset($element);
+		$element = new icms_form_elements_Hidden('dobr', 1);
+		$forum_form->addElement($element);
+		unset($element);
 	}
-	$forum_form->addElement(new icms_form_elements_Hidden('dosmiley', 1));
-	$forum_form->addElement(new icms_form_elements_Hidden('doxcode', 1));
-	$forum_form->addElement(new icms_form_elements_Hidden('attachsig', 1));
+	$element = new icms_form_elements_Hidden('dosmiley', 1);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('doxcode', 1);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('attachsig', 1);
+	$forum_form->addElement($element);
+	unset($element);
 
-	$forum_form->addElement(new icms_form_elements_Hidden('isreply', 1));
+	$element = new icms_form_elements_Hidden('isreply', 1);
+	$forum_form->addElement($element);
+	unset($element);
 
-	$forum_form->addElement(new icms_form_elements_Hidden('subject', _MD_RE.': '.$forumtopic->getVar('topic_title', 'e')));
-	$forum_form->addElement(new icms_form_elements_Hidden('pid', empty($post_id)?$topic_handler->getTopPostId($topic_id):$post_id));
-	$forum_form->addElement(new icms_form_elements_Hidden('topic_id', $topic_id));
-	$forum_form->addElement(new icms_form_elements_Hidden('forum', $forum_id));
-	$forum_form->addElement(new icms_form_elements_Hidden('viewmode', $viewmode));
-	$forum_form->addElement(new icms_form_elements_Hidden('order', $order));
-	$forum_form->addElement(new icms_form_elements_Hidden('start', $start));
+	$element = new icms_form_elements_Hidden('subject', _MD_RE.': '.$forumtopic->getVar('topic_title', 'e'));
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('pid', empty($post_id)?$topic_handler->getTopPostId($topic_id):$post_id);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('topic_id', $topic_id);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('forum', $forum_id);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('viewmode', $viewmode);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('order', $order);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('start', $start);
+	$forum_form->addElement($element);
+	unset($element);
 
 	if (!empty(icms::$module->config['captcha_enabled']) )
 	{
-		$forum_form->addElement(new icms_form_elements_Captcha("", "topic_{$topic_id}_{$start}") );
-	}
-	// backward compatible
-	if (!class_exists("XoopsSecurity"))
-	{
-		$post_valid = 1;
-		$_SESSION['submit_token'] = $post_valid;
-		$forum_form->addElement(new icms_form_elements_Hidden('post_valid', $post_valid));
+		$element = new icms_form_elements_Captcha("", "topic_{$topic_id}_{$start}");
+		$forum_form->addElement($element);
+		unset($element);
 	}
 
-	$forum_form->addElement(new icms_form_elements_Hidden('notify', -1));
-	$forum_form->addElement(new icms_form_elements_Hidden('contents_submit', 1));
+	$element = new icms_form_elements_Hidden('notify', -1);
+	$forum_form->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('contents_submit', 1);
+	$forum_form->addElement($element);
+	unset($element);
 	$submit_button = new icms_form_elements_Button('', 'quick_submit', _SUBMIT, "submit");
 	$submit_button->setExtra('onclick="if(document.forms.quick_reply.message.value == \'RE\' || document.forms.quick_reply.message.value == \'\'){ alert(\''._MD_QUICKREPLY_EMPTY.'\'); return false;}else{ return true;}"');
 	$button_tray = new icms_form_elements_Tray('');

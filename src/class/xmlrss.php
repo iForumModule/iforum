@@ -30,7 +30,7 @@
 * @return type description
 * @link
 */
-class Xmlrss {
+class mod_iforum_Xmlrss {
 	 
 	var $xml_version;
 	var $rss_version;
@@ -105,7 +105,7 @@ class Xmlrss {
 	{
 		if (strtolower($this->xml_encoding) == "utf-8" && strncasecmp(_CHARSET, $this->xml_encoding, 5))
 		{
-			$text = XoopsLocal::convert_encoding($text, "utf-8");
+			$text = mb_convert_encoding($text, "UTF-8", _CHARSET);
 		}
 		if (!empty($trim))
 		$text = icms_core_DataFilter::icms_substr($text, 0, intval($trim));
@@ -115,10 +115,10 @@ class Xmlrss {
 	}
 }
  
-class IforumXmlrssHandler {
+class mod_iforum_XmlrssHandler {
 	function &create()
 	{
-		$xmlrss = new Xmlrss();
+		$xmlrss = new mod_iforum_Xmlrss();
 		return $xmlrss;
 	}
 	 

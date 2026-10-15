@@ -29,13 +29,11 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
-iforum_load_object();
+class mod_iforum_Forum extends icms_ipf_Object {
 
-class Forum extends ArtObject {
-
-	function __construct()
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_forums");
+		parent::__construct($handler);
 		$this->initVar('forum_id', XOBJ_DTYPE_INT);
 		$this->initVar('forum_name', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('forum_desc', XOBJ_DTYPE_TXTAREA);
@@ -59,11 +57,26 @@ class Forum extends ArtObject {
 		* For desc
 		*
 		*/
-		$this->initVar("dohtml", XOBJ_DTYPE_INT, 1);
-		$this->initVar("dosmiley", XOBJ_DTYPE_INT, 1);
-		$this->initVar("doxcode", XOBJ_DTYPE_INT, 1);
-		$this->initVar("doimage", XOBJ_DTYPE_INT, 1);
-		$this->initVar("dobr", XOBJ_DTYPE_INT, 1);
+		$this->initVar("dohtml", XOBJ_DTYPE_INT, 1, false, null, '', false, '', '', false, false);
+		$this->initVar("dosmiley", XOBJ_DTYPE_INT, 1, false, null, '', false, '', '', false, false);
+		$this->initVar("doxcode", XOBJ_DTYPE_INT, 1, false, null, '', false, '', '', false, false);
+		$this->initVar("doimage", XOBJ_DTYPE_INT, 1, false, null, '', false, '', '', false, false);
+		$this->initVar("dobr", XOBJ_DTYPE_INT, 1, false, null, '', false, '', '', false, false);
+	}
+
+	/**
+	 * The moderators are stored serialized but are also set as plain arrays: always return an array
+	 */
+	public function getVar($key, $format = 's')
+	{
+		if ($key === 'forum_moderator') {
+			$value = $this->vars[$key]['value'];
+			if (!is_array($value)) {
+				$value = ($value === null || $value === '') ? array() : @unserialize($value);
+			}
+			return is_array($value) ? $value : array();
+		}
+		return parent::getVar($key, $format);
 	}
 
 	// Get moderators in uname or in uid
@@ -121,15 +134,23 @@ class Forum extends ArtObject {
 	}
 }
 
-class IforumForumHandler extends ArtObjectHandler {
-	function __construct(&$db)
-	{
-		parent::__construct($db, 'bb_forums', 'Forum', 'forum_id', 'forum_name');
+class mod_iforum_ForumHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait {
+		get as protected traitGet;
+		insert as protected traitInsert;
+		getCount as protected traitGetCount;
 	}
 
-	function insert(&$forum, $force = true)
+	public function __construct(&$db)
 	{
-		if (!parent::insert($forum, true))
+		parent::__construct($db, 'forum', 'forum_id', 'forum_name', '', 'iforum');
+		// the legacy schema is kept: the table is bb_forums
+		$this->table = $db->prefix('bb_forums');
+	}
+
+	public function insert($forum, $force = true, $checkObject = true, $debug = false)
+	{
+		if (!$this->traitInsert($forum, true))
 		{
 			icms_core_Message::error($forum->getErrors());
 			return false;
@@ -143,7 +164,7 @@ class IforumForumHandler extends ArtObjectHandler {
 		return $forum->getVar('forum_id');
 	}
 
-	function delete(&$forum, $force = true)
+	function delete($forum, $force = true)
 	{
 		// RMV-NOTIFY
 		xoops_notification_deletebyitem (icms::$module->getVar('mid'), 'forum', $forum->getVar('forum_id'));
@@ -451,7 +472,7 @@ class IforumForumHandler extends ArtObjectHandler {
 			}
 			// ------------------------------------------------------
 			// => topic array
-			if (is_object($viewall_forums[$myrow['forum_id']]))
+			if (isset($viewall_forums[$myrow["forum_id"]]) && is_object($viewall_forums[$myrow["forum_id"]]))
 				{
 				$forum_link = '<a href="' . ICMS_URL . '/modules/'.basename(dirname(__FILE__, 2)).'/viewforum.php?forum=' . $myrow['forum_id'] . '">' . $viewall_forums[$myrow['forum_id']]->getVar('forum_name') . '</a>';
 			}
@@ -713,32 +734,11 @@ class IforumForumHandler extends ArtObjectHandler {
 	*/
 	function cleanOrphan($table_link='', $field_link='', $field_object='')
 	{
-		parent::cleanOrphan($this->db->prefix("bb_categories"), "cat_id");
+		$this->removeOrphans($this->db->prefix("bb_categories"), "cat_id");
 
-		if ($this->mysql_major_version() >= 4):
-		/*
-		$sql = "DELETE FROM ".$this->table.
-		" WHERE (parent_forum >0 AND parent_forum NOT IN ( SELECT DISTINCT forum_id FROM ".$this->table.") )";
-		*/
 		$sql = "DELETE ".$this->table." FROM ".$this->table. " LEFT JOIN ".$this->table." AS aa ON ".$this->table.".parent_forum = aa.forum_id ". " WHERE ".$this->table.".parent_forum>0 AND (aa.forum_id IS NULL)";
 		if (!$result = $this->db->queryF($sql)):
 			icms_core_Message::error("cleanOrphan error:". $sql);
-		endif;
-		else:
-			$this->identifierName = "parent_forum";
-		$forum_list = $this->getList(new icms_db_criteria_Item("parent_forum", 0, ">"));
-		$this->identifierName = "forum_name";
-		if ($parent_forums = @array_values($forum_list))
-		{
-			$parent_list = $this->getIds(new icms_db_criteria_Item("forum_id", "(".implode(", ", $parent_forums).")", "IN"));
-			foreach($forum_list as $forum_id => $parent_forum)
-			{
-				if (in_array($parent_forum, $parent_list)) continue;
-				$forum_obj = $this->get($forum_id);
-				$this->delete($forum_obj);
-				unset($forum_obj);
-			}
-		}
 		endif;
 
 		return true;
@@ -748,9 +748,6 @@ class IforumForumHandler extends ArtObjectHandler {
 	{
 		if (empty($object))
 		{
-			/* for MySQL 4.1+ */
-			if ($this->mysql_major_version() >= 4)
-			{
 				$sql = "UPDATE ".$this->table. " SET ".$this->table.".forum_last_post_id = @last_post =(". " SELECT MAX(post_id) AS last_post ". "  FROM " . $this->db->prefix("bb_posts") . "  WHERE approved=1 AND forum_id = ".$this->table.".forum_id". " )". " WHERE ".$this->table.".forum_last_post_id <> @last_post";
 				if (!$this->db->queryF($sql))
 				{
@@ -766,18 +763,6 @@ class IforumForumHandler extends ArtObjectHandler {
 				{
 					icms_core_Message::error("update error: ".$sql);
 				}
-			}
-			else
-			{
-				// for 4.0+
-				$forums = $this->getIds();
-				foreach($forums as $id)
-				{
-					if (!$obj = $this->get($id)) continue;
-					$this->synchronization($obj);
-					unset($obj);
-				}
-			}
 
 			return true;
 		}

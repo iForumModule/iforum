@@ -33,7 +33,7 @@ if (!defined("ICMS_ROOT_PATH"))
 	exit();
 }
 
-class IforumTransferHandler {
+class mod_iforum_TransferHandler {
 	var $root_path;
 
 	function __construct()
@@ -49,7 +49,7 @@ class IforumTransferHandler {
 		$module_handler = icms::handler("icms_module");
 		$criteria = new icms_db_criteria_Compo(new icms_db_criteria_Item("isactive", 1));
 		$module_list = array_keys($module_handler->getList($criteria, true) );
-		$_list = XoopsLists::getDirListAsArray($this->root_path."/");
+		$_list = icms_core_Filesystem::getDirList($this->root_path."/");
 		foreach($_list as $item)
 		{
 			if (is_readable($this->root_path."/".$item."/config.php"))

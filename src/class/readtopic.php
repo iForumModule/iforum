@@ -34,15 +34,10 @@ include_once __DIR__ .'/read.php';
 * @copyright copyright (c) 2005 XOOPS.org
 */
 
-class Readtopic extends Read {
-	function __construct()
-	{
-        parent::__construct("topic");
-		//$this->initVar('forum_id', XOBJ_DTYPE_INT);
-	}
+class mod_iforum_Readtopic extends mod_iforum_Read {
 }
 
-class IforumReadtopicHandler extends IforumReadHandler {
+class mod_iforum_ReadtopicHandler extends mod_iforum_ReadHandler {
 	/**
 	* maximum records per forum for one user.
 	* assigned from icms::$module->config["read_items"]
@@ -66,8 +61,8 @@ class IforumReadtopicHandler extends IforumReadHandler {
 	*/
     function cleanOrphan($table_link = "", $field_link = "", $field_object = "")
 	{
-		parent::cleanOrphan($this->db->prefix("bb_posts"), "post_id");
-		return parent::cleanOrphan($this->db->prefix("bb_topics"), "topic_id", "read_item");
+		$this->removeOrphans($this->db->prefix("bb_posts"), "post_id");
+		return $this->removeOrphans($this->db->prefix("bb_topics"), "topic_id", "read_item");
 	}
 
 	/**
@@ -122,9 +117,9 @@ class IforumReadtopicHandler extends IforumReadHandler {
 	{
 		if (empty($uid))
 		{
-			if (is_object($GLOBALS["xoopsUser"]))
+			if (is_object(icms::$user))
 			{
-				$uid = $GLOBALS["xoopsUser"]->getVar("uid");
+				$uid = icms::$user->getVar("uid");
 			}
 			else
 			{

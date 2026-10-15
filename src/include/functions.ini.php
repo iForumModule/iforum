@@ -30,13 +30,19 @@ if (!defined('ICMS_ROOT_PATH'))
  
 if (defined("IFORUM_FUNCTIONS_INI")) return;
  define("IFORUM_FUNCTIONS_INI", 1);
+
+// Autoload the IPF classes: mod_iforum_<Entity>[Handler] lives in class/<entity>.php
+spl_autoload_register(function ($class) {
+	if (strpos($class, 'mod_iforum_') !== 0) {
+		return;
+	}
+	$name = strtolower(preg_replace('/Handler$/', '', substr($class, strlen('mod_iforum_'))));
+	$file = dirname(__DIR__) . '/class/' . $name . '.php';
+	if (is_file($file)) {
+		include_once $file;
+	}
+});
  
-include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/class/art/functions.php");
- 
-function iforum_load_object()
-{
-	return load_object();
-}
  
 function iforum_message($message )
 {
@@ -135,7 +141,7 @@ function iforum_load_lang_file($filename, $module = '', $default = 'english' )
 		return xoops_load_lang_file($filename, $module, $default);
 	}
 	 
-	$lang = $GLOBALS['icmsConfig']['language'];
+	$lang = icms::$config->getConfig('language');
 	$path = ICMS_ROOT_PATH . (empty($module) ? '/' : "/modules/$module/" ) . 'language';
 	if (!($ret = @include_once("$path/$lang/$filename.php" ) ) )
 	{
@@ -147,5 +153,28 @@ function iforum_load_lang_file($filename, $module = '', $default = 'english' )
 // Adapted from PMA_getIp() [phpmyadmin project]
 function iforum_getIP($asString = false)
 {
-	return mod_getIP($asString);
+	// Gets the proxy ip sent by the user
+	$proxy_ip = '';
+	foreach (array("HTTP_X_FORWARDED_FOR", "HTTP_X_FORWARDED", "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "HTTP_VIA", "HTTP_X_COMING_FROM", "HTTP_COMING_FROM") as $header) {
+		if (!empty($_SERVER[$header])) {
+			$proxy_ip = $_SERVER[$header];
+			break;
+		}
+	}
+
+	if (!empty($proxy_ip) && preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $proxy_ip)) {
+		$the_IP = $proxy_ip;
+	} else {
+		$the_IP = $_SERVER['REMOTE_ADDR'];
+	}
+
+	if ($asString) {
+		return $the_IP;
+	}
+	// poster_ip is a signed INT(11): store the address as a signed 32 bit value
+	$long = ip2long($the_IP);
+	if ($long === false) {
+		return 0;
+	}
+	return ($long > 2147483647) ? $long - 4294967296 : $long;
 }

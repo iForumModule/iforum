@@ -35,15 +35,83 @@ if (!defined("_GLOBAL_RIGHT"))
 {
 	define('_GLOBAL_RIGHT', ((defined('_ADM_USE_RTL') && _ADM_USE_RTL )?"left":"right"));
 } // type here left in rtl languages
-function &iforum_getUnameFromIds($userid, $usereal = 0, $linked = false )
+function &iforum_getUnameFromIds($uid, $usereal = 0, $linked = false )
 {
-	$users = mod_getUnameFromIds($userid, $usereal, $linked);
+	if (!is_array($uid)) $uid = array($uid);
+	$userid = array_map("intval", array_filter($uid));
+
+	$users = array();
+	if (count($userid) > 0) {
+		$sql = 'SELECT uid, uname, name FROM ' . icms::$xoopsDB->prefix('users') . ' WHERE level>0 AND uid IN(' . implode(",", array_unique($userid)) . ')';
+		if (!$result = icms::$xoopsDB->query($sql)) {
+			return $users;
+		}
+		while ($row = icms::$xoopsDB->fetchArray($result)) {
+			$id = $row["uid"];
+			if ($usereal && $row["name"]) {
+				$users[$id] = icms_core_DataFilter::htmlSpecialchars($row["name"]);
+			} else {
+				$users[$id] = icms_core_DataFilter::htmlSpecialchars($row["uname"]);
+			}
+			if ($linked) {
+				$users[$id] = '<a href="' . ICMS_URL . '/userinfo.php?uid=' . $id . '" title="' . $users[$id] . '">' . $users[$id] . '</a>';
+			}
+		}
+	}
+	if (in_array(0, $users, true)) {
+		$users[0] = icms_core_DataFilter::htmlSpecialchars(icms::$config->getConfig('anonymous'));
+	}
 	return $users;
 }
 
 function iforum_getUnameFromId($userid, $usereal = 0, $linked = false)
 {
-	return mod_getUnameFromId($userid, $usereal, $linked);
+	$userid = intval($userid);
+	if ($userid > 0) {
+		$user = icms::handler('icms_member')->getUser($userid);
+		if (is_object($user)) {
+			$username = ($usereal && $user->getVar('name')) ? $user->getVar('name') : $user->getVar('uname');
+			if (!empty($linked)) {
+				$username = '<a href="' . ICMS_URL . '/userinfo.php?uid=' . $userid . '" title="' . $username . '">' . $username . '</a>';
+			}
+		}
+	}
+	if (empty($username)) {
+		$username = icms_core_DataFilter::htmlSpecialchars(icms::$config->getConfig('anonymous'));
+	}
+	return $username;
+}
+
+/**
+ * Write data as a PHP file in the cache folder: <dirname>_<name>.php
+ */
+function iforum_createCacheFile($data, $name = null, $dirname = null)
+{
+	$name = ($name) ? $name : strval(time());
+	$dirname = ($dirname) ? $dirname : basename(dirname(__DIR__));
+	$file_name = $dirname . "_" . $name . ".php";
+	$file = ICMS_CACHE_PATH . "/" . $file_name;
+	if ($fp = fopen($file, "wt")) {
+		fwrite($fp, "<?php
+return " . var_export($data, true) . ";
+");
+		fclose($fp);
+	} else {
+		icms_core_Message::error("Cannot create file: " . $file_name);
+	}
+	return $file_name;
+}
+
+/**
+ * Load data written by iforum_createCacheFile()
+ */
+function &iforum_loadCacheFile($name, $dirname = null)
+{
+	$data = null;
+	if (empty($name)) return $data;
+	$dirname = ($dirname) ? $dirname : basename(dirname(__DIR__));
+	$data = @include ICMS_CACHE_PATH . "/" . $dirname . "_" . $name . ".php";
+	return $data;
 }
 
 function iforum_is_dir($dir)
@@ -68,8 +136,8 @@ function iforum_htmlSpecialChars($text)
 function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $config = 'display')
 {
 	// ################# Preload Trigger beforeDisplayTarea ##############
-	global $icmsPreloadHandler, $myts;
-	$icmsPreloadHandler->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
+	global $myts;
+	icms::$preload->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 
 	if ($html != 1)
 	{
@@ -104,8 +172,7 @@ function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image 
 		$text = $htmlFilter->filterHTML($text);
 	}
 	// ################# Preload Trigger afterDisplayTarea ##############
-	global $icmsPreloadHandler;
-	$icmsPreloadHandler->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
+	icms::$preload->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 	return $text;
 }
 
@@ -472,7 +539,7 @@ function iforum_forumSelectBox($value = null, $permission = "access", $delimitor
 
 	if (!defined("_MD_SELFORUM"))
 	{
-		if (!($ret = @include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/".$GLOBALS['icmsConfig']['language']."/main.php" ) ) )
+		if (!($ret = @include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/".icms::$config->getConfig('language')."/main.php" ) ) )
 		{
 			include_once(ICMS_ROOT_PATH."/modules/".basename(dirname(__FILE__, 2))."/language/english/main.php" );
 		}
@@ -763,7 +830,7 @@ function iforum_tagupdate($topic_id, $item_tag)
 	if (iforum_tag_module_included())
 		{
 		include_once ICMS_ROOT_PATH . '/modules/tag/include/formtag.php';
-		$tag_handler = xoops_getmodulehandler('tag', 'tag');
+		$tag_handler = icms_getModuleHandler('tag', 'tag');
 		$tag_handler->updateByItem($item_tag, $topic_id, icms::$module->getVar('dirname' ), 0);
 	}
 }

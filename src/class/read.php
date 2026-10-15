@@ -29,8 +29,6 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 defined("IFORUM_FUNCTIONS_INI") || include ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.ini.php';
-iforum_load_object();
-
 /**
 * A handler for read/unread handling
 *
@@ -40,10 +38,10 @@ iforum_load_object();
 * @copyright copyright (c) 2005 XOOPS.org
 */
 
-class Read extends ArtObject {
-	function __construct($type)
+class mod_iforum_Read extends icms_ipf_Object {
+	public function __construct(&$handler)
 	{
-		parent::__construct("bb_reads_".$type);
+		parent::__construct($handler);
 		$this->initVar('read_id', XOBJ_DTYPE_INT);
 		$this->initVar('uid', XOBJ_DTYPE_INT);
 		$this->initVar('read_item', XOBJ_DTYPE_INT);
@@ -52,7 +50,9 @@ class Read extends ArtObject {
 	}
 }
 
-class IforumReadHandler extends ArtObjectHandler {
+class mod_iforum_ReadHandler extends icms_ipf_Handler {
+	use mod_iforum_HandlerTrait;
+
 	/**
 	* Object type.
 	* <ul>
@@ -89,10 +89,12 @@ class IforumReadHandler extends ArtObjectHandler {
 	*/
 	public $mode;
 
-	function __construct(&$db, $type)
+	public function __construct(&$db, $type)
 	{
 		$type = ("forum" == $type) ? "forum" : "topic";
-		parent::__construct($db, 'bb_reads_'.$type, 'Read'.$type, 'read_id', 'post_id');
+		parent::__construct($db, 'read'.$type, 'read_id', 'post_id', '', 'iforum');
+		// the legacy schema is kept: the table is bb_reads_<type>
+		$this->table = $db->prefix('bb_reads_'.$type);
 
     $this->type = $type;
 		$iforumConfig = iforum_load_config();
@@ -111,13 +113,7 @@ class IforumReadHandler extends ArtObjectHandler {
 		$sql = "DELETE FROM ".$this->table." WHERE read_time < ". $expire;
 		$this->db->queryF($sql);
 
-		/* for MySQL 4.1+ */
-		if ($this->mysql_major_version() >= 4):
 		$sql = "DELETE bb FROM ".$this->table." AS bb". " LEFT JOIN ".$this->table." AS aa ON bb.read_item = aa.read_item ". " WHERE aa.post_id > bb.post_id";
-		else:
-			// for 4.0+
-		$sql = "DELETE ".$this->table." FROM ".$this->table. " LEFT JOIN ".$this->table." AS aa ON ".$this->table.".read_item = aa.read_item ". " WHERE aa.post_id > ".$this->table.".post_id";
-		endif;
 		if (!$result = $this->db->queryF($sql))
 		{
 			icms_core_Message::error($this->db->error());
@@ -151,9 +147,9 @@ class IforumReadHandler extends ArtObjectHandler {
 	{
 		if (empty($uid))
 		{
-			if (is_object($GLOBALS["xoopsUser"]))
+			if (is_object(icms::$user))
 			{
-				$uid = $GLOBALS["xoopsUser"]->getVar("uid");
+				$uid = icms::$user->getVar("uid");
 			}
 			else
 			{
@@ -189,9 +185,9 @@ class IforumReadHandler extends ArtObjectHandler {
 	{
 		if (empty($uid))
 		{
-			if (is_object($GLOBALS["xoopsUser"]))
+			if (is_object(icms::$user))
 			{
-				$uid = $GLOBALS["xoopsUser"]->getVar("uid");
+				$uid = icms::$user->getVar("uid");
 			}
 			else
 			{
@@ -209,7 +205,7 @@ class IforumReadHandler extends ArtObjectHandler {
 		$object->setVar("post_id", $post_id, true);
 		$object->setVar("uid", $uid, true);
 		$object->setVar("read_time", time(), true);
-		return parent::insert($object);
+		return $this->insert($object);
 	}
 
 	function isRead_items(&$items, $uid = null)
@@ -243,9 +239,9 @@ class IforumReadHandler extends ArtObjectHandler {
 
 		if (empty($uid))
 		{
-			if (is_object($GLOBALS["xoopsUser"]))
+			if (is_object(icms::$user))
 			{
-				$uid = $GLOBALS["xoopsUser"]->getVar("uid");
+				$uid = icms::$user->getVar("uid");
 			}
 			else
 			{
