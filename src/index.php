@@ -86,6 +86,7 @@ include ICMS_ROOT_PATH."/header.php";
 
 $icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
 $icmsTpl->assign('xoops_module_header', $icms_module_header);
+$icmsTpl->assign('forum_pagenav', '');
 $icmsTpl->assign('forum_index_title', $forum_index_title);
 if (icms::$module->config['wol_enabled'])
 	{

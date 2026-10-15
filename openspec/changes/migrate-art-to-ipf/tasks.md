@@ -34,14 +34,14 @@
 
 ## 6. Verification
 
-- [ ] 6.1 Compare rendered output of sample posts (BBCode, smilies, special characters) with pre-migration output
-- [ ] 6.2 Walk through the spec scenarios on ImpressCMS 2.0.3 / PHP 8.2: install, index, forum, topic, post/reply/edit/delete, moderate, ratings, reports, digest, prune, admin pages
+- [x] 6.1 Compare rendered output of sample posts (BBCode, smilies, special characters) with pre-migration output (the pre-migration module is fatal on viewforum/viewtopic/viewall/print under ICMS 2.0.3/PHP 8.2, so only the index could be compared; post rendering was checked directly: BBCode rendered, script tags and event attributes neutralised, titles escaped)
+- [x] 6.2 Walk through the spec scenarios on ImpressCMS 2.0.3 / PHP 8.2: install, index, forum, topic, post/reply/edit/delete, moderate, ratings, reports, digest, prune, admin pages
 - [x] 6.3 Confirm no schema changes against the `sql/` install file and that an existing database works without an update step
 - [x] 6.4 Update CHANGELOG with breaking-change notes
 
 ## 7. Legacy XOOPS remnants (found during verification)
 
 - [x] 7.1 Replace `XoopsTree`, `XoopsLists`, `XoopsLocal`, `XoopsUser::getUnameFromID`, `xoops_getmodulehandler`, `xoops_trim`, `xoops_confirm`, `xoops_template_clear_module_cache`, `XoopsTpl`, `$GLOBALS["xoopsUser"]` and the removed editor compat classes with ImpressCMS 2.0.3 equivalents
-- [ ] 7.2 Decide how to handle external-module dependencies still written against XOOPS APIs (`XoopsPoll*` from xoopspoll, `XoopsFormTag` from tag) and guard or replace them
-- [ ] 7.3 Remove module-owned PHP notices seen in the developer dashboard (e.g. undefined `forum_pagenav` template var on the index)
+- [x] 7.2 External-module dependencies (`XoopsPoll*` from xoopspoll, `XoopsFormTag` from tag) stay as optional integrations: the code is already guarded by module-active/file-exists checks and those modules supply the classes; not testable on 204beta, where neither is installed
+- [x] 7.3 Remove module-owned PHP notices seen in the developer dashboard (e.g. undefined `forum_pagenav` template var on the index)
 - [x] 7.4 Use the real ICMS security token check on post submit (the legacy `XoopsSecurity` branch silently fell back to a constant token)

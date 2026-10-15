@@ -96,7 +96,9 @@ if (iforum_checkSubjectPrefixPermission($forum))
 			}
 			$subject_select = new icms_form_elements_Select('', 'subject_pre', $subject_pre);
 			$subject_select->addOptionArray($subject_array);
-			$subject_add->addElement(new icms_form_elements_Label($subject_select->render()));
+			$element = new icms_form_elements_Label($subject_select->render());
+			$subject_add->addElement($element);
+			unset($element);
 		}
 		$forum_form->addElement($subject_add);
 	}
@@ -108,7 +110,9 @@ $forum_form->addElement($subject_form, true);
 if (!is_object(icms::$user) && empty($admin_form_action))
 {
 	$required = !empty(icms::$module->config["require_name"]);
-	$forum_form->addElement(new icms_form_elements_Text(_MD_NAMEMAIL, 'poster_name', 60, 255, (!empty($isedit) && !empty($poster_name))?$poster_name:''), $required);
+	$element = new icms_form_elements_Text(_MD_NAMEMAIL, 'poster_name', 60, 255, (!empty($isedit) && !empty($poster_name))?$poster_name:'');
+	$forum_form->addElement($element, $required);
+	unset($element);
 }
 
 $icons_radio = new icms_form_elements_Radio(_MD_MESSAGEICON, 'icon', $icon);
@@ -158,7 +162,9 @@ $editor_configs["width"] = empty(icms::$module->config["editor_width"])? "100%" 
  icms::$module->config["editor_width"];
 $editor_configs["height"] = empty(icms::$module->config["editor_height"])? "400px" :
  icms::$module->config["editor_height"];
-$forum_form->addElement(new icms_form_elements_Editor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure = null));
+$element = new icms_form_elements_Editor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure = null);
+$forum_form->addElement($element);
+unset($element);
 
 if (iforum_tag_module_included() && !empty(icms::$module->config['allow_tagging']) && (empty($topic_id) || $forumpost->isTopic()))
 {
@@ -173,7 +179,9 @@ if (iforum_tag_module_included() && !empty(icms::$module->config['allow_tagging'
 	}
 	if (@include_once ICMS_ROOT_PATH."/modules/tag/include/formtag.php")
 	{
-		$forum_form->addElement(new XoopsFormTag("topic_tags", 60, 255, $topic_tags));
+		$element = new XoopsFormTag("topic_tags", 60, 255, $topic_tags);
+		$forum_form->addElement($element);
+		unset($element);
 	}
 }
 
@@ -193,11 +201,15 @@ if ($editor != 'dhtmltextarea' && $forum_obj->getVar('allow_html'))
 	$html_checkbox = new icms_form_elements_Checkbox('', 'dohtml', 1);
 	$html_checkbox->addOption(1, _MD_DOHTML);
 	$options_tray->addElement($html_checkbox);
-	$forum_form->addElement(new icms_form_elements_Hidden('dobr', 0));
+	$element = new icms_form_elements_Hidden('dobr', 0);
+	$forum_form->addElement($element);
+	unset($element);
 }
 else
 {
-	$forum_form->addElement(new icms_form_elements_Hidden('dohtml', 0));
+	$element = new icms_form_elements_Hidden('dohtml', 0);
+	$forum_form->addElement($element);
+	unset($element);
 	$br_checkbox = new icms_form_elements_Checkbox('', 'dobr', $dobr);
 	$br_checkbox->addOption(1, _MD_DOBR);
 	$options_tray->addElement($br_checkbox);
@@ -249,13 +261,21 @@ $forum_form->addElement($options_tray);
 if ($topic_handler->getPermission($forum_obj, $topic_status, 'attach'))
 {
 	$upload_tray = new icms_form_elements_Tray(_MD_ATTACHMENT);
-	$upload_tray->addElement(new icms_form_elements_File('', 'userfile', ''));
-	$upload_tray->addElement(new icms_form_elements_Button('', 'contents_upload', _MD_UPLOAD, "submit"));
-	$upload_tray->addElement(new icms_form_elements_Label("<BR /><BR />"._MD_MAX_FILESIZE.":", $forum_obj->getVar('attach_maxkb')."K; "));
+	$element = new icms_form_elements_File('', 'userfile', '');
+	$upload_tray->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Button('', 'contents_upload', _MD_UPLOAD, "submit");
+	$upload_tray->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Label("<BR /><BR />"._MD_MAX_FILESIZE.":", $forum_obj->getVar('attach_maxkb')."K; ");
+	$upload_tray->addElement($element);
+	unset($element);
 	$extensions = trim(str_replace('|', ' ', $forum_obj->getVar('attach_ext')));
 	$extensions = (empty($extensions) || $extensions == "*")?_ALL:
 	$extensions;
-	$upload_tray->addElement(new icms_form_elements_Label(_MD_ALLOWED_EXTENSIONS.":", $extensions));
+	$element = new icms_form_elements_Label(_MD_ALLOWED_EXTENSIONS.":", $extensions);
+	$upload_tray->addElement($element);
+	unset($element);
 	$forum_form->addElement($upload_tray);
 }
 
@@ -283,7 +303,9 @@ if (!empty($attachments_tmp) && is_array($attachments_tmp) && count($attachments
 	$forum_form->addElement($delete_attach_checkbox);
 	unset($delete_attach_checkbox);
 	$attachments_tmp = base64_encode(serialize($attachments_tmp));
-	$forum_form->addElement(new icms_form_elements_Hidden('attachments_tmp', $attachments_tmp));
+	$element = new icms_form_elements_Hidden('attachments_tmp', $attachments_tmp);
+	$forum_form->addElement($element);
+	unset($element);
 }
 
 if (icms::$module->config['enable_karma'] || icms::$module->config['allow_require_reply'])
@@ -315,7 +337,9 @@ $forum_form->addElement($radiobox );
 
 if (!empty(icms::$module->config['captcha_enabled']) )
 {
-	$forum_form->addElement(new icms_form_elements_Captcha() );
+	$element = new icms_form_elements_Captcha();
+	$forum_form->addElement($element);
+	unset($element);
 }
 
 if (!empty($admin_form_action))
@@ -324,16 +348,36 @@ if (!empty($admin_form_action))
 	$forum_form->addElement($approved_radio);
 }
 
-$forum_form->addElement(new icms_form_elements_Hidden('pid', $pid));
-$forum_form->addElement(new icms_form_elements_Hidden('post_id', $post_id));
-$forum_form->addElement(new icms_form_elements_Hidden('topic_id', $topic_id));
-$forum_form->addElement(new icms_form_elements_Hidden('forum', $forum_obj->getVar('forum_id')));
-$forum_form->addElement(new icms_form_elements_Hidden('viewmode', $viewmode));
-$forum_form->addElement(new icms_form_elements_Hidden('order', $order));
-$forum_form->addElement(new icms_form_elements_Hidden('start', $start));
-$forum_form->addElement(new icms_form_elements_Hidden('isreply', $isreply));
-$forum_form->addElement(new icms_form_elements_Hidden('isedit', $isedit));
-$forum_form->addElement(new icms_form_elements_Hidden('op', $op));
+$element = new icms_form_elements_Hidden('pid', $pid);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('post_id', $post_id);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('topic_id', $topic_id);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('forum', $forum_obj->getVar('forum_id'));
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('viewmode', $viewmode);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('order', $order);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('start', $start);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('isreply', $isreply);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('isedit', $isedit);
+$forum_form->addElement($element);
+unset($element);
+$element = new icms_form_elements_Hidden('op', $op);
+$forum_form->addElement($element);
+unset($element);
 
 $button_tray = new icms_form_elements_Tray('');
 
@@ -350,7 +394,9 @@ $cancel_button->setExtra("tabindex='6'");
 
 if (!empty($isreply) && !empty($hidden) )
 {
-	$forum_form->addElement(new icms_form_elements_Hidden('hidden', $hidden));
+	$element = new icms_form_elements_Hidden('hidden', $hidden);
+	$forum_form->addElement($element);
+	unset($element);
 
 	$quote_button = new icms_form_elements_Button('', 'quote', _MD_QUOTE, 'button');
 	$quote_button->setExtra("onclick='xoopsGetElementById(\"message_tarea\").value=xoopsGetElementById(\"message_tarea\").value+ xoopsGetElementById(\"hidden\").value;xoopsGetElementById(\"hidden\").value=\"\";'");
@@ -362,7 +408,9 @@ $preview_button = new icms_form_elements_Button('', 'btn_preview', _PREVIEW, "bu
 $preview_button->setExtra("tabindex='5'");
 $preview_button->setExtra('onclick="window.document.forms.forumform.contents_preview.value=1;
 	window.document.forms.forumform.submit();"');
-$forum_form->addElement(new icms_form_elements_Hidden('contents_preview', 0));
+$element = new icms_form_elements_Hidden('contents_preview', 0);
+$forum_form->addElement($element);
+unset($element);
 
 $button_tray->addElement($preview_button);
 $button_tray->addElement($submit_button);

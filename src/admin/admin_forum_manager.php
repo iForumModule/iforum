@@ -91,10 +91,16 @@ function editForum($ff, $parent_forum = 0) {
 		$ff->setVar('attach_ext', 'zip|gif|jpg');
 	}
 
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_FORUMNAME, 'forum_name', 50, 80, $ff->getVar('forum_name', 'E')), true);
-	$sform->addElement(new icms_form_elements_Dhtmltextarea(_AM_IFORUM_FORUMDESCRIPTION, 'forum_desc', $ff->getVar('forum_desc', 'E'), 10, 60), false);
+	$element = new icms_form_elements_Text(_AM_IFORUM_FORUMNAME, 'forum_name', 50, 80, $ff->getVar('forum_name', 'E'));
+	$sform->addElement($element, true);
+	unset($element);
+	$element = new icms_form_elements_Dhtmltextarea(_AM_IFORUM_FORUMDESCRIPTION, 'forum_desc', $ff->getVar('forum_desc', 'E'), 10, 60);
+	$sform->addElement($element, false);
+	unset($element);
 
-	$sform->addElement(new icms_form_elements_Hidden('parent_forum', $ff->getVar('parent_forum')));
+	$element = new icms_form_elements_Hidden('parent_forum', $ff->getVar('parent_forum'));
+	$sform->addElement($element);
+	unset($element);
 	if ($parent_forum == 0)
 	{
 		ob_start();
@@ -106,15 +112,21 @@ function editForum($ff, $parent_forum = 0) {
 		{
 			$mytree->makeMySelBox("cat_title", "cat_id", $ff->getVar('cat_id'));
 		}
-		$sform->addElement(new icms_form_elements_Label(_AM_IFORUM_CATEGORY, ob_get_contents()));
+		$element = new icms_form_elements_Label(_AM_IFORUM_CATEGORY, ob_get_contents());
+		$sform->addElement($element);
+		unset($element);
 		ob_end_clean();
 	}
 	else
 	{
-		$sform->addElement(new icms_form_elements_Hidden('cat_id', $pf->getVar('cat_id')));
+		$element = new icms_form_elements_Hidden('cat_id', $pf->getVar('cat_id'));
+		$sform->addElement($element);
+		unset($element);
 	}
 
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_SET_FORUMORDER, 'forum_order', 5, 10, $ff->getVar('forum_order')), false);
+	$element = new icms_form_elements_Text(_AM_IFORUM_SET_FORUMORDER, 'forum_order', 5, 10, $ff->getVar('forum_order'));
+	$sform->addElement($element, false);
+	unset($element);
 	$status_select = new icms_form_elements_Select(_AM_IFORUM_STATE, "forum_type", $ff->getVar('forum_type'));
 	$status_select->addOptionArray(array('0' => _AM_IFORUM_ACTIVE, '1' => _AM_IFORUM_INACTIVE));
 	$sform->addElement($status_select);
@@ -131,32 +143,50 @@ function editForum($ff, $parent_forum = 0) {
 	$allowprefix_radio = new icms_form_elements_Radioyn(_AM_IFORUM_ALLOW_SUBJECT_PREFIX, 'allow_subject_prefix', $ff->getVar('allow_subject_prefix'), '' . _YES . '', ' ' . _NO . '');
 	$sform->addElement($allowprefix_radio);
 
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_HOTTOPICTHRESHOLD, 'hot_threshold', 5, 10, $ff->getVar('hot_threshold')), true);
+	$element = new icms_form_elements_Text(_AM_IFORUM_HOTTOPICTHRESHOLD, 'hot_threshold', 5, 10, $ff->getVar('hot_threshold'));
+	$sform->addElement($element, true);
+	unset($element);
 
 	/*
 	$allowattach_radio = new icms_form_elements_Radioyn(_AM_IFORUM_ALLOW_ATTACHMENTS, 'allow_attachments', $ff->getVar('allow_attachments'), '' . _YES . '', ' ' . _NO . '');
 	$sform->addElement($allowattach_radio);
 	*/
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_ATTACHMENT_SIZE, 'attach_maxkb', 5, 10, $ff->getVar('attach_maxkb')), true);
+	$element = new icms_form_elements_Text(_AM_IFORUM_ATTACHMENT_SIZE, 'attach_maxkb', 5, 10, $ff->getVar('attach_maxkb'));
+	$sform->addElement($element, true);
+	unset($element);
 	//$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ff->getVar('attach_ext')), true);
 	$ext = $ff->getVar('attach_ext');
-	$sform->addElement(new icms_form_elements_Text(_AM_IFORUM_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ext), true);
-	$sform->addElement(new icms_form_elements_select_User(_AM_IFORUM_MODERATOR, 'forum_moderator', false, $ff->getVar("forum_moderator"), 5, true));
+	$element = new icms_form_elements_Text(_AM_IFORUM_ALLOWED_EXTENSIONS, 'attach_ext', 50, 255, $ext);
+	$sform->addElement($element, true);
+	unset($element);
+	$element = new icms_form_elements_select_User(_AM_IFORUM_MODERATOR, 'forum_moderator', false, $ff->getVar("forum_moderator"), 5, true);
+	$sform->addElement($element);
+	unset($element);
 
 	$perm_tray = new icms_form_elements_Tray(_AM_IFORUM_PERMISSIONS_TO_THIS_FORUM, '');
 	$perm_checkbox = new icms_form_elements_Checkbox('', 'perm_template', $ff->isNew());
 	$perm_checkbox->addOption(1, _AM_IFORUM_PERM_TEMPLATEAPP);
 	$perm_tray->addElement($perm_checkbox);
-	$perm_tray->addElement(new icms_form_elements_Label('', '<a href="admin_permissions.php?action=template" target="_blank">'._AM_IFORUM_PERM_TEMPLATE.'</a>'));
+	$element = new icms_form_elements_Label('', '<a href="admin_permissions.php?action=template" target="_blank">'._AM_IFORUM_PERM_TEMPLATE.'</a>');
+	$perm_tray->addElement($element);
+	unset($element);
 	$sform->addElement($perm_tray);
 
-	$sform->addElement(new icms_form_elements_Hidden('forum', $forum));
-	$sform->addElement(new icms_form_elements_Hidden('op', "save"));
+	$element = new icms_form_elements_Hidden('forum', $forum);
+	$sform->addElement($element);
+	unset($element);
+	$element = new icms_form_elements_Hidden('op', "save");
+	$sform->addElement($element);
+	unset($element);
 
 	$button_tray = new icms_form_elements_Tray('', '');
-	$button_tray->addElement(new icms_form_elements_Button('', '', _SUBMIT, 'submit'));
+	$element = new icms_form_elements_Button('', '', _SUBMIT, 'submit');
+	$button_tray->addElement($element);
+	unset($element);
 
-	$button_tray->addElement(new icms_form_elements_Button('', '', _AM_IFORUM_CLEAR, 'reset'));
+	$element = new icms_form_elements_Button('', '', _AM_IFORUM_CLEAR, 'reset');
+	$button_tray->addElement($element);
+	unset($element);
 
 	$butt_cancel = new icms_form_elements_Button('', '', _CANCEL, 'button');
 	$butt_cancel->setExtra('onclick="history.go(-1)"');

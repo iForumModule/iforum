@@ -537,8 +537,7 @@ class mod_iforum_PostHandler extends icms_ipf_Handler {
 		return $post;
 	}
 
-	//function &getByLimit($topic_id, $limit, $approved = 1,)
-	function &getByLimit($limit = 0, $start = 0, $criteria = null, $tags = null, $asObject = true)
+	public function &getByLimit($topic_id = 0, $limit = 0, $approved = 1)
 	{
 		$sql = 'SELECT p.*, t.*, tp.topic_status FROM ' . $this->db->prefix('bb_posts') . ' p LEFT JOIN ' . $this->db->prefix('bb_posts_text') . ' t ON p.post_id=t.post_id LEFT JOIN ' . $this->db->prefix('bb_topics') . ' tp ON tp.topic_id=p.topic_id WHERE p.topic_id=' . $topic_id . ' AND p.approved ='. $approved .' ORDER BY p.post_time DESC';
 		$result = $this->db->query($sql, $limit, 0);

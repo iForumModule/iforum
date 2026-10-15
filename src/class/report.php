@@ -105,8 +105,11 @@ class mod_iforum_ReportHandler extends icms_ipf_Handler {
 		if ($report_id)
 		{
 			$result = $this->db->query("SELECT COUNT(*) as report_count" . $tables_criteria . $forum_criteria . $result_criteria . " AND report_id $operator_for_position $report_id" . $order_criteria);
-			if ($result) $row = $this->db->fetchArray($result);
+			$position = 0;
+			if ($result && ($row = $this->db->fetchArray($result)))
+			{
 				$position = $row['report_count'];
+			}
 			$start = intval($position / $perpage) * $perpage;
 		}
 
