@@ -50,7 +50,7 @@ if (empty($post_id) )
 		)
 		{
 			include ICMS_ROOT_PATH."/header.php";
-			xoops_confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE, ""), _CLOSE, $_SERVER['HTTP_REFERER']);
+			icms_core_Message::confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE, ""), _CLOSE, $_SERVER['HTTP_REFERER']);
 			$xoopsOption['output_type'] = "plain";
 			include ICMS_ROOT_PATH."/footer.php";
 			exit();
@@ -137,6 +137,6 @@ else
 	include ICMS_ROOT_PATH."/header.php";
 	$ret = empty($ret)?"javascript: window.close();":
 	$ret;
-	xoops_confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE, $op_options[$op]), _CLOSE, $ret);
+	icms_core_Message::confirm(array(), "javascript: window.close();", sprintf(_MD_TRANSFER_DONE, $op_options[$op]), _CLOSE, $ret);
 	include ICMS_ROOT_PATH."/footer.php";
 }

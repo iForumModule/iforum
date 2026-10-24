@@ -68,8 +68,8 @@ function iforum_htmlSpecialChars($text)
 function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $config = 'display')
 {
 	// ################# Preload Trigger beforeDisplayTarea ##############
-	global $icmsPreloadHandler, $myts;
-	$icmsPreloadHandler->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
+	global $myts;
+	icms::$preload->triggerEvent('beforeDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 
 	if ($html != 1)
 	{
@@ -104,8 +104,7 @@ function &iforum_displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image 
 		$text = $htmlFilter->filterHTML($text);
 	}
 	// ################# Preload Trigger afterDisplayTarea ##############
-	global $icmsPreloadHandler;
-	$icmsPreloadHandler->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
+	icms::$preload->triggerEvent('afterDisplayTarea', array(&$text, $html, $smiley, $xcode, $image, $br));
 	return $text;
 }
 
@@ -737,42 +736,4 @@ function iforum_isRead($type, &$items, $uid = null)
 	$read_handler = icms_getmodulehandler("read".$type, basename(dirname(__FILE__, 2)), 'iforum' );
 	return $read_handler->isRead_items($items, $uid);
 }
-// Check if Tag module is installed
-function iforum_tag_module_included()
-{
-	static $iforum_tag_module_included;
-	if (!isset($iforum_tag_module_included))
-	{
-		$modules_handler = icms::handler('icms_module');
-		$tag_mod = $modules_handler->getByDirName('tag');
-		if (!$tag_mod)
-		{
-			$tag_mod = false;
-		}
-		else
-		{
-			$iforum_tag_module_included = $tag_mod->getVar('isactive') == 1;
-		}
-	}
-	return $iforum_tag_module_included;
-}
-
-// Add item_tag to Tag-module
-function iforum_tagupdate($topic_id, $item_tag)
-{
-	if (iforum_tag_module_included())
-		{
-		include_once ICMS_ROOT_PATH . '/modules/tag/include/formtag.php';
-		$tag_handler = xoops_getmodulehandler('tag', 'tag');
-		$tag_handler->updateByItem($item_tag, $topic_id, icms::$module->getVar('dirname' ), 0);
-	}
-}
-
-function iforum_poll_module_active() {
-	$module_handler = icms::handler('icms_module');
-	$xoopspoll =$module_handler->getByDirname('xoopspoll');
-	if (!is_object($xoopspoll)) return false;
-	return $xoopspoll->getVar('isactive');
-}
-
 endif;

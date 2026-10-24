@@ -75,7 +75,4 @@ $customConfig["editor_cols"] = 60;
 $customConfig["editor_width"] = "100%";
 $customConfig["editor_height"] = "400px";
  
-// Enable tag system
-$customConfig["allow_tagging"] = 1;
- 
 return $customConfig;

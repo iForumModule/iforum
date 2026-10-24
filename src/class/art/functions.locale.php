@@ -44,7 +44,7 @@ if (!class_exists("XoopsLocal")) {
 		$msg = "<strong>The locale version is too old.</strong> Please copy <br />XOOPS/Frameworks/compat/language/english/<strong>local.php, local.class.php</strong> to XOOPS/language/english/";
 		if (icms::$config->getConfig("language") != "english") {
 			if (is_dir(ICMS_ROOT_PATH."/Frameworks/compat/language/".icms::$config->getConfig("language")."/")) {
-				$msg .= "<br />XOOPS/Frameworks/compat/language/".icms::$config->getConfig("language")."/<strong>local.php</strong> to XOOPS/language/".icms::$config->getConfig("language"]."/";
+				$msg .= "<br />XOOPS/Frameworks/compat/language/".icms::$config->getConfig("language")."/<strong>local.php</strong> to XOOPS/language/".icms::$config->getConfig("language")."/";
 			} else {
 				$msg .= "<br />And modify XOOPS/language/".icms::$config->getConfig("language")."/<strong>local.php</strong> according to XOOPS/language/english/local.php";
 			}

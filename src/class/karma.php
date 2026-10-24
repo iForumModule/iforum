@@ -24,7 +24,7 @@
 */
  
 class IforumKarmaHandler {
-	var $user;
+	public $user;
 	 
 	function getUserKarma($user = false)
 	{

@@ -34,7 +34,7 @@ if (!defined("ICMS_ROOT_PATH"))
 }
 
 class IforumTransferHandler {
-	var $root_path;
+	public $root_path;
 
 	function __construct()
 	{

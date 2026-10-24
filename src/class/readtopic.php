@@ -49,7 +49,7 @@ class IforumReadtopicHandler extends IforumReadHandler {
 	*
 	* @var integer
 	*/
-	var $items_per_forum;
+	public $items_per_forum;
 
 	function __construct(&$db)
 	{
@@ -122,9 +122,9 @@ class IforumReadtopicHandler extends IforumReadHandler {
 	{
 		if (empty($uid))
 		{
-			if (is_object($GLOBALS["xoopsUser"]))
+			if (is_object(icms::$user))
 			{
-				$uid = $GLOBALS["xoopsUser"]->getVar("uid");
+				$uid = icms::$user->getVar("uid");
 			}
 			else
 			{

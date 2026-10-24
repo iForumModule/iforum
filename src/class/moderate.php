@@ -89,7 +89,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 			$forums = $this->forumList($uid, $ip);
 			return in_array($forum, $forums);
 		}
-		$uid = ($uid < 0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):
+		$uid = ($uid < 0)?(is_object(icms::$user)?icms::$user->getVar("uid"):0):
 		$uid;
 		$uid_criteria = empty($uid)?"1=1":
 		"uid=". (int)$uid;
@@ -131,7 +131,7 @@ class IforumModerateHandler extends ArtObjectHandler {
 	public function forumList($uid = -1, $ip = "")
 	{
 		static $forums = array();
-		$uid = ($uid < 0)?(is_object($GLOBALS["xoopsUser"])?$GLOBALS["xoopsUser"]->getVar("uid"):0):
+		$uid = ($uid < 0)?(is_object(icms::$user)?icms::$user->getVar("uid"):0):
 		$uid;
 		$ip = empty($ip)?iforum_getIP(true):
 		$ip;

@@ -58,7 +58,6 @@ class IforumOnlineHandler {
 
 	public function update()
 	{
-		mt_srand((double)microtime() * 1000000);
 		// set gc probabillity to 10% for now..
 		if (mt_rand(1, 100) < 11)
 		{

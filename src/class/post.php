@@ -69,7 +69,7 @@ class Post extends ArtObject {
 		if (count($this->attachment_array)) return $this->attachment_array;
 		$attachment = $this->getVar('attachment');
 		if (empty($attachment)) $this->attachment_array = null;
-		else $this->attachment_array = @unserialize(base64_decode($attachment));
+		else $this->attachment_array = @unserialize(base64_decode($attachment), ["allowed_classes" => false]);
 		return $this->attachment_array;
 	}
 
@@ -212,7 +212,7 @@ class Post extends ArtObject {
 		$post_edit['edit_time'] = time();
 
 		$post_edits = $this->getVar('post_edit');
-		if (!empty($post_edits)) $post_edits = unserialize(base64_decode($post_edits));
+		if (!empty($post_edits)) $post_edits = unserialize(base64_decode($post_edits), ["allowed_classes" => false]);
 			if (!is_array($post_edits)) $post_edits = array();
 			$post_edits[] = $post_edit;
 		$post_edit = base64_encode(serialize($post_edits));
@@ -228,14 +228,14 @@ class Post extends ArtObject {
 
 		$post_edit = '';
 		$post_edits = $this->getVar('post_edit');
-		if (!empty($post_edits)) $post_edits = unserialize(base64_decode($post_edits));
+		if (!empty($post_edits)) $post_edits = unserialize(base64_decode($post_edits), ["allowed_classes" => false]);
 			if (!isset($post_edits) || !is_array($post_edits)) $post_edits = array();
 			if (is_array($post_edits) && count($post_edits) > 0)
 		{
 			foreach($post_edits as $postedit)
 			{
 				$edit_time = (int)$postedit['edit_time'];
-				$edit_user = icms_core_Textsanitizer::getInstance()->stripSlashesGPC($postedit['edit_user']);
+				$edit_user = icms_core_DataFilter::stripSlashesGPC($postedit['edit_user']);
 				$post_edit .= _MD_EDITEDBY . " " . $edit_user . " " . _MD_ON . " " . formatTimestamp((int)$edit_time) . "<br/>";
 			}
 		}
@@ -769,7 +769,7 @@ class IforumPostHandler extends ArtObjectHandler {
 		else
 		{
 			include_once(ICMS_ROOT_PATH . "/class/xoopstree.php");
-			$mytree = new XoopsTree($this->db->prefix("bb_posts"), "post_id", "pid");
+			$mytree = new icms_view_Tree($this->db->prefix("bb_posts"), "post_id", "pid");
 			$arr = $mytree->getAllChild($post->getVar('post_id'));
 			for ($i = 0, $iMax = count($arr); $i < $iMax; $i++)
 			{
@@ -839,25 +839,6 @@ class IforumPostHandler extends ArtObjectHandler {
 					xoops_notification_deletebyitem (icms::$module->getVar('mid'), 'thread', $post->getVar('topic_id'));
 				}
 
-				$poll_id = $topic_obj->getVar("poll_id");
-				if ($poll_id > 0)
-				{
-					if (iforum_poll_module_active())
-						{
-						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
-						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
-						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
-						include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
-
-						$poll = new XoopsPoll($poll_id);
-						if ($poll->delete() != false )
-						{
-							XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
-							XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
-							xoops_comment_delete(icms::$module->getVar('mid'), $poll->getVar('poll_id'));
-						}
-					}
-				}
 				endif;
 
 				$sql = sprintf("DELETE FROM %s WHERE topic_id = %u", $this->db->prefix("bb_topics"), $post->getVar('topic_id'));

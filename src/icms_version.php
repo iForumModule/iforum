@@ -60,18 +60,6 @@ $isModuleAction = icms_moduleAction($modversion['dirname']);
 // Sql file
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 
-// create folder
-if (!file_exists(ICMS_ROOT_PATH."/uploads/".$modulename))
-{
-	$chemin = ICMS_ROOT_PATH.'/uploads/'.$modulename;
-	mkdir("$chemin", 0777);
-}
-if (!file_exists(ICMS_ROOT_PATH."/uploads/".$modulename."/thumbs"))
-{
-	$chemin = ICMS_ROOT_PATH.'/uploads/'.$modulename.'/thumbs';
-	mkdir("$chemin", 0777);
-}
-
 // Tables created by sql file (without prefix!)
 $modversion['tables'][0] = "bb_archive";
 $modversion['tables'][1] = "bb_categories";
@@ -107,42 +95,38 @@ $modversion['onUpdate'] = 'include/module.php';
 //$modversion['css'] = 'templates/iforum.css';
 
 // Templates
-$modversion['templates'][0]['file'] = 'iforum_poll_results.html';
+$modversion['templates'][0]['file'] = 'iforum_index.html';
 $modversion['templates'][0]['description'] = '';
-$modversion['templates'][1]['file'] = 'iforum_index.html';
+$modversion['templates'][1]['file'] = 'iforum_searchresults.html';
 $modversion['templates'][1]['description'] = '';
-$modversion['templates'][2]['file'] = 'iforum_searchresults.html';
+$modversion['templates'][2]['file'] = 'iforum_search.html';
 $modversion['templates'][2]['description'] = '';
-$modversion['templates'][3]['file'] = 'iforum_search.html';
+$modversion['templates'][3]['file'] = 'iforum_thread.html';
 $modversion['templates'][3]['description'] = '';
-$modversion['templates'][4]['file'] = 'iforum_thread.html';
+$modversion['templates'][4]['file'] = 'iforum_viewforum.html';
 $modversion['templates'][4]['description'] = '';
-$modversion['templates'][5]['file'] = 'iforum_viewforum.html';
+$modversion['templates'][5]['file'] = 'iforum_viewtopic_flat.html';
 $modversion['templates'][5]['description'] = '';
-$modversion['templates'][6]['file'] = 'iforum_viewtopic_flat.html';
+$modversion['templates'][6]['file'] = 'iforum_viewtopic_thread.html';
 $modversion['templates'][6]['description'] = '';
-$modversion['templates'][7]['file'] = 'iforum_viewtopic_thread.html';
+$modversion['templates'][7]['file'] = 'iforum_rss.html';
 $modversion['templates'][7]['description'] = '';
-$modversion['templates'][8]['file'] = 'iforum_rss.html';
+$modversion['templates'][8]['file'] = 'iforum_viewall.html';
 $modversion['templates'][8]['description'] = '';
-$modversion['templates'][9]['file'] = 'iforum_viewall.html';
+$modversion['templates'][9]['file'] = 'iforum_online.html';
 $modversion['templates'][9]['description'] = '';
-$modversion['templates'][10]['file'] = 'iforum_poll_view.html';
+$modversion['templates'][10]['file'] = 'iforum_viewpost.html';
 $modversion['templates'][10]['description'] = '';
-$modversion['templates'][11]['file'] = 'iforum_online.html';
+$modversion['templates'][11]['file'] = 'iforum_item.html';
 $modversion['templates'][11]['description'] = '';
-$modversion['templates'][12]['file'] = 'iforum_viewpost.html';
+$modversion['templates'][12]['file'] = 'iforum_left.html';
 $modversion['templates'][12]['description'] = '';
-$modversion['templates'][13]['file'] = 'iforum_item.html';
+$modversion['templates'][13]['file'] = 'iforum_right.html';
 $modversion['templates'][13]['description'] = '';
-$modversion['templates'][14]['file'] = 'iforum_left.html';
+$modversion['templates'][14]['file'] = 'iforum_viewtopic_left.html';
 $modversion['templates'][14]['description'] = '';
-$modversion['templates'][15]['file'] = 'iforum_right.html';
+$modversion['templates'][15]['file'] = 'iforum_viewtopic_right.html';
 $modversion['templates'][15]['description'] = '';
-$modversion['templates'][16]['file'] = 'iforum_viewtopic_left.html';
-$modversion['templates'][16]['description'] = '';
-$modversion['templates'][17]['file'] = 'iforum_viewtopic_right.html';
-$modversion['templates'][17]['description'] = '';
 //$modversion['templates'][18]['file'] = 'iforum_viewpost_list.html';
 //$modversion['templates'][18]['description'] = '';
 

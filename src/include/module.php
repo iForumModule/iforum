@@ -32,9 +32,24 @@ define("XOOPS_MODULE_IFORUM_FUCTIONS", 1);
 include_once ICMS_ROOT_PATH.'/modules/'.basename(dirname(__FILE__, 2)).'/include/functions.php';
  
 iforum_load_object();
+function iforum_createUploadFolders(): void
+{
+	$moduleName = basename(dirname(__FILE__, 2));
+	$uploadPath = ICMS_ROOT_PATH . "/uploads/" . $moduleName;
+
+	foreach (array($uploadPath, "$uploadPath/thumbs") as $folder) {
+		if (is_dir($folder)) {
+			continue;
+		}
+
+		mkdir($folder, 0755, true);
+	}
+}
+
 function icms_module_update_iforum(&$module, $oldversion = null, $olddbversion = null) {
 	$icmsDatabaseUpdater = icms_db_legacy_Factory::getDatabaseUpdater();
 	$iforumConfig = iforum_load_config();
+	iforum_createUploadFolders();
 	 
 	$newDbVersion = 1;
 	if ($olddbversion < $newDbVersion) {
@@ -57,6 +72,8 @@ function icms_module_update_iforum(&$module, $oldversion = null, $olddbversion =
 }
  
 function icms_module_install_iforum(&$module) {
+	iforum_createUploadFolders();
+
 	/* Create a test category */
 	$category_handler = icms_getmodulehandler('category', basename(dirname(__FILE__, 2)), 'iforum' );
 	$category = $category_handler->create();

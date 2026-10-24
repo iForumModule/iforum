@@ -75,11 +75,11 @@ if (!empty(icms::$module->config['rss_enable']))
 }
 
 $xoopsOption['template_main'] = 'iforum_viewforum.html';
-$xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
-$xoopsOption['xoops_module_header'] = $icms_module_header;
+$xoopsOption['icms_pagetitle'] = $icms_pagetitle;
+$xoopsOption['icms_module_header'] = $icms_module_header;
 include ICMS_ROOT_PATH."/header.php";
-$icmsTpl->assign('xoops_module_header', $icms_module_header);
-$icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
+$icmsTpl->assign('icms_module_header', $icms_module_header);
+$icmsTpl->assign('icms_pagetitle', $icms_pagetitle);
 $icmsTpl->assign("forum_id", $forum_obj->getVar('forum_id'));
 
 $isadmin = iforum_isAdmin($forum_obj);
@@ -110,20 +110,12 @@ $t_signup = iforum_displayImage($forumImage['t_signup'], _MD_EXTRAS);
 
 if ($forum_handler->getPermission($forum_obj, "post")) {
 	$icmsTpl->assign('forum_post_or_register', "<a href=\"newtopic.php?forum=".$forum_obj->getVar('forum_id')."\">".$t_new."</a>");
-	if ($forum_handler->getPermission($forum_obj, "addpoll") && $forum_obj->getVar('allow_polls') == 1) {
-		$t_poll = iforum_displayImage($forumImage['t_poll'], _MD_ADDPOLL);
-		if (iforum_poll_module_active()) {
-			$icmsTpl->assign('forum_addpoll', "<a href=\"newtopic.php?op=add&amp;forum=".$forum_obj->getVar('forum_id')."\">".$t_poll."</a>&nbsp;");
-		}
-	}
 } else {
 	if (!empty(icms::$module->config["show_reg"]) && !is_object(icms::$user)) {
-		$redirect = preg_replace("|(.*)\/modules\/".basename(__DIR__)."\/(.*)|", "\\1/modules/".basename(__DIR__)."/newtopic.php?forum=".$forum_obj->getVar('forum_id'), htmlspecialchars($xoopsRequestUri));
+		$redirect = preg_replace("|(.*)\/modules\/".basename(__DIR__)."\/(.*)|", "\\1/modules/".basename(__DIR__)."/newtopic.php?forum=".$forum_obj->getVar('forum_id'), htmlspecialchars($_SERVER['REQUEST_URI']));
 		$icmsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.$redirect.'">'.$t_signup.'</a>');
-		$icmsTpl->assign('forum_addpoll', "");
 	} else {
 		$icmsTpl->assign('forum_post_or_register', "");
-		$icmsTpl->assign('forum_addpoll', "");
 	}
 }
 $icmsTpl->assign('forum_extras', $t_extras);

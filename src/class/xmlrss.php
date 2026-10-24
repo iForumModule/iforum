@@ -32,30 +32,30 @@
 */
 class Xmlrss {
 	 
-	var $xml_version;
-	var $rss_version;
-	var $xml_encoding;
+	public $xml_version;
+	public $rss_version;
+	public $xml_encoding;
 	 
-	var $channel_title;
-	var $channel_link;
-	var $channel_desc;
-	var $channel_lastbuild;
-	var $channel_webmaster;
-	var $channel_editor;
-	var $channel_category;
-	var $channel_generator;
-	var $channel_language;
+	public $channel_title;
+	public $channel_link;
+	public $channel_desc;
+	public $channel_lastbuild;
+	public $channel_webmaster;
+	public $channel_editor;
+	public $channel_category;
+	public $channel_generator;
+	public $channel_language;
 	 
-	var $image_title;
-	var $image_url;
-	var $image_link;
-	var $image_description;
-	var $image_height;
-	var $image_width;
+	public $image_title;
+	public $image_url;
+	public $image_link;
+	public $image_description;
+	public $image_height;
+	public $image_width;
 	 
-	var $max_items;
-	var $max_item_description;
-	var $items = array();
+	public $max_items;
+	public $max_item_description;
+	public $items = array();
 	 
 	function __construct()
 	{

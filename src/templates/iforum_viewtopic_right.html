@@ -15,12 +15,6 @@
 </div>
 <div class="clear"></div>
 
-<{if $topic_poll}>
-<{if $topic_pollresult}> <{include file="db:iforum_poll_results.html" poll=$poll}>
-<{else}> <{include file="db:iforum_poll_view.html" poll=$poll}> <{/if}>
-<div class="clear"></div>
-<{/if}>
-
 <div style="padding: 5px;">
 <a id="threadtop"></a>
 <span style="float: <{$smarty.const._GLOBAL_RIGHT}>; text-align: <{$smarty.const._GLOBAL_RIGHT}>;">
@@ -42,13 +36,6 @@
 		<{if $viewer_level gt 1}>
 		<{foreach item=act from=$admin_actions}>
 		<option value="<{$act.link}>"><{$act.name}></option>
-		<{/foreach}>
-		<option value=""> </option>
-		<{/if}>
-		<{if count($adminpoll_actions)>0 }>
-		<option value=""><{$smarty.const._MD_POLLOPTIONADMIN}></option>
-		<{foreach item=actpoll from=$adminpoll_actions}>
-		<option value="<{$actpoll.link}>"><{$actpoll.name}></option>
 		<{/foreach}>
 		<option value=""> </option>
 		<{/if}>
