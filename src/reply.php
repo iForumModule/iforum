@@ -199,7 +199,7 @@ foreach ($forumpostshow as $eachpost)
 	$p_date = formatTimestamp($eachpost->getVar('post_time'));
 	/*
 	if ( $isadmin && icms::$module->config['allow_moderator_html']){
-	$p_subject = $myts->undoHtmlSpecialChars($eachpost->getVar('subject'));
+	$p_subject = icms_core_DataFilter::undoHtmlSpecialChars($eachpost->getVar('subject'));
 	}else{
 	$p_subject = $eachpost->getVar('subject');
 	}

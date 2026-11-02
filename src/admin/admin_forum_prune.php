@@ -41,18 +41,18 @@ if (!empty($_POST['submit']))
 	if (empty($_POST["forums"]))
             redirect_header("./admin_forum_prune.php", 1, _AM_IFORUM_PRUNE_FORUMSELERROR);
         elseif (!is_array($_POST["forums"]))
-            $selected_forums[] = $myts->addSlashes($_POST["forums"]);
+            $selected_forums[] = icms_core_DataFilter::addSlashes($_POST["forums"]);
         else
-            $selected_forums = $myts->addSlashes($_POST["forums"]);
+            $selected_forums = icms_core_DataFilter::addSlashes($_POST["forums"]);
         
-	$prune_days = $myts->addSlashes($_POST["days"]);
+	$prune_days = icms_core_DataFilter::addSlashes($_POST["days"]);
 	$prune_ddays = time() - $prune_days;
-	$archive = $myts->addSlashes($_POST["archive"]);
-	$sticky = $myts->addSlashes($_POST["sticky"]);
-	$digest = $myts->addSlashes($_POST["digest"]);
-	$lock = $myts->addSlashes($_POST["lock"]);
-	$hot = $myts->addSlashes($_POST["hot"]);
-	if (!empty($_POST["store"]))$store = $myts->addSlashes($_POST["store"]);
+	$archive = icms_core_DataFilter::addSlashes($_POST["archive"]);
+	$sticky = icms_core_DataFilter::addSlashes($_POST["sticky"]);
+	$digest = icms_core_DataFilter::addSlashes($_POST["digest"]);
+	$lock = icms_core_DataFilter::addSlashes($_POST["lock"]);
+	$hot = icms_core_DataFilter::addSlashes($_POST["hot"]);
+	if (!empty($_POST["store"]))$store = icms_core_DataFilter::addSlashes($_POST["store"]);
             foreach ($selected_forums as $v)
             {
                 $sql = "SELECT t.topic_id FROM " . icms::$xoopsDB->prefix("bb_topics") . " t, " . icms::$xoopsDB->prefix("bb_posts") . "  p
@@ -153,7 +153,7 @@ if (!empty($_POST['submit']))
 
                 /*Pulling the names of the forums, so that we dont have to use numbers...*/
                 $r = icms::$xoopsDB->query("SELECT forum_name FROM " . icms::$xoopsDB->prefix("bb_forums") . " WHERE forum_id = " . $v);
-                while($row = mysql_fetch_assoc($r))
+                while ($row = icms::$xoopsDB->fetchArray($r))
                 {
                     $forum_name = $row['forum_name'];
                 }

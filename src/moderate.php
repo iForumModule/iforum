@@ -65,7 +65,7 @@ if (!empty($_POST["submit"]) && !empty($_POST["expire"]))
 			$post_handler = icms_getmodulehandler("post", basename(__DIR__), 'iforum' );
 			$forumpost = $post_handler->create();
 			$forumpost->setVar("poster_ip", iforum_getIP());
-			$forumpost->setVar("uid", empty($GLOBALS["xoopsUser"])?0:$GLOBALS["xoopsUser"]->getVar("uid"));
+			$forumpost->setVar("uid", empty(icms::$user)?0:icms::$user->getVar("uid"));
 			$forumpost->setVar("forum_id", $forum_id);
 			$forumpost->setVar("subject", sprintf(_MD_SUSPEND_SUBJECT, $uname, $_POST["expire"]));
 			$forumpost->setVar("post_text", sprintf(_MD_SUSPEND_TEXT, '<a href="' . ICMS_URL . '/userinfo.php?uid='.$_POST["uid"].'">'.$uname.'</a>', $_POST["expire"], @$_POST["desc"], formatTimestamp(time()+$_POST["expire"] * 3600 * 24) ));

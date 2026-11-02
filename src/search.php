@@ -101,7 +101,7 @@ if (!empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !em
 	if (!empty($search_username) )
 	{
 		$uname_required = true;
-		$search_username = $myts->addSlashes($search_username);
+		$search_username = icms_core_DataFilter::addSlashes($search_username);
 		if (!$result = icms::$xoopsDB->query("SELECT uid FROM ".icms::$xoopsDB->prefix("users")." WHERE uname LIKE '%$search_username%'") )
 		{
 			redirect_header('search.php', 1, _MD_ERROROCCURED);
@@ -130,11 +130,11 @@ if (!empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !em
 			$q = trim($q);
 			if (strlen($q) >= $icmsConfigSearch['keyword_min'])
 			{
-				$queries[] = $myts->addSlashes($q);
+				$queries[] = icms_core_DataFilter::addSlashes($q);
 			}
 			else
 			{
-				$ignored_queries[] = $myts->addSlashes($q);
+				$ignored_queries[] = icms_core_DataFilter::addSlashes($q);
 			}
 		}
 		if (!$uname_required && count($queries) == 0)
@@ -151,7 +151,7 @@ if (!empty($_POST['submit']) || !empty($_GET['submit']) || !empty($uname) || !em
 			redirect_header('search.php', 2, sprintf(_SR_KEYTOOSHORT, $icmsConfigSearch['keyword_min']));
 			exit();
 		}
-		$queries = array($myts->addSlashes($query));
+		$queries = array(icms_core_DataFilter::addSlashes($query));
 	}
 	 
 	// entries must be lowercase

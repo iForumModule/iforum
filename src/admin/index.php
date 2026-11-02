@@ -151,9 +151,6 @@ switch ($op)
 	echo "<fieldset style='border: #e8e8e8 1px solid;'>
 		<legend style='display: inline; font-weight: bold; color: #900;'>" . _AM_IFORUM_PREFERENCES . "</legend>";
 
-	echo "<div style='padding: 12px;'>" . _AM_IFORUM_POLLMODULE . ": ";
-	echo (iforum_poll_module_active()) ? _AM_IFORUM_AVAILABLE : _AM_IFORUM_NOTAVAILABLE;
-	echo "</div>";
 	echo "<div style='padding: 8px;'>";
 	echo "<a href='http://www.imagemagick.org' target='_blank'>"._AM_IFORUM_IMAGEMAGICK."&nbsp;</a>";
 	if (array_key_exists('imagemagick', $imageLibs))

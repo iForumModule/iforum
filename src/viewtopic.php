@@ -178,8 +178,8 @@ if (!empty(icms::$module->config['rss_enable']))
 }
 $icms_pagetitle = $forumtopic->getVar('topic_title') . ' [' . icms::$module->getVar('name') ." - ". $viewtopic_forum->getVar('forum_name') . "]";
 
-$xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
-$xoopsOption['xoops_module_header'] = $icms_module_header;
+$xoopsOption['icms_pagetitle'] = $icms_pagetitle;
+$xoopsOption['icms_module_header'] = $icms_module_header;
 include ICMS_ROOT_PATH."/header.php";
 if ($icmsTpl->compile_check && is_dir(XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".icms::$module->getVar("dirname")))
 {
@@ -189,8 +189,8 @@ else
 {
 	$icmsTpl->assign('iforum_template_path', ICMS_ROOT_PATH."/modules/".icms::$module->getVar("dirname")."/templates");
 }
-$icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
-$icmsTpl->assign('xoops_module_header', $icms_module_header);
+$icmsTpl->assign('icms_pagetitle', $icms_pagetitle);
+$icmsTpl->assign('icms_module_header', $icms_module_header);
 
 if (icms::$module->config['wol_enabled'])
 	{
@@ -258,7 +258,7 @@ elseif (!empty(icms::$module->config["show_reg"]) )
 	}
 	elseif (!is_object(icms::$user))
 	{
-		$icmsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.htmlspecialchars($xoopsRequestUri).'">'.$t_signup.'</a>');
+		$icmsTpl->assign('forum_post_or_register', '<a href="'.ICMS_URL.'/user.php?xoops_redirect='.htmlspecialchars($_SERVER['REQUEST_URI']).'">'.$t_signup.'</a>');
 	}
 }
 else
@@ -485,90 +485,6 @@ if (icms::$module->config['show_permissiontable'])
 	unset($permission_table);
 }
 
-///////////////////////////////
-// show Poll
-if ($viewtopic_forum->getVar('allow_polls') ):
-if (
-(
-$forumtopic->getVar('topic_haspoll')
-&& $topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "vote")
-)
-|| $topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "addpoll")
-)
-{
-	@include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
-	@include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
-	@include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
-	@include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
-}
-
-if ($forumtopic->getVar('topic_haspoll')
-	&& $topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "vote")
-)
-{
-
-	$icmsTpl->assign('topic_poll', 1);
-	$poll = new XoopsPoll($forumtopic->getVar('poll_id'));
-	$renderer = new XoopsPollRenderer($poll);
-	$uid = is_object(icms::$user)?icms::$user->getVar("uid"):
-	0;
-	if (XoopsPollLog::hasVoted($forumtopic->getVar('poll_id'), $_SERVER['REMOTE_ADDR'], $uid) )
-	{
-		$renderer->assignResults($icmsTpl);
-		//pollresults($forumtopic->getVar('poll_id'));
-		$icmsTpl->assign('topic_pollresult', 1);
-		setcookie("bb_polls[".$forumtopic->getVar("poll_id")."]", 1);
-	}
-	else
-	{
-		$renderer->assignForm($icmsTpl);
-		$icmsTpl->assign('lang_vote' , _PL_VOTE);
-		$icmsTpl->assign('lang_results' , _PL_RESULTS);
-		//pollview($forumtopic->getVar('poll_id'));
-		setcookie("bb_polls[".$forumtopic->getVar("poll_id")."]", 1);
-	}
-}
-if ($topic_handler->getPermission($viewtopic_forum, $forumtopic->getVar('topic_status'), "addpoll")
-	)
-{
-	if (!$forumtopic->getVar('topic_haspoll'))
-	{
-		if (is_object(icms::$user) && icms::$user->getVar("uid") == $forumtopic->getVar("topic_poster") )
-		{
-			$t_poll = iforum_displayImage($forumImage['t_poll'], _MD_ADDPOLL);
-			if (iforum_poll_module_active()) {
-				$icmsTpl->assign('forum_addpoll', "<a href=\"polls.php?op=add&amp;forum=".$forum_id."&amp;topic_id=".$topic_id."\">".$t_poll."</a>&nbsp;");
-			}
-		}
-	}
-	elseif($isadmin || (is_object($poll) && is_object(icms::$user) && icms::$user->getVar("uid") == $poll->getVar("user_id") )
-	)
-	{
-		$poll_edit = "";
-		$poll_delete = "";
-		$poll_restart = "";
-
-		$adminpoll_actions = array();
-		$adminpoll_actions['editpoll'] = array(
-		"link" => $forumUrl['root'].'/polls.php?op=edit&amp;poll_id='.$forumtopic->getVar('poll_id').'&amp;topic_id='.$topic_id.'&amp;forum='.$forum_id,
-			"image" => $poll_edit,
-			"name" => _MD_EDITPOLL);
-		$adminpoll_actions['deletepoll'] = array(
-		"link" => $forumUrl['root'].'/polls.php?op=delete&amp;poll_id='.$forumtopic->getVar('poll_id').'&amp;topic_id='.$topic_id.'&amp;forum='.$forum_id,
-			"image" => $poll_delete,
-			"name" => _MD_DELETEPOLL);
-		$adminpoll_actions['restartpoll'] = array(
-		"link" => $forumUrl['root'].'/polls.php?op=restart&amp;poll_id='.$forumtopic->getVar('poll_id').'&amp;topic_id='.$topic_id.'&amp;forum='.$forum_id,
-			"image" => $poll_restart,
-			"name" => _MD_RESTARTPOLL);
-
-		$icmsTpl->assign_by_ref('adminpoll_actions', $adminpoll_actions);
-		unset($adminpoll_actions);
-	}
-}
-if (isset($poll)) unset($poll);
-endif;
-
 $icmsTpl->assign('p_up', iforum_displayImage($forumImage['p_up'], _MD_TOP));
 $icmsTpl->assign('rating_enable', icms::$module->config['rating_enabled']);
 $icmsTpl->assign('groupbar_enable', icms::$module->config['groupbar_enabled']);
@@ -728,14 +644,7 @@ if (!empty(icms::$module->config['quickreply_enabled'])
 	$editor_configs["name"] = "message";
 	$editor_configs["rows"] = 10;
 	$editor_configs["cols"] = 60;
-	if (!$editor_handler = new icms_plugins_EditorHandler())
-	{
-		if (!@include_once ICMS_ROOT_PATH."/class/xoopseditor.php")
-		{
-			require_once ICMS_ROOT_PATH."/modules/".basename(__DIR__)."/class/compat/xoopseditor/xoopseditor.php";
-		}
-		$editor_handler = new XoopsEditorHandler();
-	}
+	$editor_handler = icms_plugins_EditorHandler::getInstance();
 	$editor_object = $editor_handler->get($quickform, $editor_configs, "", 1);
 	$forum_form->addElement($editor_object, true);
 	$groups = (is_object(icms::$user)) ? icms::$user->getGroups() :
@@ -795,8 +704,4 @@ else
 {
 	$icmsTpl->assign('quickreply', array('show' => 0));
 }
-/*if (iforum_tag_module_included() && icms::$module->config["allow_tagging"] && @include_once ICMS_ROOT_PATH."/modules/tag/include/tagbar.php") {
-$icmsTpl->assign('tagbar', tagBar($forumtopic->getVar("topic_tags", "n")));
-}
-*/
 include ICMS_ROOT_PATH.'/footer.php';

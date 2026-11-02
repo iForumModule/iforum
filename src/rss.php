@@ -82,27 +82,27 @@ if (count($valid_forums) == 0)
 $charset = empty(icms::$module->config['rss_utf8']) ? _CHARSET : 'utf-8';
 header ('Content-Type:text/xml; charset='.$charset);
 
-$tpl = new XoopsTpl();
-$tpl->xoops_setCaching(1);
-$tpl->xoops_setCacheTime(icms::$module->config['rss_cachetime'] * 60);
+$tpl = new icms_view_Tpl();
+$tpl->caching = 1;
+$tpl->cache_lifetime = icms::$module->config['rss_cachetime'] * 60;
 
 $compile_id = implode(",", $valid_forums);
-$xoopsCachedTemplateId = 'mod_'.icms::$module->getVar('dirname').'|'.md5(str_replace(ICMS_URL, '', $GLOBALS['xoopsRequestUri']));
+$xoopsCachedTemplateId = 'mod_'.icms::$module->getVar('dirname').'|'.md5(str_replace(ICMS_URL, '', $_SERVER['REQUEST_URI']));
 if (!$tpl->is_cached('db:iforum_rss.html', $xoopsCachedTemplateId, $compile_id))
 {
 
 	$xmlrss_handler = icms_getmodulehandler('xmlrss', basename(__DIR__), 'iforum' );
 	$rss = $xmlrss_handler->create();
 
-	$rss->setVarRss('channel_title', $icmsConfig['sitename'].' :: '._MD_FORUM);
+	$rss->setVarRss('channel_title', icms::$config->getConfig('sitename').' :: '._MD_FORUM);
 	$rss->channel_link = ICMS_URL.'/';
-	$rss->setVarRss('channel_desc', $icmsConfig['slogan'].' :: '.icms::$module->getInfo('description'));
+	$rss->setVarRss('channel_desc', icms::$config->getConfig('slogan').' :: '.icms::$module->getInfo('description'));
 	// There is a "bug" with xoops function formatTimestamp(time(), 'rss')
 	// We have to make a customized function
 	//$rss->channel_lastbuild = formatTimestamp(time(), 'rss');
 	$rss->setVarRss('channel_lastbuild', formatTimestamp(time(), 'rss'));
-	$rss->channel_webmaster = $icmsConfig['adminmail'];
-	$rss->channel_editor = $icmsConfig['adminmail'];
+	$rss->channel_webmaster = icms::$config->getConfig('adminmail');
+	$rss->channel_editor = icms::$config->getConfig('adminmail');
 	$rss->setVarRss('channel_category', icms::$module->getVar('name'));
 	$rss->channel_generator = "CBB ".icms::$module->getInfo('version');
 	$rss->channel_language = _LANGCODE;

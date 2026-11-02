@@ -45,6 +45,9 @@ class _XoopsPersistableObject extends icms_core_Object
 		$ret = null;
 		if ( !isset($this->vars[$key]) ) return $ret ;
 		$ret = $this->vars[$key]['value'];
+		if ($ret === null && in_array($this->vars[$key]['data_type'], array(XOBJ_DTYPE_TXTBOX, XOBJ_DTYPE_TXTAREA))) {
+			$ret = '';
+		}
 
         switch ($this->vars[$key]['data_type']) {
 
@@ -77,6 +80,9 @@ class _XoopsPersistableObject extends icms_core_Object
                 $smiley = (!isset($this->vars['dosmiley']['value']) || $this->vars['dosmiley']['value'] == 1) ? 1 : 0;
                 $image = (!isset($this->vars['doimage']['value']) || $this->vars['doimage']['value'] == 1) ? 1 : 0;
                 $br = (!isset($this->vars['dobr']['value']) || $this->vars['dobr']['value'] == 1) ? 1 : 0;
+                if ($ret === '') {
+                    return '';
+                }
                 return $ts->displayTarea($ret, $html, $smiley, $xcode, $image, $br);
                 break 1;
             case 'e':
@@ -90,11 +96,14 @@ class _XoopsPersistableObject extends icms_core_Object
                 $smiley = (!isset($this->vars['dosmiley']['value']) || $this->vars['dosmiley']['value'] == 1) ? 1 : 0;
                 $image = (!isset($this->vars['doimage']['value']) || $this->vars['doimage']['value'] == 1) ? 1 : 0;
                 $br = (!isset($this->vars['dobr']['value']) || $this->vars['dobr']['value'] == 1) ? 1 : 0;
+                if ($ret === '') {
+                    return '';
+                }
                 return $ts->previewTarea($ret, $html, $smiley, $xcode, $image, $br);
                 break 1;
             case 'f':
             case 'formpreview':
-                return htmlspecialchars($ts->stripSlashesGPC($ret), ENT_QUOTES);
+                return htmlspecialchars(icms_core_DataFilter::stripSlashesGPC($ret), ENT_QUOTES);
                 break 1;
             case 'n':
             case 'none':
@@ -106,7 +115,7 @@ class _XoopsPersistableObject extends icms_core_Object
 	        $ret = $this->vars[$key]['value'];
             if (!is_array($ret)) {
                 if ($ret != "") {
-                    $ret = @unserialize($ret);
+                    $ret = @unserialize($ret, ["allowed_classes" => false]);
                 }
             	$ret = is_array($ret) ? $ret : array();
             }
@@ -122,11 +131,11 @@ class _XoopsPersistableObject extends icms_core_Object
                 break 1;
             case 'p':
             case 'preview':
-                return $ts->stripSlashesGPC($ret);
+                return icms_core_DataFilter::stripSlashesGPC($ret);
                 break 1;
             case 'f':
             case 'formpreview':
-                return htmlspecialchars($ts->stripSlashesGPC($ret), ENT_QUOTES);
+                return htmlspecialchars(icms_core_DataFilter::stripSlashesGPC($ret), ENT_QUOTES);
                 break 1;
             case 'n':
             case 'none':

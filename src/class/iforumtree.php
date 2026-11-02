@@ -29,9 +29,9 @@ if (!defined("ICMS_ROOT_PATH"))
 }
  
 class IForumTree extends icms_view_Tree {
-	var $prefix = '&nbsp;&nbsp;';
-	var $increment = '&nbsp;&nbsp;';
-	var $postArray = '';
+	public $prefix = '&nbsp;&nbsp;';
+	public $increment = '&nbsp;&nbsp;';
+	public $postArray = '';
 	 
 	function __construct($table_name, $id_name = "post_id", $pid_name = "pid")
 	{

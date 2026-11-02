@@ -153,8 +153,8 @@ if (count($posts) > 0) foreach (array_keys($posts) as $id)
 }
 
 $icms_pagetitle = icms::$module->getVar('name'). ' - ' ._MD_VIEWALLPOSTS;
-$xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
-$xoopsOption['xoops_module_header'] = $icms_module_header;
+$xoopsOption['icms_pagetitle'] = $icms_pagetitle;
+$xoopsOption['icms_module_header'] = $icms_module_header;
 $xoopsOption['template_main'] = 'iforum_viewpost.html';
 include ICMS_ROOT_PATH."/header.php";
 if ($icmsTpl->compile_check && is_dir(XOOPS_THEME_PATH."/".$icmsConfig['theme_set']."/templates/".icms::$module->getVar("dirname")))
@@ -195,8 +195,8 @@ elseif(!empty(icms::$module->config['rss_enable']))
 {
 	$icms_module_header .= '<link rel="alternate" type="application/xml+rss" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />';
 }
-$icmsTpl->assign('xoops_module_header', $icms_module_header);
-$icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
+$icmsTpl->assign('icms_module_header', $icms_module_header);
+$icmsTpl->assign('icms_pagetitle', $icms_pagetitle);
 
 $userid_array = array();
 if (count($poster_array) > 0)

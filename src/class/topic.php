@@ -222,7 +222,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 		return $post_id;
 	}
 
-	function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start, $post_id = 0, $type = "")
+	function &getAllPosts(&$topic, $order = "ASC", $perpage = 10, &$start = 0, $post_id = 0, $type = "")
 	{
 		$ret = array();
 		$perpage = ((int)$perpage > 0) ? (int)$perpage :
@@ -309,7 +309,7 @@ class IforumTopicHandler extends ArtObjectHandler {
 
 		if (isset($viewtopic_users[$postArray['uid']]['is_forumadmin']))
 			{
-			$postArray['subject'] = $myts->undoHtmlSpecialChars($postArray['subject']);
+			$postArray['subject'] = icms_core_DataFilter::undoHtmlSpecialChars($postArray['subject']);
 		}
 		$postArray['subject'] = '<a href="viewtopic.php?viewmode=thread&amp;topic_id=' . $topic->getVar('topic_id') . '&amp;forum=' . $postArray['forum_id'] . '&amp;post_id=' . $postArray['post_id'] . '">' . $postArray['subject'] . '</a>';
 

@@ -80,12 +80,12 @@ if (!empty(icms::$module->config['rss_enable']))
 }
 
 $xoopsOption['template_main'] = 'iforum_index.html';
-$xoopsOption['xoops_pagetitle'] = $icms_pagetitle;
-$xoopsOption['xoops_module_header'] = $icms_module_header;
+$xoopsOption['icms_pagetitle'] = $icms_pagetitle;
+$xoopsOption['icms_module_header'] = $icms_module_header;
 include ICMS_ROOT_PATH."/header.php";
 
-$icmsTpl->assign('xoops_pagetitle', $icms_pagetitle);
-$icmsTpl->assign('xoops_module_header', $icms_module_header);
+$icmsTpl->assign('icms_pagetitle', $icms_pagetitle);
+$icmsTpl->assign('icms_module_header', $icms_module_header);
 $icmsTpl->assign('forum_index_title', $forum_index_title);
 if (icms::$module->config['wol_enabled'])
 	{

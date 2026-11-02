@@ -161,23 +161,6 @@ $editor_configs["height"] = empty(icms::$module->config["editor_height"])? "400p
 include_once ICMS_ROOT_PATH . "/modules/" . basename(dirname(dirname(__FILE__))) . "/class/compat/class/xoopsform/formeditor.php";
 $forum_form->addElement(new IforumFormEditor(_MD_MESSAGEC, $editor, $editor_configs, $nohtml, $onfailure = null));
 
-if (iforum_tag_module_included() && !empty(icms::$module->config['allow_tagging']) && (empty($topic_id) || $forumpost->isTopic()))
-{
-	$topic_tags = "";
-	if (!empty($topic_id))
-	{
-		$topic_tags = $topic_handler->get($topic_id, 'topic_tags');
-	}
-	elseif (!empty($_POST["topic_tags"]))
-	{
-		$topic_tags = icms_core_DataFilter::htmlSpecialchars($myts->stripSlashesGPC($_POST["topic_tags"]));
-	}
-	if (@include_once ICMS_ROOT_PATH."/modules/tag/include/formtag.php")
-	{
-		$forum_form->addElement(new XoopsFormTag("topic_tags", 60, 255, $topic_tags));
-	}
-}
-
 $options_tray = new icms_form_elements_Tray(_MD_OPTIONS, '<br />');
 if (is_object(icms::$user) && icms::$module->config['allow_user_anonymous'] == 1)
 {

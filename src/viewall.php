@@ -45,10 +45,10 @@ if (!empty(icms::$module->config['rss_enable']))
 {
 	$icms_module_header .= '<link rel="alternate" type="application/rss+xml" title="'.icms::$module->getVar('name').'" href="'.ICMS_URL.'/modules/'.icms::$module->getVar('dirname').'/rss.php" />';
 }
-$xoopsOption['xoops_module_header'] = $icms_module_header;
+$xoopsOption['icms_module_header'] = $icms_module_header;
 $xoopsOption['template_main'] = 'iforum_viewall.html';
 include ICMS_ROOT_PATH."/header.php";
-$icmsTpl->assign('xoops_module_header', $icms_module_header);
+$icmsTpl->assign('icms_module_header', $icms_module_header);
 
 $forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum' );
 $viewall_forums = $forum_handler->getForums(0, 'access', array("forum_id", "cat_id", "forum_name")); // get all accessible forums
@@ -193,6 +193,6 @@ $icmsTpl->assign('mode', $mode);
 $icmsTpl->assign('type', $type);
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
 
-$icmsTpl->assign('xoops_pagetitle', icms::$module->getVar('name'). ' - ' .$current_type);
+$icmsTpl->assign('icms_pagetitle', icms::$module->getVar('name'). ' - ' .$current_type);
 
 include ICMS_ROOT_PATH."/footer.php";

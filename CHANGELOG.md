@@ -1,5 +1,23 @@
 # iForum Changelog
 
+## 3.0 beta 1
+25 october 2026
+### Breaking changes
+* requires ImpressCMS 2.0.4 and PHP 8.2
+* polls (xoopspoll integration) have been removed; existing poll data in the database is left untouched
+* tags (tag module integration) have been removed; the topic_tags column is kept
+* removed the unused rank compat handler and the duplicate forum handler
+### Compatibility
+* replace $xoopsUser, $xoopsRequestUri and $icmsPreloadHandler globals with icms::$user, $_SERVER['REQUEST_URI'] and icms::$preload
+* replace XoopsTree, XoopsTpl, xoops_confirm and xoops_trim with their ImpressCMS equivalents
+* use icms_module_header and icms_pagetitle instead of the deprecated xoops_ variants
+* use icms_core_DataFilter instead of deprecated icms_core_Textsanitizer methods
+* use icms_plugins_EditorHandler for the editor
+### Fixes
+* fix mysql_fetch_assoc call, duplicate WHERE in the forum manager and the getAllPosts signature
+* fix null values passed to the text sanitizer
+* create the upload folders on install and update instead of when loading the module manifest
+* restrict unserialize and remove eval
 ## 2.4 beta 1
 18 july 2024
 ### Prepare for ICMS 2.0

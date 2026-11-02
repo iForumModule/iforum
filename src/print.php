@@ -98,7 +98,7 @@ else
     $post_data = unserialize(base64_decode($_POST["post_data"]));
 	if (is_array($post_data)) {
   		foreach ($post_data as $k => $v) {
-     		$post_data[$k] = $myTs->codeSanitizer($v);
+     		$post_data[$k] = icms_core_DataFilter::codeSanitizer($v);
   		}
     }
 	$isPost = 1;
@@ -126,7 +126,9 @@ if (empty($isPost))
 		<br />
 		";
 	 
-	$postsArray = $topic_handler->getAllPosts($forumtopic);
+	$post_handler = icms_getmodulehandler('post', basename(__DIR__), 'iforum' );
+	$start = 0;
+	$postsArray = $topic_handler->getAllPosts($forumtopic, "ASC", $forumtopic->getVar('topic_replies') + 1, $start);
 	foreach ($postsArray as $post)
 	{
 		if (!$post->getVar('approved')) continue;

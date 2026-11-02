@@ -34,7 +34,7 @@ class ArtObject extends _XoopsPersistableObject
     /**
      * @var string
      */
-    var $plugin_path;
+    public $plugin_path;
 
     function __construct($table = "")
     {

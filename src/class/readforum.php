@@ -86,9 +86,9 @@ class IforumReadforumHandler extends IforumReadHandler {
 	{
 		if (empty($uid))
 		{
-			if (is_object($GLOBALS["xoopsUser"]))
+			if (is_object(icms::$user))
 			{
-				$uid = $GLOBALS["xoopsUser"]->getVar("uid");
+				$uid = icms::$user->getVar("uid");
 			}
 			else
 			{

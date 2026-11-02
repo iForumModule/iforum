@@ -69,7 +69,7 @@ function editForum($ff, $parent_forum = 0) {
 		$pf = $forum_handler->get($parent_forum);
 	}
 
-	$mytree = new XoopsTree(icms::$xoopsDB->prefix("bb_categories"), "cat_id", "0");
+	$mytree = new icms_view_Tree(icms::$xoopsDB->prefix("bb_categories"), "cat_id", "0");
 
 	if ($forum) {
 		$sform = new icms_form_Theme(_AM_IFORUM_EDITTHISFORUM . " " . $ff->getVar('forum_name'), "op", xoops_getenv('PHP_SELF'));
@@ -125,9 +125,6 @@ function editForum($ff, $parent_forum = 0) {
 
 	$allowsig_radio = new icms_form_elements_Radioyn(_AM_IFORUM_ALLOWSIGNATURES, 'allow_sig', $ff->getVar('allow_sig'), '' . _YES . '', ' ' . _NO . '');
 	$sform->addElement($allowsig_radio);
-
-	$allowpolls_radio = new icms_form_elements_Radioyn(_AM_IFORUM_ALLOWPOLLS, 'allow_polls', $ff->getVar('allow_polls'), '' . _YES . '', ' ' . _NO . '');
-	$sform->addElement($allowpolls_radio);
 
 	$allowprefix_radio = new icms_form_elements_Radioyn(_AM_IFORUM_ALLOW_SUBJECT_PREFIX, 'allow_subject_prefix', $ff->getVar('allow_subject_prefix'), '' . _YES . '', ' ' . _NO . '');
 	$sform->addElement($allowprefix_radio);
@@ -260,17 +257,17 @@ switch ($op)
 		if (isset($_GET['forum'])) $forum_id = (int)$_GET['forum'];
 			if (isset($_POST['forum'])) $forum_id = (int)$_POST['forum'];
 
-		$sql = "UPDATE " . icms::$xoopsDB->prefix('bb_posts') . " SET forum_id=" . $_POST['dest_forum'] . " WHERE forum_id=$forum";
+		$sql = "UPDATE " . icms::$xoopsDB->prefix('bb_posts') . " SET forum_id=" . (int)$_POST['dest_forum'] . " WHERE forum_id=$forum";
 		$result = icms::$xoopsDB->queryF($sql);
-		$sql = "UPDATE " . icms::$xoopsDB->prefix('bb_topics') . " SET forum_id=" . $_POST['dest_forum'] . " WHERE forum_id=$forum";
+		$sql = "UPDATE " . icms::$xoopsDB->prefix('bb_topics') . " SET forum_id=" . (int)$_POST['dest_forum'] . " WHERE forum_id=$forum";
 		$result = icms::$xoopsDB->queryF($sql);
 		$sql = "UPDATE " . icms::$xoopsDB->prefix('bb_forums') . " SET parent_forum = 0 WHERE parent_forum=$forum_id";
 		$result = icms::$xoopsDB->queryF($sql);
 
-		$sql = "SELECT COUNT(*) AS count FROM " . icms::$xoopsDB->prefix('bb_posts') . " WHERE WHERE forum_id=$forum_id";
+		$sql = "SELECT COUNT(*) AS count FROM " . icms::$xoopsDB->prefix('bb_posts') . " WHERE forum_id=$forum_id";
 		$result = icms::$xoopsDB->query($sql);
 		list($post_count) = icms::$xoopsDB->fetchArray($result);
-		$sql = "SELECT COUNT(*) AS count FROM " . icms::$xoopsDB->prefix('bb_topics') . " WHERE WHERE forum_id=$forum_id";
+		$sql = "SELECT COUNT(*) AS count FROM " . icms::$xoopsDB->prefix('bb_topics') . " WHERE forum_id=$forum_id";
 		$result = icms::$xoopsDB->query($sql);
 		list($topic_count) = icms::$xoopsDB->fetchArray($result);
 
@@ -386,7 +383,6 @@ switch ($op)
 	$ff->setVar('forum_type', @$_POST['forum_type']);
 	$ff->setVar('allow_html', @$_POST['allow_html']);
 	$ff->setVar('allow_sig', @$_POST['allow_sig']);
-	$ff->setVar('allow_polls', $_POST['allow_polls']);
 	$ff->setVar('allow_subject_prefix', @$_POST['allow_subject_prefix']);
 	//$ff->setVar('allow_attachments', $_POST['allow_attachments']);
 	$ff->setVar('attach_maxkb', $_POST['attach_maxkb']);
@@ -447,7 +443,7 @@ switch ($op)
 
 	if (isset($_POST['confirm']) != 1)
 	{
-		xoops_confirm(array('op' => 'del', 'forum' => (int)$_GET['forum'], 'confirm' => 1), 'admin_forum_manager.php', _AM_IFORUM_TWDAFAP);
+		icms_core_Message::confirm(array('op' => 'del', 'forum' => (int)$_GET['forum'], 'confirm' => 1), 'admin_forum_manager.php', _AM_IFORUM_TWDAFAP);
 		break;
 	}
 	else

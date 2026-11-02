@@ -244,10 +244,10 @@ if (!empty($_POST['contents_submit']) )
 	 
 	$forumpost->setVar('forum_id', $forum_obj->getVar('forum_id'));
 	 
-	$subject = xoops_trim($_POST['subject']);
+	$subject = trim($_POST['subject']);
 	$subject = ($subject == '') ? _NOTITLE :
 	 $subject;
-	$poster_name = !empty($_POST['poster_name'])?xoops_trim($_POST['poster_name']):
+	$poster_name = !empty($_POST['poster_name'])?trim($_POST['poster_name']):
 	'';
 	$dohtml = !empty($_POST['dohtml']) ? 1 :
 	 0;
@@ -290,7 +290,7 @@ if (!empty($_POST['contents_submit']) )
 	$attachments_tmp = array();
 	if (!empty($_POST["attachments_tmp"]))
 		{
-		$attachments_tmp = unserialize(base64_decode($_POST["attachments_tmp"]));
+		$attachments_tmp = unserialize(base64_decode($_POST["attachments_tmp"]), ["allowed_classes" => false]);
 		if (isset($_POST["delete_tmp"]) && count($_POST["delete_tmp"]))
 			{
 			foreach($_POST["delete_tmp"] as $key)
@@ -361,22 +361,6 @@ if (!empty($_POST['contents_submit']) )
 		$sbj_res = $post_handler->insertnewsubject($forumpost->getVar('topic_id'), $subject_pre);
 	}
 	 
-	if (iforum_tag_module_included() && !empty(icms::$module->config['allow_tagging']) && $forumpost->isTopic() && @include_once ICMS_ROOT_PATH."/modules/tag/include/functions.php")
-	{
-		$topic->setVar("topic_tags", @$_POST["topic_tags"]);
-		if ($tag_handler = tag_getTagHandler() )
-		{
-			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'), icms::$module->getVar("dirname"), 0);
-		}
-		$topic_handler->updateAll("topic_tags", @$_POST["topic_tags"], new icms_db_criteria_Item("topic_id", $forumpost->getVar('topic_id')));
-		 
-		if ($tag_handler = @xoops_getmodulehandler('tag', 'tag', true))
-		{
-			$tag_handler->updateByItem(@$_POST["topic_tags"], $forumpost->getVar('topic_id'));
-		}
-		 
-	}
-	 
 	// RMV-NOTIFY
 	// Define tags for notification message
 	if ($approved && !empty(icms::$module->config['notification_enabled']) && !empty($isnew))
@@ -438,16 +422,8 @@ if (!empty($_POST['contents_submit']) )
 		$redirect = "viewforum.php?forum=".$forumpost->getVar('forum_id');
 		$message = _MD_THANKSSUBMIT."<br />"._MD_WAITFORAPPROVAL."<br />".$error_upload;
 	}
-	if ($op == "add" )
-	{
-		redirect_header("polls.php?op=add&amp;forum=".$forumpost->getVar('forum_id')."&amp;topic_id=".$forumpost->getVar('topic_id')."", 1, _MD_ADDPOLL);
-		exit();
-	}
-	else
-	{
-		redirect_header($redirect, 2, $message);
-		exit();
-	}
+	redirect_header($redirect, 2, $message);
+	exit();
 }
  
  
@@ -456,7 +432,7 @@ if (!empty($_POST['contents_upload']) )
 	$attachments_tmp = array();
 	if (!empty($_POST["attachments_tmp"]))
 		{
-		$attachments_tmp = unserialize(base64_decode($_POST["attachments_tmp"]));
+		$attachments_tmp = unserialize(base64_decode($_POST["attachments_tmp"]), ["allowed_classes" => false]);
 		if (isset($_POST["delete_tmp"]) && count($_POST["delete_tmp"]))
 			{
 			foreach($_POST["delete_tmp"] as $key)
@@ -505,7 +481,7 @@ if (!empty($_POST['contents_preview']) || !empty($_GET['contents_preview']) )
 {
 	if (!empty($_POST["attachments_tmp"]))
 		{
-		$attachments_tmp = unserialize(base64_decode($_POST["attachments_tmp"]));
+		$attachments_tmp = unserialize(base64_decode($_POST["attachments_tmp"]), ["allowed_classes" => false]);
 	}
 	 
 	$p_subject = icms_core_DataFilter::htmlSpecialchars(icms_core_DataFilter::stripSlashesGPC($_POST['subject']));

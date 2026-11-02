@@ -132,26 +132,6 @@ if (isset($_POST['submit']) )
 		 
 		$topic_handler->synchronization($newtopic);
 		 
-		$poll_id = $topic_handler->get($topic_id, "poll_id");
-		if ($poll_id > 0)
-		{
-			if (iforum_poll_module_active())
-				{
-				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspoll.php";
-				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolloption.php";
-				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspolllog.php";
-				include_once ICMS_ROOT_PATH."/modules/xoopspoll/class/xoopspollrenderer.php";
-				 
-				$poll = new XoopsPoll($poll_id);
-				if ($poll->delete() != false )
-				{
-					XoopsPollOption::deleteByPollId($poll->getVar("poll_id"));
-					XoopsPollLog::deleteByPollId($poll->getVar("poll_id"));
-					xoops_comment_delete(icms::$module->getVar('mid'), $poll->getVar('poll_id'));
-				}
-			}
-		}
-		 
 		$sql = sprintf("DELETE FROM %s WHERE topic_id = %u", icms::$xoopsDB->prefix("bb_topics"), $topic_id);
 		$result = icms::$xoopsDB->queryF($sql);
 		 
