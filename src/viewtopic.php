@@ -476,6 +476,9 @@ else
 }
 $icmsTpl->assign_by_ref('admin_actions', $admin_actions);
 
+// Polls were removed in 3.0, older theme overrides still count() this variable
+$icmsTpl->assign('adminpoll_actions', []);
+
 $icmsTpl->assign('viewer_level', ($isadmin)?2:(is_object(icms::$user)?1:0) );
 
 if (icms::$module->config['show_permissiontable'])
