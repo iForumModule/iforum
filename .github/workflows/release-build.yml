@@ -26,7 +26,7 @@ jobs:
           find src -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
 
       - name: Create ZIP package
-        run: bin/build-release.sh "${{ github.event.release.tag_name }}"
+        run: php bin/build-release.php "${{ github.event.release.tag_name }}"
 
       - name: Upload ZIP to GitHub Release
         env:
