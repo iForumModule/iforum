@@ -679,6 +679,9 @@ $modversion['config'][] = array(
 $forum_options = array(_NONE => 0);
 if ($isModuleAction && "update_ok" == $_POST["op"] )
 {
+	include_once __DIR__ . '/include/upgrade.php';
+	iforum_removeObsoleteFiles();
+
 	$forum_handler = icms_getmodulehandler('forum', basename(__DIR__), 'iforum', true);
 	$forums = $forum_handler->getForumsByCategory(0, '', false, array("parent_forum", "cat_id", "forum_name"));
 	if ($forums):
