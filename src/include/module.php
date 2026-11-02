@@ -50,7 +50,15 @@ function icms_module_update_iforum(&$module, $oldversion = null, $olddbversion =
 	$icmsDatabaseUpdater = icms_db_legacy_Factory::getDatabaseUpdater();
 	$iforumConfig = iforum_load_config();
 	iforum_createUploadFolders();
-	 
+
+	include_once __DIR__ . '/upgrade.php';
+
+	$notRemoved = iforum_removeObsoleteFiles();
+
+	if ($notRemoved) {
+		$module->messages = "Could not remove these obsolete files, please delete them manually: " . implode(', ', $notRemoved);
+	}
+
 	$newDbVersion = 1;
 	if ($olddbversion < $newDbVersion) {
 		echo "Database migrate to version " . $newDbVersion . "<br />";
