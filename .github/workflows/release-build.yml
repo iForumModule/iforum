@@ -1,0 +1,36 @@
+name: Build & Publish ImpressCMS Module
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Lint PHP files
+        run: |
+          find src -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+
+      - name: Create ZIP package
+        run: bin/build-release.sh "${{ github.event.release.tag_name }}"
+
+      - name: Upload ZIP to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          gh release upload "$VERSION" "build/iforum-${VERSION#v}.zip" --clobber
