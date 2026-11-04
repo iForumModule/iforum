@@ -108,8 +108,8 @@ function &iforum_search($queryarray, $andor, $limit, $offset, $userid, $forums =
 		$isUser = true;
 	}
 	 
-	$count = count($queryarray);
-	if (is_array($queryarray) && $count > 0)
+	$count = is_array($queryarray) ? count($queryarray) : 0;
+	if ($count > 0)
 	{
 		switch ($searchin)
 		{
